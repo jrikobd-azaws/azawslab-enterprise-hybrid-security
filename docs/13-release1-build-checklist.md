@@ -1,7 +1,10 @@
 # Release 1.0 - Secure Hybrid Identity, Pilot AD Migration, Messaging Migration, Endpoint Security, and M365 Governance
-
+      
 ## Phase 1 - On-Prem Foundation
-- [ ] Configure Hyper-V virtual switch design
+- [x] Configure Hyper-V virtual switch design
+- [x] NAT configured on host
+- [x] Tracking workbook prepared
+- [x] Windows Server 2022 parent image created and generalized
 - [ ] Build DC1
 - [ ] Build DC2
 - [ ] Create domain
