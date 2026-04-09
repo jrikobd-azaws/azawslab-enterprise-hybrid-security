@@ -18,3 +18,11 @@ This approach reduces storage use on the lab host and keeps core server builds c
 - Cleared event logs to keep the image generic
 - Ran Sysprep with `/generalize /oobe /shutdown`
 - Preserved the VHDX as a read-only parent image
+
+### Cleanup and generalization commands used
+```powershell
+Remove-Item -Path "C:\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path "$env:TEMP\*" -Recurse -Force -ErrorAction SilentlyContinue
+Clear-RecycleBin -Force -ErrorAction SilentlyContinue
+wevtutil el | Foreach-Object {wevtutil cl "$_"}
+C:\Windows\System32\Sysprep\sysprep.exe /generalize /oobe /shutdown
