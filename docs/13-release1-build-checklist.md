@@ -5,10 +5,17 @@
 - [x] NAT configured on host
 - [x] Tracking workbook prepared
 - [x] Windows Server 2022 parent image created and generalized
-- [ ] Build DC1
-- [ ] Build DC2
-- [ ] Create domain
-- [ ] Configure OU structure
+- [x] DC1 differencing disk created
+- [x] DC1 virtual machine created
+- [x] DC1 renamed and baseline configured
+- [x] DC1 assigned static IP
+- [x] AD DS and DNS roles installed on DC1
+- [x] DC1 promoted as the first domain controller for `corp.azawslab.co.uk`
+- [x] Initial post-promotion validation completed
+- [ ] OU structure created
+- [ ] Administrative account model implemented
+- [ ] Standard users and groups created
+- [ ] DC2 deployed
 - [ ] Create pilot users and groups
 - [ ] Build one member server
 - [ ] Build Exchange Server 2019
