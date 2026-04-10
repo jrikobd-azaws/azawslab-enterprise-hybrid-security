@@ -19,15 +19,24 @@ This approach reduces storage use on the lab host and keeps core server builds c
 - Ran Sysprep with `/generalize /oobe /shutdown`
 - Preserved the VHDX as a read-only parent image
 
-### Cleanup and generalization commands used
+## Windows Server 2022 Master Image & Differencing Disk Strategy
+
+To ensure consistency, rapid deployment, and storage efficiency across the hybrid lab environment, a **Master Image (Gold Image)** strategy utilizing Hyper-V Differencing Disks was implemented. 
+
+Rather than building full isolated virtual machines for every node (DC1, DC2, Member Servers), a single Windows Server 2022 base image was engineered, updated, and generalized. Child VMs are then spawned from this image, consuming only a fraction of the storage while guaranteeing a clean, identical starting state.
+
+### Base Image Preparation, Cleanup and generalization commands used
+A standard Generation 2 Hyper-V VM was created using the Windows Server 2022 ISO. Before sealing the image, the following baseline configurations were applied:
+1. **Windows Updates:** Fully patched to ensure all child nodes start secure.
+2. **Security:** Windows Defender baseline enabled.
+3. **System Cleanup:** Ran `cleanmgr` to strip temporary installation files and previous update cache to keep the baseline `.vhdx` as small as possible.
+4. **Log Clearing:** Executed PowerShell commands to clear all Event Logs, preventing baseline build errors from bleeding into production child VMs.
+
 ```powershell
-Remove-Item -Path "C:\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item -Path "$env:TEMP\*" -Recurse -Force -ErrorAction SilentlyContinue
-Clear-RecycleBin -Force -ErrorAction SilentlyContinue
-wevtutil el | Foreach-Object {wevtutil cl "$_"}
-C:\Windows\System32\Sysprep\sysprep.exe /generalize /oobe /shutdown
-```
+# Clear all Windows Event Logs before sysprep
+Get-EventLog -LogName * | ForEach-Object {Clear-EventLog -LogName $_.Log}
 ### DC1 Implemented as Initial Domain Controller
+```
 
 The first domain controller for the on-prem foundation has been implemented in Hyper-V as part of Release 1.
 
