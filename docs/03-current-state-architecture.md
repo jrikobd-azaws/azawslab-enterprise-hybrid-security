@@ -65,3 +65,42 @@ Evidence files currently captured:
 - `05. promote dc1.png`
 - `06. Successfully promoted dc1.png`
 - `07. netshare and dcdiag for dc1.png`
+
+## Implemented Active Directory baseline
+
+The current on-premises identity baseline has been implemented on Hyper-V using the internal switch `AZAWSLAB-Internal`.
+
+### Domain and domain controller
+- Domain: `corp.azawslab.co.uk`
+- Primary domain controller: `dc1.corp.azawslab.co.uk`
+- DC1 IP address: `10.10.10.10`
+
+### Organisational Unit structure implemented
+The following OU model has been created in Active Directory:
+
+- `Tier-0`
+  - `Admin Accounts`
+  - `Service Accounts`
+- `Tier-1`
+  - `Member Servers`
+- `Tier-2`
+  - `Workstations`
+  - `User Accounts`
+    - `Standard Users`
+- `Groups`
+- `Pilot`
+  - `Exchange Pilot`
+  - `Intune Pilot`
+  - `Conditional Access Pilot`
+- `Disabled Objects`
+
+### Standard users created
+Initial standard users have been created under `Tier-2 > User Accounts > Standard Users` to support pilot testing and future hybrid scenarios.
+
+### Security groups created
+The following baseline AD security groups have been created:
+- `SG-T0-Domain-Admins`
+- `SG-T1-Server-Admins`
+- `SG-Pilot-Hybrid-Sync`
+- `SG-Pilot-Exchange-Migration`
+- `SG-DLP-Pilot`
