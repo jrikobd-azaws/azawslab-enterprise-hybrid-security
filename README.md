@@ -150,12 +150,15 @@ The lab models a hybrid enterprise with:
 - Pilot hybrid sync scope defined
 - Forward and reverse DNS configured on DC1
 - DC1 DNS validation completed
-- DC2 build is the next infrastructure milestone
+- DC2 built using a Hyper-V differencing disk
+- DC2 joined to `corp.azawslab.co.uk`
+- AD DS and DNS installed on DC2
+- DC2 promoted as an additional domain controller
+- Initial replication validation completed successfully between DC1 and DC2
+- `NETLOGON` and `SYSVOL` validated on DC2
 
 ### Planned next
 
-- DC2 additional domain controller
-- AD replication validation
 - Member server build
 - Exchange SE source server build
 - Entra Connect pilot sync
