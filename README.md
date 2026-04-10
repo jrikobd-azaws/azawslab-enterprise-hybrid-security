@@ -142,10 +142,23 @@ The lab models a hybrid enterprise with:
 ## Current Status
 
 ### In progress
-- Repository foundation
-- Release 1 scope definition
-- Architecture and control mapping
-- Hybrid identity and modern workplace build plan
+
+- DC1 built and promoted for `corp.azawslab.co.uk`
+- Core OU structure implemented
+- Standard users created
+- Baseline AD security groups created
+- Pilot hybrid sync scope defined
+- Forward and reverse DNS configured on DC1
+- DC1 DNS validation completed
+- DC2 build is the next infrastructure milestone
+
+### Planned next
+
+- DC2 additional domain controller
+- AD replication validation
+- Member server build
+- Exchange SE source server build
+- Entra Connect pilot sync
 
 ### Planned evidence
 - Architecture diagrams
