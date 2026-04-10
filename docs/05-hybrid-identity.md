@@ -105,5 +105,31 @@ At this stage:
 - baseline AD security groups are created
 - pilot hybrid sync scope is defined
 
+## Current implementation state
+
+The hybrid identity foundation now includes two domain controllers before Entra Connect is introduced.
+
+### Domain controller status
+- `dc1.corp.azawslab.co.uk` – operational
+- `dc2.corp.azawslab.co.uk` – operational
+
+### DC2 deployment summary
+DC2 was built using a Hyper-V differencing disk and joined to `corp.azawslab.co.uk` before Active Directory Domain Services promotion.
+
+Implementation sequence:
+1. Create DC2 VM using differencing disk
+2. Configure static IP and DNS
+3. Rename to `DC2`
+4. Join `corp.azawslab.co.uk`
+5. Install AD DS and DNS
+6. Promote as additional domain controller
+7. Validate replication and domain controller shares
+
+### Validation completed
+- Domain join confirmed
+- `NETLOGON` and `SYSVOL` validated
+- `repadmin /replsummary` returned zero failures
+- ADUC on DC2 displayed the expected OU structure and users
+
 ### Next step
-The next implementation step is to build `dc2.corp.azawslab.co.uk` as an additional domain controller before starting Entra Connect.
+The next step is to continue with the next Release 1 infrastructure workload, beginning with the member server / Exchange SE path before Entra Connect.
