@@ -53,3 +53,57 @@ This is the core identity anchor for the hybrid platform. It provides the founda
 
 ### Current state
 The forest and domain have been created successfully, and `DC1` is now the first domain controller for `corp.azawslab.co.uk`.
+
+## Current Active Directory implementation state
+
+### Domain naming
+The Active Directory domain used for the lab build is:
+
+- `corp.azawslab.co.uk`
+
+### OU and account model implemented
+The Active Directory OU structure has been implemented to support tiered administration, pilot scoping, and future hybrid identity integration.
+
+Key implemented areas:
+- Tiered OU structure for administrative separation
+- Standard user OU for normal business identities
+- Dedicated Groups OU for security group management
+- Pilot OU structure for phased rollout support
+
+### Standard user baseline
+The following initial standard users have been created to support pilot and business-role scenarios:
+- `u.hashibur`
+- `u.finance01`
+- `u.hr01`
+- `u.sales01`
+- `u.ops01`
+- `u.helpdesk01`
+
+### Security groups implemented
+The following on-prem AD security groups have been created:
+- `SG-T0-Domain-Admins`
+- `SG-T1-Server-Admins`
+- `SG-Pilot-Hybrid-Sync`
+- `SG-Pilot-Exchange-Migration`
+- `SG-DLP-Pilot`
+
+### Pilot sync scope
+The initial pilot sync scope is intentionally small to reduce risk before Entra Connect is introduced.
+
+Current `SG-Pilot-Hybrid-Sync` members:
+- `u.hashibur`
+- `u.finance01`
+- `u.hr01`
+
+This group will be used later as the initial scoped cohort for hybrid identity validation.
+
+### Current status
+At this stage:
+- DC1 is built
+- OU structure is implemented
+- baseline users are created
+- baseline AD security groups are created
+- pilot hybrid sync scope is defined
+
+### Next step
+The next implementation step is to build `dc2.corp.azawslab.co.uk` as an additional domain controller before starting Entra Connect.
