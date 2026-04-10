@@ -113,3 +113,25 @@ The following baseline AD security groups have been created:
 - `SG-Pilot-Hybrid-Sync`
 - `SG-Pilot-Exchange-Migration`
 - `SG-DLP-Pilot`
+
+## Domain controller expansion completed
+
+The on-premises identity baseline has now been expanded to include a second domain controller.
+
+### Domain controllers
+- `dc1.corp.azawslab.co.uk` – primary domain controller and DNS server
+- `dc2.corp.azawslab.co.uk` – additional domain controller and DNS server
+
+### DC2 implementation summary
+- DC2 was deployed in Hyper-V using a differencing disk
+- DC2 was assigned static IP `10.10.10.11`
+- Preferred DNS before promotion was set to `10.10.10.10`
+- DC2 joined the `corp.azawslab.co.uk` domain successfully
+- AD DS and DNS roles were installed on DC2
+- DC2 was promoted as an additional domain controller
+- Initial replication checks completed successfully
+
+### Validation outcomes
+- `NETLOGON` and `SYSVOL` were present on DC2
+- `repadmin /replsummary` showed zero replication failures
+- Active Directory objects were visible from DC2 after promotion
