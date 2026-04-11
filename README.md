@@ -156,12 +156,20 @@ The lab models a hybrid enterprise with:
 - DC2 promoted as an additional domain controller
 - Initial replication validation completed successfully between DC1 and DC2
 - `NETLOGON` and `SYSVOL` validated on DC2
+- MEM1 built using a Hyper-V differencing disk
+- MEM1 joined to `corp.azawslab.co.uk`
+- MEM1 moved to `Tier-1 > Member Servers`
+- EXCH1 built using a Hyper-V differencing disk
+- EXCH1 joined to `corp.azawslab.co.uk`
+- EXCH1 moved to `Tier-1 > Member Servers`
+- Exchange SE setup initiated on EXCH1
+- Exchange SE prerequisites remediated from readiness checks
+- Dynamic Memory disabled on EXCH1 before Exchange installation
 
 ### Planned next
-
-- Member server build
-- Exchange SE source server build
+- Complete Exchange SE installation and validation on EXCH1
 - Entra Connect pilot sync
+- Microsoft 365 baseline configuration
 
 ### Planned evidence
 - Architecture diagrams
