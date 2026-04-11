@@ -162,7 +162,6 @@ The lab models a hybrid enterprise with:
 - EXCH1 built using a Hyper-V differencing disk
 - EXCH1 joined to `corp.azawslab.co.uk`
 - EXCH1 moved to `Tier-1 > Member Servers`
-- EXCH1 moved to `Tier-1 > Member Servers`
 - Exchange Server Subscription Edition installed successfully on EXCH1
 - Exchange Admin Center login validated on EXCH1
 - Initial on-prem Exchange organization created as `AZAWSLAB Exchange`
