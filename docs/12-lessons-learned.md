@@ -34,3 +34,23 @@ Validation outcome:
 - Absolute FQDN lookups using a trailing dot resolved correctly
 - Internal AD-integrated DNS was validated as functional
 - DC1 was cleared for progression to DC2 build
+
+## MEM1 and EXCH1 build notes
+
+### Member server build pattern
+MEM1 and EXCH1 were both deployed from Hyper-V differencing disks based on the Windows Server master image. This kept the server build process consistent with the planned lab deployment model.
+
+### OU placement after domain join
+After domain join, member server computer objects were moved into:
+
+- `Tier-1 > Member Servers`
+
+This kept the OU structure aligned with the tiered administration model already implemented in Active Directory.
+
+### Exchange prerequisite remediation
+Exchange Server Subscription Edition readiness checks on EXCH1 identified missing prerequisites.
+
+Instead of using generic web searches, the remediation followed the exact Microsoft links presented by Exchange Setup. This reduced time spent troubleshooting and ensured the missing components were installed in a targeted way.
+
+### Exchange memory setting adjustment
+Dynamic Memory was disabled on EXCH1 before Exchange installation so the VM used fixed memory allocation during the Exchange build.
