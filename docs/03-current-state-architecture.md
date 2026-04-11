@@ -135,3 +135,19 @@ The on-premises identity baseline has now been expanded to include a second doma
 - `NETLOGON` and `SYSVOL` were present on DC2
 - `repadmin /replsummary` showed zero replication failures
 - Active Directory objects were visible from DC2 after promotion
+
+## Member and messaging server expansion
+
+### MEM1 member server
+- `mem1.corp.azawslab.co.uk`
+- Built in Hyper-V using a differencing disk
+- Joined to `corp.azawslab.co.uk`
+- Moved to `Tier-1 > Member Servers`
+
+### EXCH1 messaging source server
+- `exch1.corp.azawslab.co.uk`
+- Built in Hyper-V using a differencing disk
+- Joined to `corp.azawslab.co.uk`
+- Moved to `Tier-1 > Member Servers`
+- Provisioned as the on-prem Exchange source host for Release 1
+- Exchange Server Subscription Edition setup initiated
