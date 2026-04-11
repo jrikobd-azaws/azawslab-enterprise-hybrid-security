@@ -149,5 +149,6 @@ The on-premises identity baseline has now been expanded to include a second doma
 - Built in Hyper-V using a differencing disk
 - Joined to `corp.azawslab.co.uk`
 - Moved to `Tier-1 > Member Servers`
-- Provisioned as the on-prem Exchange source host for Release 1
-- Exchange Server Subscription Edition setup initiated
+- Exchange Server Subscription Edition installed successfully
+- Exchange Admin Center opened successfully after installation
+- Exchange organization name configured as `AZAWSLAB Exchange`
