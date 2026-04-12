@@ -131,5 +131,67 @@ Implementation sequence:
 - `repadmin /replsummary` returned zero failures
 - ADUC on DC2 displayed the expected OU structure and users
 
+## Hybrid identity implementation completed
+
+### Microsoft 365 tenant baseline
+A new Microsoft 365 tenant was created for the Release 1 hybrid phase.
+
+Current tenant state:
+- Default cloud domain: `AZAWSLABUK.onmicrosoft.com`
+- Custom domain added: `azawslab.co.uk`
+- Custom subdomain added: `corp.azawslab.co.uk`
+
+To avoid disrupting the live Zoho mail environment for domain `azawslab.co.uk`, Microsoft 365 service DNS was intentionally deferred after domain verification. Both custom domains remain present in the tenant without Microsoft 365 mail services being enabled.
+
+### Entra Connect deployment on MEM1
+Microsoft Entra Connect Sync was installed on:
+
+- `mem1.corp.azawslab.co.uk`
+
+Configuration choices:
+- Custom installation path used
+- Sign-in method: `Password Hash Synchronization`
+- AD connector account: created through the wizard using Enterprise Admin credentials
+- UPN alignment issue identified and resolved by adding `corp.azawslab.co.uk` to the tenant
+- Source anchor: `mS-DS-ConsistencyGuid`
+
+### Pilot sync scoping
+Pilot synchronization was intentionally restricted using group-based filtering.
+
+Scoped pilot group:
+- `SG-Pilot-Hybrid-Sync`
+
+Current pilot sync members:
+- `u.hashibur`
+- `u.finance01`
+- `u.hr01`
+
+OU filtering was also restricted to:
+- `Groups`
+- `Tier-2 > User Accounts > Standard Users`
+
+This ensured both the pilot user objects and the pilot sync group object were in scope.
+
+### Sync validation
+Entra Connect completed successfully and the first synchronization cycle was initiated.
+
+Validation confirmed:
+- pilot users appeared in Microsoft 365 Active users
+- pilot users appeared in Microsoft Entra ID
+- synchronized pilot users were marked as on-premises synced
+- the cloud-only tenant admin account remained separate from the synchronized pilot identities
+
+### Current hybrid identity state
+The Release 1 hybrid identity foundation is now operational at pilot scope.
+
+Completed outcomes:
+- on-prem AD domain and tiered OU model implemented
+- pilot user accounts created
+- pilot sync group defined
+- Microsoft 365 tenant created
+- custom domains added and verified
+- Entra Connect deployed on MEM1
+- pilot users synchronized successfully to Microsoft Entra ID
+  
 ### Next step
-The next step is to continue with the next Release 1 infrastructure workload, beginning with the member server / Exchange SE path before Entra Connect.
+The next step is to continue with the next Release 1 infrastructure workload, beginning with the M365 Licensing.
