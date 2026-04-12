@@ -1,197 +1,229 @@
+# 05-hybrid-identity.md
 
-# Hybrid Identity
+## Objective
+Implement a controlled hybrid identity pilot for the `corp.azawslab.co.uk` lab by synchronizing a small set of on-premises AD users into Microsoft 365 / Microsoft Entra ID without disrupting the existing Zoho-hosted mail environment.
 
 ## Scope
-Release 1 implements hybrid identity between on-premises AD and Microsoft Entra ID.
+This phase focuses on:
 
-## Components
-- DC1
-- DC2
-- OUs
-- Pilot users
-- Entra ID Connect
+- defining a pilot synchronization scope in on-premises Active Directory
+- creating a Microsoft 365 tenant for the hybrid identity phase
+- adding and verifying the required custom domains
+- preserving existing Zoho-hosted mail flow by deferring Microsoft 365 mail service DNS changes
+- deploying Microsoft Entra Connect Sync on a dedicated member server
+- validating successful pilot synchronization for selected users
 
-## Objectives
-- Synchronize pilot users first
-- Validate sign-in flows
-- Separate admin roles
-- Prepare for broader rollout
+## Supporting server components
 
-## Evidence to Capture
-- AD structure screenshots
-- Entra sync screenshots
-- Test user sign-in results
+The hybrid identity pilot in Release 1 was built on the following on-premises server components:
 
-## Base Server Image Dependency
+- `DC1` — primary domain controller and DNS server for `corp.azawslab.co.uk`
+- `DC2` — additional domain controller and DNS server for replication and redundancy validation
+- `MEM1` — dedicated member server used as the Microsoft Entra Connect Sync host
+- `EXCH1` — on-premises Exchange Server Subscription Edition host used to prepare pilot mailboxes and support later coexistence planning
 
-The on-prem identity layer begins with a standardized Windows Server 2022 parent image. This parent image is used for differencing-disk deployment of core Phase 1 servers, including DC1, DC2, and MEM1.
+### On-premises identity platform state
+Before hybrid identity deployment, the following baseline components were already in place:
 
-This establishes a consistent baseline before Active Directory domain services, DNS, hybrid identity synchronization, and Exchange source infrastructure are introduced.
+- Active Directory domain: `corp.azawslab.co.uk`
+- tiered OU model implemented
+- standard user accounts created
+- baseline security groups created
+- pilot sync group created
+- Exchange pilot mailboxes enabled for selected users
 
-## Initial Active Directory Foundation Established
+This server baseline allowed the Microsoft 365 / Microsoft Entra pilot to be introduced in a controlled way without changing the existing Zoho-hosted mail routing.
 
-The internal Active Directory namespace for the lab has been implemented as:
+## On-premises pilot scope
 
-- **Internal AD domain:** `corp.azawslab.co.uk`
-- **Initial domain controller:** `DC1`
-- **DC1 IP address:** `10.10.10.10`
+### Pilot sync group
+A dedicated security group was created in on-premises Active Directory to scope the initial pilot synchronization:
 
-`DC1` was deployed from a standardized Windows Server 2022 parent image using a differencing-disk model to reduce host storage usage while maintaining consistency across the Phase 1 server estate.
-
-### Roles implemented on DC1
-- Active Directory Domain Services
-- DNS Server
-
-### Why this matters
-This is the core identity anchor for the hybrid platform. It provides the foundation for:
-- organizational unit design
-- administrative account separation
-- user and group creation
-- DNS-backed name resolution
-- later Entra ID Connect and pilot hybrid identity synchronization
-- Exchange Server Subscription Edition source-environment preparation
-
-### Current state
-The forest and domain have been created successfully, and `DC1` is now the first domain controller for `corp.azawslab.co.uk`.
-
-## Current Active Directory implementation state
-
-### Domain naming
-The Active Directory domain used for the lab build is:
-
-- `corp.azawslab.co.uk`
-
-### OU and account model implemented
-The Active Directory OU structure has been implemented to support tiered administration, pilot scoping, and future hybrid identity integration.
-
-Key implemented areas:
-- Tiered OU structure for administrative separation
-- Standard user OU for normal business identities
-- Dedicated Groups OU for security group management
-- Pilot OU structure for phased rollout support
-
-### Standard user baseline
-The following initial standard users have been created to support pilot and business-role scenarios:
-- `u.hashibur`
-- `u.finance01`
-- `u.hr01`
-- `u.sales01`
-- `u.ops01`
-- `u.helpdesk01`
-
-### Security groups implemented
-The following on-prem AD security groups have been created:
-- `SG-T0-Domain-Admins`
-- `SG-T1-Server-Admins`
 - `SG-Pilot-Hybrid-Sync`
-- `SG-Pilot-Exchange-Migration`
-- `SG-DLP-Pilot`
 
-### Pilot sync scope
-The initial pilot sync scope is intentionally small to reduce risk before Entra Connect is introduced.
+### Pilot sync members
+The initial pilot users are:
 
-Current `SG-Pilot-Hybrid-Sync` members:
 - `u.hashibur`
 - `u.finance01`
 - `u.hr01`
 
-This group will be used later as the initial scoped cohort for hybrid identity validation.
+These users were intentionally chosen to keep the first synchronization wave small and easy to validate.
 
-### Current status
-At this stage:
-- DC1 is built
-- OU structure is implemented
-- baseline users are created
-- baseline AD security groups are created
-- pilot hybrid sync scope is defined
+## On-premises directory layout used for pilot sync
 
-## Current implementation state
+### User location
+Pilot users are located in:
 
-The hybrid identity foundation now includes two domain controllers before Entra Connect is introduced.
+- `Tier-2 > User Accounts > Standard Users`
 
-### Domain controller status
-- `dc1.corp.azawslab.co.uk` – operational
-- `dc2.corp.azawslab.co.uk` – operational
+### Group location
+The pilot sync group object is located in:
 
-### DC2 deployment summary
-DC2 was built using a Hyper-V differencing disk and joined to `corp.azawslab.co.uk` before Active Directory Domain Services promotion.
+- `Groups`
 
-Implementation sequence:
-1. Create DC2 VM using differencing disk
-2. Configure static IP and DNS
-3. Rename to `DC2`
-4. Join `corp.azawslab.co.uk`
-5. Install AD DS and DNS
-6. Promote as additional domain controller
-7. Validate replication and domain controller shares
+Both locations were kept in scope during Entra Connect configuration so that:
+- the pilot user objects were visible to synchronization
+- the pilot group object could be used for group-based filtering
 
-### Validation completed
-- Domain join confirmed
-- `NETLOGON` and `SYSVOL` validated
-- `repadmin /replsummary` returned zero failures
-- ADUC on DC2 displayed the expected OU structure and users
+## Microsoft 365 tenant baseline
 
-## Hybrid identity implementation completed
+### Tenant created
+A new Microsoft 365 tenant was created for Release 1 hybrid identity work.
 
-### Microsoft 365 tenant baseline
-A new Microsoft 365 tenant was created for the Release 1 hybrid phase.
+### Tenant domains
+Current tenant domain state:
 
-Current tenant state:
 - Default cloud domain: `AZAWSLABUK.onmicrosoft.com`
-- Custom domain added: `azawslab.co.uk`
-- Custom subdomain added: `corp.azawslab.co.uk`
+- custom domain added: `azawslab.co.uk`
+- custom subdomain added: `corp.azawslab.co.uk`
 
-To avoid disrupting the live Zoho mail environment for domain `azawslab.co.uk`, Microsoft 365 service DNS was intentionally deferred after domain verification. Both custom domains remain present in the tenant without Microsoft 365 mail services being enabled.
+### DNS / mail-flow design decision
+The custom domains were added to the tenant, but Microsoft 365 service DNS was intentionally **not** enabled at this stage.
 
-### Entra Connect deployment on MEM1
+Reason:
+- `azawslab.co.uk` currently has active mail flow through Zoho
+- changing MX / autodiscover / Microsoft 365 mail service DNS at this stage would risk disrupting the live mail configuration
+
+Current domain state in Microsoft 365:
+- `azawslab.co.uk` present in tenant
+- `corp.azawslab.co.uk` present in tenant
+- service connection deferred
+- Zoho-hosted mail flow retained intentionally
+
+## Entra Connect deployment
+
+### Sync server
 Microsoft Entra Connect Sync was installed on:
 
 - `mem1.corp.azawslab.co.uk`
 
-Configuration choices:
-- Custom installation path used
-- Sign-in method: `Password Hash Synchronization`
-- AD connector account: created through the wizard using Enterprise Admin credentials
-- UPN alignment issue identified and resolved by adding `corp.azawslab.co.uk` to the tenant
-- Source anchor: `mS-DS-ConsistencyGuid`
+This server was chosen to keep roles separated:
+- domain controllers remain domain controllers
+- EXCH1 remains the Exchange host
+- MEM1 is used as the synchronization / utility host
 
-### Pilot sync scoping
-Pilot synchronization was intentionally restricted using group-based filtering.
+### Installation method
+A custom Entra Connect installation was used.
 
-Scoped pilot group:
-- `SG-Pilot-Hybrid-Sync`
+### Sign-in method
+Selected sign-in method:
 
-Current pilot sync members:
-- `u.hashibur`
-- `u.finance01`
-- `u.hr01`
+- `Password Hash Synchronization`
 
-OU filtering was also restricted to:
+### AD connector account
+During setup, the wizard was allowed to create the required AD connector account using Enterprise Admin credentials.
+
+This avoided using a long-term privileged admin account directly as the synchronization account.
+
+### UPN alignment issue and fix
+During configuration, the on-premises UPN suffix:
+
+- `corp.azawslab.co.uk`
+
+initially appeared as not added in Microsoft Entra sign-in configuration.
+
+This was resolved by:
+- adding `corp.azawslab.co.uk` to the Microsoft 365 / Microsoft Entra tenant
+- refreshing the Entra Connect sign-in configuration page
+
+After that fix:
+- `userPrincipalName` was retained as the sign-in attribute
+- the pilot users remained aligned to their on-premises UPN format
+
+### Source anchor
+The synchronization configuration completed using:
+
+- `mS-DS-ConsistencyGuid`
+
+as the source anchor attribute.
+
+## Filtering model
+
+### OU filtering
+During Entra Connect setup, synchronization was limited to selected OUs.
+
+Included OU scope:
 - `Groups`
 - `Tier-2 > User Accounts > Standard Users`
 
-This ensured both the pilot user objects and the pilot sync group object were in scope.
+This ensured:
+- the pilot sync group object was in scope
+- the pilot user objects were in scope
 
-### Sync validation
-Entra Connect completed successfully and the first synchronization cycle was initiated.
+### Group-based filtering
+Pilot synchronization was further restricted using group-based filtering.
 
-Validation confirmed:
-- pilot users appeared in Microsoft 365 Active users
-- pilot users appeared in Microsoft Entra ID
-- synchronized pilot users were marked as on-premises synced
-- the cloud-only tenant admin account remained separate from the synchronized pilot identities
+Selected pilot group:
+- `SG-Pilot-Hybrid-Sync`
 
-### Current hybrid identity state
+This limited synchronized users to the intended pilot membership rather than all users in the scoped OUs.
+
+## Sync validation
+
+### Configuration result
+Entra Connect configuration completed successfully on MEM1 and the first synchronization cycle was initiated.
+
+### Sync engine validation
+Synchronization Service Manager on MEM1 showed successful:
+- full import
+- full synchronization
+- export
+
+for the on-premises directory and the Microsoft Entra connector.
+
+### Cloud validation
+Pilot synchronization was validated in both:
+- Microsoft 365 admin center
+- Microsoft Entra admin center
+
+### Confirmed synced pilot users
+The following synchronized pilot users appeared in the cloud:
+
+- `u.hashibur@corp.azawslab.co.uk`
+- `u.finance01@corp.azawslab.co.uk`
+- `u.hr01@corp.azawslab.co.uk`
+
+### Cloud-only admin separation
+The tenant’s cloud admin account remained separate from the synchronized pilot users.
+
+This helped keep:
+- tenant administration
+- pilot identity validation
+- troubleshooting
+
+cleanly separated.
+
+## Current hybrid identity state
 The Release 1 hybrid identity foundation is now operational at pilot scope.
 
 Completed outcomes:
-- on-prem AD domain and tiered OU model implemented
-- pilot user accounts created
-- pilot sync group defined
+- pilot sync group created in on-premises AD
+- pilot users created in on-premises AD
 - Microsoft 365 tenant created
-- custom domains added and verified
-- Entra Connect deployed on MEM1
-- pilot users synchronized successfully to Microsoft Entra ID
-  
-### Next step
-The next step is to continue with the next Release 1 infrastructure workload, beginning with the M365 Licensing.
+- `azawslab.co.uk` added to the tenant
+- `corp.azawslab.co.uk` added to the tenant
+- Microsoft 365 service DNS intentionally deferred
+- MEM1 prepared and used as Entra Connect host
+- Entra Connect installed successfully
+- Password Hash Synchronization configured
+- pilot synchronization restricted through `SG-Pilot-Hybrid-Sync`
+- pilot users synchronized successfully into Microsoft 365 / Microsoft Entra ID
+
+## Current limitations
+The following items remain intentionally deferred or incomplete:
+
+- Microsoft 365 mail service cutover
+- user license assignment for synchronized pilot users
+- pilot user cloud sign-in validation with assigned licenses
+- Exchange hybrid configuration
+- mailbox migration / coexistence workflow
+- broader Microsoft 365 baseline workload rollout
+
+## Next steps
+The next planned steps after pilot hybrid identity completion are:
+
+- assign Microsoft 365 licenses to pilot synced users
+- validate pilot user cloud sign-in experience
+- begin Microsoft 365 baseline configuration
+- continue Exchange / Microsoft 365 coexistence and migration planning
