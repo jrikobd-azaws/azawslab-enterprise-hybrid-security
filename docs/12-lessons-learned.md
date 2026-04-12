@@ -54,3 +54,28 @@ Instead of using generic web searches, the remediation followed the exact Micros
 
 ### Exchange memory setting adjustment
 Dynamic Memory was disabled on EXCH1 before Exchange installation so the VM used fixed memory allocation during the Exchange build.
+
+## Microsoft 365 and Entra Connect lessons
+
+### Domain verification without mail cutover
+The Microsoft 365 tenant was created first using the default `onmicrosoft.com` namespace. The custom domains `azawslab.co.uk` and later `corp.azawslab.co.uk` were added to the tenant, but Microsoft 365 service DNS was intentionally deferred so that Zoho-hosted production-style mail flow was not disrupted during the pilot phase.
+
+### UPN suffix mismatch during Entra Connect setup
+During Entra Connect configuration, the on-premises UPN suffix `corp.azawslab.co.uk` initially appeared as not added in Microsoft Entra sign-in configuration.
+
+This was resolved by adding `corp.azawslab.co.uk` as a cloud domain in the tenant and refreshing the wizard. This allowed the pilot users to remain aligned to `userPrincipalName` without continuing through the mismatch warning state.
+
+### Pilot sync filtering design
+OU filtering and group-based filtering both mattered during the Entra Connect pilot.
+
+The final successful configuration required:
+- OU scope for `Tier-2 > User Accounts > Standard Users`
+- OU scope for `Groups`
+- group-based filtering using `SG-Pilot-Hybrid-Sync`
+
+This ensured that both the pilot user objects and the pilot group object were in scope before synchronization began.
+
+### Entra Connect pilot outcome
+Microsoft Entra Connect was installed on MEM1 with Password Hash Synchronization and successfully synchronized the intended pilot users into Microsoft 365 / Microsoft Entra ID.
+
+The cloud tenant admin account remained separate from the synchronized on-prem identities, which kept the pilot easier to validate and troubleshoot.
