@@ -165,12 +165,21 @@ The lab models a hybrid enterprise with:
 - Exchange Server Subscription Edition installed successfully on EXCH1
 - Exchange Admin Center login validated on EXCH1
 - Initial on-prem Exchange organization created as `AZAWSLAB Exchange`
+- Exchange post-install validation completed
+- Pilot Exchange mailboxes enabled for `u.hashibur`, `u.finance01`, and `u.hr01`
+- Microsoft 365 tenant created with default domain `AZAWSLABUK.onmicrosoft.com`
+- Custom domains `azawslab.co.uk` and `corp.azawslab.co.uk` added to the tenant
+- Microsoft 365 service DNS intentionally deferred to preserve Zoho-hosted mail flow
+- Entra Connect installed successfully on MEM1
+- Password Hash Synchronization configured
+- Pilot sync filtered through `SG-Pilot-Hybrid-Sync`
+- Pilot users synchronized successfully to Microsoft 365 and Microsoft Entra ID
 
 ### Planned next
-- Exchange post-install validation and configuration
-- Pilot mailbox design and migration preparation
-- Entra Connect pilot sync
-- Microsoft 365 baseline configuration
+- Assign licenses to pilot cloud users
+- Validate pilot user sign-in to Microsoft 365 with synchronized identities
+- Begin Microsoft 365 baseline configuration
+- Start Exchange / cloud coexistence and migration planning
 
 ### Planned evidence
 - Architecture diagrams
