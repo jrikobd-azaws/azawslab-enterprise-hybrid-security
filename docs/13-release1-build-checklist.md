@@ -1,180 +1,284 @@
-# Release 1.0 - Secure Hybrid Identity, Pilot AD Migration, Messaging Migration, Endpoint Security, and M365 Governance
-      
-## Phase 1 - On-Prem Foundation
-- [x] Configure Hyper-V virtual switch design
-- [x] NAT configured on host
-- [x] Tracking workbook prepared
-- [x] Windows Server 2022 parent image created and generalized
-- [x] DC1 differencing disk created
-- [x] DC1 virtual machine created
-- [x] DC1 renamed and baseline configured
-- [x] DC1 assigned static IP
-- [x] AD DS and DNS roles installed on DC1
-- [x] DC1 promoted as the first domain controller for `corp.azawslab.co.uk`
-- [x] Initial post-promotion validation completed
-- [ ] OU structure created
-- [ ] Administrative account model implemented
-- [ ] Standard users and groups created
-- [ ] DC2 deployed
-- [ ] Create pilot users and groups
-- [ ] Build one member server
-- [ ] Build Exchange Server 2019
-- [ ] Validate internal AD and DNS health
-- [ ] Document server names, IPs, and roles
+# Release 1 Build Checklist
 
-## Phase 2 - Hybrid Identity and Pilot Active Directory Migration
-- [ ] Confirm Microsoft 365 / Entra tenant readiness
-- [ ] Configure admin role separation
-- [ ] Choose sync method for lab design
-- [ ] Install and configure Entra ID Connect
-- [ ] Define pilot sync scope
-- [ ] Sync pilot users and groups
-- [ ] Validate synchronized identities in Entra
-- [ ] Test pilot user sign-in
-- [ ] Document hybrid identity architecture
-- [ ] Document future migration path toward broader cloud-managed identity
+## Purpose
 
-## Phase 3 - Exchange 2019 to Microsoft 365 Migration
-- [ ] Confirm Exchange 2019 source readiness
-- [ ] Prepare Exchange Online target state
-- [ ] Define pilot migration scope
-- [ ] Migrate pilot mailbox/users
-- [ ] Validate mailbox access
-- [ ] Validate mail flow
-- [ ] Document migration steps
-- [ ] Record lessons learned and limitations
+This checklist is the authoritative task-state tracker for Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
 
-## Phase 4 - Microsoft 365 Baseline
-- [ ] Configure licensing baseline
-- [ ] Validate Exchange Online access
-- [ ] Configure Teams baseline
-- [ ] Configure SharePoint baseline
-- [ ] Review user/admin role assignments
-- [ ] Document target service baseline
+Release 1 focuses on building the hybrid identity, messaging, Microsoft 365, endpoint, security, compliance, and monitoring foundations required for a realistic enterprise-style hybrid platform.
 
-## Phase 5 - Endpoint Administration and MDM
-
-### Windows corporate managed scenario
-- [ ] Build Windows 11 test device
-- [ ] Enroll Windows device in Intune
-- [ ] Validate compliant state
-- [ ] Apply configuration profile
-
-### Windows remote / trust scenarios
-- [ ] Define joined device scenario
-- [ ] Define registered / lighter-trust scenario
-- [ ] Document difference between both models
-
-### Linux supporting module
-- [ ] Build Ubuntu VM
-- [ ] Validate Linux management/support path
-- [ ] Apply Ansible baseline
-- [ ] Document Intune role vs Ansible role
-
-### Mobile / BYOD
-- [ ] Configure Android MAM / App Protection baseline
-- [ ] Document iOS policy staging if used
-
-## Phase 6 - Defender and Endpoint Security
-- [ ] Configure endpoint protection baseline
-- [ ] Review antivirus / anti-malware settings
-- [ ] Configure Attack Surface Reduction rules
-- [ ] Configure ransomware resilience controls
-- [ ] Review endpoint security posture
-- [ ] Capture Defender / security evidence
-
-## Phase 7 - Zero Trust Access Control
-- [ ] Configure MFA
-- [ ] Configure Conditional Access
-- [ ] Require compliant device for selected access
-- [ ] Test unmanaged-device block
-- [ ] Test compliant-device allow flow
-- [ ] Document Zero Trust access logic
-
-## Phase 8 - Information Protection and Compliance Baseline
-- [ ] Create sensitivity labels
-- [ ] Configure DLP baseline
-- [ ] Configure SIT-based detection
-- [ ] Configure document fingerprinting
-- [ ] Update GDPR / NIST / CIS mapping
-- [ ] Document what is implemented vs planned
-
-## Phase 9 - Monitoring and Alerting
-- [ ] Review Entra sign-in logs
-- [ ] Review audit logs
-- [ ] Review Intune / device compliance visibility
-- [ ] Create one baseline alert
-- [ ] Document monitoring and alert strategy
-- [ ] Note Release 2 Sentinel expansion plan
-
-## Phase 10 - Evidence and GitHub Updates
-- [ ] Capture screenshots for each completed area
-- [ ] Name screenshots clearly
-- [ ] Upload screenshots to GitHub
-- [ ] Update relevant markdown docs
-- [ ] Update lessons learned
-- [ ] Mark completed items in checklist
-- [ ] Prepare Release 1 publish summary
+This file should reflect actual implementation state, not just original planning.
 
 ---
 
-# Evidence Checklist
+## Release 1 Scope Summary
 
-## On-Prem and Hybrid Identity
-- [ ] AD OU / users / groups screenshot
-- [ ] Entra ID Connect setup screenshot
-- [ ] Synced users in Entra screenshot
-- [ ] Pilot sign-in screenshot
-- [ ] Admin role separation screenshot
+Release 1 includes:
 
-## Exchange / M365
-- [ ] Exchange 2019 source screenshot
-- [ ] Exchange Online target screenshot
-- [ ] Pilot mailbox migration evidence
-- [ ] Teams baseline screenshot
-- [ ] SharePoint baseline screenshot
-
-## Intune / Endpoint
-- [ ] Windows enrollment screenshot
-- [ ] Compliance policy screenshot
-- [ ] Security baseline screenshot
-- [ ] WUfB screenshot
-- [ ] Joined vs registered scenario evidence
-- [ ] Linux support / Ansible evidence
-- [ ] Android MAM screenshot
-
-## Security
-- [ ] Defender / endpoint security screenshot
-- [ ] ASR configuration screenshot
-- [ ] MFA screenshot
-- [ ] Conditional Access screenshot
-- [ ] Blocked unmanaged-device screenshot
-
-## Information Protection
-- [ ] Sensitivity labels screenshot
-- [ ] DLP screenshot
-- [ ] SIT screenshot
-- [ ] Fingerprinting screenshot
-- [ ] Blocked action / test screenshot
-
-## Monitoring
-- [ ] Sign-in logs screenshot
-- [ ] Audit logs screenshot
-- [ ] Alert rule screenshot
+- Hyper-V-based on-premises foundation
+- Active Directory with DC1 and DC2
+- tiered OU structure, users, and groups
+- member server build
+- Exchange Server Subscription Edition (Exchange SE) source platform
+- Microsoft 365 tenant onboarding
+- Entra Connect pilot synchronization
+- pilot licensing and cloud sign-in validation
+- Modern Hybrid readiness and pilot migration path
+- Exchange Online, Teams, and SharePoint baseline
+- Intune endpoint administration
+- Windows, Android, and Linux management scenarios
+- Zero Trust baseline controls
+- Defender / endpoint protection controls
+- information protection controls
+- monitoring and alerting baseline
+- compliance mapping and implementation evidence
 
 ---
 
-# Definition of Release 1 Complete
+## Status Key
 
-Release 1 is complete when:
-- [ ] The on-prem foundation is built
-- [ ] Hybrid identity works
-- [ ] Pilot AD synchronization is validated
-- [ ] Pilot Exchange migration is validated
-- [ ] M365 baseline is working
-- [ ] At least one Windows endpoint is enrolled and compliant
-- [ ] Zero Trust controls are tested
-- [ ] Information protection baseline is configured
-- [ ] Monitoring and one alert are documented
-- [ ] Screenshots are uploaded
-- [ ] GitHub docs are updated
+- **Completed** = built, validated, and ready to document with evidence
+- **In Progress** = actively implemented, partially working, or under validation
+- **Blocked** = implementation halted by a known technical issue
+- **Pending** = not yet started or intentionally sequenced later in Release 1
+
+---
+
+## 1. Core On-Premises Foundation
+
+| Item | Status | Notes |
+|---|---|---|
+| Hyper-V lab foundation prepared | Completed | Primary lab platform in use |
+| Internal switch `AZAWSLAB-Internal` configured | Completed | Internal lab network in place |
+| Host NAT enabled | Completed | Supports connectivity from the lab |
+| AD DS domain created: `corp.azawslab.co.uk` | Completed | Core identity source established |
+| `DC1` deployed | Completed | Primary DC / DNS |
+| `DC2` deployed | Completed | Additional DC / DNS |
+| DNS validation completed | Completed | Name resolution validated |
+| AD replication validated | Completed | DC health and replication checked |
+| Tiered OU structure implemented | Completed | Supports cleaner identity governance |
+| Standard users created | Completed | Located under `Tier-2 > User Accounts > Standard Users` |
+| Baseline groups created | Completed | Includes pilot sync group scope |
+
+---
+
+## 2. Member Server and Exchange Source Platform
+
+| Item | Status | Notes |
+|---|---|---|
+| `MEM1` deployed and domain joined | Completed | Hosts Entra Connect Sync |
+| `EXCH1` deployed and domain joined | Completed | Exchange source host |
+| Exchange Server Subscription Edition installed on `EXCH1` | Completed | Exchange SE, not Exchange 2019 |
+| Exchange administration access validated | Completed | Exchange management available |
+| On-premises pilot mailboxes prepared | Completed | Pilot mailboxes created and validated |
+| Pilot mailbox candidates confirmed | Completed | `u.finance01`, `u.hr01` |
+| Validation/admin account confirmed | Completed | `u.hashibur` |
+
+---
+
+## 3. Microsoft 365 Tenant and Namespace Onboarding
+
+| Item | Status | Notes |
+|---|---|---|
+| Microsoft 365 tenant created | Completed | `AZAWSLABUK.onmicrosoft.com` |
+| Cloud admin account established | Completed | `Hashib@AZAWSLABUK.onmicrosoft.com` |
+| `azawslab.co.uk` added to tenant | Completed | Root business namespace |
+| `corp.azawslab.co.uk` added to tenant | Completed | Dedicated hybrid pilot namespace |
+| Namespace separation decision documented | Completed | Root stays with Zoho, subdomain used for hybrid pilot |
+| Root namespace mail flow preserved on Zoho | Completed | Avoids disruption during pilot hybrid work |
+
+---
+
+## 4. Hybrid Identity
+
+| Item | Status | Notes |
+|---|---|---|
+| Entra Connect installed on `MEM1` | Completed | Sync host established |
+| Password Hash Synchronization configured | Completed | Selected sign-in method |
+| OU filtering configured | Completed | Pilot-scoped sync design |
+| Group-based filtering configured | Completed | Uses `SG-Pilot-Hybrid-Sync` |
+| Pilot users synchronized to tenant | Completed | `u.hashibur`, `u.finance01`, `u.hr01` |
+| Pilot users visible in Entra admin center | Completed | Sync validated |
+| Pilot users visible in Microsoft 365 admin center | Completed | Sync validated |
+| Pilot licenses assigned | Completed | Licensing completed |
+| Pilot cloud sign-in validated | Completed | At least one pilot user validated |
+| Microsoft 365 web app access validated | Completed | Includes apps such as Designer / Excel web |
+| Outlook on the web pre-migration behavior reviewed | Completed | Mailbox-not-found treated as expected pre-migration state |
+| Entra admin role separation fully documented | In Progress | Technical implementation partly complete, documentation still needs tightening |
+
+---
+
+## 5. Exchange Hybrid Readiness
+
+| Item | Status | Notes |
+|---|---|---|
+| Hybrid path decision finalized | Completed | Modern Hybrid |
+| HCW mode finalized | Completed | Minimal |
+| HCW execution host selected | Completed | `EXCH1` |
+| Hybrid Agent installation completed | Completed | Installed during HCW flow |
+| Hybrid Agent registration completed | Completed | Registered successfully |
+| Hybrid Agent validation succeeded | Completed | Validation passed |
+| EWS external URL set correctly | Completed | `https://mail.corp.azawslab.co.uk/EWS/Exchange.asmx` |
+| MRS Proxy enabled | Completed | Enabled on EWS |
+| Extended Protection adjustments completed | Completed | Default Web Site EWS off, Back End EWS required |
+| IIS reset completed after changes | Completed | Applied during troubleshooting |
+| HCW hybrid configuration phase completed | Completed | Hybrid services configured |
+| Migration endpoint creation | Blocked | `HCW8078 - Migration Endpoint could not be created` |
+| Hybrid validation closeout | In Progress | Blocked specifically at migration endpoint step |
+| Remote move readiness validation | Pending | Depends on migration endpoint completion |
+
+---
+
+## 6. Pilot Mailbox Migration
+
+| Item | Status | Notes |
+|---|---|---|
+| Pilot migration scope confirmed | Completed | `u.finance01`, `u.hr01` |
+| Exchange Online target readiness validated | In Progress | Depends on migration endpoint validation |
+| Migration endpoint manually verified or created | Pending | Next technical task if HCW does not complete it |
+| Pilot remote move for `u.finance01` | Pending | Not yet started |
+| Pilot remote move for `u.hr01` | Pending | Not yet started |
+| Post-migration mailbox access validation | Pending | OWA / Outlook / mail flow checks needed |
+| Post-migration coexistence validation | Pending | Required after first successful moves |
+
+---
+
+## 7. Microsoft 365 Workload Baseline
+
+| Item | Status | Notes |
+|---|---|---|
+| Exchange Online admin readiness | In Progress | Tenant ready, migration not yet complete |
+| Exchange Online pilot mailbox service validation | Pending | Requires mailbox moves |
+| Teams baseline | Pending | Not yet started |
+| SharePoint baseline | Pending | Not yet started |
+| Microsoft 365 admin setup documentation | In Progress | Tenant and domain state known, broader service docs still pending |
+
+---
+
+## 8. Endpoint Administration and Intune
+
+| Item | Status | Notes |
+|---|---|---|
+| Windows 11 managed corporate device scenario | Pending | Not yet started |
+| Intune enrollment baseline | Pending | Not yet started |
+| Compliance policy baseline | Pending | Not yet started |
+| Configuration profile baseline | Pending | Not yet started |
+| Windows joined vs registered comparison | Pending | Not yet started |
+| Android BYOD / MAM scenario | Pending | Not yet started |
+| Linux support path documentation | Pending | Not yet started |
+| Ansible baseline for Linux | Pending | Not yet started |
+
+---
+
+## 9. Endpoint Security and Zero Trust
+
+| Item | Status | Notes |
+|---|---|---|
+| MFA baseline | Pending | Not yet started |
+| Conditional Access baseline | Pending | Not yet started |
+| Compliant-device logic | Pending | Not yet started |
+| Unmanaged-device access test | Pending | Not yet started |
+| Defender / endpoint protection baseline | Pending | Not yet started |
+| Antivirus / policy review | Pending | Not yet started |
+| ASR rules baseline | Pending | Not yet started |
+| Ransomware resilience controls | Pending | Not yet started |
+
+---
+
+## 10. Information Protection
+
+| Item | Status | Notes |
+|---|---|---|
+| Sensitivity labels | Pending | Not yet started |
+| DLP baseline | Pending | Not yet started |
+| Sensitive Information Types usage | Pending | Not yet started |
+| Document fingerprinting example | Pending | Not yet started |
+| Purview evidence capture | Pending | Not yet started |
+
+---
+
+## 11. Monitoring and Alerting
+
+| Item | Status | Notes |
+|---|---|---|
+| Entra sign-in log visibility baseline | Pending | Not yet started |
+| Audit log baseline | Pending | Not yet started |
+| Device visibility baseline | Pending | Depends partly on Intune phase |
+| Example alert configuration | Pending | Not yet started |
+| Monitoring documentation | Pending | Not yet started |
+
+---
+
+## 12. Security and Compliance Mapping
+
+| Item | Status | Notes |
+|---|---|---|
+| Release 1 control mapping structure created | Completed | Mapping document exists |
+| Hybrid identity controls reflected in mapping | In Progress | Needs refresh based on actual implemented state |
+| Messaging / hybrid readiness controls reflected in mapping | In Progress | Needs refresh based on HCW progress |
+| Endpoint / Zero Trust / Purview controls reflected | Pending | Wait until implementation exists |
+| Final evidence-linked mapping pass | Pending | End-of-release task |
+
+---
+
+## 13. Evidence and Documentation Closeout
+
+| Item | Status | Notes |
+|---|---|---|
+| Core AD/DNS evidence captured | In Progress | Some evidence exists, likely needs final organization |
+| Exchange source evidence captured | In Progress | Exchange state should be consolidated |
+| Entra Connect and sync evidence captured | In Progress | Needs final repository placement |
+| Pilot licensing and sign-in evidence captured | In Progress | Must be added consistently |
+| HCW progress evidence captured | In Progress | Include partial-success state |
+| HCW8078 blocker evidence captured | In Progress | Important troubleshooting artifact |
+| `README.md` status updated | Pending | Needs current status refresh |
+| `docs/03-current-state-architecture.md` updated | Pending | Needs built-state refresh |
+| `docs/05-hybrid-identity.md` updated | Pending | Needs current hybrid state refresh |
+| `docs/06-m365-modern-workplace.md` updated | Pending | Needs current M365 / HCW state refresh |
+| `docs/12-lessons-learned.md` updated | Pending | Add design decisions and troubleshooting history |
+| This checklist updated | In Progress | Use this file as authoritative status page |
+| Excel tracker aligned with GitHub | In Progress | Realignment work underway |
+
+---
+
+## Immediate Next Actions
+
+The next correct execution sequence is:
+
+1. complete migration endpoint validation
+2. manually verify or create the migration endpoint if required
+3. confirm remote-move readiness
+4. perform pilot mailbox migration for `u.finance01`
+5. perform pilot mailbox migration for `u.hr01`
+6. validate post-migration access and behavior
+7. update GitHub pages and tracker sheets to reflect actual completed state
+
+---
+
+## Current Release 1 Summary
+
+### Completed
+- core AD / DNS
+- member server build
+- Exchange Server Subscription Edition source build
+- pilot mailbox preparation
+- Microsoft 365 tenant setup
+- Entra Connect pilot sync
+- pilot licensing and sign-in validation
+- most Modern Hybrid readiness work
+
+### Current Blocker
+- `HCW8078 - Migration Endpoint could not be created`
+
+### Current Active Phase
+- hybrid validation / migration endpoint completion
+
+### Next Milestone
+- mailbox-move readiness and pilot migration execution
+
+---
+
+## Notes
+
+This checklist should remain aligned to actual implementation state.
+
+Do not downgrade completed work back to planning language, and do not mark later security or modern workplace controls as implemented until evidence exists.

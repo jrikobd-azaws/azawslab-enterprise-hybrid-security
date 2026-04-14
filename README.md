@@ -1,25 +1,32 @@
-# azawslab-enterprise-hybrid-security
-Phased enterprise hybrid security platform covering Entra ID, Microsoft 365, Intune, compliance, and Azure security
-
 # azawslab Enterprise Hybrid Security Platform
 
 ## Overview
 
-This repository documents a phased flagship project designed to model an enterprise hybrid cloud, security, and governance platform.
+This repository documents a phased flagship project designed to model a realistic enterprise hybrid infrastructure, identity, messaging, modern workplace, and security platform.
 
-The project is built to demonstrate practical architecture, administration, and security capabilities across hybrid Active Directory, Microsoft Entra ID, Microsoft 365, Intune, endpoint security, information protection, Azure governance, and Zero Trust access patterns.
+The project is built as a security-led engineering portfolio to demonstrate practical capability across:
 
-The goal is to build a realistic and recruiter-facing portfolio that reflects how enterprise environments evolve over time rather than presenting isolated lab exercises.
+- Active Directory and hybrid identity
+- Microsoft Entra ID and Microsoft 365
+- Exchange Server Subscription Edition (Exchange SE) and Exchange Online migration readiness
+- Intune and endpoint administration
+- Zero Trust access controls
+- Information protection and compliance mapping
+- Monitoring, alerting, and governance-aligned operations
+
+The goal is to present a realistic enterprise build path rather than isolated lab exercises.
 
 ---
 
 ## Project Objectives
 
-- Design and document a secure hybrid identity foundation using on-premises Active Directory and Microsoft Entra ID
-- Implement Microsoft 365 and modern workplace administration patterns across Exchange Online, Teams, SharePoint, and endpoint management
-- Apply Zero Trust principles across identity, endpoint, and access controls
-- Integrate governance, compliance, monitoring, and alerting into every phase
-- Extend the environment in later phases into Azure landing zones, delegated MSP-style operations, and workload modernisation
+- Design and implement a secure hybrid identity foundation using on-premises Active Directory and Microsoft Entra ID
+- Build a realistic Exchange hybrid migration path from on-premises Exchange SE to Microsoft 365
+- Establish a Microsoft 365 modern workplace baseline across Exchange Online, Teams, and SharePoint
+- Demonstrate endpoint administration and security through Intune, compliance policy, and device governance
+- Apply Zero Trust principles across identity, endpoint, and access layers
+- Integrate security, compliance, monitoring, and operational evidence into every phase
+- Extend the platform in later phases into Azure governance, delegated administration, and workload modernization
 
 ---
 
@@ -29,15 +36,19 @@ The goal is to build a realistic and recruiter-facing portfolio that reflects ho
 
 Focus areas:
 
-- Hybrid Active Directory and Entra ID integration
-- Microsoft 365 services baseline
-- Exchange Online, Teams, and SharePoint administration
+- Hyper-V-based on-prem foundation
+- Active Directory domain services with DC1 and DC2
+- Member server and Exchange Server Subscription Edition source platform
+- Microsoft 365 tenant setup and namespace onboarding
+- Entra Connect pilot synchronization
+- Exchange hybrid readiness and pilot migration path
+- Exchange Online, Teams, and SharePoint baseline
 - Intune endpoint administration and lifecycle management
 - Windows security baselines, update rings, and compliance policies
 - Android BYOD app protection policies
-- Linux enrollment and compliance validation
-- Conditional Access and MFA enforcement
-- Information protection with sensitivity labels, DLP, SITs, and document fingerprinting
+- Linux support path with Intune visibility where practical and Ansible for Linux configuration
+- Conditional Access and MFA
+- Information protection with sensitivity labels, DLP, Sensitive Information Types, and document fingerprinting
 - Initial monitoring, audit visibility, and alerting
 - Security and compliance mapping against GDPR, NIST, and CIS principles
 
@@ -55,13 +66,13 @@ Planned focus areas:
 - Defender for Cloud integration
 - Expanded compliance and governance controls
 
-### Release 3.0 – Secure Workload Modernisation & Resilience
+### Release 3.0 – Secure Workload Modernization & Resilience
 
 Planned focus areas:
 
 - 3-tier workload architecture
 - Docker-based application deployment
-- Future AKS extension
+- Future AKS extension if justified
 - Secure workload connectivity and observability
 - Application security controls
 - Disaster recovery and high availability design patterns
@@ -74,7 +85,8 @@ Planned focus areas:
 ### Identity & Access
 - Active Directory
 - Microsoft Entra ID
-- Entra Connect / hybrid identity
+- Entra Connect Sync
+- Password Hash Synchronization
 - Conditional Access
 - Multi-Factor Authentication
 - Role-based administration
@@ -86,6 +98,13 @@ Planned focus areas:
 - Intune
 - Device compliance
 - Endpoint lifecycle management
+
+### Messaging & Hybrid
+- Exchange Server Subscription Edition (Exchange SE)
+- Modern Hybrid configuration
+- Hybrid Agent
+- MRS Proxy
+- Remote move migration readiness
 
 ### Security & Governance
 - Zero Trust principles
@@ -112,13 +131,65 @@ Planned focus areas:
 
 The lab models a hybrid enterprise with:
 
-- Head office and branch office concept
 - On-premises Active Directory domain services
-- Hybrid identity integrated with Microsoft Entra ID
-- Microsoft 365 collaboration and productivity services
-- Intune-managed endpoints
-- Security controls applied across identity, endpoint, and data layers
-- Monitoring and compliance evidence captured as part of the build
+- Dedicated hybrid identity and messaging transition path
+- Microsoft 365 tenant onboarding and pilot cloud access
+- Exchange SE as the on-premises messaging source platform
+- Microsoft Entra Connect-based pilot synchronization
+- Intune-managed endpoint scenarios
+- Security controls applied across identity, endpoint, messaging, and data layers
+- Monitoring and compliance evidence captured throughout the build
+
+---
+
+## Current Release 1 Position
+
+Release 1 has completed the core hybrid identity and messaging foundation, including:
+
+- AD DS domain build for `corp.azawslab.co.uk`
+- DC1 and DC2 deployment
+- DNS and replication validation
+- Tiered OU structure and pilot user/group preparation
+- MEM1 member server deployment
+- EXCH1 deployment with Exchange Server Subscription Edition installed
+- Pilot on-premises mailbox preparation
+- Microsoft 365 tenant onboarding
+- Domain onboarding for:
+  - `azawslab.co.uk`
+  - `corp.azawslab.co.uk`
+- Entra Connect pilot synchronization on MEM1
+- Pilot licensing completion
+- Pilot Microsoft 365 sign-in validation
+- Initial Modern Hybrid configuration through Hybrid Configuration Wizard
+
+### Current Technical Blocker
+
+Modern Hybrid is configured, but Hybrid Configuration Wizard finished in a partial-success state with:
+
+`HCW8078 - Migration Endpoint could not be created`
+
+This is the current implementation point.
+
+### Next Technical Milestone
+
+The next work item is to complete:
+
+1. migration endpoint validation
+2. remote-move readiness validation
+3. pilot mailbox migration for selected users
+
+After the technical blocker is cleared, GitHub documentation and tracker sheets will be fully updated to reflect the completed state.
+
+---
+
+## Important Namespace Design Decision
+
+The environment intentionally separates namespaces during pilot migration work:
+
+- `azawslab.co.uk` remains associated with Zoho for business mail flow
+- `corp.azawslab.co.uk` is the dedicated hybrid pilot namespace
+
+This allows pilot hybrid and migration work to proceed without disrupting the root business mail namespace.
 
 ---
 
@@ -126,68 +197,31 @@ The lab models a hybrid enterprise with:
 
 - `docs/01-project-overview.md` – overall scope and vision
 - `docs/02-business-scenario.md` – fictional enterprise scenario and requirements
-- `docs/03-current-state-architecture.md` – legacy / on-prem baseline
+- `docs/03-current-state-architecture.md` – current on-premises implementation state
 - `docs/04-target-state-architecture.md` – phased target architecture
-- `docs/05-hybrid-identity.md` – AD, Entra ID, sync, pilot strategy
-- `docs/06-m365-modern-workplace.md` – Exchange, Teams, SharePoint, admin scope
-- `docs/07-endpoint-security-intune.md` – Intune, Windows, Linux, Android BYOD
-- `docs/08-information-protection-purview.md` – labels, DLP, SITs, fingerprinting
-- `docs/09-monitoring-alerting.md` – logs, alerts, operational visibility
-- `docs/10-security-compliance-mapping.md` – control mapping against GDPR, NIST, CIS
+- `docs/05-hybrid-identity.md` – AD, Entra ID, sync, namespace, and pilot identity status
+- `docs/06-m365-modern-workplace.md` – tenant setup, licensing, Exchange Online readiness, and M365 scope
+- `docs/07-endpoint-security-intune.md` – Intune, Windows, Linux, and Android BYOD scope
+- `docs/08-information-protection-purview.md` – labels, DLP, SITs, and document fingerprinting
+- `docs/09-monitoring-alerting.md` – logs, alerts, and operational visibility
+- `docs/10-security-compliance-mapping.md` – control mapping against GDPR, NIST, and CIS
 - `docs/11-roadmap.md` – future phases
-- `docs/12-lessons-learned.md` – build notes and decisions
+- `docs/12-lessons-learned.md` – technical decisions, troubleshooting notes, and build lessons
+- `docs/13-release1-build-checklist.md` – authoritative Release 1 delivery checklist
 
 ---
 
-## Current Status
+## Evidence Strategy
 
-### In progress
+This repository prioritizes implementation evidence over claims. Evidence will include:
 
-- DC1 built and promoted for `corp.azawslab.co.uk`
-- Core OU structure implemented
-- Standard users created
-- Baseline AD security groups created
-- Pilot hybrid sync scope defined
-- Forward and reverse DNS configured on DC1
-- DC1 DNS validation completed
-- DC2 built using a Hyper-V differencing disk
-- DC2 joined to `corp.azawslab.co.uk`
-- AD DS and DNS installed on DC2
-- DC2 promoted as an additional domain controller
-- Initial replication validation completed successfully between DC1 and DC2
-- `NETLOGON` and `SYSVOL` validated on DC2
-- MEM1 built using a Hyper-V differencing disk
-- MEM1 joined to `corp.azawslab.co.uk`
-- MEM1 moved to `Tier-1 > Member Servers`
-- EXCH1 built using a Hyper-V differencing disk
-- EXCH1 joined to `corp.azawslab.co.uk`
-- EXCH1 moved to `Tier-1 > Member Servers`
-- Exchange Server Subscription Edition installed successfully on EXCH1
-- Exchange Admin Center login validated on EXCH1
-- Initial on-prem Exchange organization created as `AZAWSLAB Exchange`
-- Exchange post-install validation completed
-- Pilot Exchange mailboxes enabled for `u.hashibur`, `u.finance01`, and `u.hr01`
-- Microsoft 365 tenant created with default domain `AZAWSLABUK.onmicrosoft.com`
-- Custom domains `azawslab.co.uk` and `corp.azawslab.co.uk` added to the tenant
-- Microsoft 365 service DNS intentionally deferred to preserve Zoho-hosted mail flow
-- Entra Connect installed successfully on MEM1
-- Password Hash Synchronization configured
-- Pilot sync filtered through `SG-Pilot-Hybrid-Sync`
-- Pilot users synchronized successfully to Microsoft 365 and Microsoft Entra ID
-
-### Planned next
-- Assign licenses to pilot cloud users
-- Validate pilot user sign-in to Microsoft 365 with synchronized identities
-- Begin Microsoft 365 baseline configuration
-- Start Exchange / cloud coexistence and migration planning
-
-### Planned evidence
-- Architecture diagrams
-- Portal configuration screenshots
-- Policy screenshots
-- Test cases
-- PowerShell and Ansible snippets
-- Monitoring and alert examples
+- architecture diagrams
+- portal screenshots
+- Exchange and PowerShell validation output
+- policy screenshots
+- HCW and migration readiness evidence
+- test cases and outcome summaries
+- monitoring and alert examples
 
 ---
 
@@ -195,9 +229,10 @@ The lab models a hybrid enterprise with:
 
 - Security is embedded in every phase
 - Governance and compliance are documented, not assumed
-- Evidence is prioritised over buzzwords
+- Evidence is prioritized over buzzwords
 - Scope is phased to remain realistic and defensible
-- The platform is designed for future extension into Azure, MSP, and workload modernisation scenarios
+- The platform is designed for extension into Azure, MSP, and workload modernization scenarios
+- Design decisions are recorded and not reworked without clear technical justification
 
 ---
 
