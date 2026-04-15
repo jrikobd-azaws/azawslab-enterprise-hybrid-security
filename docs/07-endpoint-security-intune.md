@@ -4,7 +4,7 @@
 
 This document records the Release 1 endpoint administration and Microsoft Intune implementation state for the `azawslab Enterprise Hybrid Security Platform`.
 
-The purpose of this phase is to establish a practical modern endpoint baseline that supports Microsoft-managed device enrollment, visibility, compliance, and comparison between corporate-managed and personal/BYOD Windows scenarios.
+The purpose of this phase is to establish a practical modern endpoint baseline that supports Microsoft-managed device enrollment, visibility, compliance, and comparison across corporate-managed Windows, personal/BYOD Windows, and Linux scenarios, with Ansible used to strengthen Linux baseline administration.
 
 ---
 
@@ -17,10 +17,12 @@ This document covers:
 - licensing path used for Intune capability
 - Windows 11 corporate enrollment scenario
 - Windows 11 personal / BYOD enrollment scenario
+- Linux Intune enrollment scenario
 - device visibility in Intune and Microsoft Entra ID
-- baseline compliance validation
+- baseline compliance and management visibility
+- Linux baseline automation using Ansible
 
-It does not yet claim completion of deeper policy engineering such as full configuration profiles, update rings, application packaging, Android MAM, or Linux management unless separately documented.
+It does not yet claim completion of deeper policy engineering such as full Windows configuration profiles, update rings, Android MAM, or advanced Linux hardening beyond the evidence captured.
 
 ---
 
@@ -36,7 +38,7 @@ The tenant was configured with:
 - default Microsoft MDM discovery and compliance URLs present
 - **WIP user scope = None**
 
-This establishes the tenant-side baseline required for Windows device enrollment into Intune.
+This establishes the tenant-side baseline required for endpoint enrollment into Intune.
 
 ### Intune Admin Center Validation
 
@@ -148,6 +150,59 @@ The BYOD device is also visible in Microsoft Entra ID and shows Microsoft Intune
 
 ---
 
+## Linux Intune Scenario
+
+A Linux endpoint scenario was also validated for Release 1 using Ubuntu and the Microsoft Intune Agent.
+
+### Linux VM Preparation
+
+The Ubuntu VM was prepared in Hyper-V with:
+
+- Secure Boot enabled
+- Ubuntu installed as the guest operating system
+
+### Linux Enrollment Path
+
+The Linux scenario used the Microsoft Intune Agent for device registration and management visibility.
+
+The captured evidence shows:
+
+- Intune Agent launch on Ubuntu
+- sign-in / enrollment path
+- Linux device status progression
+- final compliant state shown in the device view
+
+### Linux Device Result
+
+The Linux endpoint became visible in management views with the following characteristics:
+
+- device name shown as `ubu01-Virtual-Machine`
+- OS shown as Linux / Ubuntu
+- device visible in Microsoft Entra ID
+- device visible in Intune Linux devices
+- management path shown through **Intune**
+
+### Compliance / Evaluation Note
+
+Two relevant states were captured during validation:
+
+- device-side view showing a **Compliant** result
+- Intune Linux devices view showing **Not evaluated**
+
+This should be documented precisely.
+
+The practical conclusion is:
+
+- Linux enrollment and management visibility were validated successfully
+- Linux device registration in Entra ID and Intune was validated
+- compliance interpretation for Linux should be described carefully and not overstated beyond the captured screens
+
+### Why This Matters
+
+This strengthens the Release 1 endpoint story because it demonstrates that the environment is not limited to Windows-only endpoint thinking. It shows awareness of mixed-platform endpoint administration and the practical differences in management experience across Windows and Linux.
+
+---
+
 ## Corporate vs Personal Windows Comparison
 
 Release 1 now includes two distinct Windows management scenarios:
@@ -181,7 +236,50 @@ This strengthens the Release 1 endpoint story because it demonstrates:
 
 ---
 
-## Current Release 1 Position for Intune
+## Linux Baseline Automation with Ansible
+
+Release 1 now also includes an Ansible-based Linux baseline automation path.
+
+### Ansible Host and Project Preparation
+
+The evidence shows:
+
+- Ansible installed and version checked
+- project structure created under `~/azawslab-ansible`
+- inventory, playbooks, and role/task layout prepared
+
+### Playbook Content
+
+The Linux baseline playbook and role tasks include actions such as:
+
+- apt cache update
+- baseline package installation
+- timezone configuration to `Europe/London`
+- creation of an `azawslab` marker file
+- creation of an operations directory
+- MOTD banner configuration
+
+### Validation Steps
+
+The captured validation steps include:
+
+- SSH connectivity to the Ubuntu target
+- `ansible ... -m ping` success
+- playbook syntax check success
+- successful playbook execution with changed tasks shown in the recap
+
+### Operational Value
+
+This adds an important administration layer to the project:
+
+- Intune provides endpoint visibility and enrollment for Linux
+- Ansible provides practical baseline automation and configuration control
+
+This is a useful real-world pattern because Linux management often requires a different operational approach from Windows Intune policy enforcement.
+
+---
+
+## Current Release 1 Position for Endpoint and Intune
 
 The endpoint and Intune work is no longer at planning stage.
 
@@ -193,13 +291,17 @@ The endpoint and Intune work is no longer at planning stage.
 - Intune admin center validation
 - Windows 11 corporate enrollment
 - Windows 11 BYOD / personal enrollment validation
-- compliant device visibility in Intune
+- Linux Intune enrollment and management visibility
+- compliant Windows device visibility in Intune
 - device visibility in Microsoft Entra ID
-- ownership distinction between corporate and personal devices
+- ownership distinction between corporate and personal Windows devices
+- Linux baseline automation with Ansible
+- Ansible connectivity, syntax-check, and playbook execution validation
 
 ### In Progress
 
 - deeper endpoint policy engineering
+- Linux compliance interpretation and policy depth
 - documentation and evidence closeout
 
 ### Not Yet Complete
@@ -208,9 +310,8 @@ The endpoint and Intune work is no longer at planning stage.
 - compliance policy design detail
 - update rings / patching baseline
 - Android BYOD / App Protection
-- Linux support path
-- application deployment baseline
-- advanced endpoint hardening
+- advanced Linux hardening beyond the current baseline automation
+- advanced endpoint hardening across all platforms
 
 ---
 
@@ -229,6 +330,13 @@ The following evidence should be retained in the repository:
 - BYOD device sync / management evidence
 - BYOD device visible as personal and compliant in Intune
 - BYOD device visible in Entra ID
+- Linux Intune Agent sign-in / enrollment evidence
+- Linux device-side status evidence
+- Linux visibility in Entra ID
+- Linux visibility in Intune Linux devices
+- Ansible version and project structure evidence
+- Ansible playbook / task content evidence
+- Ansible ping, syntax check, and execution evidence
 
 ---
 
@@ -243,7 +351,7 @@ The following evidence should be retained in the repository:
 
 ## Summary
 
-Release 1 endpoint work now includes an active Microsoft Intune baseline with both corporate-managed and personal/BYOD Windows scenarios validated.
+Release 1 endpoint work now includes an active Microsoft Intune baseline with corporate-managed Windows, personal/BYOD Windows, and Linux scenarios validated at practical implementation level.
 
 The environment now has:
 
@@ -252,77 +360,8 @@ The environment now has:
 - EMS E5 management licensing path enabled
 - one compliant corporate Windows 11 endpoint
 - one compliant personal/BYOD Windows 11 endpoint
-- visibility for both devices in Intune and Microsoft Entra ID
+- one enrolled Linux endpoint with Intune visibility
+- visibility for devices in Intune and Microsoft Entra ID
+- Linux baseline automation through Ansible
 
-The next major work in this area is policy depth: configuration profiles, compliance policy detail, update management, and broader endpoint security controls.
-
-## Ubuntu 24.04 Managed Endpoint Baseline
-
-Ubuntu 24.04 LTS was used as the Linux endpoint persona for Release 1.
-
-### User used
-- `u.finance01@corp.azawslab.co.uk`
-
-### Device identity
-- Device name: `ubu01-Virtual-Machine`
-- Platform: Linux
-- Management: Microsoft Intune
-- Join/registration path: Microsoft Entra + Intune Linux enrollment flow
-
-### Validated
-- Ubuntu VM prepared and connected to the lab network
-- Microsoft Intune Agent installed
-- user sign-in and enrollment completed successfully
-- Ubuntu device appeared in Microsoft Entra ID
-- Ubuntu device appeared in Microsoft Intune
-- Linux endpoint added to the Release 1 managed endpoint estate
-
-### Current note
-- compliance evaluation was still in progress / not yet evaluated at the time of initial evidence capture
-
-### Outcome
-This completed the Linux managed-endpoint enrollment phase and prepared the platform for the next Linux operations phase using a separate Ansible control node.
-
-## Ansible Control Node and Linux Baseline
-
-A separate Ubuntu VM was used as the dedicated Ansible control node for Release 1.
-
-### Control model
-- `ans1` = Ansible control node
-- `ubu01-Virtual-Machine` = managed Ubuntu endpoint
-
-### Why this design was used
-This model was chosen to demonstrate centralized Linux administration rather than localhost-only automation.
-
-### Baseline implemented
-An Ansible project was created on the control node with:
-
-- inventory file
-- playbook
-- role-based task structure
-
-The playbook was executed remotely against the managed Ubuntu endpoint over SSH.
-
-### Baseline actions implemented
-The Linux baseline included:
-
-- updating the APT package cache
-- installing baseline administration packages
-- setting timezone to `Europe/London`
-- creating a project marker file
-- creating an operations directory
-- applying a project-specific MOTD banner
-
-### Validation
-Validation evidence included:
-
-- `ansible --version`
-- hostname configuration for the control node
-- Ansible project structure
-- inventory and playbook review
-- successful SSH-based connectivity to the managed Ubuntu endpoint
-- successful Ansible ping
-- successful first playbook execution against the remote Ubuntu device
-
-### Outcome
-This phase demonstrated that the Linux portion of Release 1 was not only enrolled in Intune, but also managed through a repeatable configuration-as-code approach using a centralized Ansible control node.
+The next major work in this area is policy depth: configuration profiles, compliance policy detail, update management, endpoint hardening, and further refinement of Linux management and control coverage.
