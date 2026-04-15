@@ -121,7 +121,7 @@ This also improved troubleshooting because the set of synchronized users remaine
 
 A useful lesson was that Microsoft 365 sign-in success and Exchange mailbox availability are not the same thing.
 
-At least one pilot user successfully signed in to Microsoft 365 web apps, while Outlook on the web returned mailbox-not-found.
+At least one pilot user successfully signed in to Microsoft 365 web apps, while Outlook on the web initially returned mailbox-not-found.
 
 That was correctly interpreted as an expected pre-migration state rather than an authentication or licensing failure.
 
@@ -133,33 +133,48 @@ That was correctly interpreted as an expected pre-migration state rather than an
 
 One of the most important implementation lessons was that Hybrid Configuration Wizard can configure significant portions of the hybrid relationship and still end in a partial-success state.
 
-In this case, HCW progressed through:
+In this project, HCW progressed through:
 
 - Exchange detection
-- credentials
-- hybrid selection
-- Minimal mode
+- credential prompts
+- hybrid feature selection
+- Minimal Hybrid selection
 - Modern Hybrid / Hybrid Agent path
-- Hybrid Agent installation and validation
+- Hybrid Agent installation and registration
 - hybrid configuration
 
-but ended with:
+but initially ended with:
 
 `HCW8078 - Migration Endpoint could not be created`
 
-This means hybrid progress should be reported precisely, not simplistically as either “failed” or “complete.”
+This meant hybrid progress had to be reported precisely, not simplistically as either “failed” or “complete.”
 
-### 5.2 Hybrid Agent validation success does not automatically mean migration endpoint success
+### 5.2 Hybrid Agent validation and migration endpoint creation are related but not identical
 
-During troubleshooting, Hybrid Agent validation succeeded after the relevant checks and corrections.
+During troubleshooting, Hybrid Agent validation first failed with a timeout and later succeeded after the relevant checks and corrections.
 
 That was useful because it proved the environment had moved past one layer of connectivity and configuration validation.
 
-However, the migration endpoint still failed to be created, showing that hybrid validation and migration readiness are related but not identical.
+However, the migration endpoint still was not created automatically by HCW, showing that hybrid validation and migration readiness are related but not identical.
 
-### 5.3 EWS and MRS settings matter directly for migration readiness
+### 5.3 Certificate trust and name coverage were the decisive migration blocker
 
-The following actions were already completed during troubleshooting and form part of the recorded build knowledge:
+The most important technical blocker in the project turned out to be certificate trust and name coverage on the Exchange side.
+
+An initial certificate arrangement centered only on `mail.corp.azawslab.co.uk` was not sufficient for the final hybrid and migration workflow.
+
+The working configuration used a public-trust SAN certificate covering both:
+
+- `mail.corp.azawslab.co.uk`
+- `exch1.corp.azawslab.co.uk`
+
+In this lab, the certificate was generated using `win-acme` and used as a practical implementation artifact rather than a long-term production certificate lifecycle model.
+
+The certificate was bound for IIS.
+
+### 5.4 EWS and MRS settings matter directly for migration readiness
+
+The following actions were completed during troubleshooting and form part of the recorded build knowledge:
 
 - EWS external URL set to:
   - `https://mail.corp.azawslab.co.uk/EWS/Exchange.asmx`
@@ -170,29 +185,70 @@ The following actions were already completed during troubleshooting and form par
   - `Exchange Back End > EWS = Required`
 - `iisreset` completed after changes
 
-These changes were important in getting Hybrid Agent validation to succeed.
+These changes were important in getting the hybrid path and migration path into a working state.
 
-### 5.4 Technical blockers should become documented implementation checkpoints
+### 5.5 HCW does not always complete the whole operational path
 
-The current blocker:
+Another key lesson was that HCW may complete enough hybrid configuration to make the environment operational, while still requiring manual follow-up steps.
 
-`HCW8078 - Migration Endpoint could not be created`
+In this project:
 
-should not be treated as a vague failure.
+- HCW configured hybrid services
+- HCW did not create the migration endpoint automatically
+- manual Exchange Online PowerShell work was required
+- `Test-MigrationServerAvailability` became the decisive validation point
 
-It should be recorded as a precise implementation checkpoint:
+This is a realistic engineering outcome and worth documenting as such.
 
-- hybrid services configured
-- migration endpoint not yet created
-- next work resumes at migration endpoint validation and remote-move readiness
+### 5.6 Manual recovery can still produce a fully valid migration result
 
-This makes the repo, tracker, and handoff much more useful.
+After certificate correction and manual migration endpoint creation, the remote move path validated successfully.
+
+A pilot batch was then created and both pilot users completed migration successfully.
+
+This demonstrated that a hybrid deployment can be recovered cleanly even when the wizard does not finish every operational step automatically.
 
 ---
 
-## 6. Documentation and Tracking Lessons
+## 6. Migration and Validation Lessons
 
-### 6.1 The tracker can fall behind the real build
+### 6.1 Migration state progression matters
+
+The migration states visible during testing moved through synchronization and later completion.
+
+This mattered because it showed the project had moved beyond endpoint creation into actual mailbox move execution.
+
+### 6.2 Validation should reflect what was actually tested
+
+Post-migration validation in this phase was performed using Outlook on the web.
+
+That should be documented exactly as validated evidence, rather than overstating testing that was not yet performed.
+
+This project phase therefore proves:
+
+- successful remote move migration
+- successful mailbox access in Outlook on the web
+- successful pilot mailbox completion state
+
+It does not yet claim broader desktop Outlook validation or full production-scale coexistence testing.
+
+### 6.3 Real-world mail flow understanding strengthens the project
+
+A useful documentation improvement was to explain that migrated mailbox location and public SMTP ingress are not always the same thing.
+
+Real-world delivery may involve:
+
+- direct Microsoft 365 / Exchange Online Protection ingress
+- Mimecast or Proofpoint in front of Microsoft 365
+- hybrid coexistence routing back to on-premises for non-migrated users
+
+This was not fully implemented in the lab, but documenting these patterns strengthens the realism of the migration narrative.
+
+---
+
+## 7. Documentation and Tracking Lessons
+
+### 7.1 The tracker can fall behind the real build
 
 A practical lesson from this phase is that implementation can move faster than documentation and tracker hygiene.
 
@@ -200,9 +256,11 @@ That happened here: the Excel tracker was no longer fully aligned with the real 
 
 This is normal, but it creates confusion unless one source is deliberately refreshed and made authoritative.
 
-### 6.2 GitHub should reflect actual implementation state, not just original plan
+### 7.2 GitHub should reflect actual implementation state, not just original plan
 
 Several docs initially still read as if licensing, pilot sign-in, or hybrid setup were future tasks, even after those steps had already been completed.
+
+Later, the same issue appeared again around migration state, because the project had moved from “blocked at HCW8078” to “successful manual recovery and completed pilot migration.”
 
 This demonstrated the need to update GitHub pages based on the real execution point, especially:
 
@@ -211,7 +269,7 @@ This demonstrated the need to update GitHub pages based on the real execution po
 - `docs/06-m365-modern-workplace.md`
 - `docs/13-release1-build-checklist.md`
 
-### 6.3 The build checklist should become the authoritative release state page
+### 7.3 The build checklist should become the authoritative release state page
 
 A dedicated checklist page is more useful than scattered progress notes.
 
@@ -225,9 +283,9 @@ This makes it the best page to keep synchronized with actual implementation.
 
 ---
 
-## 7. Operational Lessons
+## 8. Operational Lessons
 
-### 7.1 Pilot-first execution reduces confusion and risk
+### 8.1 Pilot-first execution reduces confusion and risk
 
 Keeping the pilot scope limited to:
 
@@ -237,19 +295,21 @@ Keeping the pilot scope limited to:
 
 made identity validation, licensing, and hybrid testing much easier to understand and troubleshoot.
 
-### 7.2 Evidence capture should happen alongside configuration, not afterward
+### 8.2 Evidence capture should happen alongside configuration, not afterward
 
-A recurring lesson is that screenshots, PowerShell output, portal validation, and HCW evidence should be captured during implementation rather than reconstructed later.
+A recurring lesson is that screenshots, PowerShell output, portal validation, HCW evidence, and migration evidence should be captured during implementation rather than reconstructed later.
 
 This is especially important for:
 - Entra Connect settings
 - pilot licensing
 - sign-in validation
 - HCW progress
-- HCW partial-success state
-- migration endpoint troubleshooting
+- HCW warning state
+- migration endpoint recovery
+- migration user completion state
+- Outlook on the web post-migration validation
 
-### 7.3 Realistic sequencing is part of the value of the project
+### 8.3 Realistic sequencing is part of the value of the project
 
 The value of the project is not only in the final controls implemented, but also in the sequence used to get there.
 
@@ -266,17 +326,25 @@ A well-sequenced project is easier to explain in interviews because it mirrors h
 
 ---
 
-## 8. Current Open Lesson
+## 9. Current Open Lessons
 
-The main unresolved lesson from the current phase is still in progress:
+The main lesson still in progress is no longer how to fix the migration endpoint.
 
-How to move from HCW partial success to full migration endpoint readiness in a Modern Hybrid pilot while preserving the chosen namespace and migration design.
+That phase has now been completed.
 
-That is the next technical continuation point.
+The next lessons will come from the remaining Release 1 work:
+
+- Teams and SharePoint baseline
+- Intune and endpoint management
+- MFA and Conditional Access
+- Defender and endpoint hardening
+- Purview / information protection
+- monitoring and alerting
+- control mapping refresh based on implemented evidence
 
 ---
 
-## 9. Summary
+## 10. Summary
 
 The project has already produced several strong practical lessons:
 
@@ -287,7 +355,9 @@ The project has already produced several strong practical lessons:
 - namespace separation can protect realism and reduce migration risk
 - cloud sign-in validation is not the same as mailbox readiness
 - HCW partial success must be documented precisely
+- certificate trust and SAN coverage can be the decisive migration blocker
+- manual Exchange Online PowerShell recovery can be a valid part of successful hybrid delivery
 - trackers and GitHub must be refreshed against actual implementation state
 - evidence capture should happen during the build, not after it
 
-The next lesson will likely come from resolving migration endpoint creation and completing the first pilot mailbox moves.
+The next phase of learning will come from building the broader Release 1 modern workplace, endpoint, security, monitoring, and compliance controls on top of the now-working hybrid and pilot migration foundation.

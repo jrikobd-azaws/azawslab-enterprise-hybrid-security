@@ -2,9 +2,9 @@
 
 ## Purpose
 
-This document records the hybrid identity design, implementation state, namespace decisions, pilot synchronization scope, and current migration-readiness position for Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
+This document records the hybrid identity design, implementation state, namespace decisions, pilot synchronization scope, migration-readiness path, and final pilot migration outcome for Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
 
-The objective of this phase is to establish a working hybrid identity foundation between on-premises Active Directory and Microsoft Entra ID, while preparing a realistic Exchange hybrid migration path for pilot users.
+The objective of this phase is to establish a working hybrid identity foundation between on-premises Active Directory and Microsoft Entra ID, while preparing and validating a realistic Exchange hybrid migration path for pilot users.
 
 ---
 
@@ -17,7 +17,9 @@ This document covers:
 - pilot synchronization scope
 - namespace design decisions
 - pilot licensing and sign-in validation
-- readiness for Exchange hybrid mailbox migration
+- dependency relationship between hybrid identity and Exchange hybrid migration
+- migration endpoint recovery path
+- final pilot migration completion state
 
 It does not claim completion of broader Zero Trust, Intune, or Purview controls unless separately documented in those relevant files.
 
@@ -98,7 +100,7 @@ This confirms that Entra Connect Sync is operational at pilot scope.
 
 ### Pilot Licensing State
 
-Pilot users have been licensed successfully.
+Pilot users were licensed successfully.
 
 ### Sign-In Validation State
 
@@ -109,13 +111,13 @@ Access was validated using Microsoft 365 web applications such as:
 - Designer
 - Excel for the web
 
-This confirms that:
+This confirmed that:
 
-- synchronized identities are present in the tenant
-- pilot licensing is functional
-- basic cloud access is working
+- synchronized identities were present in the tenant
+- pilot licensing was functional
+- basic cloud access was working
 
-### Outlook on the Web Clarification
+### Outlook on the Web Clarification Before Migration
 
 Outlook on the web initially returned a mailbox-not-found result for pilot users.
 
@@ -133,7 +135,7 @@ The project uses deliberate namespace separation during the pilot phase.
 
 - remains associated with Zoho
 - continues to represent the root business namespace
-- is not being repointed during initial hybrid pilot work
+- is not repointed during the initial hybrid pilot phase
 
 ### Hybrid Pilot Namespace
 
@@ -141,7 +143,7 @@ The project uses deliberate namespace separation during the pilot phase.
 
 - is the dedicated hybrid pilot namespace
 - is used for pilot synchronized users
-- is the namespace used for Exchange hybrid and migration-readiness work
+- is the namespace used for Exchange hybrid and migration work
 
 ### Important Clarification
 
@@ -185,7 +187,7 @@ Hosted on:
 
 ### Hybrid Design Decisions Already Locked
 
-The following design choices are already made and should not be revisited unless a technical blocker forces change:
+The following design choices were made and remained stable through migration completion:
 
 - selected hybrid path: **Modern Hybrid**
 - selected HCW mode: **Minimal**
@@ -200,36 +202,36 @@ The following design choices are already made and should not be revisited unless
 
 ---
 
-## Current Status
+## HCW and Migration Endpoint Outcome
 
-Hybrid identity is operational at pilot scope.
+Hybrid Configuration Wizard progressed through the expected hybrid setup path and configured hybrid services, but initially returned:
 
-Completed state:
+`HCW8078 - Migration Endpoint could not be created`
 
-- on-premises AD identity source established
-- Entra Connect Sync installed on MEM1
-- Password Hash Synchronization configured
-- OU filtering configured
-- group-based filtering configured using `SG-Pilot-Hybrid-Sync`
-- pilot identities synchronized successfully
-- pilot licensing completed
-- pilot Microsoft 365 sign-in validated
+This did not mean the overall hybrid design had failed. It meant the automatic endpoint-creation step did not complete successfully.
 
-Current dependency state:
+### Root Cause Area
 
-- Modern Hybrid configuration has been run through HCW
-- hybrid services were configured
-- migration endpoint creation did not complete successfully
-- current blocker:
-  - `HCW8078 - Migration Endpoint could not be created`
+Manual testing showed that the remote move path could not establish SSL/TLS trust to:
 
-This means hybrid identity is working, but mailbox-move readiness is not yet fully complete.
+`mail.corp.azawslab.co.uk`
 
----
+The issue was not hybrid identity itself. The issue was certificate trust and name coverage on the Exchange side for the final migration path.
 
-## What Has Already Been Completed Around HCW
+### Certificate Resolution
 
-The following supporting work has already been performed during hybrid troubleshooting:
+The working configuration used a public-trust SAN certificate covering both:
+
+- `mail.corp.azawslab.co.uk`
+- `exch1.corp.azawslab.co.uk`
+
+An earlier certificate for `mail.corp.azawslab.co.uk` still existed, but it was not sufficient by itself for the final migration workflow.
+
+The final working certificate was bound for IIS.
+
+### Additional Hybrid Troubleshooting Steps Already Completed
+
+The following supporting work was already completed during hybrid troubleshooting:
 
 - EWS external URL set to:
   - `https://mail.corp.azawslab.co.uk/EWS/Exchange.asmx`
@@ -241,22 +243,78 @@ The following supporting work has already been performed during hybrid troublesh
 - `iisreset` completed after changes
 - Hybrid Agent validation succeeded
 
-These actions should be treated as completed troubleshooting history, not future tasks.
+### Recovery Path
+
+After certificate correction, the migration endpoint was created manually in PowerShell and validated successfully.
+
+`Test-MigrationServerAvailability` then succeeded, confirming that the Exchange remote move path was working correctly.
+
+---
+
+## Pilot Migration Outcome
+
+A pilot migration batch was created for:
+
+- `u.finance01@corp.azawslab.co.uk`
+- `u.hr01@corp.azawslab.co.uk`
+
+Migration states progressed through synchronization and later completion.
+
+Both pilot users completed remote move migration successfully into Exchange Online mailboxes.
+
+### Post-Migration Validation
+
+Post-migration validation was performed using Outlook on the web.
+
+This confirmed successful mailbox access for pilot users after migration.
+
+### What This Phase Proves
+
+This phase now demonstrates:
+
+- working on-premises AD identity source
+- scoped Entra Connect synchronization
+- successful pilot licensing and Microsoft 365 sign-in validation
+- successful Modern Hybrid configuration
+- recovery from HCW automatic endpoint-creation failure
+- successful remote move path validation
+- successful pilot Exchange Online migration
+- post-migration OWA validation for migrated users
+
+---
+
+## Current Status
+
+Hybrid identity is operational and complete at pilot scope.
+
+Completed state:
+
+- on-premises AD identity source established
+- Entra Connect Sync installed on MEM1
+- Password Hash Synchronization configured
+- OU filtering configured
+- group-based filtering configured using `SG-Pilot-Hybrid-Sync`
+- pilot identities synchronized successfully
+- pilot licensing completed
+- pilot Microsoft 365 sign-in validated
+- Modern Hybrid configured
+- migration endpoint created successfully through manual recovery path
+- pilot mailbox migration completed successfully
+- post-migration Outlook on the web access validated
+
+This means hybrid identity is no longer just “ready for migration.” It has now been exercised through a successful pilot migration path.
 
 ---
 
 ## Remaining Actions
 
-The remaining actions for this hybrid identity phase are now:
+The remaining actions for this hybrid identity phase are now limited to documentation and evidence closeout:
 
-1. validate migration endpoint creation
-2. confirm remote-move readiness
-3. perform pilot mailbox migration for:
-   - `u.finance01`
-   - `u.hr01`
-4. capture final evidence and update GitHub/tracker records
+1. consolidate final screenshots and PowerShell evidence
+2. update GitHub pages and tracker sheets consistently
+3. carry forward lessons learned into later Release 1 security and governance phases
 
-This is the correct continuation point for the project.
+The next major implementation work for Release 1 is no longer mailbox migration. It is the remaining modern workplace, endpoint, security, monitoring, and compliance layers.
 
 ---
 
@@ -271,9 +329,11 @@ The following evidence should be retained in the repository screenshot/evidence 
 - synced pilot users in Microsoft 365 admin center
 - pilot license assignment
 - successful pilot sign-in evidence
-- HCW completion state
-- HCW8078 error evidence
-- EWS / MRS Proxy / relevant Exchange validation evidence
+- HCW warning evidence showing HCW8078
+- migration endpoint creation evidence
+- successful `Test-MigrationServerAvailability`
+- migration batch and migration user status evidence
+- post-migration Outlook on the web validation evidence
 
 ---
 
@@ -288,7 +348,7 @@ The following evidence should be retained in the repository screenshot/evidence 
 
 ## Summary
 
-Release 1 hybrid identity work is largely complete at pilot scope.
+Release 1 hybrid identity work is complete at pilot scope and has been validated through an end-to-end hybrid migration path.
 
 The environment now has:
 
@@ -297,6 +357,8 @@ The environment now has:
 - licensed pilot users
 - successful Microsoft 365 sign-in validation
 - locked namespace separation for safe pilot work
-- Modern Hybrid configuration substantially completed
+- Modern Hybrid configuration
+- manual migration endpoint recovery
+- successful pilot mailbox migration into Exchange Online
 
-The remaining technical gap is migration endpoint creation and remote-move readiness for pilot mailbox migration.
+The key lesson from this phase is that hybrid identity readiness and successful migration depend not only on synchronization and licensing, but also on correct certificate trust and Exchange migration endpoint validation.
