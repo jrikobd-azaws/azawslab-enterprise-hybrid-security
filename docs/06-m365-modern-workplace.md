@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document records the Microsoft 365 tenant setup, namespace onboarding, pilot licensing state, Exchange Online migration outcome, Teams and SharePoint baseline progress, and current Release 1 Microsoft 365 position for the `azawslab Enterprise Hybrid Security Platform`.
+This document records the Microsoft 365 tenant setup, namespace onboarding, pilot licensing state, Exchange Online migration outcome, Teams baseline progress, SharePoint baseline progress, and current Release 1 Microsoft 365 position for the `azawslab Enterprise Hybrid Security Platform`.
 
 The purpose of this phase is to establish a realistic Microsoft 365 foundation that supports hybrid identity, staged Exchange migration, collaboration services, and later modern workplace controls across Exchange Online, Teams, SharePoint, Intune, and security services.
 
@@ -213,6 +213,18 @@ This phase proves a practical SharePoint baseline for Release 1, including:
 - file-open validation
 
 It does not yet claim advanced SharePoint governance such as retention, lifecycle, external sharing policy engineering, or information protection integration.
+
+---
+
+## Relationship Between Teams and SharePoint in Release 1
+
+The collaboration baseline in Release 1 now demonstrates the practical relationship between Microsoft Teams and SharePoint Online:
+
+- Teams channel collaboration was validated in `AZAWSLAB`
+- channel file sharing was validated in Teams
+- SharePoint document library access and file validation were completed in the corresponding site
+
+This is important because it shows awareness that Teams collaboration is closely tied to underlying SharePoint content storage and document access patterns.
 
 ---
 
