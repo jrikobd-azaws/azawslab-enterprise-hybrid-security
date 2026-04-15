@@ -2,21 +2,24 @@
 
 ## Overview
 
-This repository documents a phased flagship project designed to model a realistic enterprise hybrid infrastructure, identity, messaging, modern workplace, and security platform.
+This repository documents a phased flagship project designed to model a realistic enterprise hybrid infrastructure, identity, messaging, modern workplace, endpoint administration, and security platform.
 
 The project is built as a security-led engineering portfolio to demonstrate practical capability across:
 
 - Active Directory and hybrid identity
 - Microsoft Entra ID and Microsoft 365
 - Exchange Server Subscription Edition (Exchange SE) and Exchange Online migration
+- Microsoft Teams and SharePoint Online collaboration services
 - Intune and endpoint administration
+- Windows corporate and BYOD endpoint onboarding
+- Linux endpoint visibility and baseline automation
 - Zero Trust access controls
 - Information protection and compliance mapping
 - Monitoring, alerting, and governance-aligned operations
 
 The goal is to present a realistic enterprise build path rather than isolated lab exercises.
 
-This repository now includes active Release 1 implementation evidence across Hyper-V, Active Directory, Microsoft 365, Entra Connect Sync, Exchange hybrid configuration, migration troubleshooting, and completed pilot Exchange Online migration.
+This repository now includes active Release 1 implementation evidence across Hyper-V, Active Directory, Microsoft 365, Entra Connect Sync, Exchange hybrid configuration, pilot mailbox migration, Teams baseline validation, SharePoint baseline validation, Microsoft Intune endpoint onboarding, Linux Intune visibility, and Linux baseline automation with Ansible.
 
 ---
 
@@ -26,6 +29,7 @@ This repository now includes active Release 1 implementation evidence across Hyp
 - Build a realistic Exchange hybrid migration path from on-premises Exchange SE to Microsoft 365
 - Establish a Microsoft 365 modern workplace baseline across Exchange Online, Teams, and SharePoint
 - Demonstrate endpoint administration and security through Intune, compliance policy, and device governance
+- Extend endpoint management beyond Windows into practical Linux visibility and baseline automation
 - Apply Zero Trust principles across identity, endpoint, and access layers
 - Integrate security, compliance, monitoring, and operational evidence into every phase
 - Extend the platform in later phases into Azure governance, delegated administration, and workload modernization
@@ -46,9 +50,8 @@ Focus areas:
 - Exchange hybrid readiness and pilot migration path
 - Exchange Online, Teams, and SharePoint baseline
 - Intune endpoint administration and lifecycle management
-- Windows security baselines, update rings, and compliance policies
-- Android BYOD app protection policies
-- Linux support path with Intune visibility where practical and Ansible for Linux configuration
+- Windows corporate and BYOD endpoint onboarding
+- Linux support path with Intune visibility and Ansible baseline automation
 - Conditional Access and MFA
 - Information protection with sensitivity labels, DLP, Sensitive Information Types, and document fingerprinting
 - Initial monitoring, audit visibility, and alerting
@@ -84,7 +87,7 @@ Planned focus areas:
 
 ## Current Implementation Status
 
-Release 1 is no longer at planning stage. The core on-premises and hybrid messaging foundation has been implemented and evidenced in the repository.
+Release 1 is no longer at planning stage. The core on-premises, hybrid messaging, collaboration, and endpoint baseline has been implemented and validated at practical pilot scope.
 
 ### Implemented and validated so far
 
@@ -110,33 +113,44 @@ Release 1 is no longer at planning stage. The core on-premises and hybrid messag
   - `u.finance01@corp.azawslab.co.uk`
   - `u.hr01@corp.azawslab.co.uk`
 - post-migration Outlook on the web validation completed
-
-### What the current evidence set covers
-
-The `screenshots/` tree currently contains organized evidence for:
-
-- base image and Hyper-V foundation
-- DC1 and DC2 build
-- MEM1 build
-- OU and identity preparation
-- Microsoft 365 onboarding
-- Entra Connect configuration and pilot sync
-- EXCH1 build and Exchange setup
-- hybrid and migration troubleshooting
-- migration endpoint recovery
-- pilot migration outcome
+- Teams baseline validated at pilot scope, including:
+  - user access
+  - direct chat
+  - team/channel collaboration
+  - file collaboration
+  - meeting/calendar validation
+- SharePoint baseline validated at pilot scope, including:
+  - site access
+  - site membership visibility
+  - document library validation
+  - file upload
+  - file-open validation
+- Intune baseline enabled at tenant scope
+- EMS E5 licensing path activated for management capability
+- Windows 11 corporate-managed endpoint scenario validated
+- Windows 11 personal/BYOD-style endpoint scenario validated
+- compliant device visibility confirmed in Intune and Microsoft Entra ID
+- Linux Intune Agent enrollment path validated
+- Ubuntu Linux endpoint visibility confirmed in Microsoft Entra ID and Intune
+- Linux baseline automation validated with Ansible, including:
+  - inventory and playbook structure
+  - connectivity test
+  - syntax check
+  - baseline execution against Ubuntu target
 
 ### Current Release 1 position
 
-Release 1 has completed the infrastructure, hybrid identity, Exchange source build, hybrid recovery path, and pilot mailbox migration foundation needed to demonstrate a realistic Microsoft 365 hybrid onboarding scenario.
+Release 1 has completed the infrastructure, hybrid identity, Exchange source build, hybrid recovery path, pilot mailbox migration, practical collaboration baseline, initial endpoint onboarding baseline, and initial Linux management/automation baseline needed to demonstrate a realistic Microsoft 365 hybrid onboarding scenario.
 
-The current focus is now shifting away from hybrid migration unblock and toward the remaining Release 1 workstreams:
+### Current focus
 
-- Teams baseline
-- SharePoint baseline
-- Intune / endpoint management
+The current focus is now shifting away from baseline activation and toward the remaining Release 1 depth workstreams:
+
+- Windows configuration profiles
+- compliance policy depth
 - MFA and Conditional Access
 - Defender and endpoint hardening
+- Linux management depth beyond baseline automation
 - monitoring and alerting
 - information protection and compliance mapping
 
@@ -181,7 +195,29 @@ Then Microsoft 365 determines mailbox location:
 - if the mailbox is already in Exchange Online, deliver there directly
 - if the mailbox is still on-premises, route back to on-premises through the hybrid connector path
 
-This project did not fully implement all of those gateway patterns, but it documents them as part of real-world migration design awareness.
+This project does not claim full implementation of all gateway patterns, but it documents them as part of real-world migration design awareness.
+
+---
+
+## Endpoint Direction in Release 1
+
+Release 1 is not limited to identity and messaging. It also establishes a practical endpoint baseline across multiple management scenarios.
+
+### Windows scenarios validated
+
+- corporate-managed Windows 11 device
+- personal/BYOD Windows 11 device
+- ownership distinction inside Intune
+- compliant state visibility for enrolled Windows devices
+
+### Linux scenario validated
+
+- Ubuntu device enrollment path using Microsoft Intune Agent
+- Linux device visibility in Entra ID
+- Linux device visibility in Intune
+- Linux baseline automation using Ansible
+
+This gives the platform a more realistic mixed-endpoint story than a Windows-only lab.
 
 ---
 
@@ -212,6 +248,14 @@ This project did not fully implement all of those gateway patterns, but it docum
 - Exchange remote move migration
 - manual migration endpoint recovery path
 
+### Endpoint & Automation
+- Windows 11
+- Ubuntu Linux
+- Microsoft Intune Agent
+- Ansible
+- SSH-based Linux automation
+- baseline package and configuration automation
+
 ### Security & Governance
 - Zero Trust principles
 - Sensitivity labels
@@ -224,9 +268,8 @@ This project did not fully implement all of those gateway patterns, but it docum
 ### Infrastructure & Operations
 - Hyper-V
 - Windows Server
-- Ubuntu Linux
+- Ubuntu Server/Desktop
 - PowerShell
-- Ansible
 - Monitoring and alerting
 - Azure governance (future phase)
 - Terraform (future phase)
@@ -240,8 +283,8 @@ This project did not fully implement all of those gateway patterns, but it docum
 - `docs/03-current-state-architecture.md` – current on-premises implementation state
 - `docs/04-target-state-architecture.md` – phased target architecture
 - `docs/05-hybrid-identity.md` – AD, Entra ID, sync, namespace, and pilot identity status
-- `docs/06-m365-modern-workplace.md` – tenant setup, licensing, migration outcome, and M365 scope
-- `docs/07-endpoint-security-intune.md` – Intune, Windows, Linux, and Android BYOD scope
+- `docs/06-m365-modern-workplace.md` – tenant setup, licensing, Exchange migration, Teams, SharePoint, and M365 scope
+- `docs/07-endpoint-security-intune.md` – Intune baseline, Windows endpoint scenarios, Linux Intune path, and endpoint status
 - `docs/08-information-protection-purview.md` – labels, DLP, SITs, and document fingerprinting
 - `docs/09-monitoring-alerting.md` – logs, alerts, and operational visibility
 - `docs/10-security-compliance-mapping.md` – control mapping against GDPR, NIST, and CIS
@@ -254,7 +297,8 @@ This project did not fully implement all of those gateway patterns, but it docum
 ## Supporting Documentation
 
 - Hybrid identity and Exchange hybrid notes: `docs/05-hybrid-identity.md`
-- Microsoft 365 / Exchange Online migration and validation: `docs/06-m365-modern-workplace.md`
+- Microsoft 365 workload baseline and Exchange migration: `docs/06-m365-modern-workplace.md`
+- Endpoint and Intune baseline: `docs/07-endpoint-security-intune.md`
 - Build issues, troubleshooting, and design decisions: `docs/12-lessons-learned.md`
 - Current release state: `docs/13-release1-build-checklist.md`
 
@@ -263,6 +307,7 @@ This project did not fully implement all of those gateway patterns, but it docum
 ## Supporting Artifacts
 
 - Exchange / migration scripts: `scripts/exchange/`
+- Ansible baseline content: `scripts/ansible/` or repository Ansible path if maintained there
 - Screenshots and implementation evidence: `screenshots/`
 
 ---
@@ -277,6 +322,11 @@ This repository prioritizes implementation evidence over claims. Evidence includ
 - hybrid and migration troubleshooting evidence
 - migration batch and outcome evidence
 - Outlook on the web validation screenshots
+- Teams collaboration evidence
+- SharePoint access and file-validation evidence
+- Intune and device-enrollment evidence
+- Linux endpoint visibility evidence
+- Ansible project and playbook execution evidence
 - policy screenshots
 - monitoring and alert examples
 
