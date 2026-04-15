@@ -30,6 +30,19 @@ Another early lesson was that security, governance, and monitoring must appear i
 
 This shaped the project structure, tracker design, documentation flow, and planned evidence capture.
 
+### 1.3 A strong project needs both implementation breadth and believable sequencing
+
+A useful lesson from Release 1 is that breadth alone is not enough. What makes the project credible is the order in which services were introduced:
+
+1. build the core on-premises platform
+2. establish hybrid identity
+3. complete Exchange hybrid and pilot migration
+4. validate collaboration services
+5. extend into endpoint administration
+6. begin mixed-platform endpoint coverage with Linux and Ansible
+
+This sequence is easier to explain because it reflects how enterprise environments normally expand.
+
 ---
 
 ## 2. Infrastructure Design Lessons
@@ -44,7 +57,7 @@ The internal switch design and host NAT approach allowed connectivity without ov
 
 Building the domain, DNS, replication, OU structure, users, and baseline groups first provided a clean identity source for everything that followed.
 
-This made later Entra Connect and Exchange work much easier to reason about.
+This made later Entra Connect, Exchange, Intune, and collaboration work much easier to reason about.
 
 ### 2.3 Tiered OU design improved control and readability
 
@@ -210,45 +223,207 @@ This demonstrated that a hybrid deployment can be recovered cleanly even when th
 
 ---
 
-## 6. Migration and Validation Lessons
+## 6. Microsoft 365 Collaboration Lessons
 
-### 6.1 Migration state progression matters
+### 6.1 Teams baseline should be documented as practical validation, not full governance completion
 
-The migration states visible during testing moved through synchronization and later completion.
+A useful lesson from the collaboration phase is that there is a big difference between:
 
-This mattered because it showed the project had moved beyond endpoint creation into actual mailbox move execution.
+- proving Teams works
+- and proving Teams is fully governed
 
-### 6.2 Validation should reflect what was actually tested
+The evidence captured in this project supports a strong **pilot collaboration baseline**, including:
 
-Post-migration validation in this phase was performed using Outlook on the web.
+- Teams admin-side user visibility
+- browser access for pilot users
+- direct chat
+- channel posts and replies
+- file sharing in a team/channel context
+- meeting scheduling / calendar validation
 
-That should be documented exactly as validated evidence, rather than overstating testing that was not yet performed.
+That is enough to mark Teams baseline as implemented at pilot scope.
 
-This project phase therefore proves:
+It is not yet enough to claim advanced governance such as:
 
-- successful remote move migration
-- successful mailbox access in Outlook on the web
-- successful pilot mailbox completion state
+- full external access design
+- guest governance
+- advanced meeting policy engineering
+- Teams Phone / voice
 
-It does not yet claim broader desktop Outlook validation or full production-scale coexistence testing.
+### 6.2 SharePoint should be treated as both a standalone service and a collaboration dependency
 
-### 6.3 Real-world mail flow understanding strengthens the project
+A strong documentation improvement in Release 1 was to show that Teams file collaboration is closely connected to SharePoint Online.
 
-A useful documentation improvement was to explain that migrated mailbox location and public SMTP ingress are not always the same thing.
+The SharePoint evidence proved:
 
-Real-world delivery may involve:
+- site existence
+- site membership visibility
+- document library access
+- file upload
+- file-open validation
 
-- direct Microsoft 365 / Exchange Online Protection ingress
-- Mimecast or Proofpoint in front of Microsoft 365
-- hybrid coexistence routing back to on-premises for non-migrated users
+This helped strengthen the explanation of collaboration flow in the environment, rather than treating Teams and SharePoint as unrelated boxes.
 
-This was not fully implemented in the lab, but documenting these patterns strengthens the realism of the migration narrative.
+### 6.3 Collaboration proof is stronger when it includes both admin-side and user-side validation
+
+Another lesson is that admin-center screenshots alone are not enough.
+
+The project is stronger because it includes:
+- admin-center evidence
+- pilot user browser evidence
+- actual collaboration outcomes such as chat, reply, upload, and open validation
+
+That makes the baseline much more defensible in interviews.
 
 ---
 
-## 7. Documentation and Tracking Lessons
+## 7. Endpoint and Intune Lessons
 
-### 7.1 The tracker can fall behind the real build
+### 7.1 Intune baseline should be described separately from device-policy depth
+
+A practical lesson from the endpoint phase is that tenant-side Intune activation is not the same thing as full endpoint policy maturity.
+
+What has been implemented so far is a valid Intune baseline:
+
+- MDM scope enabled
+- EMS E5 licensing path activated
+- Intune admin center validated
+- devices enrolled and visible
+
+That should be documented clearly without overstating configuration-profile or compliance-policy depth that does not yet exist.
+
+### 7.2 Corporate and personal Windows scenarios add real value when both are shown side by side
+
+The project became much stronger once it demonstrated both:
+
+- a corporate-managed Windows 11 device
+- a personal/BYOD Windows 11 device
+
+This produced an important documentation lesson:
+
+ownership matters.
+
+Showing the difference between **Corporate** and **Personal** ownership inside Intune is more useful than showing only one enrolled Windows device.
+
+It helps the project look more like a real workplace-management scenario rather than a single-device demo.
+
+### 7.3 Endpoint evidence should include both tenant view and device-local confirmation
+
+The strongest endpoint evidence came from combining:
+
+- Intune admin-center screenshots
+- Entra device visibility
+- local operating system confirmation such as:
+  - Access work or school
+  - management server information
+  - sync state
+
+That combination is much stronger than relying on only one side.
+
+### 7.4 Linux support should be documented carefully because the management experience differs from Windows
+
+Another important lesson is that Linux management through Intune does not mirror Windows behavior exactly.
+
+The Linux evidence in this project proved:
+
+- Intune Agent presence
+- enrollment path
+- Linux endpoint visibility in Entra ID
+- Linux endpoint visibility in Intune
+- device-side compliant status view
+- Intune Linux view with evaluation state that requires careful wording
+
+This creates a documentation lesson:
+
+**Linux should be described precisely, not lazily copied from Windows wording.**
+
+The Linux scenario is valuable because it shows platform awareness, but it also requires more careful explanation around compliance interpretation and management depth.
+
+### 7.5 Mixed-platform endpoint coverage makes the project more realistic
+
+The project is stronger because Release 1 is no longer Windows-only.
+
+The addition of:
+- Windows corporate
+- Windows BYOD
+- Ubuntu Linux
+
+makes the endpoint section more believable for enterprise work, because real organizations rarely manage a single endpoint type only.
+
+---
+
+## 8. Linux and Ansible Lessons
+
+### 8.1 Linux visibility and Linux configuration should not be treated as the same thing
+
+A useful lesson from the Ubuntu work is that:
+
+- Intune gives management visibility and enrollment context
+- Ansible gives practical baseline configuration control
+
+These are complementary, not interchangeable.
+
+That distinction is worth documenting because it reflects a more real-world mixed-tooling approach to Linux management.
+
+### 8.2 Ansible adds operational depth beyond screenshot-only endpoint management
+
+The project became more credible once the Linux side included Ansible rather than just enrollment screenshots.
+
+The evidence now shows:
+- Ansible version validation
+- project structure creation
+- inventory and playbook layout
+- SSH connectivity
+- `ansible ... -m ping` success
+- syntax check success
+- baseline playbook execution with changed tasks
+
+That is much stronger than merely saying “Linux is in the environment.”
+
+### 8.3 Simple Linux baseline tasks are still valuable when they are well-sequenced and evidenced
+
+The Ansible role applied practical baseline tasks such as:
+
+- apt cache update
+- baseline package installation
+- timezone configuration
+- marker file creation
+- operations directory creation
+- MOTD banner creation
+
+The lesson here is that baseline automation does not need to be huge to be useful.
+
+A small, clean, repeatable baseline with evidence is better than a large but poorly explained playbook.
+
+### 8.4 SSH and naming hygiene matter for Linux automation credibility
+
+Another good lesson from the Ansible phase is that details matter:
+
+- SSH connectivity must be shown working
+- inventory targeting must be clear
+- hostnames and target naming should be meaningful
+
+The captured evidence showing SSH success and hostname changes improved the operational credibility of the Linux automation path.
+
+### 8.5 Linux management claims should stay proportional to the evidence
+
+The project can now credibly claim:
+- Ubuntu endpoint presence
+- Intune visibility
+- Ansible baseline automation
+
+It should not yet claim:
+- full Linux compliance engineering
+- enterprise Linux hardening maturity
+- production-scale configuration management
+
+Keeping claims proportional to evidence is one of the strongest trust-building lessons in the repo.
+
+---
+
+## 9. Documentation and Tracking Lessons
+
+### 9.1 The tracker can fall behind the real build
 
 A practical lesson from this phase is that implementation can move faster than documentation and tracker hygiene.
 
@@ -256,20 +431,20 @@ That happened here: the Excel tracker was no longer fully aligned with the real 
 
 This is normal, but it creates confusion unless one source is deliberately refreshed and made authoritative.
 
-### 7.2 GitHub should reflect actual implementation state, not just original plan
+### 9.2 GitHub should reflect actual implementation state, not just original plan
 
 Several docs initially still read as if licensing, pilot sign-in, or hybrid setup were future tasks, even after those steps had already been completed.
 
-Later, the same issue appeared again around migration state, because the project had moved from “blocked at HCW8078” to “successful manual recovery and completed pilot migration.”
+Later, the same issue appeared again around migration state, collaboration baseline, and endpoint status, because the project kept moving faster than the narrative pages.
 
 This demonstrated the need to update GitHub pages based on the real execution point, especially:
 
 - `README.md`
-- `docs/05-hybrid-identity.md`
 - `docs/06-m365-modern-workplace.md`
+- `docs/07-endpoint-security-intune.md`
 - `docs/13-release1-build-checklist.md`
 
-### 7.3 The build checklist should become the authoritative release state page
+### 9.3 The build checklist should become the authoritative release state page
 
 A dedicated checklist page is more useful than scattered progress notes.
 
@@ -281,11 +456,19 @@ It provides:
 
 This makes it the best page to keep synchronized with actual implementation.
 
+### 9.4 Screenshot naming and folder discipline matter more as scope expands
+
+Once the project began to include Exchange, Teams, SharePoint, Intune, Linux, and Ansible, another lesson became obvious:
+
+**evidence must be organized deliberately.**
+
+Using well-named screenshot folders and predictable file names makes later documentation much easier and reduces the risk of mixing up proof between different workstreams.
+
 ---
 
-## 8. Operational Lessons
+## 10. Operational Lessons
 
-### 8.1 Pilot-first execution reduces confusion and risk
+### 10.1 Pilot-first execution reduces confusion and risk
 
 Keeping the pilot scope limited to:
 
@@ -293,11 +476,11 @@ Keeping the pilot scope limited to:
 - `u.finance01`
 - `u.hr01`
 
-made identity validation, licensing, and hybrid testing much easier to understand and troubleshoot.
+made identity validation, licensing, messaging, collaboration, and endpoint testing much easier to understand and troubleshoot.
 
-### 8.2 Evidence capture should happen alongside configuration, not afterward
+### 10.2 Evidence capture should happen alongside configuration, not afterward
 
-A recurring lesson is that screenshots, PowerShell output, portal validation, HCW evidence, and migration evidence should be captured during implementation rather than reconstructed later.
+A recurring lesson is that screenshots, PowerShell output, portal validation, HCW evidence, migration evidence, endpoint evidence, and automation output should be captured during implementation rather than reconstructed later.
 
 This is especially important for:
 - Entra Connect settings
@@ -308,8 +491,11 @@ This is especially important for:
 - migration endpoint recovery
 - migration user completion state
 - Outlook on the web post-migration validation
+- Teams / SharePoint collaboration proof
+- Intune enrollment state
+- Linux and Ansible automation output
 
-### 8.3 Realistic sequencing is part of the value of the project
+### 10.3 Realistic sequencing is part of the value of the project
 
 The value of the project is not only in the final controls implemented, but also in the sequence used to get there.
 
@@ -322,29 +508,33 @@ A well-sequenced project is easier to explain in interviews because it mirrors h
 5. configure hybrid path
 6. validate migration readiness
 7. migrate pilot users
-8. extend into endpoint, security, and compliance controls
+8. validate collaboration services
+9. onboard endpoints
+10. extend into Linux visibility and baseline automation
+11. deepen security, monitoring, and compliance controls
 
 ---
 
-## 9. Current Open Lessons
+## 11. Current Open Lessons
 
-The main lesson still in progress is no longer how to fix the migration endpoint.
+The main lesson still in progress is no longer how to fix the migration endpoint or how to prove basic Microsoft 365 readiness.
 
-That phase has now been completed.
+Those phases have now been completed.
 
 The next lessons will come from the remaining Release 1 work:
 
-- Teams and SharePoint baseline
-- Intune and endpoint management
+- Windows configuration profile baseline
+- compliance policy depth
 - MFA and Conditional Access
 - Defender and endpoint hardening
 - Purview / information protection
 - monitoring and alerting
+- deeper Linux management / automation maturity
 - control mapping refresh based on implemented evidence
 
 ---
 
-## 10. Summary
+## 12. Summary
 
 The project has already produced several strong practical lessons:
 
@@ -357,7 +547,12 @@ The project has already produced several strong practical lessons:
 - HCW partial success must be documented precisely
 - certificate trust and SAN coverage can be the decisive migration blocker
 - manual Exchange Online PowerShell recovery can be a valid part of successful hybrid delivery
+- Teams and SharePoint baseline claims should stay proportional to the evidence
+- Intune baseline should be separated from full endpoint-policy maturity
+- mixed ownership Windows scenarios add real-world credibility
+- Linux visibility and Linux automation are related but distinct
+- Ansible makes the Linux management story much stronger
 - trackers and GitHub must be refreshed against actual implementation state
 - evidence capture should happen during the build, not after it
 
-The next phase of learning will come from building the broader Release 1 modern workplace, endpoint, security, monitoring, and compliance controls on top of the now-working hybrid and pilot migration foundation.
+The next phase of learning will come from building deeper policy, security, monitoring, compliance, and Linux-management maturity on top of the now-working hybrid, collaboration, endpoint, and automation foundation.
