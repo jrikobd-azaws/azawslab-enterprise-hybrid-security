@@ -159,9 +159,15 @@ Release 1 includes:
 |---|---|---|
 | Exchange Online admin readiness | Completed | Tenant and migration path working |
 | Exchange Online pilot mailbox service validation | Completed | Pilot users validated post-migration |
-| Teams baseline | Pending | Not yet started |
-| SharePoint baseline | Pending | Not yet started |
-| Microsoft 365 admin setup documentation | In Progress | Exchange migration documented, broader service docs still pending |
+| Teams baseline | Completed | Pilot scope validated |
+| Teams chat and channel collaboration | Completed | Posts, replies, and direct chat validated |
+| Teams file collaboration | Completed | Channel file-sharing validated |
+| Teams meeting scheduling baseline | Completed | Meeting/calendar validation completed |
+| SharePoint baseline | Completed | Pilot scope validated |
+| SharePoint site access validation | Completed | Site and membership visible |
+| SharePoint document library validation | Completed | Library browsing and access validated |
+| SharePoint file upload and open test | Completed | Upload and file-open confirmed |
+| Microsoft 365 admin setup documentation | In Progress | Exchange, Teams, and SharePoint progress reflected; broader service docs still pending |
 
 ---
 
@@ -169,11 +175,14 @@ Release 1 includes:
 
 | Item | Status | Notes |
 |---|---|---|
-| Windows 11 managed corporate device scenario | Pending | Not yet started |
-| Intune enrollment baseline | Pending | Not yet started |
-| Compliance policy baseline | Pending | Not yet started |
+| Intune enrollment baseline | Completed | Tenant-side baseline enabled |
+| EMS E5 licensing path for Intune capability | Completed | Trial activated and assigned |
+| Windows 11 managed corporate device scenario | Completed | `WIN11-CORP01` visible and compliant |
+| Windows 11 BYOD / personal scenario | Completed | `WIN11-BYOD01` visible and compliant |
+| Corporate vs personal ownership distinction | Completed | Both scenarios visible in Intune |
+| Windows joined vs registered comparison | In Progress | Initial distinction visible; deeper comparison can be expanded |
+| Compliance policy baseline | In Progress | Device compliance visible; deeper policy engineering still pending |
 | Configuration profile baseline | Pending | Not yet started |
-| Windows joined vs registered comparison | Pending | Not yet started |
 | Android BYOD / MAM scenario | Pending | Not yet started |
 | Linux support path documentation | Pending | Not yet started |
 | Ansible baseline for Linux | Pending | Not yet started |
@@ -213,7 +222,7 @@ Release 1 includes:
 |---|---|---|
 | Entra sign-in log visibility baseline | Pending | Not yet started |
 | Audit log baseline | Pending | Not yet started |
-| Device visibility baseline | Pending | Depends partly on Intune phase |
+| Device visibility baseline | In Progress | Entra and Intune visibility now evidenced |
 | Example alert configuration | Pending | Not yet started |
 | Monitoring documentation | Pending | Not yet started |
 
@@ -226,7 +235,7 @@ Release 1 includes:
 | Release 1 control mapping structure created | Completed | Mapping document exists |
 | Hybrid identity controls reflected in mapping | In Progress | Needs refresh based on actual implemented state |
 | Messaging / hybrid readiness controls reflected in mapping | In Progress | Needs refresh based on completed migration path |
-| Endpoint / Zero Trust / Purview controls reflected | Pending | Wait until implementation exists |
+| Endpoint / Zero Trust / Purview controls reflected | In Progress | Endpoint baseline now implemented; mapping needs refresh |
 | Final evidence-linked mapping pass | Pending | End-of-release task |
 
 ---
@@ -241,17 +250,19 @@ Release 1 includes:
 | M365 tenant evidence captured | Completed | Domain verification and onboarding screenshots present |
 | Entra Connect and sync evidence captured | Completed | Sync configuration and pilot user evidence present |
 | Exchange source evidence captured | Completed | EXCH1 build and EAC screenshots present |
+| Teams baseline evidence captured | In Progress | New screenshots should be committed to GitHub |
+| SharePoint baseline evidence captured | In Progress | New screenshots should be committed to GitHub |
+| Intune baseline evidence captured | In Progress | New screenshots should be committed to GitHub |
 | Pilot licensing and sign-in evidence captured | In Progress | Some evidence exists; final organization may still improve |
 | HCW warning evidence captured | Completed | HCW8078 screenshots captured |
 | Migration endpoint evidence captured | Completed | Manual endpoint creation captured |
 | Migration validation evidence captured | Completed | `Test-MigrationServerAvailability` success captured |
 | Pilot batch and migration completion evidence captured | Completed | Batch, user, and completion state captured |
 | Post-migration Outlook validation evidence captured | Completed | OWA evidence captured |
-| `README.md` status updated | Pending | Update with final implementation state |
-| `docs/03-current-state-architecture.md` updated | Pending | Needs built-state refresh |
-| `docs/05-hybrid-identity.md` updated | Pending | Needs final hybrid state refresh |
-| `docs/06-m365-modern-workplace.md` updated | Pending | Needs final migration outcome refresh |
-| `docs/12-lessons-learned.md` updated | Pending | Add troubleshooting and recovery history |
+| `README.md` status updated | In Progress | Needs another refresh after new evidence folders are pushed |
+| `docs/06-m365-modern-workplace.md` updated | In Progress | Needs Teams/SharePoint status added |
+| `docs/07-endpoint-security-intune.md` updated | Pending | Should be replaced with current implemented state |
+| `docs/12-lessons-learned.md` updated | In Progress | Exchange/hybrid content improved; endpoint lessons can be extended later |
 | This checklist updated | In Progress | Use this file as authoritative status page |
 | Excel tracker aligned with GitHub | In Progress | Realignment work underway |
 
@@ -261,17 +272,16 @@ Release 1 includes:
 
 The next correct execution sequence is:
 
-1. update GitHub pages and tracker sheets to reflect the completed pilot migration state
-2. organize screenshots and scripts under clear Release 1 evidence paths
-3. continue broader Release 1 implementation for:
-   - Teams
-   - SharePoint
-   - Intune
-   - MFA / Conditional Access
+1. commit the new Teams, SharePoint, and Intune evidence folders to GitHub
+2. update `docs/07-endpoint-security-intune.md`
+3. refresh `docs/06-m365-modern-workplace.md` to include Teams and SharePoint baseline completion
+4. refresh `README.md` after the screenshot tree reflects the new work
+5. continue broader Release 1 implementation for:
+   - configuration profiles
+   - Zero Trust controls
    - Defender / endpoint hardening
    - Purview / information protection
    - monitoring and alerting
-4. refresh compliance mapping based on implemented evidence
 
 ---
 
@@ -292,15 +302,19 @@ The next correct execution sequence is:
 - migration path validation
 - pilot mailbox migration for selected users
 - post-migration Outlook on the web validation
+- Teams baseline at pilot scope
+- SharePoint baseline at pilot scope
+- Intune baseline at tenant scope
+- Windows corporate and BYOD endpoint scenarios
 
 ### Current Active Phase
 
 - GitHub / tracker evidence closeout
-- continuation into the remaining modern workplace, endpoint, security, and compliance layers of Release 1
+- continuation into configuration, Zero Trust, endpoint hardening, monitoring, and information protection layers of Release 1
 
 ### Next Milestone
 
-- broader Release 1 Microsoft 365, endpoint, Zero Trust, monitoring, and information protection implementation
+- broader Release 1 policy depth and security-control implementation
 
 ---
 
