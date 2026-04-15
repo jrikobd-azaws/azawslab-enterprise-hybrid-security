@@ -8,13 +8,15 @@ The project is built as a security-led engineering portfolio to demonstrate prac
 
 - Active Directory and hybrid identity
 - Microsoft Entra ID and Microsoft 365
-- Exchange Server Subscription Edition (Exchange SE) and Exchange Online migration readiness
+- Exchange Server Subscription Edition (Exchange SE) and Exchange Online migration
 - Intune and endpoint administration
 - Zero Trust access controls
 - Information protection and compliance mapping
 - Monitoring, alerting, and governance-aligned operations
 
 The goal is to present a realistic enterprise build path rather than isolated lab exercises.
+
+This repository now includes active Release 1 implementation evidence across Hyper-V, Active Directory, Microsoft 365, Entra Connect Sync, Exchange hybrid configuration, migration troubleshooting, and completed pilot Exchange Online migration.
 
 ---
 
@@ -80,6 +82,109 @@ Planned focus areas:
 
 ---
 
+## Current Implementation Status
+
+Release 1 is no longer at planning stage. The core on-premises and hybrid messaging foundation has been implemented and evidenced in the repository.
+
+### Implemented and validated so far
+
+- Hyper-V base image, internal switch, and host NAT foundation
+- Active Directory domain build for `corp.azawslab.co.uk`
+- DC1 deployment, promotion, DNS validation, and health checks
+- DC2 deployment, additional DC promotion, replication validation, and AD consistency checks
+- OU structure, standard users, security groups, and pilot sync scoping with `SG-Pilot-Hybrid-Sync`
+- MEM1 deployment and Microsoft Entra Connect Sync configuration
+- Microsoft 365 tenant onboarding and domain verification
+- Entra Connect pilot synchronization using Password Hash Synchronization
+- Exchange Server Subscription Edition deployment on EXCH1
+- Exchange administration validation through EAC
+- Modern Hybrid configuration using Minimal Hybrid with Hybrid Agent
+- recovery from HCW warning `HCW8078 - Migration Endpoint could not be created`
+- public-trust SAN certificate correction for:
+  - `mail.corp.azawslab.co.uk`
+  - `exch1.corp.azawslab.co.uk`
+- EWS / MRS Proxy path validation for remote move migration
+- migration endpoint created successfully through PowerShell
+- successful `Test-MigrationServerAvailability`
+- pilot Exchange Online migration completed for:
+  - `u.finance01@corp.azawslab.co.uk`
+  - `u.hr01@corp.azawslab.co.uk`
+- post-migration Outlook on the web validation completed
+
+### What the current evidence set covers
+
+The `screenshots/` tree currently contains organized evidence for:
+
+- base image and Hyper-V foundation
+- DC1 and DC2 build
+- MEM1 build
+- OU and identity preparation
+- Microsoft 365 onboarding
+- Entra Connect configuration and pilot sync
+- EXCH1 build and Exchange setup
+- hybrid and migration troubleshooting
+- migration endpoint recovery
+- pilot migration outcome
+
+### Current Release 1 position
+
+Release 1 has completed the infrastructure, hybrid identity, Exchange source build, hybrid recovery path, and pilot mailbox migration foundation needed to demonstrate a realistic Microsoft 365 hybrid onboarding scenario.
+
+The current focus is now shifting away from hybrid migration unblock and toward the remaining Release 1 workstreams:
+
+- Teams baseline
+- SharePoint baseline
+- Intune / endpoint management
+- MFA and Conditional Access
+- Defender and endpoint hardening
+- monitoring and alerting
+- information protection and compliance mapping
+
+---
+
+## Important Namespace Design Decision
+
+The environment intentionally separates namespaces during pilot migration work:
+
+- `azawslab.co.uk` remains associated with Zoho for business mail flow
+- `corp.azawslab.co.uk` is the dedicated hybrid pilot namespace
+
+This allows pilot hybrid and migration work to proceed without disrupting the root business mail namespace.
+
+---
+
+## Real-World Delivery Context
+
+The pilot users in this project were migrated as:
+
+- `u.finance01@corp.azawslab.co.uk`
+- `u.hr01@corp.azawslab.co.uk`
+
+The lab validates mailbox migration into Exchange Online, but real enterprise mail routing can vary depending on whether Microsoft 365 is the direct mail ingress point or whether a third-party secure email gateway remains in front.
+
+Common real-world patterns include:
+
+### Option 1 — No third-party gateway
+
+`Internet sender -> Exchange Online Protection / Microsoft 365 -> Exchange Online mailbox`
+
+### Option 2 — Mimecast or Proofpoint in front of Microsoft 365
+
+`Internet sender -> Mimecast / Proofpoint -> Microsoft 365 / Exchange Online -> user mailbox`
+
+### Option 3 — Hybrid coexistence during staged migration
+
+`Internet sender -> Mimecast / Proofpoint -> Microsoft 365 / Exchange Online`
+
+Then Microsoft 365 determines mailbox location:
+
+- if the mailbox is already in Exchange Online, deliver there directly
+- if the mailbox is still on-premises, route back to on-premises through the hybrid connector path
+
+This project did not fully implement all of those gateway patterns, but it documents them as part of real-world migration design awareness.
+
+---
+
 ## Core Technologies
 
 ### Identity & Access
@@ -104,7 +209,8 @@ Planned focus areas:
 - Modern Hybrid configuration
 - Hybrid Agent
 - MRS Proxy
-- Remote move migration readiness
+- Exchange remote move migration
+- manual migration endpoint recovery path
 
 ### Security & Governance
 - Zero Trust principles
@@ -127,72 +233,6 @@ Planned focus areas:
 
 ---
 
-## Lab Design Summary
-
-The lab models a hybrid enterprise with:
-
-- On-premises Active Directory domain services
-- Dedicated hybrid identity and messaging transition path
-- Microsoft 365 tenant onboarding and pilot cloud access
-- Exchange SE as the on-premises messaging source platform
-- Microsoft Entra Connect-based pilot synchronization
-- Intune-managed endpoint scenarios
-- Security controls applied across identity, endpoint, messaging, and data layers
-- Monitoring and compliance evidence captured throughout the build
-
----
-
-## Current Release 1 Position
-
-Release 1 has completed the core hybrid identity and messaging foundation, including:
-
-- AD DS domain build for `corp.azawslab.co.uk`
-- DC1 and DC2 deployment
-- DNS and replication validation
-- Tiered OU structure and pilot user/group preparation
-- MEM1 member server deployment
-- EXCH1 deployment with Exchange Server Subscription Edition installed
-- Pilot on-premises mailbox preparation
-- Microsoft 365 tenant onboarding
-- Domain onboarding for:
-  - `azawslab.co.uk`
-  - `corp.azawslab.co.uk`
-- Entra Connect pilot synchronization on MEM1
-- Pilot licensing completion
-- Pilot Microsoft 365 sign-in validation
-- Initial Modern Hybrid configuration through Hybrid Configuration Wizard
-
-### Current Technical Blocker
-
-Modern Hybrid is configured, but Hybrid Configuration Wizard finished in a partial-success state with:
-
-`HCW8078 - Migration Endpoint could not be created`
-
-This is the current implementation point.
-
-### Next Technical Milestone
-
-The next work item is to complete:
-
-1. migration endpoint validation
-2. remote-move readiness validation
-3. pilot mailbox migration for selected users
-
-After the technical blocker is cleared, GitHub documentation and tracker sheets will be fully updated to reflect the completed state.
-
----
-
-## Important Namespace Design Decision
-
-The environment intentionally separates namespaces during pilot migration work:
-
-- `azawslab.co.uk` remains associated with Zoho for business mail flow
-- `corp.azawslab.co.uk` is the dedicated hybrid pilot namespace
-
-This allows pilot hybrid and migration work to proceed without disrupting the root business mail namespace.
-
----
-
 ## Documentation Structure
 
 - `docs/01-project-overview.md` – overall scope and vision
@@ -200,7 +240,7 @@ This allows pilot hybrid and migration work to proceed without disrupting the ro
 - `docs/03-current-state-architecture.md` – current on-premises implementation state
 - `docs/04-target-state-architecture.md` – phased target architecture
 - `docs/05-hybrid-identity.md` – AD, Entra ID, sync, namespace, and pilot identity status
-- `docs/06-m365-modern-workplace.md` – tenant setup, licensing, Exchange Online readiness, and M365 scope
+- `docs/06-m365-modern-workplace.md` – tenant setup, licensing, migration outcome, and M365 scope
 - `docs/07-endpoint-security-intune.md` – Intune, Windows, Linux, and Android BYOD scope
 - `docs/08-information-protection-purview.md` – labels, DLP, SITs, and document fingerprinting
 - `docs/09-monitoring-alerting.md` – logs, alerts, and operational visibility
@@ -211,16 +251,33 @@ This allows pilot hybrid and migration work to proceed without disrupting the ro
 
 ---
 
+## Supporting Documentation
+
+- Hybrid identity and Exchange hybrid notes: `docs/05-hybrid-identity.md`
+- Microsoft 365 / Exchange Online migration and validation: `docs/06-m365-modern-workplace.md`
+- Build issues, troubleshooting, and design decisions: `docs/12-lessons-learned.md`
+- Current release state: `docs/13-release1-build-checklist.md`
+
+---
+
+## Supporting Artifacts
+
+- Exchange / migration scripts: `scripts/exchange/`
+- Screenshots and implementation evidence: `screenshots/`
+
+---
+
 ## Evidence Strategy
 
-This repository prioritizes implementation evidence over claims. Evidence will include:
+This repository prioritizes implementation evidence over claims. Evidence includes:
 
 - architecture diagrams
 - portal screenshots
 - Exchange and PowerShell validation output
+- hybrid and migration troubleshooting evidence
+- migration batch and outcome evidence
+- Outlook on the web validation screenshots
 - policy screenshots
-- HCW and migration readiness evidence
-- test cases and outcome summaries
 - monitoring and alert examples
 
 ---
