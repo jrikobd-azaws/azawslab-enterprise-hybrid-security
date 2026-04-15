@@ -255,3 +255,74 @@ The environment now has:
 - visibility for both devices in Intune and Microsoft Entra ID
 
 The next major work in this area is policy depth: configuration profiles, compliance policy detail, update management, and broader endpoint security controls.
+
+## Ubuntu 24.04 Managed Endpoint Baseline
+
+Ubuntu 24.04 LTS was used as the Linux endpoint persona for Release 1.
+
+### User used
+- `u.finance01@corp.azawslab.co.uk`
+
+### Device identity
+- Device name: `ubu01-Virtual-Machine`
+- Platform: Linux
+- Management: Microsoft Intune
+- Join/registration path: Microsoft Entra + Intune Linux enrollment flow
+
+### Validated
+- Ubuntu VM prepared and connected to the lab network
+- Microsoft Intune Agent installed
+- user sign-in and enrollment completed successfully
+- Ubuntu device appeared in Microsoft Entra ID
+- Ubuntu device appeared in Microsoft Intune
+- Linux endpoint added to the Release 1 managed endpoint estate
+
+### Current note
+- compliance evaluation was still in progress / not yet evaluated at the time of initial evidence capture
+
+### Outcome
+This completed the Linux managed-endpoint enrollment phase and prepared the platform for the next Linux operations phase using a separate Ansible control node.
+
+## Ansible Control Node and Linux Baseline
+
+A separate Ubuntu VM was used as the dedicated Ansible control node for Release 1.
+
+### Control model
+- `ans1` = Ansible control node
+- `ubu01-Virtual-Machine` = managed Ubuntu endpoint
+
+### Why this design was used
+This model was chosen to demonstrate centralized Linux administration rather than localhost-only automation.
+
+### Baseline implemented
+An Ansible project was created on the control node with:
+
+- inventory file
+- playbook
+- role-based task structure
+
+The playbook was executed remotely against the managed Ubuntu endpoint over SSH.
+
+### Baseline actions implemented
+The Linux baseline included:
+
+- updating the APT package cache
+- installing baseline administration packages
+- setting timezone to `Europe/London`
+- creating a project marker file
+- creating an operations directory
+- applying a project-specific MOTD banner
+
+### Validation
+Validation evidence included:
+
+- `ansible --version`
+- hostname configuration for the control node
+- Ansible project structure
+- inventory and playbook review
+- successful SSH-based connectivity to the managed Ubuntu endpoint
+- successful Ansible ping
+- successful first playbook execution against the remote Ubuntu device
+
+### Outcome
+This phase demonstrated that the Linux portion of Release 1 was not only enrolled in Intune, but also managed through a repeatable configuration-as-code approach using a centralized Ansible control node.
