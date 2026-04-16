@@ -357,6 +357,33 @@ The endpoint and Intune work is no longer at planning stage.
 - Linux baseline automation with Ansible
 - Ansible connectivity, syntax-check, and playbook execution validation
 
+
+## Windows Compliance Policy Baseline
+
+A baseline Windows compliance policy was created in Intune for Release 1 and assigned by device group rather than by individual device.
+
+### Policy
+- `CP-WIN-Release1-Baseline`
+
+### Assigned groups
+- `GRP-INTUNE-WIN-CORP`
+- `GRP-INTUNE-WIN-BYOD`
+
+### Baseline requirements
+The policy required key Windows security controls including:
+
+- BitLocker
+- Secure Boot
+- TPM
+- Firewall
+- Antivirus
+- Antispyware
+- Microsoft Defender
+
+### Outcome
+This established the first device-trust layer for the Windows endpoint baseline and created the foundation for later policy and governance work in Release 1.
+---
+
 ### In Progress
 
 - deeper endpoint policy engineering
