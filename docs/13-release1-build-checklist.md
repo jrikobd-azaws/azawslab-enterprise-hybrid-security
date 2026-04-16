@@ -1,367 +1,335 @@
-# Endpoint Security and Intune
+# Release 1 Build Checklist
 
 ## Purpose
 
-This document records the Release 1 endpoint administration and Microsoft Intune implementation state for the `azawslab Enterprise Hybrid Security Platform`.
+This checklist is the authoritative task-state tracker for Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
 
-The purpose of this phase is to establish a practical modern endpoint baseline that supports Microsoft-managed device enrollment, visibility, compliance, and comparison across corporate-managed Windows, personal/BYOD Windows, and Linux scenarios, with Ansible used to strengthen Linux baseline administration.
+Release 1 focuses on building the hybrid identity, messaging, Microsoft 365, endpoint, security, compliance, and monitoring foundations required for a realistic enterprise-style hybrid platform.
+
+This file reflects actual implementation state, not just original planning.
 
 ---
 
-## Release 1 Scope for This Document
+## Release 1 Scope Summary
 
-This document covers:
+Release 1 includes:
 
-- Intune tenant baseline activation
-- Microsoft Intune MDM enrollment scope
-- licensing path used for Intune capability
-- Windows 11 corporate enrollment scenario
-- Windows 11 personal / BYOD enrollment scenario
+- Hyper-V-based on-premises foundation
+- Active Directory with DC1 and DC2
+- tiered OU structure, users, and groups
+- member server build
+- Exchange Server Subscription Edition (Exchange SE) source platform
+- Microsoft 365 tenant onboarding
+- Entra Connect pilot synchronization
+- pilot licensing and cloud sign-in validation
+- Modern Hybrid readiness and pilot migration path
+- Exchange Online, Teams, and SharePoint baseline
+- Intune endpoint administration
+- Windows, Linux, and iPhone BYOD management scenarios
+- Zero Trust baseline controls
+- Defender / endpoint protection controls
+- information protection controls
+- monitoring and alerting baseline
+- compliance mapping and implementation evidence
+
+---
+
+## Status Key
+
+- **Completed** = built, validated, and ready to document with evidence
+- **In Progress** = actively implemented, partially working, or under documentation/evidence refinement
+- **Pending** = not yet started or intentionally sequenced later in Release 1
+
+---
+
+## 1. Core On-Premises Foundation
+
+| Item | Status | Notes |
+|---|---|---|
+| Hyper-V lab foundation prepared | Completed | Primary lab platform in use |
+| Internal switch `AZAWSLAB-Internal` configured | Completed | Internal lab network in place |
+| Host NAT enabled | Completed | Supports connectivity from the lab |
+| Base image prepared for Windows Server deployment | Completed | Evidence captured in screenshots |
+| AD DS domain created: `corp.azawslab.co.uk` | Completed | Core identity source established |
+| `DC1` deployed | Completed | Primary DC / DNS |
+| `DC1` promotion completed | Completed | AD DS and DNS operational |
+| `DC1` health validation completed | Completed | Includes `dcdiag` / DNS validation evidence |
+| `DC2` deployed | Completed | Additional DC / DNS |
+| `DC2` promotion completed | Completed | Additional domain controller operational |
+| DNS validation completed | Completed | Name resolution validated |
+| AD replication validated | Completed | Includes `repadmin` / replication checks |
+| Tiered OU structure implemented | Completed | Supports cleaner identity governance |
+| Standard users created | Completed | Located under `Tier-2 > User Accounts > Standard Users` |
+| Baseline groups created | Completed | Includes pilot sync group scope |
+| Pilot sync group `SG-Pilot-Hybrid-Sync` configured | Completed | Used for scoped synchronization |
+
+---
+
+## 2. Member Server and Exchange Source Platform
+
+| Item | Status | Notes |
+|---|---|---|
+| `MEM1` deployed and domain joined | Completed | Hosts Entra Connect Sync |
+| `EXCH1` deployed and domain joined | Completed | Exchange source host |
+| Exchange Server Subscription Edition installed on `EXCH1` | Completed | Exchange SE, not Exchange 2019 |
+| Exchange prerequisites completed | Completed | Evidence captured in Exchange build screenshots |
+| Exchange administration access validated | Completed | Exchange Admin Center accessible |
+| On-premises pilot mailboxes prepared | Completed | Pilot mailboxes created and validated |
+| Pilot mailbox candidates confirmed | Completed | `u.finance01`, `u.hr01` |
+| Validation/admin account confirmed | Completed | `u.hashibur` |
+
+---
+
+## 3. Microsoft 365 Tenant and Namespace Onboarding
+
+| Item | Status | Notes |
+|---|---|---|
+| Microsoft 365 tenant created | Completed | `AZAWSLABUK.onmicrosoft.com` |
+| Cloud admin account established | Completed | `Hashib@AZAWSLABUK.onmicrosoft.com` |
+| `azawslab.co.uk` added to tenant | Completed | Root business namespace |
+| `corp.azawslab.co.uk` added to tenant | Completed | Dedicated hybrid pilot namespace |
+| Domain verification completed | Completed | Evidence captured in M365 screenshots |
+| Namespace separation decision documented | Completed | Root stays with Zoho, subdomain used for hybrid pilot |
+| Root namespace mail flow preserved on Zoho | Completed | Avoids disruption during pilot hybrid work |
+
+---
+
+## 4. Hybrid Identity
+
+| Item | Status | Notes |
+|---|---|---|
+| Entra Connect installed on `MEM1` | Completed | Sync host established |
+| Password Hash Synchronization configured | Completed | Selected sign-in method |
+| OU filtering configured | Completed | Pilot-scoped sync design |
+| Group-based filtering configured | Completed | Uses `SG-Pilot-Hybrid-Sync` |
+| Optional sync features reviewed/configured | Completed | Evidence captured in Entra Connect flow |
+| Pilot users synchronized to tenant | Completed | `u.hashibur`, `u.finance01`, `u.hr01` |
+| Pilot users visible in Entra admin center | Completed | Sync validated |
+| Pilot users visible in Microsoft 365 admin center | Completed | Sync validated |
+| Pilot licenses assigned | Completed | Licensing completed |
+| Pilot cloud sign-in validated | Completed | At least one pilot user validated |
+| Microsoft 365 web app access validated | Completed | Includes apps such as Designer / Excel web |
+| Outlook on the web pre-migration behavior reviewed | Completed | Mailbox-not-found treated as expected pre-migration state |
+| Entra admin role separation fully documented | In Progress | Technical implementation partly complete; documentation can still improve |
+
+---
+
+## 5. Exchange Hybrid Readiness
+
+| Item | Status | Notes |
+|---|---|---|
+| Hybrid path decision finalized | Completed | Modern Hybrid |
+| HCW mode finalized | Completed | Minimal |
+| HCW execution host selected | Completed | `EXCH1` |
+| Hybrid Agent installation completed | Completed | Installed during HCW flow |
+| Hybrid Agent registration completed | Completed | Registered successfully |
+| Hybrid Agent validation succeeded | Completed | Validation passed after troubleshooting |
+| EWS external URL set correctly | Completed | `https://mail.corp.azawslab.co.uk/EWS/Exchange.asmx` |
+| MRS Proxy enabled | Completed | Enabled on EWS |
+| Extended Protection adjustments completed | Completed | Default Web Site EWS off, Back End EWS required |
+| IIS reset completed after changes | Completed | Applied during troubleshooting |
+| HCW hybrid configuration phase completed | Completed | Hybrid services configured |
+| HCW warning HCW8078 recorded | Completed | Automatic migration endpoint creation failed |
+| Certificate trust and name coverage corrected | Completed | Final working SAN cert covered `mail` and `exch1` |
+| Migration endpoint creation | Completed | Completed manually after HCW warning |
+| Remote move readiness validation | Completed | `Test-MigrationServerAvailability` succeeded |
+
+---
+
+## 6. Pilot Mailbox Migration
+
+| Item | Status | Notes |
+|---|---|---|
+| Pilot migration scope confirmed | Completed | `u.finance01`, `u.hr01` |
+| Exchange Online target readiness validated | Completed | Endpoint and remote move path validated |
+| Migration endpoint manually verified or created | Completed | Manual PowerShell recovery path used |
+| Pilot migration batch created | Completed | Batch created successfully |
+| Pilot migration batch synchronization observed | Completed | Sync state evidenced in screenshots |
+| Pilot remote move for `u.finance01` | Completed | Migration completed |
+| Pilot remote move for `u.hr01` | Completed | Migration completed |
+| Migration completion state validated | Completed | User and batch completion screenshots captured |
+| Post-migration mailbox access validation | Completed | Outlook on the web validated |
+| Post-migration coexistence validation | In Progress | Pilot mailbox access proven; broader coexistence testing can be extended later |
+
+---
+
+## 7. Microsoft 365 Workload Baseline
+
+| Item | Status | Notes |
+|---|---|---|
+| Exchange Online admin readiness | Completed | Tenant and migration path working |
+| Exchange Online pilot mailbox service validation | Completed | Pilot users validated post-migration |
+| Teams baseline | Completed | Pilot scope validated |
+| Teams chat and channel collaboration | Completed | Posts, replies, direct chat, and file sharing validated |
+| Teams meeting scheduling baseline | Completed | Meeting/calendar validation completed |
+| SharePoint baseline | Completed | Pilot scope validated |
+| SharePoint site access validation | Completed | Site and membership visible |
+| SharePoint document library validation | Completed | Library browsing and access validated |
+| SharePoint file upload and open test | Completed | Upload and file-open confirmed |
+| Microsoft 365 admin setup documentation | In Progress | Exchange, Teams, and SharePoint progress reflected; broader service docs still pending |
+
+---
+
+## 8. Endpoint Administration and Intune
+
+| Item | Status | Notes |
+|---|---|---|
+| Intune enrollment baseline | Completed | Tenant-side baseline enabled |
+| EMS E5 licensing path for Intune capability | Completed | Trial activated and assigned |
+| Apple MDM Push Certificate prerequisite | Completed | Required for iOS/iPadOS enrollment |
+| Windows 11 managed corporate device scenario | Completed | `WIN11-CORP01` visible and compliant |
+| Windows 11 BYOD / personal scenario | Completed | `WIN11-BYOD01` visible and compliant |
+| Corporate vs personal ownership distinction | Completed | Both scenarios visible in Intune |
+| Linux Intune enrollment scenario | Completed | Ubuntu device visible in Entra and Intune |
+| Linux Intune Agent validation | Completed | Agent launch and enrollment flow evidenced |
+| iPhone BYOD enrollment scenario | Completed | iPhone visible in Entra and Intune |
+| iPhone / iOS compliance validation | Completed | iPhone shown compliant in Intune |
+| Windows joined vs registered comparison | In Progress | Initial distinction visible; deeper comparison can be expanded |
+| Compliance policy baseline | In Progress | Windows and iPhone compliance visible; Linux evaluation state should be documented carefully |
+| Configuration profile baseline | Pending | Not yet started |
+| Update rings / patching baseline | Pending | Not yet started |
+| Android BYOD / MAM scenario | Pending | Not yet started |
+| Linux support path documentation | Completed | Endpoint doc includes Linux path |
+| Ansible baseline for Linux | Completed | Connectivity, syntax check, and baseline playbook execution validated |
+
+---
+
+## 9. Endpoint Security and Zero Trust
+
+| Item | Status | Notes |
+|---|---|---|
+| MFA baseline | Pending | Not yet started |
+| Conditional Access baseline | Pending | Not yet started |
+| Compliant-device logic | Pending | Not yet started |
+| Unmanaged-device access test | Pending | Not yet started |
+| Defender / endpoint protection baseline | Pending | Not yet started |
+| Antivirus / policy review | Pending | Not yet started |
+| ASR rules baseline | Pending | Not yet started |
+| Ransomware resilience controls | Pending | Not yet started |
+
+---
+
+## 10. Information Protection
+
+| Item | Status | Notes |
+|---|---|---|
+| Sensitivity labels | Pending | Not yet started |
+| DLP baseline | Pending | Not yet started |
+| Sensitive Information Types usage | Pending | Not yet started |
+| Document fingerprinting example | Pending | Not yet started |
+| Purview evidence capture | Pending | Not yet started |
+
+---
+
+## 11. Monitoring and Alerting
+
+| Item | Status | Notes |
+|---|---|---|
+| Entra sign-in log visibility baseline | Pending | Not yet started |
+| Audit log baseline | Pending | Not yet started |
+| Device visibility baseline | In Progress | Entra and Intune visibility now evidenced |
+| Example alert configuration | Pending | Not yet started |
+| Monitoring documentation | Pending | Not yet started |
+
+---
+
+## 12. Security and Compliance Mapping
+
+| Item | Status | Notes |
+|---|---|---|
+| Release 1 control mapping structure created | Completed | Mapping document exists |
+| Hybrid identity controls reflected in mapping | In Progress | Needs refresh based on actual implemented state |
+| Messaging / hybrid readiness controls reflected in mapping | In Progress | Needs refresh based on completed migration path |
+| Endpoint / Zero Trust / Purview controls reflected | In Progress | Endpoint baseline now implemented; mapping needs refresh |
+| Final evidence-linked mapping pass | Pending | End-of-release task |
+
+---
+
+## 13. Evidence and Documentation Closeout
+
+| Item | Status | Notes |
+|---|---|---|
+| Hyper-V base image evidence captured | Completed | Evidence exists in screenshot tree |
+| Core AD/DNS evidence captured | Completed | DC1 / DC2 build and validation screenshots present |
+| OU / identity evidence captured | Completed | OU, groups, and pilot sync group evidenced |
+| M365 tenant evidence captured | Completed | Domain verification and onboarding screenshots present |
+| Entra Connect and sync evidence captured | Completed | Sync configuration and pilot user evidence present |
+| Exchange source evidence captured | Completed | EXCH1 build and EAC screenshots present |
+| Teams baseline evidence captured | Completed | Screenshots committed under Teams evidence path |
+| SharePoint baseline evidence captured | Completed | Screenshots committed under SharePoint evidence path |
+| Intune baseline evidence captured | Completed | Tenant baseline and Windows evidence committed |
+| Linux Intune evidence captured | Completed | Ubuntu / Intune Agent / device visibility evidence committed |
+| iOS / iPhone BYOD evidence captured | Completed | Apple MDM push certificate, enrollment flow, Entra visibility, and Intune compliance evidence committed |
+| Ansible evidence captured | Completed | Project structure, playbook, ping, syntax check, and run evidence committed |
+| Pilot licensing and sign-in evidence captured | In Progress | Some evidence exists; final organization may still improve |
+| HCW warning evidence captured | Completed | HCW8078 screenshots captured |
+| Migration endpoint evidence captured | Completed | Manual endpoint creation captured |
+| Migration validation evidence captured | Completed | `Test-MigrationServerAvailability` success captured |
+| Pilot batch and migration completion evidence captured | Completed | Batch, user, and completion state captured |
+| Post-migration Outlook validation evidence captured | Completed | OWA evidence captured |
+| `README.md` status updated | In Progress | Needs refresh to include Teams, SharePoint, Intune, Linux, Ansible, and iPhone progression |
+| `docs/06-m365-modern-workplace.md` updated | In Progress | Needs final alignment with current collaboration evidence |
+| `docs/07-endpoint-security-intune.md` updated | In Progress | Should be refreshed to include iPhone BYOD and Apple push certificate work |
+| `docs/12-lessons-learned.md` updated | In Progress | Endpoint/Linux/Ansible/iPhone lessons can be extended |
+| This checklist updated | In Progress | Use this file as authoritative status page |
+| Excel tracker aligned with GitHub | In Progress | Realignment work underway |
+
+---
+
+## Immediate Next Actions
+
+The next correct execution sequence is:
+
+1. commit the iPhone BYOD evidence folder and Apple push certificate screenshots
+2. refresh `docs/07-endpoint-security-intune.md` to include iPhone BYOD and Apple MDM push certificate steps
+3. refresh `README.md` to reflect mobile BYOD progression
+4. continue broader Release 1 implementation for:
+   - configuration profiles
+   - Zero Trust controls
+   - Defender / endpoint hardening
+   - Purview / information protection
+   - monitoring and alerting
+
+---
+
+## Current Release 1 Summary
+
+### Completed
+
+- Hyper-V foundation
+- core AD / DNS
+- member server build
+- Exchange Server Subscription Edition source build
+- pilot mailbox preparation
+- Microsoft 365 tenant setup
+- Entra Connect pilot sync
+- pilot licensing and sign-in validation
+- Modern Hybrid configuration
+- certificate correction and migration endpoint recovery
+- migration path validation
+- pilot mailbox migration for selected users
+- post-migration Outlook on the web validation
+- Teams baseline at pilot scope
+- SharePoint baseline at pilot scope
+- Intune baseline at tenant scope
+- Windows corporate and BYOD endpoint scenarios
 - Linux Intune enrollment scenario
-- device visibility in Intune and Microsoft Entra ID
-- baseline compliance and management visibility
-- Linux baseline automation using Ansible
-
-It does not yet claim completion of deeper policy engineering such as full Windows configuration profiles, update rings, Android MAM, or advanced Linux hardening beyond the evidence captured.
-
----
-
-## Intune Tenant Baseline
-
-Microsoft Intune baseline has been enabled at tenant scope for Release 1.
-
-### MDM Scope
-
-The tenant was configured with:
-
-- **MDM user scope = All**
-- default Microsoft MDM discovery and compliance URLs present
-- **WIP user scope = None**
-
-This establishes the tenant-side baseline required for endpoint enrollment into Intune.
-
-### Intune Admin Center Validation
-
-The Intune admin center was accessed successfully and the dashboard was validated.
-
-The baseline dashboard state confirmed that:
-
-- Intune administrative access was working
-- device enrollment visibility was available
-- device configuration visibility was available
-- no enrollment failures were shown in the visible dashboard summary at the time of capture
-
----
-
-## Licensing Path for Intune Capability
-
-To support endpoint management capability in the lab, the Microsoft 365 licensing path was expanded through:
-
-- existing Microsoft 365 Business Standard baseline
-- **Enterprise Mobility + Security E5 trial** activation
-
-### EMS E5 Trial State
-
-The evidence shows:
-
-- EMS E5 trial added successfully
-- 25 trial licenses available
-- licenses assigned to pilot/admin users
-- assigned license count increased after assignment
-
-This supports the Intune management capability used for Release 1 endpoint scenarios.
-
----
-
-## Windows 11 Corporate Enrollment Scenario
-
-A Windows 11 corporate test device was prepared and enrolled as a corporate-managed endpoint.
-
-### VM Preparation
-
-The corporate Windows 11 VM was prepared in Hyper-V with:
-
-- Secure Boot enabled
-- TPM enabled
-
-This supports a credible enterprise-style Windows 11 enrollment path.
-
-### Enrollment Path
-
-The corporate device was built through the Windows setup flow using the work-or-school path.
-
-### Device Management Result
-
-After enrollment:
-
-- the device synchronized successfully
-- the device appeared as managed by the AZAWSLAB tenant
-- the device was visible in Intune as a Windows device
-- ownership was recorded as **Corporate**
-- compliance state was shown as **Compliant**
-- the primary user was associated to `u.finance01@corp.azawslab.co.uk`
-
-### Intune Device State
-
-The corporate endpoint is documented as:
-
-- device name: `WIN11-CORP01`
-- managed by: **Intune**
-- ownership: **Corporate**
-- compliance: **Compliant**
-
-### Entra ID Device Visibility
-
-The corporate device is also visible in Microsoft Entra ID, supporting the cloud identity/device registration side of the design.
-
----
-
-## Windows 11 Personal / BYOD Scenario
-
-A second Windows 11 endpoint was used to validate a personal/BYOD-style management scenario.
-
-### BYOD Flow
-
-The user flow was differentiated from the corporate path by using the personal-use setup route before connecting the device into the tenant management context.
-
-### Device Management Result
-
-After enrollment and synchronization:
-
-- the device was connected to the AZAWSLAB tenant
-- the device showed successful sync status
-- the device appeared in Intune
-- ownership was recorded as **Personal**
-- compliance state was shown as **Compliant**
-- the primary user was associated to `u.hr01@corp.azawslab.co.uk`
-
-### Intune Device State
-
-The personal/BYOD endpoint is documented as:
-
-- device name: `WIN11-BYOD01`
-- managed by: **Intune**
-- ownership: **Personal**
-- compliance: **Compliant**
-
-### Entra ID Device Visibility
-
-The BYOD device is also visible in Microsoft Entra ID and shows Microsoft Intune as the MDM path in the captured device view.
-
----
-
-## Linux Intune Scenario
-
-A Linux endpoint scenario was also validated for Release 1 using Ubuntu and the Microsoft Intune Agent.
-
-### Linux VM Preparation
-
-The Ubuntu VM was prepared in Hyper-V with:
-
-- Secure Boot enabled
-- Ubuntu installed as the guest operating system
-
-### Linux Enrollment Path
-
-The Linux scenario used the Microsoft Intune Agent for device registration and management visibility.
-
-The captured evidence shows:
-
-- Intune Agent launch on Ubuntu
-- sign-in / enrollment path
-- Linux device status progression
-- final compliant state shown in the device view
-
-### Linux Device Result
-
-The Linux endpoint became visible in management views with the following characteristics:
-
-- device name shown as `ubu01-Virtual-Machine`
-- OS shown as Linux / Ubuntu
-- device visible in Microsoft Entra ID
-- device visible in Intune Linux devices
-- management path shown through **Intune**
-
-### Compliance / Evaluation Note
-
-Two relevant states were captured during validation:
-
-- device-side view showing a **Compliant** result
-- Intune Linux devices view showing **Not evaluated**
-
-This should be documented precisely.
-
-The practical conclusion is:
-
-- Linux enrollment and management visibility were validated successfully
-- Linux device registration in Entra ID and Intune was validated
-- compliance interpretation for Linux should be described carefully and not overstated beyond the captured screens
-
-### Why This Matters
-
-This strengthens the Release 1 endpoint story because it demonstrates that the environment is not limited to Windows-only endpoint thinking. It shows awareness of mixed-platform endpoint administration and the practical differences in management experience across Windows and Linux.
-
----
-
-## Corporate vs Personal Windows Comparison
-
-Release 1 now includes two distinct Windows management scenarios:
-
-### Corporate-managed Windows device
-
-- `WIN11-CORP01`
-- ownership: **Corporate**
-- primary user: `u.finance01@corp.azawslab.co.uk`
-- managed by Intune
-- compliant
-
-### Personal / BYOD Windows device
-
-- `WIN11-BYOD01`
-- ownership: **Personal**
-- primary user: `u.hr01@corp.azawslab.co.uk`
-- managed by Intune
-- compliant
-
-### Why This Matters
-
-This strengthens the Release 1 endpoint story because it demonstrates:
-
-- tenant-side Intune readiness
-- a corporate-managed Windows enrollment path
-- a personal/BYOD-style Windows management path
-- ownership distinction inside Intune
-- device compliance visibility
-- Entra + Intune device visibility across both scenarios
-
----
-
-## Linux Baseline Automation with Ansible
-
-Release 1 now also includes an Ansible-based Linux baseline automation path.
-
-### Ansible Host and Project Preparation
-
-The evidence shows:
-
-- Ansible installed and version checked
-- project structure created under `~/azawslab-ansible`
-- inventory, playbooks, and role/task layout prepared
-
-### Playbook Content
-
-The Linux baseline playbook and role tasks include actions such as:
-
-- apt cache update
-- baseline package installation
-- timezone configuration to `Europe/London`
-- creation of an `azawslab` marker file
-- creation of an operations directory
-- MOTD banner configuration
-
-### Validation Steps
-
-The captured validation steps include:
-
-- SSH connectivity to the Ubuntu target
-- `ansible ... -m ping` success
-- playbook syntax check success
-- successful playbook execution with changed tasks shown in the recap
-
-### Operational Value
-
-This adds an important administration layer to the project:
-
-- Intune provides endpoint visibility and enrollment for Linux
-- Ansible provides practical baseline automation and configuration control
-
-This is a useful real-world pattern because Linux management often requires a different operational approach from Windows Intune policy enforcement.
-
----
-
-## Current Release 1 Position for Endpoint and Intune
-
-The endpoint and Intune work is no longer at planning stage.
-
-### Completed in This Area
-
-- Intune tenant baseline activation
-- MDM user scope configuration
-- EMS E5 licensing path activation for management capability
-- Intune admin center validation
-- Windows 11 corporate enrollment
-- Windows 11 BYOD / personal enrollment validation
-- Linux Intune enrollment and management visibility
-- compliant Windows device visibility in Intune
-- device visibility in Microsoft Entra ID
-- ownership distinction between corporate and personal Windows devices
 - Linux baseline automation with Ansible
-- Ansible connectivity, syntax-check, and playbook execution validation
+- iPhone BYOD enrollment scenario
 
-### In Progress
+### Current Active Phase
 
-- deeper endpoint policy engineering
-- Linux compliance interpretation and policy depth
-- documentation and evidence closeout
+- GitHub / tracker evidence closeout
+- continuation into configuration, Zero Trust, endpoint hardening, monitoring, information protection, and deeper policy work across Windows, Linux, and mobile
 
-### Not Yet Complete
+### Next Milestone
 
-- Windows configuration profile baseline
-- compliance policy design detail
-- update rings / patching baseline
-- Android BYOD / App Protection
-- advanced Linux hardening beyond the current baseline automation
-- advanced endpoint hardening across all platforms
+- broader Release 1 policy depth and security-control implementation
 
 ---
 
-## Evidence to Capture
+## Notes
 
-The following evidence should be retained in the repository:
+This checklist should remain aligned to actual implementation state.
 
-- Intune MDM user scope configuration
-- EMS E5 trial activation and assignment evidence
-- Intune admin center dashboard
-- Windows 11 corporate device preparation evidence
-- corporate device sync / enrollment evidence
-- corporate device visible as compliant in Intune
-- corporate device visible in Entra ID
-- BYOD/personal device enrollment evidence
-- BYOD device sync / management evidence
-- BYOD device visible as personal and compliant in Intune
-- BYOD device visible in Entra ID
-- Linux Intune Agent sign-in / enrollment evidence
-- Linux device-side status evidence
-- Linux visibility in Entra ID
-- Linux visibility in Intune Linux devices
-- Ansible version and project structure evidence
-- Ansible playbook / task content evidence
-- Ansible ping, syntax check, and execution evidence
-
----
-
-## Related Documents
-
-- `docs/06-m365-modern-workplace.md`
-- `docs/09-monitoring-alerting.md`
-- `docs/10-security-compliance-mapping.md`
-- `docs/13-release1-build-checklist.md`
-
----
-
-## Summary
-
-Release 1 endpoint work now includes an active Microsoft Intune baseline with corporate-managed Windows, personal/BYOD Windows, and Linux scenarios validated at practical implementation level.
-
-The environment now has:
-
-- tenant-side Intune activation
-- MDM scope configured
-- EMS E5 management licensing path enabled
-- one compliant corporate Windows 11 endpoint
-- one compliant personal/BYOD Windows 11 endpoint
-- one enrolled Linux endpoint with Intune visibility
-- visibility for devices in Intune and Microsoft Entra ID
-- Linux baseline automation through Ansible
-
-The next major work in this area is policy depth: configuration profiles, compliance policy detail, update management, endpoint hardening, and further refinement of Linux management and control coverage.
+Do not downgrade completed work back to planning language, and do not mark later security or modern workplace controls as implemented until evidence exists.
