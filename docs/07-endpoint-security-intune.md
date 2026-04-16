@@ -279,6 +279,65 @@ This is a useful real-world pattern because Linux management often requires a di
 
 ---
 
+## iOS / iPhone BYOD Scenario
+
+Release 1 now also includes an Apple mobile BYOD enrollment scenario using Intune and Company Portal.
+
+### Apple MDM Push Certificate Prerequisite
+
+Before iOS/iPadOS enrollment could work, the Apple MDM Push Certificate prerequisite was completed.
+
+The implementation flow was:
+
+- download the Intune CSR from the Intune admin center
+- sign in to the Apple Push Certificates Portal
+- upload the CSR to Apple
+- download the generated Apple MDM push certificate
+- upload the `.pem` certificate back into Intune
+- confirm active Apple MDM Push Certificate status in Intune
+
+This step is mandatory for Apple device management in Intune and is now part of the documented Release 1 tenant baseline.
+
+### iPhone BYOD Enrollment Flow
+
+The iPhone BYOD path was completed through the Intune Company Portal enrollment workflow.
+
+The captured flow includes:
+
+- Company Portal app acquisition from the App Store
+- Company Portal sign-in with the work account
+- privacy / device management information review
+- management profile download guidance
+- navigation to `Settings > General > VPN & Device Management`
+- downloaded profile visibility
+- management profile installation
+- profile installed confirmation
+- final Company Portal completion state
+
+### iPhone Device Result
+
+The enrolled iPhone is now visible in management views with the following characteristics:
+
+- device type: iPhone / iOS
+- ownership: **Personal**
+- management path: **Intune**
+- visibility in Microsoft Entra ID: confirmed
+- visibility in Intune iOS/iPadOS devices: confirmed
+- compliance state in Intune: **Compliant**
+
+### Why This Matters
+
+This extends the endpoint story beyond Windows and Linux and shows that Release 1 now includes practical mobile BYOD administration as well.
+
+The endpoint scope now demonstrates:
+
+- Windows corporate-managed endpoint
+- Windows personal/BYOD endpoint
+- Linux Intune visibility plus Ansible baseline automation
+- iPhone BYOD enrollment and compliance visibility
+
+---
+
 ## Current Release 1 Position for Endpoint and Intune
 
 The endpoint and Intune work is no longer at planning stage.
@@ -351,7 +410,7 @@ The following evidence should be retained in the repository:
 
 ## Summary
 
-Release 1 endpoint work now includes an active Microsoft Intune baseline with corporate-managed Windows, personal/BYOD Windows, and Linux scenarios validated at practical implementation level.
+Release 1 endpoint work now includes an active Microsoft Intune baseline with corporate-managed Windows, personal/BYOD Windows, Linux, and iPhone BYOD scenarios validated at practical implementation level.
 
 The environment now has:
 
@@ -361,7 +420,8 @@ The environment now has:
 - one compliant corporate Windows 11 endpoint
 - one compliant personal/BYOD Windows 11 endpoint
 - one enrolled Linux endpoint with Intune visibility
+- one enrolled iPhone BYOD endpoint with compliant status
 - visibility for devices in Intune and Microsoft Entra ID
 - Linux baseline automation through Ansible
 
-The next major work in this area is policy depth: configuration profiles, compliance policy detail, update management, endpoint hardening, and further refinement of Linux management and control coverage.
+The next major work in this area is policy depth: configuration profiles, compliance policy detail, update management, endpoint hardening, and further refinement of Linux and mobile management coverage.
