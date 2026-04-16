@@ -2,11 +2,18 @@
 
 ## Purpose
 
-This document records the Release 1 endpoint administration and Microsoft Intune implementation state for the `azawslab Enterprise Hybrid Security Platform`.
+This document records the Release 1 endpoint administration, Microsoft Intune, compliance, and endpoint security implementation state for the `azawslab Enterprise Hybrid Security Platform`.
 
-The purpose of this phase is to establish a practical modern endpoint baseline that supports Microsoft-managed device enrollment, visibility, compliance, and comparison across corporate-managed Windows, personal/BYOD Windows, and Linux scenarios, with Ansible used to strengthen Linux baseline administration.
+The purpose of this phase is to establish a practical modern endpoint baseline that supports Microsoft-managed device enrollment, visibility, compliance, security control validation, and operational recovery scenarios across:
 
----
+- Windows 11 corporate-managed devices
+- Windows 11 personal / BYOD devices
+- Ubuntu Linux visibility through Intune plus baseline automation through Ansible
+- iPhone BYOD enrollment through Intune Company Portal
+
+This document reflects implementation evidence and operational lessons learned, not just target-state planning.
+
+* * *
 
 ## Release 1 Scope for This Document
 
@@ -18,13 +25,24 @@ This document covers:
 - Windows 11 corporate enrollment scenario
 - Windows 11 personal / BYOD enrollment scenario
 - Linux Intune enrollment scenario
-- device visibility in Intune and Microsoft Entra ID
-- baseline compliance and management visibility
 - Linux baseline automation using Ansible
+- iPhone BYOD enrollment scenario
+- Windows compliance policy implementation
+- Windows security baseline implementation
+- BitLocker policy testing and recovery observations
+- device visibility in Intune and Microsoft Entra ID
+- stale device record cleanup after re-enrollment
 
-It does not yet claim completion of deeper policy engineering such as full Windows configuration profiles, update rings, Android MAM, or advanced Linux hardening beyond the evidence captured.
+It does not yet claim completion of:
 
----
+- production-grade Windows update ring design
+- Android enrollment / MAM
+- macOS management
+- advanced Linux policy enforcement through Intune
+- full LAPS rollout
+- full production-grade endpoint analytics and automation
+
+* * *
 
 ## Intune Tenant Baseline
 
@@ -32,13 +50,13 @@ Microsoft Intune baseline has been enabled at tenant scope for Release 1.
 
 ### MDM Scope
 
-The tenant was configured with:
+The tenant baseline was configured with:
 
-- **MDM user scope = All**
+- MDM user scope = All
 - default Microsoft MDM discovery and compliance URLs present
-- **WIP user scope = None**
+- WIP user scope = None
 
-This establishes the tenant-side baseline required for endpoint enrollment into Intune.
+This established the tenant-side baseline required for endpoint enrollment into Intune.
 
 ### Intune Admin Center Validation
 
@@ -49,16 +67,16 @@ The baseline dashboard state confirmed that:
 - Intune administrative access was working
 - device enrollment visibility was available
 - device configuration visibility was available
-- no enrollment failures were shown in the visible dashboard summary at the time of capture
+- no visible enrollment failures were shown in the captured dashboard summary at the time of validation
 
----
+* * *
 
 ## Licensing Path for Intune Capability
 
 To support endpoint management capability in the lab, the Microsoft 365 licensing path was expanded through:
 
 - existing Microsoft 365 Business Standard baseline
-- **Enterprise Mobility + Security E5 trial** activation
+- Enterprise Mobility + Security E5 trial activation
 
 ### EMS E5 Trial State
 
@@ -69,9 +87,9 @@ The evidence shows:
 - licenses assigned to pilot/admin users
 - assigned license count increased after assignment
 
-This supports the Intune management capability used for Release 1 endpoint scenarios.
+This provided the Intune management capability used for Release 1 endpoint scenarios.
 
----
+* * *
 
 ## Windows 11 Corporate Enrollment Scenario
 
@@ -97,8 +115,7 @@ After enrollment:
 - the device synchronized successfully
 - the device appeared as managed by the AZAWSLAB tenant
 - the device was visible in Intune as a Windows device
-- ownership was recorded as **Corporate**
-- compliance state was shown as **Compliant**
+- ownership was recorded as Corporate
 - the primary user was associated to `u.finance01@corp.azawslab.co.uk`
 
 ### Intune Device State
@@ -106,15 +123,14 @@ After enrollment:
 The corporate endpoint is documented as:
 
 - device name: `WIN11-CORP01`
-- managed by: **Intune**
-- ownership: **Corporate**
-- compliance: **Compliant**
+- managed by: Intune
+- ownership: Corporate
 
 ### Entra ID Device Visibility
 
 The corporate device is also visible in Microsoft Entra ID, supporting the cloud identity/device registration side of the design.
 
----
+* * *
 
 ## Windows 11 Personal / BYOD Scenario
 
@@ -131,8 +147,7 @@ After enrollment and synchronization:
 - the device was connected to the AZAWSLAB tenant
 - the device showed successful sync status
 - the device appeared in Intune
-- ownership was recorded as **Personal**
-- compliance state was shown as **Compliant**
+- ownership was recorded as Personal
 - the primary user was associated to `u.hr01@corp.azawslab.co.uk`
 
 ### Intune Device State
@@ -140,15 +155,14 @@ After enrollment and synchronization:
 The personal/BYOD endpoint is documented as:
 
 - device name: `WIN11-BYOD01`
-- managed by: **Intune**
-- ownership: **Personal**
-- compliance: **Compliant**
+- managed by: Intune
+- ownership: Personal
 
 ### Entra ID Device Visibility
 
 The BYOD device is also visible in Microsoft Entra ID and shows Microsoft Intune as the MDM path in the captured device view.
 
----
+* * *
 
 ## Linux Intune Scenario
 
@@ -170,7 +184,7 @@ The captured evidence shows:
 - Intune Agent launch on Ubuntu
 - sign-in / enrollment path
 - Linux device status progression
-- final compliant state shown in the device view
+- final managed device visibility
 
 ### Linux Device Result
 
@@ -180,65 +194,30 @@ The Linux endpoint became visible in management views with the following charact
 - OS shown as Linux / Ubuntu
 - device visible in Microsoft Entra ID
 - device visible in Intune Linux devices
-- management path shown through **Intune**
+- management path shown through Intune
+- primary user associated to `u.finance01@corp.azawslab.co.uk`
 
-### Compliance / Evaluation Note
+### Compliance Interpretation Note
 
-Two relevant states were captured during validation:
+Linux should be described carefully.
 
-- device-side view showing a **Compliant** result
-- Intune Linux devices view showing **Not evaluated**
+Two different states were captured during validation:
 
-This should be documented precisely.
+- device-side view showing successful device registration and healthy status progression
+- Intune Linux devices view showing limited evaluation depth compared with Windows
 
 The practical conclusion is:
 
 - Linux enrollment and management visibility were validated successfully
 - Linux device registration in Entra ID and Intune was validated
-- compliance interpretation for Linux should be described carefully and not overstated beyond the captured screens
+- Linux is part of the endpoint story for Release 1
+- Linux policy depth and compliance interpretation remain narrower than the Windows path
 
-### Why This Matters
-
-This strengthens the Release 1 endpoint story because it demonstrates that the environment is not limited to Windows-only endpoint thinking. It shows awareness of mixed-platform endpoint administration and the practical differences in management experience across Windows and Linux.
-
----
-
-## Corporate vs Personal Windows Comparison
-
-Release 1 now includes two distinct Windows management scenarios:
-
-### Corporate-managed Windows device
-
-- `WIN11-CORP01`
-- ownership: **Corporate**
-- primary user: `u.finance01@corp.azawslab.co.uk`
-- managed by Intune
-- compliant
-
-### Personal / BYOD Windows device
-
-- `WIN11-BYOD01`
-- ownership: **Personal**
-- primary user: `u.hr01@corp.azawslab.co.uk`
-- managed by Intune
-- compliant
-
-### Why This Matters
-
-This strengthens the Release 1 endpoint story because it demonstrates:
-
-- tenant-side Intune readiness
-- a corporate-managed Windows enrollment path
-- a personal/BYOD-style Windows management path
-- ownership distinction inside Intune
-- device compliance visibility
-- Entra + Intune device visibility across both scenarios
-
----
+* * *
 
 ## Linux Baseline Automation with Ansible
 
-Release 1 now also includes an Ansible-based Linux baseline automation path.
+Release 1 also includes an Ansible-based Linux baseline automation path.
 
 ### Ansible Host and Project Preparation
 
@@ -247,6 +226,7 @@ The evidence shows:
 - Ansible installed and version checked
 - project structure created under `~/azawslab-ansible`
 - inventory, playbooks, and role/task layout prepared
+- SSH connectivity validated from the Ansible host to the Ubuntu target
 
 ### Playbook Content
 
@@ -263,7 +243,6 @@ The Linux baseline playbook and role tasks include actions such as:
 
 The captured validation steps include:
 
-- SSH connectivity to the Ubuntu target
 - `ansible ... -m ping` success
 - playbook syntax check success
 - successful playbook execution with changed tasks shown in the recap
@@ -277,11 +256,11 @@ This adds an important administration layer to the project:
 
 This is a useful real-world pattern because Linux management often requires a different operational approach from Windows Intune policy enforcement.
 
----
+* * *
 
 ## iOS / iPhone BYOD Scenario
 
-Release 1 now also includes an Apple mobile BYOD enrollment scenario using Intune and Company Portal.
+Release 1 now includes an Apple mobile BYOD enrollment scenario using Intune and Company Portal.
 
 ### Apple MDM Push Certificate Prerequisite
 
@@ -319,24 +298,189 @@ The captured flow includes:
 The enrolled iPhone is now visible in management views with the following characteristics:
 
 - device type: iPhone / iOS
-- ownership: **Personal**
-- management path: **Intune**
+- ownership: Personal
+- management path: Intune
 - visibility in Microsoft Entra ID: confirmed
 - visibility in Intune iOS/iPadOS devices: confirmed
-- compliance state in Intune: **Compliant**
+- compliance state in Intune: Compliant
+- primary user associated to `u.hr01@corp.azawslab.co.uk`
 
 ### Why This Matters
 
-This extends the endpoint story beyond Windows and Linux and shows that Release 1 now includes practical mobile BYOD administration as well.
+This extends the endpoint story beyond Windows and Linux and shows that Release 1 includes practical mobile BYOD administration as well.
 
-The endpoint scope now demonstrates:
+* * *
 
-- Windows corporate-managed endpoint
-- Windows personal/BYOD endpoint
-- Linux Intune visibility plus Ansible baseline automation
-- iPhone BYOD enrollment and compliance visibility
+## Windows Compliance Policy Baseline
 
----
+A baseline Windows compliance policy was created in Intune for Release 1 and assigned by device group rather than by individual device.
+
+### Policy
+
+- `CP-WIN-Release1-Baseline`
+
+### Assigned groups
+
+- `GRP-INTUNE-WIN-CORP`
+- `GRP-INTUNE-WIN-BYOD`
+
+### Baseline requirements
+
+The compliance policy required key Windows security controls including:
+
+- BitLocker
+- Secure Boot
+- Trusted Platform Module (TPM)
+- Antivirus
+- Antispyware
+- Microsoft Defender Antimalware
+
+### Assignment Model
+
+The policy was applied through device-group targeting, which is more realistic than one-off direct assignments and better matches enterprise operating practice.
+
+### Compliance Outcome
+
+The evidence set shows two relevant states across the implementation timeline:
+
+#### Initial policy enforcement state
+An earlier captured state showed both Windows devices as noncompliant while BitLocker-related enforcement was still being worked through.
+
+#### Later validated device state
+A later captured state showed both:
+
+- `WIN11-CORP01`
+- `WIN11-BYOD01`
+
+as compliant against:
+
+- `CP-WIN-Release1-Baseline`
+- `Default Device Compliance Policy`
+
+### Practical Interpretation
+
+The correct way to describe this is:
+
+- the Windows compliance policy was implemented successfully
+- the baseline controls were evaluated in Intune
+- compliance status changed over time during testing and remediation
+- the final documented state for both Windows pilot devices is compliant
+
+* * *
+
+## Windows Security Baseline
+
+A Windows security baseline was also implemented for Release 1.
+
+### Security Baseline
+
+- `SB-WIN-Release1-Baseline`
+
+### Assigned groups
+
+- `GRP-INTUNE-WIN-CORP`
+- `GRP-INTUNE-WIN-BYOD`
+
+### Purpose
+
+This baseline established a first security-hardening layer for Windows endpoints beyond simple enrollment.
+
+It should be understood as an initial Release 1 hardening control, not a fully mature production baseline.
+
+### Practical Result
+
+The evidence shows:
+
+- the security baseline exists in Intune
+- it was assigned to the Windows corporate and BYOD groups
+- baseline-driven control evaluation is now part of the endpoint story
+
+* * *
+
+## BitLocker Policy and Recovery Scenario
+
+Release 1 also produced a useful advanced operational scenario during BitLocker testing.
+
+This should be documented as a lab recovery and lifecycle-management scenario, not as a routine enrollment path.
+
+### Scenario Summary
+
+A Windows corporate device was encrypted through the Intune-driven BitLocker path, and the recovery key was escrowed into Microsoft Entra ID.
+
+A later virtual hardware change / rebuild scenario caused the device to enter BitLocker recovery and broke the prior healthy management/sign-in trust state.
+
+### Observed Effects
+
+The evidence shows:
+
+- BitLocker recovery prompt on boot
+- recovery key retrieval through the Entra ID portal
+- work-or-school account repair / sign-in failure on the affected Windows device
+- duplicate `WIN11-CORP01` records visible during the recovery/re-enrollment cycle
+- stale noncompliant device record present before cleanup
+- new healthy re-enrolled device state after remediation
+
+### Recovery and Remediation Actions
+
+The recovery path included:
+
+- retrieving the escrowed BitLocker recovery key
+- unlocking the encrypted device
+- rebuilding / re-enrolling the Windows device
+- identifying stale duplicate cloud records
+- deleting obsolete records from management views
+- validating the restored compliant device state
+
+### Why This Matters
+
+This is one of the strongest operational lessons in the endpoint section because it demonstrates:
+
+- BitLocker key escrow is operationally critical
+- device trust can be disrupted by hardware-context changes
+- stale cloud objects may remain after rebuild scenarios
+- Intune / Entra lifecycle cleanup is part of real endpoint operations
+- recovery planning should include local admin recovery strategy such as Windows LAPS
+
+### Security Governance Observation
+
+This scenario also highlighted an important governance point:
+
+BitLocker alone is not the full answer for insider-risk or data-protection scenarios. Recovery-key governance, Conditional Access, device compliance enforcement, and later information protection controls all matter.
+
+This should be treated as a design lesson and future hardening requirement, not as a claim that the full production control stack is already complete in Release 1.
+
+* * *
+
+## Corporate vs Personal Windows Comparison
+
+Release 1 includes two distinct Windows management scenarios.
+
+### Corporate-managed Windows device
+
+- `WIN11-CORP01`
+- ownership: Corporate
+- primary user: `u.finance01@corp.azawslab.co.uk`
+- managed by Intune
+
+### Personal / BYOD Windows device
+
+- `WIN11-BYOD01`
+- ownership: Personal
+- primary user: `u.hr01@corp.azawslab.co.uk`
+- managed by Intune
+
+### Why This Matters
+
+This demonstrates:
+
+- tenant-side Intune readiness
+- a corporate-managed Windows enrollment path
+- a personal/BYOD Windows management path
+- ownership distinction inside Intune
+- device compliance visibility
+- Entra + Intune device visibility across both scenarios
+
+* * *
 
 ## Current Release 1 Position for Endpoint and Intune
 
@@ -348,107 +492,75 @@ The endpoint and Intune work is no longer at planning stage.
 - MDM user scope configuration
 - EMS E5 licensing path activation for management capability
 - Intune admin center validation
-- Windows 11 corporate enrollment
+- Windows 11 corporate enrollment validation
 - Windows 11 BYOD / personal enrollment validation
-- Linux Intune enrollment and management visibility
-- compliant Windows device visibility in Intune
-- device visibility in Microsoft Entra ID
-- ownership distinction between corporate and personal Windows devices
+- Linux Intune enrollment and management visibility validation
 - Linux baseline automation with Ansible
-- Ansible connectivity, syntax-check, and playbook execution validation
+- Apple MDM Push Certificate prerequisite completion
+- iPhone BYOD enrollment validation
+- Windows compliance policy implementation
+- Windows security baseline implementation
+- Windows device visibility in Intune and Microsoft Entra ID
+- ownership distinction between corporate and personal Windows devices
+- advanced BitLocker recovery / re-enrollment scenario documentation
+- stale device cleanup after rebuild/re-enrollment event
 
-
-## Windows Compliance Policy Baseline
-
-A baseline Windows compliance policy was created in Intune for Release 1 and assigned by device group rather than by individual device.
-
-### Policy
-- `CP-WIN-Release1-Baseline`
-
-### Assigned groups
-- `GRP-INTUNE-WIN-CORP`
-- `GRP-INTUNE-WIN-BYOD`
-
-### Baseline requirements
-The policy required key Windows security controls including:
-
-- BitLocker
-- Secure Boot
-- TPM
-- Firewall
-- Antivirus
-- Antispyware
-- Microsoft Defender
-
-### Outcome
-This established the first device-trust layer for the Windows endpoint baseline and created the foundation for later policy and governance work in Release 1.
----
-
-### In Progress
+### In Progress / Still Maturing
 
 - deeper endpoint policy engineering
-- Linux compliance interpretation and policy depth
-- documentation and evidence closeout
+- Windows LAPS rollout
+- richer device configuration profile set
+- endpoint lifecycle automation
+- Linux policy depth
+- additional mobile-platform depth beyond the current iPhone BYOD path
 
 ### Not Yet Complete
 
-- Windows configuration profile baseline
-- compliance policy design detail
-- update rings / patching baseline
+- production-grade update ring design
 - Android BYOD / App Protection
-- advanced Linux hardening beyond the current baseline automation
-- advanced endpoint hardening across all platforms
+- macOS endpoint management
+- advanced Linux hardening beyond the current automation baseline
+- mature enterprise-wide endpoint analytics and remediation workflows
 
----
+* * *
 
-## Evidence to Capture
+## Evidence Areas Referenced by This Document
 
-The following evidence should be retained in the repository:
+The following evidence areas support this document:
 
-- Intune MDM user scope configuration
-- EMS E5 trial activation and assignment evidence
-- Intune admin center dashboard
-- Windows 11 corporate device preparation evidence
-- corporate device sync / enrollment evidence
-- corporate device visible as compliant in Intune
-- corporate device visible in Entra ID
-- BYOD/personal device enrollment evidence
-- BYOD device sync / management evidence
-- BYOD device visible as personal and compliant in Intune
-- BYOD device visible in Entra ID
-- Linux Intune Agent sign-in / enrollment evidence
-- Linux device-side status evidence
-- Linux visibility in Entra ID
-- Linux visibility in Intune Linux devices
-- Ansible version and project structure evidence
-- Ansible playbook / task content evidence
-- Ansible ping, syntax check, and execution evidence
+- `screenshots/release1-intune/`
+- Windows corporate and BYOD enrollment evidence
+- Linux Intune enrollment evidence
+- Linux Ansible evidence
+- iPhone BYOD / Apple MDM evidence
+- Windows compliance policy evidence
+- Windows security baseline evidence
+- BitLocker recovery and stale-device cleanup evidence
 
----
+* * *
 
 ## Related Documents
 
+- `README.md`
 - `docs/06-m365-modern-workplace.md`
-- `docs/09-monitoring-alerting.md`
 - `docs/10-security-compliance-mapping.md`
+- `docs/12-lessons-learned.md`
 - `docs/13-release1-build-checklist.md`
 
----
+* * *
 
 ## Summary
 
-Release 1 endpoint work now includes an active Microsoft Intune baseline with corporate-managed Windows, personal/BYOD Windows, Linux, and iPhone BYOD scenarios validated at practical implementation level.
+Release 1 endpoint work now includes an active Microsoft Intune baseline with:
 
-The environment now has:
-
-- tenant-side Intune activation
-- MDM scope configured
-- EMS E5 management licensing path enabled
-- one compliant corporate Windows 11 endpoint
-- one compliant personal/BYOD Windows 11 endpoint
-- one enrolled Linux endpoint with Intune visibility
-- one enrolled iPhone BYOD endpoint with compliant status
-- visibility for devices in Intune and Microsoft Entra ID
+- Windows corporate-managed enrollment
+- Windows personal/BYOD enrollment
+- Linux device visibility through Intune
 - Linux baseline automation through Ansible
+- iPhone BYOD enrollment through Company Portal
+- Windows compliance policy implementation
+- Windows security baseline implementation
+- BitLocker recovery-key escrow and recovery-path validation
+- duplicate/stale device cleanup after re-enrollment
 
-The next major work in this area is policy depth: configuration profiles, compliance policy detail, update management, endpoint hardening, and further refinement of Linux and mobile management coverage.
+The endpoint story is now strong because it shows not only successful enrollment, but also policy enforcement, platform variation, and operational recovery lessons.
