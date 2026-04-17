@@ -198,6 +198,10 @@ Release 1 includes:
 
 | Item | Status | Notes |
 |---|---|---|
+| MFA baseline | In Progress | Active implementation workstream |
+| Self-Service Password Reset (SSPR) baseline | In Progress | Active implementation workstream |
+| Conditional Access baseline | In Progress | Active implementation workstream |
+| Compliant-device access logic | In Progress | Being developed alongside Conditional Access |
 | Windows security baseline | Completed | `SB-WIN-Release1-Baseline` assigned to corp and BYOD groups |
 | BitLocker policy / disk encryption validation | Completed | Encryption-related policy path tested with recovery observations |
 | BitLocker escrow and recovery-key validation | Completed | Recovery key retrieval and recovery workflow evidenced |
@@ -206,11 +210,7 @@ Release 1 includes:
 | Windows LAPS policy implementation | Pending | Not yet started |
 | Windows LAPS password backup validation | Pending | To confirm escrow and retrieval workflow |
 | Windows LAPS recovery scenario validation | Pending | Important follow-on after BitLocker recovery lessons |
-| MFA baseline | Pending | To be implemented as part of identity protection baseline |
-| Self-Service Password Reset (SSPR) baseline | Pending | To be implemented and documented with registration / reset validation |
-| Conditional Access baseline | Pending | Not yet started |
-| Compliant-device logic | Pending | Not yet started |
-| Unmanaged-device access test | Pending | Not yet started |
+| Unmanaged-device access test | Pending | To validate Conditional Access enforcement outcome |
 | Defender / endpoint protection baseline | Pending | Not yet started |
 | Antivirus / policy review | Pending | Not yet started |
 | ASR rules baseline | Pending | Not yet started |
@@ -292,24 +292,21 @@ Release 1 includes:
 
 The next correct execution sequence is:
 
-1. refresh `README.md` to include:
-   - Linux Intune + Ansible
-   - iPhone BYOD
-   - Windows compliance and security baseline progress
-   - BitLocker recovery / re-enrollment scenario
-2. implement and document identity protection baseline for:
+1. implement and document the identity protection baseline for:
    - MFA
    - Self-Service Password Reset (SSPR)
-   - Conditional Access / compliant-device access logic
+   - Conditional Access
+   - compliant-device access logic
 
-3. add Windows LAPS into the planned next-control path
+2. add Windows LAPS into the planned next-control path
 
-4. continue broader Release 1 implementation for:
+3. continue broader Release 1 implementation for:
    - configuration profiles
    - update rings
    - Defender / endpoint hardening
    - Purview / information protection
    - monitoring and alerting
+
 
 ---
 
