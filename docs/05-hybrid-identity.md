@@ -282,6 +282,209 @@ This phase now demonstrates:
 - post-migration OWA validation for migrated users
 
 ---
+## MFA, SSPR, and Conditional Access Baseline
+
+After the hybrid identity and pilot migration path were completed, Release 1 moved into the next identity-control layer:
+
+- Self-Service Password Reset (SSPR)
+- Multi-Factor Authentication (MFA) registration and enforcement
+- Conditional Access (CA) pilot policies
+- compliant-device access logic for Microsoft 365 resources
+
+This work was implemented as a controlled pilot rather than a tenant-wide rollout.
+
+### Pilot Scope Groups
+
+The following Microsoft Entra security groups were created for pilot targeting:
+
+- `SG-Pilot-MFA-SSPR-CA`
+- `SG-CA-Exclude-BreakGlass`
+
+#### Pilot Control Group
+
+`SG-Pilot-MFA-SSPR-CA` was used to scope pilot users for:
+
+- SSPR enablement
+- MFA registration targeting
+- Conditional Access policy targeting
+
+Pilot users in this group:
+
+- `u.hashibur`
+- `u.finance01`
+- `u.hr01`
+
+#### Break-Glass Exclusion Group
+
+`SG-CA-Exclude-BreakGlass` was used to exclude the emergency portal administration account from Conditional Access pilot policies:
+
+- `hashib@azawslabuk.onmicrosoft.com`
+
+In this lab, this account functioned as the emergency access exclusion path for Conditional Access rollout. This should be interpreted as a lab-safe control decision rather than a full production emergency-access design.
+
+### Security Defaults Transition
+
+Before Conditional Access policies were created, Microsoft Entra Security Defaults were disabled.
+
+This was necessary to avoid overlapping enforcement models and to allow pilot Conditional Access policies to be implemented and tested cleanly.
+
+The change was intentional and documented as part of the Conditional Access rollout sequence.
+
+### SSPR Baseline
+
+Self-Service Password Reset was enabled for the pilot identity scope using the selected pilot group:
+
+- target group: `SG-Pilot-MFA-SSPR-CA`
+
+This allowed Release 1 to demonstrate user self-service identity recovery within the pilot scope.
+
+The SSPR baseline was treated as part of the overall identity resilience layer rather than as an isolated feature.
+
+### MFA Registration Baseline
+
+Pilot MFA registration was aligned to the modern Microsoft Entra authentication methods model.
+
+Pilot users were prepared for MFA registration using the pilot identity-control group:
+
+- `SG-Pilot-MFA-SSPR-CA`
+
+This phase focused on:
+
+- controlled pilot targeting
+- registration readiness
+- secure rollout sequencing before broad enforcement
+
+### Conditional Access Baseline
+
+Conditional Access policies were introduced using a staged rollout model.
+
+The rollout sequence was:
+
+1. Security Defaults disabled
+2. pilot groups created
+3. Conditional Access policies created in **Report-only**
+4. pilot review and live sign-in validation performed
+5. policies later switched to **On**
+
+This approach reduced lockout risk and allowed the policy behavior to be checked before enforcement.
+
+### Conditional Access Policies Implemented
+
+#### CA01 — Require MFA for Microsoft Admin Portals
+
+Policy name:
+
+`CA01 - Require MFA - Microsoft Admin Portals - Pilot`
+
+Scope:
+
+- include: `SG-Pilot-MFA-SSPR-CA`
+- exclude: `SG-CA-Exclude-BreakGlass`
+
+Target resource:
+
+- Microsoft Admin Portals
+
+Grant control:
+
+- Require multifactor authentication
+
+This policy was used to introduce stronger access control for administrative portal access within pilot scope.
+
+#### CA02 — Require MFA for All Cloud Apps
+
+Policy name:
+
+`CA02 - Require MFA - All Cloud Apps - Pilot`
+
+Scope:
+
+- include: `SG-Pilot-MFA-SSPR-CA`
+- exclude: `SG-CA-Exclude-BreakGlass`
+
+Target resource:
+
+- All cloud apps
+
+Grant control:
+
+- Require multifactor authentication
+
+This policy became the broader pilot MFA enforcement layer for cloud access.
+
+#### CA03 — Require Compliant Device for Microsoft 365 Apps
+
+Policy name:
+
+`CA03 Require compliant device for Microsoft 365 apps`
+
+Scope:
+
+- include: `SG-Pilot-MFA-SSPR-CA`
+- exclude: `SG-CA-Exclude-BreakGlass`
+
+Target resource:
+
+- Office 365 / Microsoft 365 workload scope
+
+Grant controls configured in the pilot policy:
+
+- Require multifactor authentication
+- Require device to be marked as compliant
+
+This policy linked identity access decisions to the endpoint compliance state and formed the first pilot implementation of compliant-device access logic in Release 1.
+
+### Validation Approach
+
+The Conditional Access baseline was not introduced as a blind tenant-wide enforcement change.
+
+Validation included:
+
+- staged rollout using **Report-only**
+- pilot user targeting
+- break-glass exclusion preservation
+- later policy enforcement after review
+- live sign-in behavior validation
+
+Some screenshots were captured during the report-only stage because that was the main design and validation phase. Final enforcement was applied afterward and validated through sign-in behavior and access results.
+
+### What This Phase Proves
+
+This identity-control phase now demonstrates:
+
+- staged pilot targeting through Entra security groups
+- controlled Security Defaults transition
+- SSPR pilot enablement
+- MFA registration readiness for pilot users
+- Conditional Access policy design using included and excluded groups
+- stronger MFA enforcement for admin portals and cloud apps
+- compliant-device access logic for Microsoft 365 resources
+- reduced lockout risk through explicit break-glass exclusion
+
+### Current Status
+
+The Release 1 hybrid identity layer is no longer limited to synchronization and pilot migration.
+
+It now includes:
+
+- on-premises AD identity source
+- scoped Entra synchronization
+- pilot licensing and sign-in validation
+- successful pilot Exchange migration
+- SSPR pilot enablement
+- MFA pilot rollout
+- Conditional Access pilot enforcement
+- compliant-device access logic for Microsoft 365 access
+
+### Remaining Identity-Control Actions
+
+Remaining work in this area is now primarily:
+
+1. final evidence organization
+2. sign-in log / Conditional Access result capture where needed
+3. final control-mapping refresh in the security and compliance documentation
+
+---
 
 ## Current Status
 
