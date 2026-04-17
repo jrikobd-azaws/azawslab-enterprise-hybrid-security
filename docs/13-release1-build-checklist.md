@@ -198,10 +198,11 @@ Release 1 includes:
 
 | Item | Status | Notes |
 |---|---|---|
-| MFA baseline | In Progress | Active implementation workstream |
-| Self-Service Password Reset (SSPR) baseline | In Progress | Active implementation workstream |
-| Conditional Access baseline | In Progress | Active implementation workstream |
-| Compliant-device access logic | In Progress | Being developed alongside Conditional Access |
+| MFA baseline | Completed | Pilot MFA rollout implemented through Conditional Access-targeted pilot scope |
+| Conditional Access baseline | Completed | CA01, CA02, and CA03 created, piloted in report-only, then enforced |
+| Compliant-device logic | Completed | Office 365 pilot policy requires compliant device and MFA |
+| Unmanaged-device access test | In Progress | Core compliant-device policy exists; broader negative-path validation can be extended |
+| SSPR pilot enablement | Completed | Enabled for selected pilot users through `SG-Pilot-MFA-SSPR-CA` | |
 | Windows security baseline | Completed | `SB-WIN-Release1-Baseline` assigned to corp and BYOD groups |
 | BitLocker policy / disk encryption validation | Completed | Encryption-related policy path tested with recovery observations |
 | BitLocker escrow and recovery-key validation | Completed | Recovery key retrieval and recovery workflow evidenced |
@@ -339,6 +340,10 @@ The next correct execution sequence is:
 - BitLocker recovery and re-enrollment scenario
 
 ### Current Active Phase
+- MFA, SSPR, and Conditional Access pilot baseline implemented
+- Security Defaults transitioned to Conditional Access-based policy control
+- compliant-device access logic implemented for Microsoft 365 pilot scope
+- next workstreams: Defender hardening, LAPS, information protection, monitoring, and final compliance/evidence closeout
 
 - GitHub / tracker evidence closeout
 - continuation into configuration, Zero Trust, endpoint hardening, monitoring, information protection, and deeper policy work across Windows, Linux, and mobile

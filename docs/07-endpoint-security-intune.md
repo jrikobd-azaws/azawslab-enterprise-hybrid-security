@@ -480,6 +480,134 @@ This demonstrates:
 - device compliance visibility
 - Entra + Intune device visibility across both scenarios
 
+## Conditional Access and Compliant Device Logic
+
+Release 1 endpoint work was extended beyond device enrollment and compliance baselines into identity-linked access control.
+
+This phase connected Microsoft Intune compliance posture with Microsoft Entra Conditional Access policy enforcement.
+
+The goal was to demonstrate that device state was not only visible in Intune, but also usable as an access decision input for Microsoft 365 resources.
+
+### Pilot Scope
+
+Conditional Access and compliant-device logic were implemented using the pilot identity-control group:
+
+- `SG-Pilot-MFA-SSPR-CA`
+
+The following exclusion group was used to reduce lockout risk during pilot rollout:
+
+- `SG-CA-Exclude-BreakGlass`
+
+This ensured that pilot enforcement remained controlled and that emergency portal administration remained outside pilot CA enforcement.
+
+### Policy Used for Compliant Device Logic
+
+The primary policy for this phase was:
+
+`CA03 Require compliant device for Microsoft 365 apps`
+
+Policy scope:
+
+- include: `SG-Pilot-MFA-SSPR-CA`
+- exclude: `SG-CA-Exclude-BreakGlass`
+
+Target resource:
+
+- Office 365
+
+Grant controls used in the pilot policy:
+
+- Require multifactor authentication
+- Require device to be marked as compliant
+
+This means the pilot policy was not device-compliance-only. It required both:
+
+- MFA
+- compliant device state
+
+That combined requirement should be reflected consistently in all related documentation.
+
+### Why This Matters
+
+This phase demonstrates an important Release 1 design principle:
+
+identity controls and endpoint controls are not treated as separate silos.
+
+Instead:
+
+- device compliance is established in Intune
+- identity targeting is handled in Entra ID
+- Conditional Access uses both identity and device state to govern access
+
+This is a more realistic enterprise model than documenting Intune compliance in isolation.
+
+### Rollout Method
+
+The policy was introduced in a staged way:
+
+1. pilot groups prepared
+2. Conditional Access policy created
+3. policy deployed in **Report-only**
+4. pilot impact reviewed
+5. policy later switched to **On**
+
+This allowed the compliant-device access path to be checked before full enforcement.
+
+### Relationship to Intune
+
+This Conditional Access policy depends on a valid Intune compliance foundation.
+
+The policy therefore acts as a bridge between:
+
+- endpoint administration
+- compliance policy
+- modern access control
+- Zero Trust enforcement
+
+In practical terms, this means:
+
+- compliant managed devices can satisfy the access requirement
+- devices that do not satisfy compliance expectations should not satisfy the same access path
+
+### Release 1 Value
+
+This part of Release 1 now demonstrates:
+
+- pilot Intune compliance tied to access control
+- Microsoft 365 access protected by both MFA and compliant-device requirements
+- controlled pilot Conditional Access targeting
+- explicit break-glass exclusion
+- staged rollout from report-only to enforced state
+
+### Documentation Note
+
+Some screenshots were captured while the policy was still in **Report-only** mode because that was the main configuration and pilot-review phase.
+
+The final enforced state was applied later and validated through live access behavior rather than exhaustive recapture of every final policy page.
+
+### Current Status
+
+Compliant-device access logic is implemented at pilot scope.
+
+Completed elements in this area include:
+
+- pilot Conditional Access scoping
+- break-glass exclusion design
+- Office 365 target-resource selection
+- Require multifactor authentication grant control
+- Require device to be marked as compliant grant control
+- staged rollout from report-only to enforced policy state
+
+### Remaining Actions
+
+Remaining work for this area is now focused on:
+
+1. organizing final evidence under the screenshot structure
+2. extending validation depth where useful
+3. aligning monitoring and compliance-mapping documents with the implemented control state
+
+--
+
 * * *
 
 ## Current Release 1 Position for Endpoint and Intune
