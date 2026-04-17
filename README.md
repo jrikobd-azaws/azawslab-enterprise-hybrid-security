@@ -13,13 +13,14 @@ The project is built as a security-led engineering portfolio to demonstrate prac
 - Intune and endpoint administration
 - Windows corporate and BYOD endpoint onboarding
 - Linux endpoint visibility and baseline automation
+- iPhone BYOD enrollment with Intune
 - Zero Trust access controls
 - Information protection and compliance mapping
 - Monitoring, alerting, and governance-aligned operations
 
 The goal is to present a realistic enterprise build path rather than isolated lab exercises.
 
-This repository now includes active Release 1 implementation evidence across Hyper-V, Active Directory, Microsoft 365, Entra Connect Sync, Exchange hybrid configuration, pilot mailbox migration, Teams baseline validation, SharePoint baseline validation, Microsoft Intune endpoint onboarding, Linux Intune visibility, and Linux baseline automation with Ansible.
+This repository now includes active Release 1 implementation evidence across Hyper-V, Active Directory, Microsoft 365, Entra Connect Sync, Exchange hybrid configuration, pilot mailbox migration, Teams baseline validation, SharePoint baseline validation, Microsoft Intune endpoint onboarding, Linux Intune visibility, Linux baseline automation with Ansible, iPhone BYOD enrollment, Windows compliance policy validation, Windows security baseline assignment, and BitLocker recovery testing.
 
 ---
 
@@ -29,7 +30,7 @@ This repository now includes active Release 1 implementation evidence across Hyp
 - Build a realistic Exchange hybrid migration path from on-premises Exchange SE to Microsoft 365
 - Establish a Microsoft 365 modern workplace baseline across Exchange Online, Teams, and SharePoint
 - Demonstrate endpoint administration and security through Intune, compliance policy, and device governance
-- Extend endpoint management beyond Windows into practical Linux visibility and baseline automation
+- Extend endpoint management beyond Windows into practical Linux visibility, Linux baseline automation, and iPhone BYOD enrollment
 - Apply Zero Trust principles across identity, endpoint, and access layers
 - Integrate security, compliance, monitoring, and operational evidence into every phase
 - Extend the platform in later phases into Azure governance, delegated administration, and workload modernization
@@ -38,7 +39,7 @@ This repository now includes active Release 1 implementation evidence across Hyp
 
 ## Release Model
 
-### Release 1.0 – Secure Hybrid Identity & Modern Workplace
+### Release 1.0 - Secure Hybrid Identity & Modern Workplace
 
 Focus areas:
 
@@ -52,12 +53,13 @@ Focus areas:
 - Intune endpoint administration and lifecycle management
 - Windows corporate and BYOD endpoint onboarding
 - Linux support path with Intune visibility and Ansible baseline automation
-- Conditional Access and MFA
+- iPhone BYOD enrollment through Intune
+- Conditional Access, MFA, and Self-Service Password Reset (SSPR)
 - Information protection with sensitivity labels, DLP, Sensitive Information Types, and document fingerprinting
 - Initial monitoring, audit visibility, and alerting
 - Security and compliance mapping against GDPR, NIST, and CIS principles
 
-### Release 2.0 – Azure Secure Platform, MSP Operations & Network Security
+### Release 2.0 - Azure Secure Platform, MSP Operations & Network Security
 
 Planned focus areas:
 
@@ -71,7 +73,7 @@ Planned focus areas:
 - Defender for Cloud integration
 - Expanded compliance and governance controls
 
-### Release 3.0 – Secure Workload Modernization & Resilience
+### Release 3.0 - Secure Workload Modernization & Resilience
 
 Planned focus areas:
 
@@ -127,9 +129,11 @@ Release 1 is no longer at planning stage. The core on-premises, hybrid messaging
   - file-open validation
 - Intune baseline enabled at tenant scope
 - EMS E5 licensing path activated for management capability
+- Apple MDM Push Certificate prerequisite completed for iOS/iPadOS management
 - Windows 11 corporate-managed endpoint scenario validated
 - Windows 11 personal/BYOD-style endpoint scenario validated
-- compliant device visibility confirmed in Intune and Microsoft Entra ID
+- iPhone BYOD enrollment validated through Intune Company Portal
+- device visibility confirmed in Intune and Microsoft Entra ID across Windows, Linux, and iPhone scenarios
 - Linux Intune Agent enrollment path validated
 - Ubuntu Linux endpoint visibility confirmed in Microsoft Entra ID and Intune
 - Linux baseline automation validated with Ansible, including:
@@ -137,18 +141,23 @@ Release 1 is no longer at planning stage. The core on-premises, hybrid messaging
   - connectivity test
   - syntax check
   - baseline execution against Ubuntu target
+- Windows compliance policy baseline implemented and validated
+- Windows security baseline implemented and assigned
+- BitLocker recovery-key escrow and advanced rebuild / re-enrollment scenario tested, including stale device record cleanup
 
 ### Current Release 1 position
 
-Release 1 has completed the infrastructure, hybrid identity, Exchange source build, hybrid recovery path, pilot mailbox migration, practical collaboration baseline, initial endpoint onboarding baseline, and initial Linux management/automation baseline needed to demonstrate a realistic Microsoft 365 hybrid onboarding scenario.
+Release 1 has completed the infrastructure, hybrid identity, Exchange source build, hybrid recovery path, pilot mailbox migration, practical collaboration baseline, initial endpoint onboarding baseline, compliance/security baseline, and initial Linux/mobile management depth needed to demonstrate a realistic Microsoft 365 hybrid onboarding scenario.
 
 ### Current focus
 
 The current focus is now shifting away from baseline activation and toward the remaining Release 1 depth workstreams:
 
 - Windows configuration profiles
-- compliance policy depth
-- MFA and Conditional Access
+- update rings / patching baseline
+- MFA and Self-Service Password Reset (SSPR)
+- Conditional Access and compliant-device access logic
+- Windows LAPS
 - Defender and endpoint hardening
 - Linux management depth beyond baseline automation
 - monitoring and alerting
@@ -178,15 +187,15 @@ The lab validates mailbox migration into Exchange Online, but real enterprise ma
 
 Common real-world patterns include:
 
-### Option 1 — No third-party gateway
+### Option 1 - No third-party gateway
 
 `Internet sender -> Exchange Online Protection / Microsoft 365 -> Exchange Online mailbox`
 
-### Option 2 — Mimecast or Proofpoint in front of Microsoft 365
+### Option 2 - Mimecast or Proofpoint in front of Microsoft 365
 
 `Internet sender -> Mimecast / Proofpoint -> Microsoft 365 / Exchange Online -> user mailbox`
 
-### Option 3 — Hybrid coexistence during staged migration
+### Option 3 - Hybrid coexistence during staged migration
 
 `Internet sender -> Mimecast / Proofpoint -> Microsoft 365 / Exchange Online`
 
@@ -208,7 +217,10 @@ Release 1 is not limited to identity and messaging. It also establishes a practi
 - corporate-managed Windows 11 device
 - personal/BYOD Windows 11 device
 - ownership distinction inside Intune
-- compliant state visibility for enrolled Windows devices
+- compliance visibility for enrolled Windows devices
+- Windows compliance policy baseline
+- Windows security baseline
+- BitLocker recovery and re-enrollment scenario
 
 ### Linux scenario validated
 
@@ -216,6 +228,13 @@ Release 1 is not limited to identity and messaging. It also establishes a practi
 - Linux device visibility in Entra ID
 - Linux device visibility in Intune
 - Linux baseline automation using Ansible
+
+### iPhone scenario validated
+
+- Apple MDM Push Certificate prerequisite
+- Company Portal-based iPhone BYOD enrollment
+- iPhone visibility in Entra ID
+- iPhone visibility and compliant state in Intune
 
 This gives the platform a more realistic mixed-endpoint story than a Windows-only lab.
 
@@ -230,6 +249,7 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 - Password Hash Synchronization
 - Conditional Access
 - Multi-Factor Authentication
+- Self-Service Password Reset (planned baseline)
 - Role-based administration
 
 ### Microsoft 365 & Modern Workplace
@@ -251,6 +271,7 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 ### Endpoint & Automation
 - Windows 11
 - Ubuntu Linux
+- iPhone / iOS
 - Microsoft Intune Agent
 - Ansible
 - SSH-based Linux automation
@@ -278,19 +299,19 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 
 ## Documentation Structure
 
-- `docs/01-project-overview.md` – overall scope and vision
-- `docs/02-business-scenario.md` – fictional enterprise scenario and requirements
-- `docs/03-current-state-architecture.md` – current on-premises implementation state
-- `docs/04-target-state-architecture.md` – phased target architecture
-- `docs/05-hybrid-identity.md` – AD, Entra ID, sync, namespace, and pilot identity status
-- `docs/06-m365-modern-workplace.md` – tenant setup, licensing, Exchange migration, Teams, SharePoint, and M365 scope
-- `docs/07-endpoint-security-intune.md` – Intune baseline, Windows endpoint scenarios, Linux Intune path, and endpoint status
-- `docs/08-information-protection-purview.md` – labels, DLP, SITs, and document fingerprinting
-- `docs/09-monitoring-alerting.md` – logs, alerts, and operational visibility
-- `docs/10-security-compliance-mapping.md` – control mapping against GDPR, NIST, and CIS
-- `docs/11-roadmap.md` – future phases
-- `docs/12-lessons-learned.md` – technical decisions, troubleshooting notes, and build lessons
-- `docs/13-release1-build-checklist.md` – authoritative Release 1 delivery checklist
+- `docs/01-project-overview.md` - overall scope and vision
+- `docs/02-business-scenario.md` - fictional enterprise scenario and requirements
+- `docs/03-current-state-architecture.md` - current on-premises implementation state
+- `docs/04-target-state-architecture.md` - phased target architecture
+- `docs/05-hybrid-identity.md` - AD, Entra ID, sync, namespace, and pilot identity status
+- `docs/06-m365-modern-workplace.md` - tenant setup, licensing, Exchange migration, Teams, SharePoint, and M365 scope
+- `docs/07-endpoint-security-intune.md` - Intune baseline, Windows endpoint scenarios, Linux path, iPhone BYOD, compliance, security baseline, and BitLocker recovery scenario
+- `docs/08-information-protection-purview.md` - labels, DLP, SITs, and document fingerprinting
+- `docs/09-monitoring-alerting.md` - logs, alerts, and operational visibility
+- `docs/10-security-compliance-mapping.md` - control mapping against GDPR, NIST, and CIS
+- `docs/11-roadmap.md` - future phases
+- `docs/12-lessons-learned.md` - technical decisions, troubleshooting notes, and build lessons
+- `docs/13-release1-build-checklist.md` - authoritative Release 1 delivery checklist
 
 ---
 
@@ -326,6 +347,9 @@ This repository prioritizes implementation evidence over claims. Evidence includ
 - SharePoint access and file-validation evidence
 - Intune and device-enrollment evidence
 - Linux endpoint visibility evidence
+- iPhone enrollment evidence
+- Windows compliance and security baseline evidence
+- BitLocker recovery and stale-device cleanup evidence
 - Ansible project and playbook execution evidence
 - policy screenshots
 - monitoring and alert examples

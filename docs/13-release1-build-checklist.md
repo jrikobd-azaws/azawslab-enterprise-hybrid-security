@@ -185,11 +185,11 @@ Release 1 includes:
 | iPhone BYOD enrollment scenario | Completed | iPhone visible in Entra and Intune |
 | iPhone / iOS compliance validation | Completed | iPhone shown compliant in Intune |
 | Windows joined vs registered comparison | In Progress | Initial distinction visible; deeper comparison can be expanded |
-| Compliance policy baseline | In Progress | Windows and iPhone compliance visible; Linux evaluation state should be documented carefully |
+| Compliance policy baseline | Completed | Windows compliance policy implemented and evaluated across corp/BYOD devices |
 | Configuration profile baseline | Pending | Not yet started |
 | Update rings / patching baseline | Pending | Not yet started |
 | Android BYOD / MAM scenario | Pending | Not yet started |
-| Linux support path documentation | Completed | Endpoint doc includes Linux path |
+| Linux support path documentation | Completed | Endpoint documentation now includes Linux path |
 | Ansible baseline for Linux | Completed | Connectivity, syntax check, and baseline playbook execution validated |
 
 ---
@@ -198,7 +198,16 @@ Release 1 includes:
 
 | Item | Status | Notes |
 |---|---|---|
-| MFA baseline | Pending | Not yet started |
+| Windows security baseline | Completed | `SB-WIN-Release1-Baseline` assigned to corp and BYOD groups |
+| BitLocker policy / disk encryption validation | Completed | Encryption-related policy path tested with recovery observations |
+| BitLocker escrow and recovery-key validation | Completed | Recovery key retrieval and recovery workflow evidenced |
+| BitLocker recovery and re-enrollment scenario | Completed | Advanced lab scenario documented through rebuild / stale record cleanup evidence |
+| Windows LAPS design decision | Pending | Needed to improve local admin recovery for managed standard-user devices |
+| Windows LAPS policy implementation | Pending | Not yet started |
+| Windows LAPS password backup validation | Pending | To confirm escrow and retrieval workflow |
+| Windows LAPS recovery scenario validation | Pending | Important follow-on after BitLocker recovery lessons |
+| MFA baseline | Pending | To be implemented as part of identity protection baseline |
+| Self-Service Password Reset (SSPR) baseline | Pending | To be implemented and documented with registration / reset validation |
 | Conditional Access baseline | Pending | Not yet started |
 | Compliant-device logic | Pending | Not yet started |
 | Unmanaged-device access test | Pending | Not yet started |
@@ -261,16 +270,19 @@ Release 1 includes:
 | Linux Intune evidence captured | Completed | Ubuntu / Intune Agent / device visibility evidence committed |
 | iOS / iPhone BYOD evidence captured | Completed | Apple MDM push certificate, enrollment flow, Entra visibility, and Intune compliance evidence committed |
 | Ansible evidence captured | Completed | Project structure, playbook, ping, syntax check, and run evidence committed |
+| Windows compliance policy evidence captured | Completed | Policy creation, assignments, per-device results, and settings detail evidence committed |
+| Windows security baseline evidence captured | Completed | Baseline assignment and security-policy evidence committed |
+| BitLocker recovery scenario evidence captured | Completed | Recovery prompt, key retrieval, trust break, duplicate records, cleanup, and restored state evidenced |
 | Pilot licensing and sign-in evidence captured | In Progress | Some evidence exists; final organization may still improve |
 | HCW warning evidence captured | Completed | HCW8078 screenshots captured |
 | Migration endpoint evidence captured | Completed | Manual endpoint creation captured |
 | Migration validation evidence captured | Completed | `Test-MigrationServerAvailability` success captured |
 | Pilot batch and migration completion evidence captured | Completed | Batch, user, and completion state captured |
 | Post-migration Outlook validation evidence captured | Completed | OWA evidence captured |
-| `README.md` status updated | In Progress | Needs refresh to include Teams, SharePoint, Intune, Linux, Ansible, and iPhone progression |
-| `docs/06-m365-modern-workplace.md` updated | In Progress | Needs final alignment with current collaboration evidence |
-| `docs/07-endpoint-security-intune.md` updated | In Progress | Should be refreshed to include iPhone BYOD and Apple push certificate work |
-| `docs/12-lessons-learned.md` updated | In Progress | Endpoint/Linux/Ansible/iPhone lessons can be extended |
+| `README.md` status updated | In Progress | Needs refresh to include security baseline, compliance baseline, BitLocker recovery, Linux, Ansible, and iPhone progression |
+| `docs/06-m365-modern-workplace.md` updated | In Progress | Collaboration baseline updated; may need final wording alignment |
+| `docs/07-endpoint-security-intune.md` updated | In Progress | Should be refreshed to include iPhone BYOD, Apple push certificate, security baseline, compliance policy, and BitLocker recovery scenario |
+| `docs/12-lessons-learned.md` updated | In Progress | Endpoint/Linux/Ansible/iPhone/BitLocker lessons can be extended |
 | This checklist updated | In Progress | Use this file as authoritative status page |
 | Excel tracker aligned with GitHub | In Progress | Realignment work underway |
 
@@ -280,12 +292,21 @@ Release 1 includes:
 
 The next correct execution sequence is:
 
-1. commit the iPhone BYOD evidence folder and Apple push certificate screenshots
-2. refresh `docs/07-endpoint-security-intune.md` to include iPhone BYOD and Apple MDM push certificate steps
-3. refresh `README.md` to reflect mobile BYOD progression
+1. refresh `README.md` to include:
+   - Linux Intune + Ansible
+   - iPhone BYOD
+   - Windows compliance and security baseline progress
+   - BitLocker recovery / re-enrollment scenario
+2. implement and document identity protection baseline for:
+   - MFA
+   - Self-Service Password Reset (SSPR)
+   - Conditional Access / compliant-device access logic
+
+3. add Windows LAPS into the planned next-control path
+
 4. continue broader Release 1 implementation for:
    - configuration profiles
-   - Zero Trust controls
+   - update rings
    - Defender / endpoint hardening
    - Purview / information protection
    - monitoring and alerting
@@ -316,6 +337,9 @@ The next correct execution sequence is:
 - Linux Intune enrollment scenario
 - Linux baseline automation with Ansible
 - iPhone BYOD enrollment scenario
+- Windows compliance policy baseline
+- Windows security baseline
+- BitLocker recovery and re-enrollment scenario
 
 ### Current Active Phase
 
