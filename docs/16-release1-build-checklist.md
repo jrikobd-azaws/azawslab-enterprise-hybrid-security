@@ -13,21 +13,6 @@ This file reflects actual implementation state, not just original planning.
 ## Release 1 Scope Summary
 
 Release 1 includes:
-# Release 1 Build Checklist
-
-## Purpose
-
-This checklist is the authoritative task-state tracker for Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
-
-Release 1 focuses on building the hybrid identity, messaging, Microsoft 365, endpoint, security, compliance, and monitoring foundations required for a realistic enterprise-style hybrid platform.
-
-This file reflects actual implementation state, not just original planning.
-
----
-
-## Release 1 Scope Summary
-
-Release 1 includes:
 
 - Hyper-V-based on-premises foundation
 - Active Directory with DC1 and DC2
@@ -205,7 +190,7 @@ Release 1 includes:
 | Update rings / patching baseline | Pending | Not yet started |
 | Android BYOD / MAM scenario | Pending | Not yet started |
 | Linux support path documentation | Completed | Endpoint documentation now includes Linux path |
-| Ansible baseline for Linux | Completed | Connectivity, syntax check, and baseline playbook execution validated |
+| Ansible baseline for Linux | Completed | Connectivity, syntax check, baseline playbook execution, and repo files validated |
 
 ---
 
@@ -241,22 +226,24 @@ Release 1 includes:
 | Label publishing policy baseline | Completed | Publishing policy scoped to pilot users/groups |
 | DLP baseline | Completed | U.K. Financial Data pilot DLP policy created and validated |
 | Sensitive Information Types usage | Completed | Built-in financial data detection used in pilot DLP validation |
+| Retention policy baseline | Completed | Retention-policy baseline created and visible in Purview administration |
 | Document fingerprinting example | Pending | Not yet started |
-| Purview evidence capture | Completed | Label, publishing, and DLP screenshots captured |
+| Purview evidence capture | Completed | Label, publishing, DLP, and retention screenshots captured |
 
 ---
 
-## 9. Monitoring and Alerting Baseline
+## 11. Monitoring and Alerting
 
 | Item | Status | Notes |
 |---|---|---|
-| Microsoft Entra sign-in monitoring baseline validated | Completed | Pilot-user sign-in filtering, interactive and non-interactive sign-ins, sign-in detail, and Conditional Access result evidence captured |
-| Microsoft Entra audit log baseline validated | Completed | Audit overview, group-management event, membership event, and modified properties evidence captured |
-| Intune / Entra device visibility baseline validated | Completed | Device inventory, Entra device properties, Intune platform view, and device compliance evidence captured |
-| Security-control status visibility validated | Completed | Update ring, Defender AV, ASR, and LAPS policy status/assignment/check-in evidence captured |
-| Example monitoring alert/event evidence captured | Completed | Intune assignment failures, Entra health monitoring baseline, and Intune dashboard configuration warning evidence captured |
-| Monitoring baseline documentation updated | Completed | `docs/09-monitoring-alerting.md` updated to reflect Release 1 baseline scope |
-| Advanced monitoring / SIEM depth deferred to Release 2 | Completed | Sentinel, Azure Monitor expansion, Log Analytics integration, and broader analytics intentionally deferred |
+| Entra identity administration visibility baseline | Completed | Pilot identity and policy visibility evidenced in Entra admin views |
+| Endpoint visibility baseline | Completed | Device presence, ownership, and state evidenced across Intune and Entra |
+| Purview protection visibility baseline | Completed | Labels, DLP, and retention-policy visibility evidenced |
+| Entra sign-in log visibility baseline | In Progress | Monitoring evidence being expanded; final examples and write-up still developing |
+| Audit log baseline | Pending | Not yet started |
+| Conditional Access result visibility baseline | In Progress | Policy presence established; result-review examples can be expanded |
+| Example alert configuration | Pending | Not yet started |
+| Monitoring documentation | In Progress | Baseline page now established; final evidence alignment still needed |
 
 ---
 
@@ -292,7 +279,8 @@ Release 1 includes:
 | Windows security baseline evidence captured | Completed | Baseline assignment and security-policy evidence committed |
 | BitLocker recovery scenario evidence captured | Completed | Recovery prompt, key retrieval, trust break, duplicate records, cleanup, and restored state evidenced |
 | Identity protection evidence captured | Completed | MFA, SSPR, Conditional Access, and LAPS pilot evidence captured |
-| Purview evidence captured | Completed | Labels, publishing, and DLP pilot evidence captured |
+| Purview evidence captured | Completed | Labels, publishing, DLP, and retention baseline evidence captured |
+| Monitoring evidence captured | In Progress | Visibility baseline evidence now exists; final curated examples still being aligned |
 | Diagrams committed | Completed | Release 1 architecture, control flow, recovery scenario, and roadmap diagrams available |
 | Pilot licensing and sign-in evidence captured | In Progress | Some evidence exists; final organization may still improve |
 | HCW warning evidence captured | Completed | HCW8078 screenshots captured |
@@ -300,11 +288,11 @@ Release 1 includes:
 | Migration validation evidence captured | Completed | `Test-MigrationServerAvailability` success captured |
 | Pilot batch and migration completion evidence captured | Completed | Batch, user, and completion state captured |
 | Post-migration Outlook validation evidence captured | Completed | OWA evidence captured |
-| `README.md` status updated | In Progress | Final recruiter-facing wording and quick-link polish still needed |
+| `README.md` status updated | In Progress | Final monitoring and Purview-retention wording alignment still needed |
 | `docs/06-m365-modern-workplace.md` updated | In Progress | Collaboration baseline updated; may need final wording alignment |
-| `docs/07-endpoint-security-intune.md` updated | In Progress | To be refactored into endpoint overview/navigation page |
-| `docs/10-information-protection-purview.md` updated | In Progress | Needs full write-up from committed evidence |
-| `docs/11-monitoring-alerting.md` updated | Pending | Needs full build-out |
+| `docs/07-endpoint-security-intune.md` updated | In Progress | Refactored as endpoint overview/navigation page; final polish still needed |
+| `docs/10-information-protection-purview.md` updated | In Progress | Labels and DLP updated; retention baseline now needs alignment |
+| `docs/11-monitoring-alerting.md` updated | In Progress | Monitoring baseline now documented; final evidence alignment still needed |
 | `docs/15-lessons-learned.md` updated | In Progress | Endpoint/Linux/Ansible/iPhone/BitLocker lessons updated; final numbering alignment still needed |
 | This checklist updated | In Progress | Use this file as authoritative status page |
 | Excel tracker aligned with GitHub | In Progress | Realignment work underway |
@@ -315,24 +303,21 @@ Release 1 includes:
 
 The next correct execution sequence is:
 
-1. refactor the endpoint documentation into:
-   - `07-endpoint-security-intune.md` as overview / navigation
-   - detailed endpoint platform, compliance, and recovery docs
-2. build out the remaining Release 1 documentation for:
-   - information protection / Purview
-   - monitoring and alerting
-   - roadmap
-   - final Release 1 summary
-3. complete final recruiter/public presentation polish for:
+1. complete the final documentation pass for:
+   - `10-information-protection-purview.md`
+   - `11-monitoring-alerting.md`
+   - `17-release1-final-summary.md`
+2. complete the final recruiter/public presentation pass for:
    - `README.md`
    - quick links
    - selected embedded diagrams and screenshots
-4. continue the remaining Release 1 hardening workstreams for:
+3. complete remaining Release 1 hardening and validation tasks for:
    - Windows LAPS password retrieval validation
    - Windows LAPS recovery validation
    - Defender / endpoint hardening
    - update rings / configuration profiles
-   - monitoring and alerting depth
+   - audit-log baseline
+   - example alert configuration
    - document fingerprinting
 
 ---
@@ -364,19 +349,20 @@ The next correct execution sequence is:
 - MFA, SSPR, and Conditional Access pilot baseline
 - Windows compliance policy baseline
 - Windows security baseline
-- Purview sensitivity labels and DLP pilot baseline
+- Purview sensitivity labels, DLP, and retention baseline
 - BitLocker recovery and re-enrollment scenario
 
 ### Current Active Phase
 
 - Release 1 documentation and evidence closeout
 - endpoint documentation refactor for cleaner public presentation
+- monitoring evidence alignment and final monitoring write-up
 - final recruiter/public repo polish
-- remaining hardening work across LAPS validation, Defender, monitoring, and information protection depth
+- remaining hardening work across LAPS validation, Defender, monitoring depth, and document fingerprinting
 
 ### Next Milestone
 
-- complete the Release 1 closeout pack and then transition into the next maturity layer for identity protection, endpoint hardening, monitoring, and Release 2 planning
+- complete the Release 1 closeout pack and then transition into the next maturity layer for endpoint hardening, monitoring, and Release 2 planning
 
 ---
 
