@@ -12,7 +12,7 @@ A phased flagship project demonstrating hybrid identity, Microsoft 365, endpoint
 - MFA, SSPR, Conditional Access, and compliant-device access logic
 - Windows, Linux, and iPhone endpoint management scenarios
 - Windows compliance, security baseline, and BitLocker recovery lessons
-- Purview sensitivity labels and DLP pilot validation
+- Purview sensitivity labels, DLP, and retention baseline
 - Monitoring and compliance-aligned documentation
 - Azure secure platform engineering in later phases
 - Secure workload modernization in Release 3
@@ -23,7 +23,7 @@ A phased flagship project demonstrating hybrid identity, Microsoft 365, endpoint
 
 | Release | Focus | Status |
 |---|---|---|
-| Release 1 | Hybrid identity, Microsoft 365, endpoint management, Zero Trust direction, Purview, and operational recovery lessons | Implemented / maturing |
+| Release 1 | Hybrid identity, Microsoft 365, endpoint management, Zero Trust direction, information protection, and operational recovery lessons | Implemented / near-complete |
 | Release 2 | Azure landing zone, IaC, governance, Defender for Cloud, Sentinel, and MSP-style operations | Planned |
 | Release 3 | Secure workload modernization, containerized services, observability, and resilience | Planned |
 
@@ -62,8 +62,8 @@ Release 1 now includes implemented and evidenced work across:
 - compliant-device access logic for Microsoft 365 pilot scope
 - Windows compliance policy and Windows security baseline
 - BitLocker recovery-key escrow and rebuild / stale-record cleanup lessons
-- Purview sensitivity labels and DLP pilot validation
-- monitoring and alerting baseline direction with documentation and evidence growth in progress
+- Purview sensitivity labels, DLP, and retention baseline
+- monitoring and visibility baseline with further depth still maturing
 
 ---
 
@@ -105,12 +105,12 @@ The project is built as a security-led engineering portfolio to demonstrate prac
 - Linux endpoint visibility and baseline automation
 - iPhone BYOD enrollment with Intune
 - Zero Trust access controls
-- Information protection and compliance mapping
-- Monitoring, alerting, and governance-aligned operations
+- information protection and compliance mapping
+- monitoring, alerting, and governance-aligned operations
 
 The goal is to present a realistic enterprise build path rather than isolated lab exercises.
 
-This repository now includes active Release 1 implementation evidence across Hyper-V, Active Directory, Microsoft 365, Entra Connect Sync, Exchange hybrid configuration, pilot mailbox migration, Teams baseline validation, SharePoint baseline validation, Microsoft Intune endpoint onboarding, Linux Intune visibility, Linux baseline automation with Ansible, iPhone BYOD enrollment, Windows compliance policy validation, Windows security baseline assignment, BitLocker recovery testing, and Purview pilot controls.
+This repository now includes active Release 1 implementation evidence across Hyper-V, Active Directory, Microsoft 365, Entra Connect Sync, Exchange hybrid configuration, pilot mailbox migration, Teams baseline validation, SharePoint baseline validation, Microsoft Intune endpoint onboarding, Linux Intune visibility, Linux baseline automation with Ansible, iPhone BYOD enrollment, Windows compliance policy validation, Windows security baseline assignment, BitLocker recovery testing, Purview pilot controls, and the growing monitoring baseline.
 
 ---
 
@@ -145,9 +145,9 @@ Focus areas:
 - Linux support path with Intune visibility and Ansible baseline automation
 - iPhone BYOD enrollment through Intune
 - Conditional Access, MFA, and Self-Service Password Reset (SSPR)
-- Information protection with sensitivity labels, DLP, Sensitive Information Types, and document fingerprinting direction
-- Initial monitoring, audit visibility, and alerting direction
-- Security and compliance mapping against GDPR, NIST, and CIS principles
+- information protection with sensitivity labels, DLP, retention baseline, and document fingerprinting direction
+- initial monitoring, audit visibility, and alerting baseline
+- security and compliance mapping against GDPR, NIST, and CIS principles
 
 ### Release 2 - Azure Secure Platform, MSP Operations & Network Security
 
@@ -161,7 +161,7 @@ Planned focus areas:
 - VPN and routing design patterns
 - Monitoring, alerting, and Microsoft Sentinel onboarding
 - Defender for Cloud integration
-- Expanded compliance and governance controls
+- expanded compliance and governance controls
 
 ### Release 3 - Secure Workload Modernization & Resilience
 
@@ -179,7 +179,7 @@ Planned focus areas:
 
 ## Current Implementation Status
 
-Release 1 is no longer at planning stage. The core on-premises, hybrid messaging, collaboration, endpoint, identity-protection, and information-protection baseline has been implemented at practical pilot scope.
+Release 1 is no longer at planning stage. The core on-premises, hybrid messaging, collaboration, endpoint, identity-protection, information-protection, and monitoring baseline has been implemented at practical pilot scope.
 
 ### Implemented and validated so far
 
@@ -225,10 +225,12 @@ Release 1 is no longer at planning stage. The core on-premises, hybrid messaging
 - BitLocker recovery-key escrow and advanced rebuild / re-enrollment scenario tested, including stale device record cleanup
 - Purview sensitivity labels implemented and validated
 - DLP pilot policy and policy-tip validation implemented
+- Purview retention-policy baseline created and visible
+- monitoring and visibility baseline established across identity, endpoint, and information-protection workflows
 
 ### Current Release 1 position
 
-Release 1 has completed the infrastructure, hybrid identity, Exchange source build, hybrid recovery path, pilot mailbox migration, collaboration baseline, endpoint onboarding baseline, identity-protection pilot baseline, and information-protection pilot baseline needed to demonstrate a realistic hybrid Microsoft platform.
+Release 1 has completed the infrastructure, hybrid identity, Exchange source build, hybrid recovery path, pilot mailbox migration, collaboration baseline, endpoint onboarding baseline, identity-protection pilot baseline, information-protection pilot baseline, and monitoring visibility baseline needed to demonstrate a realistic hybrid Microsoft platform.
 
 ### Current focus
 
@@ -238,7 +240,7 @@ The current focus is now shifting away from baseline activation and toward the r
 - update rings / patching baseline
 - Windows LAPS password retrieval and recovery validation
 - Defender and endpoint hardening
-- monitoring and alerting depth
+- audit-log and alerting depth
 - document fingerprinting
 - final documentation closeout and public presentation polish
 
@@ -360,6 +362,7 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 - Zero Trust principles
 - Sensitivity labels
 - Data Loss Prevention
+- retention baseline
 - Sensitive Information Types
 - document fingerprinting direction
 - security baselines
@@ -370,7 +373,7 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 - Windows Server
 - Ubuntu Server/Desktop
 - PowerShell
-- monitoring and alerting direction
+- monitoring and visibility baseline
 - Azure governance (future phase)
 - Terraform (future phase)
 
@@ -387,7 +390,7 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 - `docs/07-endpoint-security-intune.md` - endpoint overview and navigation page
 - `docs/08-endpoint-platforms-and-enrollment.md` - Windows, Linux, and iPhone platform enrollment detail
 - `docs/09-endpoint-compliance-and-security-baseline.md` - compliance, security baseline, BitLocker, and LAPS direction
-- `docs/10-information-protection-purview.md` - labels, publishing, and DLP pilot
+- `docs/10-information-protection-purview.md` - labels, publishing, DLP, and retention baseline
 - `docs/11-monitoring-alerting.md` - monitoring baseline and next-step visibility plan
 - `docs/12-security-compliance-mapping.md` - control mapping against GDPR, NIST, and CIS
 - `docs/13-roadmap.md` - phased roadmap
@@ -426,9 +429,9 @@ This repository prioritizes implementation evidence over claims. Evidence includ
 - Windows compliance and security baseline evidence
 - BitLocker recovery and stale-device cleanup evidence
 - MFA, SSPR, Conditional Access, and LAPS pilot evidence
-- Purview label and DLP evidence
+- Purview label, DLP, and retention evidence
 - Ansible files and playbook execution evidence
-- monitoring evidence as the baseline is expanded
+- monitoring evidence as the baseline deepens
 
 ---
 
