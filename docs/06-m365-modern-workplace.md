@@ -322,6 +322,27 @@ The following evidence should be retained in the repository:
 
 ---
 
+## Flagship Modern Workplace Evidence
+
+### Exchange Online pilot validation
+
+![Both pilot users validated in Outlook on the web](../screenshots/release1/hybrid-exch1/10-outlook-both-pilots-validated.png)
+
+*Figure: Both pilot users validated successfully in Outlook on the web after the hybrid migration path was completed, proving that the Exchange Online pilot was operational.*
+
+### Teams collaboration validation
+
+![Teams channel post and reply validation](../screenshots/release1/teams-baseline/05-teams-channel-post-reply.png)
+
+*Figure: Teams channel post and threaded reply validation, showing that collaboration services were tested through actual user interaction rather than admin configuration alone.*
+
+### SharePoint document workflow validation
+
+![SharePoint file open validation](../screenshots/release1/sharepoint-baseline/06-sharepoint-file-open-validation.png)
+
+*Figure: SharePoint file-open validation demonstrating that document-library access and content usage were functioning correctly in the pilot collaboration baseline.*
+
+---
 ## Summary
 
 Release 1 Microsoft 365 work has moved beyond tenant creation into completed pilot hybrid migration plus practical collaboration baseline validation.
