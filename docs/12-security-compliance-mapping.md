@@ -1,203 +1,305 @@
 # Security and Compliance Mapping
 
+**Navigation:** [README](../README.md) | [Release 1 Build Checklist](16-release1-build-checklist.md) | [Release 1 Final Summary](17-release1-final-summary.md)
+
+**Related docs:** [Hybrid Identity](05-hybrid-identity.md) | [Modern Workplace](06-m365-modern-workplace.md) | [Endpoint Security and Intune](07-endpoint-security-intune.md) | [Information Protection and Purview](10-information-protection-purview.md) | [Monitoring and Alerting](11-monitoring-alerting.md) | [Lessons Learned](15-lessons-learned.md)
+
+---
+
 ## Purpose
 
-This document maps project controls implemented or planned within the `azawslab Enterprise Hybrid Security Platform` against common security, governance, and compliance expectations.
+This document maps the implemented Release 1 controls in the `azawslab Enterprise Hybrid Security Platform` to recognizable security and compliance themes.
 
-The purpose is not to claim full certification or formal compliance, but to demonstrate how design and implementation choices align with recognized control objectives relevant to enterprise environments.
+It is **not** a formal audit, certification, or legal compliance statement.
 
-This document should always reflect actual implementation state rather than aspirational planning language.
+Instead, it shows how the technical controls implemented in Release 1 align with common requirements and good practice drawn from:
 
----
+- GDPR-oriented security and governance expectations
+- NIST-style security control thinking
+- CIS-style baseline hardening and operational discipline
 
-## Standards / Frameworks Referenced
-
-This project references the following frameworks and control perspectives:
-
-- GDPR
-- NIST Cybersecurity Framework (CSF)
-- CIS Controls / CIS-aligned endpoint and access hardening intent
-
-These mappings are used for engineering and governance context only.
-
-They do not represent a claim of formal certification or audited compliance.
+The purpose is to help readers understand that the project is not only a lab build, but also a control-aware platform implementation.
 
 ---
 
-## Mapping Approach
+## How to Read This Document
 
-Release 1 mapping is based on:
+This mapping is intentionally practical.
 
-- implemented control state
-- pilot-scope validation where appropriate
-- supporting documentation and screenshots
-- practical alignment to recognized control objectives
+Each row links:
 
-The project uses evidence-led mapping.
+- a Release 1 control area
+- what was implemented
+- the main business/security purpose
+- representative alignment themes
+- where to verify the implementation in the project documentation
 
-This means a control should not be presented as implemented unless there is meaningful implementation and validation behind it.
-
----
-
-## Release 1 Position
-
-Release 1 focuses on building the hybrid identity, messaging, Microsoft 365, endpoint, Zero Trust, monitoring, and governance foundations for a realistic enterprise-style hybrid environment.
-
-By this point in Release 1, the project materially demonstrates:
-
-- on-premises Active Directory identity foundation
-- Entra Connect synchronization
-- pilot licensing and cloud sign-in validation
-- Exchange hybrid readiness and pilot migration
-- Microsoft 365 workload baseline progression
-- Intune and endpoint baseline progression
-- pilot MFA, SSPR, and Conditional Access implementation
-- compliant-device access logic
-- monitoring tied to identity-access rollout
-
-The tables below should be interpreted as Release 1 pilot and engineering evidence, not tenant-wide enterprise completion.
+This should be read as a **control mapping and design-awareness document**, not as a claim of formal compliance attestation.
 
 ---
 
-## Release 1 Control Mapping
+## Scope Boundary
 
-| Control Area | Implementation / Evidence | GDPR | NIST CSF | CIS / Security Intent | Notes |
-|---|---|---|---|---|---|
-| MFA enforcement | Conditional Access pilot policies require MFA for Microsoft Admin Portals and all cloud apps for pilot users | Supports protection of access to personal and business data | PR.AA | Strong authentication | Implemented through staged pilot rollout with report-only first |
-| Self-service password reset | SSPR enabled for selected pilot users through Entra group targeting | Supports identity resilience and user recovery capability | PR.AA / PR.IP | Secure account recovery | Pilot-scoped enablement only |
-| Pilot identity targeting | `SG-Pilot-MFA-SSPR-CA` used to scope SSPR, MFA, and Conditional Access rollout | Supports controlled processing and minimized rollout risk | PR.AC | Controlled policy targeting | Prevents unnecessary tenant-wide blast radius during pilot phase |
-| Emergency admin exclusion | `SG-CA-Exclude-BreakGlass` used to exclude emergency admin account from pilot CA policies | Supports availability and administrative continuity | PR.AC / RC.RP | Administrative resilience | Lab implementation of controlled exclusion, not full production emergency-access design |
-| Security Defaults transition | Security Defaults disabled before Conditional Access rollout | Supports deliberate control-plane transition and avoids overlapping enforcement | PR.AC | Policy consistency | Required before CA-based enforcement |
-| Hybrid identity control | AD + Entra ID synchronization with scoped OU and group-based filtering | Supports controlled access and accountability | PR.AC / ID.AM | Identity governance | Pilot-first rollout approach |
-| Role separation / admin discipline | pilot users and emergency admin path were separated through policy targeting and exclusion design | Supports accountability and least-risk administration | PR.AC | Role-aware control design | Administrative targeting remains intentionally narrow in Release 1 |
-| Conditional Access for admin portals | CA01 targeted Microsoft Admin Portals and required MFA | Supports protection of privileged access paths | PR.AA / PR.AC | Protect administrative interfaces | Pilot-scoped, enforced after report-only review |
-| Conditional Access for cloud apps | CA02 targeted all cloud apps and required MFA | Supports stronger access control across cloud services | PR.AA / PR.AC | Broader cloud-access protection | Pilot-scoped enforcement model |
-| Compliant-device logic | CA03 required both MFA and a compliant device for Office 365 pilot access | Supports secure processing and device trust requirements | PR.AC / PR.PT | Device-aware access control | Links Entra policy enforcement to Intune compliance state |
-| Device compliance | Intune compliance policies and managed-device validation underpin pilot compliant-device access decisions | Supports secure device processing and policy-based access control | PR.PT / DE.CM | Endpoint posture validation | Release 1 uses pilot-scale endpoint scope |
-| Windows security baseline | Windows security baseline implemented through Intune and endpoint hardening work | Supports secure endpoint configuration | PR.IP | Secure configuration management | CIS-aligned hardening intent |
-| Windows Update / patching intent | update-ring and patching direction documented as part of endpoint governance | Supports resilience and risk reduction | PR.IP | Vulnerability reduction | May still be expanding within Release 1 |
-| BitLocker / recovery posture | device protection and recovery-oriented endpoint controls included in baseline | Supports protection and recovery capability | PR.DS / RC.RP | Data-at-rest and recovery posture | Exact evidence should match implemented state |
-| Exchange hybrid migration control | Exchange hybrid configuration, migration endpoint recovery, and pilot remote moves validated successfully | Supports controlled service transition and operational resilience | PR.AC / PR.IP | Secure migration governance | Includes recovery from HCW endpoint-creation failure |
-| Microsoft 365 access readiness | pilot licensing, sign-in validation, and post-migration mailbox access confirmed | Supports controlled cloud-access enablement | PR.AA / PR.AC | Access lifecycle governance | Scoped to pilot users |
-| Staged rollout validation | Conditional Access policies were introduced in report-only before being switched to On | Supports safer implementation and change control | PR.IP / DE.AE | Controlled change validation | Evidence of operational maturity rather than blind enforcement |
-| Sign-in visibility for access control | sign-in behavior and Conditional Access evaluation were reviewed during pilot rollout | Supports traceability and early detection of access-control outcomes | DE.AE / DE.CM | Access monitoring and validation | Evidence may include report-only views, sign-in results, and pilot access testing |
-| Audit visibility | Entra, Microsoft 365, and policy-related activity reviewed as part of operational validation | Supports traceability and accountability | DE.AE | Logging and monitoring | Baseline only in Release 1 |
-| Monitoring and alerting baseline | pilot monitoring linked to identity and access behavior; broader alerting direction documented | Supports early detection and operational response awareness | DE.CM / RS.AN | Baseline detection capability | Further expansion remains later in Release 1 |
-| Information protection planning | sensitivity labels, DLP, SITs, and document fingerprinting remain part of Release 1 planned scope | Supports data protection and classification controls | PR.DS | Information protection | Mark as implemented only when evidence exists |
-| GDPR / NIST / CIS mapping discipline | control implementation is mapped to recognized objectives with evidence-driven notes | Supports accountability and governance transparency | ID.GV / PR.IP | Governance-aligned engineering | Documentation-centered control mapping, not certification |
+This mapping covers **implemented Release 1 controls** and the main supporting governance logic behind them.
+
+It does **not** claim:
+
+- full enterprise policy maturity
+- formal ISO 27001 control ownership
+- full GDPR legal interpretation
+- complete NIST 800-53 mapping depth
+- complete CIS Benchmark implementation depth
+- formal audit readiness
+
+Later phases may deepen this mapping, but Release 1 focuses on evidence-backed baseline alignment.
 
 ---
 
-## Release 1 Identity, Access, and Endpoint Control Refresh
+## Release 1 Mapping Summary
 
-The following areas were materially strengthened during the pilot MFA, SSPR, and Conditional Access phase.
+At a high level, Release 1 demonstrates control alignment across these themes:
 
-### Identity Control Gains
-
-This phase added meaningful control maturity by demonstrating:
-
-- pilot-scoped SSPR enablement
-- MFA policy enforcement for high-value access paths
-- staged Conditional Access rollout
-- explicit emergency admin exclusion
-- modern access control linked to device compliance
-
-### Why This Matters
-
-These additions improve the Release 1 story significantly because they show that:
-
-- identity and access controls are no longer passive or planning-only
-- endpoint state can influence access decisions
-- rollout risk was managed through report-only and pilot targeting
-- monitoring was used to observe control behavior, not just configuration state
+- identity and access control
+- secure configuration and hardening
+- hybrid messaging security and trust
+- endpoint enrollment and compliance
+- encryption and recovery preparedness
+- information protection and retention awareness
+- monitoring and operational visibility
+- evidence-backed administrative governance
 
 ---
 
-## Notes on Release 1 Position
+## Control Mapping Table
 
-These controls should be represented as:
+| Release 1 Area | Implemented Control / Capability | Primary Security or Compliance Purpose | Example Alignment Themes | Main Evidence / Docs |
+|---|---|---|---|---|
+| Core identity foundation | Active Directory domain services, DC1/DC2, DNS, replication, tiered OU structure | Establish authoritative identity source and controlled admin structure | Identity governance, least privilege structure, secure admin boundary thinking | `03-current-state-architecture.md`, `05-hybrid-identity.md`, `16-release1-build-checklist.md` |
+| Hybrid identity | Entra Connect Sync with Password Hash Synchronization, pilot sync scoping, group-based filtering | Control which identities reach cloud services and reduce unnecessary sync scope | Identity lifecycle control, scoped synchronization, cloud identity governance | `05-hybrid-identity.md`, `16-release1-build-checklist.md` |
+| Namespace governance | Separation of `azawslab.co.uk` and `corp.azawslab.co.uk` | Reduce business disruption while enabling controlled hybrid pilot execution | Change control, service continuity, staged migration governance | `05-hybrid-identity.md`, `06-m365-modern-workplace.md`, `README.md` |
+| Hybrid messaging trust | Public-trust SAN certificate covering `mail` and `exch1`, IIS binding correction, hybrid troubleshooting | Ensure externally trusted hybrid service presentation and successful migration readiness | Certificate governance, secure service trust, transport/service assurance | `05-hybrid-identity.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
+| Exchange hybrid migration | Modern Hybrid, Hybrid Agent, migration endpoint recovery, remote move validation, pilot mailbox migration | Secure staged migration from on-premises messaging to Exchange Online | Secure transition planning, service migration governance, operational validation | `06-m365-modern-workplace.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
+| Collaboration baseline | Teams and SharePoint pilot validation | Prove modern workplace services are available in a controlled pilot scope | Collaboration governance, controlled rollout, service validation | `06-m365-modern-workplace.md`, `16-release1-build-checklist.md` |
+| Intune endpoint onboarding | Windows corporate, Windows BYOD, Linux, iPhone enrollment | Bring endpoints into managed visibility and administrative control | Asset visibility, endpoint governance, device management baseline | `07-endpoint-security-intune.md`, `08-endpoint-platforms-and-enrollment.md`, `16-release1-build-checklist.md` |
+| Ownership-aware endpoint management | Corporate vs personal device distinction in Intune | Differentiate governance and control expectations by ownership model | Data protection proportionality, BYOD governance, policy scoping | `08-endpoint-platforms-and-enrollment.md`, `16-release1-build-checklist.md` |
+| Compliance control | Windows compliance policy baseline | Evaluate whether devices meet required security conditions before trust is extended | Device compliance, configuration governance, access-condition enforcement | `09-endpoint-compliance-and-security-baseline.md`, `16-release1-build-checklist.md` |
+| Secure configuration baseline | Windows security baseline, configuration profiles, update rings | Move managed endpoints toward a controlled, hardened, and maintainable state | Secure configuration, patch governance, baseline hardening | `09-endpoint-compliance-and-security-baseline.md`, `16-release1-build-checklist.md` |
+| Endpoint protection | Defender baseline, antivirus policy, ASR policy, ransomware-resilience controls | Reduce endpoint attack surface and improve malware/ransomware resistance | Malware protection, attack-surface reduction, resilience | `09-endpoint-compliance-and-security-baseline.md`, `16-release1-build-checklist.md` |
+| Encryption and recoverability | BitLocker policy path, recovery-key escrow, recovery-key retrieval evidence | Protect device storage while preserving recovery capability | Encryption at rest, recoverability, key-management governance | `09-endpoint-compliance-and-security-baseline.md`, `14-advanced-recovery-scenarios.md`, `16-release1-build-checklist.md` |
+| Endpoint lifecycle recovery | Rebuild, re-enrollment, stale-record cleanup | Restore secure management state after disruptive recovery events | Asset lifecycle control, recovery operations, inventory hygiene | `14-advanced-recovery-scenarios.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
+| Local admin recovery direction | Windows LAPS policy implementation and assignment | Improve endpoint recovery posture and local admin governance | Privileged access control, recovery preparedness, endpoint supportability | `09-endpoint-compliance-and-security-baseline.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
+| Identity protection | MFA, SSPR, Conditional Access, break-glass exclusion thinking | Strengthen identity assurance and access control for cloud workloads | Strong authentication, account recovery control, conditional access, Zero Trust | `05-hybrid-identity.md`, `11-monitoring-alerting.md`, `16-release1-build-checklist.md` |
+| Device-based access control | Compliant-device access logic for Microsoft 365 pilot scope | Tie endpoint state to access-control decisions | Zero Trust, device trust, conditional access enforcement | `09-endpoint-compliance-and-security-baseline.md`, `11-monitoring-alerting.md`, `16-release1-build-checklist.md` |
+| Linux operational governance | Linux visibility through Intune plus baseline automation with Ansible | Extend governance beyond Windows and prove platform diversity with control | Mixed-platform administration, configuration automation, operational consistency | `08-endpoint-platforms-and-enrollment.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
+| Mobile governance baseline | Apple MDM Push Certificate and iPhone BYOD enrollment | Establish controlled mobile management path with required platform trust prerequisite | Mobile device governance, BYOD onboarding, platform prerequisite awareness | `08-endpoint-platforms-and-enrollment.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
+| Information classification | Sensitivity labels and label publishing | Classify information and make handling expectations visible to users | Data classification, information governance, user awareness | `10-information-protection-purview.md`, `16-release1-build-checklist.md` |
+| Data loss prevention | U.K. Financial Data DLP policy and policy-tip validation | Detect sensitive content and trigger user-visible protection behavior | Data protection, policy enforcement, content-aware control | `10-information-protection-purview.md`, `16-release1-build-checklist.md` |
+| Retention awareness | Retention-policy baseline | Begin governance of information lifecycle, not just access and labeling | Retention governance, lifecycle awareness, information stewardship | `10-information-protection-purview.md`, `16-release1-build-checklist.md` |
+| Monitoring baseline | Entra visibility, device visibility, Purview visibility, sign-in logs, audit logs, example alerting evidence | Establish operational visibility and control-state awareness | Logging, monitoring, administrative review, early detection | `11-monitoring-alerting.md`, `16-release1-build-checklist.md` |
+| Evidence governance | Structured screenshot archive, diagrams, scripts, Ansible files, lessons learned | Improve traceability, verification, and professional presentation of implemented controls | Auditability, documentation discipline, evidence management | `README.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
 
-- pilot-scoped and evidence-driven
-- implemented for Release 1 practical validation
-- not yet full tenant-wide enterprise enforcement
+---
 
-The project should not claim:
+## GDPR-Oriented Alignment Themes
 
-- complete production-level identity governance maturity
-- full enterprise-wide alert engineering
+Release 1 is not a GDPR compliance certification project, but several implemented controls align well with GDPR-style security and accountability expectations.
+
+### Relevant themes demonstrated
+
+- controlled identity and access management
+- conditional access and strong authentication
+- encryption and recoverability
+- endpoint compliance and security baselines
+- information classification and DLP
+- retention-awareness through Purview
+- logging and administrative visibility
+- documented design decisions and evidence preservation
+
+### Practical interpretation
+
+The project demonstrates that Release 1 was designed with:
+
+- confidentiality
+- integrity
+- recoverability
+- accountability
+- administrative traceability
+
+in mind.
+
+That is the correct level of GDPR-oriented claim for this repository.
+
+---
+
+## NIST-Oriented Alignment Themes
+
+Release 1 also maps well to broad NIST-style control thinking, especially around:
+
+- identity and access control
+- system and communications trust
+- secure configuration
+- audit and accountability
+- system monitoring
+- media / storage protection through BitLocker
+- incident/recovery readiness in the endpoint lifecycle story
+
+### Practical interpretation
+
+The project does not attempt a full NIST catalog mapping.
+
+Instead, it demonstrates that Release 1 includes practical controls in the spirit of:
+
+- access control
+- auditability
+- secure system configuration
+- protected data handling
+- recovery-oriented administration
+
+That is a strong and defensible alignment position.
+
+---
+
+## CIS-Oriented Alignment Themes
+
+Release 1 also aligns well with CIS-style baseline thinking, especially through:
+
+- secure administrative structure
+- endpoint baseline hardening
+- antivirus and ASR controls
+- patching / update-ring direction
+- MFA and access hardening
+- inventory visibility
+- logging and review visibility
+- control documentation discipline
+
+### Practical interpretation
+
+The project does not claim benchmark-by-benchmark CIS implementation.
+
+It does show that Release 1 follows CIS-style priorities such as:
+
+- secure configuration
+- controlled asset visibility
+- strong authentication
+- malware protection
+- recovery preparedness
+- evidence-backed administration
+
+---
+
+## What This Mapping Does Not Claim
+
+To keep the project credible, this mapping does **not** claim:
+
 - formal compliance certification
-- control coverage beyond documented evidence
+- legal assurance of GDPR completeness
+- complete NIST control-family implementation
+- complete CIS Benchmark hardening depth
+- complete mobile governance maturity
+- full production SOC/IR maturity
+- full records-management maturity
 
-Instead, the project demonstrates how identity, access, endpoint, and monitoring controls can be implemented and mapped to recognized control objectives in a staged enterprise-style rollout.
-
----
-
-## Release 2 Planned Mapping
-
-Release 2 expands controls into Azure platform governance, delegated administration, network security, and broader monitoring.
-
-Planned examples include:
-
-- Azure landing zone governance
-- Azure Policy
-- RBAC at scale
-- Azure Lighthouse delegated administration
-- Global Secure Access / Entra Private Access
-- VPN / routing / network-control patterns
-- Microsoft Sentinel onboarding
-- Defender for Cloud
-- expanded alerting and incident response visibility
-
-These areas should remain clearly marked as planned until materially implemented.
+This mapping is best understood as a **technical control-alignment view** of what Release 1 implemented and evidenced.
 
 ---
 
-## Release 3 Planned Mapping
+## Strongest Release 1 Alignment Areas
 
-Release 3 extends controls into workload modernization and resilience.
+The strongest control-alignment areas in Release 1 are:
 
-Planned examples include:
+### 1. Hybrid identity and access control
+Because the project demonstrates:
+- AD + Entra integration
+- pilot sync scoping
+- MFA
+- SSPR
+- Conditional Access
+- device-based access logic
 
-- secure workload deployment
-- application segmentation
-- container-security considerations
-- observability
-- application protection patterns
-- high availability and disaster recovery design patterns
+### 2. Endpoint governance and recovery awareness
+Because the project demonstrates:
+- mixed-platform management
+- compliance policy
+- security baseline
+- BitLocker escrow
+- rebuild / stale-record cleanup
+- LAPS design awareness
 
-These areas should remain clearly marked as planned until materially implemented.
+### 3. Information protection baseline
+Because the project demonstrates:
+- labels
+- DLP
+- retention baseline
+- visible user-facing content controls
+
+### 4. Evidence-backed operational visibility
+Because the project demonstrates:
+- administrative visibility
+- sign-in and audit review baseline
+- endpoint and policy-state visibility
+- lessons learned with supporting evidence
 
 ---
 
-## Important Note
+## Control Gaps and Deferred Areas
 
-This project is intended as an architecture, engineering, and governance demonstration platform.
+The following areas are intentionally not overstated and may remain future or deferred maturity items:
 
-It does not claim:
+- Android BYOD / MAM scenario
+- full document fingerprinting availability if feature readiness remains blocked
+- deeper LAPS retrieval/recovery validation if not fully evidenced
+- broader formalized alert-response workflow
+- later Release 2 Azure governance and Sentinel work
+- later Release 3 workload security and resilience depth
 
-- formal GDPR certification
-- formal NIST certification
-- formal CIS certification
-- any audited regulatory attestation
+These do not invalidate Release 1. They simply define its maturity boundary clearly.
 
-Instead, it shows how practical technical controls can be mapped to recognized enterprise security and governance expectations through a staged, evidence-led implementation approach.
+---
+
+## How This Supports the Portfolio
+
+This mapping strengthens the overall portfolio because it shows that the project is not just a collection of screenshots and admin tasks.
+
+It demonstrates:
+
+- control awareness
+- security reasoning
+- governance thinking
+- evidence discipline
+- realistic boundary-setting around what is and is not implemented
+
+That makes the repository stronger for both:
+
+- technical reviewers
+- recruiters or hiring managers who want to see that the work maps to real enterprise priorities
+
+---
+
+## Reader Guide
+
+Use this page together with:
+
+- [Release 1 Build Checklist](16-release1-build-checklist.md) for implementation status
+- [Release 1 Final Summary](17-release1-final-summary.md) for the closeout narrative
+- [Hybrid Identity](05-hybrid-identity.md) for identity and certificate-trust design
+- [Endpoint Security and Intune](07-endpoint-security-intune.md) for endpoint lifecycle and governance
+- [Information Protection and Purview](10-information-protection-purview.md) for labels, DLP, and retention
+- [Monitoring and Alerting](11-monitoring-alerting.md) for visibility and review baseline
+- [Lessons Learned](15-lessons-learned.md) for operational design lessons
 
 ---
 
 ## Summary
 
-Release 1 now demonstrates materially stronger identity, access, endpoint, and monitoring control mapping than earlier planning-only stages.
+Release 1 demonstrates meaningful alignment with common enterprise security and compliance expectations across:
 
-The strongest implemented mappings now include:
+- identity and access control
+- secure configuration
+- endpoint governance
+- encryption and recovery preparedness
+- content protection
+- retention awareness
+- monitoring and audit visibility
+- documentation and evidence governance
 
-- hybrid identity governance
-- pilot licensing and cloud-access control
-- MFA and SSPR pilot rollout
-- Conditional Access enforcement
-- compliant-device access logic
-- staged rollout discipline
-- sign-in visibility and monitoring alignment
-
-The key principle of this mapping document is simple:
-
-**implemented controls should be mapped honestly, and planned controls should remain clearly marked as planned until supported by evidence.**
+This mapping should be read as a **practical control-alignment view** of the Release 1 implementation, not as a formal compliance attestation.
