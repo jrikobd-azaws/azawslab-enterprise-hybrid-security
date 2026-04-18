@@ -264,10 +264,10 @@ The next maturity layer after Release 1 closeout is:
 
 Release 1 should therefore be understood as:
 
-- implemented
+- completed
 - evidenced
-- maturing
-- and ready to support the next phase
+- documented
+- and ready to support Release 2
 
 ---
 
@@ -288,4 +288,5 @@ It proved practical implementation across:
 - monitoring and visibility baseline
 - BitLocker recovery and lifecycle-management lessons
 
-Release 1 is therefore best described as an **implemented and evidenced hybrid Microsoft platform baseline** with clear next-step maturity paths, not just a conceptual roadmap.
+Release 1 is therefore best described as a **completed and evidenced hybrid Microsoft platform baseline** that is ready to support Release 2 planning.
+
