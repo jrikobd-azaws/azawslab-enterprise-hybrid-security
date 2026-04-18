@@ -1,330 +1,390 @@
 # Monitoring and Alerting
 
-## Purpose
+**Navigation:** [README](../README.md) | [Release 1 Build Checklist](16-release1-build-checklist.md) | [Release 1 Final Summary](17-release1-final-summary.md)
 
-This document records the monitoring, logging, and alerting baseline for Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
-
-The objective of this phase is to demonstrate that Release 1 controls are not only configured, but also observable through practical monitoring evidence across identity, Microsoft 365, endpoint, and access-control layers.
-
-This document is intended to show operational visibility, staged validation, and realistic pilot-scope monitoring rather than full enterprise SOC maturity.
+**Related docs:** [Hybrid Identity](05-hybrid-identity.md) | [Modern Workplace](06-m365-modern-workplace.md) | [Endpoint Security and Intune Overview](07-endpoint-security-intune.md) | [Security and Compliance Mapping](12-security-compliance-mapping.md)
 
 ---
 
-## Release 1 Scope for This Document
+## Purpose
+
+This document records the **monitoring and alerting baseline position** for Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
+
+The purpose of this workstream is to show how Release 1 begins to address operational visibility across:
+
+- identity
+- Microsoft 365 administration
+- endpoint state
+- control validation
+- security and compliance evidence
+
+This document is intentionally conservative.
+
+Release 1 currently demonstrates a **monitoring baseline and visibility direction**, not a fully mature monitoring stack.
+
+---
+
+## Scope of This Document
 
 This document covers:
 
-- Microsoft Entra sign-in visibility
-- Microsoft 365 and pilot access validation
-- Conditional Access rollout monitoring
-- pilot identity-access control review
-- endpoint and compliance-related visibility where available
-- example alerting baseline direction
-- relationship between monitoring evidence and Release 1 control validation
+- what monitoring and visibility currently exist in Release 1
+- what has already been validated through portal evidence
+- where monitoring intersects with identity, endpoint, and protection controls
+- what remains to be implemented for stronger Release 1 operational maturity
 
-It does not claim that Microsoft Sentinel, advanced SIEM engineering, or full production alert engineering is complete in Release 1 unless separately documented.
+This document does **not** yet claim completion of:
+
+- full Entra sign-in monitoring workflow
+- formal audit-log review process
+- alert rule engineering
+- incident-response runbooks
+- Sentinel integration
+- advanced Defender alerting
+- full operational dashboards
+
+Those are later maturity steps.
 
 ---
 
-## Monitoring Design Principles
+## Why Monitoring Matters in Release 1
 
-Release 1 monitoring follows these principles:
+A hybrid Microsoft platform is not complete if it only proves:
 
-- monitoring should validate implemented controls, not exist as a disconnected add-on
-- pilot-scope monitoring is acceptable where tenant-wide rollout is not yet complete
-- staged policy rollout should be observable before and after enforcement
-- evidence should show both configuration and operational validation
-- monitoring documentation should stay aligned to actual implemented state
+- services were configured
+- devices were enrolled
+- controls were assigned
 
-This approach supports a practical enterprise-style build narrative without overstating maturity.
+It also needs to show that the environment can be:
+
+- observed
+- validated
+- reviewed
+- improved over time
+
+Monitoring matters because it connects implementation to operational confidence.
+
+For Release 1, the monitoring story is currently about **baseline visibility**, **evidence-backed validation**, and **clear next-step planning**.
 
 ---
 
 ## Current Monitoring Position in Release 1
 
-By this point in Release 1, the environment already demonstrates:
+Release 1 monitoring is best described as:
 
-- on-premises AD and DNS validation
-- Entra Connect synchronization visibility
-- Microsoft 365 pilot identity access
-- Exchange hybrid readiness and pilot migration evidence
-- Teams / SharePoint / endpoint baseline progression
-- pilot MFA, SSPR, and Conditional Access rollout
+### Visibility baseline established
+The project already shows visibility into key control areas, especially:
 
-The monitoring baseline therefore moves beyond simple setup validation and into access-control observation.
+- device presence in Intune
+- device presence in Microsoft Entra ID
+- endpoint compliance and state views
+- Microsoft 365 and Entra administrative evidence
+- pilot identity and cloud-service visibility
 
----
+### Formal monitoring program not yet complete
+Release 1 does **not** yet claim a mature monitoring stack with:
 
-## Identity Access Monitoring and Conditional Access Validation
+- defined alert rules
+- operational triage workflow
+- incident playbooks
+- log review process
+- centralized security analytics
 
-Release 1 monitoring was extended to include identity-access control visibility for the pilot MFA, SSPR, and Conditional Access rollout.
-
-The goal of this phase was not only to create Conditional Access policies, but also to validate their behavior through Microsoft Entra monitoring views and pilot sign-in testing.
-
-### Monitoring Scope
-
-The monitoring scope for this phase included:
-
-- Microsoft Entra sign-in activity
-- Conditional Access evaluation results
-- staged policy rollout behavior
-- pilot-user access outcomes
-- compliant-device access behavior where applicable
-
-This aligned monitoring with the actual identity-control rollout rather than treating access policy as a separate configuration-only activity.
-
-### Rollout and Validation Sequence
-
-The Conditional Access rollout followed a staged model:
-
-1. Security Defaults disabled
-2. pilot scope groups created
-3. Conditional Access policies deployed in **Report-only**
-4. policy impact reviewed through sign-in behavior and Conditional Access evaluation
-5. policies later switched to **On**
-6. live sign-in and access behavior validated again after enforcement
-
-This staged approach reduced lockout risk and provided a more realistic enterprise-style implementation path.
-
-### Pilot Scope Used for Monitoring
-
-Included pilot scope:
-
-- `SG-Pilot-MFA-SSPR-CA`
-
-Excluded emergency admin scope:
-
-- `SG-CA-Exclude-BreakGlass`
-
-This allowed monitoring and validation to focus on pilot users while preserving a controlled exclusion path for portal administration.
-
-### Conditional Access Policies Observed
-
-The following pilot policies formed the identity-access monitoring scope:
-
-#### CA01 — Require MFA for Microsoft Admin Portals
-
-- target: Microsoft Admin Portals
-- grant control: Require multifactor authentication
-
-#### CA02 — Require MFA for All Cloud Apps
-
-- target: All cloud apps
-- grant control: Require multifactor authentication
-
-#### CA03 — Require Compliant Device for Microsoft 365 Apps
-
-- target: Office 365
-- grant controls:
-  - Require multifactor authentication
-  - Require device to be marked as compliant
-
-### Monitoring Sources Used
-
-The primary visibility sources for this phase were:
-
-- Microsoft Entra sign-in logs
-- Conditional Access results shown in sign-in activity
-- pilot user sign-in behavior during report-only testing
-- pilot user sign-in behavior after policy enforcement
-
-Where available, these views were used to confirm whether policies were:
-
-- targeted correctly
-- evaluated correctly
-- prompting MFA as intended
-- enforcing compliant-device logic as intended
-
-### What Was Validated
-
-This phase validated that:
-
-- pilot Conditional Access scoping worked as expected
-- break-glass exclusion remained outside pilot enforcement
-- report-only mode could be used to review likely policy impact
-- MFA enforcement behavior was visible through sign-in testing
-- compliant-device access logic could be tied to the endpoint compliance baseline
-
-### Documentation Note
-
-Some screenshots were captured while policies were still in **Report-only** mode because that was the main design-review and validation phase.
-
-Final enforcement was applied later and validated through live sign-in and access behavior rather than exhaustive recapture of every final policy page.
-
-This should be interpreted as staged rollout evidence, not as an incomplete implementation.
-
-### Release 1 Value
-
-This monitoring phase now demonstrates:
-
-- identity-access controls were monitored, not just configured
-- Conditional Access was introduced through staged rollout
-- report-only review was used before enforcement
-- pilot access outcomes were checked after enforcement
-- access policy behavior was linked to both identity and device state
+That distinction should remain explicit.
 
 ---
 
-## Microsoft Entra Sign-In Visibility
+## Monitoring Baseline Already Demonstrated
 
-Microsoft Entra sign-in visibility forms the core cloud monitoring baseline for Release 1.
+Although this workstream is not yet mature, several forms of visibility have already been demonstrated across Release 1.
 
-This area supports validation of:
+### 1. Identity and directory visibility
 
-- synchronized user sign-in activity
-- cloud access after licensing and migration
-- Conditional Access targeting and results
-- pilot-user authentication behavior
+The project already includes evidence for:
 
-### Practical Use in Release 1
+- synchronized users visible in Microsoft Entra ID
+- pilot users visible in Microsoft 365 admin views
+- Microsoft 365 sign-in and access validation at pilot level
 
-In Release 1, sign-in visibility is used to help confirm:
+This gives a baseline identity-observability story even before deeper log monitoring is built.
 
-- pilot users can access Microsoft 365 successfully
-- sign-in prompts align to expected MFA behavior
-- Conditional Access policies are being applied to the intended user scope
-- excluded emergency admin path remains outside pilot CA enforcement
+### 2. Endpoint visibility
 
-This makes sign-in visibility a key validation tool for the Zero Trust access layer.
+The strongest current monitoring baseline in Release 1 is endpoint visibility.
+
+Evidence already exists for:
+
+- Windows corporate device visibility
+- Windows BYOD device visibility
+- Ubuntu Linux device visibility
+- iPhone BYOD device visibility
+- ownership distinction in Intune
+- compliant / noncompliant state progression during policy testing
+- stale / duplicate device-object visibility during rebuild and recovery events
+
+This is meaningful because it proves the environment can already answer basic operational questions such as:
+
+- what devices exist
+- what state they are in
+- which user they are associated with
+- whether the control state looks healthy
+
+### 3. Protection-control visibility
+
+The project also demonstrates visibility into control outcomes through:
+
+- compliance policy results
+- Windows security baseline assignment state
+- BitLocker recovery-key escrow availability
+- DLP policy-tip behavior in Office workflow
+- sensitivity label publication and user-side label application
+
+This means Release 1 already has some **control outcome observability**, even if it does not yet have a mature alerting framework.
 
 ---
 
-## Microsoft 365 and Workload Visibility
+## Monitoring as Validation, Not Just Logging
 
-Release 1 also includes monitoring-relevant validation across Microsoft 365 workloads.
+A useful way to describe Release 1 monitoring is:
+
+### The project already monitors through validation checkpoints
 
 Examples include:
 
-- pilot mailbox access after Exchange Online migration
-- Teams and SharePoint pilot baseline access checks
-- pilot access validation through Microsoft 365 web experiences
-- cloud app access behavior under Conditional Access
+- Entra Connect results visible in cloud admin views
+- migrated mailboxes visible and usable in Exchange Online / OWA
+- Teams and SharePoint pilot-user actions visibly succeeding
+- Intune device state visible after enrollment
+- compliance state visible after policy application
+- Purview label and DLP behavior visible during user workflow
+- stale device records visible during recovery cleanup
 
-This workload visibility is still baseline-level, but it supports the claim that Release 1 monitoring is tied to actual services in use.
-
----
-
-## Endpoint and Compliance Visibility
-
-Where available, Release 1 monitoring also considers the relationship between endpoint state and cloud access outcomes.
-
-This is especially relevant to:
-
-- Intune compliance state
-- compliant-device access logic
-- policy behavior for managed vs non-managed or less-trusted access paths
-
-### Practical Release 1 Interpretation
-
-Release 1 does not yet claim a full mature device-monitoring program.
-
-However, it does demonstrate that:
-
-- endpoint compliance can influence access policy
-- compliant-device state is not only configured but used as a control condition
-- pilot policy enforcement can be observed through access outcomes
-
-This is sufficient for a strong Release 1 baseline.
+This is not the same as a SOC-grade monitoring platform, but it is still a real operational visibility layer.
 
 ---
 
-## Example Alerting Baseline
+## Entra and Microsoft 365 Monitoring Direction
 
-Release 1 alerting is intentionally lightweight and practical.
+The most natural monitoring expansion path in this project is through Entra and Microsoft 365 administrative visibility.
 
-The objective is to demonstrate alert-aware operational thinking rather than a full production alert catalog.
+### Release 1 currently supports
+- identity state visibility
+- tenant administration visibility
+- pilot user validation
+- policy assignment visibility
 
-Examples of alerting directions relevant to Release 1 include:
+### Release 1 still needs
+- formal sign-in log review coverage
+- formal audit-log review coverage
+- documented examples of how suspicious or failed activity would be reviewed
+- alert examples tied to identity and access events
 
-- suspicious or unexpected sign-in behavior
-- Conditional Access failures or unusual pilot access outcomes
-- noncompliant-device access attempts to protected resources
-- audit events related to identity or configuration changes
-
-Where not yet fully implemented, these should be treated as the next extension of the monitoring baseline rather than claimed as complete.
-
----
-
-## Relationship to Zero Trust
-
-Monitoring in Release 1 is directly tied to Zero Trust control validation.
-
-This is demonstrated by the fact that monitoring was used to support:
-
-- staged Conditional Access rollout
-- MFA enforcement review
-- compliant-device logic validation
-- sign-in behavior review before and after enforcement
-
-This reinforces the project rule that security, compliance, and monitoring are embedded across phases rather than added later as separate activities.
+That is why this doc should present Entra and Microsoft 365 monitoring as a **partially established baseline with clear next steps**.
 
 ---
 
-## Evidence to Capture
+## Endpoint Monitoring Direction
 
-The following evidence should be retained in the repository screenshot/evidence structure where available:
+Endpoint monitoring is one of the strongest current operational layers in the repo.
 
-- Microsoft Entra sign-in logs for pilot users
-- Conditional Access result views for report-only evaluation
-- Conditional Access result views after policy enforcement
-- pilot sign-in evidence showing MFA challenge or CA outcome
-- compliant-device access behavior evidence where available
-- screenshots showing policy impact review during pilot rollout
+### What is already visible
+- managed-device inventory
+- ownership state
+- platform type
+- compliance state progression
+- stale / duplicate object behavior in recovery scenario
+- security baseline assignment visibility
+- LAPS policy assignment visibility at pilot level
 
----
+### Why this matters
+This already supports an operational story around:
 
-## Current Status
+- device inventory accuracy
+- device-state review
+- control verification
+- lifecycle management
 
-Monitoring and alerting are implemented at baseline pilot scope.
-
-Completed or materially evidenced areas include:
-
-- identity-access monitoring tied to Conditional Access rollout
-- pilot sign-in visibility
-- staged report-only review approach
-- live access validation after policy enforcement
-- monitoring linkage between identity and device state
-
-Areas still to extend later in Release 1 include:
-
-- broader alert examples
-- deeper audit-log evidence
-- expanded device visibility
-- fuller evidence organization in the repository
+That is stronger than simply saying “Intune is enabled.”
 
 ---
 
-## Remaining Actions
+## Alerting Position in Release 1
 
-The remaining correct actions for this area are:
+Alerting should be described honestly.
 
-1. organize final screenshots and evidence under consistent monitoring paths
-2. extend sign-in and Conditional Access evidence where useful
-3. add at least one cleaner alerting example if practical
-4. keep monitoring documentation aligned to final Release 1 implemented controls
+### What Release 1 does not yet prove
+The project does not yet prove a mature alerting implementation such as:
+
+- defined alert rules
+- notification routing
+- alert severity model
+- triage workflow
+- incident ownership
+- documented alert-response runbooks
+
+### What Release 1 does prove
+Release 1 proves that the environment now contains enough management visibility that alerting can be introduced as the next logical maturity layer.
+
+This is an important distinction:
+- visibility exists
+- structured alerting is still to be built
 
 ---
 
-## Related Documents
+## Monitoring Relationship to Other Workstreams
 
-- `docs/05-hybrid-identity.md`
-- `docs/06-m365-modern-workplace.md`
-- `docs/07-endpoint-security-intune.md`
-- `docs/10-security-compliance-mapping.md`
-- `docs/13-release1-build-checklist.md`
+Monitoring in this project should be understood as a **cross-cutting layer**.
+
+### Hybrid identity
+Monitoring should eventually help validate:
+- sync health
+- sign-in anomalies
+- role and access events
+
+### Modern workplace
+Monitoring should eventually help validate:
+- mailbox and collaboration service issues
+- admin activity
+- configuration drift
+
+### Endpoint
+Monitoring already supports:
+- device inventory review
+- compliance-state observation
+- recovery and stale-object identification
+
+### Information protection
+Monitoring should eventually help validate:
+- label usage
+- DLP detections
+- policy-trigger review
+
+This makes monitoring one of the most important future maturity multipliers in the platform.
+
+---
+
+## Release 1 Monitoring Maturity Model
+
+The cleanest way to describe current maturity is:
+
+### Current baseline
+- administrative visibility exists
+- control outcome evidence exists
+- device-state visibility exists
+- pilot validation evidence exists
+
+### Near-term next maturity
+- Entra sign-in log review
+- audit-log baseline
+- example alert configuration
+- monitoring documentation linked to real evidence
+
+### Later maturity
+- stronger identity alerting
+- endpoint and security alerting
+- Defender integration
+- Sentinel / centralized security monitoring in later releases
+
+---
+
+## What Should Be Added Later in Release 1
+
+The next monitoring priorities should be:
+
+### Identity monitoring
+- Entra sign-in logs
+- risky or failed sign-in review examples
+- Conditional Access result visibility where relevant
+
+### Administrative auditing
+- audit-log baseline
+- evidence of admin/configuration event review
+
+### Endpoint monitoring
+- clearer compliance review workflows
+- configuration drift or policy-state observation
+- LAPS operational-state observation after validation matures
+
+### Protection monitoring
+- DLP event review
+- label usage awareness
+- correlation between user activity and protection controls where useful
+
+---
+
+## Evidence Areas
+
+The current monitoring baseline draws indirectly from several evidence areas across the repo, especially:
+
+- `screenshots/release1/release1-entra/`
+- `screenshots/release1/release1-entra-sync/`
+- `screenshots/release1/release1-m365/`
+- `screenshots/release1/release1-intune/`
+- `screenshots/release1/release1-identity-protection/`
+- `screenshots/release1/release1-purview/`
+
+These areas provide the current visibility story even before a dedicated monitoring/alerting evidence set is fully built.
+
+---
+
+## Diagram Placement Recommendation
+
+This document does not need a standalone large diagram immediately.
+
+Best later options:
+- use the main Release 1 architecture diagram in README and high-level overview docs
+- use one or two selected screenshots here later to show actual monitoring visibility
+- optionally add a small “visibility and alerting direction” flow diagram later if needed
+
+For now, content clarity is more important than a new diagram.
+
+---
+
+## Suggested Embedded Screenshot Strategy
+
+This file should stay light.
+
+Recommended maximum for a later final pass:
+- one Entra or Microsoft 365 visibility screenshot
+- one Intune device-state / compliance screenshot
+- one Purview policy or policy-tip screenshot if you want to show monitoring as cross-cutting validation
+
+That is enough to support the story without pretending a full monitoring stack exists.
+
+---
+
+## Why This Matters Professionally
+
+This document is important because it shows architectural honesty.
+
+It does not pretend that Release 1 has a complete SOC or fully engineered alerting platform. Instead, it shows:
+
+- where operational visibility already exists
+- where the current baseline is strong
+- what still needs to be built
+- how monitoring connects to identity, endpoint, and content protection
+
+That is a more credible and professional presentation than overstating monitoring maturity.
 
 ---
 
 ## Summary
 
-Release 1 monitoring now goes beyond basic setup checks.
+Release 1 currently demonstrates a **monitoring baseline**, not a mature alerting program.
 
-The environment demonstrates:
+What already exists is:
 
-- Microsoft Entra sign-in visibility
-- staged Conditional Access rollout monitoring
-- report-only review before enforcement
-- pilot access validation after enforcement
-- linkage between identity controls, endpoint compliance, and monitored access outcomes
+- identity and admin visibility
+- endpoint inventory and compliance visibility
+- control outcome observability across endpoint and Purview workflows
+- recovery visibility through stale-object and rebuild scenarios
 
-The most important operational lesson from this phase is that modern identity and access controls should be monitored during rollout, not only after final enforcement.
+What still needs to be built is:
+
+- formal sign-in log review
+- audit-log baseline
+- example alert configuration
+- stronger operational documentation
+- later integration with broader security-monitoring tooling
+
+This should be presented as a realistic next-maturity layer in the Release 1 story.
