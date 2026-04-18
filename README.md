@@ -13,7 +13,7 @@ A phased flagship project demonstrating hybrid identity, Microsoft 365, endpoint
 - Windows, Linux, and iPhone endpoint management scenarios
 - Windows compliance, security baseline, and BitLocker recovery lessons
 - Purview sensitivity labels, DLP, and retention baseline
-- Monitoring and compliance-aligned documentation
+- Monitoring baseline, operational visibility, and compliance-aligned documentation
 - Azure secure platform engineering in later phases
 - Secure workload modernization in Release 3
 
@@ -63,7 +63,7 @@ Release 1 now includes implemented and evidenced work across:
 - Windows compliance policy and Windows security baseline
 - BitLocker recovery-key escrow and rebuild / stale-record cleanup lessons
 - Purview sensitivity labels, DLP, and retention baseline
-- monitoring and visibility baseline with further depth still maturing
+- monitoring and visibility baseline implemented and evidenced
 
 ---
 
@@ -240,7 +240,7 @@ The current focus is now shifting away from baseline activation and toward the r
 - update rings / patching baseline
 - Windows LAPS password retrieval and recovery validation
 - Defender and endpoint hardening
-- audit-log and alerting depth
+- advanced audit review and alerting depth
 - document fingerprinting
 - final documentation closeout and public presentation polish
 

@@ -22,6 +22,12 @@ This is the best single document to read after the README if you want a concise 
 
 ---
 
+## Release 1 Implementation Flow and Proof Map
+
+![Release 1 Implementation Flow and Proof Map](../diagrams/05-release1-implementation-flow-and-proof-map.png)
+
+---
+
 ## Release 1 Objective
 
 Release 1 was designed to establish a realistic **hybrid Microsoft foundation** that connects:
