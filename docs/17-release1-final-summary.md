@@ -26,6 +26,8 @@ This is the best single document to read after the README if you want a concise 
 
 ![Release 1 Implementation Flow and Proof Map](../diagrams/05-release1-implementation-flow-and-proof-map.png)
 
+*Figure: Release 1 implementation sequence showing how on-prem foundation, hybrid identity, migration, endpoint controls, information protection, and monitoring were built and evidenced as a connected platform story.*
+
 ---
 
 ## Release 1 Objective
@@ -46,6 +48,27 @@ The goal was to build an evidence-backed platform that proves practical implemen
 
 ---
 
+## Flagship Release 1 Evidence
+
+### Hybrid messaging validation
+
+![Pilot Exchange Online validation](../screenshots/release1/hybrid-exch1/10-outlook-both-pilots-validated.png)
+
+*Figure: Both pilot users validated successfully in Outlook on the web after the hybrid migration path was corrected and completed.*
+
+### Endpoint compliance validation
+
+![Windows corporate device compliant in Intune](../screenshots/release1/intune/intune-windows-corp/08-intune-windows-device-compliant.png)
+
+*Figure: Windows corporate pilot device shown as compliant in Intune after enrollment, policy evaluation, and baseline application.*
+
+### Information protection validation
+
+![Purview DLP policy tip triggered in Word](../screenshots/release1/purview/purview-dlp/03-purview-dlp-policy-tip-triggered-in-word-for-uk-financial-data-test-file.png)
+
+*Figure: Purview DLP policy tip triggered in Microsoft Word for the U.K. Financial Data pilot policy, proving user-facing content protection behavior.*
+
+---
 ## What Release 1 Implemented
 
 ### On-premises foundation
@@ -289,5 +312,6 @@ It proved practical implementation across:
 - BitLocker recovery and lifecycle-management lessons
 
 Release 1 is therefore best described as a **completed and evidenced hybrid Microsoft platform baseline** with a small number of explicitly deferred or blocked items recorded in the Release 1 checklist.
+
 
 
