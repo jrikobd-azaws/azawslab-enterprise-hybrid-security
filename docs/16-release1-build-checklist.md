@@ -246,15 +246,17 @@ Release 1 includes:
 
 ---
 
-## 11. Monitoring and Alerting
+## 9. Monitoring and Alerting Baseline
 
 | Item | Status | Notes |
 |---|---|---|
-| Entra sign-in log visibility baseline | Pending | Not yet started |
-| Audit log baseline | Pending | Not yet started |
-| Device visibility baseline | In Progress | Entra and Intune visibility now evidenced |
-| Example alert configuration | Pending | Not yet started |
-| Monitoring documentation | Pending | Not yet started |
+| Microsoft Entra sign-in monitoring baseline validated | Completed | Pilot-user sign-in filtering, interactive and non-interactive sign-ins, sign-in detail, and Conditional Access result evidence captured |
+| Microsoft Entra audit log baseline validated | Completed | Audit overview, group-management event, membership event, and modified properties evidence captured |
+| Intune / Entra device visibility baseline validated | Completed | Device inventory, Entra device properties, Intune platform view, and device compliance evidence captured |
+| Security-control status visibility validated | Completed | Update ring, Defender AV, ASR, and LAPS policy status/assignment/check-in evidence captured |
+| Example monitoring alert/event evidence captured | Completed | Intune assignment failures, Entra health monitoring baseline, and Intune dashboard configuration warning evidence captured |
+| Monitoring baseline documentation updated | Completed | `docs/09-monitoring-alerting.md` updated to reflect Release 1 baseline scope |
+| Advanced monitoring / SIEM depth deferred to Release 2 | Completed | Sentinel, Azure Monitor expansion, Log Analytics integration, and broader analytics intentionally deferred |
 
 ---
 
