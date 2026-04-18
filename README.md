@@ -179,7 +179,7 @@ Planned focus areas:
 
 ## Current Implementation Status
 
-Release 1 is no longer at planning stage. The core on-premises, hybrid messaging, collaboration, endpoint, identity-protection, information-protection, and monitoring baseline has been implemented at practical pilot scope.
+Release 1 is no longer at planning stage. The core on-premises, hybrid messaging, collaboration, endpoint, identity-protection, information-protection, and monitoring baseline has been implemented and evidenced at practical pilot scope.
 
 ### Implemented and validated so far
 
@@ -451,4 +451,5 @@ This repository prioritizes implementation evidence over claims. Evidence includ
 Hashibur Rahman  
 Senior Hybrid Cloud & Infrastructure Engineer  
 Belfast, UK
+
 
