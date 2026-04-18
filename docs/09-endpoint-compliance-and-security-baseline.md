@@ -349,6 +349,39 @@ That is enough to prove the control story without turning the page into an image
 
 ---
 
+## Flagship Compliance and Security Evidence
+
+### Compliance policy evaluation
+
+![Windows compliance policy results overview](../screenshots/release1/intune/intune-compliance-policy/04-compliance-policy-results-overview-noncompliant.png)
+
+*Figure: Compliance-policy results view showing enforcement and evaluation state during the policy rollout process, illustrating that compliance was validated over time rather than assumed from day one.*
+
+### Security baseline assignment
+
+![Security baseline assigned to pilot groups](../screenshots/release1/intune/intune-security-baseline/01-security-baseline-assigned-groups.png)
+
+*Figure: Windows security baseline assigned to the Release 1 pilot device groups, showing that hardening was applied through group-based targeting rather than one-off device configuration.*
+
+### Update ring / patching governance
+
+![Windows update ring pilot assignment](../screenshots/release1/intune/intune-windows-update/02-wufb-updatering-pilot-assignment.png)
+
+*Figure: Windows Update for Business pilot assignment showing that patching and update governance were included as part of the Release 1 endpoint-control layer.*
+
+### Endpoint protection and ASR
+
+![ASR policy device check-in status](../screenshots/release1/intune/intune-security-baseline/asr-policy/Screenshot%202026-04-17%20163413.png)
+
+*Figure: Attack Surface Reduction policy evidence showing that endpoint-protection controls extended beyond compliance and baseline assignment into attack-surface hardening.*
+
+### Restored healthy managed state
+
+![Compliance restored after re-enrollment](../screenshots/release1/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png)
+
+*Figure: Restored compliant state after re-enrollment, showing that endpoint control in Release 1 included not only policy assignment but also recovery back to a healthy managed condition.*
+
+---
 ## Why This Matters Professionally
 
 This document demonstrates that Release 1 endpoint work has moved into a more realistic enterprise control model.

@@ -445,6 +445,33 @@ That is enough to show:
 
 ---
 
+## Flagship Purview Evidence
+
+### Sensitivity label baseline
+
+![Purview sensitivity labels overview](../screenshots/release1/purview/purview-sensitivity-labels/01-purview-sensitivity-labels-overview.png)
+
+*Figure: Purview sensitivity-label baseline showing the Release 1 classification model used to support pilot information protection.*
+
+### User-side label application
+
+![Confidential label applied in Word](../screenshots/release1/purview/purview-sensitivity-labels/04-word-confidential-label-applied-to-hr-identity-test-form.png)
+
+*Figure: Confidential sensitivity label applied in Microsoft Word, proving that labels were not only configured in the admin portal but also visible and usable in the end-user workflow.*
+
+### DLP policy-tip validation
+
+![Purview DLP policy tip in Word](../screenshots/release1/purview/purview-dlp/03-purview-dlp-policy-tip-triggered-in-word-for-uk-financial-data-test-file.png)
+
+*Figure: DLP policy tip triggered in Microsoft Word for the U.K. Financial Data pilot policy, showing user-facing content-protection enforcement.*
+
+### Retention-policy baseline
+
+![Purview retention baseline](../screenshots/release1/purview/purview-retention/Screenshot%202026-04-18%20120911.png)
+
+*Figure: Retention-policy baseline visible in Purview administration, showing that Release 1 includes lifecycle-governance awareness in addition to labels and DLP.*
+
+---
 ## Why This Matters Professionally
 
 This Purview workstream strengthens the portfolio because it shows that the project is not limited to identity, Exchange, and endpoint administration.

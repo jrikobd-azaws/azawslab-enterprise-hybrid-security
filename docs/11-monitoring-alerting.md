@@ -403,6 +403,33 @@ That is enough to support the story without overstating monitoring maturity.
 
 ---
 
+## Flagship Monitoring Evidence
+
+### Sign-in visibility and Conditional Access result review
+
+![Entra sign-in conditional access result](../screenshots/release1/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
+
+*Figure: Microsoft Entra sign-in review showing Conditional Access result visibility for the pilot identity-protection model.*
+
+### Audit-log baseline
+
+![Entra audit log overview](../screenshots/release1/monitoring/audit-logs/01-entra-audit-log-overview.png)
+
+*Figure: Microsoft Entra audit-log overview used to establish the Release 1 administrative review and change-visibility baseline.*
+
+### Endpoint visibility and compliance state
+
+![Intune device compliance status](../screenshots/release1/monitoring/device-visibility/03-intune-device-compliance-status.png)
+
+*Figure: Intune device-compliance status view showing operational visibility into managed endpoint state.*
+
+### Example alert / monitoring signal
+
+![Intune dashboard device configuration alert](../screenshots/release1/monitoring/example-alert/02-intune-dashboard-device-configuration-alert.png)
+
+*Figure: Example monitoring signal from Intune dashboard views, showing how Release 1 monitoring extends into device-configuration and operational health awareness.*
+
+---
 ## Why This Matters Professionally
 
 This document is important because it shows architectural honesty.

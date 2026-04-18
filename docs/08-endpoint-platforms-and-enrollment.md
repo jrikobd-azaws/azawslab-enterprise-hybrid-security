@@ -388,6 +388,33 @@ That is enough to prove platform coverage without overwhelming the reader.
 
 ---
 
+## Flagship Platform Evidence
+
+### Windows corporate-managed endpoint
+
+![Windows corporate device compliant in Intune](../screenshots/release1/intune/intune-windows-corp/08-intune-windows-device-compliant.png)
+
+*Figure: Windows corporate-managed pilot device shown as compliant in Intune after modern cloud-managed onboarding and policy evaluation.*
+
+### Windows BYOD / personal endpoint
+
+![Windows corp and BYOD devices in Intune](../screenshots/release1/intune/intune-windows-byod/05-intune-windows-devices-corp-and-byod.png)
+
+*Figure: Intune device view showing both corporate and personal Windows pilot devices, proving ownership-aware endpoint management.*
+
+### Linux baseline automation
+
+![Ansible baseline playbook applied](../screenshots/release1/ansible/05-ansible-playbook-run-baseline-applied.png)
+
+*Figure: Ansible baseline playbook execution against the Ubuntu endpoint, showing that Linux governance in Release 1 included operational automation as well as Intune visibility.*
+
+### iPhone BYOD enrollment completion
+
+![iPhone Company Portal enrollment complete](../screenshots/release1/intune/intune-ios/iphone13-byod-enrollment/14-company-portal-enrollment-complete.png)
+
+*Figure: iPhone BYOD enrollment completed through Intune Company Portal, proving the mobile endpoint path was validated end to end.*
+
+---
 ## Summary
 
 Release 1 endpoint platform coverage now includes:
