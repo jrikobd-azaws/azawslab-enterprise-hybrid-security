@@ -393,6 +393,33 @@ That is enough to tell the full story clearly.
 
 ---
 
+## Flagship Recovery Evidence
+
+### BitLocker recovery prompt
+
+![BitLocker recovery prompt](../screenshots/release1/intune/intune-bitlocker-recovery-scenario/01-win11-corp01-bitlocker-recovery-prompt.png)
+
+*Figure: BitLocker recovery was triggered after the virtual hardware context changed, proving that the protection control was active and that recovery readiness mattered.*
+
+### Recovery key retrieval from Microsoft Entra ID
+
+![BitLocker recovery key in Entra](../screenshots/release1/intune/intune-bitlocker-recovery-scenario/02-win11-corp01-entra-bitlocker-recovery-key.png)
+
+*Figure: Recovery key retrieved from Microsoft Entra ID, demonstrating that escrow was successful and operationally usable during the recovery event.*
+
+### Duplicate / stale device records after rebuild
+
+![Duplicate stale device records](../screenshots/release1/intune/intune-bitlocker-recovery-scenario/05-intune-windows-devices-duplicate-corp-records.png)
+
+*Figure: Duplicate or stale device records visible after rebuild and re-enrollment, showing that recovery also required lifecycle cleanup in the management layer.*
+
+### Restored compliant state after re-enrollment
+
+![Restored compliant state](../screenshots/release1/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png)
+
+*Figure: Restored compliant state after re-enrollment, proving that the device was returned to a healthy managed endpoint condition.*
+
+---
 ## Why This Matters Professionally
 
 This scenario is one of the strongest technical differentiators in the project.

@@ -6,6 +6,7 @@ A phased flagship project demonstrating hybrid identity, Microsoft 365, endpoint
 
 ## What This Project Demonstrates
 
+- Hyper-V-based on-prem lab engineering, virtual networking, and secure VM lifecycle design
 - Hybrid Active Directory and Microsoft Entra ID integration
 - Exchange hybrid migration to Microsoft 365
 - Teams, SharePoint, Intune, and endpoint lifecycle controls
@@ -48,6 +49,7 @@ A phased flagship project demonstrating hybrid identity, Microsoft 365, endpoint
 
 Release 1 now includes implemented and evidenced work across:
 
+- Hyper-V virtual infrastructure including internal switching, host NAT, base-image reuse, and multi-VM lab orchestration
 - Active Directory domain services with DC1 and DC2
 - DNS, replication, OU structure, users, and pilot group design
 - Exchange Server Subscription Edition source platform
@@ -134,6 +136,7 @@ This repository now includes active Release 1 implementation evidence across Hyp
 Focus areas:
 
 - Hyper-V-based on-prem foundation
+- Hyper-V virtual infrastructure including internal switching, host NAT, base-image reuse, and multi-VM lab orchestration
 - Active Directory domain services with DC1 and DC2
 - Member server and Exchange Server Subscription Edition source platform
 - Microsoft 365 tenant setup and namespace onboarding
@@ -369,7 +372,7 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 - governance-aligned administration
 
 ### Infrastructure & Operations
-- Hyper-V
+- Hyper-V virtualization, internal switching, NAT, differencing disks, Secure Boot, and virtual TPM
 - Windows Server
 - Ubuntu Server/Desktop
 - PowerShell
@@ -451,5 +454,6 @@ This repository prioritizes implementation evidence over claims. Evidence includ
 Hashibur Rahman  
 Senior Hybrid Cloud & Infrastructure Engineer  
 Belfast, UK
+
 
 
