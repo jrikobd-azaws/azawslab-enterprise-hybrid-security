@@ -16,7 +16,7 @@ Release 1 endpoint work is no longer limited to simple device enrollment. It now
 - platform-specific management paths
 - compliance evaluation
 - security baseline application
-- identity protection dependency
+- identity-protection dependency
 - operational recovery lessons
 
 This page provides the high-level endpoint story and links to the detailed supporting documents.
@@ -116,8 +116,8 @@ The endpoint workstream is now beyond basic setup.
 ### Implemented and validated
 - Intune tenant baseline
 - EMS E5 trial path for management capability
-- Windows 11 corporate device onboarding
-- Windows 11 BYOD device onboarding
+- Windows 11 corporate enrollment validation
+- Windows 11 BYOD / personal enrollment validation
 - Linux Intune visibility
 - Ansible baseline automation for Linux
 - iPhone BYOD enrollment
@@ -185,9 +185,9 @@ The detailed docs should reference only the most important screenshots, while th
 This overview page is a good place for the **endpoint architecture / management model** diagram.
 
 Recommended diagram for this page:
-- `diagrams/01-release1-end-state-architecture.png` for high-level context
+- `../diagrams/01-release1-end-state-architecture.png` for high-level context
 - or
-- `diagrams/02-identity-messaging-endpoint-control-flow.png` if you want a more technical flow emphasis
+- `../diagrams/02-identity-messaging-endpoint-control-flow.png` if you want a more technical flow emphasis
 
 Best practice:
 - embed only one diagram here
