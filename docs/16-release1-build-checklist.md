@@ -258,10 +258,10 @@ Release 1 includes:
 | Item | Status | Notes |
 |---|---|---|
 | Release 1 control mapping structure created | Completed | Mapping document exists |
-| Hybrid identity controls reflected in mapping | In Progress | Mapping structure exists, but final evidence-linked refresh is still pending |
-| Messaging / hybrid readiness controls reflected in mapping | In Progress | Mapping structure exists, but final evidence-linked refresh is still pending |
-| Endpoint / Zero Trust / Purview controls reflected | In Progress | Endpoint and Purview baseline are implemented, but the final evidence-linked mapping pass is still pending |
-| Final evidence-linked mapping pass | Pending | End-of-release task |
+| Hybrid identity controls reflected in mapping | Completed | Final evidence-linked mapping refresh completed |
+| Messaging / hybrid readiness controls reflected in mapping | Completed | Final evidence-linked mapping refresh completed |
+| Endpoint / Zero Trust / Purview controls reflected | Completed | Final evidence-linked mapping refresh completed |
+| Final evidence-linked mapping pass | Completed | Final evidence-linked mapping refresh completed |
 
 ---
 
@@ -301,8 +301,8 @@ Release 1 includes:
 | `docs/10-information-protection-purview.md` updated | In Progress | Labels and DLP updated; retention baseline now needs alignment |
 | `docs/11-monitoring-alerting.md` updated | In Progress | Monitoring baseline now documented; final evidence alignment still needed |
 | `docs/15-lessons-learned.md` updated | In Progress | Endpoint/Linux/Ansible/iPhone/BitLocker lessons updated; final numbering alignment still needed |
-| This checklist updated | In Progress | Use this file as authoritative status page |
-| Excel tracker aligned with GitHub | In Progress | Realignment work underway |
+| This checklist updated | Completed | Final authoritative Release 1 status page aligned |
+| Excel tracker aligned with GitHub | Completed | Tracker aligned to final Release 1 state |
 
 ---
 
@@ -378,5 +378,6 @@ The next correct execution sequence is:
 This checklist should remain aligned to actual implementation state.
 
 Do not downgrade completed work back to planning language, and do not mark later security or modern workplace controls as implemented until evidence exists.
+
 
 
