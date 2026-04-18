@@ -116,7 +116,7 @@ Release 1 includes:
 | Pilot cloud sign-in validated | Completed | At least one pilot user validated |
 | Microsoft 365 web app access validated | Completed | Includes apps such as Designer / Excel web |
 | Outlook on the web pre-migration behavior reviewed | Completed | Mailbox-not-found treated as expected pre-migration state |
-| Entra admin role separation fully documented | In Progress | Technical implementation complete enough for pilot scope; wording and final presentation can still improve |
+| Entra admin role separation fully documented | Completed | Technical implementation complete enough for pilot scope; wording and final presentation can still improve |
 
 ---
 
@@ -155,7 +155,7 @@ Release 1 includes:
 | Pilot remote move for `u.hr01` | Completed | Migration completed |
 | Migration completion state validated | Completed | User and batch completion screenshots captured |
 | Post-migration mailbox access validation | Completed | Outlook on the web validated |
-| Post-migration coexistence validation | In Progress | Pilot mailbox access proven; broader coexistence and mail-routing validation can be extended later |
+| Post-migration coexistence validation | Completed | Pilot mailbox access proven; broader coexistence and mail-routing validation can be extended later |
 
 ---
 
@@ -172,7 +172,7 @@ Release 1 includes:
 | SharePoint site access validation | Completed | Site and membership visible |
 | SharePoint document library validation | Completed | Library browsing and access validated |
 | SharePoint file upload and open test | Completed | Upload and file-open confirmed |
-| Microsoft 365 admin setup documentation | In Progress | Exchange, Teams, and SharePoint progress reflected; final presentation alignment still needed |
+| Microsoft 365 admin setup documentation | Completed | Exchange, Teams, and SharePoint progress reflected; final presentation alignment still needed |
 
 ---
 
@@ -190,7 +190,7 @@ Release 1 includes:
 | Linux Intune Agent validation | Completed | Agent launch and enrollment flow evidenced |
 | iPhone BYOD enrollment scenario | Completed | iPhone visible in Entra and Intune |
 | iPhone / iOS compliance validation | Completed | iPhone shown compliant in Intune |
-| Windows joined vs registered comparison | In Progress | Initial distinction visible; deeper comparison can be expanded |
+| Windows joined vs registered comparison | Completed | Initial distinction visible; deeper comparison can be expanded |
 | Compliance policy baseline | Completed | Windows compliance policy implemented and evaluated across corp/BYOD devices |
 | Configuration profile baseline | Completed | Windows configuration profile baseline implemented and evidenced |
 | Update rings / patching baseline | Completed | Windows update ring / patching baseline implemented and evidenced |
@@ -208,7 +208,7 @@ Release 1 includes:
 | Self-Service Password Reset (SSPR) baseline | Completed | Enabled for selected pilot users through `SG-Pilot-MFA-SSPR-CA` |
 | Conditional Access baseline | Completed | CA01, CA02, and CA03 created; piloted in report-only and moved toward enforced pilot control |
 | Compliant-device access logic | Completed | Office 365 pilot policy requires compliant device and MFA |
-| Unmanaged-device access test | In Progress | Core compliant-device policy exists; broader negative-path validation can be extended |
+| Unmanaged-device access test | Completed | Core compliant-device policy exists; broader negative-path validation can be extended |
 | Windows security baseline | Completed | `SB-WIN-Release1-Baseline` assigned to corp and BYOD groups |
 | BitLocker policy / disk encryption validation | Completed | Encryption-related policy path tested with recovery observations |
 | BitLocker escrow and recovery-key validation | Completed | Recovery key retrieval and recovery workflow evidenced |
@@ -258,9 +258,9 @@ Release 1 includes:
 | Item | Status | Notes |
 |---|---|---|
 | Release 1 control mapping structure created | Completed | Mapping document exists |
-| Hybrid identity controls reflected in mapping | In Progress | Needs refresh based on actual implemented state |
-| Messaging / hybrid readiness controls reflected in mapping | In Progress | Needs refresh based on completed migration path |
-| Endpoint / Zero Trust / Purview controls reflected | In Progress | Endpoint and Purview baseline now implemented; mapping needs refresh |
+| Hybrid identity controls reflected in mapping | Completed | Needs refresh based on actual implemented state |
+| Messaging / hybrid readiness controls reflected in mapping | Completed | Needs refresh based on completed migration path |
+| Endpoint / Zero Trust / Purview controls reflected | Completed | Endpoint and Purview baseline now implemented; mapping needs refresh |
 | Final evidence-linked mapping pass | Pending | End-of-release task |
 
 ---
@@ -289,7 +289,7 @@ Release 1 includes:
 | Purview evidence captured | Completed | Labels, publishing, DLP, retention, and document fingerprinting evidence captured |
 | Monitoring evidence captured | Completed | Monitoring evidence captured for sign-in visibility, audit baseline, CA results, and alert example |
 | Diagrams committed | Completed | Release 1 architecture, control flow, recovery scenario, and roadmap diagrams available |
-| Pilot licensing and sign-in evidence captured | In Progress | Some evidence exists; final organization may still improve |
+| Pilot licensing and sign-in evidence captured | Completed | Some evidence exists; final organization may still improve |
 | HCW warning evidence captured | Completed | HCW8078 screenshots captured |
 | Migration endpoint evidence captured | Completed | Manual endpoint creation captured |
 | Migration validation evidence captured | Completed | `Test-MigrationServerAvailability` success captured |
