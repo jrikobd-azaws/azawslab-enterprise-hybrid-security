@@ -549,6 +549,27 @@ The following evidence should be retained in the repository screenshot/evidence 
 
 ---
 
+## Flagship Hybrid Identity Evidence
+
+### Scoped synchronization design
+
+![Entra Connect filtering users and devices](../screenshots/release1/entra-sync/11-entra-connect-filtering-users-devices.png)
+
+*Figure: Entra Connect filtering configuration showing that Release 1 used scoped pilot synchronization rather than broad uncontrolled sync.*
+
+### Pilot users synchronized successfully
+
+![Pilot synced users visible in Microsoft 365](../screenshots/release1/entra-sync/15-m365-active-users-pilot-synced.png)
+
+*Figure: Pilot synchronized users visible in Microsoft 365 after Entra Connect configuration, proving that the hybrid identity path was functioning successfully.*
+
+### Hybrid migration-readiness validation
+
+![Test-MigrationServerAvailability success](../screenshots/release1/hybrid-exch1/06-test-migration-server-availability-success.png)
+
+*Figure: Successful migration-readiness validation after hybrid trust, certificate coverage, and endpoint configuration were corrected.*
+
+---
 ## Summary
 
 Release 1 hybrid identity work is complete at pilot scope and has been validated through an end-to-end hybrid migration path.
