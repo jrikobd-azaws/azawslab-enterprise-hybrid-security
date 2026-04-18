@@ -1,5 +1,95 @@
 # azawslab Enterprise Hybrid Security Platform
 
+A phased flagship project demonstrating hybrid identity, Microsoft 365, endpoint security, information protection, Azure platform engineering, and secure workload modernization.
+
+---
+
+## What This Project Demonstrates
+
+- Hybrid Active Directory and Microsoft Entra ID integration
+- Exchange hybrid migration to Microsoft 365
+- Teams, SharePoint, Intune, and endpoint lifecycle controls
+- MFA, SSPR, Conditional Access, and compliant-device access logic
+- Windows, Linux, and iPhone endpoint management scenarios
+- Windows compliance, security baseline, and BitLocker recovery lessons
+- Purview sensitivity labels and DLP pilot validation
+- Monitoring and compliance-aligned documentation
+- Azure secure platform engineering in later phases
+- Secure workload modernization in Release 3
+
+---
+
+## Release Summary
+
+| Release | Focus | Status |
+|---|---|---|
+| Release 1 | Hybrid identity, Microsoft 365, endpoint management, Zero Trust direction, Purview, and operational recovery lessons | Implemented / maturing |
+| Release 2 | Azure landing zone, IaC, governance, Defender for Cloud, Sentinel, and MSP-style operations | Planned |
+| Release 3 | Secure workload modernization, containerized services, observability, and resilience | Planned |
+
+---
+
+## Quick Links
+
+- [Release 1 Build Checklist](docs/16-release1-build-checklist.md)
+- [Release 1 Final Summary](docs/17-release1-final-summary.md)
+- [Hybrid Identity](docs/05-hybrid-identity.md)
+- [Modern Workplace](docs/06-m365-modern-workplace.md)
+- [Endpoint Security and Intune](docs/07-endpoint-security-intune.md)
+- [Information Protection and Purview](docs/10-information-protection-purview.md)
+- [Monitoring and Alerting](docs/11-monitoring-alerting.md)
+- [Security and Compliance Mapping](docs/12-security-compliance-mapping.md)
+- [Roadmap](docs/13-roadmap.md)
+- [Lessons Learned](docs/15-lessons-learned.md)
+
+---
+
+## Release 1 Implemented Scope
+
+Release 1 now includes implemented and evidenced work across:
+
+- Active Directory domain services with DC1 and DC2
+- DNS, replication, OU structure, users, and pilot group design
+- Exchange Server Subscription Edition source platform
+- Entra Connect pilot synchronization using Password Hash Synchronization
+- Modern Hybrid configuration and pilot Exchange Online migration
+- Teams and SharePoint pilot collaboration baseline
+- Intune tenant baseline and endpoint administration
+- Windows 11 corporate-managed and BYOD scenarios
+- Ubuntu Linux Intune visibility plus Ansible baseline automation
+- iPhone BYOD enrollment through Intune Company Portal
+- MFA, SSPR, and Conditional Access pilot baseline
+- compliant-device access logic for Microsoft 365 pilot scope
+- Windows compliance policy and Windows security baseline
+- BitLocker recovery-key escrow and rebuild / stale-record cleanup lessons
+- Purview sensitivity labels and DLP pilot validation
+- monitoring and alerting baseline direction with documentation and evidence growth in progress
+
+---
+
+## Why This Matters Professionally
+
+This project is designed to demonstrate practical engineering capability across hybrid Microsoft environments, Microsoft 365 administration, secure endpoint management, Zero Trust access control direction, information protection, and phased Azure platform planning.
+
+It is documented as a recruiter-facing portfolio with:
+
+- implementation notes
+- screenshots
+- diagrams
+- troubleshooting history
+- phased expansion planning
+- operational lessons learned
+
+The goal is to show not only that technologies were configured, but that they were connected into a realistic platform story.
+
+---
+
+## Release 1 Architecture
+
+![Release 1 end-state architecture](diagrams/01-release1-end-state-architecture.png)
+
+---
+
 ## Overview
 
 This repository documents a phased flagship project designed to model a realistic enterprise hybrid infrastructure, identity, messaging, modern workplace, endpoint administration, and security platform.
@@ -20,7 +110,7 @@ The project is built as a security-led engineering portfolio to demonstrate prac
 
 The goal is to present a realistic enterprise build path rather than isolated lab exercises.
 
-This repository now includes active Release 1 implementation evidence across Hyper-V, Active Directory, Microsoft 365, Entra Connect Sync, Exchange hybrid configuration, pilot mailbox migration, Teams baseline validation, SharePoint baseline validation, Microsoft Intune endpoint onboarding, Linux Intune visibility, Linux baseline automation with Ansible, iPhone BYOD enrollment, Windows compliance policy validation, Windows security baseline assignment, and BitLocker recovery testing.
+This repository now includes active Release 1 implementation evidence across Hyper-V, Active Directory, Microsoft 365, Entra Connect Sync, Exchange hybrid configuration, pilot mailbox migration, Teams baseline validation, SharePoint baseline validation, Microsoft Intune endpoint onboarding, Linux Intune visibility, Linux baseline automation with Ansible, iPhone BYOD enrollment, Windows compliance policy validation, Windows security baseline assignment, BitLocker recovery testing, and Purview pilot controls.
 
 ---
 
@@ -39,7 +129,7 @@ This repository now includes active Release 1 implementation evidence across Hyp
 
 ## Release Model
 
-### Release 1.0 - Secure Hybrid Identity & Modern Workplace
+### Release 1 - Secure Hybrid Identity and Modern Workplace
 
 Focus areas:
 
@@ -55,11 +145,11 @@ Focus areas:
 - Linux support path with Intune visibility and Ansible baseline automation
 - iPhone BYOD enrollment through Intune
 - Conditional Access, MFA, and Self-Service Password Reset (SSPR)
-- Information protection with sensitivity labels, DLP, Sensitive Information Types, and document fingerprinting
-- Initial monitoring, audit visibility, and alerting
+- Information protection with sensitivity labels, DLP, Sensitive Information Types, and document fingerprinting direction
+- Initial monitoring, audit visibility, and alerting direction
 - Security and compliance mapping against GDPR, NIST, and CIS principles
 
-### Release 2.0 - Azure Secure Platform, MSP Operations & Network Security
+### Release 2 - Azure Secure Platform, MSP Operations & Network Security
 
 Planned focus areas:
 
@@ -73,23 +163,23 @@ Planned focus areas:
 - Defender for Cloud integration
 - Expanded compliance and governance controls
 
-### Release 3.0 - Secure Workload Modernization & Resilience
+### Release 3 - Secure Workload Modernization & Resilience
 
 Planned focus areas:
 
 - 3-tier workload architecture
 - Docker-based application deployment
-- Future AKS extension if justified
-- Secure workload connectivity and observability
-- Application security controls
-- Disaster recovery and high availability design patterns
-- Extended monitoring and alerting across workload and infrastructure layers
+- future AKS extension if justified
+- secure workload connectivity and observability
+- application security controls
+- disaster recovery and high availability design patterns
+- extended monitoring and alerting across workload and infrastructure layers
 
 ---
 
 ## Current Implementation Status
 
-Release 1 is no longer at planning stage. The core on-premises, hybrid messaging, collaboration, and endpoint baseline has been implemented and validated at practical pilot scope.
+Release 1 is no longer at planning stage. The core on-premises, hybrid messaging, collaboration, endpoint, identity-protection, and information-protection baseline has been implemented at practical pilot scope.
 
 ### Implemented and validated so far
 
@@ -115,39 +205,30 @@ Release 1 is no longer at planning stage. The core on-premises, hybrid messaging
   - `u.finance01@corp.azawslab.co.uk`
   - `u.hr01@corp.azawslab.co.uk`
 - post-migration Outlook on the web validation completed
-- Teams baseline validated at pilot scope, including:
-  - user access
-  - direct chat
-  - team/channel collaboration
-  - file collaboration
-  - meeting/calendar validation
-- SharePoint baseline validated at pilot scope, including:
-  - site access
-  - site membership visibility
-  - document library validation
-  - file upload
-  - file-open validation
+- Teams baseline validated at pilot scope
+- SharePoint baseline validated at pilot scope
 - Intune baseline enabled at tenant scope
 - EMS E5 licensing path activated for management capability
 - Apple MDM Push Certificate prerequisite completed for iOS/iPadOS management
 - Windows 11 corporate-managed endpoint scenario validated
-- Windows 11 personal/BYOD-style endpoint scenario validated
+- Windows 11 personal/BYOD endpoint scenario validated
 - iPhone BYOD enrollment validated through Intune Company Portal
 - device visibility confirmed in Intune and Microsoft Entra ID across Windows, Linux, and iPhone scenarios
 - Linux Intune Agent enrollment path validated
 - Ubuntu Linux endpoint visibility confirmed in Microsoft Entra ID and Intune
-- Linux baseline automation validated with Ansible, including:
-  - inventory and playbook structure
-  - connectivity test
-  - syntax check
-  - baseline execution against Ubuntu target
+- Linux baseline automation validated with Ansible
+- MFA pilot baseline implemented
+- SSPR pilot baseline implemented
+- Conditional Access pilot baseline implemented
 - Windows compliance policy baseline implemented and validated
 - Windows security baseline implemented and assigned
 - BitLocker recovery-key escrow and advanced rebuild / re-enrollment scenario tested, including stale device record cleanup
+- Purview sensitivity labels implemented and validated
+- DLP pilot policy and policy-tip validation implemented
 
 ### Current Release 1 position
 
-Release 1 has completed the infrastructure, hybrid identity, Exchange source build, hybrid recovery path, pilot mailbox migration, practical collaboration baseline, initial endpoint onboarding baseline, compliance/security baseline, and initial Linux/mobile management depth needed to demonstrate a realistic Microsoft 365 hybrid onboarding scenario.
+Release 1 has completed the infrastructure, hybrid identity, Exchange source build, hybrid recovery path, pilot mailbox migration, collaboration baseline, endpoint onboarding baseline, identity-protection pilot baseline, and information-protection pilot baseline needed to demonstrate a realistic hybrid Microsoft platform.
 
 ### Current focus
 
@@ -155,13 +236,11 @@ The current focus is now shifting away from baseline activation and toward the r
 
 - Windows configuration profiles
 - update rings / patching baseline
-- MFA and Self-Service Password Reset (SSPR)
-- Conditional Access and compliant-device access logic
-- Windows LAPS
+- Windows LAPS password retrieval and recovery validation
 - Defender and endpoint hardening
-- Linux management depth beyond baseline automation
-- monitoring and alerting
-- information protection and compliance mapping
+- monitoring and alerting depth
+- document fingerprinting
+- final documentation closeout and public presentation polish
 
 ---
 
@@ -249,16 +328,16 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 - Password Hash Synchronization
 - Conditional Access
 - Multi-Factor Authentication
-- Self-Service Password Reset (planned baseline)
-- Role-based administration
+- Self-Service Password Reset
+- role-based administration
 
 ### Microsoft 365 & Modern Workplace
 - Exchange Online
 - Microsoft Teams
 - SharePoint Online
 - Intune
-- Device compliance
-- Endpoint lifecycle management
+- device compliance
+- endpoint lifecycle management
 
 ### Messaging & Hybrid
 - Exchange Server Subscription Edition (Exchange SE)
@@ -282,16 +361,16 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 - Sensitivity labels
 - Data Loss Prevention
 - Sensitive Information Types
-- Document fingerprinting
-- Security baselines
-- Governance-aligned administration
+- document fingerprinting direction
+- security baselines
+- governance-aligned administration
 
 ### Infrastructure & Operations
 - Hyper-V
 - Windows Server
 - Ubuntu Server/Desktop
 - PowerShell
-- Monitoring and alerting
+- monitoring and alerting direction
 - Azure governance (future phase)
 - Terraform (future phase)
 
@@ -305,31 +384,27 @@ This gives the platform a more realistic mixed-endpoint story than a Windows-onl
 - `docs/04-target-state-architecture.md` - phased target architecture
 - `docs/05-hybrid-identity.md` - AD, Entra ID, sync, namespace, and pilot identity status
 - `docs/06-m365-modern-workplace.md` - tenant setup, licensing, Exchange migration, Teams, SharePoint, and M365 scope
-- `docs/07-endpoint-security-intune.md` - Intune baseline, Windows endpoint scenarios, Linux path, iPhone BYOD, compliance, security baseline, and BitLocker recovery scenario
-- `docs/08-information-protection-purview.md` - labels, DLP, SITs, and document fingerprinting
-- `docs/09-monitoring-alerting.md` - logs, alerts, and operational visibility
-- `docs/10-security-compliance-mapping.md` - control mapping against GDPR, NIST, and CIS
-- `docs/11-roadmap.md` - future phases
-- `docs/12-lessons-learned.md` - technical decisions, troubleshooting notes, and build lessons
-- `docs/13-release1-build-checklist.md` - authoritative Release 1 delivery checklist
-
----
-
-## Supporting Documentation
-
-- Hybrid identity and Exchange hybrid notes: `docs/05-hybrid-identity.md`
-- Microsoft 365 workload baseline and Exchange migration: `docs/06-m365-modern-workplace.md`
-- Endpoint and Intune baseline: `docs/07-endpoint-security-intune.md`
-- Build issues, troubleshooting, and design decisions: `docs/12-lessons-learned.md`
-- Current release state: `docs/13-release1-build-checklist.md`
+- `docs/07-endpoint-security-intune.md` - endpoint overview and navigation page
+- `docs/08-endpoint-platforms-and-enrollment.md` - Windows, Linux, and iPhone platform enrollment detail
+- `docs/09-endpoint-compliance-and-security-baseline.md` - compliance, security baseline, BitLocker, and LAPS direction
+- `docs/10-information-protection-purview.md` - labels, publishing, and DLP pilot
+- `docs/11-monitoring-alerting.md` - monitoring baseline and next-step visibility plan
+- `docs/12-security-compliance-mapping.md` - control mapping against GDPR, NIST, and CIS
+- `docs/13-roadmap.md` - phased roadmap
+- `docs/14-advanced-recovery-scenarios.md` - BitLocker recovery, rebuild, and stale-record cleanup
+- `docs/15-lessons-learned.md` - technical decisions, troubleshooting notes, and build lessons
+- `docs/16-release1-build-checklist.md` - authoritative Release 1 delivery checklist
+- `docs/17-release1-final-summary.md` - polished Release 1 closeout summary
+- `docs/18-release2-build-checklist.md` - Release 2 planning tracker
 
 ---
 
 ## Supporting Artifacts
 
 - Exchange / migration scripts: `scripts/exchange/`
-- Ansible baseline content: `scripts/ansible/` or repository Ansible path if maintained there
-- Screenshots and implementation evidence: `screenshots/`
+- Ansible baseline content: `ansible/`
+- diagrams: `diagrams/`
+- screenshots and implementation evidence: `screenshots/`
 
 ---
 
@@ -350,20 +425,21 @@ This repository prioritizes implementation evidence over claims. Evidence includ
 - iPhone enrollment evidence
 - Windows compliance and security baseline evidence
 - BitLocker recovery and stale-device cleanup evidence
-- Ansible project and playbook execution evidence
-- policy screenshots
-- monitoring and alert examples
+- MFA, SSPR, Conditional Access, and LAPS pilot evidence
+- Purview label and DLP evidence
+- Ansible files and playbook execution evidence
+- monitoring evidence as the baseline is expanded
 
 ---
 
 ## Guiding Principles
 
-- Security is embedded in every phase
-- Governance and compliance are documented, not assumed
-- Evidence is prioritized over buzzwords
-- Scope is phased to remain realistic and defensible
-- The platform is designed for extension into Azure, MSP, and workload modernization scenarios
-- Design decisions are recorded and not reworked without clear technical justification
+- security is embedded in every phase
+- governance and compliance are documented, not assumed
+- evidence is prioritized over buzzwords
+- scope is phased to remain realistic and defensible
+- the platform is designed for extension into Azure, MSP, and workload modernization scenarios
+- design decisions are recorded and not reworked without clear technical justification
 
 ---
 
