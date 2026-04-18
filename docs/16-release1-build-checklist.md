@@ -215,8 +215,8 @@ Release 1 includes:
 | BitLocker recovery and re-enrollment scenario | Completed | Advanced lab scenario documented through rebuild and stale-record cleanup evidence |
 | Windows LAPS design decision | Completed | Control requirement now identified clearly through recovery lessons and pilot hardening work |
 | Windows LAPS policy implementation | Completed | Pilot LAPS policy created and assigned successfully |
-| Windows LAPS password backup validation | Completed | Password backup and retrieval workflow validated |
-| Windows LAPS recovery scenario validation | Completed | Recovery validation completed and evidenced |
+| Windows LAPS password backup validation | In Progress | LAPS policy is implemented, but password retrieval workflow is not yet fully evidenced in the current Windows build path |
+| Windows LAPS recovery scenario validation | In Progress | LAPS recovery value is established conceptually, but a full retrieval-and-recovery validation path is not yet evidenced |
 | Defender / endpoint protection baseline | Completed | Defender baseline implemented and evidenced |
 | Antivirus / policy review | Completed | Antivirus policy baseline reviewed and evidenced |
 | ASR rules baseline | Completed | Attack Surface Reduction baseline implemented and evidenced |
@@ -233,7 +233,7 @@ Release 1 includes:
 | DLP baseline | Completed | U.K. Financial Data pilot DLP policy created and validated |
 | Sensitive Information Types usage | Completed | Built-in financial data detection used in pilot DLP validation |
 | Retention policy baseline | Completed | Retention-policy baseline created and visible in Purview administration |
-| Document fingerprinting example | Completed | Document fingerprinting example implemented and evidenced |
+| Document fingerprinting example | Pending | Feature availability / role readiness still needs to be confirmed before evidence can be captured |
 | Purview evidence capture | Completed | Label, publishing, DLP, and retention screenshots captured |
 
 ---
@@ -258,9 +258,9 @@ Release 1 includes:
 | Item | Status | Notes |
 |---|---|---|
 | Release 1 control mapping structure created | Completed | Mapping document exists |
-| Hybrid identity controls reflected in mapping | Completed | Needs refresh based on actual implemented state |
-| Messaging / hybrid readiness controls reflected in mapping | Completed | Needs refresh based on completed migration path |
-| Endpoint / Zero Trust / Purview controls reflected | Completed | Endpoint and Purview baseline now implemented; mapping needs refresh |
+| Hybrid identity controls reflected in mapping | In Progress | Mapping structure exists, but final evidence-linked refresh is still pending |
+| Messaging / hybrid readiness controls reflected in mapping | In Progress | Mapping structure exists, but final evidence-linked refresh is still pending |
+| Endpoint / Zero Trust / Purview controls reflected | In Progress | Endpoint and Purview baseline are implemented, but the final evidence-linked mapping pass is still pending |
 | Final evidence-linked mapping pass | Pending | End-of-release task |
 
 ---
@@ -285,8 +285,8 @@ Release 1 includes:
 | Update ring and configuration profile evidence captured | Completed | Windows update ring and configuration profile evidence committed |
 | Windows security baseline evidence captured | Completed | Baseline assignment, Defender, antivirus, ASR, and ransomware-resilience evidence committed |
 | BitLocker recovery scenario evidence captured | Completed | Recovery prompt, key retrieval, trust break, duplicate records, cleanup, and restored state evidenced |
-| Identity protection evidence captured | Completed | MFA, SSPR, Conditional Access, LAPS retrieval, and LAPS recovery evidence captured |
-| Purview evidence captured | Completed | Labels, publishing, DLP, retention, and document fingerprinting evidence captured |
+| Identity protection evidence captured | Completed | MFA, SSPR, Conditional Access, and LAPS policy implementation evidence captured |
+| Purview evidence captured | Completed | Labels, publishing, DLP, and retention evidence captured |
 | Monitoring evidence captured | Completed | Monitoring evidence captured for sign-in visibility, audit baseline, CA results, and alert example |
 | Diagrams committed | Completed | Release 1 architecture, control flow, recovery scenario, and roadmap diagrams available |
 | Pilot licensing and sign-in evidence captured | Completed | Some evidence exists; final organization may still improve |
@@ -378,4 +378,5 @@ The next correct execution sequence is:
 This checklist should remain aligned to actual implementation state.
 
 Do not downgrade completed work back to planning language, and do not mark later security or modern workplace controls as implemented until evidence exists.
+
 

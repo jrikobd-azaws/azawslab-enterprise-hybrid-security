@@ -109,7 +109,7 @@ Release 1 implemented:
 - Windows security baseline
 - BitLocker-related control validation
 - identity-protection dependency through compliant-device logic
-- pilot Windows LAPS policy implementation direction and initial evidence
+- pilot Windows LAPS policy implementation and assignment evidence
 
 ### Identity protection baseline
 
@@ -259,12 +259,12 @@ The next maturity layer after Release 1 closeout is:
 - Windows LAPS password retrieval and recovery validation
 - Defender and endpoint protection expansion
 - stronger monitoring and alerting depth
-- document fingerprinting and deeper information protection controls
+- document fingerprinting availability review and deeper information protection controls
 - Azure governance and platform engineering in Release 2
 
 Release 1 should therefore be understood as:
 
-- completed
+- completed for implemented Release 1 scope
 - evidenced
 - documented
 - and ready to support Release 2
@@ -288,5 +288,6 @@ It proved practical implementation across:
 - monitoring and visibility baseline
 - BitLocker recovery and lifecycle-management lessons
 
-Release 1 is therefore best described as a **completed and evidenced hybrid Microsoft platform baseline** that is ready to support Release 2 planning.
+Release 1 is therefore best described as a **completed and evidenced hybrid Microsoft platform baseline** with a small number of explicitly deferred or blocked items recorded in the Release 1 checklist.
+
 
