@@ -23,7 +23,7 @@ A phased flagship project demonstrating hybrid identity, Microsoft 365, endpoint
 
 | Release | Focus | Status |
 |---|---|---|
-| Release 1 | Hybrid identity, Microsoft 365, endpoint management, Zero Trust direction, information protection, and operational recovery lessons | Implemented / near-complete |
+| Release 1 | Hybrid identity, Microsoft 365, endpoint management, Zero Trust direction, information protection, and operational recovery lessons | Completed |
 | Release 2 | Azure landing zone, IaC, governance, Defender for Cloud, Sentinel, and MSP-style operations | Planned |
 | Release 3 | Secure workload modernization, containerized services, observability, and resilience | Planned |
 
@@ -451,3 +451,4 @@ This repository prioritizes implementation evidence over claims. Evidence includ
 Hashibur Rahman  
 Senior Hybrid Cloud & Infrastructure Engineer  
 Belfast, UK
+

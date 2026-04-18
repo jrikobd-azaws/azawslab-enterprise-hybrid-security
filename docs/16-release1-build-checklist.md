@@ -192,8 +192,8 @@ Release 1 includes:
 | iPhone / iOS compliance validation | Completed | iPhone shown compliant in Intune |
 | Windows joined vs registered comparison | In Progress | Initial distinction visible; deeper comparison can be expanded |
 | Compliance policy baseline | Completed | Windows compliance policy implemented and evaluated across corp/BYOD devices |
-| Configuration profile baseline | Pending | Not yet started |
-| Update rings / patching baseline | Pending | Not yet started |
+| Configuration profile baseline | Completed | Windows configuration profile baseline implemented and evidenced |
+| Update rings / patching baseline | Completed | Windows update ring / patching baseline implemented and evidenced |
 | Android BYOD / MAM scenario | Pending | Not yet started |
 | Linux support path documentation | Completed | Endpoint documentation now includes Linux path |
 | Ansible baseline for Linux | Completed | Connectivity, syntax check, baseline playbook execution, and repo files validated |
@@ -215,12 +215,12 @@ Release 1 includes:
 | BitLocker recovery and re-enrollment scenario | Completed | Advanced lab scenario documented through rebuild and stale-record cleanup evidence |
 | Windows LAPS design decision | Completed | Control requirement now identified clearly through recovery lessons and pilot hardening work |
 | Windows LAPS policy implementation | Completed | Pilot LAPS policy created and assigned successfully |
-| Windows LAPS password backup validation | Pending | Retrieval and operational validation still needed |
-| Windows LAPS recovery scenario validation | Pending | Important follow-on after BitLocker recovery lessons |
-| Defender / endpoint protection baseline | Pending | Not yet started |
-| Antivirus / policy review | Pending | Not yet started |
-| ASR rules baseline | Pending | Not yet started |
-| Ransomware resilience controls | Pending | Not yet started |
+| Windows LAPS password backup validation | Completed | Password backup and retrieval workflow validated |
+| Windows LAPS recovery scenario validation | Completed | Recovery validation completed and evidenced |
+| Defender / endpoint protection baseline | Completed | Defender baseline implemented and evidenced |
+| Antivirus / policy review | Completed | Antivirus policy baseline reviewed and evidenced |
+| ASR rules baseline | Completed | Attack Surface Reduction baseline implemented and evidenced |
+| Ransomware resilience controls | Completed | Ransomware resilience controls implemented at Release 1 scope |
 
 ---
 
@@ -233,7 +233,7 @@ Release 1 includes:
 | DLP baseline | Completed | U.K. Financial Data pilot DLP policy created and validated |
 | Sensitive Information Types usage | Completed | Built-in financial data detection used in pilot DLP validation |
 | Retention policy baseline | Completed | Retention-policy baseline created and visible in Purview administration |
-| Document fingerprinting example | Pending | Not yet started |
+| Document fingerprinting example | Completed | Document fingerprinting example implemented and evidenced |
 | Purview evidence capture | Completed | Label, publishing, DLP, and retention screenshots captured |
 
 ---
@@ -245,11 +245,11 @@ Release 1 includes:
 | Entra identity administration visibility baseline | Completed | Pilot identity and policy visibility evidenced in Entra admin views |
 | Endpoint visibility baseline | Completed | Device presence, ownership, and state evidenced across Intune and Entra |
 | Purview protection visibility baseline | Completed | Labels, DLP, and retention-policy visibility evidenced |
-| Entra sign-in log visibility baseline | In Progress | Monitoring evidence being expanded; final examples and write-up still developing |
-| Audit log baseline | Pending | Not yet started |
-| Conditional Access result visibility baseline | In Progress | Policy presence established; result-review examples can be expanded |
-| Example alert configuration | Pending | Not yet started |
-| Monitoring documentation | In Progress | Baseline page now established; final evidence alignment still needed |
+| Entra sign-in log visibility baseline | Completed | Sign-in log visibility baseline implemented and evidenced |
+| Audit log baseline | Completed | Audit log baseline implemented and evidenced |
+| Conditional Access result visibility baseline | Completed | Conditional Access result visibility baseline implemented and evidenced |
+| Example alert configuration | Completed | Example alert configuration implemented and evidenced |
+| Monitoring documentation | Completed | Monitoring baseline documented and aligned to evidence |
 
 ---
 
@@ -282,11 +282,12 @@ Release 1 includes:
 | iOS / iPhone BYOD evidence captured | Completed | Apple MDM push certificate, enrollment flow, Entra visibility, and Intune compliance evidence committed |
 | Ansible evidence captured | Completed | Project structure, playbook, ping, syntax check, run evidence, and repo files committed |
 | Windows compliance policy evidence captured | Completed | Policy creation, assignments, per-device results, and settings detail evidence committed |
-| Windows security baseline evidence captured | Completed | Baseline assignment and security-policy evidence committed |
+| Update ring and configuration profile evidence captured | Completed | Windows update ring and configuration profile evidence committed |
+| Windows security baseline evidence captured | Completed | Baseline assignment, Defender, antivirus, ASR, and ransomware-resilience evidence committed |
 | BitLocker recovery scenario evidence captured | Completed | Recovery prompt, key retrieval, trust break, duplicate records, cleanup, and restored state evidenced |
-| Identity protection evidence captured | Completed | MFA, SSPR, Conditional Access, and LAPS pilot evidence captured |
-| Purview evidence captured | Completed | Labels, publishing, DLP, and retention baseline evidence captured |
-| Monitoring evidence captured | In Progress | Visibility baseline evidence now exists; final curated examples still being aligned |
+| Identity protection evidence captured | Completed | MFA, SSPR, Conditional Access, LAPS retrieval, and LAPS recovery evidence captured |
+| Purview evidence captured | Completed | Labels, publishing, DLP, retention, and document fingerprinting evidence captured |
+| Monitoring evidence captured | Completed | Monitoring evidence captured for sign-in visibility, audit baseline, CA results, and alert example |
 | Diagrams committed | Completed | Release 1 architecture, control flow, recovery scenario, and roadmap diagrams available |
 | Pilot licensing and sign-in evidence captured | In Progress | Some evidence exists; final organization may still improve |
 | HCW warning evidence captured | Completed | HCW8078 screenshots captured |
@@ -377,3 +378,4 @@ The next correct execution sequence is:
 This checklist should remain aligned to actual implementation state.
 
 Do not downgrade completed work back to planning language, and do not mark later security or modern workplace controls as implemented until evidence exists.
+
