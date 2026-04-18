@@ -13,6 +13,21 @@ This file reflects actual implementation state, not just original planning.
 ## Release 1 Scope Summary
 
 Release 1 includes:
+# Release 1 Build Checklist
+
+## Purpose
+
+This checklist is the authoritative task-state tracker for Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
+
+Release 1 focuses on building the hybrid identity, messaging, Microsoft 365, endpoint, security, compliance, and monitoring foundations required for a realistic enterprise-style hybrid platform.
+
+This file reflects actual implementation state, not just original planning.
+
+---
+
+## Release 1 Scope Summary
+
+Release 1 includes:
 
 - Hyper-V-based on-premises foundation
 - Active Directory with DC1 and DC2
@@ -110,7 +125,7 @@ Release 1 includes:
 | Pilot cloud sign-in validated | Completed | At least one pilot user validated |
 | Microsoft 365 web app access validated | Completed | Includes apps such as Designer / Excel web |
 | Outlook on the web pre-migration behavior reviewed | Completed | Mailbox-not-found treated as expected pre-migration state |
-| Entra admin role separation fully documented | In Progress | Technical implementation partly complete; documentation can still improve |
+| Entra admin role separation fully documented | In Progress | Technical implementation complete enough for pilot scope; wording and final presentation can still improve |
 
 ---
 
@@ -149,7 +164,7 @@ Release 1 includes:
 | Pilot remote move for `u.hr01` | Completed | Migration completed |
 | Migration completion state validated | Completed | User and batch completion screenshots captured |
 | Post-migration mailbox access validation | Completed | Outlook on the web validated |
-| Post-migration coexistence validation | In Progress | Pilot mailbox access proven; broader coexistence testing can be extended later |
+| Post-migration coexistence validation | In Progress | Pilot mailbox access proven; broader coexistence and mail-routing validation can be extended later |
 
 ---
 
@@ -166,7 +181,7 @@ Release 1 includes:
 | SharePoint site access validation | Completed | Site and membership visible |
 | SharePoint document library validation | Completed | Library browsing and access validated |
 | SharePoint file upload and open test | Completed | Upload and file-open confirmed |
-| Microsoft 365 admin setup documentation | In Progress | Exchange, Teams, and SharePoint progress reflected; broader service docs still pending |
+| Microsoft 365 admin setup documentation | In Progress | Exchange, Teams, and SharePoint progress reflected; final presentation alignment still needed |
 
 ---
 
@@ -198,20 +213,19 @@ Release 1 includes:
 
 | Item | Status | Notes |
 |---|---|---|
-| MFA baseline | Completed | Pilot MFA rollout implemented through Conditional Access-targeted pilot scope |
-| Conditional Access baseline | Completed | CA01, CA02, and CA03 created, piloted in report-only, then enforced |
-| Compliant-device logic | Completed | Office 365 pilot policy requires compliant device and MFA |
+| MFA baseline | Completed | Pilot rollout implemented through Authentication Methods plus Conditional Access-targeted pilot scope |
+| Self-Service Password Reset (SSPR) baseline | Completed | Enabled for selected pilot users through `SG-Pilot-MFA-SSPR-CA` |
+| Conditional Access baseline | Completed | CA01, CA02, and CA03 created; piloted in report-only and moved toward enforced pilot control |
+| Compliant-device access logic | Completed | Office 365 pilot policy requires compliant device and MFA |
 | Unmanaged-device access test | In Progress | Core compliant-device policy exists; broader negative-path validation can be extended |
-| SSPR pilot enablement | Completed | Enabled for selected pilot users through `SG-Pilot-MFA-SSPR-CA` | |
 | Windows security baseline | Completed | `SB-WIN-Release1-Baseline` assigned to corp and BYOD groups |
 | BitLocker policy / disk encryption validation | Completed | Encryption-related policy path tested with recovery observations |
 | BitLocker escrow and recovery-key validation | Completed | Recovery key retrieval and recovery workflow evidenced |
-| BitLocker recovery and re-enrollment scenario | Completed | Advanced lab scenario documented through rebuild / stale record cleanup evidence |
-| Windows LAPS design decision | Pending | Needed to improve local admin recovery for managed standard-user devices |
-| Windows LAPS policy implementation | Pending | Not yet started |
-| Windows LAPS password backup validation | Pending | To confirm escrow and retrieval workflow |
+| BitLocker recovery and re-enrollment scenario | Completed | Advanced lab scenario documented through rebuild and stale-record cleanup evidence |
+| Windows LAPS design decision | Completed | Control requirement now identified clearly through recovery lessons and pilot hardening work |
+| Windows LAPS policy implementation | Completed | Pilot LAPS policy created and assigned successfully |
+| Windows LAPS password backup validation | Pending | Retrieval and operational validation still needed |
 | Windows LAPS recovery scenario validation | Pending | Important follow-on after BitLocker recovery lessons |
-| Unmanaged-device access test | Pending | To validate Conditional Access enforcement outcome |
 | Defender / endpoint protection baseline | Pending | Not yet started |
 | Antivirus / policy review | Pending | Not yet started |
 | ASR rules baseline | Pending | Not yet started |
@@ -223,11 +237,12 @@ Release 1 includes:
 
 | Item | Status | Notes |
 |---|---|---|
-| Sensitivity labels | Pending | Not yet started |
-| DLP baseline | Pending | Not yet started |
-| Sensitive Information Types usage | Pending | Not yet started |
+| Sensitivity labels | Completed | Public, Internal, and Confidential label structure created and validated |
+| Label publishing policy baseline | Completed | Publishing policy scoped to pilot users/groups |
+| DLP baseline | Completed | U.K. Financial Data pilot DLP policy created and validated |
+| Sensitive Information Types usage | Completed | Built-in financial data detection used in pilot DLP validation |
 | Document fingerprinting example | Pending | Not yet started |
-| Purview evidence capture | Pending | Not yet started |
+| Purview evidence capture | Completed | Label, publishing, and DLP screenshots captured |
 
 ---
 
@@ -250,7 +265,7 @@ Release 1 includes:
 | Release 1 control mapping structure created | Completed | Mapping document exists |
 | Hybrid identity controls reflected in mapping | In Progress | Needs refresh based on actual implemented state |
 | Messaging / hybrid readiness controls reflected in mapping | In Progress | Needs refresh based on completed migration path |
-| Endpoint / Zero Trust / Purview controls reflected | In Progress | Endpoint baseline now implemented; mapping needs refresh |
+| Endpoint / Zero Trust / Purview controls reflected | In Progress | Endpoint and Purview baseline now implemented; mapping needs refresh |
 | Final evidence-linked mapping pass | Pending | End-of-release task |
 
 ---
@@ -270,20 +285,25 @@ Release 1 includes:
 | Intune baseline evidence captured | Completed | Tenant baseline and Windows evidence committed |
 | Linux Intune evidence captured | Completed | Ubuntu / Intune Agent / device visibility evidence committed |
 | iOS / iPhone BYOD evidence captured | Completed | Apple MDM push certificate, enrollment flow, Entra visibility, and Intune compliance evidence committed |
-| Ansible evidence captured | Completed | Project structure, playbook, ping, syntax check, and run evidence committed |
+| Ansible evidence captured | Completed | Project structure, playbook, ping, syntax check, run evidence, and repo files committed |
 | Windows compliance policy evidence captured | Completed | Policy creation, assignments, per-device results, and settings detail evidence committed |
 | Windows security baseline evidence captured | Completed | Baseline assignment and security-policy evidence committed |
 | BitLocker recovery scenario evidence captured | Completed | Recovery prompt, key retrieval, trust break, duplicate records, cleanup, and restored state evidenced |
+| Identity protection evidence captured | Completed | MFA, SSPR, Conditional Access, and LAPS pilot evidence captured |
+| Purview evidence captured | Completed | Labels, publishing, and DLP pilot evidence captured |
+| Diagrams committed | Completed | Release 1 architecture, control flow, recovery scenario, and roadmap diagrams available |
 | Pilot licensing and sign-in evidence captured | In Progress | Some evidence exists; final organization may still improve |
 | HCW warning evidence captured | Completed | HCW8078 screenshots captured |
 | Migration endpoint evidence captured | Completed | Manual endpoint creation captured |
 | Migration validation evidence captured | Completed | `Test-MigrationServerAvailability` success captured |
 | Pilot batch and migration completion evidence captured | Completed | Batch, user, and completion state captured |
 | Post-migration Outlook validation evidence captured | Completed | OWA evidence captured |
-| `README.md` status updated | In Progress | Needs refresh to include security baseline, compliance baseline, BitLocker recovery, Linux, Ansible, and iPhone progression |
+| `README.md` status updated | In Progress | Final recruiter-facing wording and quick-link polish still needed |
 | `docs/06-m365-modern-workplace.md` updated | In Progress | Collaboration baseline updated; may need final wording alignment |
-| `docs/07-endpoint-security-intune.md` updated | In Progress | Should be refreshed to include iPhone BYOD, Apple push certificate, security baseline, compliance policy, and BitLocker recovery scenario |
-| `docs/12-lessons-learned.md` updated | In Progress | Endpoint/Linux/Ansible/iPhone/BitLocker lessons can be extended |
+| `docs/07-endpoint-security-intune.md` updated | In Progress | To be refactored into endpoint overview/navigation page |
+| `docs/10-information-protection-purview.md` updated | In Progress | Needs full write-up from committed evidence |
+| `docs/11-monitoring-alerting.md` updated | Pending | Needs full build-out |
+| `docs/15-lessons-learned.md` updated | In Progress | Endpoint/Linux/Ansible/iPhone/BitLocker lessons updated; final numbering alignment still needed |
 | This checklist updated | In Progress | Use this file as authoritative status page |
 | Excel tracker aligned with GitHub | In Progress | Realignment work underway |
 
@@ -293,21 +313,25 @@ Release 1 includes:
 
 The next correct execution sequence is:
 
-1. implement and document the identity protection baseline for:
-   - MFA
-   - Self-Service Password Reset (SSPR)
-   - Conditional Access
-   - compliant-device access logic
-
-2. add Windows LAPS into the planned next-control path
-
-3. continue broader Release 1 implementation for:
-   - configuration profiles
-   - update rings
-   - Defender / endpoint hardening
-   - Purview / information protection
+1. refactor the endpoint documentation into:
+   - `07-endpoint-security-intune.md` as overview / navigation
+   - detailed endpoint platform, compliance, and recovery docs
+2. build out the remaining Release 1 documentation for:
+   - information protection / Purview
    - monitoring and alerting
-
+   - roadmap
+   - final Release 1 summary
+3. complete final recruiter/public presentation polish for:
+   - `README.md`
+   - quick links
+   - selected embedded diagrams and screenshots
+4. continue the remaining Release 1 hardening workstreams for:
+   - Windows LAPS password retrieval validation
+   - Windows LAPS recovery validation
+   - Defender / endpoint hardening
+   - update rings / configuration profiles
+   - monitoring and alerting depth
+   - document fingerprinting
 
 ---
 
@@ -335,22 +359,22 @@ The next correct execution sequence is:
 - Linux Intune enrollment scenario
 - Linux baseline automation with Ansible
 - iPhone BYOD enrollment scenario
+- MFA, SSPR, and Conditional Access pilot baseline
 - Windows compliance policy baseline
 - Windows security baseline
+- Purview sensitivity labels and DLP pilot baseline
 - BitLocker recovery and re-enrollment scenario
 
 ### Current Active Phase
-- MFA, SSPR, and Conditional Access pilot baseline implemented
-- Security Defaults transitioned to Conditional Access-based policy control
-- compliant-device access logic implemented for Microsoft 365 pilot scope
-- next workstreams: Defender hardening, LAPS, information protection, monitoring, and final compliance/evidence closeout
 
-- GitHub / tracker evidence closeout
-- continuation into configuration, Zero Trust, endpoint hardening, monitoring, information protection, and deeper policy work across Windows, Linux, and mobile
+- Release 1 documentation and evidence closeout
+- endpoint documentation refactor for cleaner public presentation
+- final recruiter/public repo polish
+- remaining hardening work across LAPS validation, Defender, monitoring, and information protection depth
 
 ### Next Milestone
 
-- broader Release 1 policy depth and security-control implementation
+- complete the Release 1 closeout pack and then transition into the next maturity layer for identity protection, endpoint hardening, monitoring, and Release 2 planning
 
 ---
 
