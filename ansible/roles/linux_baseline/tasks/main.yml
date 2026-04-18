@@ -1,0 +1,54 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: Install baseline packages
+  apt:
+    name:
+      - curl
+      - vim
+      - git
+      - htop
+      - unzip
+    state: present
+  become: yes
+
+- name: Set timezone to Europe/London
+  community.general.timezone:
+    name: Europe/London
+  become: yes
+
+- name: Create azawslab marker file
+  copy:
+    dest: /etc/azawslab-release1.txt
+    content: |
+      azawslab Enterprise Hybrid Security Platform
+      Release 1 Linux baseline applied with Ansible
+      Managed from ANS1
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+
+- name: Create operations directory
+  file:
+    path: /opt/azawslab
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+
+- name: Create MOTD banner
+  copy:
+    dest: /etc/motd
+    content: |
+      Authorized system for azawslab Release 1 Linux baseline.
+      Managed through centralized Ansible control.
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
