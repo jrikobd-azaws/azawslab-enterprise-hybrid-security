@@ -2,7 +2,7 @@
 
 **Navigation:** [README](../README.md) | [Release 1 Build Checklist](16-release1-build-checklist.md) | [Release 1 Final Summary](17-release1-final-summary.md)
 
-**Related docs:** [Modern Workplace](06-m365-modern-workplace.md) | [Endpoint Security and Intune Overview](07-endpoint-security-intune.md) | [Security and Compliance Mapping](12-security-compliance-mapping.md)
+**Related docs:** [Modern Workplace](06-m365-modern-workplace.md) | [Endpoint Security and Intune Overview](07-endpoint-security-intune.md) | [Security and Compliance Mapping](12-security-compliance-mapping.md) | [Monitoring and Alerting](11-monitoring-alerting.md)
 
 ---
 
@@ -10,14 +10,14 @@
 
 This document records the **information protection baseline** implemented in Release 1 for the `azawslab Enterprise Hybrid Security Platform`.
 
-The purpose of this workstream is to demonstrate that Release 1 does not stop at identity, messaging, and endpoint control. It also begins to address:
+The purpose of this workstream is to show that Release 1 does not stop at identity, messaging, and endpoint control. It also begins to address:
 
 - content classification
 - sensitivity labeling
-- publishing of labels to pilot users
-- data loss prevention (DLP) policy creation
-- user-facing policy tip behavior
-- initial financial-data detection in Microsoft 365 content flows
+- publication of labels to pilot users
+- data loss prevention (DLP)
+- retention-policy baseline
+- user-facing policy behavior in Microsoft 365 content workflows
 
 This document should be read as the Release 1 **Purview baseline** page, not as a claim of full enterprise-wide information protection maturity.
 
@@ -30,18 +30,19 @@ This document covers:
 - sensitivity label structure created in Release 1
 - label publication to pilot scope
 - user validation of applied labels in Microsoft Word
-- DLP pilot policy creation
-- DLP detection and policy-tip validation
+- DLP pilot policy creation and validation
+- retention-policy baseline creation and visibility
 - the role of Purview in the wider Release 1 control story
 
 This document does **not** yet claim completion of:
 
 - document fingerprinting
 - auto-labeling at scale
-- advanced record management
+- advanced records management maturity
 - full insider-risk program
 - advanced eDiscovery
-- organization-wide Purview governance maturity
+- large-scale retention governance design
+- organization-wide Purview operating maturity
 
 Those are later maturity items beyond the current Release 1 baseline.
 
@@ -58,31 +59,37 @@ Release 1 already demonstrates:
 - identity protection
 - compliance and security baseline controls
 
-Purview matters because it extends the project from **device and access control** into **content protection and data handling**.
+Purview matters because it extends the project from **device and access control** into **content protection, data handling, and information lifecycle awareness**.
 
 That makes the overall platform much stronger.
 
 Without Purview, the project would mainly prove:
+
 - who can sign in
 - what device they are on
 - what mailbox or workload they can access
 
 With Purview included, the project begins to show:
+
 - how content can be classified
 - how sensitive data can be governed
-- how user-facing protection signals appear inside productivity workflows
+- how policy can appear inside productivity workflows
+- how baseline retention controls can begin to shape information lifecycle thinking
 
 ---
 
 ## Release 1 Purview Baseline
 
-The Release 1 Purview baseline currently includes two core layers:
+The Release 1 Purview baseline now includes three core layers:
 
 ### 1. Sensitivity labels
 Used to classify information and apply visible labeling in documents.
 
 ### 2. Data Loss Prevention (DLP)
 Used to detect sensitive financial content patterns and present user-facing policy behavior.
+
+### 3. Retention baseline
+Used to show initial information-lifecycle governance awareness through Purview policy configuration.
 
 Together, these create the first information-protection layer in the platform.
 
@@ -105,7 +112,7 @@ This is an appropriate Release 1 starting point because it is:
 - easy to understand
 - easy to demonstrate
 - realistic enough for a mid-sized enterprise pilot narrative
-- strong enough to connect to later governance and DLP work
+- strong enough to connect to later governance, DLP, and retention work
 
 ### Why this label model works
 
@@ -223,6 +230,7 @@ The evidence shows the DLP policy path from template selection to review/finaliz
 This proves that the DLP work was not conceptual only.
 
 It reached the level of:
+
 - policy selection
 - review
 - creation
@@ -241,6 +249,7 @@ One of the strongest parts of the Release 1 DLP evidence is the user-facing vali
 ### What was observed
 
 The evidence shows:
+
 - a DLP policy tip appearing in Word
 - issue details related to financial-data detection
 - policy-tip behavior tied to an external sharing / financial-data scenario
@@ -248,6 +257,7 @@ The evidence shows:
 ### Why this matters
 
 This is high-value evidence because it proves:
+
 - the policy exists
 - the policy detects content
 - the user sees the effect of that detection
@@ -264,6 +274,47 @@ The right way to describe this is:
 
 ---
 
+## Retention Policy Baseline
+
+Release 1 now also includes a **Purview retention-policy baseline**.
+
+### Why retention matters
+
+Retention adds another important dimension to the Purview story.
+
+Where:
+
+- sensitivity labels focus on classification
+- DLP focuses on sensitive-data detection and policy-trigger behavior
+
+retention focuses on:
+
+- information lifecycle awareness
+- policy-driven content handling over time
+- the idea that governance is not only about access and sensitivity, but also about how long information should be preserved or governed
+
+### What the Release 1 baseline proves
+
+The retention-policy evidence should be described carefully.
+
+The correct Release 1 claim is:
+
+- a retention-policy baseline has been created and is visible in the Purview administration path
+- the project now demonstrates awareness of information lifecycle governance, not only labels and DLP
+- Release 1 includes retention as a baseline governance signal, not as a fully mature records-management program
+
+### Why this strengthens the project
+
+This makes the Purview workstream more credible because it shows that the project is beginning to cover three distinct information-protection dimensions:
+
+- classification
+- detection
+- retention / lifecycle governance
+
+That is much stronger than stopping at labels alone.
+
+---
+
 ## Relationship Between Purview and the Wider Release 1 Design
 
 Purview in Release 1 should not be treated as an isolated feature.
@@ -277,7 +328,7 @@ Controls who can authenticate and under what conditions.
 Controls device state, compliance, and management visibility.
 
 ### Purview
-Controls how content itself is classified and how sensitive information triggers policy behavior.
+Controls how content is classified, how sensitive information triggers policy behavior, and how lifecycle governance begins to be expressed through retention.
 
 This is an important design point because it shows the project is moving toward **defense in depth** across:
 
@@ -301,7 +352,8 @@ Release 1 does **not** yet claim:
 - document fingerprinting
 - advanced DLP exception models
 - Insider Risk Management deployment
-- advanced records management or retention maturity
+- advanced records management maturity
+- large-scale retention governance operating model
 
 This is intentional. Release 1 demonstrates the baseline, not the final enterprise operating model.
 
@@ -310,23 +362,28 @@ This is intentional. Release 1 demonstrates the baseline, not the final enterpri
 ## Current Release 1 Position for Purview
 
 ### Completed
+
 - baseline sensitivity labels created
 - label publishing policy created
 - labels validated in Office application workflow
 - DLP pilot policy created
 - DLP policy list presence confirmed
 - DLP policy-tip behavior validated in Word
+- retention-policy baseline created and visible in the Purview administration path
 
 ### In progress
+
 - final documentation alignment
 - integration of Purview into the overall Release 1 final-summary narrative
 - mapping of Purview controls into the broader compliance/control framework
 
 ### Not yet complete
+
 - document fingerprinting
 - broader label taxonomy expansion
 - advanced DLP governance
-- larger-scale Purview operational maturity
+- larger-scale retention governance
+- broader Purview operational maturity
 
 ---
 
@@ -337,13 +394,17 @@ The strongest evidence for this document comes from:
 - `screenshots/release1/release1-purview/purview-sensitivity-labels/`
 - `screenshots/release1/release1-purview/purview-dlp/`
 
+And now also from the retention-related Purview screenshots you added to the project.
+
 These support:
+
 - label overview
 - publishing policy
 - Word label application
 - DLP policy creation
 - DLP policy-list state
 - DLP policy-tip validation
+- retention-policy baseline visibility
 
 ---
 
@@ -352,6 +413,7 @@ These support:
 This document does not need a dedicated large diagram immediately.
 
 Best later options:
+
 - keep the main architecture diagrams in README and overview docs
 - use screenshots here for proof
 - optionally add a small content-protection relationship diagram later if needed
@@ -365,17 +427,21 @@ For now, screenshots are more valuable than a new diagram on this page.
 This file should later embed only a few high-value screenshots.
 
 Recommended maximum:
+
 - one label overview screenshot
 - one Word screenshot showing label application
 - one publishing-policy screenshot
 - one DLP policy-list screenshot
 - one DLP policy-tip screenshot
+- one retention-policy screenshot
 
 That is enough to show:
+
 - configuration
 - publication
 - user validation
 - policy enforcement signal
+- lifecycle-governance baseline
 
 ---
 
@@ -389,6 +455,7 @@ It now also demonstrates practical understanding of:
 - label publishing
 - content-aware protection
 - user-facing data protection signals in Microsoft 365
+- baseline retention and information lifecycle governance
 
 That is a meaningful step toward a more complete Microsoft security and compliance platform story.
 
@@ -403,6 +470,7 @@ Release 1 now includes a real Purview baseline through:
 - user-side label application validation
 - DLP pilot policy creation
 - DLP policy-tip validation
+- retention-policy baseline visibility
 
 This should be presented as **baseline information protection capability**, not as full Purview maturity.
 

@@ -2,7 +2,7 @@
 
 **Navigation:** [README](../README.md) | [Release 1 Build Checklist](16-release1-build-checklist.md)
 
-**Related docs:** [Hybrid Identity](05-hybrid-identity.md) | [Modern Workplace](06-m365-modern-workplace.md) | [Endpoint Security and Intune](07-endpoint-security-intune.md) | [Information Protection and Purview](10-information-protection-purview.md) | [Roadmap](13-roadmap.md) | [Lessons Learned](15-lessons-learned.md)
+**Related docs:** [Hybrid Identity](05-hybrid-identity.md) | [Modern Workplace](06-m365-modern-workplace.md) | [Endpoint Security and Intune](07-endpoint-security-intune.md) | [Information Protection and Purview](10-information-protection-purview.md) | [Monitoring and Alerting](11-monitoring-alerting.md) | [Roadmap](13-roadmap.md) | [Lessons Learned](15-lessons-learned.md)
 
 ---
 
@@ -32,6 +32,7 @@ Release 1 was designed to establish a realistic **hybrid Microsoft foundation** 
 - identity protection
 - information protection
 - baseline compliance and security controls
+- operational visibility
 
 The goal was not to simulate every enterprise feature in full depth.
 
@@ -42,6 +43,7 @@ The goal was to build an evidence-backed platform that proves practical implemen
 ## What Release 1 Implemented
 
 ### On-premises foundation
+
 Release 1 implemented:
 
 - Hyper-V lab foundation
@@ -52,6 +54,7 @@ Release 1 implemented:
 - standard users and pilot groups
 
 ### Hybrid identity and Microsoft 365 onboarding
+
 Release 1 implemented:
 
 - Microsoft 365 tenant onboarding
@@ -61,6 +64,7 @@ Release 1 implemented:
 - pilot licensing and Microsoft 365 sign-in validation
 
 ### Exchange hybrid and migration
+
 Release 1 implemented:
 
 - Exchange Server Subscription Edition on EXCH1
@@ -73,6 +77,7 @@ Release 1 implemented:
 - post-migration Outlook on the web validation
 
 ### Collaboration baseline
+
 Release 1 implemented and validated:
 
 - Teams pilot baseline
@@ -81,6 +86,7 @@ Release 1 implemented and validated:
 - site access, library access, file upload, and file-open validation
 
 ### Endpoint platform coverage
+
 Release 1 implemented:
 
 - Windows 11 corporate-managed endpoint
@@ -90,15 +96,17 @@ Release 1 implemented:
 - iPhone BYOD enrollment through Intune Company Portal
 
 ### Endpoint control layer
+
 Release 1 implemented:
 
 - Windows compliance policy baseline
 - Windows security baseline
 - BitLocker-related control validation
 - identity-protection dependency through compliant-device logic
-- pilot LAPS direction and early implementation evidence
+- pilot Windows LAPS policy implementation direction and initial evidence
 
 ### Identity protection baseline
+
 Release 1 implemented:
 
 - MFA pilot baseline
@@ -108,6 +116,7 @@ Release 1 implemented:
 - break-glass exclusion model for pilot policy design
 
 ### Information protection baseline
+
 Release 1 implemented:
 
 - Purview sensitivity labels
@@ -115,6 +124,18 @@ Release 1 implemented:
 - visible label application in Office workflow
 - DLP pilot for U.K. Financial Data
 - user-facing DLP policy-tip validation
+- Purview retention-policy baseline visibility
+
+### Monitoring and visibility baseline
+
+Release 1 implemented a monitoring/visibility baseline through:
+
+- Entra identity administration visibility
+- Microsoft 365 administrative visibility
+- endpoint state and compliance visibility
+- Conditional Access policy visibility
+- Purview label, DLP, and retention visibility
+- evidence-backed validation checkpoints across the environment
 
 ---
 
@@ -130,8 +151,10 @@ The most important validated outcomes were:
 - Teams and SharePoint user workflows functioning
 - Windows, Linux, and iPhone device visibility established
 - Windows pilot devices reaching compliant state after policy and remediation work
+- Conditional Access, MFA, and SSPR pilot controls configured and evidenced
 - Purview labels visible in Word
 - DLP policy-tip behavior successfully triggered
+- retention-policy baseline visible in Purview administration
 - BitLocker recovery-key escrow usable in practice
 
 This evidence-backed validation is one of the strongest parts of the project.
@@ -155,6 +178,19 @@ This scenario materially improved the credibility of the endpoint workstream.
 
 ---
 
+## Most Important Design Lesson
+
+One of the most important Release 1 design lessons came from the Exchange hybrid path:
+
+- public-trust certificate coverage mattered
+- SAN coverage had to include both `mail.corp.azawslab.co.uk` and `exch1.corp.azawslab.co.uk`
+- certificate trust and naming were directly relevant to hybrid success
+- migration readiness depended on more than wizard completion alone
+
+This provides real PKI and certificate-governance visibility for Release 1 without overstating the project as a full PKI deployment.
+
+---
+
 ## What Release 1 Does Not Claim
 
 To keep the project credible, Release 1 should not be described as if it already includes full production maturity in every area.
@@ -163,15 +199,15 @@ Release 1 does **not** claim completion of:
 
 - full enterprise-wide configuration profile maturity
 - full update-ring / patching maturity
-- mature Windows LAPS operational validation
+- mature Windows LAPS password retrieval and recovery validation
 - Defender hardening and ASR baseline
-- advanced monitoring and alerting
+- advanced monitoring and alert-response workflows
 - document fingerprinting
 - advanced Purview governance or auto-labeling
 - Azure governance and Sentinel implementation
 - secure workload modernization
 
-Those belong to later maturity work in Release 1 hardening or in later releases.
+Those belong to later Release 1 maturity work or to later releases.
 
 ---
 
@@ -188,7 +224,8 @@ It demonstrates practical capability across:
 - endpoint management
 - Zero Trust direction
 - information protection
-- operational recovery thinking
+- operational visibility
+- recovery and lifecycle thinking
 
 This makes the repo much stronger than a collection of disconnected lab notes.
 
@@ -202,7 +239,8 @@ If you want to verify Release 1 in more detail, use these docs:
 - [Hybrid Identity](05-hybrid-identity.md) for sync and namespace design
 - [Modern Workplace](06-m365-modern-workplace.md) for Exchange, Teams, and SharePoint
 - [Endpoint Security and Intune](07-endpoint-security-intune.md) for endpoint overview
-- [Information Protection and Purview](10-information-protection-purview.md) for labels and DLP
+- [Information Protection and Purview](10-information-protection-purview.md) for labels, DLP, and retention baseline
+- [Monitoring and Alerting](11-monitoring-alerting.md) for the visibility and alerting baseline
 - [Lessons Learned](15-lessons-learned.md) for recovery, troubleshooting, and design insights
 
 ---
@@ -212,13 +250,14 @@ If you want to verify Release 1 in more detail, use these docs:
 The next maturity layer after Release 1 closeout is:
 
 - endpoint hardening depth
-- Windows LAPS validation
+- Windows LAPS password retrieval and recovery validation
 - Defender and endpoint protection expansion
-- monitoring and alerting baseline
-- deeper information protection controls
+- stronger monitoring and alerting depth
+- document fingerprinting and deeper information protection controls
 - Azure governance and platform engineering in Release 2
 
 Release 1 should therefore be understood as:
+
 - implemented
 - evidenced
 - maturing
@@ -239,7 +278,8 @@ It proved practical implementation across:
 - Intune endpoint management
 - Windows, Linux, and iPhone scenarios
 - MFA, SSPR, and Conditional Access pilot controls
-- Purview sensitivity labels and DLP
+- Purview sensitivity labels, DLP, and retention baseline
+- monitoring and visibility baseline
 - BitLocker recovery and lifecycle-management lessons
 
 Release 1 is therefore best described as an **implemented and evidenced hybrid Microsoft platform baseline** with clear next-step maturity paths, not just a conceptual roadmap.
