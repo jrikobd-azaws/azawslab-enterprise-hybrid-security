@@ -212,6 +212,13 @@ This keeps the overview readable.
 
 ---
 
+## Endpoint Control Flow Context
+
+![Identity, messaging, and endpoint control flow](../diagrams/02-identity-messaging-endpoint-control-flow.png)
+
+*Figure: Release 1 control flow linking hybrid identity, Exchange migration, Intune-managed endpoints, and device-based access control across the Microsoft 365 pilot environment.*
+
+---
 ## Why This Matters Professionally
 
 This endpoint workstream shows practical experience across:
