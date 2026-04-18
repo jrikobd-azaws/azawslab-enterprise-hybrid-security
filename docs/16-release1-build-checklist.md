@@ -10,6 +10,12 @@ This file reflects actual implementation state, not just original planning.
 
 ---
 
+## Release 1 Implementation Flow
+
+![Release 1 Implementation Flow and Proof Map](../diagrams/05-release1-implementation-flow-and-proof-map.png)
+
+---
+
 ## Release 1 Scope Summary
 
 Release 1 includes:
