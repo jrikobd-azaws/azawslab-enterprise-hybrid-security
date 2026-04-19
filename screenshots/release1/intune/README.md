@@ -4,10 +4,10 @@ This folder contains the main screenshot evidence for the Release 1 endpoint-man
 
 It supports the documentation in:
 
-- docs/07-endpoint-security-intune.md
-- docs/08-endpoint-platforms-and-enrollment.md
-- docs/09-endpoint-compliance-and-security-baseline.md
-- docs/14-advanced-recovery-scenarios.md
+- docs/release1/03-endpoint-overview.md
+- docs/release1/04-endpoint-enrollment.md
+- docs/release1/05-endpoint-compliance.md
+- docs/release1/06-recovery-scenarios.md
 
 ## What this evidence proves
 
@@ -39,3 +39,4 @@ The screenshots in this folder support:
 This folder is the evidence archive.
 
 The main narrative and interpretation remain in the numbered docs under docs/.
+

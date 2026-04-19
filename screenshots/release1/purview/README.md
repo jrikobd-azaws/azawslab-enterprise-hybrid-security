@@ -4,9 +4,9 @@ This folder contains the main screenshot evidence for the Release 1 information-
 
 It supports the documentation in:
 
-- docs/10-information-protection-purview.md
-- docs/12-security-compliance-mapping.md
-- docs/17-release1-final-summary.md
+- docs/release1/07-purview.md
+- docs/release1/09-compliance-mapping.md
+- docs/release1/00-summary.md
 
 ## What this evidence proves
 
@@ -29,3 +29,4 @@ The screenshots in this folder support:
 Release 1 Purview is intentionally presented as a baseline information-protection implementation.
 
 The screenshots in this folder are used to prove classification, detection, and retention-awareness at pilot scope.
+

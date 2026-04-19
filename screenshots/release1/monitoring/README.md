@@ -4,9 +4,9 @@ This folder contains the main screenshot evidence for the Release 1 monitoring a
 
 It supports the documentation in:
 
-- docs/11-monitoring-alerting.md
-- docs/12-security-compliance-mapping.md
-- docs/17-release1-final-summary.md
+- docs/release1/08-monitoring.md
+- docs/release1/09-compliance-mapping.md
+- docs/release1/00-summary.md
 
 ## What this evidence proves
 
@@ -31,3 +31,4 @@ The screenshots in this folder support:
 Release 1 monitoring is presented as a baseline operational-visibility layer, not as a full SOC or Sentinel implementation.
 
 This folder provides the screenshot evidence behind that claim.
+

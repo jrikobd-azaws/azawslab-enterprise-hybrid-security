@@ -1,8 +1,8 @@
 # Roadmap
 
-**Navigation:** [README](../README.md) | [Release 1 Build Checklist](16-release1-build-checklist.md) | [Release 1 Final Summary](17-release1-final-summary.md)
+**Related navigation:** [README](../../README.md) | [Release 1 Summary](../release1/00-summary.md) | [Release 1 Build Checklist](../release1/11-build-checklist.md)
 
-**Related docs:** [Project Overview](01-project-overview.md) | [Target State Architecture](04-target-state-architecture.md) | [Security and Compliance Mapping](12-security-compliance-mapping.md)
+**Related docs:** [Platform Overview](01-platform-overview.md) | [Target State Architecture](03-target-state-architecture.md) | [Security and Compliance Mapping](../release1/09-compliance-mapping.md)
 
 ---
 
@@ -248,8 +248,8 @@ The roadmap should be read together with:
 
 - `03-current-state-architecture.md` for what the environment looks like now
 - `04-target-state-architecture.md` for the broader target-state direction
-- `16-release1-build-checklist.md` for the actual Release 1 implementation status
-- `17-release1-final-summary.md` for the Release 1 closeout narrative
+- `../release1/11-build-checklist.md` for the authoritative Release 1 implementation status
+- `../release1/00-summary.md` for the Release 1 executive proof summary
 
 This helps readers distinguish between:
 
@@ -314,3 +314,4 @@ The roadmap for the `azawslab Enterprise Hybrid Security Platform` is built arou
 - Release 3 extends into secure workload modernization and resilience
 
 This phased approach is one of the strongest parts of the project because it shows a realistic, evidence-backed growth path rather than a disconnected collection of labs.
+
