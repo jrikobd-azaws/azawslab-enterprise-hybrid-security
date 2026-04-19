@@ -7,3 +7,8 @@ Planned evidence includes Secure Score, recommendations, Defender plan enablemen
 ## Status
 
 Planned for Release 2.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

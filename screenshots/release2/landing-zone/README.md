@@ -7,3 +7,8 @@ Planned evidence includes management-group design, subscription structure, namin
 ## Status
 
 Planned for Release 2.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

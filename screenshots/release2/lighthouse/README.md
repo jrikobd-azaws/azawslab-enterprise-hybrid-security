@@ -7,3 +7,8 @@ Planned evidence includes delegated administration, provider/customer scope visi
 ## Status
 
 Planned for Release 2.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

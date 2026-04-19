@@ -22,3 +22,23 @@ This folder contains the Release 1 platform-foundation evidence for the Hyper-V 
 - `docs/overview/02-current-state-architecture.md`
 - `docs/release1/00-summary.md`
 - `docs/release1/01-hybrid-identity.md`
+
+<!-- AUTO-GENERATED: START -->
+
+## Flagship Evidence
+
+### . Hyper V Virtual Switch Manager
+
+![. Hyper V Virtual Switch Manager](./01. Hyper-V Virtual Switch Manager.png)
+
+### . Enable Nat at host
+
+![. Enable Nat at host](./02. Enable Nat at host.png)
+
+### . jira subtask for master image
+
+![. jira subtask for master image](./03. jira subtask for master image.png)
+
+
+<!-- AUTO-GENERATED: END -->
+

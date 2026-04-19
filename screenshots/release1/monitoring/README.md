@@ -25,3 +25,16 @@ Release 1 monitoring should be read as a visibility baseline, not as a finished 
 - `docs/release1/08-monitoring.md`
 - `docs/release1/09-compliance-mapping.md`
 - `docs/release1/00-summary.md`
+
+<!-- AUTO-GENERATED: START -->
+
+## Subfolders
+
+- [Audit Logs](./audit-logs/)
+- [Control Status](./control-status/)
+- [Device Visibility](./device-visibility/)
+- [Example Alert](./example-alert/)
+- [Sign In Logs](./sign-in-logs/)
+
+<!-- AUTO-GENERATED: END -->
+

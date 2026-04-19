@@ -17,3 +17,19 @@ Release 3 focuses on secure workload modernization, containerization, protected 
 ## Status
 
 Release 3 is planned. Evidence will be added here as implementation progresses.
+
+<!-- AUTO-GENERATED: START -->
+
+## Subfolders
+
+- [Connectivity](./connectivity/README.md)
+- [Docker](./docker/README.md)
+- [Ingress Waf](./ingress-waf/README.md)
+- [Observability](./observability/README.md)
+- [Optional Extensions](./optional-extensions/)
+- [Reference Application](./reference-application/README.md)
+- [Resilience](./resilience/README.md)
+- [Secure Hosting](./secure-hosting/README.md)
+
+<!-- AUTO-GENERATED: END -->
+

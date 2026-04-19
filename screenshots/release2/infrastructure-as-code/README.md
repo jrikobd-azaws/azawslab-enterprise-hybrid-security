@@ -7,3 +7,8 @@ Planned evidence includes Terraform or Bicep deployments for core Azure platform
 ## Status
 
 Planned for Release 2.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+
