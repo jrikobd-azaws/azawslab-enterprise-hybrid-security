@@ -27,7 +27,7 @@ This repository is intentionally organized as a **flagship phased project** rath
 That approach is useful because it shows:
 
 - architectural continuity
-- realistic implementation sequencing
+- practical implementation sequencing
 - technology decisions that build on one another
 - operational maturity over time
 - a credible learning and engineering progression
@@ -81,7 +81,7 @@ Release 1 includes:
 - monitoring and alerting baseline direction
 - compliance mapping and evidence capture
 
-### Release 1 current position
+### Release 1 status
 
 Release 1 is not a planning-only phase anymore.
 
@@ -259,32 +259,6 @@ This helps readers distinguish between:
 
 ---
 
-## Diagram Placement Recommendation
-
-This document is the best place to embed the phased roadmap diagram.
-
-Recommended diagram:
-- `../diagrams/04-phased-roadmap-release1-release2-release3.png`
-
-This should become the main visual for this page.
-
----
-
-## Suggested Embedded Screenshot Strategy
-
-This file should stay light.
-
-It does not need many screenshots.
-
-Best practice:
-- use the roadmap diagram
-- avoid embedding operational screenshots here
-- keep evidence screenshots in the implementation docs instead
-
-That makes the roadmap page cleaner and easier to scan.
-
----
-
 ## Why This Matters Professionally
 
 A strong roadmap helps the project feel intentional and serious.
@@ -313,5 +287,7 @@ The roadmap for the `azawslab Enterprise Hybrid Security Platform` is built arou
 - Release 2 expands into Azure secure platform engineering and MSP-style operations
 - Release 3 extends into secure workload modernization and resilience
 
-This phased approach is one of the strongest parts of the project because it shows a realistic, evidence-backed growth path rather than a disconnected collection of labs.
+This phased approach is one of the strongest parts of the project because it shows a practical, evidence-backed growth path rather than a disconnected collection of labs.
+
+
 

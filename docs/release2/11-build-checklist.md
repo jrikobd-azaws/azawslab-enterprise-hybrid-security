@@ -71,7 +71,7 @@ Release 2 includes:
 
 | Item | Status | Notes |
 |---|---|---|
-| Azure Policy baseline defined | Pending | Small but realistic governance baseline |
+| Azure Policy baseline defined | Pending | Small but credible governance baseline |
 | Allowed locations policy assigned | Pending | Restrict region sprawl |
 | Required tags policy assigned | Pending | Governance consistency |
 | Public IP restriction policy reviewed/assigned | Pending | Optional deny pattern |
