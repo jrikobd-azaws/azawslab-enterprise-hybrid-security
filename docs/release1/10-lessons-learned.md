@@ -1,810 +1,87 @@
 # Lessons Learned
 
-**Navigation:** [README](../README.md) | [Release 1 Build Checklist](16-release1-build-checklist.md) | [Release 1 Final Summary](17-release1-final-summary.md)
-
-**Related docs:** [Hybrid Identity](05-hybrid-identity.md) | [Modern Workplace](06-m365-modern-workplace.md) | [Endpoint Security and Intune](07-endpoint-security-intune.md) | [Information Protection and Purview](10-information-protection-purview.md) | [Monitoring and Alerting](11-monitoring-alerting.md)
-
----
+**Related navigation:** [README](../../README.md) | [Release 1 Summary](00-summary.md) | [Release 1 Build Checklist](11-build-checklist.md)  
+**Related docs:** [Hybrid Identity](01-hybrid-identity.md) | [Microsoft 365 Modern Workplace](02-modern-workplace.md) | [Endpoint Overview](03-endpoint-overview.md) | [Advanced Recovery Scenarios](06-recovery-scenarios.md) | [Information Protection and Purview](07-purview.md) | [Monitoring and Alerting](08-monitoring.md)
 
 ## Purpose
 
-This document captures the most important implementation lessons, recovery observations, and design adjustments discovered during Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
+This page captures the most important implementation lessons from Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
 
-It is not a build log.
+It is not a build log and it is not a checklist. Its purpose is to record the lessons that most affected architecture decisions, operational credibility, recovery thinking, and the final presentation of the project.
 
-Instead, it records the practical lessons that emerged while implementing:
+## What This Page Captures
 
-- hybrid identity
-- Exchange hybrid and pilot migration
-- Microsoft 365 workloads
-- Teams and SharePoint collaboration baseline
-- Microsoft Intune endpoint enrollment
-- Linux baseline automation with Ansible
-- Windows compliance and security baseline controls
-- BitLocker recovery and device rebuild scenarios
-- identity-protection pilot controls
-- Purview baseline controls
-- monitoring and visibility baseline thinking
+This page captures the most important Release 1 lessons across:
 
-The aim is to show what worked, what failed, what had to be corrected, and what should be improved in later phases.
+- hybrid identity and Exchange hybrid readiness
+- end-to-end validation and user-visible proof
+- endpoint lifecycle management and recovery
+- mixed-platform administration
+- information protection and monitoring maturity
+- documentation and evidence discipline
 
----
+These themes are more valuable than a long list of isolated implementation observations because they show how the project matured through correction, validation, and recovery rather than through ideal-path setup alone.
 
-## How to Read This Document
+## Most Important Lessons by Theme
 
-Each lesson is structured around:
+### 1. Certificate, namespace, and hybrid readiness must be treated as architecture, not cleanup work
 
-- what happened
-- why it mattered
-- what was learned
-- what should be done better in later phases
+One of the strongest lessons from Release 1 came from the hybrid identity and Exchange path. Public-trust certificate coverage, namespace alignment, and migration-endpoint readiness turned out to be foundational to successful hybrid validation. Internal assumptions that seem acceptable inside a lab are not automatically acceptable once hybrid messaging and cloud migration paths are involved.
 
-The emphasis is on operational credibility.
+This mattered because it reinforced that hybrid design has to be treated as an end-to-end architecture problem. Namespace choice, certificate naming, endpoint exposure, and validation sequencing all influenced whether the later Exchange migration work would succeed.
 
----
+### 2. Validation is strongest when it proves user experience, not only admin configuration
 
-## Lesson 1: Public Trust Requirements Matter More Than Internal Assumptions
+A repeated lesson across Exchange Online, Teams, SharePoint, Purview, and endpoint management was that admin-center screenshots are not enough by themselves. The strongest proof came from user-visible outcomes such as Outlook on the web access, Teams interaction, SharePoint file access, Word label application, DLP policy-tip behavior, and successful Company Portal enrollment.
 
-### What happened
+This mattered because it raised the credibility of the repository. It is much stronger to show that a control or service worked in a real user path than to show only that it existed in an admin portal.
 
-During the Exchange hybrid implementation, certificate and namespace issues became one of the most important blockers.
+### 3. Endpoint administration is a lifecycle story, not an enrollment story
 
-The lab initially used a certificate path that did not fully support the hybrid requirements. A later correction was required so that the public-facing certificate path aligned properly with the Exchange hybrid design.
+Release 1 started with endpoint enrollment, but the most important lesson was that endpoint administration does not stop there. Compliance, hardening, update governance, BitLocker, Conditional Access-aligned logic, re-enrollment, stale-record cleanup, and recovery all became part of the real endpoint story.
 
-A SAN public-trust certificate covering the required service names was ultimately used, while an earlier single-name certificate still existed from the earlier stage.
+The BitLocker recovery scenario made this especially clear. Unlocking the disk, recovering trust, restoring healthy management state, and cleaning stale records were separate operational steps. That lesson made the endpoint workstream much stronger than a simple “device became compliant” narrative.
 
-### Why it mattered
+### 4. Different platforms require different management models
 
-Hybrid Exchange depends on externally trusted service presentation for modern cloud connectivity and migration operations.
+Release 1 validated Windows corporate, Windows BYOD, Ubuntu Linux, and iPhone BYOD scenarios. One of the clearest lessons was that these should not be forced into a single generic management narrative.
 
-An internally acceptable configuration is not automatically a cloud-acceptable configuration.
+Windows delivered the deepest compliance and hardening path. Linux became credible when Intune visibility was paired with Ansible baseline automation. iPhone BYOD showed that Apple management depends on strict prerequisite handling before the user journey can succeed. This matters because mixed-platform management is stronger when each platform is documented honestly on its own terms.
 
-### What was learned
+### 5. Information protection is stronger when it shows both configuration and user-side effect
 
-- hybrid messaging requires public-trust thinking, not only internal-server thinking
-- namespace and certificate planning should be treated as part of architecture, not as a late-stage fix
-- certificate binding decisions affect hybrid validation, migration endpoints, and administrator troubleshooting confidence
+The Purview workstream showed that labels, DLP, and retention become much more credible when they are demonstrated in both admin configuration and user workflow. A label visible in Word, a DLP policy tip triggered inside Word, and visible retention-policy presence together made the Purview story stronger than an admin-only walkthrough.
 
-### Improvement for later phases
+This lesson matters because it shows the difference between portal configuration and real content-protection behavior. It also reinforced that classification, detection, and lifecycle awareness are different but connected dimensions of information protection.
 
-- define external namespaces and final certificate plan before hybrid execution
-- document certificate lifecycle, renewal, and binding decisions more explicitly
-- separate temporary lab certificates from final service certificates in the evidence trail
+### 6. Monitoring can begin as visibility before it becomes full alerting
 
----
+Release 1 did not build a full SIEM or SOC model, but it did establish a baseline across sign-in review, audit visibility, device-state visibility, and example alert-signal awareness. That proved to be a useful lesson in itself.
 
-## Lesson 2: Hybrid Exchange Success Depends on End-to-End Validation, Not Single-Screen Success
+The important point is that visibility is a valid early maturity stage. It is better to document a credible monitoring baseline honestly than to overstate a mature alerting or response capability that is not yet evidenced.
 
-### What happened
+### 7. Documentation and evidence quality change how the project is perceived
 
-The Exchange hybrid path was not completed in one clean step. Some actions failed initially, including parts of the migration endpoint process, and later succeeded after corrected PowerShell-driven remediation and certificate/path corrections.
+One of the most important lessons from Release 1 was not purely technical. As the implementation expanded, documentation structure and screenshot discipline became just as important as the technical work itself. When evidence is named clearly, embedded carefully, and tied directly to exact claims, the project reads as a deliberate engineering portfolio. When it is not, even strong technical work can feel cluttered.
 
-Pilot mailboxes first appeared in synced or transitional states before later completing successfully.
+This mattered because Release 1 included both happy-path validation and recovery-led correction. The project became materially stronger once those paths were documented clearly rather than hidden behind generic success language.
 
-### Why it mattered
+## Why They Matter
 
-A green screen in one wizard step does not prove that hybrid mail flow, migration readiness, and mailbox completion are all healthy.
+These lessons matter because they show that Release 1 was not only about building services. It was also about learning where architecture assumptions fail, where operational recovery becomes critical, where platform differences matter, and where evidence discipline affects trust.
 
-### What was learned
+That makes the repository stronger than a portfolio built only from successful first-pass screenshots. It shows correction, bounded claims, and implementation maturity developing together.
 
-- hybrid Exchange should be validated as a chain, not as isolated tasks
-- endpoint creation, EWS/MRS Proxy readiness, HCW completion, and final mailbox usability all matter
-- documentation should distinguish between:
-  - initial attempt
-  - failure state
-  - remediation action
-  - final validated result
+## Related Docs
 
-### Improvement for later phases
-
-- maintain a cleaner implementation timeline for hybrid changes
-- record exact cause-and-fix sequences while the work is still fresh
-- prefer evidence-backed statements such as “validated through screenshots and successful follow-up commands” over vague success claims
-
----
-
-## Lesson 3: Pilot Migration Evidence Is Strongest When Tied to User Experience
-
-### What happened
-
-The Exchange pilot migration was validated primarily through successful mailbox completion and Outlook on the web access for the pilot users.
-
-Desktop Outlook and broader post-migration mail-flow validation were not the main evidence path captured at that stage.
-
-### Why it mattered
-
-For Release 1, OWA validation was sufficient to prove that the pilot users had reached usable Exchange Online mailbox state.
-
-However, it also highlighted the difference between a successful pilot and a complete production cutover validation.
-
-### What was learned
-
-- pilot evidence should clearly state exactly what was tested
-- “OWA validated” is strong and honest
-- it is better to say “OWA validated, desktop Outlook not yet formally captured” than to imply more than the evidence proves
-
-### Improvement for later phases
-
-- add desktop Outlook and broader mail-flow tests in a later validation wave
-- include coexistence and gateway-routing notes where relevant
-- continue distinguishing observed facts from inferred production patterns
-
----
-
-## Lesson 4: Recruiter-Friendly Documentation Must Stay High Level at the Top
-
-### What happened
-
-As implementation expanded, there was a risk that `README.md` would become a detailed engineering diary rather than the entry point of the repository.
-
-### Why it mattered
-
-The repository has two audiences:
-
-- technical reviewers who want depth
-- recruiters / hiring managers who need a fast understanding of scope and credibility
-
-### What was learned
-
-- the README should stay as the front door of the project
-- detailed troubleshooting belongs in supporting documents, not the top-level landing page
-- the repo reads more professionally when the top layer explains:
-  - what the platform is
-  - what Release 1 includes
-  - what is completed so far
-  - where detailed evidence lives
-
-### Improvement for later phases
-
-- keep `README.md` concise and directional
-- push operational detail into numbered docs and evidence folders
-- update top-level status only after supporting documents are also updated
-
----
-
-## Lesson 5: Teams Baseline Validation Is Stronger When It Includes Multiple Interaction Types
-
-### What happened
-
-The Teams baseline was not limited to admin-center visibility. The validation also included real user interaction evidence such as:
-
-- Teams user presence
-- direct chat between pilot users
-- channel posting and threaded reply
-- file sharing in a Teams-backed workspace
-- meeting/calendar visibility
-
-### Why it mattered
-
-This moved the Teams work from “license is assigned” to “collaboration baseline is operational.”
-
-### What was learned
-
-- workload validation is stronger when it proves user behavior, not only admin configuration
-- collaboration workloads should be demonstrated through actions that users actually perform
-- paired screenshots across users are particularly strong evidence
-
-### Improvement for later phases
-
-- continue validating workloads through both admin view and user view
-- keep evidence grouped by scenario rather than only by raw timestamp
-- clearly separate “baseline validated” from “advanced governance complete”
-
----
-
-## Lesson 6: SharePoint Validation Benefits from Simple, Traceable User Actions
-
-### What happened
-
-The SharePoint baseline was validated through clear, low-complexity actions such as:
-
-- site visibility
-- site membership visibility
-- document library access
-- direct file upload
-- file visibility from another account
-- file content viewing
-
-### Why it mattered
-
-A simple collaboration action often proves the baseline more clearly than a complex explanation.
-
-### What was learned
-
-- small, traceable tests are excellent evidence
-- upload/view/share workflows are easier to explain and verify than abstract admin descriptions
-- membership and content visibility together create stronger proof than either one alone
-
-### Improvement for later phases
-
-- continue using small end-user validation actions for collaboration services
-- layer advanced governance only after basic collaboration is stable
-- keep SharePoint and Teams evidence logically linked where the site is group-connected
-
----
-
-## Lesson 7: Intune Readiness Starts With Tenant and Licensing Foundations
-
-### What happened
-
-Intune work required several prerequisites before endpoint scenarios could be validated properly, including:
-
-- MDM scope configuration
-- licensing expansion through EMS E5 trial
-- Intune admin-center readiness
-
-### Why it mattered
-
-Endpoint management depends on foundation work that can be easy to overlook if focus jumps too quickly to device enrollment.
-
-### What was learned
-
-- Intune is not just a device-side story; it begins with tenant readiness
-- licensing and MDM scope decisions should be documented as part of the implementation, not treated as background noise
-- the evidence chain should show:
-  - capability enabled
-  - licenses available
-  - licenses assigned
-  - devices enrolled
-
-### Improvement for later phases
-
-- continue documenting service prerequisites before endpoint walkthroughs
-- explicitly map license dependency to workload dependency
-- keep trial-based lab decisions clearly labeled so they are not mistaken for production licensing strategy
-
----
-
-## Lesson 8: Corporate and BYOD Paths Must Be Kept Distinct
-
-### What happened
-
-Release 1 validated both:
-
-- Windows corporate-managed enrollment
-- Windows personal / BYOD enrollment
-
-These used different enrollment assumptions and resulted in different ownership states in Intune.
-
-### Why it mattered
-
-Corporate and personal management are not the same operational story.
-
-Treating them as identical weakens the credibility of the design.
-
-### What was learned
-
-- ownership type matters
-- user expectations, recovery assumptions, and control depth differ between corporate and personal devices
-- documentation becomes much stronger when it explicitly distinguishes:
-  - device purpose
-  - ownership state
-  - user
-  - management result
-
-### Improvement for later phases
-
-- keep dedicated sections for corporate and BYOD scenarios
-- avoid collapsing all device enrollment into one generic narrative
-- build future policy assignments and Conditional Access logic with ownership awareness
-
----
-
-## Lesson 9: Linux Can Be Visible Through Intune but Still Needs a Different Operations Model
-
-### What happened
-
-Ubuntu Linux was successfully brought into the Release 1 endpoint story through:
-
-- Intune Agent-based visibility and device registration
-- Linux device presence in Entra ID / Intune views
-- separate configuration automation through Ansible
-
-### Why it mattered
-
-Linux should not be forced into a Windows-only management mindset.
-
-### What was learned
-
-- Linux participation in the environment is valuable even when policy depth differs from Windows
-- Intune can provide visibility and enrollment presence
-- Ansible complements Intune by providing actual baseline automation and configuration control
-- mixed-platform management often requires multiple tools by design
-
-### Improvement for later phases
-
-- continue treating Linux as a parallel operational model, not as a failed Windows clone
-- document clearly which controls come from Intune and which come from Ansible
-- expand Linux hardening in later releases only after the current baseline remains stable
-
----
-
-## Lesson 10: Automation Evidence Is More Convincing When It Shows Both Definition and Execution
-
-### What happened
-
-The Ansible work captured both:
-
-- playbook / role structure
-- connectivity tests
-- syntax validation
-- successful playbook execution recap
-
-### Why it mattered
-
-Showing only YAML files proves intention.  
-Showing only a terminal recap proves execution.  
-Showing both proves controlled implementation.
-
-### What was learned
-
-- infrastructure-as-code evidence should include structure plus outcome
-- syntax checks are worth documenting
-- simple validation commands like Ansible ping provide confidence before full execution
-
-### Improvement for later phases
-
-- keep code and execution evidence paired
-- capture idempotence or rerun behavior where useful
-- link scripts or playbooks directly from the supporting docs
-
----
-
-## Lesson 11: Apple Device Management Has a Hard Prerequisite Boundary
-
-### What happened
-
-iPhone BYOD enrollment required completion of the Apple MDM Push Certificate process before Apple device enrollment could succeed.
-
-This included:
-
-- downloading the Intune CSR
-- using the Apple Push Certificates Portal
-- uploading the signed certificate back into Intune
-- validating active certificate status
-
-### Why it mattered
-
-Apple management cannot be treated like a simple extension of Windows or Android logic.
-
-### What was learned
-
-- Apple device enrollment depends on a strict prerequisite path
-- documenting the Apple MDM Push Certificate flow is important because it explains why iOS management was not available until that stage was completed
-- once the prerequisite is satisfied, Company Portal-based BYOD enrollment becomes much easier to explain
-
-### Improvement for later phases
-
-- retain the Apple certificate lifecycle and renewal details in documentation
-- keep the Apple ID used for the certificate recorded in a controlled operational note
-- treat certificate expiry and renewal ownership as an operational risk item
-
----
-
-## Lesson 12: Mobile BYOD Evidence Should Show the Actual User Journey
-
-### What happened
-
-The iPhone enrollment evidence captured the actual end-user flow, including:
-
-- Company Portal acquisition
-- sign-in
-- privacy review
-- management profile download
-- navigation to iPhone settings
-- profile installation
-- completion in Company Portal
-- final device visibility
-
-### Why it mattered
-
-Mobile MDM can feel abstract unless the real user journey is visible.
-
-### What was learned
-
-- step-by-step user screenshots create much stronger evidence than a summary sentence
-- the difference between:
-  - app installation
-  - profile download
-  - profile installation
-  - successful enrollment  
-  should be shown explicitly
-- mobile evidence is strongest when it includes both device-side and admin-side views
-
-### Improvement for later phases
-
-- continue preserving mobile enrollment journeys by scenario
-- separate Apple prerequisite evidence from iPhone enrollment evidence
-- keep mobile naming consistent in folders and documentation
-
----
-
-## Lesson 13: Compliance States Change During Testing and Need Time-Based Interpretation
-
-### What happened
-
-Windows compliance moved through more than one state during testing.
-
-Earlier evidence showed noncompliant results while BitLocker and enforcement conditions were still being worked through. Later evidence showed compliant results for the Windows pilot devices after remediation and re-enrollment.
-
-### Why it mattered
-
-A single screenshot does not always represent the final truth of the environment.
-
-### What was learned
-
-- compliance must be described as a timeline, not only as a current-state badge
-- implementation documents should distinguish between:
-  - initial failure
-  - remediation period
-  - later healthy state
-- this is especially important when multiple screenshots exist from different test points
-
-### Improvement for later phases
-
-- explicitly date or stage evidence in the narrative
-- avoid statements like “always compliant” when the environment clearly passed through noncompliant states
-- use phrases such as:
-  - “initially noncompliant during enforcement”
-  - “later remediated”
-  - “final documented state compliant”
-
----
-
-## Lesson 14: Security Baselines Are Valuable, but Testing Them Can Trigger Recovery Scenarios
-
-### What happened
-
-A Windows security baseline and a Windows compliance policy were both implemented. BitLocker enforcement then contributed to a more complex real-world-style recovery scenario when hardware context changed and storage pressure / VM issues also affected the test path.
-
-### Why it mattered
-
-Security controls are not just configuration items.  
-They can materially change recovery behavior and operational risk.
-
-### What was learned
-
-- encryption and trust-bound controls should be tested with recovery in mind
-- policy success should not only be measured by “it applied”
-- the operational consequences of the policy matter just as much as the compliance badge
-
-### Improvement for later phases
-
-- test security baselines in a staged way
-- document rollback and recovery options before aggressive enforcement
-- deploy Windows LAPS before or alongside deeper endpoint hardening where possible
-
----
-
-## Lesson 15: BitLocker Key Escrow Was Operationally Critical
-
-### What happened
-
-During the BitLocker recovery scenario, the device required the escrowed recovery key after a virtual hardware change.
-
-The key stored in Microsoft Entra ID allowed recovery of the encrypted operating system drive.
-
-### Why it mattered
-
-Without successful key escrow, the data would effectively have been lost for this scenario.
-
-### What was learned
-
-- key escrow is not optional in a serious managed-device design
-- BitLocker recovery planning should be treated as an operational requirement, not a security afterthought
-- evidence of escrowed recovery capability is highly valuable documentation
-
-### Improvement for later phases
-
-- enforce and document recovery-key escrow requirements before relying on encryption at scale
-- pair BitLocker deployment with recovery procedures
-- maintain a clearer admin recovery path for standard-user devices
-
----
-
-## Lesson 16: Hardware-Context Changes Can Break Trust Even If the Disk Is Recovered
-
-### What happened
-
-After the virtual-machine shell was removed and recreated with the encrypted disk reattached, the device could be unlocked with the recovery key, but the prior healthy management / sign-in relationship did not remain intact.
-
-The device later required rebuild / re-enrollment activity and stale record cleanup.
-
-### Why it mattered
-
-Recovering the disk is not the same thing as restoring the full cloud-managed trust relationship.
-
-### What was learned
-
-- storage recovery and identity trust recovery are separate problems
-- rebuild scenarios can invalidate the prior managed-device state
-- endpoint lifecycle cleanup is part of real administration, not just a cosmetic task
-
-### Improvement for later phases
-
-- document rebuild and re-enrollment procedures more explicitly
-- keep device naming and record cleanup procedures ready
-- deploy supporting controls such as LAPS to improve recovery options when trust breaks
-
----
-
-## Lesson 17: Stale and Duplicate Device Records Are a Real Lifecycle Management Issue
-
-### What happened
-
-After the BitLocker / rebuild scenario, duplicate or stale records were visible for the same device name during the transition period.
-
-The obsolete records needed manual cleanup from the administrative portals.
-
-### Why it mattered
-
-Device inventory can become misleading if stale records are left in place.
-
-### What was learned
-
-- cloud inventory hygiene matters
-- re-enrollment can create a new management relationship rather than cleanly repairing the old one
-- stale noncompliant objects can confuse reporting and operations if they are not removed
-
-### Improvement for later phases
-
-- define a documented cleanup procedure for orphaned Intune / Entra objects
-- use evidence to distinguish old and new records clearly
-- consider later automation or process rules for stale object handling
-
----
-
-## Lesson 18: Missing LAPS Increased the Recovery Burden
-
-### What happened
-
-During the Windows recovery scenario, no Windows LAPS-based local administrator recovery path was available at the point it would have helped most.
-
-That made the situation harder than it would have been in a more mature endpoint design.
-
-### Why it mattered
-
-When a standard-user managed device loses healthy cloud trust, local admin recovery becomes much more important.
-
-### What was learned
-
-- LAPS is not just a nice-to-have hardening feature
-- it is also an operational recovery control
-- the absence of LAPS can turn a repair scenario into a rebuild scenario faster than expected
-
-### Improvement for later phases
-
-- prioritize Windows LAPS deployment in endpoint maturity work
-- document emergency local admin recovery design
-- align LAPS rollout with BitLocker and compliance policy maturity
-
----
-
-## Lesson 19: Security Conclusions Should Be Framed as Observed Facts Plus Governance Implications
-
-### What happened
-
-The BitLocker recovery scenario raised an important governance question around self-service or user-accessible recovery-key retrieval.
-
-### Why it mattered
-
-This is a useful design discussion, but it should not be overstated as a fully demonstrated insider-threat exploit.
-
-### What was learned
-
-- documentation is stronger when it separates:
-  - observed fact
-  - likely cause
-  - governance implication
-  - recommended control
-- operational credibility improves when security claims are careful and evidence-backed
-
-### Improvement for later phases
-
-Use wording such as:
-
-- “highlighted a potential governance risk”
-- “suggests tighter recovery-key governance may be appropriate”
-- “supports later Conditional Access and information-protection hardening”
-
-rather than overstated claims of proven exploitation.
-
----
-
-## Lesson 20: Identity Protection Is Stronger When It Uses Modern Policy Logic, Not Legacy Settings Alone
-
-### What happened
-
-Release 1 identity protection was built around Authentication Methods policy, SSPR, Conditional Access, compliant-device access logic, and break-glass exclusion thinking, rather than relying on legacy per-user MFA as the main design.
-
-### Why it mattered
-
-This made the identity-protection story more realistic and aligned with modern Microsoft access-control patterns.
-
-### What was learned
-
-- per-user MFA is useful to understand, but it should not be presented as the main production-style control model here
-- Conditional Access and method policy targeting create a stronger and more defensible Zero Trust direction
-- break-glass exclusions should be treated as intentional design, not as an afterthought
-
-### Improvement for later phases
-
-- continue documenting the difference between legacy settings and modern control design
-- capture Conditional Access results and sign-in review examples more clearly
-- deepen identity monitoring around MFA, SSPR, and access decisions
-
----
-
-## Lesson 21: Purview Is Stronger When It Shows Both Admin Configuration and User-Side Effect
-
-### What happened
-
-Release 1 Purview work included:
-
-- sensitivity labels
-- label publishing
-- visible label application in Word
-- DLP pilot creation
-- DLP policy-tip behavior
-- retention-policy baseline visibility
-
-### Why it mattered
-
-This made the Purview workstream much more credible than an admin-only walkthrough.
-
-### What was learned
-
-- content-protection features should be shown both in admin configuration and in user workflow
-- labels, DLP, and retention each represent different governance dimensions
-- the project becomes stronger when Purview is presented as classification, detection, and lifecycle-awareness together
-
-### Improvement for later phases
-
-- add document fingerprinting
-- expand retention-policy explanation and lifecycle governance narrative
-- consider more explicit mapping between Purview controls and business/compliance scenarios
-
----
-
-## Lesson 22: Monitoring Can Start as Visibility Before It Becomes Full Alerting
-
-### What happened
-
-Release 1 did not yet build a full alerting or SOC-style monitoring model, but it did establish a useful visibility baseline across:
-
-- Entra administration
-- Microsoft 365 admin views
-- Intune device state
-- Conditional Access policy visibility
-- Purview policy visibility
-- recovery-state observation
-
-### Why it mattered
-
-This allowed the project to show operational awareness without overstating monitoring maturity.
-
-### What was learned
-
-- visibility is a legitimate early monitoring layer
-- it is acceptable to document “monitoring baseline established” before claiming advanced alerting
-- operational honesty increases trust more than exaggerated monitoring claims
-
-### Improvement for later phases
-
-- add sign-in log review examples
-- add audit-log examples
-- add alert examples tied to identity, endpoint, or protection controls
-- build a clearer monitoring-to-response narrative
-
----
-
-## Lesson 23: Folder and Evidence Organization Need Ongoing Discipline
-
-### What happened
-
-As the project expanded, many screenshots were generated across multiple workloads and phases. Renaming and reorganizing them became necessary to keep the evidence usable.
-
-### Why it mattered
-
-Evidence loses value if it cannot be matched quickly to the scenario it proves.
-
-### What was learned
-
-- screenshot evidence should be named by scenario, not by raw timestamp
-- folder structure should reflect platform + workload + scenario
-- documentation writing becomes much easier when evidence folders are already clean
-
-### Improvement for later phases
-
-- continue using structured screenshot folders
-- rename screenshots before or immediately after commit where possible
-- prefer names that reflect:
-  - platform
-  - action
-  - state
-  - outcome
-
----
-
-## Lesson 24: The Strongest Project Narrative Comes From Showing Both Happy Path and Recovery Path
-
-### What happened
-
-Release 1 now includes not only successful implementation stories, but also correction and recovery stories:
-
-- certificate correction
-- hybrid migration troubleshooting
-- Intune enforcement changes over time
-- BitLocker recovery
-- stale-device cleanup
-- device rebuild and re-enrollment
-
-### Why it mattered
-
-Projects become more credible when they show how problems were handled, not only how plans were written.
-
-### What was learned
-
-- recovery evidence is often more persuasive than ideal-path screenshots
-- reviewers can see the difference between lab planning and real implementation maturity
-- the project is stronger when lessons learned are captured honestly rather than hidden
-
-### Improvement for later phases
-
-- keep using lessons-learned documents as a design-strength asset
-- do not hide failures that were successfully remediated
-- describe final state clearly while preserving the story of how it was reached
-
----
-
-## Key Cross-Cutting Lessons
-
-Across Release 1, the most important repeated lessons are:
-
-1. **Foundations matter**
-   - certificates, licensing, MDM scope, namespaces, and prerequisites all matter before higher-level features work well.
-
-2. **Evidence should show sequences**
-   - initial state, issue, remediation, and final result are more valuable than isolated screenshots.
-
-3. **Operational recovery is part of architecture**
-   - BitLocker recovery, stale-record cleanup, and device trust repair are not side topics.
-
-4. **Different platforms require different management patterns**
-   - Windows, Linux, and iPhone each validate differently and should not be forced into one generic narrative.
-
-5. **Documentation quality changes how the project is perceived**
-   - recruiter-facing summary, engineer-facing depth, and evidence-backed lessons together create the strongest presentation.
-
----
-
-## Release 1 Follow-On Actions Suggested by These Lessons
-
-The lessons above point to several sensible follow-on priorities for later maturity:
-
-- validate Windows LAPS password retrieval and recovery path
-- expand Conditional Access result visibility
-- improve endpoint recovery runbooks
-- mature Windows security baseline and BitLocker operations
-- add clearer stale-device cleanup procedures
-- continue Linux hardening through automation
-- expand mobile governance beyond the current iPhone BYOD baseline
-- deepen monitoring and alerting with real review examples
-- add document fingerprinting and richer Purview lifecycle controls
-- maintain evidence hygiene as new workloads are implemented
-
----
-
-## Summary
-
-Release 1 showed that the platform can be built, validated, corrected, and extended across hybrid identity, Exchange, collaboration, endpoint management, identity protection, Linux automation, mobile enrollment, information protection, and monitoring baseline visibility.
-
-The most valuable lessons were not only about successful configuration, but about:
-
-- correcting assumptions
-- validating end-to-end paths
-- managing recovery
-- presenting evidence honestly
-- keeping the repository organized as implementation depth increases
-
-These lessons will directly shape the next phase of platform maturity.
+- [Release 1 Summary](00-summary.md)
+- [Hybrid Identity](01-hybrid-identity.md)
+- [Microsoft 365 Modern Workplace](02-modern-workplace.md)
+- [Endpoint Overview](03-endpoint-overview.md)
+- [Endpoint Enrollment and Platform Coverage](04-endpoint-enrollment.md)
+- [Endpoint Compliance and Security Baseline](05-endpoint-compliance.md)
+- [Advanced Recovery Scenarios](06-recovery-scenarios.md)
+- [Information Protection and Purview](07-purview.md)
+- [Monitoring and Alerting](08-monitoring.md)
+- [Security and Compliance Mapping](09-compliance-mapping.md)
+- [Release 1 Build Checklist](11-build-checklist.md)
