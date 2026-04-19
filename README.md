@@ -2,18 +2,6 @@
 
 A three-release enterprise platform portfolio demonstrating hybrid identity, Microsoft 365, endpoint management, information protection, Azure secure platform engineering, and secure workload modernization.
 
-## Navigate This README
-
-- [What This Platform Demonstrates](#what-this-platform-demonstrates)
-- [Release Summary](#release-summary)
-- [Release 1 Proof Snapshot](#release-1-proof-snapshot)
-- [Release 1 Architecture](#release-1-architecture)
-- [How to Read This Repository](#how-to-read-this-repository)
-- [Key Differentiators](#key-differentiators)
-- [Important Namespace Design Decision](#important-namespace-design-decision)
-- [Intentionally Deferred / Out of Scope for Release 1](#intentionally-deferred--out-of-scope-for-release-1)
-- [Quick Links](#quick-links)
-
 ## What This Platform Demonstrates
 
 - Hyper-V-based platform engineering, including internal virtual switching, host NAT, differencing-disk reuse, and multi-VM orchestration
