@@ -23,6 +23,12 @@ It demonstrates evidenced baseline capability across:
 - information protection through sensitivity labels, DLP, and retention baseline
 - recovery-aware operations through BitLocker recovery, re-enrollment, and stale-record cleanup
 
+## Control Mapping Overview
+
+![Release 1 security and compliance mapping](../../diagrams/06-release1-security-and-compliance-mapping.png)
+
+*Figure: Release 1 control-domain map showing the main evidenced security and compliance areas implemented across identity, collaboration, endpoint management, monitoring, information protection, and recovery.*
+
 ## Mapping Story
 
 Release 1 should be understood as a connected baseline across identity, collaboration, endpoint control, information protection, monitoring, and recovery.
