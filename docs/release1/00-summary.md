@@ -47,19 +47,19 @@ The following evidence points best represent the breadth of Release 1 across mes
 
 ### Hybrid messaging validation
 
-![Outlook validation for both pilot users](../screenshots/release1/exchange-hybrid/10-outlook-both-pilots-validated.png)
+![Outlook validation for both pilot users](../../screenshots/release1/exchange-hybrid/10-outlook-both-pilots-validated.png)
 
 *Figure: Outlook validation showing successful Exchange Online mailbox access for both pilot users after hybrid configuration and migration validation.*
 
 ### Endpoint compliance and management validation
 
-![Windows device shown as compliant in Intune](../screenshots/release1/intune/intune-windows-corp/08-intune-windows-device-compliant.png)
+![Windows device shown as compliant in Intune](../../screenshots/release1/intune/intune-windows-corp/08-intune-windows-device-compliant.png)
 
 *Figure: Intune device state showing a Windows corporate endpoint enrolled, managed, and reported as compliant.*
 
 ### Information protection validation
 
-![Purview DLP policy tip triggered in Word](../screenshots/release1/purview/purview-dlp/03-purview-dlp-policy-tip-triggered-in-word-for-uk-financial-data-test-file.png)
+![Purview DLP policy tip triggered in Word](../../screenshots/release1/purview/purview-dlp/03-purview-dlp-policy-tip-triggered-in-word-for-uk-financial-data-test-file.png)
 
 *Figure: Purview DLP policy-tip enforcement triggered in Microsoft Word during a UK financial data test, demonstrating user-visible information protection behavior.*
 
