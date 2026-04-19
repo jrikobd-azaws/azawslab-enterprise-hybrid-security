@@ -1,31 +1,27 @@
-# Release 1 Purview Evidence
+﻿# Purview Evidence
 
-This folder contains the main screenshot evidence for the Release 1 information-protection baseline.
+This folder contains the Release 1 information-protection evidence for Microsoft Purview.
 
-It supports the documentation in:
+## What this folder proves
 
-- docs/10-information-protection-purview.md
-- docs/12-security-compliance-mapping.md
-- docs/17-release1-final-summary.md
+- a baseline sensitivity-label model was created
+- labels were published and used in Microsoft Word
+- DLP policy-tip behavior was validated in user workflow
+- retention-policy visibility was included as part of the baseline
 
-## What this evidence proves
+## Main evidence areas
 
-The screenshots in this folder support:
+- sensitivity labels
+- user-side label application
+- DLP policy behavior
+- retention baseline
 
-- sensitivity-label creation
-- label publishing to pilot scope
-- user-side label application in Microsoft Word
-- DLP pilot policy creation and validation
-- retention-policy baseline visibility
+## Boundaries
 
-## Folder structure
+Release 1 Purview should be presented as a baseline information-protection implementation, not as a full enterprise information-governance program.
 
-- purview-sensitivity-labels/ - label structure, label details, and publishing policy evidence
-- purview-dlp/ - DLP policy creation and user-facing policy-tip validation
-- purview-retention/ - retention-policy baseline evidence
+## Related docs
 
-## Note
-
-Release 1 Purview is intentionally presented as a baseline information-protection implementation.
-
-The screenshots in this folder are used to prove classification, detection, and retention-awareness at pilot scope.
+- `docs/release1/07-purview.md`
+- `docs/release1/09-compliance-mapping.md`
+- `docs/release1/00-summary.md`

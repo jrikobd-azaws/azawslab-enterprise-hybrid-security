@@ -1,33 +1,27 @@
-# Release 1 Monitoring Evidence
+﻿# Monitoring Evidence
 
-This folder contains the main screenshot evidence for the Release 1 monitoring and operational-visibility baseline.
+This folder contains the Release 1 monitoring and visibility evidence.
 
-It supports the documentation in:
+## What this folder proves
 
-- docs/11-monitoring-alerting.md
-- docs/12-security-compliance-mapping.md
-- docs/17-release1-final-summary.md
+- sign-in review and Conditional Access result visibility were available
+- audit-log visibility existed for administrative review
+- Intune provided managed-device and compliance-state visibility
+- Release 1 included example monitoring surfaces and alert-signal awareness
 
-## What this evidence proves
+## Main evidence areas
 
-The screenshots in this folder support:
+- sign-in logs
+- audit logs
+- device visibility
+- example monitoring or alert surfaces
 
-- sign-in log visibility
-- audit-log visibility
-- endpoint visibility and compliance-state review
-- policy-state visibility
-- example alert and dashboard monitoring signals
+## Boundaries
 
-## Folder structure
+Release 1 monitoring should be read as a visibility baseline, not as a finished SIEM, SOC, or Sentinel implementation.
 
-- sign-in-logs/ - Microsoft Entra sign-in review and Conditional Access result visibility
-- udit-logs/ - Microsoft Entra audit-log review and administrative-change visibility
-- device-visibility/ - Intune and Entra views for managed-device state
-- control-status/ - update ring, Defender AV, ASR, and LAPS policy status views
-- example-alert/ - example dashboard and alert-style operational monitoring evidence
+## Related docs
 
-## Note
-
-Release 1 monitoring is presented as a baseline operational-visibility layer, not as a full SOC or Sentinel implementation.
-
-This folder provides the screenshot evidence behind that claim.
+- `docs/release1/08-monitoring.md`
+- `docs/release1/09-compliance-mapping.md`
+- `docs/release1/00-summary.md`

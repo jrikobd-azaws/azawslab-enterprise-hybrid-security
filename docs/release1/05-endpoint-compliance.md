@@ -66,7 +66,7 @@ Taken together, these elements show that Release 1 endpoint work moved into poli
 
 ### Endpoint protection and ASR
 
-![ASR policy device check-in status](../../screenshots/release1/intune/intune-security-baseline/asr-policy/Screenshot%202026-04-17%20163413.png)
+![ASR policy device check-in status](../../screenshots/release1/intune/intune-security-baseline/asr-policy/Screenshot 2026-04-17 163413.png)
 
 *Figure: Attack Surface Reduction policy evidence showing that endpoint-protection controls extended beyond compliance and baseline assignment into attack-surface hardening.*
 

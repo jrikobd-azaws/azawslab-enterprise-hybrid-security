@@ -1,8 +1,8 @@
 # Roadmap
 
-**Navigation:** [README](../README.md) | [Release 1 Build Checklist](16-release1-build-checklist.md) | [Release 1 Final Summary](17-release1-final-summary.md)
+**Related navigation:** [README](../../README.md) | [Release 1 Summary](../release1/00-summary.md) | [Release 1 Build Checklist](../release1/11-build-checklist.md)
 
-**Related docs:** [Project Overview](01-project-overview.md) | [Target State Architecture](04-target-state-architecture.md) | [Security and Compliance Mapping](12-security-compliance-mapping.md)
+**Related docs:** [Platform Overview](01-platform-overview.md) | [Target State Architecture](03-target-state-architecture.md) | [Security and Compliance Mapping](../release1/09-compliance-mapping.md)
 
 ---
 
@@ -27,7 +27,7 @@ This repository is intentionally organized as a **flagship phased project** rath
 That approach is useful because it shows:
 
 - architectural continuity
-- realistic implementation sequencing
+- practical implementation sequencing
 - technology decisions that build on one another
 - operational maturity over time
 - a credible learning and engineering progression
@@ -81,7 +81,7 @@ Release 1 includes:
 - monitoring and alerting baseline direction
 - compliance mapping and evidence capture
 
-### Release 1 current position
+### Release 1 status
 
 Release 1 is not a planning-only phase anymore.
 
@@ -248,40 +248,14 @@ The roadmap should be read together with:
 
 - `03-current-state-architecture.md` for what the environment looks like now
 - `04-target-state-architecture.md` for the broader target-state direction
-- `16-release1-build-checklist.md` for the actual Release 1 implementation status
-- `17-release1-final-summary.md` for the Release 1 closeout narrative
+- `../release1/11-build-checklist.md` for the authoritative Release 1 implementation status
+- `../release1/00-summary.md` for the Release 1 executive proof summary
 
 This helps readers distinguish between:
 
 - implemented state
 - next-phase priorities
 - longer-term direction
-
----
-
-## Diagram Placement Recommendation
-
-This document is the best place to embed the phased roadmap diagram.
-
-Recommended diagram:
-- `../diagrams/04-phased-roadmap-release1-release2-release3.png`
-
-This should become the main visual for this page.
-
----
-
-## Suggested Embedded Screenshot Strategy
-
-This file should stay light.
-
-It does not need many screenshots.
-
-Best practice:
-- use the roadmap diagram
-- avoid embedding operational screenshots here
-- keep evidence screenshots in the implementation docs instead
-
-That makes the roadmap page cleaner and easier to scan.
 
 ---
 
@@ -313,4 +287,7 @@ The roadmap for the `azawslab Enterprise Hybrid Security Platform` is built arou
 - Release 2 expands into Azure secure platform engineering and MSP-style operations
 - Release 3 extends into secure workload modernization and resilience
 
-This phased approach is one of the strongest parts of the project because it shows a realistic, evidence-backed growth path rather than a disconnected collection of labs.
+This phased approach is one of the strongest parts of the project because it shows a practical, evidence-backed growth path rather than a disconnected collection of labs.
+
+
+

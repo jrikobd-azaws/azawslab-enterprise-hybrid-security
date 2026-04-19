@@ -57,7 +57,7 @@ Together, these layers make the Release 1 Purview story stronger than labels alo
 
 ### Retention-policy baseline
 
-![Purview retention baseline](../../screenshots/release1/purview/purview-retention/Screenshot%202026-04-18%20120911.png)
+![Purview retention baseline](../../screenshots/release1/purview/purview-retention/Screenshot 2026-04-18 120911.png)
 
 *Figure: Retention-policy baseline visible in Purview administration, showing that Release 1 includes lifecycle-governance awareness in addition to labels and DLP.*
 
