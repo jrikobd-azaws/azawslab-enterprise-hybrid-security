@@ -1,254 +1,66 @@
-# Endpoint Security and Intune
+# Endpoint Overview
 
-**Navigation:** [README](../README.md) | [Release 1 Build Checklist](16-release1-build-checklist.md) | [Release 1 Final Summary](17-release1-final-summary.md)
-
-**Related endpoint docs:** [Endpoint Platforms and Enrollment](08-endpoint-platforms-and-enrollment.md) | [Endpoint Compliance and Security Baseline](09-endpoint-compliance-and-security-baseline.md) | [Advanced Recovery Scenarios](14-advanced-recovery-scenarios.md)
-
----
+**Related navigation:** [README](../../README.md) | [Release 1 Summary](00-summary.md) | [Release 1 Build Checklist](11-build-checklist.md)  
+**Related docs:** [Endpoint Enrollment](04-endpoint-enrollment.md) | [Endpoint Compliance](05-endpoint-compliance.md) | [Recovery Scenarios](06-recovery-scenarios.md) | [Monitoring](08-monitoring.md)
 
 ## Purpose
 
-This document is the **overview and navigation page** for the Release 1 endpoint workstream in the `azawslab Enterprise Hybrid Security Platform`.
+This page is the overview and navigation point for the Release 1 endpoint workstream in the `azawslab Enterprise Hybrid Security Platform`.
 
-Release 1 endpoint work is no longer limited to simple device enrollment. It now demonstrates a broader lifecycle across:
+It explains how Release 1 endpoint work progressed from cross-platform enrollment into compliance, hardening, access-control relevance, and operational recovery. It should be read as the high-level endpoint story, not as the deeper enrollment, compliance, or recovery page.
 
-- device onboarding
-- platform-specific management paths
-- compliance evaluation
-- security baseline application
-- identity-protection dependency
-- operational recovery lessons
+## What This Page Proves
 
-This page provides the high-level endpoint story and links to the detailed supporting documents.
+This page proves that the Release 1 endpoint workstream is broader than a single-device Intune setup.
 
----
+It demonstrates:
 
-## What This Endpoint Workstream Demonstrates
+- cross-platform endpoint coverage across Windows corporate, Windows BYOD, Ubuntu Linux, and iPhone BYOD scenarios
+- Microsoft Intune and Microsoft Entra ID visibility as the foundation for managed endpoint administration
+- progression from enrollment into compliance assessment and security hardening
+- dependency between endpoint condition and access-control behavior in the Microsoft 365 pilot scope
+- operational recovery awareness through BitLocker recovery, re-enrollment, and stale-record cleanup
+- a connected endpoint story that spans onboarding, control, and lifecycle handling rather than stopping at device registration
 
-Release 1 endpoint implementation now demonstrates:
+## Implementation Story
 
-- Microsoft Intune tenant baseline activation
-- Windows 11 corporate-managed enrollment
-- Windows 11 personal / BYOD enrollment
-- Ubuntu Linux visibility through Intune plus baseline automation through Ansible
-- iPhone BYOD enrollment through Company Portal
-- Windows compliance policy evaluation
-- Windows security baseline assignment
-- BitLocker recovery-key escrow and recovery validation
-- Conditional Access dependency on compliant-device state
-- operational lessons from rebuild, re-enrollment, and stale-record cleanup
+Release 1 endpoint work should be understood as a lifecycle story rather than as a collection of isolated screenshots.
 
-This gives the project a more realistic enterprise endpoint story than a single-device or Windows-only lab.
+The first step was enrollment and platform coverage. Release 1 validated a corporate-managed Windows device, a Windows BYOD path, Ubuntu Linux visibility with supporting Ansible baseline automation, and iPhone BYOD enrollment through Company Portal. That established ownership distinction, platform diversity, and pilot inventory across the managed environment.
 
----
+The second step was visibility and control. Once devices were present in Intune and Microsoft Entra ID, they could be assessed for compliance, included in hardening scope, and observed in the management plane. This is the point where endpoint administration became more than registration. It became policy-relevant.
 
-## Release 1 Endpoint Scope
+The third step was hardening and access-control relevance. Windows compliance policy, security baseline assignment, update governance, and protection controls made the managed Windows devices part of the broader security story. Endpoint state was no longer just informative; it began to matter for access decisions through compliant-device logic in the Microsoft 365 pilot scope.
 
-The Release 1 endpoint scope includes four platform / scenario paths:
+The fourth step was lifecycle and recovery. The BitLocker recovery, rebuild, re-enrollment, and stale-record cleanup scenario showed that endpoint administration also includes disruption handling and trust restoration, not only successful first-time onboarding.
 
-### Windows corporate-managed
-- `WIN11-CORP01`
-- enrolled as a corporate-owned device
-- managed by Intune
-- used for compliance, security baseline, BitLocker, and recovery scenario testing
+Taken together, these steps make the endpoint workstream one of the strongest parts of Release 1. It demonstrates breadth across platforms, depth across controls, and credibility through recovery-aware operations.
 
-### Windows personal / BYOD
-- `WIN11-BYOD01`
-- enrolled as a personal device
-- managed by Intune
-- used to validate ownership distinction and pilot compliance behavior
+## Flagship Evidence
 
-### Ubuntu Linux
-- Ubuntu endpoint visible through Intune / Entra
-- Linux management visibility validated
-- baseline automation extended through Ansible
-
-### iPhone BYOD
-- Apple MDM Push Certificate prerequisite completed
-- iPhone enrolled through Intune Company Portal
-- visible in Intune and Entra
-- compliant state validated
-
----
-
-## Endpoint Lifecycle Narrative
-
-Release 1 should be understood as an **endpoint lifecycle story**, not just a list of controls.
-
-### 1. Devices were enrolled
-The project validated multiple enrollment paths:
-- Windows corporate
-- Windows BYOD
-- Ubuntu Linux
-- iPhone BYOD
-
-### 2. Devices became visible and manageable
-The devices were brought into:
-- Microsoft Intune
-- Microsoft Entra ID
-
-This established management visibility, ownership context, and pilot device inventory.
-
-### 3. Devices were assessed for compliance
-Windows pilot devices were evaluated against a defined compliance policy baseline, and device state was used as part of the security-control story.
-
-### 4. Security baseline controls were applied
-The Windows security baseline was assigned to pilot device groups, adding a first hardening layer beyond enrollment alone.
-
-### 5. Identity protection controls began to matter
-MFA, SSPR, and Conditional Access became relevant because endpoint state was now part of the access-control model, especially for compliant-device logic in Microsoft 365 pilot scope.
-
-### 6. Recovery and lifecycle management were tested
-The BitLocker / rebuild / stale-record scenario proved that endpoint operations include:
-- recovery-key escrow
-- re-enrollment
-- duplicate-object cleanup
-- local admin recovery design considerations such as Windows LAPS
-
-This is what makes the endpoint story much more mature than simple enrollment screenshots.
-
----
-
-## Current Endpoint Position in Release 1
-
-The endpoint workstream is now beyond basic setup.
-
-### Implemented and validated
-- Intune tenant baseline
-- EMS E5 trial path for management capability
-- Windows 11 corporate enrollment validation
-- Windows 11 BYOD / personal enrollment validation
-- Linux Intune visibility
-- Ansible baseline automation for Linux
-- iPhone BYOD enrollment
-- Windows compliance policy
-- Windows security baseline
-- BitLocker recovery-key escrow and recovery scenario
-- MFA / SSPR / Conditional Access pilot dependency on identity and endpoint state
-
-### Still maturing
-- Windows LAPS password retrieval and recovery validation
-- configuration profiles
-- update rings
-- Defender hardening
-- deeper monitoring and alerting
-- broader negative-path Conditional Access testing
-
----
-
-## Document Map for This Workstream
-
-Use the following pages to navigate the endpoint implementation:
-
-### [08-endpoint-platforms-and-enrollment.md](08-endpoint-platforms-and-enrollment.md)
-Detailed enrollment and management stories for:
-- Windows corporate
-- Windows BYOD
-- Linux Intune
-- iPhone BYOD
-
-### [09-endpoint-compliance-and-security-baseline.md](09-endpoint-compliance-and-security-baseline.md)
-Detailed control implementation for:
-- compliance policy
-- security baseline
-- BitLocker
-- Windows LAPS direction
-
-### [14-advanced-recovery-scenarios.md](14-advanced-recovery-scenarios.md)
-Detailed operational recovery scenarios for:
-- BitLocker recovery
-- rebuild / re-enrollment
-- stale device cleanup
-- recovery and governance lessons
-
----
-
-## Evidence Areas
-
-The endpoint workstream is supported by evidence under the screenshot tree, including:
-
-- Windows corporate and BYOD enrollment evidence
-- Linux Intune evidence
-- Ansible evidence
-- iPhone BYOD / Apple MDM evidence
-- Windows compliance policy evidence
-- Windows security baseline evidence
-- BitLocker recovery scenario evidence
-- identity protection evidence related to MFA, SSPR, Conditional Access, and LAPS
-
-The detailed docs should reference only the most important screenshots, while the screenshot folders remain the full evidence archive.
-
----
-
-## Diagram Placement Recommendation
-
-This overview page is a good place for the **endpoint architecture / management model** diagram.
-
-Recommended diagram for this page:
-- `../diagrams/01-release1-end-state-architecture.png` for high-level context
-- or
-- `../diagrams/02-identity-messaging-endpoint-control-flow.png` if you want a more technical flow emphasis
-
-Best practice:
-- embed only one diagram here
-- keep deeper recovery visuals in `14-advanced-recovery-scenarios.md`
-
----
-
-## Suggested Embedded Screenshot Strategy
-
-Do not embed too many screenshots on this overview page.
-
-Best maximum:
-- one screenshot showing the mixed device inventory in Intune
-- optionally one screenshot showing Windows corp vs BYOD distinction
-
-Detailed screenshots should stay in:
-- `08`
-- `09`
-- `14`
-
-This keeps the overview readable.
-
----
-
-## Endpoint Control Flow Context
-
-![Identity, messaging, and endpoint control flow](../diagrams/02-identity-messaging-endpoint-control-flow.png)
+![Identity, messaging, and endpoint control flow](../../diagrams/02-identity-messaging-endpoint-control-flow.png)
 
 *Figure: Release 1 control flow linking hybrid identity, Exchange migration, Intune-managed endpoints, and device-based access control across the Microsoft 365 pilot environment.*
 
----
-## Why This Matters Professionally
+## Why This Matters
 
-This endpoint workstream shows practical experience across:
+This workstream strengthens the project because it shows endpoint administration as a connected operational domain rather than a narrow Intune setup exercise.
 
-- endpoint onboarding
+It now demonstrates:
+
 - mixed ownership models
 - mixed platform coverage
-- compliance and security baseline enforcement
-- identity protection dependencies
-- operational recovery and lifecycle cleanup
+- policy-based compliance and hardening
+- access-control dependency on endpoint condition
+- lifecycle handling through recovery and cleanup
 
-That is a much stronger enterprise signal than simply showing that Intune was turned on.
+That makes the endpoint story materially stronger than a portfolio that stops at device enrollment screenshots or a single compliant Windows machine.
 
----
+## Related Docs
 
-## Summary
-
-Release 1 endpoint work now demonstrates a realistic pilot endpoint program across Windows, Linux, and iPhone scenarios.
-
-The key value is not only that devices were enrolled, but that the project now shows:
-
-- enrollment
-- management visibility
-- compliance logic
-- security baseline assignment
-- access-control dependency
-- recovery and lifecycle lessons
-
-This page should remain the **overview / navigation hub** for the endpoint workstream, while the detailed implementation lives in:
-
-- `08-endpoint-platforms-and-enrollment.md`
-- `09-endpoint-compliance-and-security-baseline.md`
-- `14-advanced-recovery-scenarios.md`
+- [Release 1 Summary](00-summary.md)
+- [Endpoint Enrollment](04-endpoint-enrollment.md)
+- [Endpoint Compliance](05-endpoint-compliance.md)
+- [Recovery Scenarios](06-recovery-scenarios.md)
+- [Monitoring](08-monitoring.md)
+- [Release 1 Build Checklist](11-build-checklist.md)
