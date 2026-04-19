@@ -25,3 +25,15 @@ Release 1 Purview should be presented as a baseline information-protection imple
 - `docs/release1/07-purview.md`
 - `docs/release1/09-compliance-mapping.md`
 - `docs/release1/00-summary.md`
+
+<!-- AUTO-GENERATED: START -->
+
+## Subfolders
+
+- [Purview Dlp](./purview-dlp/)
+- [Purview Retention](./purview-retention/)
+- [Purview Sensitivity Labels](./purview-sensitivity-labels/)
+- [Purview Sits](./purview-sits/)
+
+<!-- AUTO-GENERATED: END -->
+

@@ -7,3 +7,8 @@ Planned evidence includes Azure Monitor, Log Analytics, alert examples, and cros
 ## Status
 
 Planned for Release 2.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

@@ -7,3 +7,8 @@ Planned evidence includes workspace onboarding, data connectors, workbook views,
 ## Status
 
 Planned for Release 2.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

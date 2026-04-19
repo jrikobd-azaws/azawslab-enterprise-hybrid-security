@@ -21,3 +21,23 @@ This folder contains the Release 1 Exchange hybrid and Exchange Online pilot-mig
 - `docs/release1/01-hybrid-identity.md`
 - `docs/release1/02-modern-workplace.md`
 - `docs/release1/00-summary.md`
+
+<!-- AUTO-GENERATED: START -->
+
+## Flagship Evidence
+
+### Hcw agent timeout error
+
+![Hcw agent timeout error](./01-hcw-agent-timeout-error.png)
+
+### Hcw agent validation success
+
+![Hcw agent validation success](./02-hcw-agent-validation-success.png)
+
+### Hcw user provisioning page
+
+![Hcw user provisioning page](./03-hcw-user-provisioning-page.png)
+
+
+<!-- AUTO-GENERATED: END -->
+

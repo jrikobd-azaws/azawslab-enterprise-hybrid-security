@@ -7,3 +7,8 @@ Planned evidence includes Application Gateway, WAF policy, listener and routing 
 ## Status
 
 Planned for Release 3.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

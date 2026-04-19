@@ -31,3 +31,14 @@ Release 1 evidence includes:
 - `docs/release1/00-summary.md`
 - `docs/release1/03-endpoint-overview.md`
 - `docs/release1/09-compliance-mapping.md`
+
+<!-- AUTO-GENERATED: START -->
+
+## Subfolders
+
+- [Release1](./release1/README.md)
+- [Release2](./release2/README.md)
+- [Release3](./release3/README.md)
+
+<!-- AUTO-GENERATED: END -->
+

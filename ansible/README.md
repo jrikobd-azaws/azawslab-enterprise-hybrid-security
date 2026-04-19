@@ -1,5 +1,7 @@
 ﻿# Ansible
 
+**Related navigation:** [README](../README.md) | [Release 1 Summary](../docs/release1/00-summary.md) | [Release 1 Build Checklist](../docs/release1/11-build-checklist.md)
+
 This folder contains the targeted automation used to support Linux baseline administration in Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
 
 ## What this folder proves
@@ -20,7 +22,7 @@ This folder should be read as a focused Release 1 Linux baseline automation work
 
 ## Related docs
 
-- `docs/release1/04-endpoint-enrollment.md`
-- `docs/release1/03-endpoint-overview.md`
-- `docs/release1/11-build-checklist.md`
-- `screenshots/release1/intune/`
+- [Endpoint Enrollment and Platform Coverage](../docs/release1/04-endpoint-enrollment.md)
+- [Endpoint Overview](../docs/release1/03-endpoint-overview.md)
+- [Release 1 Build Checklist](../docs/release1/11-build-checklist.md)
+- [Intune Evidence](../screenshots/release1/intune/README.md)

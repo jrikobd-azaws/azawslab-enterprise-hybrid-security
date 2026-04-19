@@ -7,3 +7,8 @@ Planned evidence includes ingress path, frontend-to-backend flow, backend-to-dat
 ## Status
 
 Planned for Release 3.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

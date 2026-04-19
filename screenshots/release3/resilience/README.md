@@ -7,3 +7,8 @@ Planned evidence includes recovery approach, restart or redeploy validation, ava
 ## Status
 
 Planned for Release 3.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

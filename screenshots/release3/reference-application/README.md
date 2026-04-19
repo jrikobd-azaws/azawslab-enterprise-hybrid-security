@@ -7,3 +7,8 @@ Planned evidence includes the selected multi-tier workload pattern, architecture
 ## Status
 
 Planned for Release 3.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

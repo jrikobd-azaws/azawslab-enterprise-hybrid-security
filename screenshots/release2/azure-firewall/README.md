@@ -7,3 +7,8 @@ Planned evidence includes Azure Firewall deployment, policy and rule collections
 ## Status
 
 Planned for Release 2.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

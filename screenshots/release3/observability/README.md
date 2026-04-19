@@ -7,3 +7,8 @@ Planned evidence includes logs, metrics, health visibility, troubleshooting path
 ## Status
 
 Planned for Release 3.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

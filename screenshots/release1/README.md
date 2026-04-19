@@ -24,3 +24,29 @@ This folder contains the full screenshot archive for Release 1 of the `azawslab 
 - `docs/release1/03-endpoint-overview.md`
 - `docs/release1/09-compliance-mapping.md`
 - `docs/release1/11-build-checklist.md`
+
+<!-- AUTO-GENERATED: START -->
+
+## Subfolders
+
+- [Ad Identity Foundation](./ad-identity-foundation/)
+- [Ansible](./ansible/)
+- [Dc1 Build](./dc1-build/)
+- [Dc2 Build](./dc2-build/)
+- [Entra Sync](./entra-sync/)
+- [Entra Tenant Config](./entra-tenant-config/)
+- [Exch1 Build](./exch1-build/)
+- [Exchange Hybrid](./exchange-hybrid/README.md)
+- [Hyper V Foundation](./hyper-v-foundation/README.md)
+- [Identity Protection](./identity-protection/)
+- [Intune](./intune/README.md)
+- [M365 Tenant Setup](./m365-tenant-setup/)
+- [Mem1 Build](./mem1-build/README.md)
+- [Modern Workplace](./modern-workplace/)
+- [Monitoring](./monitoring/README.md)
+- [Purview](./purview/README.md)
+- [Sharepoint Baseline](./sharepoint-baseline/)
+- [Teams Baseline](./teams-baseline/)
+
+<!-- AUTO-GENERATED: END -->
+

@@ -7,3 +7,8 @@ Planned evidence includes hub-and-spoke design, peering, routing, NSGs, VPN or h
 ## Status
 
 Planned for Release 2.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

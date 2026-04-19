@@ -7,3 +7,8 @@ Planned evidence includes Azure Policy, RBAC, Key Vault access model, tagging co
 ## Status
 
 Planned for Release 2.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

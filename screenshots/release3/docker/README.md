@@ -7,3 +7,8 @@ Planned evidence includes Docker images, Dockerfiles, containerized services, bu
 ## Status
 
 Planned for Release 3.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+

@@ -7,3 +7,8 @@ Planned evidence includes Azure-hosted workload deployment, frontend and backend
 ## Status
 
 Planned for Release 3.
+
+<!-- AUTO-GENERATED: START -->
+
+<!-- AUTO-GENERATED: END -->
+
