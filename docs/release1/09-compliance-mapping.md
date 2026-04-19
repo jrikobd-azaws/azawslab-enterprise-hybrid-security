@@ -1,305 +1,140 @@
 # Security and Compliance Mapping
 
-**Navigation:** [README](../README.md) | [Release 1 Build Checklist](16-release1-build-checklist.md) | [Release 1 Final Summary](17-release1-final-summary.md)
-
-**Related docs:** [Hybrid Identity](05-hybrid-identity.md) | [Modern Workplace](06-m365-modern-workplace.md) | [Endpoint Security and Intune](07-endpoint-security-intune.md) | [Information Protection and Purview](10-information-protection-purview.md) | [Monitoring and Alerting](11-monitoring-alerting.md) | [Lessons Learned](15-lessons-learned.md)
-
----
+**Related navigation:** [README](../../README.md) | [Release 1 Summary](00-summary.md) | [Release 1 Build Checklist](11-build-checklist.md)  
+**Related docs:** [Hybrid Identity](01-hybrid-identity.md) | [Modern Workplace](02-modern-workplace.md) | [Endpoint Overview](03-endpoint-overview.md) | [Purview](07-purview.md) | [Monitoring](08-monitoring.md)
 
 ## Purpose
 
-This document maps the implemented Release 1 controls in the `azawslab Enterprise Hybrid Security Platform` to recognizable security and compliance themes.
+This page maps the Release 1 work completed in the `azawslab Enterprise Hybrid Security Platform` to the main security and compliance control areas it actually demonstrates.
 
-It is **not** a formal audit, certification, or legal compliance statement.
+It is not intended to present Release 1 as a completed enterprise compliance program. Its purpose is to show which control domains were evidenced, how they connect across the platform, and where the current boundaries remain.
 
-Instead, it shows how the technical controls implemented in Release 1 align with common requirements and good practice drawn from:
+## What This Page Proves
 
-- GDPR-oriented security and governance expectations
-- NIST-style security control thinking
-- CIS-style baseline hardening and operational discipline
+This page proves that Release 1 spans multiple meaningful control domains rather than focusing on one isolated Microsoft product.
 
-The purpose is to help readers understand that the project is not only a lab build, but also a control-aware platform implementation.
+It demonstrates evidenced baseline capability across:
 
----
+- hybrid identity and controlled synchronization
+- namespace-aware Microsoft 365 onboarding and Exchange hybrid validation
+- endpoint enrollment across mixed ownership and mixed platform scenarios
+- endpoint compliance, hardening, patching, and access-control relevance
+- monitoring visibility across sign-in, audit, endpoint, and control-outcome review
+- information protection through sensitivity labels, DLP, and retention baseline
+- recovery-aware operations through BitLocker recovery, re-enrollment, and stale-record cleanup
 
-## How to Read This Document
+## Mapping Story
 
-This mapping is intentionally practical.
+Release 1 should be understood as a connected baseline across identity, collaboration, endpoint control, information protection, monitoring, and recovery.
 
-Each row links:
+The first control domain is identity. On-premises Active Directory remained authoritative for pilot users, while Microsoft Entra Connect Sync extended selected identities into Microsoft 365 under controlled pilot scope. This established the core identity boundary for later access and service use.
 
-- a Release 1 control area
-- what was implemented
-- the main business/security purpose
-- representative alignment themes
-- where to verify the implementation in the project documentation
+The second control domain is messaging and collaboration. Microsoft 365 tenant onboarding, namespace discipline, Exchange Online pilot migration, Teams collaboration, and SharePoint access collectively show that the project moved from identity into usable workplace services rather than stopping at tenant setup.
 
-This should be read as a **control mapping and design-awareness document**, not as a claim of formal compliance attestation.
+The third control domain is endpoint administration. Release 1 validated Windows corporate, Windows BYOD, Ubuntu Linux, and iPhone BYOD enrollment paths. That platform diversity matters because it shows the managed environment is broader than a single test device.
 
----
+The fourth control domain is endpoint governance and hardening. Compliance policy, Windows security baseline, update governance, attack-surface reduction evidence, and compliant-device access logic show that the endpoint story progressed from registration into policy enforcement and hardening.
 
-## Scope Boundary
+The fifth control domain is monitoring and review. Sign-in visibility, audit-log visibility, Intune device-state visibility, and example alert-signal review show that Release 1 can be observed after implementation rather than only configured once.
 
-This mapping covers **implemented Release 1 controls** and the main supporting governance logic behind them.
+The sixth control domain is information protection. Purview sensitivity labels, user-visible label application, DLP policy-tip behavior, and retention-policy visibility extend the project into content-aware control rather than limiting it to identity and device boundaries.
 
-It does **not** claim:
+The seventh control domain is operational recovery. The BitLocker recovery and stale-record cleanup path is especially important because it proves that Release 1 includes recovery-aware endpoint administration, not only ideal-state policy assignment.
 
-- full enterprise policy maturity
-- formal ISO 27001 control ownership
-- full GDPR legal interpretation
-- complete NIST 800-53 mapping depth
-- complete CIS Benchmark implementation depth
-- formal audit readiness
+Together, these control domains make Release 1 a coherent baseline security and compliance story rather than a disconnected collection of product exercises.
 
-Later phases may deepen this mapping, but Release 1 focuses on evidence-backed baseline alignment.
+## Flagship Control Areas
 
----
+### Identity and access control
 
-## Release 1 Mapping Summary
+Release 1 demonstrates controlled hybrid identity, pilot-safe synchronization scope, and namespace-aware preparation for Microsoft 365 and Exchange hybrid work.
 
-At a high level, Release 1 demonstrates control alignment across these themes:
+Primary evidence:
+- [Hybrid Identity](01-hybrid-identity.md)
+- [Monitoring and Alerting](08-monitoring.md)
 
-- identity and access control
-- secure configuration and hardening
-- hybrid messaging security and trust
-- endpoint enrollment and compliance
-- encryption and recovery preparedness
-- information protection and retention awareness
-- monitoring and operational visibility
-- evidence-backed administrative governance
+### Messaging and collaboration control context
 
----
+Release 1 demonstrates Microsoft 365 onboarding, Exchange Online pilot migration, Teams collaboration, and SharePoint document collaboration under a controlled hybrid namespace model.
 
-## Control Mapping Table
+Primary evidence:
+- [Microsoft 365 Modern Workplace](02-modern-workplace.md)
 
-| Release 1 Area | Implemented Control / Capability | Primary Security or Compliance Purpose | Example Alignment Themes | Main Evidence / Docs |
-|---|---|---|---|---|
-| Core identity foundation | Active Directory domain services, DC1/DC2, DNS, replication, tiered OU structure | Establish authoritative identity source and controlled admin structure | Identity governance, least privilege structure, secure admin boundary thinking | `03-current-state-architecture.md`, `05-hybrid-identity.md`, `16-release1-build-checklist.md` |
-| Hybrid identity | Entra Connect Sync with Password Hash Synchronization, pilot sync scoping, group-based filtering | Control which identities reach cloud services and reduce unnecessary sync scope | Identity lifecycle control, scoped synchronization, cloud identity governance | `05-hybrid-identity.md`, `16-release1-build-checklist.md` |
-| Namespace governance | Separation of `azawslab.co.uk` and `corp.azawslab.co.uk` | Reduce business disruption while enabling controlled hybrid pilot execution | Change control, service continuity, staged migration governance | `05-hybrid-identity.md`, `06-m365-modern-workplace.md`, `README.md` |
-| Hybrid messaging trust | Public-trust SAN certificate covering `mail` and `exch1`, IIS binding correction, hybrid troubleshooting | Ensure externally trusted hybrid service presentation and successful migration readiness | Certificate governance, secure service trust, transport/service assurance | `05-hybrid-identity.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
-| Exchange hybrid migration | Modern Hybrid, Hybrid Agent, migration endpoint recovery, remote move validation, pilot mailbox migration | Secure staged migration from on-premises messaging to Exchange Online | Secure transition planning, service migration governance, operational validation | `06-m365-modern-workplace.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
-| Collaboration baseline | Teams and SharePoint pilot validation | Prove modern workplace services are available in a controlled pilot scope | Collaboration governance, controlled rollout, service validation | `06-m365-modern-workplace.md`, `16-release1-build-checklist.md` |
-| Intune endpoint onboarding | Windows corporate, Windows BYOD, Linux, iPhone enrollment | Bring endpoints into managed visibility and administrative control | Asset visibility, endpoint governance, device management baseline | `07-endpoint-security-intune.md`, `08-endpoint-platforms-and-enrollment.md`, `16-release1-build-checklist.md` |
-| Ownership-aware endpoint management | Corporate vs personal device distinction in Intune | Differentiate governance and control expectations by ownership model | Data protection proportionality, BYOD governance, policy scoping | `08-endpoint-platforms-and-enrollment.md`, `16-release1-build-checklist.md` |
-| Compliance control | Windows compliance policy baseline | Evaluate whether devices meet required security conditions before trust is extended | Device compliance, configuration governance, access-condition enforcement | `09-endpoint-compliance-and-security-baseline.md`, `16-release1-build-checklist.md` |
-| Secure configuration baseline | Windows security baseline, configuration profiles, update rings | Move managed endpoints toward a controlled, hardened, and maintainable state | Secure configuration, patch governance, baseline hardening | `09-endpoint-compliance-and-security-baseline.md`, `16-release1-build-checklist.md` |
-| Endpoint protection | Defender baseline, antivirus policy, ASR policy, ransomware-resilience controls | Reduce endpoint attack surface and improve malware/ransomware resistance | Malware protection, attack-surface reduction, resilience | `09-endpoint-compliance-and-security-baseline.md`, `16-release1-build-checklist.md` |
-| Encryption and recoverability | BitLocker policy path, recovery-key escrow, recovery-key retrieval evidence | Protect device storage while preserving recovery capability | Encryption at rest, recoverability, key-management governance | `09-endpoint-compliance-and-security-baseline.md`, `14-advanced-recovery-scenarios.md`, `16-release1-build-checklist.md` |
-| Endpoint lifecycle recovery | Rebuild, re-enrollment, stale-record cleanup | Restore secure management state after disruptive recovery events | Asset lifecycle control, recovery operations, inventory hygiene | `14-advanced-recovery-scenarios.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
-| Local admin recovery direction | Windows LAPS policy implementation and assignment | Improve endpoint recovery posture and local admin governance | Privileged access control, recovery preparedness, endpoint supportability | `09-endpoint-compliance-and-security-baseline.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
-| Identity protection | MFA, SSPR, Conditional Access, break-glass exclusion thinking | Strengthen identity assurance and access control for cloud workloads | Strong authentication, account recovery control, conditional access, Zero Trust | `05-hybrid-identity.md`, `11-monitoring-alerting.md`, `16-release1-build-checklist.md` |
-| Device-based access control | Compliant-device access logic for Microsoft 365 pilot scope | Tie endpoint state to access-control decisions | Zero Trust, device trust, conditional access enforcement | `09-endpoint-compliance-and-security-baseline.md`, `11-monitoring-alerting.md`, `16-release1-build-checklist.md` |
-| Linux operational governance | Linux visibility through Intune plus baseline automation with Ansible | Extend governance beyond Windows and prove platform diversity with control | Mixed-platform administration, configuration automation, operational consistency | `08-endpoint-platforms-and-enrollment.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
-| Mobile governance baseline | Apple MDM Push Certificate and iPhone BYOD enrollment | Establish controlled mobile management path with required platform trust prerequisite | Mobile device governance, BYOD onboarding, platform prerequisite awareness | `08-endpoint-platforms-and-enrollment.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
-| Information classification | Sensitivity labels and label publishing | Classify information and make handling expectations visible to users | Data classification, information governance, user awareness | `10-information-protection-purview.md`, `16-release1-build-checklist.md` |
-| Data loss prevention | U.K. Financial Data DLP policy and policy-tip validation | Detect sensitive content and trigger user-visible protection behavior | Data protection, policy enforcement, content-aware control | `10-information-protection-purview.md`, `16-release1-build-checklist.md` |
-| Retention awareness | Retention-policy baseline | Begin governance of information lifecycle, not just access and labeling | Retention governance, lifecycle awareness, information stewardship | `10-information-protection-purview.md`, `16-release1-build-checklist.md` |
-| Monitoring baseline | Entra visibility, device visibility, Purview visibility, sign-in logs, audit logs, example alerting evidence | Establish operational visibility and control-state awareness | Logging, monitoring, administrative review, early detection | `11-monitoring-alerting.md`, `16-release1-build-checklist.md` |
-| Evidence governance | Structured screenshot archive, diagrams, scripts, Ansible files, lessons learned | Improve traceability, verification, and professional presentation of implemented controls | Auditability, documentation discipline, evidence management | `README.md`, `15-lessons-learned.md`, `16-release1-build-checklist.md` |
+### Endpoint enrollment and governance
 
----
+Release 1 demonstrates mixed ownership and mixed platform enrollment across Windows corporate, Windows BYOD, Ubuntu Linux, and iPhone BYOD scenarios.
 
-## GDPR-Oriented Alignment Themes
+Primary evidence:
+- [Endpoint Overview](03-endpoint-overview.md)
+- [Endpoint Enrollment and Platform Coverage](04-endpoint-enrollment.md)
 
-Release 1 is not a GDPR compliance certification project, but several implemented controls align well with GDPR-style security and accountability expectations.
+### Compliance and hardening
 
-### Relevant themes demonstrated
+Release 1 demonstrates compliance-policy assignment, Windows security baseline, update governance, attack-surface reduction evidence, BitLocker relevance, and compliant-device access logic.
 
-- controlled identity and access management
-- conditional access and strong authentication
-- encryption and recoverability
-- endpoint compliance and security baselines
-- information classification and DLP
-- retention-awareness through Purview
-- logging and administrative visibility
-- documented design decisions and evidence preservation
+Primary evidence:
+- [Endpoint Compliance and Security Baseline](05-endpoint-compliance.md)
 
-### Practical interpretation
+### Monitoring and administrative visibility
 
-The project demonstrates that Release 1 was designed with:
+Release 1 demonstrates sign-in review, audit visibility, endpoint-state visibility, and example alert-signal awareness.
 
-- confidentiality
-- integrity
-- recoverability
-- accountability
-- administrative traceability
+Primary evidence:
+- [Monitoring and Alerting](08-monitoring.md)
 
-in mind.
+### Information protection
 
-That is the correct level of GDPR-oriented claim for this repository.
+Release 1 demonstrates sensitivity labels, DLP policy-tip behavior, and retention-policy visibility as a baseline Purview implementation.
 
----
+Primary evidence:
+- [Information Protection and Purview](07-purview.md)
 
-## NIST-Oriented Alignment Themes
+### Recovery-aware operations
 
-Release 1 also maps well to broad NIST-style control thinking, especially around:
+Release 1 demonstrates BitLocker recovery-key dependency, trust disruption, re-enrollment, stale-record cleanup, and restored healthy endpoint state.
 
-- identity and access control
-- system and communications trust
-- secure configuration
-- audit and accountability
-- system monitoring
-- media / storage protection through BitLocker
-- incident/recovery readiness in the endpoint lifecycle story
+Primary evidence:
+- [Advanced Recovery Scenarios](06-recovery-scenarios.md)
 
-### Practical interpretation
+## Why This Matters
 
-The project does not attempt a full NIST catalog mapping.
+This page strengthens the project because it shows that Release 1 is not limited to a single control layer.
 
-Instead, it demonstrates that Release 1 includes practical controls in the spirit of:
+It demonstrates that the repository now covers:
 
-- access control
-- auditability
-- secure system configuration
-- protected data handling
-- recovery-oriented administration
-
-That is a strong and defensible alignment position.
-
----
-
-## CIS-Oriented Alignment Themes
-
-Release 1 also aligns well with CIS-style baseline thinking, especially through:
-
-- secure administrative structure
-- endpoint baseline hardening
-- antivirus and ASR controls
-- patching / update-ring direction
-- MFA and access hardening
-- inventory visibility
-- logging and review visibility
-- control documentation discipline
-
-### Practical interpretation
-
-The project does not claim benchmark-by-benchmark CIS implementation.
-
-It does show that Release 1 follows CIS-style priorities such as:
-
-- secure configuration
-- controlled asset visibility
-- strong authentication
-- malware protection
-- recovery preparedness
-- evidence-backed administration
-
----
-
-## What This Mapping Does Not Claim
-
-To keep the project credible, this mapping does **not** claim:
-
-- formal compliance certification
-- legal assurance of GDPR completeness
-- complete NIST control-family implementation
-- complete CIS Benchmark hardening depth
-- complete mobile governance maturity
-- full production SOC/IR maturity
-- full records-management maturity
-
-This mapping is best understood as a **technical control-alignment view** of what Release 1 implemented and evidenced.
-
----
-
-## Strongest Release 1 Alignment Areas
-
-The strongest control-alignment areas in Release 1 are:
-
-### 1. Hybrid identity and access control
-Because the project demonstrates:
-- AD + Entra integration
-- pilot sync scoping
-- MFA
-- SSPR
-- Conditional Access
-- device-based access logic
-
-### 2. Endpoint governance and recovery awareness
-Because the project demonstrates:
-- mixed-platform management
-- compliance policy
-- security baseline
-- BitLocker escrow
-- rebuild / stale-record cleanup
-- LAPS design awareness
-
-### 3. Information protection baseline
-Because the project demonstrates:
-- labels
-- DLP
-- retention baseline
-- visible user-facing content controls
-
-### 4. Evidence-backed operational visibility
-Because the project demonstrates:
-- administrative visibility
-- sign-in and audit review baseline
-- endpoint and policy-state visibility
-- lessons learned with supporting evidence
-
----
-
-## Control Gaps and Deferred Areas
-
-The following areas are intentionally not overstated and may remain future or deferred maturity items:
-
-- Android BYOD / MAM scenario
-- full document fingerprinting availability if feature readiness remains blocked
-- deeper LAPS retrieval/recovery validation if not fully evidenced
-- broader formalized alert-response workflow
-- later Release 2 Azure governance and Sentinel work
-- later Release 3 workload security and resilience depth
-
-These do not invalidate Release 1. They simply define its maturity boundary clearly.
-
----
-
-## How This Supports the Portfolio
-
-This mapping strengthens the overall portfolio because it shows that the project is not just a collection of screenshots and admin tasks.
-
-It demonstrates:
-
-- control awareness
-- security reasoning
-- governance thinking
-- evidence discipline
-- realistic boundary-setting around what is and is not implemented
-
-That makes the repository stronger for both:
-
-- technical reviewers
-- recruiters or hiring managers who want to see that the work maps to real enterprise priorities
-
----
-
-## Reader Guide
-
-Use this page together with:
-
-- [Release 1 Build Checklist](16-release1-build-checklist.md) for implementation status
-- [Release 1 Final Summary](17-release1-final-summary.md) for the closeout narrative
-- [Hybrid Identity](05-hybrid-identity.md) for identity and certificate-trust design
-- [Endpoint Security and Intune](07-endpoint-security-intune.md) for endpoint lifecycle and governance
-- [Information Protection and Purview](10-information-protection-purview.md) for labels, DLP, and retention
-- [Monitoring and Alerting](11-monitoring-alerting.md) for visibility and review baseline
-- [Lessons Learned](15-lessons-learned.md) for operational design lessons
-
----
-
-## Summary
-
-Release 1 demonstrates meaningful alignment with common enterprise security and compliance expectations across:
-
-- identity and access control
-- secure configuration
-- endpoint governance
-- encryption and recovery preparedness
-- content protection
-- retention awareness
-- monitoring and audit visibility
-- documentation and evidence governance
-
-This mapping should be read as a **practical control-alignment view** of the Release 1 implementation, not as a formal compliance attestation.
+- identity
+- messaging and collaboration
+- endpoint management
+- compliance and hardening
+- monitoring visibility
+- information protection
+- operational recovery
+
+That breadth makes the platform materially stronger than a portfolio built only around tenant setup, a single managed device, or isolated security screenshots.
+
+## What Release 1 Does Not Claim
+
+To keep the mapping credible, Release 1 does not claim:
+
+- full enterprise compliance-program maturity
+- completed Release 2 Azure governance, Sentinel, or cloud-security operations
+- completed Release 3 workload modernization, protected ingress, or resilience engineering
+- full Android BYOD / MAM validation
+- fully evidenced Windows LAPS retrieval and recovery maturity
+- advanced Purview maturity such as document fingerprinting, large-scale auto-labeling, or records-management operating depth
+- mature SIEM, SOC, or incident-response operating model
+
+Release 1 should therefore be presented as a broad and evidenced control baseline, not as a finished enterprise security program.
+
+## Related Docs
+
+- [Release 1 Summary](00-summary.md)
+- [Hybrid Identity](01-hybrid-identity.md)
+- [Microsoft 365 Modern Workplace](02-modern-workplace.md)
+- [Endpoint Overview](03-endpoint-overview.md)
+- [Endpoint Enrollment and Platform Coverage](04-endpoint-enrollment.md)
+- [Endpoint Compliance and Security Baseline](05-endpoint-compliance.md)
+- [Advanced Recovery Scenarios](06-recovery-scenarios.md)
+- [Information Protection and Purview](07-purview.md)
+- [Monitoring and Alerting](08-monitoring.md)
+- [Release 1 Build Checklist](11-build-checklist.md)
