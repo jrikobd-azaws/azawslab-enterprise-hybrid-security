@@ -10,7 +10,7 @@ It explains what Release 1 proved, highlights the strongest implementation evide
 
 ## Release 1 Implementation Flow and Proof Map
 
-![Release 1 Implementation Flow and Proof Map](../diagrams/05-release1-implementation-flow-and-proof-map.png)
+![Release 1 Implementation Flow and Proof Map](../../diagrams/05-release1-implementation-flow-and-proof-map.png)
 
 *Figure: Release 1 implementation flow showing how the on-premises foundation, hybrid identity, messaging, endpoint controls, information protection, and monitoring were delivered and evidenced as one connected platform story.*
 
