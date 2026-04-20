@@ -1,88 +1,231 @@
-# Advanced Recovery Scenarios
-
-**Related navigation:** [README](../../README.md) | [Release 1 Summary](00-summary.md) | [Release 1 Build Checklist](11-build-checklist.md)  
-**Related endpoint docs:** [Endpoint Overview](03-endpoint-overview.md) | [Endpoint Enrollment](04-endpoint-enrollment.md) | [Endpoint Compliance](05-endpoint-compliance.md)
+﻿# Recovery Scenarios
 
 ## Purpose
 
-This page records the strongest recovery-led operational scenario encountered during Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
+This page documents the recovery side of the platform by showing how endpoint trust disruption, BitLocker recovery, stale-record cleanup, and re-enrollment were handled in a controlled and supportable way.
 
-It focuses on BitLocker recovery, virtual hardware-context change, broken trust, device re-enrollment, and stale record cleanup for the Windows corporate pilot endpoint. It is intentionally separate from the enrollment and compliance pages because it captures recovery and lifecycle-management behavior rather than standard onboarding.
+It exists to prove that the platform was not only configurable in a happy-path state, but also recoverable when device identity, compliance state, or trust relationships became messy.
+
+---
 
 ## What This Page Proves
 
-This page proves that Release 1 went beyond happy-path endpoint enrollment.
+This page proves that the platform included a workable recovery model with:
 
-It demonstrates:
+- BitLocker recovery-key visibility tied to managed cloud records
+- practical handling of a trust-break scenario
+- rebuild and re-enrollment as part of the supported lifecycle
+- duplicate and stale record review after recovery
+- restored compliant state after the device was brought back into management
+- a recovery story that connects endpoint security, device lifecycle, and operational support
 
-- BitLocker recovery-key escrow functioning as a real operational dependency
-- Hyper-V rebuild or hardware-context change affecting a previously healthy managed endpoint
-- storage recovery and cloud-managed trust recovery behaving as separate problems
-- device re-enrollment being required after trust became unhealthy
-- stale Intune and Entra records needing manual cleanup after disruptive lifecycle events
-- restored compliant state after recovery, cleanup, and re-enrollment
+---
 
-## Recovery Scenario Flow
+## Why It Matters
 
-![BitLocker recovery and stale device cleanup scenario](../../diagrams/03-bitlocker-recovery-and-stale-device-cleanup-scenario.png)
+This work enabled:
+- recoverable endpoint protection rather than static policy-only hardening
+- supportable handling of trust disruption without abandoning the managed-device model
+- a cleaner lifecycle story across rebuild, re-enrollment, and record cleanup
+- visible proof that the endpoint platform could return to healthy state after failure
 
-*Figure: Recovery flow showing BitLocker unlock, recovery-key retrieval, trust disruption, re-enrollment, stale-record cleanup, and restored healthy endpoint state.*
+Without recovery capability, the wider endpoint-control model would be much less credible.
 
-## Recovery Scenario Story
+---
 
-The Windows corporate pilot device, `WIN11-CORP01`, began this scenario as a healthy managed endpoint. It had already been enrolled into Intune, appeared in Microsoft Entra ID, participated in compliance and security-baseline testing, and had BitLocker in scope.
+## Scenario Overview
 
-The disruption occurred after a virtual hardware-context change in the Hyper-V lab environment. The VM shell was removed and recreated while the underlying disk and operating-system state were reused. In practical terms, this created a recovery situation similar to a managed-device rebuild or hardware-replacement event.
+The recovery model was built around one principle:
 
-After that change, the device entered a BitLocker recovery path. The recovery prompt appeared, the escrowed recovery key had to be retrieved from Microsoft Entra ID, and access to the encrypted system was restored. This proved that key escrow was not just a policy checkbox. It was a real operational dependency.
+> **A secure endpoint platform should not only enforce controls when everything is healthy; it should also provide a clear path back to trust when a device falls out of a healthy state.**
 
-However, successful disk recovery did not restore a fully healthy cloud-managed trust state. The prior work or school relationship was no longer behaving normally, and the endpoint could not be treated as fully recovered through unlock and restart alone.
+That means recovery should cover:
+- protection state
+- key visibility
+- device rebuild
+- re-enrollment
+- duplicate or stale record handling
+- restored compliance after remediation
 
-At that point, the recovery path moved into rebuild and re-enrollment. The device was reintroduced as a healthy managed endpoint, but the environment then showed duplicate or stale device records associated with `WIN11-CORP01`. Older noncompliant or obsolete records remained visible while the new re-enrolled device state appeared separately.
+This page focuses on that operational path.
 
-Those stale records were then identified and cleaned up manually so that the live managed endpoint, reporting state, and inventory view aligned again with reality.
+---
 
-The scenario therefore proved a full recovery sequence rather than a single control outcome: encrypted device recovery, trust disruption, re-enrollment, stale-record hygiene, and restored compliant state.
+## Recovery Scope in This Phase
 
-## Flagship Recovery Evidence
+The recovery story in this phase is centered on BitLocker and managed-device trust.
 
-### BitLocker recovery prompt
+It does **not** try to represent every enterprise recovery scenario. Instead, it focuses on one high-value operational sequence:
 
-![BitLocker recovery prompt on WIN11-CORP01](../../screenshots/release1/intune/intune-bitlocker-recovery-scenario/01-win11-corp01-bitlocker-recovery-prompt.png)
+1. device trust is disrupted
+2. BitLocker recovery is required
+3. the recovery key must be located
+4. the device is rebuilt and re-enrolled
+5. duplicate or stale records are reviewed and cleaned up
+6. compliant state is restored
 
-*Figure: BitLocker recovery prompt shown on the Windows corporate pilot device after the virtual hardware-context change.*
+This makes recovery a first-class proof of operational maturity rather than a vague â€œsupportabilityâ€ claim.
 
-### Recovery key retrieved from Microsoft Entra ID
+---
 
-![BitLocker recovery key visible in Microsoft Entra ID](../../screenshots/release1/intune/intune-bitlocker-recovery-scenario/02-win11-corp01-entra-bitlocker-recovery-key.png)
+## BitLocker Recovery and Key Visibility
 
-*Figure: Escrowed BitLocker recovery key retrieved from Microsoft Entra ID, proving operational recovery-key availability.*
+BitLocker matters here because it links protection with recoverability.
 
-### Duplicate or stale device records after re-enrollment
+A strong endpoint-control model should not only enable device protection, but also ensure that:
+- recovery keys are visible when support intervention is needed
+- the recovery path is documented and supportable
+- recovery does not permanently break the management model
 
-![Duplicate or stale Intune device records after re-enrollment](../../screenshots/release1/intune/intune-bitlocker-recovery-scenario/05-intune-windows-devices-duplicate-corp-records.png)
+In this implementation, BitLocker key visibility through the managed identity/device record was a crucial part of the platformâ€™s support story.
 
-*Figure: Duplicate or stale device records visible after the recovery and re-enrollment path, showing the inventory-cleanup problem created by disruptive lifecycle events.*
+---
 
-### Restored compliant state after cleanup and re-enrollment
+## Trust Break, Rebuild, and Re-Enrollment
 
-![Compliant state restored after re-enrollment](../../screenshots/release1/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png)
+The recovery scenario also demonstrates that the platform can cope with lifecycle disruption.
 
-*Figure: Healthy compliant state restored after recovery, re-enrollment, and stale-record cleanup.*
+Once trust is broken, the endpoint story becomes an operational question:
+- can the device still be recovered?
+- can it be brought back into management?
+- can state be cleaned up if duplicate or stale objects appear?
+- can compliance be restored without rebuilding the entire control model?
 
-## Why This Scenario Matters
+This is why the scenario matters so much. It tests the platform in a condition where static configuration screenshots would no longer be enough.
 
-This is one of the strongest technical pages in the repository because it shows endpoint administration under disruption rather than only under ideal conditions.
+---
 
-It demonstrates that BitLocker recovery, trust health, re-enrollment, and inventory hygiene are connected operational problems. That makes the page materially more credible than a standard endpoint walkthrough that stops once a device becomes compliant.
+## Duplicate and Stale Record Cleanup
 
-A related follow-on lesson from this scenario is that recovery-aware endpoint administration also depends on adjacent controls such as Windows LAPS. In Release 1, LAPS is treated as directionally relevant, but not fully evidenced as an operational retrieval-and-recovery story at the same level as BitLocker.
+Rebuild and re-enrollment can create operational clutter if stale or duplicate objects remain behind.
 
-## Related Docs
+This cleanup step matters because it shows that endpoint management was treated as a lifecycle discipline rather than a one-time enrollment event.
+
+Reviewing and cleaning records after recovery demonstrates:
+- awareness of post-recovery hygiene
+- understanding of the practical side of managed estates
+- supportability beyond the immediate recovery event
+
+This is one of the strongest realism signals in the whole release.
+
+---
+
+## Flagship Evidence
+
+### 1. BitLocker recovery prompt on the affected device
+
+![BitLocker recovery prompt](../../screenshots/release1/endpoint-management/intune/intune-bitlocker-recovery-scenario/01-win11-corp01-bitlocker-recovery-prompt.png)
+
+*BitLocker recovery prompt showing the device in a broken-trust state, requiring recovery intervention rather than normal managed use.*
+
+### 2. Recovery key visible in the cloud record
+
+![Entra BitLocker recovery key](../../screenshots/release1/endpoint-management/intune/intune-bitlocker-recovery-scenario/02-win11-corp01-entra-bitlocker-recovery-key.png)
+
+*Recovery key visible in the managed cloud record, demonstrating that protection and supportability were connected rather than treated as separate concerns.*
+
+### 3. Duplicate or stale record visibility after recovery activity
+
+![Duplicate corporate records visible](../../screenshots/release1/endpoint-management/intune/intune-bitlocker-recovery-scenario/05-intune-windows-devices-duplicate-corp-records.png)
+
+*Duplicate or stale managed-device records visible after recovery and re-enrollment activity, showing the kind of lifecycle cleanup required in a realistic operations scenario.*
+
+### 4. Restored compliant state after re-enrollment
+
+![Compliance restored after re-enrollment](../../screenshots/release1/endpoint-management/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png)
+
+*Compliant state restored after rebuild and re-enrollment, demonstrating that the platform could return the endpoint to a healthy and trusted condition after disruption.*
+
+---
+
+## Recovery Flow Summary
+
+| Recovery Stage | What happened | What it proved |
+| :--- | :--- | :--- |
+| **Trust disruption** | Device entered a BitLocker recovery state | Protection controls were active and meaningful |
+| **Key retrieval** | Recovery key was retrieved from the managed cloud record | The platform supported recovery, not just enforcement |
+| **Rebuild / re-enrollment** | Device was brought back into the managed estate | The management model could survive disruption |
+| **Record cleanup** | Duplicate or stale entries were reviewed | Lifecycle hygiene was treated seriously |
+| **Restored compliance** | Device returned to compliant state | The endpoint-control posture was recoverable |
+
+---
+
+## What Was Validated
+
+This recovery work validated that:
+- BitLocker protection could be supported with visible recovery-key access
+- a broken-trust scenario could be handled without abandoning the managed endpoint model
+- rebuild and re-enrollment could be completed successfully
+- duplicate or stale records could be identified and cleaned up after recovery
+- endpoint trust and compliance could be restored after disruption
+
+---
+
+## Operational Insight
+
+The strongest lesson from this scenario is that endpoint security should be judged by what happens **after something breaks**, not only by what happens during initial configuration.
+
+The key engineering value here is that the platform could:
+- protect the device
+- recover the device
+- clean the lifecycle records
+- restore a healthy managed state
+
+That is a much stronger proof of operational maturity than a simple â€œBitLocker enabledâ€ claim.
+
+---
+
+## Relationship to Other Endpoint Controls
+
+This page should be read together with the broader endpoint pages.
+
+Recovery is not separate from the rest of the endpoint story. It depends on:
+- enrollment and re-enrollment
+- compliance-state evaluation
+- policy visibility
+- BitLocker-related configuration
+- monitoring and device-state review
+
+That is why the recovery path is an important complement to:
+- endpoint overview
+- endpoint enrollment
+- endpoint compliance and security
+- monitoring
+
+---
+
+## Scope Boundaries
+
+This page should be read as evidence of a **specific implemented recovery scenario**, not as a claim to every enterprise recovery workflow.
+
+Important boundaries:
+- the strongest recovery evidence in this phase is centered on BitLocker and trust disruption
+- not every operating system has the same depth of recovery evidence
+- this page does not claim a full enterprise incident-response or desktop engineering programme
+- broader endpoint automation and Autopilot / ESP recovery paths remain outside this phase
+- recovery-key support and lifecycle cleanup are evidenced here, but broader PKI or advanced device-certification models are not
+
+---
+
+## Related Documents
 
 - [Release 1 Summary](00-summary.md)
 - [Endpoint Overview](03-endpoint-overview.md)
 - [Endpoint Enrollment](04-endpoint-enrollment.md)
-- [Endpoint Compliance](05-endpoint-compliance.md)
+- [Endpoint Compliance and Security](05-endpoint-compliance-and-security.md)
 - [Monitoring](08-monitoring.md)
-- [Release 1 Build Checklist](11-build-checklist.md)
+- [Lessons Learned](10-lessons-learned.md)
+- [Build Checklist](11-build-checklist.md)
+
+For cross-release context:
+- [Platform Overview](../foundation/01-platform-overview.md)
+- [Roadmap](../foundation/04-roadmap.md)
+- [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+
+---
+
+## Related Evidence
+
+- [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
+- [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
