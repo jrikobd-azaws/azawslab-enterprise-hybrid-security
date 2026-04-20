@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This page explains how Release 1 introduced hybrid identity between on-premises Active Directory and Microsoft Entra ID using a controlled pilot model rather than broad synchronization from day one.
+This document explains how hybrid identity was introduced between on-premises Active Directory and Microsoft Entra ID using a controlled pilot model rather than broad synchronization from day one.
 
 It covers the identity foundation, synchronization approach, access-control baseline, and the role hybrid identity played in enabling later Microsoft 365 validation.
 
@@ -10,7 +10,7 @@ It covers the identity foundation, synchronization approach, access-control base
 
 ## What This Page Proves
 
-This page proves that Release 1 established a functioning hybrid identity foundation with:
+The hybrid identity implementation proves that the platform established a functioning foundation with:
 
 - Active Directory as the authoritative on-premises identity source
 - Microsoft Entra ID integration through Entra Connect Sync
@@ -25,7 +25,7 @@ This page proves that Release 1 established a functioning hybrid identity founda
 
 Without hybrid identity, the rest of Release 1 would be disconnected cloud services.
 
-This work enabled:
+This implementation enabled:
 - reduced gap between on-premises Active Directory and Microsoft 365 access
 - safe pilot-first rollout without bulk synchronization
 - practical baseline for Conditional Access, MFA, and supportability
@@ -86,7 +86,7 @@ PHS was used to support the cloud authentication path in a way that was practica
 
 ## Identity Protection and Access Baseline
 
-Release 1 also established the identity-control baseline needed to make hybrid identity meaningful rather than merely connected. This included:
+The platform also established the identity-control baseline needed to make hybrid identity meaningful rather than merely connected. This included:
 
 - **Conditional Access** as the policy layer connecting identity to device and access conditions
 - **MFA** as part of the authentication-hardening story
@@ -171,4 +171,5 @@ For cross-release context:
 
 - [Identity and Access Evidence Hub](../../screenshots/release1/identity-and-access/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
 

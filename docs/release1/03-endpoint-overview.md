@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This page defines the endpoint strategy for the implemented phase of the platform. It explains how device ownership, operating system diversity, compliance, security controls, and recovery thinking were brought together into one manageable endpoint model.
+This document defines the endpoint strategy for the implemented phase of the platform. It explains how device ownership, operating system diversity, compliance, security controls, and recovery thinking were brought together into one manageable endpoint model.
 
 It acts as the bridge between hybrid identity, endpoint onboarding, endpoint security, and operational support.
 
@@ -10,7 +10,7 @@ It acts as the bridge between hybrid identity, endpoint onboarding, endpoint sec
 
 ## What This Page Proves
 
-This page proves that the platform established a workable endpoint strategy with:
+The endpoint strategy proves that the platform established a workable model with:
 
 - clear distinction between corporate and personal ownership models
 - support for multiple endpoint types across Windows, Ubuntu Linux, and iPhone BYOD
@@ -24,7 +24,7 @@ This page proves that the platform established a workable endpoint strategy with
 
 Without a coherent endpoint model, identity and cloud services remain disconnected from actual device trust.
 
-This work enabled:
+This strategy enabled:
 - clearer separation between corporate and BYOD device handling
 - practical support for multiple operating systems in one managed estate
 - visible device-state enforcement through compliance and policy evaluation
@@ -85,7 +85,7 @@ The platform therefore treats BYOD as part of the supported estate, but not as i
 
 ### Windows
 
-Windows is the most important endpoint platform in this phase because it carries the clearest compliance, baseline, recovery, and update-management story.
+Windows is the most important endpoint platform in the implemented estate because it carries the clearest compliance, baseline, recovery, and update-management story.
 
 It demonstrates:
 - corporate enrollment
@@ -247,6 +247,7 @@ For cross-release context:
 - [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
 - [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
 
 
 

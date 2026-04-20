@@ -2,13 +2,13 @@
 
 Release 1 establishes the hybrid Microsoft foundation of the platform across identity, messaging, collaboration, endpoint management and security, information protection, monitoring, and recovery.
 
-This phase is the most complete and most strongly evidenced part of the project. It is intended to prove that the platform is not just configured, but **validated, supportable, and recoverable** under realistic operational conditions.
+This summary focuses on the most complete and most strongly evidenced part of the project. It is intended to show that the platform is not just configured, but **validated, supportable, and recoverable** under realistic operational conditions.
 
 ---
 
 ## What Release 1 Achieved
 
-Release 1 delivered a connected hybrid platform spanning:
+The implemented platform delivered a connected hybrid platform spanning:
 
 - Active Directory to Microsoft Entra ID synchronization with controlled pilot scope
 - Exchange hybrid migration readiness and successful pilot mailbox validation
@@ -101,7 +101,7 @@ Related evidence:
 
 ## Scope Boundaries
 
-Release 1 is intentionally strong on the implemented hybrid Microsoft foundation, but it does **not** claim full maturity in every adjacent area.
+The implemented scope is intentionally strong on the hybrid Microsoft foundation, but it does **not** claim full maturity in every adjacent area.
 
 The following remain deferred or carefully scoped:
 - Android BYOD / MAM validation
@@ -133,4 +133,5 @@ For implementation status and future scope:
 
 For guided proof browsing:
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
 

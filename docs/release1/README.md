@@ -2,7 +2,7 @@
 
 Release 1 is the most complete and strongly evidenced phase of the project. It establishes the hybrid Microsoft foundation of the platform across identity, messaging, collaboration, endpoint management and security, information protection, monitoring, and operational recovery.
 
-This phase is designed to demonstrate more than initial setup. It focuses on **validated delivery**, **supportable operations**, and **scope-controlled engineering** across a small-enterprise hybrid environment built and tested in a local lab.
+The implementation is designed to demonstrate more than initial setup. It focuses on **validated delivery**, **supportable operations**, and **scope-controlled engineering** across a small-enterprise hybrid environment built and tested in a local lab.
 
 > **For recruiters:** This release maps directly to Modern Workplace, Intune, Entra ID, and Microsoft 365 roles. See the [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md) for capability-to-proof mapping.
 
@@ -171,6 +171,7 @@ For cross-release context, refer back to:
 - [Target-State Architecture](../foundation/03-target-state-architecture.md)
 - [Roadmap](../foundation/04-roadmap.md)
 - [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+
 
 
 
