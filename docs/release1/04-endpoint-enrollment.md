@@ -42,6 +42,14 @@ Without a functioning enrollment model, the wider endpoint strategy would remain
 | **Ubuntu Linux** | Test / managed platform validation | Intune enrollment and visibility | Linux visibility evidence referenced in the evidence hub |
 
 
+| Platform | Ownership | Enrollment Method | Key Evidence |
+| :--- | :--- | :--- | :--- |
+| **Windows 11** | Corporate | Organization-managed enrollment | Corporate compliant device screenshot |
+| **Windows 11** | BYOD | Personal ownership enrollment | Corporate + BYOD visibility screenshot |
+| **iPhone 13** | BYOD | Company Portal enrollment | Enrollment completion screen |
+| **Ubuntu Linux** | Test / managed platform validation | Intune enrollment and visibility | Linux visibility evidence referenced in the evidence hub |
+
+
 The onboarding strategy was built around one principle:
 
 > **Enrollment should establish a manageable device state, not just register a device name in the admin portal.**
@@ -258,4 +266,6 @@ For cross-release context:
 - [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
 - [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+
 
