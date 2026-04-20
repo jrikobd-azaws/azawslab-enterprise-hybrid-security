@@ -36,7 +36,7 @@ This makes Release 1 the strongest portfolio slice for roles involving Modern Wo
 
 ## Release 1 at a Glance
 
-![Release 1 implementation flow and proof map](../../diagrams/05-release1-implementation-flow-and-proof-map.png)
+![Release 1 implementation flow and proof map](../../diagrams/07-release1-validated-outcome-summary.png)
 
 *Release 1 implementation flow and proof map showing how platform foundation, hybrid identity, modern workplace services, endpoint management, information protection, and operational validation connect across the release.*
 
