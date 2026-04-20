@@ -1,113 +1,239 @@
-# Endpoint Compliance and Security Baseline
-
-**Related navigation:** [README](../../README.md) | [Release 1 Summary](00-summary.md) | [Release 1 Build Checklist](11-build-checklist.md)  
-**Related docs:** [Endpoint Overview](03-endpoint-overview.md) | [Endpoint Enrollment](04-endpoint-enrollment.md) | [Recovery Scenarios](06-recovery-scenarios.md) | [Monitoring](08-monitoring.md)
+# Endpoint Compliance and Security
 
 ## Purpose
 
-This page records the endpoint control layer implemented in Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
+This page explains how the platform moved beyond endpoint enrollment into endpoint trust, compliance, hardening, and control enforcement.
 
-Where the endpoint enrollment page shows how pilot devices entered the managed environment, this page shows how Release 1 moved into policy assessment, security hardening, update governance, and access-control relevance. It should be read as the endpoint-control and hardening page, not as the deeper recovery page.
+It covers how compliance policy, security baselines, Defender Antivirus, Attack Surface Reduction (ASR), BitLocker-related controls, Windows Update for Business, and policy visibility were used to establish a manageable and supportable endpoint security posture.
+
+---
 
 ## What This Page Proves
 
-This page proves that Release 1 endpoint work progressed beyond device enrollment into actual control enforcement.
+This page proves that the platform established a functioning endpoint compliance and security model with:
 
-It demonstrates:
+- compliance-state evaluation tied to enrolled devices
+- security baseline application across managed Windows endpoints
+- Defender Antivirus and Attack Surface Reduction (ASR) policy coverage
+- BitLocker-related controls and recovery-key handling
+- Windows Update for Business (WUfB) policy configuration
+- visible policy outcome and device-state review in Intune
+- an endpoint-control story that connects security enforcement to operational recovery
 
-- a Windows compliance-policy baseline assigned through pilot groups rather than one-off device targeting
-- a Windows security baseline applied as a distinct hardening layer beyond compliance assessment
-- compliance progression over time, including earlier noncompliant states and later validated compliant states
-- patching and update-governance inclusion through Windows Update for Business
-- additional endpoint-protection depth through Attack Surface Reduction policy evidence
-- BitLocker functioning as both a security requirement and a recovery-relevant control
-- compliant-device logic contributing to Conditional Access-aligned access control
-- Windows LAPS identified as an important follow-on recovery control, with implementation direction established but not fully validated
+---
 
-## Implementation Story
+## Why It Matters
 
-Release 1 endpoint control was built as a layered Windows management model rather than a simple “device enrolled” outcome.
+This work enabled:
+- a stronger link between endpoint onboarding and trusted-device status
+- visible control enforcement rather than policy definition alone
+- a practical baseline for device trust in a hybrid Microsoft environment
+- a security posture that could be monitored, challenged, and recovered when device state changed
 
-The first layer was compliance policy. A baseline Windows compliance policy, `CP-WIN-Release1-Baseline`, was created and assigned through pilot groups rather than through per-device direct targeting. That matters because it shows policy scope was designed to be ownership-aware and expandable, not treated as a temporary one-device test.
+Without compliance and hardening, enrollment alone would not provide meaningful assurance.
 
-The compliance story also developed over time. Earlier states showed noncompliance while encryption, policy effects, and remediation behavior were still being validated. Later evidence showed the Windows pilot devices reaching compliant status against both the Release 1 baseline and the default device-compliance layer. That timeline is important because it makes the project more credible than a page that pretends devices were healthy from the first moment of enrollment.
+---
 
-The second layer was security baseline. A Windows security baseline, `SB-WIN-Release1-Baseline`, was applied to the pilot Windows groups as a separate hardening mechanism. In Release 1, the important distinction is that compliance answers whether a device meets required conditions, while the security baseline pushes the device toward a stronger default posture. Together, those controls turn endpoint work into governance rather than just visibility.
+## Control Model Overview
 
-The third layer was patching and endpoint-protection depth. Windows Update for Business pilot assignment shows that Release 1 included update governance as part of endpoint control, while Attack Surface Reduction evidence shows that hardening extended beyond simple compliance-state reporting into attack-surface reduction.
+The endpoint control model was designed around one principle:
 
-BitLocker became one of the most important controls in this layer. It contributed directly to security posture and compliance, but it also became operationally significant during the recovery scenario. That is important because it shows that some endpoint controls are not only about configuration. They also shape recoverability, trust restoration, and lifecycle handling.
+> **A device should not be treated as trusted merely because it is enrolled. It should also be evaluated, protected, and recoverable.**
 
-The endpoint-control story became stronger still when device state was tied to access logic. Release 1 Conditional Access pilot behavior used compliant-device logic in Microsoft 365 pilot scope, which means access control was beginning to depend on endpoint condition rather than existing independently from it.
+In this model, a device must be enrolled, compliant, and hardened before it should be treated as fully trusted for access to corporate resources.
 
-Windows LAPS belongs in this story as an important adjacent control. Release 1 should describe it carefully: the direction is established, pilot implementation work has begun, and assignment evidence exists, but password retrieval and deeper recovery validation are not yet documented strongly enough to overstate maturity.
+That meant moving beyond simple device presence into:
+- compliance evaluation
+- baseline hardening
+- protection policy
+- update governance
+- recovery-key visibility
+- post-incident restoration of healthy state
 
-Taken together, these elements show that Release 1 endpoint work moved into policy enforcement, hardening, patching, and access-control relevance rather than stopping at enrollment alone.
+## Key Policies Applied
 
-## Flagship Compliance and Security Evidence
+| Control | Policy Applied | Evidence |
+| :--- | :--- | :--- |
+| **Compliance** | Device compliance policy with visible evaluated state | Non-compliant compliance result screenshot |
+| **Security Baseline** | Managed Windows security baseline assignment | Security baseline assignment screenshot |
+| **ASR** | Attack Surface Reduction policy coverage | Referenced in the Intune evidence hub |
+| **BitLocker** | BitLocker-related policy and recovery-key visibility | Restored compliance after recovery workflow |
+| **WUfB** | Pilot update ring assignment | WUfB assignment screenshot |
 
-### Compliance policy evaluation
+---
 
-![Windows compliance policy results overview](../../screenshots/release1/intune/intune-compliance-policy/04-compliance-policy-results-overview-noncompliant.png)
+## Compliance Policy
 
-*Figure: Compliance-policy results view showing enforcement and evaluation state during policy rollout, illustrating that compliance was validated over time rather than assumed from day one.*
+Compliance policy is the clearest expression of trusted-device evaluation in this phase.
 
-### Security baseline assignment
+It matters because it turns endpoint management from “device registered” into “device assessed.”
 
-![Security baseline assigned to pilot groups](../../screenshots/release1/intune/intune-security-baseline/01-security-baseline-assigned-groups.png)
+The compliance layer was used to:
+- evaluate device state
+- surface non-compliance where expected
+- show compliant state after the control path had been applied correctly
+- support downstream access logic and operational review
 
-*Figure: Windows security baseline assigned to the Release 1 pilot device groups, showing that hardening was applied through group-based targeting rather than one-off device configuration.*
+This gives the platform a visible checkpoint between device onboarding and trusted use.
 
-### Update governance
+---
 
-![Windows update ring pilot assignment](../../screenshots/release1/intune/intune-windows-update/02-wufb-updatering-pilot-assignment.png)
+## Security Baseline and Protection Controls
 
-*Figure: Windows Update for Business pilot assignment showing that patching and update governance were included in the Release 1 endpoint-control layer.*
+### Security Baseline
 
-### Endpoint protection and ASR
+The security baseline represents the hardening foundation for managed Windows endpoints.
 
-![ASR policy device check-in status](../../screenshots/release1/intune/intune-security-baseline/asr-policy/Screenshot 2026-04-17 163413.png)
+It matters because it moves the platform from enrollment into a defined protection posture rather than relying on default device settings.
 
-*Figure: Attack Surface Reduction policy evidence showing that endpoint-protection controls extended beyond compliance and baseline assignment into attack-surface hardening.*
+### Defender Antivirus
 
-### Restored healthy managed state
+Defender Antivirus policy coverage is part of the core baseline because it supports basic endpoint protection readiness within the managed estate.
 
-![Compliance restored after re-enrollment](../../screenshots/release1/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png)
+This should be read as an implemented baseline, not as a claim to the full Defender for Endpoint product stack.
 
-*Figure: Restored compliant state after re-enrollment, showing that Release 1 endpoint control included not only policy assignment but also recovery back to a healthy managed condition.*
+### Attack Surface Reduction (ASR)
 
-## Why This Matters
+ASR policy coverage strengthens the hardening story by showing that the platform was configured to reduce common attack opportunities at the endpoint layer.
 
-This workstream strengthens the project because it shows that Release 1 endpoint administration is not limited to registration and device presence.
+This is important because it demonstrates that endpoint protection was treated as a control model, not simply a registration exercise.
 
-It now demonstrates:
+---
 
-- policy-based compliance assessment
-- group-scoped hardening
-- patching governance
-- endpoint-protection depth
-- access-control relevance through compliant-device logic
-- recovery-aware thinking around BitLocker and local admin recovery
+## BitLocker and Recoverability
 
-That makes the endpoint story materially stronger than a portfolio that stops at enrollment screenshots or isolated Intune portal setup.
+BitLocker controls here focus on policy configuration and recovery-key visibility. The full operational workflow — trust break, key retrieval, rebuild, stale-record cleanup, and restored compliance — is documented in [Recovery Scenarios](06-recovery-scenarios.md).
 
-## What Release 1 Does Not Claim
+---
 
-To keep the endpoint-control story credible, Release 1 does not claim:
+## Windows Update for Business
 
-- identical control depth across every platform
-- fully matured Windows LAPS retrieval and recovery operations
-- complete enterprise-scale policy layering across all Windows scenarios
-- formal SOC or incident-response maturity tied to endpoint alerts
-- full recovery detail inside this page, which is intentionally covered in the dedicated recovery document
+Windows Update for Business (WUfB) is included because update governance is part of endpoint trust, not a separate afterthought.
 
-Release 1 should therefore be presented as a credible endpoint compliance and hardening baseline, not as a finished enterprise endpoint-security program.
+It contributes to the control model by showing:
+- policy-driven update handling
+- lifecycle discipline for managed devices
+- connection between ongoing maintenance and endpoint health
 
-## Related Docs
+This is especially important in a portfolio context because it shows awareness that endpoint security is a continuing state, not a one-time deployment.
+
+---
+
+## Policy Visibility and Operational Review
+
+The control model also required visible outcomes.
+
+This page therefore includes evidence not only of policy configuration, but of:
+- non-compliant state
+- compliant state
+- policy assignment visibility
+- device-state review in Intune
+
+This matters because control without visibility is difficult to trust and difficult to support.
+
+---
+
+## Flagship Evidence
+
+### 1. Compliance policy showing non-compliant result
+
+![Compliance policy non-compliant overview](../../screenshots/release1/endpoint-management/intune/intune-compliance-policy/04-compliance-policy-results-overview-noncompliant.png)
+
+*Compliance policy result showing a non-compliant device state, demonstrating that endpoint trust was being evaluated rather than assumed.*
+
+### 2. Security baseline assigned to managed scope
+
+![Security baseline assigned groups](../../screenshots/release1/endpoint-management/intune/intune-security-baseline/01-security-baseline-assigned-groups.png)
+
+*Security baseline assignment showing that hardening controls were being applied through a managed policy model rather than by manual one-off configuration.*
+
+### 3. Windows Update for Business policy assignment
+
+![WUfB update ring pilot assignment](../../screenshots/release1/endpoint-management/intune/intune-windows-update/02-wufb-updatering-pilot-assignment.png)
+
+*Windows Update for Business assignment showing that update governance was part of the managed endpoint control posture.*
+
+### 4. Restored compliant state after recovery workflow
+
+![Compliant state restored after re-enrollment](../../screenshots/release1/endpoint-management/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png)
+
+*Compliant state restored after recovery and re-enrollment, demonstrating that the endpoint control posture remained supportable even after trust disruption and rebuild.*
+
+---
+
+## Additional Control Evidence
+
+The wider evidence set also includes:
+- Defender Antivirus-related baseline configuration
+- Attack Surface Reduction policy evidence
+- additional compliance-policy screenshots
+- device visibility and control-state views
+- BitLocker recovery screenshots in the dedicated recovery scenario evidence
+
+For guided proof browsing:
+- [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
+- [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
+
+---
+
+## What Was Validated
+
+The endpoint compliance and security work validated that:
+- enrolled devices could be evaluated through compliance policy
+- hardening could be applied through managed baseline configuration
+- Windows protection controls could be represented within the managed estate
+- update governance could be configured as part of the device lifecycle
+- endpoint trust could be disrupted, recovered, and restored without breaking the overall management model
+
+---
+
+## Operational Insight
+
+A key lesson from this area is that endpoint security should be treated as a recoverable control posture, not just a static configuration state.
+
+The strongest design choice here was to connect:
+- compliance
+- baseline hardening
+- protection controls
+- update policy
+- recovery and restored state
+
+That makes the endpoint story more credible than a simple “security settings configured” claim.
+
+---
+
+## Scope Boundaries
+
+This page should be read as evidence of the implemented endpoint compliance and security baseline, not as a claim to every endpoint security capability.
+
+Important boundaries:
+- Defender Antivirus and ASR are represented as implemented baseline controls, not as a claim to the full Microsoft Defender for Endpoint stack
+- Windows LAPS should be discussed carefully as policy configuration unless retrieval/recovery is separately evidenced
+- Windows Autopilot / ESP optimization is not implemented here
+- not every operating system has the same depth of security-control evidence
+- Windows carries the strongest compliance, baseline, BitLocker, and update-management evidence in this phase
+
+---
+
+## Related Documents
 
 - [Release 1 Summary](00-summary.md)
 - [Endpoint Overview](03-endpoint-overview.md)
 - [Endpoint Enrollment](04-endpoint-enrollment.md)
 - [Recovery Scenarios](06-recovery-scenarios.md)
 - [Monitoring](08-monitoring.md)
-- [Release 1 Build Checklist](11-build-checklist.md)
+- [Build Checklist](11-build-checklist.md)
+- [Extensions and Future Enhancements](12-extensions-and-future-enhancements.md)
+
+For cross-release context:
+- [Platform Overview](../foundation/01-platform-overview.md)
+- [Roadmap](../foundation/04-roadmap.md)
+- [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+
+---
+
+## Related Evidence
+
+- [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
+- [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
+- [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
