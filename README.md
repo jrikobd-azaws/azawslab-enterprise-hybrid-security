@@ -1,114 +1,98 @@
 # azawslab Enterprise Hybrid Security Platform
 
-A three-release enterprise platform portfolio demonstrating hybrid identity, Microsoft 365, endpoint management, information protection, Azure secure platform engineering, and secure workload modernization.
+A flagship enterprise infrastructure portfolio demonstrating the transformation of a legacy small-enterprise environment into a secure, cloud-integrated, and operationally manageable Microsoft-centric platform.
 
-## What This Platform Demonstrates
+This repository goes beyond portal screenshots. It presents **architecture, implementation, validation, and operational recovery** across hybrid identity, Microsoft 365, endpoint management, compliance, and Azure security.
 
-- Hyper-V-based platform engineering, including internal virtual switching, host NAT, differencing-disk reuse, and multi-VM orchestration
-- Hybrid Active Directory and Microsoft Entra ID integration using controlled pilot synchronization
-- Exchange hybrid migration readiness, troubleshooting, and pilot mailbox validation
-- Microsoft 365 collaboration and endpoint administration across Exchange Online, Teams, SharePoint, and Intune
-- Multi-platform endpoint scenarios across Windows corporate, Windows BYOD, Ubuntu Linux, and iPhone BYOD
-- Compliance, security baseline, BitLocker recovery, and Conditional Access-aligned device control logic
-- Purview sensitivity labels, DLP, retention baseline, and monitoring-backed operational validation
-- Planned extension into Azure secure platform engineering in Release 2 and secure workload modernization in Release 3
+Narrative documentation lives under `/docs`, while `/screenshots` contains the supporting evidence archive organised by release and operational domain.
+
+---
+
+## Why This Project Matters
+
+This project demonstrates practical engineering judgment, not just a "happy-path" lab build.
+
+It focuses on:
+- **Delivery maturity** over vague "enterprise transformation" claims.
+- **Validated outcomes** over portal-only configuration.
+- **Operational recovery and troubleshooting**, proving the ability to handle broken trusts, stale records, and migration friction.
+
+**Target Role Alignment:**  
+The implemented scope of this project aligns strongly with roles such as:
+- Modern Workplace Engineer / M365 Administrator
+- Endpoint Administrator / Intune Specialist
+- Hybrid Identity and Access / Systems Administrator
+
+---
 
 ## Release Summary
 
 | Release | Focus | Status |
-|---|---|---|
-| Release 1 | Hybrid identity, Microsoft 365, endpoint management, information protection, monitoring, and operational recovery | Implemented |
-| Release 2 | Azure landing zone, infrastructure as code, governance, delegated administration, network security, Defender for Cloud, and Sentinel | Planned |
-| Release 3 | Secure workload hosting, containerization, protected ingress, observability, and resilience | Planned |
+| :--- | :--- | :--- |
+| **Release 1** | Hybrid Identity (Entra ID), Microsoft 365 Baseline, Endpoint Management (Intune), Compliance (Purview), and Operational Recovery. | **Implemented & Evidenced** |
+| **Release 2** | Azure Landing Zone, Infrastructure as Code (IaC), RBAC Governance, Network Security, and SIEM (Sentinel). | *Roadmap* |
+| **Release 3** | Secure Workload Hosting, Containerization (Docker), Protected Ingress (WAF), and Observability. | *Roadmap* |
 
-## Release 1 Proof Snapshot
+---
 
-Release 1 demonstrates an implemented hybrid Microsoft platform across identity, messaging, collaboration, endpoint management, information protection, monitoring, and operational recovery.
+## Release 1: Flagship Implementation & Proof
 
-- Hyper-V-based on-premises foundation built with internal switching, host NAT, differencing-disk reuse, and multi-VM orchestration
-- Active Directory, DNS, Exchange Server Subscription Edition, and Entra Connect Sync integrated into a controlled pilot hybrid environment
-- Exchange hybrid migration path validated, including recovery from HCW migration-endpoint issues and successful pilot mailbox migration
-- Microsoft 365 collaboration baseline validated across Exchange Online, Teams, and SharePoint
-- Endpoint onboarding demonstrated across Windows corporate, Windows BYOD, Ubuntu Linux, and iPhone BYOD scenarios
-- Compliance and security controls validated through Intune compliance policies, Windows security baseline, BitLocker key escrow, and compliant-device access logic
-- Purview baseline demonstrated through sensitivity labels, DLP policy-tip triggering, and retention visibility
-- Advanced recovery documented through BitLocker recovery, device rebuild, duplicate and stale record cleanup, and restored compliant state
-
-## Release 1 Architecture
+Release 1 is the most complete and most strongly evidenced part of the project, demonstrating a functional hybrid Microsoft platform.  
+**Built on a local Hyper-V lab using internal switching, host NAT, and differencing disks to create a controlled hybrid validation environment.**
 
 ![Release 1 end-state architecture](diagrams/01-release1-end-state-architecture.png)
+*Release 1 end-state view showing the on-premises platform foundation, hybrid identity integration, Microsoft 365 services, endpoint management layer, and control flow.*
 
-Release 1 end-state view showing the on-premises Hyper-V platform, identity and cloud integration, endpoint management, and control layer.
+### Validated Capabilities
+- **Platform Foundation:** Hyper-V multi-VM orchestration with internal switching, host NAT, and differencing-disk reuse.
+- **Hybrid Identity:** Active Directory to Entra ID synchronization via Entra Connect Sync (PHS, OU filtering).
+- **Messaging & Collaboration:** Exchange hybrid migration validation (including HCW endpoint recovery) and M365 baseline delivery across Teams and SharePoint.
+- **Endpoint Management:** Device onboarding across Windows Corporate, Windows BYOD, Ubuntu Linux, and iOS BYOD.
+- **Endpoint Security:** Intune Conditional Access, Windows Security Baselines, Defender Antivirus, Attack Surface Reduction (ASR), BitLocker controls, and LAPS policy configuration.
+- **Information Protection:** Microsoft Purview baseline including DLP policies, sensitivity labels, and retention.
+- **Operational Resilience:** Documented recovery for BitLocker escrow, device rebuilds, and stale Entra record cleanup.
 
-Related visuals:
-- [Three-release roadmap](diagrams/04-phased-roadmap-release1-release2-release3.png)
-- [Release 1 implementation flow and proof map](diagrams/05-release1-implementation-flow-and-proof-map.png)
+---
 
-## How to Read This Repository
+## Scope Transparency: What is Deferred
 
-### For hiring managers and recruiters
+To maintain engineering integrity, this repository clearly separates implemented work from future roadmap items.
 
-- Start with this README
-- Review [Release 1 Summary](docs/release1/00-summary.md)
-- Review [Roadmap](docs/overview/04-roadmap.md)
-- Open [Diagrams](diagrams/README.md) for architecture and release visuals
+The following areas are **not** fully evidenced in Release 1 and are tracked as future enhancements:
+- Android BYOD / MAM validation.
+- Windows Autopilot / Enrollment Status Page (ESP) optimizations.
+- Advanced Purview capabilities (document fingerprinting, large-scale auto-labeling).
+- Full Enterprise PKI / AD CS (Let's Encrypt / `win-acme` was utilized for hybrid validation).
+- Broader Azure platform security and DevOps workflows (reserved for Releases 2 and 3).
 
-### For technical reviewers
+> **Each of these deferred items is documented in the [Release 1 Extensions](./docs/release1/12-extensions-and-future-enhancements.md) file with planned implementation notes.**
 
-- Start with [Current-State Architecture](docs/overview/02-current-state-architecture.md)
-- Review [Hybrid Identity](docs/release1/01-hybrid-identity.md)
-- Review [Endpoint Enrollment](docs/release1/04-endpoint-enrollment.md)
-- Review [Endpoint Compliance](docs/release1/05-endpoint-compliance.md)
-- Review [Recovery Scenarios](docs/release1/06-recovery-scenarios.md)
-- Review [Purview](docs/release1/07-purview.md)
-- Use [Screenshots](screenshots/README.md), [Diagrams](diagrams/README.md), [Ansible](ansible/README.md), and `terraform/` as supporting implementation evidence
+---
 
-## Key Differentiators
+## How to Navigate This Repository
 
-### Hyper-V platform engineering
+The documentation is split logically between the foundational architecture and the specific release evidence.
 
-The project is built on a deliberate Hyper-V foundation using internal switch design, host NAT, differencing-disk reuse, secure VM lifecycle decisions, and multi-VM orchestration.
+### 1. The Foundation (Start Here)
+- [Platform Overview](docs/foundation/01-platform-overview.md)
+- [Current-State Architecture](docs/foundation/02-current-state-architecture.md)
+- [Target-State Architecture](docs/foundation/03-target-state-architecture.md)
+- [Skills and Evidence Index](docs/foundation/05-skills-and-evidence-index.md)
+- [Future Roadmap](docs/foundation/04-roadmap.md)
 
-### Non-happy-path engineering
-
-Release 1 includes recovery from Exchange hybrid migration issues, BitLocker recovery, trust disruption, stale record cleanup, and re-enrollment validation rather than portal-only happy-path configuration.
-
-### Cross-domain control story
-
-The project connects identity, messaging, collaboration, endpoint compliance, Conditional Access-aligned device logic, and information protection into one coherent platform narrative.
-
-### Evidence-backed presentation
-
-The repository combines diagrams, embedded screenshots, implementation notes, and workstream-level documentation to support technical claims with visible proof.
-
-## Important Namespace Design Decision
-
-The environment intentionally separates namespaces during pilot hybrid work:
-
-- `azawslab.co.uk` remains associated with Zoho for business mail flow
-- `corp.azawslab.co.uk` is the dedicated hybrid pilot namespace
-
-This allowed hybrid identity and pilot migration work to proceed without disrupting the root business mail namespace.
-
-## Intentionally Deferred / Out of Scope for Release 1
-
-Release 1 intentionally does not claim full Android BYOD / MAM validation, fully evidenced Windows LAPS password retrieval and recovery operations, or document fingerprinting maturity where validation evidence is incomplete.
-
-## Quick Links
-
-- [Platform Overview](docs/overview/01-platform-overview.md)
-- [Current-State Architecture](docs/overview/02-current-state-architecture.md)
-- [Roadmap](docs/overview/04-roadmap.md)
+### 2. Release 1 Evidence (Deep Dives)
+- [Release 1 README](docs/release1/README.md)
 - [Release 1 Summary](docs/release1/00-summary.md)
-- [Release 1 Build Checklist](docs/release1/11-build-checklist.md)
 - [Hybrid Identity](docs/release1/01-hybrid-identity.md)
 - [Modern Workplace](docs/release1/02-modern-workplace.md)
 - [Endpoint Enrollment](docs/release1/04-endpoint-enrollment.md)
-- [Endpoint Compliance](docs/release1/05-endpoint-compliance.md)
+- [Endpoint Compliance and Security](docs/release1/05-endpoint-compliance-and-security.md)
+- [Purview Information Protection](docs/release1/07-purview.md)
+- [Monitoring & Operations](docs/release1/08-monitoring.md)
 - [Recovery Scenarios](docs/release1/06-recovery-scenarios.md)
-- [Purview](docs/release1/07-purview.md)
-- [Monitoring](docs/release1/08-monitoring.md)
-- [Diagrams](diagrams/README.md)
-- [Screenshots](screenshots/README.md)
-- [Ansible](ansible/README.md)
-- [Terraform](terraform/)
+
+*(Note: Raw evidence screenshots can be found in the `/screenshots` directory, categorised by operational domain.)*
+
+---
+
+For Modern Workplace, Intune, Entra ID, and hybrid Microsoft roles, the best starting point is the [Release 1 README](docs/release1/README.md).
