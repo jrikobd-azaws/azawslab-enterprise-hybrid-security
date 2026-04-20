@@ -47,12 +47,12 @@ This page is designed to reduce click fatigue. It highlights where to start, whi
 
 | Proof Area | What it demonstrates | Best evidence |
 | :--- | :--- | :--- |
-| **Exchange hybrid validation** | Pilot migration readiness and post-migration mailbox access | `modern-workplace/exchange-hybrid/10-outlook-both-pilots-validated.png` |
-| **Corporate Windows compliant state** | Managed Windows endpoint enrolled and shown as compliant in Intune | `endpoint-management/intune/intune-windows-corp/08-intune-windows-device-compliant.png` |
-| **DLP policy-tip in Word** | User-facing information protection behavior against test financial data | `information-protection/purview/purview-dlp/03-purview-dlp-policy-tip-triggered-in-word-for-uk-financial-data-test-file.png` |
-| **BitLocker recovery-key visibility** | Recovery support tied to the managed cloud record | `endpoint-management/intune/intune-bitlocker-recovery-scenario/02-win11-corp01-entra-bitlocker-recovery-key.png` |
-| **Restored compliance after recovery** | Managed state recovered after rebuild and re-enrollment | `endpoint-management/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png` |
-| **Conditional Access result visibility** | Access-control outcome visible in sign-in logs | `monitoring-and-operations/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png` |
+| **Exchange hybrid validation** | Pilot migration readiness and post-migration mailbox access | [Pilot mailbox validation screenshot](modern-workplace/exchange-hybrid/10-outlook-both-pilots-validated.png) |
+| **Corporate Windows compliant state** | Managed Windows endpoint enrolled and shown as compliant in Intune | [Corporate Windows compliant in Intune](endpoint-management/intune/intune-windows-corp/08-intune-windows-device-compliant.png) |
+| **DLP policy-tip in Word** | User-facing information protection behavior against test financial data | [DLP policy-tip triggered in Word](information-protection/purview/purview-dlp/03-purview-dlp-policy-tip-triggered-in-word-for-uk-financial-data-test-file.png) |
+| **BitLocker recovery-key visibility** | Recovery support tied to the managed cloud record | [BitLocker recovery key in cloud record](endpoint-management/intune/intune-bitlocker-recovery-scenario/02-win11-corp01-entra-bitlocker-recovery-key.png) |
+| **Restored compliance after recovery** | Managed state recovered after rebuild and re-enrollment | [Compliance restored after re-enrollment](endpoint-management/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png) |
+| **Conditional Access result visibility** | Access-control outcome visible in sign-in logs | [Conditional Access result in sign-in logs](monitoring-and-operations/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png) |
 
 ---
 
@@ -84,9 +84,9 @@ Start here:
 - [Identity and Access Evidence Hub](identity-and-access/README.md)
 
 Best evidence:
-- `identity-and-access/entra-sync/11-entra-connect-filtering-users-devices.png`
-- `identity-and-access/entra-sync/15-m365-active-users-pilot-synced.png`
-- `monitoring-and-operations/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png`
+- [Entra Connect filtering users and devices](identity-and-access/entra-sync/11-entra-connect-filtering-users-devices.png)
+- [Pilot users synced to Microsoft 365](identity-and-access/entra-sync/15-m365-active-users-pilot-synced.png)
+- [Conditional Access result in sign-in logs](monitoring-and-operations/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
 
 Related docs:
 - [Hybrid Identity](../../docs/release1/01-hybrid-identity.md)
@@ -106,9 +106,9 @@ Start here:
 - [Modern Workplace Evidence Hub](modern-workplace/README.md)
 
 Best evidence:
-- `modern-workplace/exchange-hybrid/06-test-migration-server-availability-success.png`
-- `modern-workplace/exchange-hybrid/10-outlook-both-pilots-validated.png`
-- `modern-workplace/sharepoint-baseline/06-sharepoint-file-open-validation.png`
+- [Exchange migration readiness check](modern-workplace/exchange-hybrid/06-test-migration-server-availability-success.png)
+- [Pilot mailbox validation after migration](modern-workplace/exchange-hybrid/10-outlook-both-pilots-validated.png)
+- [SharePoint file open validation](modern-workplace/sharepoint-baseline/06-sharepoint-file-open-validation.png)
 
 Related docs:
 - [Modern Workplace](../../docs/release1/02-modern-workplace.md)
@@ -129,11 +129,11 @@ Start here:
 - [Intune Evidence Hub](endpoint-management/intune/README.md)
 
 Best evidence:
-- `endpoint-management/intune/intune-windows-corp/08-intune-windows-device-compliant.png`
-- `endpoint-management/intune/intune-windows-byod/05-intune-windows-devices-corp-and-byod.png`
-- `endpoint-management/intune/intune-ios/iphone13-byod-enrollment/14-company-portal-enrollment-complete.png`
-- `endpoint-management/intune/intune-compliance-policy/04-compliance-policy-results-overview-noncompliant.png`
-- `endpoint-management/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png`
+- [Corporate Windows compliant in Intune](endpoint-management/intune/intune-windows-corp/08-intune-windows-device-compliant.png)
+- [Corporate and BYOD Windows visibility](endpoint-management/intune/intune-windows-byod/05-intune-windows-devices-corp-and-byod.png)
+- [iPhone BYOD enrollment complete](endpoint-management/intune/intune-ios/iphone13-byod-enrollment/14-company-portal-enrollment-complete.png)
+- [Compliance policy non-compliant result](endpoint-management/intune/intune-compliance-policy/04-compliance-policy-results-overview-noncompliant.png)
+- [Compliance restored after recovery](endpoint-management/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png)
 
 Related docs:
 - [Endpoint Overview](../../docs/release1/03-endpoint-overview.md)
@@ -156,10 +156,10 @@ Start here:
 - [Monitoring and Operations Evidence Hub](monitoring-and-operations/README.md)
 
 Best evidence:
-- `monitoring-and-operations/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png`
-- `monitoring-and-operations/monitoring/audit-logs/01-entra-audit-log-overview.png`
-- `monitoring-and-operations/monitoring/device-visibility/03-intune-device-compliance-status.png`
-- `monitoring-and-operations/monitoring/example-alert/02-intune-dashboard-device-configuration-alert.png`
+- [Conditional Access result in sign-in logs](monitoring-and-operations/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
+- [Entra audit log overview](monitoring-and-operations/monitoring/audit-logs/01-entra-audit-log-overview.png)
+- [Intune device compliance status](monitoring-and-operations/monitoring/device-visibility/03-intune-device-compliance-status.png)
+- [Intune dashboard device configuration alert](monitoring-and-operations/monitoring/example-alert/02-intune-dashboard-device-configuration-alert.png)
 
 Related docs:
 - [Monitoring](../../docs/release1/08-monitoring.md)
@@ -177,9 +177,9 @@ Start here:
 - [Information Protection Evidence Hub](information-protection/README.md)
 
 Best evidence:
-- `information-protection/purview/purview-sensitivity-labels/01-purview-sensitivity-labels-overview.png`
-- `information-protection/purview/purview-sensitivity-labels/04-word-confidential-label-applied-to-hr-identity-test-form.png`
-- `information-protection/purview/purview-dlp/03-purview-dlp-policy-tip-triggered-in-word-for-uk-financial-data-test-file.png`
+- [Purview sensitivity labels overview](information-protection/purview/purview-sensitivity-labels/01-purview-sensitivity-labels-overview.png)
+- [Confidential label applied in Word](information-protection/purview/purview-sensitivity-labels/04-word-confidential-label-applied-to-hr-identity-test-form.png)
+- [DLP policy-tip triggered in Word](information-protection/purview/purview-dlp/03-purview-dlp-policy-tip-triggered-in-word-for-uk-financial-data-test-file.png)
 
 Related docs:
 - [Purview](../../docs/release1/07-purview.md)
@@ -190,12 +190,12 @@ Related docs:
 
 If you want the shortest high-value evidence path, use this order:
 
-1. Exchange hybrid pilot validation
-2. Corporate Windows compliant state
-3. DLP policy-tip in Word
-4. BitLocker recovery-key visibility
-5. Restored compliant state after recovery
-6. Conditional Access result in sign-in logs
+1. [Exchange hybrid pilot validation](modern-workplace/exchange-hybrid/10-outlook-both-pilots-validated.png)
+2. [Corporate Windows compliant state](endpoint-management/intune/intune-windows-corp/08-intune-windows-device-compliant.png)
+3. [DLP policy-tip in Word](information-protection/purview/purview-dlp/03-purview-dlp-policy-tip-triggered-in-word-for-uk-financial-data-test-file.png)
+4. [BitLocker recovery-key visibility](endpoint-management/intune/intune-bitlocker-recovery-scenario/02-win11-corp01-entra-bitlocker-recovery-key.png)
+5. [Restored compliant state after recovery](endpoint-management/intune/intune-bitlocker-recovery-scenario/07-win11-corp01-compliance-restored-after-reenrollment.png)
+6. [Conditional Access result in sign-in logs](monitoring-and-operations/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
 
 This sequence gives the fastest overview of:
 - service validation
