@@ -207,6 +207,14 @@ For deeper proof browsing:
 
 ---
 
+## Additional Enrollment Evidence
+
+### 4. Ubuntu Linux visibility in the managed estate
+
+![Ubuntu Linux device visible in Intune](../../screenshots/release1/endpoint-management/intune/intune-linux/PUT-LINUX-FILENAME-HERE.png)
+
+*Ubuntu Linux device visible in the managed estate, showing that enrollment coverage extended beyond Windows and mobile onboarding into broader platform support.*
+
 ## What Was Validated
 
 The enrollment work validated that:
@@ -266,6 +274,7 @@ For cross-release context:
 - [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
 - [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
 
 
 
