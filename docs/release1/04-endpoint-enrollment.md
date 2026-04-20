@@ -178,10 +178,10 @@ That is why this page should be read together with:
 
 ### 3. iPhone BYOD enrollment completion
 
-![Ubuntu Linux device visible in Intune](../../screenshots/release1/endpoint-management/intune/intune-linux/08-intune-linux-device-visible.png)
+![iPhone BYOD enrollment complete](../../screenshots/release1/endpoint-management/intune/intune-ios/iphone13-byod-enrollment/14-company-portal-enrollment-complete.png)
 
-*Ubuntu Linux device visible in the managed estate, showing that the endpoint model extended beyond Windows and mobile scenarios into broader platform coverage.*
-"@
+*iPhone BYOD enrollment completed through Company Portal, showing that the onboarding strategy extended beyond desktop systems into mobile device access.*
+
 ---
 
 ## Additional Enrollment Evidence
