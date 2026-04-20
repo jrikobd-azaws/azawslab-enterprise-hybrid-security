@@ -1,165 +1,177 @@
-# Release 1 Build Checklist
-
-**Related navigation:** [README](../../README.md) | [Release 1 Summary](00-summary.md) | [Roadmap](../overview/04-roadmap.md)  
-**Related docs:** [Hybrid Identity](01-hybrid-identity.md) | [Microsoft 365 Modern Workplace](02-modern-workplace.md) | [Endpoint Overview](03-endpoint-overview.md) | [Security and Compliance Mapping](09-compliance-mapping.md) | [Lessons Learned](10-lessons-learned.md)
+﻿# Release 1 Build Checklist
 
 ## Purpose
 
-This checklist is the authoritative implementation ledger for Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
+This page records the implemented scope of the phase in a concise, reviewable format.
 
-It records what was completed, what was partially validated, and what was intentionally deferred. It should be read as the status source for Release 1 implementation, not as the main summary or workstream narrative.
-
-## Release 1 Scope Summary
-
-Release 1 includes:
-
-- Hyper-V-based on-premises platform foundation
-- hybrid identity with Active Directory, Microsoft Entra ID, and Entra Connect Sync
-- Microsoft 365 onboarding and Exchange hybrid pilot migration
-- Teams and SharePoint collaboration baseline
-- endpoint enrollment across Windows corporate, Windows BYOD, Ubuntu Linux, and iPhone BYOD
-- endpoint compliance, hardening, update governance, and BitLocker
-- Purview sensitivity labels, DLP, and retention baseline
-- monitoring visibility across sign-in, audit, endpoint, and alert-signal review
-- recovery-aware endpoint operations through BitLocker recovery, re-enrollment, and stale-record cleanup
-
-## Status Key
-
-- **Completed** = built, validated, and documented with supporting evidence
-- **Partial** = implemented or evidenced in part, but not yet broad or deep enough to claim full maturity
-- **Deferred** = intentionally left for a later release or not yet evidenced strongly enough to claim
+It is intended to show what was completed, what was partially evidenced, and what remains deferred. It should be read as an implementation ledger rather than as a narrative summary.
 
 ---
 
-## 1. Platform Foundation
+## Status Definitions
 
-- **Completed** Hyper-V host platform established
-- **Completed** Internal virtual switch design implemented
-- **Completed** Host NAT configured for lab connectivity
-- **Completed** Differencing-disk reuse strategy applied
-- **Completed** Multi-VM lab orchestration used for Release 1 platform services
-- **Completed** Core server roles built for domain, sync, and Exchange hybrid work
-
-## 2. Hybrid Identity
-
-- **Completed** Active Directory remained the authoritative source for pilot synced identities
-- **Completed** Microsoft Entra Connect Sync configured for controlled pilot scope
-- **Completed** Selected users and devices synchronized into Microsoft 365
-- **Completed** Namespace separation maintained between `azawslab.co.uk` and `corp.azawslab.co.uk`
-- **Completed** Hybrid identity design validated as a prerequisite for Microsoft 365 and Exchange hybrid work
-- **Partial** Certificate and namespace readiness demonstrated for hybrid validation, but not presented as full PKI program maturity
-
-## 3. Microsoft 365 and Exchange Hybrid
-
-- **Completed** Microsoft 365 tenant onboarded for Release 1 pilot use
-- **Completed** Root and pilot namespace decisions applied without disrupting the Zoho-associated root namespace
-- **Completed** Pilot user licensing and Microsoft 365 access validated
-- **Completed** Exchange hybrid configuration path established
-- **Completed** HCW migration-path issue recovery completed
-- **Completed** Migration-endpoint validation succeeded
-- **Completed** Pilot mailboxes migrated successfully to Exchange Online
-- **Completed** Outlook on the web validation completed for migrated users
-
-## 4. Teams and SharePoint Baseline
-
-- **Completed** Teams web access validated for pilot users
-- **Completed** Team and channel interaction validated
-- **Completed** Direct chat and collaboration baseline validated
-- **Completed** SharePoint site access validated
-- **Completed** Document-library access validated
-- **Completed** File upload and file-open validation completed
-
-## 5. Endpoint Enrollment and Platform Coverage
-
-- **Completed** Windows corporate enrollment validated
-- **Completed** Windows BYOD enrollment validated
-- **Completed** Ubuntu Linux visibility validated
-- **Completed** Ubuntu Linux baseline automation executed through Ansible
-- **Completed** Apple MDM prerequisite completed for iPhone management
-- **Completed** iPhone BYOD enrollment completed through Intune Company Portal
-- **Partial** Linux management demonstrated as visibility plus baseline automation, not as Windows-equivalent control depth
-
-## 6. Endpoint Compliance and Hardening
-
-- **Completed** Windows compliance-policy baseline created and assigned
-- **Completed** Compliance-state progression observed from earlier noncompliant state to later healthy state
-- **Completed** Windows security baseline assigned to pilot groups
-- **Completed** Windows Update for Business pilot assignment completed
-- **Completed** Attack Surface Reduction policy evidence captured
-- **Completed** BitLocker encryption and key escrow demonstrated
-- **Completed** Compliant-device logic incorporated into access-control behavior
-- **Partial** Windows LAPS direction established, but retrieval and recovery maturity not fully evidenced
-
-## 7. Monitoring and Visibility
-
-- **Completed** Microsoft Entra sign-in visibility reviewed
-- **Completed** Conditional Access result visibility reviewed
-- **Completed** Microsoft Entra audit-log baseline reviewed
-- **Completed** Intune device-state and compliance visibility reviewed
-- **Completed** Example alert-signal or monitoring-surface evidence captured
-- **Partial** Monitoring demonstrated as a baseline visibility model, not as full SIEM/SOC maturity
-
-## 8. Information Protection and Purview
-
-- **Completed** Sensitivity-label baseline created
-- **Completed** Labels published to pilot scope
-- **Completed** User-visible label application validated in Microsoft Word
-- **Completed** DLP pilot policy created and reviewed
-- **Completed** DLP policy-tip behavior validated in Word
-- **Completed** Retention-policy baseline made visible in Purview administration
-- **Partial** Purview demonstrated as a baseline information-protection implementation, not as a full enterprise governance program
-
-## 9. Recovery and Operational Resilience
-
-- **Completed** BitLocker recovery scenario documented and validated
-- **Completed** Recovery key retrieved successfully from Microsoft Entra ID
-- **Completed** Device trust disruption observed after hardware-context change
-- **Completed** Re-enrollment path completed after unhealthy trust state
-- **Completed** Duplicate or stale device records identified after re-enrollment
-- **Completed** Stale record cleanup performed
-- **Completed** Healthy compliant state restored after recovery workflow
+| Status | Meaning |
+| :--- | :--- |
+| **Completed** | Implemented and supported by clear documentation and evidence in the repository |
+| **Partial** | Implemented or configured in some form, but not fully evidenced or not validated to the same depth as completed items |
+| **Deferred** | Intentionally outside the implemented scope of this phase and reserved for later work |
 
 ---
 
-## Intentionally Deferred or Not Fully Evidenced
+## Platform Foundation
 
-The following areas are intentionally deferred or not yet evidenced strongly enough to claim full Release 1 maturity:
+| Area | Item | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| Hyper-V platform | Multi-VM lab platform with internal switching, host NAT, and differencing-disk reuse | **Completed** | Core platform used to deliver the implemented environment |
+| Core infrastructure | Domain, DNS, and supporting on-premises services | **Completed** | Forms the basis of the hybrid environment |
+| Namespace design | Separation of root business namespace and pilot hybrid namespace | **Completed** | `corp.azawslab.co.uk` used for the hybrid pilot path |
+| Certificate handling | Certificate path sufficient for hybrid validation using Let's Encrypt / `win-acme` | **Partial** | Sufficient for scoped hybrid validation; not a full enterprise PKI / AD CS deployment |
 
-- **Deferred** Android BYOD / MAM validation
-- **Partial** Windows LAPS password retrieval and recovery operations
-- **Partial** Advanced monitoring and incident-response maturity
-- **Partial** Advanced Purview capabilities such as document fingerprinting and large-scale auto-labeling
-- **Deferred** Azure governance, Defender for Cloud, Sentinel, and other Release 2 platform-security work
-- **Deferred** Secure workload modernization and resilience work planned for Release 3
+---
 
-## Release 1 Completion Position
+## Hybrid Identity and Access
 
-Release 1 should be treated as **implemented and evidenced** for its intended baseline scope.
+| Area | Item | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| Active Directory to Entra ID | Entra Connect Sync with pilot filtering | **Completed** | Controlled pilot-first synchronization path |
+| Authentication baseline | Password Hash Synchronization (PHS) | **Completed** | Used as the practical hybrid authentication model |
+| Access control baseline | Conditional Access | **Completed** | Evidenced through sign-in visibility and access review |
+| Authentication hardening | MFA | **Completed** | Included as part of the identity baseline |
+| Identity self-service | SSPR | **Completed** | Included as part of the baseline identity-support posture |
+| Local admin protection | Windows LAPS policy configuration | **Partial** | Policy scope discussed carefully; retrieval/recovery evidence not treated as fully complete |
 
-That means Release 1 now credibly demonstrates:
+---
 
-- hybrid identity and Microsoft 365 onboarding
-- Exchange hybrid pilot migration
-- cross-platform endpoint enrollment
-- endpoint compliance and hardening
-- Purview baseline information protection
-- monitoring visibility
-- recovery-aware endpoint operations
+## Modern Workplace
 
-It should **not** be presented as a finished enterprise program in every adjacent domain. The strongest and most credible description is:
+| Area | Item | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| Exchange hybrid readiness | Hybrid configuration and migration readiness validation | **Completed** | Evidenced through readiness and pilot validation screenshots |
+| Pilot mailbox migration | Post-migration mailbox access validation | **Completed** | Pilot users validated successfully |
+| Exchange Online baseline | Mailbox service access for pilot users | **Completed** | Demonstrated through post-migration access |
+| Teams baseline | Basic collaboration validation | **Completed** | Teams activity evidenced at baseline level |
+| SharePoint baseline | File access and usability validation | **Completed** | SharePoint file interaction evidenced |
+| OneDrive governance / administration | Full service-depth management | **Deferred** | Not a focus of the implemented phase |
 
-**an evidenced Release 1 baseline across hybrid identity, collaboration, endpoint management, information protection, monitoring, and operational recovery**
+---
 
-## Related Docs
+## Endpoint Enrollment and Management
+
+| Area | Item | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| Windows corporate onboarding | Managed corporate Windows enrollment path | **Completed** | One of the strongest endpoint evidence areas |
+| Windows BYOD onboarding | Personal Windows enrollment path | **Completed** | Ownership distinction demonstrated |
+| iPhone BYOD onboarding | Company Portal-based mobile enrollment | **Completed** | Mobile onboarding evidenced |
+| Ubuntu Linux visibility | Linux device represented in the endpoint estate | **Completed** | Included as part of platform-diversity evidence |
+| Intune as management layer | Device visibility and policy context | **Completed** | Central management plane across the endpoint story |
+| Android BYOD / MAM | Mobile application management for Android | **Deferred** | Not yet evidenced in this phase |
+| Autopilot / ESP | Modern provisioning and enrollment-status optimization | **Deferred** | Reserved for future enhancement work |
+
+---
+
+## Endpoint Compliance and Security
+
+| Area | Item | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| Compliance policy | Compliant / non-compliant device-state evaluation | **Completed** | Clearly evidenced |
+| Security baseline | Managed Windows hardening baseline | **Completed** | Assignment and visibility evidenced |
+| Defender Antivirus | Baseline protection policy | **Partial** | Implemented baseline control; not presented as full Defender for Endpoint stack |
+| Attack Surface Reduction (ASR) | ASR policy coverage | **Partial** | Evidenced as baseline control coverage |
+| BitLocker-related controls | Protection with recovery-key visibility | **Completed** | Strongly supported by recovery scenario evidence |
+| Windows Update for Business | Pilot update-ring policy | **Completed** | Update governance clearly represented |
+| Full Defender for Endpoint stack | Advanced product-depth capability | **Deferred** | Outside implemented scope of this phase |
+
+---
+
+## Recovery and Lifecycle Handling
+
+| Area | Item | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| BitLocker recovery | Recovery prompt and key retrieval workflow | **Completed** | One of the strongest operational proof areas |
+| Device rebuild | Rebuild after trust disruption | **Completed** | Included in the recovery path |
+| Re-enrollment | Return to managed state after rebuild | **Completed** | Evidenced clearly |
+| Stale / duplicate record cleanup | Lifecycle hygiene after recovery | **Completed** | Important realism signal in the endpoint story |
+| Restored compliance | Healthy state after recovery workflow | **Completed** | Explicitly evidenced |
+
+---
+
+## Information Protection
+
+| Area | Item | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| Sensitivity labels | Label availability and user-visible application | **Completed** | Clearly evidenced in Word |
+| DLP | User-facing DLP policy-tip behavior | **Completed** | Strong flagship evidence area |
+| Retention baseline | Retention-related configuration | **Partial** | Included as baseline governance scope; not deeply validated |
+| Document fingerprinting | Advanced Purview content matching | **Deferred** | Not claimed in this phase |
+| Broad auto-labeling / advanced automation | Larger-scale Purview automation | **Deferred** | Outside current scope |
+
+---
+
+## Monitoring and Operational Visibility
+
+| Area | Item | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| Sign-in visibility | Sign-in logs with Conditional Access result review | **Completed** | Clearly evidenced |
+| Audit visibility | Administrative audit-log review | **Completed** | Clearly evidenced |
+| Device-state visibility | Device compliance and operational status views | **Completed** | Included in monitoring proof |
+| Alert visibility | Example operational alerting in the admin view | **Completed** | Supports day-to-day supportability |
+| Full SIEM / SOC monitoring | Sentinel-led enterprise monitoring model | **Deferred** | Reserved for later Azure-focused work |
+
+---
+
+## Documentation and Evidence
+
+| Area | Item | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| Root README | Flagship project storefront | **Completed** | Primary entry point for the repository |
+| Foundation docs | Scenario, architecture, roadmap, and skills/evidence mapping | **Completed** | Cross-release framing layer |
+| Release 1 landing page | Release 1 README | **Completed** | Role-targeted landing page |
+| Release 1 deep docs | Identity, workplace, endpoint, recovery, Purview, monitoring | **Completed** | Main implementation narrative |
+| Evidence hubs | Screenshot dashboards by release and domain | **Partial** | Should be completed and polished during publication pass |
+| Diagram set | Architecture, flow, proof, and mapping diagrams | **Completed** | Key diagrams available for major pages |
+
+---
+
+## Deferred or Future Enhancement Areas
+
+The following remain intentionally outside the implemented scope of this phase:
+
+- Android BYOD / MAM
+- Windows Autopilot / ESP optimization
+- full enterprise PKI / AD CS deployment
+- advanced Purview automation and document fingerprinting
+- broader Azure platform governance and security engineering
+- Sentinel-led monitoring / SIEM
+- secure workload modernization capabilities reserved for later releases
+
+See:
+- [Extensions and Future Enhancements](12-extensions-and-future-enhancements.md)
+- [Roadmap](../foundation/04-roadmap.md)
+
+---
+
+## Overall Status View
+
+| Category | Overall Status |
+| :--- | :--- |
+| Platform foundation | **Completed** |
+| Hybrid identity and access | **Completed** |
+| Modern Workplace baseline | **Completed** |
+| Endpoint enrollment and management | **Completed** |
+| Endpoint compliance and security | **Mostly completed with some partial areas** |
+| Recovery and lifecycle handling | **Completed** |
+| Information protection | **Mostly completed with some partial areas** |
+| Monitoring and operational visibility | **Completed** |
+| Future enhancements | **Deferred by design** |
+
+---
+
+## Related Documents
 
 - [Release 1 Summary](00-summary.md)
-- [Hybrid Identity](01-hybrid-identity.md)
-- [Microsoft 365 Modern Workplace](02-modern-workplace.md)
-- [Endpoint Overview](03-endpoint-overview.md)
-- [Endpoint Enrollment and Platform Coverage](04-endpoint-enrollment.md)
-- [Endpoint Compliance and Security Baseline](05-endpoint-compliance.md)
-- [Advanced Recovery Scenarios](06-recovery-scenarios.md)
-- [Information Protection and Purview](07-purview.md)
-- [Monitoring and Alerting](08-monitoring.md)
-- [Security and Compliance Mapping](09-compliance-mapping.md)
 - [Lessons Learned](10-lessons-learned.md)
+- [Extensions and Future Enhancements](12-extensions-and-future-enhancements.md)
+- [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+- [Roadmap](../foundation/04-roadmap.md)
+
+

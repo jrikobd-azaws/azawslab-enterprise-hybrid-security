@@ -1,89 +1,175 @@
-# Hybrid Identity
-
-**Related navigation:** [README](../../README.md) | [Release 1 Summary](00-summary.md) | [Release 1 Build Checklist](11-build-checklist.md)  
-**Related docs:** [Modern Workplace](02-modern-workplace.md) | [Endpoint Overview](03-endpoint-overview.md) | [Monitoring](08-monitoring.md)
+﻿# Hybrid Identity
 
 ## Purpose
 
-This page records the hybrid identity foundation implemented in Release 1 of the `azawslab Enterprise Hybrid Security Platform`.
+This document explains how hybrid identity was introduced between on-premises Active Directory and Microsoft Entra ID using a controlled pilot model rather than broad synchronization from day one.
 
-It shows how Release 1 established an on-premises Active Directory foundation, extended selected identities into Microsoft Entra ID through controlled synchronization, and used namespace discipline to support Microsoft 365 onboarding and Exchange hybrid validation. It should be read as the identity-foundation page, not as the deeper Exchange or endpoint-management page.
+It covers the identity foundation, synchronization approach, access-control baseline, and the role hybrid identity played in enabling later Microsoft 365 validation.
+
+---
 
 ## What This Page Proves
 
-This page proves that Release 1 hybrid identity was implemented as a controlled design rather than as a broad or accidental synchronization exercise.
+The hybrid identity implementation proves that the platform established a functioning foundation with:
 
-It demonstrates:
+- Active Directory as the authoritative on-premises identity source
+- Microsoft Entra ID integration through Entra Connect Sync
+- controlled pilot synchronization using filtering and scoped inclusion
+- Password Hash Synchronization (PHS) for cloud authentication readiness
+- supporting identity controls around Conditional Access, MFA, and SSPR
+- identity readiness that enabled Exchange hybrid, endpoint management, and Microsoft 365 service validation
 
-- Active Directory remaining the authoritative source for pilot synced identities
-- Microsoft Entra Connect Sync configured with deliberate pilot filtering for selected users and devices
-- namespace separation used to protect the production mail namespace while enabling hybrid pilot work
-- Microsoft 365 pilot identities becoming visible and usable after synchronization
-- identity design decisions directly supporting Exchange hybrid readiness and later platform controls
+---
+
+## Why It Matters
+
+Without hybrid identity, the rest of Release 1 would be disconnected cloud services.
+
+This implementation enabled:
+- reduced gap between on-premises Active Directory and Microsoft 365 access
+- safe pilot-first rollout without bulk synchronization
+- practical baseline for Conditional Access, MFA, and supportability
+- downstream validation of Exchange hybrid, Intune, and Microsoft 365 services
+
+---
 
 ## Implementation Story
 
-Release 1 hybrid identity began with an on-premises Windows Server and Active Directory foundation built inside the Hyper-V platform. Domain services, DNS, and identity administration remained anchored on-premises so that Microsoft cloud integration could be added in a controlled way rather than replacing the source-of-authority model.
+The starting point for Release 1 was a traditional on-premises Active Directory environment that needed to connect cleanly to Microsoft 365 without turning hybrid identity into an uncontrolled bulk synchronization exercise.
 
-The next step was Microsoft Entra Connect Sync. This was intentionally scoped to pilot users and selected devices rather than opened broadly across the environment. That design choice matters because it shows Release 1 was not trying to simulate a full enterprise sync rollout. Instead, it used a constrained pilot model that was easier to validate, easier to reason about, and safer to align with later Exchange hybrid work.
+The chosen approach was to:
+- retain Active Directory as the source of identity authority
+- introduce Microsoft Entra ID as the cloud identity and access layer
+- use Entra Connect Sync with controlled filtering and pilot scope
+- validate cloud user visibility, authentication readiness, and synchronization behavior before treating hybrid identity as stable
 
-Namespace design was one of the most important supporting decisions. The root business namespace, `azawslab.co.uk`, remained associated with Zoho for existing mail flow, while `corp.azawslab.co.uk` was used as the dedicated hybrid pilot namespace. This separation allowed Release 1 to progress into Microsoft 365 and Exchange hybrid validation without disrupting the root business namespace or overstating coexistence maturity.
-Certificate readiness was also part of that hybrid prerequisite layer. Successful migration-path validation depended on public-trust certificate coverage and name alignment across the hybrid messaging endpoints, especially `mail.corp.azawslab.co.uk` and `exch1.corp.azawslab.co.uk`. The important claim in Release 1 is not that a full PKI platform was deployed. It is that certificate and naming dependencies were understood and had to be aligned correctly for hybrid validation to succeed.
+This made hybrid identity a deliberate engineering foundation rather than a one-step migration shortcut.
 
-Once synchronization was in place, the pilot identities became visible in Microsoft 365 and could be used as the basis for later Microsoft 365 validation, Exchange hybrid migration testing, endpoint enrollment relationships, and compliant-device access logic. That makes hybrid identity one of the core enabling layers of Release 1 rather than a standalone configuration task.
+---
 
-The hybrid identity story also became more meaningful because it was connected to Exchange hybrid validation. Successful migration-path testing depended not only on cloud objects existing, but on names, trust relationships, and endpoint readiness aligning properly with the identity design. That is where the page gains additional credibility: it shows that hybrid identity was used, not just configured.
+## Identity Design Approach
 
-## Flagship Identity Evidence
+### Active Directory as the Source of Authority
 
-### Controlled Entra Connect sync scope
+On-premises Active Directory remained the authoritative source for pilot user and device identity during Release 1.
 
-![Entra Connect filtering for pilot users and devices](../../screenshots/release1/entra-sync/11-entra-connect-filtering-users-devices.png)
+This mattered because Release 1 was not intended to simulate a cloud-only environment. The goal was to demonstrate a realistic hybrid estate where:
+- identities originate on-premises
+- synchronization is deliberate
+- cloud services inherit from a managed source rather than ad hoc account creation
 
-*Figure: Microsoft Entra Connect Sync filtering configured for selected pilot users and devices, showing that Release 1 synchronization scope was deliberate and controlled rather than broad by default.*
+### Microsoft Entra ID as the Cloud Identity Layer
 
-### Synced pilot identities visible in Microsoft 365
+Microsoft Entra ID provided:
+- synchronized cloud identity presence
+- Conditional Access capability
+- authentication and user-state visibility
+- the access layer required by Microsoft 365 and Intune
 
-![Pilot synced users visible in Microsoft 365 active users](../../screenshots/release1/entra-sync/15-m365-active-users-pilot-synced.png)
+### Entra Connect Sync with Pilot Filtering
 
-*Figure: Microsoft 365 active-users view showing pilot identities after synchronization, proving that the controlled hybrid identity model produced usable cloud-visible accounts.*
+Synchronization was intentionally scoped. Rather than synchronizing the whole directory immediately, Release 1 used filtering and pilot inclusion logic so that:
+- only intended users and objects entered the cloud estate
+- testing stayed controlled
+- errors or design mistakes would not affect the full identity population
 
-### Exchange hybrid migration readiness validation
+This pilot-first design is one of the clearest maturity signals in the release.
 
-![Test migration server availability success](../../screenshots/release1/exchange-hybrid/06-test-migration-server-availability-success.png)
+### Password Hash Synchronization (PHS)
 
-*Figure: Migration-endpoint validation succeeding after hybrid identity and namespace prerequisites were aligned, showing that the identity design supported Exchange hybrid readiness rather than existing in isolation.*
+PHS was used to support the cloud authentication path in a way that was practical for the Release 1 pilot model. This provided:
+- a manageable hybrid authentication baseline
+- lower implementation complexity than a more advanced federation approach
+- enough realism to validate Microsoft 365 user access and service readiness
 
-## Why This Matters
+---
 
-This workstream strengthens the project because it shows that Release 1 was built on a credible hybrid identity foundation rather than on cloud-only setup or disconnected Microsoft 365 clicks.
+## Identity Protection and Access Baseline
 
-It now demonstrates:
+The platform also established the identity-control baseline needed to make hybrid identity meaningful rather than merely connected. This included:
 
-- on-premises identity authority
-- controlled cloud synchronization
-- namespace discipline
-- pilot-safe hybrid design
-- direct support for Exchange hybrid, Microsoft 365 onboarding, endpoint relationships, and later policy scope
+- **Conditional Access** as the policy layer connecting identity to device and access conditions
+- **MFA** as part of the authentication-hardening story
+- **SSPR** as part of the user support and identity self-service posture
+- **LAPS policy configuration** as a related endpoint/identity protection control, while keeping retrieval and recovery scope carefully bounded
 
-That makes the overall platform story materially stronger than a portfolio that only shows tenant setup or individual Microsoft admin portal screenshots.
+In the Release 1 pilot model, Conditional Access linked cloud identity with endpoint trust and authentication hardening. A compliant-device and MFA requirement is a good representation of the intended control posture behind the sign-in evidence shown later in this page.
 
-## What Release 1 Does Not Claim
+These controls matter because hybrid identity without access policy is only partial progress. Release 1 aimed to connect identity synchronization with real access governance.
 
-To keep the hybrid identity story credible, Release 1 does not claim:
+---
 
-- broad enterprise-wide synchronization rollout
-- complex multi-forest or multi-domain hybrid identity architecture
-- full production coexistence maturity across all namespaces
-- advanced federation design
-- completed PKI or identity-governance maturity beyond what is evidenced in the hybrid pilot
+## Flagship Evidence
 
-Release 1 should therefore be presented as a controlled hybrid identity implementation that enabled Microsoft 365 and Exchange hybrid pilot validation, not as a finished enterprise identity-transformation program.
+### 1. Entra Connect Filtering and Synchronization Scope
 
-## Related Docs
+![Entra Connect filtering users and devices](../../screenshots/release1/identity-and-access/entra-sync/11-entra-connect-filtering-users-devices.png)
+
+*Entra Connect Sync configuration showing pilot filtering decisions, demonstrating that hybrid identity was introduced in a controlled manner rather than by synchronizing the full environment immediately.*
+
+### 2. Pilot Users Visible in Microsoft 365
+
+![Pilot users visible in Microsoft 365](../../screenshots/release1/identity-and-access/entra-sync/15-m365-active-users-pilot-synced.png)
+
+*Pilot users visible in Microsoft 365 after synchronization, confirming that the scoped hybrid identity path was functioning and that the cloud-side user estate was ready for downstream service validation.*
+
+### 3. Conditional Access Result Visibility
+
+![Conditional Access result](../../screenshots/release1/monitoring-and-operations/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
+
+*Sign-in result showing Conditional Access visibility, linking the synchronized identity layer to access-control review and operational monitoring.*
+
+---
+
+## What Was Validated
+
+The Release 1 hybrid identity work validated that:
+- pilot user identities could be synchronized cleanly into Microsoft Entra ID
+- filtered synchronization helped control blast radius and maintain release discipline
+- cloud identity visibility supported Microsoft 365 service testing
+- access-control signals were visible through monitoring and sign-in review
+- hybrid identity was stable enough to support Exchange hybrid pilot validation and endpoint onboarding flows
+
+---
+
+## Operational Insight
+
+The most important design decision was to use controlled synchronization and pilot filtering first. That reduced avoidable identity sprawl, made troubleshooting easier, and reinforced the release's pilot-first discipline.
+
+---
+
+## Scope Boundaries
+
+Release 1 hybrid identity should be read as an **implemented and evidenced pilot foundation**, not as a claim to every enterprise identity feature.
+
+The following boundaries are important:
+- Release 1 does **not** claim a full identity lifecycle automation programme
+- Release 1 does **not** claim broad federation or advanced identity architecture beyond the implemented pilot model
+- Conditional Access, MFA, SSPR, and related controls are part of the baseline, but not every possible enterprise access-policy scenario is represented
+- LAPS should be discussed carefully as configured policy scope, not as a fully evidenced password retrieval or recovery workflow unless specifically proven elsewhere
+- PKI and certificate trust were strategically relevant to hybrid service readiness, but Release 1 did **not** deploy a full internal AD CS / enterprise PKI platform
+
+---
+
+## Related Documents
 
 - [Release 1 Summary](00-summary.md)
 - [Modern Workplace](02-modern-workplace.md)
-- [Endpoint Overview](03-endpoint-overview.md)
 - [Monitoring](08-monitoring.md)
-- [Release 1 Build Checklist](11-build-checklist.md)
+- [Build Checklist](11-build-checklist.md)
+- [Extensions and Future Enhancements](12-extensions-and-future-enhancements.md)
+
+For cross-release context:
+- [Platform Overview](../foundation/01-platform-overview.md)
+- [Target-State Architecture](../foundation/03-target-state-architecture.md)
+- [Roadmap](../foundation/04-roadmap.md)
+- [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+
+---
+
+## Related Evidence
+
+- [Identity and Access Evidence Hub](../../screenshots/release1/identity-and-access/README.md)
+- [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+

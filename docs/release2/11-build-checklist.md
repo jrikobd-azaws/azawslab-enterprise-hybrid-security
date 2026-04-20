@@ -1,4 +1,4 @@
-# Release 2 Build Checklist
+﻿# Release 2 Build Checklist
 
 ## Purpose
 
@@ -279,3 +279,5 @@ The best execution order is:
 Release 2 should remain Azure secure platform focused.
 
 Do not overload it with workload-modernization items that belong to Release 3, such as Docker, AKS, or full application modernization.
+
+

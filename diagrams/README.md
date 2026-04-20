@@ -1,6 +1,6 @@
 ﻿# Diagrams
 
-**Related navigation:** [README](../README.md) | [Roadmap](../docs/overview/04-roadmap.md) | [Release 1 Summary](../docs/release1/00-summary.md)
+**Related navigation:** [README](../README.md) | [Roadmap](../docs/foundation/04-roadmap.md) | [Release 1 Summary](../docs/release1/00-summary.md)
 
 This folder contains the main visual artifacts used to explain the architecture, control flow, roadmap, and evidence structure of the `azawslab Enterprise Hybrid Security Platform`.
 
@@ -22,8 +22,11 @@ This folder contains the main visual artifacts used to explain the architecture,
 
 ## Related docs
 
-- [Roadmap](../docs/overview/04-roadmap.md)
+- [Roadmap](../docs/foundation/04-roadmap.md)
 - [Release 1 Summary](../docs/release1/00-summary.md)
 - [Endpoint Overview](../docs/release1/03-endpoint-overview.md)
 - [Advanced Recovery Scenarios](../docs/release1/06-recovery-scenarios.md)
 - [Security and Compliance Mapping](../docs/release1/09-compliance-mapping.md)
+
+
+

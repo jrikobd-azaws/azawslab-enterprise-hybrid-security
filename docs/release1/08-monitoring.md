@@ -1,99 +1,209 @@
-# Monitoring and Alerting
-
-**Related navigation:** [README](../../README.md) | [Release 1 Summary](00-summary.md) | [Release 1 Build Checklist](11-build-checklist.md)  
-**Related docs:** [Hybrid Identity](01-hybrid-identity.md) | [Modern Workplace](02-modern-workplace.md) | [Endpoint Overview](03-endpoint-overview.md) | [Purview](07-purview.md) | [Compliance Mapping](09-compliance-mapping.md)
+﻿# Monitoring
 
 ## Purpose
 
-This page records the Release 1 monitoring and alerting baseline for the `azawslab Enterprise Hybrid Security Platform`.
+This page explains how the platform was monitored across identity, endpoint state, policy visibility, and operational activity.
 
-It shows how Release 1 moved beyond simple configuration proof into operational visibility across identity, administrative activity, endpoint state, and protection-control outcomes. It should be read as a baseline monitoring and review page, not as a claim of full SIEM, SOC, or enterprise alerting maturity.
+The focus is on practical administrative visibility rather than on claiming a full SOC or enterprise observability programme. The goal is to show that the platform could be reviewed, interpreted, and supported through real control signals.
 
-## What This Page Proves
+---
 
-This page proves that Release 1 includes meaningful operational visibility rather than stopping at implementation alone.
+## What Is Proven Here
 
-It demonstrates:
+The monitoring approach demonstrates:
 
-- sign-in and Conditional Access result visibility in Microsoft Entra
-- audit-log visibility for administrative review and change awareness
-- endpoint-state and compliance visibility in Intune
-- at least one example monitoring signal visible in Microsoft endpoint administration
-- a cross-domain monitoring story that now spans identity, administration, endpoint state, and content-protection outcomes
+- sign-in visibility linked to access and Conditional Access outcomes
+- audit-log visibility for administrative and security-relevant actions
+- device-state visibility across the managed endpoint estate
+- policy and control status review inside the management layer
+- example alerting that supports operational awareness
+- a support-oriented monitoring model tied to the wider identity, endpoint, and recovery story
 
-## Implementation Story
+---
 
-Release 1 monitoring was implemented as a visibility baseline rather than as a centralized security-operations platform.
+## Why It Matters
 
-The first layer of that baseline was identity visibility. Microsoft Entra sign-in views and Conditional Access result review provided evidence that pilot identity controls could be observed after configuration, not only assigned. This matters because a hybrid identity environment is not operationally credible if policy state exists but access outcomes cannot be reviewed.
+A platform that cannot be observed is difficult to trust and difficult to support.
 
-The second layer was administrative visibility. Audit-log review established a basic ability to see change activity in Microsoft Entra. In Release 1, the correct claim is not mature investigation workflow. It is that administrative review and change visibility now exist as part of the platform baseline.
+The work here matters because it shows:
+- access decisions were visible rather than assumed
+- endpoint state could be reviewed through management tooling
+- administrative activity left an auditable trail
+- control status could be checked as part of ongoing operations
+- monitoring was treated as part of platform credibility, not as a later add-on
 
-The third layer was endpoint visibility. Intune views now show managed-device state, compliance status, and operational health indicators for Release 1 pilot devices. This is especially important because it connects monitoring directly to lifecycle management rather than leaving endpoint administration as a one-time enrollment story.
+---
 
-The fourth layer was alert-signal awareness. Release 1 does not claim a formalized alert-routing and triage model, but it does show that monitoring signals and review surfaces already exist in the Microsoft administration plane. That creates a credible foundation for later maturity in alerting and incident handling.
+## Monitoring Design Approach
 
-Taken together, these layers show that Release 1 can now be observed across identity, administration, endpoint state, and control outcomes. That is a materially stronger position than a platform that only demonstrates successful configuration.
+The monitoring model in this phase was intentionally practical.
 
-## Flagship Monitoring Evidence
+Rather than trying to claim a fully built SIEM or enterprise-scale detection stack, the implementation focused on the visibility that mattered most for the platform already in place:
+- sign-in activity
+- audit activity
+- device compliance and control status
+- policy and dashboard visibility
+- alerts relevant to endpoint administration
 
-### Sign-in visibility and Conditional Access result review
+This keeps the document evidence-based and aligned with the actual scope of the phase.
 
-![Entra sign-in conditional access result](../../screenshots/release1/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
+---
 
-*Figure: Microsoft Entra sign-in review showing Conditional Access result visibility for the Release 1 pilot identity-control model.*
+## Sign-In Visibility
 
-### Audit-log baseline
+Sign-in monitoring is one of the most important proof areas because it connects:
+- synchronized identity
+- Conditional Access review
+- device trust interpretation
+- practical access monitoring
 
-![Entra audit log overview](../../screenshots/release1/monitoring/audit-logs/01-entra-audit-log-overview.png)
+This matters because identity controls are much more credible when the resulting sign-in behavior can be reviewed rather than inferred.
 
-*Figure: Microsoft Entra audit-log overview used to establish the Release 1 administrative review and change-visibility baseline.*
+In this implementation, sign-in visibility helps show that access-control logic and endpoint state were part of the same operational picture.
 
-### Endpoint visibility and compliance state
+---
 
-![Intune device compliance status](../../screenshots/release1/monitoring/device-visibility/03-intune-device-compliance-status.png)
+## Audit Visibility
 
-*Figure: Intune device-compliance status view showing operational visibility into managed endpoint state.*
+Audit logging matters because it provides administrative traceability.
 
-### Example alert or monitoring signal
+This is important for a supportable platform because configuration changes, identity actions, and control adjustments should not exist only as remembered events. They should be reviewable.
 
-![Intune dashboard device configuration alert](../../screenshots/release1/monitoring/example-alert/02-intune-dashboard-device-configuration-alert.png)
+Audit visibility therefore strengthens:
+- change traceability
+- operational confidence
+- governance credibility
+- support investigation capability
 
-*Figure: Example monitoring signal from Intune dashboard views, showing how Release 1 monitoring extends into device-configuration and operational health awareness.*
+---
 
-## Why This Matters
+## Device and Control Visibility
 
-This workstream strengthens the project because it shows that Release 1 is not limited to configuration and policy assignment.
+Monitoring in this phase also includes the operational view of the endpoint estate.
 
-It now also demonstrates that the platform can be reviewed after deployment through:
+That means looking at:
+- compliance state
+- device presence
+- policy status
+- dashboard-level control views
+- whether the managed estate appears healthy, unhealthy, or inconsistent
 
-- identity sign-in visibility
-- administrative change visibility
-- endpoint-state visibility
-- control-outcome visibility
-- early alert-signal awareness
+This matters because endpoint trust is not just about policy existence. It is also about whether the administrator can see the state of the estate clearly enough to act on it.
 
-That makes the overall repository more credible because it shows the environment can be observed and validated, not only built.
+---
 
-## What Release 1 Does Not Claim
+## Alerting and Operational Awareness
 
-To keep the monitoring story credible, Release 1 does not claim:
+This phase does not claim a full enterprise alerting programme, but it does include practical alert visibility that supports endpoint administration and operational review.
 
-- full SIEM or SOC maturity
-- Microsoft Sentinel integration
-- formal incident-response workflows
-- advanced alert severity and routing models
-- deep cross-domain event correlation
-- mature Defender investigation and response workflows
+That is valuable because it shows the platform was not treated as static. Administrators need to know when device configuration, compliance, or control posture requires attention.
 
-Release 1 should therefore be presented as a monitoring and visibility baseline, not as a finished enterprise security-operations platform.
+In that sense, monitoring here supports day-to-day supportability more than formal security operations.
 
-## Related Docs
+---
+
+## Flagship Evidence
+
+### 1. Conditional Access result visible in sign-in logs
+
+![Conditional Access result in sign-in logs](../../screenshots/release1/monitoring-and-operations/monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
+
+*Sign-in-log view showing Conditional Access result visibility, linking identity, access review, and device-context interpretation into one operational signal.*
+
+### 2. Audit-log overview
+
+![Entra audit log overview](../../screenshots/release1/monitoring-and-operations/monitoring/audit-logs/01-entra-audit-log-overview.png)
+
+*Audit-log visibility showing that administrative activity was reviewable and that the platform included traceable operational history rather than relying on undocumented changes.*
+
+### 3. Device compliance status visibility
+
+![Intune device compliance status](../../screenshots/release1/monitoring-and-operations/monitoring/device-visibility/03-intune-device-compliance-status.png)
+
+*Device compliance-state visibility showing that the managed endpoint estate could be reviewed through operational status signals rather than through policy assumptions alone.*
+
+### 4. Example alerting in the admin view
+
+![Intune dashboard device configuration alert](../../screenshots/release1/monitoring-and-operations/monitoring/example-alert/02-intune-dashboard-device-configuration-alert.png)
+
+*Example alert visibility demonstrating that the platform supported practical administrative awareness when configuration or device-state issues required attention.*
+
+---
+
+## Additional Monitoring Evidence
+
+The wider evidence set also includes:
+- additional sign-in views
+- more detailed audit visibility
+- device-state and control dashboard screenshots
+- monitoring context that supports the endpoint, identity, and recovery documents
+
+For guided browsing:
+- [Monitoring and Operations Evidence Hub](../../screenshots/release1/monitoring-and-operations/README.md)
+- [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+---
+
+## What Was Validated
+
+The monitoring implementation validated that:
+- sign-in activity could be reviewed alongside access-control outcomes
+- audit trails were available for platform actions
+- endpoint state and compliance visibility supported operational review
+- dashboard and alert views provided practical administrative awareness
+- monitoring signals connected meaningfully to the wider identity, endpoint, and recovery model
+
+---
+
+## Operational Insight
+
+The strongest lesson here is that monitoring should be judged by whether it helps an administrator understand platform state and take action.
+
+The value is not just that logs exist. The value is that the platform makes it possible to answer questions like:
+- did access succeed or fail, and why?
+- what changed?
+- which devices are compliant or unhealthy?
+- what needs attention next?
+
+That makes monitoring part of supportability, not just reporting.
+
+---
+
+## Scope Boundaries
+
+Monitoring in this phase should be read as an **implemented and evidenced administrative visibility model**, not as a claim to a full enterprise SIEM, SOC, or observability stack.
+
+Important boundaries:
+- the strongest evidence is centered on sign-ins, audit logs, device-state review, and practical alert visibility
+- this phase does not claim a full Sentinel-based monitoring programme
+- this phase does not claim advanced detection engineering or formal threat-hunting workflows
+- the monitoring story is intentionally aligned to identity, endpoint, and support operations
+- larger-scale Azure-native monitoring and security operations belong to later roadmap work
+
+---
+
+## Related Documents
 
 - [Release 1 Summary](00-summary.md)
 - [Hybrid Identity](01-hybrid-identity.md)
-- [Modern Workplace](02-modern-workplace.md)
 - [Endpoint Overview](03-endpoint-overview.md)
+- [Endpoint Compliance and Security](05-endpoint-compliance-and-security.md)
+- [Recovery Scenarios](06-recovery-scenarios.md)
 - [Purview](07-purview.md)
 - [Compliance Mapping](09-compliance-mapping.md)
-- [Release 1 Build Checklist](11-build-checklist.md)
+- [Build Checklist](11-build-checklist.md)
+
+For cross-release context:
+- [Platform Overview](../foundation/01-platform-overview.md)
+- [Roadmap](../foundation/04-roadmap.md)
+- [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+
+---
+
+## Related Evidence
+
+- [Monitoring and Operations Evidence Hub](../../screenshots/release1/monitoring-and-operations/README.md)
+- [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+
+

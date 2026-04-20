@@ -1,66 +1,257 @@
-# Endpoint Overview
-
-**Related navigation:** [README](../../README.md) | [Release 1 Summary](00-summary.md) | [Release 1 Build Checklist](11-build-checklist.md)  
-**Related docs:** [Endpoint Enrollment](04-endpoint-enrollment.md) | [Endpoint Compliance](05-endpoint-compliance.md) | [Recovery Scenarios](06-recovery-scenarios.md) | [Monitoring](08-monitoring.md)
+﻿# Endpoint Overview
 
 ## Purpose
 
-This page is the overview and navigation point for the Release 1 endpoint workstream in the `azawslab Enterprise Hybrid Security Platform`.
+This document defines the endpoint strategy for the implemented phase of the platform. It explains how device ownership, operating system diversity, compliance, security controls, and recovery thinking were brought together into one manageable endpoint model.
 
-It explains how Release 1 endpoint work progressed from cross-platform enrollment into compliance, hardening, access-control relevance, and operational recovery. It should be read as the high-level endpoint story, not as the deeper enrollment, compliance, or recovery page.
+It acts as the bridge between hybrid identity, endpoint onboarding, endpoint security, and operational support.
+
+---
 
 ## What This Page Proves
 
-This page proves that the Release 1 endpoint workstream is broader than a single-device Intune setup.
+The endpoint strategy proves that the platform established a workable model with:
+
+- clear distinction between corporate and personal ownership models
+- support for multiple endpoint types across Windows, Ubuntu Linux, and iPhone BYOD
+- Intune as the central management layer for onboarding, compliance, and policy visibility
+- a connected model linking endpoint state to identity, access, and protection controls
+- an endpoint story that includes recovery and lifecycle cleanup rather than only first-time enrollment
+
+---
+
+## Why It Matters
+
+Without a coherent endpoint model, identity and cloud services remain disconnected from actual device trust.
+
+This strategy enabled:
+- clearer separation between corporate and BYOD device handling
+- practical support for multiple operating systems in one managed estate
+- visible device-state enforcement through compliance and policy evaluation
+- a stronger foundation for Conditional Access, endpoint security, and recovery workflows
+
+---
+
+## Endpoint Strategy Summary
+
+The endpoint model was designed around a simple principle:
+
+> **Identity alone is not enough; the platform must also know what device is being used, how it is owned, whether it is trusted, and how it can be recovered when things go wrong.**
+
+That led to a strategy with four key elements:
+
+1. **Ownership awareness** - corporate and BYOD paths should not be treated as the same
+2. **Platform coverage** - Windows, Linux, and mobile access should be represented in the estate
+3. **Control visibility** - device state should be visible through compliance, policy, and monitoring
+4. **Operational recovery** - lifecycle mistakes, trust breaks, and stale records should be manageable
+
+---
+
+## Device Ownership Model
+
+| Ownership | Enrollment / Join Model | Policy Expectation | Evidence Focus |
+| :--- | :--- | :--- | :--- |
+| **Corporate (Windows)** | Organization-managed enrollment | Full compliance, security baseline, BitLocker, update policy | intune-windows-corp/ |
+| **BYOD (Windows)** | Personal ownership | Compliance-aware access with lighter management expectations | intune-windows-byod/ |
+| **BYOD (iPhone)** | Company Portal enrollment | Identity-linked access and mobile onboarding proof | intune-ios/ |
+
+
+### Corporate Devices
+
+Corporate devices were intended to represent managed assets with stronger policy expectation and clearer compliance responsibility.
+
+These devices are the strongest expression of the platform's endpoint trust model because they can be tied more directly to:
+- management enrollment
+- compliance evaluation
+- security baseline application
+- recovery-key handling
+- update policy
+
+### BYOD Devices
+
+BYOD scenarios were included to show that the endpoint model was not limited to fully managed corporate hardware.
+
+This matters because real environments often need to distinguish:
+- what is organization-owned
+- what is user-owned
+- what level of policy is appropriate
+- how access decisions should differ between those states
+
+The platform therefore treats BYOD as part of the supported estate, but not as identical to corporate management.
+
+---
+
+## Platform Coverage
+
+### Windows
+
+Windows is the most important endpoint platform in the implemented estate because it carries the clearest compliance, baseline, recovery, and update-management story.
 
 It demonstrates:
+- corporate enrollment
+- BYOD distinction
+- compliance-state visibility
+- security baseline application
+- BitLocker handling
+- update policy
+- recovery after disruption
 
-- cross-platform endpoint coverage across Windows corporate, Windows BYOD, Ubuntu Linux, and iPhone BYOD scenarios
-- Microsoft Intune and Microsoft Entra ID visibility as the foundation for managed endpoint administration
-- progression from enrollment into compliance assessment and security hardening
-- dependency between endpoint condition and access-control behavior in the Microsoft 365 pilot scope
-- operational recovery awareness through BitLocker recovery, re-enrollment, and stale-record cleanup
-- a connected endpoint story that spans onboarding, control, and lifecycle handling rather than stopping at device registration
+### Ubuntu Linux
 
-## Implementation Story
+Ubuntu Linux was included to show that the endpoint layer was not treated as Windows-only.
 
-Release 1 endpoint work should be understood as a lifecycle story rather than as a collection of isolated screenshots.
+The Linux path matters because it demonstrates:
+- platform diversity
+- visibility beyond the default Microsoft desktop path
+- automation support through Ansible baseline work
+- a broader view of endpoint management maturity
 
-The first step was enrollment and platform coverage. Release 1 validated a corporate-managed Windows device, a Windows BYOD path, Ubuntu Linux visibility with supporting Ansible baseline automation, and iPhone BYOD enrollment through Company Portal. That established ownership distinction, platform diversity, and pilot inventory across the managed environment.
+### iPhone BYOD
 
-The second step was visibility and control. Once devices were present in Intune and Microsoft Entra ID, they could be assessed for compliance, included in hardening scope, and observed in the management plane. This is the point where endpoint administration became more than registration. It became policy-relevant.
+iPhone BYOD validation was included to show that the endpoint model also extended to mobile onboarding and Company Portal-based enrollment.
 
-The third step was hardening and access-control relevance. Windows compliance policy, security baseline assignment, update governance, and protection controls made the managed Windows devices part of the broader security story. Endpoint state was no longer just informative; it began to matter for access decisions through compliant-device logic in the Microsoft 365 pilot scope.
+This adds credibility because it demonstrates that the endpoint story includes mobile identity-linked access, not just desktop systems.
 
-The fourth step was lifecycle and recovery. The BitLocker recovery, rebuild, re-enrollment, and stale-record cleanup scenario showed that endpoint administration also includes disruption handling and trust restoration, not only successful first-time onboarding.
+---
 
-Taken together, these steps make the endpoint workstream one of the strongest parts of Release 1. It demonstrates breadth across platforms, depth across controls, and credibility through recovery-aware operations.
+## Management and Control Model
+
+Intune is the central management layer for this endpoint strategy.
+
+It provides the platform with:
+- enrollment and device visibility
+- ownership differentiation
+- compliance-state evaluation
+- policy application
+- baseline enforcement
+- update management
+- recovery-linked visibility
+
+This makes Intune more than an enrollment tool. In this project, it acts as the operational layer connecting:
+- user identity
+- device state
+- policy outcome
+- supportability
+
+---
+
+## Relationship to Identity and Access
+
+The endpoint model is closely tied to the identity model.
+
+Hybrid identity establishes **who** the user is. The endpoint layer helps establish:
+- **what** device is being used
+- **whether** it is managed or compliant
+- **how** access should be interpreted in context
+
+This is why endpoint management, compliance, and Conditional Access should be read together rather than as isolated capabilities.
+
+---
+
+## Relationship to Security and Recovery
+
+The endpoint strategy also supports the protection and recovery model.
+
+A device is not truly part of a manageable platform unless it can be:
+- enrolled
+- evaluated
+- protected
+- rebuilt
+- re-enrolled
+- cleaned up when duplicate or stale records appear
+
+That is why the endpoint story in this project intentionally includes both:
+- onboarding and policy control
+- recovery and lifecycle correction
+
+---
 
 ## Flagship Evidence
 
-![Identity, messaging, and endpoint control flow](../../diagrams/02-identity-messaging-endpoint-control-flow.png)
+### 1. Corporate and BYOD visibility in the managed estate
 
-*Figure: Release 1 control flow linking hybrid identity, Exchange migration, Intune-managed endpoints, and device-based access control across the Microsoft 365 pilot environment.*
+![Corporate and BYOD device visibility](../../screenshots/release1/endpoint-management/intune/intune-windows-byod/05-intune-windows-devices-corp-and-byod.png)
 
-## Why This Matters
+*Managed device view showing distinction between corporate and personal ownership, demonstrating that the endpoint estate was designed with different ownership models rather than a one-size-fits-all approach.*
 
-This workstream strengthens the project because it shows endpoint administration as a connected operational domain rather than a narrow Intune setup exercise.
+### 2. Corporate Windows device in compliant state
 
-It now demonstrates:
+![Corporate Windows device compliant](../../screenshots/release1/endpoint-management/intune/intune-windows-corp/08-intune-windows-device-compliant.png)
 
-- mixed ownership models
-- mixed platform coverage
-- policy-based compliance and hardening
-- access-control dependency on endpoint condition
-- lifecycle handling through recovery and cleanup
+*Corporate Windows endpoint shown as compliant in Intune, confirming that enrollment, policy application, and device-state evaluation were functioning together as intended.*
 
-That makes the endpoint story materially stronger than a portfolio that stops at device enrollment screenshots or a single compliant Windows machine.
+### 3. iPhone BYOD enrollment completion
 
-## Related Docs
+![iPhone BYOD enrollment complete](../../screenshots/release1/endpoint-management/intune/intune-ios/iphone13-byod-enrollment/14-company-portal-enrollment-complete.png)
+
+*iPhone BYOD enrollment completed through Company Portal, showing that the endpoint model extended beyond desktop systems into mobile onboarding.*
+
+---
+
+## What Was Validated
+
+The endpoint strategy validated that:
+- the managed estate could distinguish between corporate and personal device ownership
+- Windows corporate and BYOD scenarios could both be represented in Intune
+- Linux and iPhone paths could be brought into the broader management story
+- endpoint state could be linked to compliance, security, and monitoring outcomes
+- device lifecycle handling could extend beyond enrollment into recovery and cleanup
+
+---
+
+## Operational Insight
+
+A key lesson from this area is that endpoint strategy should be designed around lifecycle reality, not just enrollment success.
+
+The strongest decision here was to treat endpoints as:
+- identity-linked
+- policy-evaluated
+- ownership-aware
+- recoverable
+
+That makes the platform more supportable and more credible than a simple "device enrolled successfullyâ€ story.
+
+---
+
+## Scope Boundaries
+
+This endpoint overview should be read as a description of the implemented endpoint model, not as a claim to every endpoint-management capability.
+
+Important boundaries:
+- Android BYOD / MAM is not yet fully evidenced
+- Windows Autopilot / ESP optimization is not yet implemented
+- not every platform has the same depth of policy and recovery evidence
+- some controls are stronger on Windows than on Linux or mobile
+- the broad endpoint security story is documented in the dedicated compliance and security page rather than fully expanded here
+
+---
+
+## Related Documents
 
 - [Release 1 Summary](00-summary.md)
+- [Hybrid Identity](01-hybrid-identity.md)
 - [Endpoint Enrollment](04-endpoint-enrollment.md)
-- [Endpoint Compliance](05-endpoint-compliance.md)
+- [Endpoint Compliance and Security](05-endpoint-compliance-and-security.md)
 - [Recovery Scenarios](06-recovery-scenarios.md)
 - [Monitoring](08-monitoring.md)
-- [Release 1 Build Checklist](11-build-checklist.md)
+
+For cross-release context:
+- [Platform Overview](../foundation/01-platform-overview.md)
+- [Roadmap](../foundation/04-roadmap.md)
+- [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+
+---
+
+## Related Evidence
+
+- [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
+- [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
+- [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+
+
+
+
+
+
+
