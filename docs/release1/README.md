@@ -6,6 +6,12 @@ This phase is designed to demonstrate more than initial setup. It focuses on **v
 
 > **For recruiters:** This release maps directly to Modern Workplace, Intune, Entra ID, and Microsoft 365 roles. See the [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md) for capability-to-proof mapping.
 
+## Release 1 at a Glance
+
+![Release 1 implementation flow and proof map](../../diagrams/05-release1-implementation-flow-and-proof-map.png)
+
+*Release 1 implementation flow and proof map showing how platform foundation, hybrid identity, modern workplace services, endpoint management, information protection, and operational validation connect across the release.*
+
 ---
 
 ## What Release 1 Delivers
