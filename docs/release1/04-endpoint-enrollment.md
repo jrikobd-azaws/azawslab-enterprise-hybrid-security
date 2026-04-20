@@ -190,6 +190,12 @@ That is why this page should be read together with:
 
 *iPhone BYOD enrollment completed through Company Portal, showing that the onboarding strategy extended beyond desktop systems into mobile device access.*
 
+### 4. Ubuntu Linux visibility in the managed estate
+
+![Ubuntu Linux device visible in Intune](../../screenshots/release1/endpoint-management/intune/intune-linux/08-intune-linux-device-visible.png)
+
+*Ubuntu Linux device visible in the managed estate, showing that the endpoint model extended beyond Windows and mobile scenarios into broader platform coverage.*
+
 ---
 
 ## Additional Enrollment Evidence
@@ -206,14 +212,6 @@ For deeper proof browsing:
 - [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
 
 ---
-
-## Additional Enrollment Evidence
-
-### 4. Ubuntu Linux visibility in the managed estate
-
-![Ubuntu Linux device visible in Intune](../../screenshots/release1/endpoint-management/intune/intune-linux/08-intune-linux-device-visible.png)
-
-*Ubuntu Linux device visible in the managed estate, showing that the endpoint model extended beyond Windows and mobile scenarios into broader platform coverage.*
 
 ## What Was Validated
 
