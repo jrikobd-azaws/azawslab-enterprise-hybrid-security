@@ -211,9 +211,9 @@ For deeper proof browsing:
 
 ### 4. Ubuntu Linux visibility in the managed estate
 
-![Ubuntu Linux device visible in Intune](../../screenshots/release1/endpoint-management/intune/intune-linux/PUT-LINUX-FILENAME-HERE.png)
+![Ubuntu Linux device visible in Intune](../../screenshots/release1/endpoint-management/intune/intune-linux/08-intune-linux-device-visible.png)
 
-*Ubuntu Linux device visible in the managed estate, showing that enrollment coverage extended beyond Windows and mobile onboarding into broader platform support.*
+*Ubuntu Linux device visible in the managed estate, showing that the endpoint model extended beyond Windows and mobile scenarios into broader platform coverage.*
 
 ## What Was Validated
 
