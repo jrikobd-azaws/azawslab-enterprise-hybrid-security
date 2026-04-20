@@ -184,11 +184,6 @@ That is why this page should be read together with:
 
 *Managed device view showing both corporate and personal Windows ownership states, confirming that the onboarding model distinguished between ownership types rather than treating all devices identically.*
 
-### 3. iPhone BYOD enrollment completion
-
-![iPhone BYOD enrollment complete](../../screenshots/release1/endpoint-management/intune/intune-ios/iphone13-byod-enrollment/14-company-portal-enrollment-complete.png)
-
-*iPhone BYOD enrollment completed through Company Portal, showing that the onboarding strategy extended beyond desktop systems into mobile device access.*
 
 ---
 
