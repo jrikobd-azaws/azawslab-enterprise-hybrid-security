@@ -16,7 +16,7 @@ This page proves that the platform established a workable endpoint onboarding mo
 - successful onboarding across Windows, Ubuntu Linux, and iPhone BYOD scenarios
 - Intune as the central service for enrollment visibility and state tracking
 - device enrollment that feeds into later compliance, security, monitoring, and recovery workflows
-- supportable device onboarding rather than isolated â€œdevice addedâ€ screenshots
+- supportable device onboarding rather than isolated "device addedâ€ screenshots
 
 ---
 
@@ -234,7 +234,7 @@ The strongest decision in this phase was to treat enrollment as:
 - policy-linked
 - operationally recoverable
 
-That makes the endpoint model more credible than a simple â€œdevice joined successfullyâ€ demonstration.
+That makes the endpoint model more credible than a simple "device joined successfullyâ€ demonstration.
 
 ---
 
@@ -272,6 +272,8 @@ For cross-release context:
 - [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
 - [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+
 
 
 

@@ -1,4 +1,4 @@
-# Release 1 Summary
+﻿# Release 1 Summary
 
 Release 1 establishes the hybrid Microsoft foundation of the platform across identity, messaging, collaboration, endpoint management and security, information protection, monitoring, and recovery.
 
@@ -133,3 +133,4 @@ For implementation status and future scope:
 
 For guided proof browsing:
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+

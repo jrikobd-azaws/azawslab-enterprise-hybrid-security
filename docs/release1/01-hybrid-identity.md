@@ -1,4 +1,4 @@
-# Hybrid Identity
+﻿# Hybrid Identity
 
 ## Purpose
 
@@ -134,7 +134,7 @@ The Release 1 hybrid identity work validated that:
 
 ## Operational Insight
 
-The most important design decision was to use controlled synchronization and pilot filtering first. That reduced avoidable identity sprawl, made troubleshooting easier, and reinforced the release’s pilot-first discipline.
+The most important design decision was to use controlled synchronization and pilot filtering first. That reduced avoidable identity sprawl, made troubleshooting easier, and reinforced the release's pilot-first discipline.
 
 ---
 
@@ -171,3 +171,4 @@ For cross-release context:
 
 - [Identity and Access Evidence Hub](../../screenshots/release1/identity-and-access/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+

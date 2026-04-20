@@ -25,7 +25,7 @@ It is intended to show what was completed, what was partially evidenced, and wha
 | Hyper-V platform | Multi-VM lab platform with internal switching, host NAT, and differencing-disk reuse | **Completed** | Core platform used to deliver the implemented environment |
 | Core infrastructure | Domain, DNS, and supporting on-premises services | **Completed** | Forms the basis of the hybrid environment |
 | Namespace design | Separation of root business namespace and pilot hybrid namespace | **Completed** | `corp.azawslab.co.uk` used for the hybrid pilot path |
-| Certificate handling | Certificate path sufficient for hybrid validation using Letâ€™s Encrypt / `win-acme` | **Partial** | Sufficient for scoped hybrid validation; not a full enterprise PKI / AD CS deployment |
+| Certificate handling | Certificate path sufficient for hybrid validation using Let's Encrypt / `win-acme` | **Partial** | Sufficient for scoped hybrid validation; not a full enterprise PKI / AD CS deployment |
 
 ---
 
@@ -173,3 +173,5 @@ See:
 - [Extensions and Future Enhancements](12-extensions-and-future-enhancements.md)
 - [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
 - [Roadmap](../foundation/04-roadmap.md)
+
+

@@ -63,10 +63,10 @@ The recovery scenario made this clear:
 - restored compliant state matters
 
 This changed the quality of the endpoint story. It moved from:
-- â€œcontrols were configuredâ€
+- "controls were configuredâ€
 
 to:
-- â€œcontrols were configured, disrupted, recovered, and restoredâ€
+- "controls were configured, disrupted, recovered, and restoredâ€
 
 That is a much stronger operational standard.
 
@@ -90,7 +90,7 @@ That applies across Purview, Intune, and access-control validation.
 
 ## 4. Monitoring should answer operational questions
 
-Monitoring became much more meaningful once it was treated as a supportability layer rather than just â€œlogs exist.â€
+Monitoring became much more meaningful once it was treated as a supportability layer rather than just "logs exist.â€
 
 The strongest monitoring lesson is that good visibility should help answer practical questions such as:
 - did access succeed or fail, and why?
@@ -109,7 +109,7 @@ The Exchange and hybrid service work reinforced that namespace and certificate d
 
 Two important lessons came from this:
 - keeping the root business namespace separate from the pilot hybrid namespace reduced risk
-- using Letâ€™s Encrypt / `win-acme` was enough for the scoped hybrid validation path, but should not be described as a full enterprise PKI programme
+- using Let's Encrypt / `win-acme` was enough for the scoped hybrid validation path, but should not be described as a full enterprise PKI programme
 
 This is a good example of where technical honesty matters:
 - strategic relevance can be discussed
@@ -156,9 +156,9 @@ This lesson is important because portfolio quality is not only about implementat
 ## 8. Scope honesty increases trust
 
 One of the most valuable strategic lessons was that it is better to say:
-- â€œnot yet implementedâ€
-- â€œpartially evidencedâ€
-- â€œfuture enhancementâ€
+- "not yet implementedâ€
+- "partially evidencedâ€
+- "future enhancementâ€
 
 than to stretch a claim.
 
@@ -251,3 +251,5 @@ Instead, it captures the lessons that most improved:
 For cross-release context:
 - [Roadmap](../foundation/04-roadmap.md)
 - [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+
+

@@ -72,7 +72,7 @@ The key point is not merely that a DLP policy exists, but that:
 - a policy tip was triggered in Microsoft Word
 - the user experience showed that the control was active at the point of interaction
 
-That is one of the most valuable proof points in the release because it turns â€œpolicy configuredâ€ into â€œpolicy demonstrated.â€
+That is one of the most valuable proof points in the release because it turns "policy configuredâ€ into "policy demonstrated.â€
 
 ---
 
@@ -178,4 +178,6 @@ For cross-release context:
 
 - [Information Protection Evidence Hub](../../screenshots/release1/information-protection/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+
 

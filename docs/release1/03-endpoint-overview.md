@@ -40,10 +40,10 @@ The endpoint model was designed around a simple principle:
 
 That led to a strategy with four key elements:
 
-1. **Ownership awareness** â€” corporate and BYOD paths should not be treated as the same
-2. **Platform coverage** â€” Windows, Linux, and mobile access should be represented in the estate
-3. **Control visibility** â€” device state should be visible through compliance, policy, and monitoring
-4. **Operational recovery** â€” lifecycle mistakes, trust breaks, and stale records should be manageable
+1. **Ownership awareness** - corporate and BYOD paths should not be treated as the same
+2. **Platform coverage** - Windows, Linux, and mobile access should be represented in the estate
+3. **Control visibility** - device state should be visible through compliance, policy, and monitoring
+4. **Operational recovery** - lifecycle mistakes, trust breaks, and stale records should be manageable
 
 ---
 
@@ -60,7 +60,7 @@ That led to a strategy with four key elements:
 
 Corporate devices were intended to represent managed assets with stronger policy expectation and clearer compliance responsibility.
 
-These devices are the strongest expression of the platformâ€™s endpoint trust model because they can be tied more directly to:
+These devices are the strongest expression of the platform's endpoint trust model because they can be tied more directly to:
 - management enrollment
 - compliance evaluation
 - security baseline application
@@ -209,7 +209,7 @@ The strongest decision here was to treat endpoints as:
 - ownership-aware
 - recoverable
 
-That makes the platform more supportable and more credible than a simple â€œdevice enrolled successfullyâ€ story.
+That makes the platform more supportable and more credible than a simple "device enrolled successfullyâ€ story.
 
 ---
 
@@ -247,6 +247,8 @@ For cross-release context:
 - [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
 - [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+
 
 
 

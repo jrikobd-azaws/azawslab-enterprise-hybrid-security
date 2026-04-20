@@ -43,7 +43,7 @@ The chosen approach was to:
 - confirm baseline collaboration functionality through Teams and SharePoint
 - keep the namespace and certificate strategy tightly scoped to what Release 1 needed to validate
 
-This made Modern Workplace delivery an evidence-backed service milestone rather than a broad â€œcloud migrationâ€ claim.
+This made Modern Workplace delivery an evidence-backed service milestone rather than a broad "cloud migrationâ€ claim.
 
 ---
 
@@ -159,7 +159,7 @@ Release 1 Modern Workplace should be read as an **implemented and evidenced serv
 The following boundaries are important:
 - Release 1 does **not** claim a full organization-wide Exchange Online migration
 - Release 1 does **not** claim a complete OneDrive administration or governance programme unless separately evidenced
-- Release 1 does **not** claim full enterprise PKI / AD CS deployment; certificate handling was scoped to Letâ€™s Encrypt / `win-acme` and the hybrid validation path
+- Release 1 does **not** claim full enterprise PKI / AD CS deployment; certificate handling was scoped to Let's Encrypt / `win-acme` and the hybrid validation path
 - Teams and SharePoint are validated as baseline collaboration services, not as a complete enterprise information architecture programme
 - broader productivity governance and larger-scale service adoption remain outside Release 1 scope
 
@@ -185,4 +185,6 @@ For cross-release context:
 
 - [Modern Workplace Evidence Hub](../../screenshots/release1/modern-workplace/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+
 

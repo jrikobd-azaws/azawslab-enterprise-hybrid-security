@@ -1,4 +1,4 @@
-# Business Scenario
+﻿# Business Scenario
 
 ## Company Profile
 A fictional mid-sized enterprise with a head office and branch office.
@@ -16,3 +16,5 @@ A fictional mid-sized enterprise with a head office and branch office.
 - Secure Microsoft 365 collaboration services
 - Improve compliance alignment and visibility
 - Prepare for future Azure landing zone and MSP-style operating model
+
+

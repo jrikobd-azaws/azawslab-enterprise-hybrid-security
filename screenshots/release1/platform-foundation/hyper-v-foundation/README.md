@@ -19,7 +19,7 @@ This folder contains the Release 1 platform-foundation evidence for the Hyper-V 
 ## Related docs
 
 - `README.md`
-- `docs/overview/02-current-state-architecture.md`
+- `docs/foundation/02-current-state-architecture.md`
 - `docs/release1/00-summary.md`
 - `docs/release1/01-hybrid-identity.md`
 
@@ -41,4 +41,7 @@ This folder contains the Release 1 platform-foundation evidence for the Hyper-V 
 
 
 <!-- AUTO-GENERATED: END -->
+
+
+
 

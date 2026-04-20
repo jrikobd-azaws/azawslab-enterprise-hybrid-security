@@ -1,4 +1,4 @@
-## Windows Server 2022 Base Image Prepared
+﻿## Windows Server 2022 Base Image Prepared
 
 A standardized Windows Server 2022 Desktop Experience parent image was created for the Phase 1 on-prem foundation.
 
@@ -119,8 +119,8 @@ The following baseline AD security groups have been created:
 The on-premises identity baseline has now been expanded to include a second domain controller.
 
 ### Domain controllers
-- `dc1.corp.azawslab.co.uk` – primary domain controller and DNS server
-- `dc2.corp.azawslab.co.uk` – additional domain controller and DNS server
+- `dc1.corp.azawslab.co.uk` - primary domain controller and DNS server
+- `dc2.corp.azawslab.co.uk` - additional domain controller and DNS server
 
 ### DC2 implementation summary
 - DC2 was deployed in Hyper-V using a differencing disk
@@ -152,3 +152,5 @@ The on-premises identity baseline has now been expanded to include a second doma
 - Exchange Server Subscription Edition installed successfully
 - Exchange Admin Center opened successfully after installation
 - Exchange organization name configured as `AZAWSLAB Exchange`
+
+

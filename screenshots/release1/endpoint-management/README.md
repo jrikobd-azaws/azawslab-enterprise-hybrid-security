@@ -134,7 +134,7 @@ Start here:
 - [Ubuntu Linux Folder](intune/intune-linux/)
 
 Best evidence:
-- use the strongest Linux visibility screenshot in this folder once confirmed locally
+- [Ubuntu Linux device visible in Intune](intune/intune-linux/08-intune-linux-device-visible.png)
 
 Related docs:
 - [Endpoint Overview](../../../docs/release1/03-endpoint-overview.md)
@@ -230,3 +230,5 @@ Those boundaries are documented in:
 - [Release 1 Evidence Dashboard](../README.md)
 - [Skills and Evidence Index](../../../docs/foundation/05-skills-and-evidence-index.md)
 - [Root README](../../../README.md)
+
+

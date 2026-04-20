@@ -1,4 +1,4 @@
-# Endpoint Compliance and Security
+﻿# Endpoint Compliance and Security
 
 ## Purpose
 
@@ -66,7 +66,7 @@ That meant moving beyond simple device presence into:
 
 Compliance policy is the clearest expression of trusted-device evaluation in this phase.
 
-It matters because it turns endpoint management from “device registered” into “device assessed.”
+It matters because it turns endpoint management from "device registeredâ€ into "device assessed.â€
 
 The compliance layer was used to:
 - evaluate device state
@@ -102,7 +102,7 @@ This is important because it demonstrates that endpoint protection was treated a
 
 ## BitLocker and Recoverability
 
-BitLocker controls here focus on policy configuration and recovery-key visibility. The full operational workflow — trust break, key retrieval, rebuild, stale-record cleanup, and restored compliance — is documented in [Recovery Scenarios](06-recovery-scenarios.md).
+BitLocker controls here focus on policy configuration and recovery-key visibility. The full operational workflow - trust break, key retrieval, rebuild, stale-record cleanup, and restored compliance - is documented in [Recovery Scenarios](06-recovery-scenarios.md).
 
 ---
 
@@ -198,7 +198,7 @@ The strongest design choice here was to connect:
 - update policy
 - recovery and restored state
 
-That makes the endpoint story more credible than a simple “security settings configured” claim.
+That makes the endpoint story more credible than a simple "security settings configuredâ€ claim.
 
 ---
 
@@ -237,3 +237,4 @@ For cross-release context:
 - [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
 - [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+

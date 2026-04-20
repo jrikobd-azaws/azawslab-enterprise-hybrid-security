@@ -1,4 +1,4 @@
-# azawslab Enterprise Hybrid Security Platform
+﻿# azawslab Enterprise Hybrid Security Platform
 
 A flagship enterprise infrastructure portfolio demonstrating the transformation of a legacy small-enterprise environment into a secure, cloud-integrated, and operationally manageable Microsoft-centric platform.
 
@@ -96,3 +96,5 @@ The documentation is split logically between the foundational architecture and t
 ---
 
 For Modern Workplace, Intune, Entra ID, and hybrid Microsoft roles, the best starting point is the [Release 1 README](docs/release1/README.md).
+
+

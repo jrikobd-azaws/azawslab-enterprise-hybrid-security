@@ -16,7 +16,7 @@ This phase is designed to demonstrate more than initial setup. It focuses on **v
 
 ## What Release 1 Delivers
 
-This phase delivers a functional hybrid platform spanning:
+The implemented platform delivers a functional hybrid platform spanning:
 
 - **Platform foundation** built on Hyper-V with internal switching, host NAT, differencing-disk reuse, and multi-VM orchestration
 - **Hybrid identity** using Active Directory, Microsoft Entra ID, and Entra Connect Sync with controlled pilot scope
@@ -31,7 +31,7 @@ This phase delivers a functional hybrid platform spanning:
 
 ## What This Release Proves
 
-Release 1 proves that the project is not just a collection of cloud portal configurations. It demonstrates a connected hybrid platform with visible validation and operational realism. Specifically, this release proves:
+The implemented platform proves that the project is not just a collection of cloud portal configurations. It demonstrates a connected hybrid platform with visible validation and operational realism. Specifically, it proves:
 
 - hybrid identity can be introduced in a controlled way without treating synchronization as an all-or-nothing event
 - Exchange hybrid and Microsoft 365 baseline services can be validated with pilot-first discipline rather than broad unsupported claims
@@ -144,7 +144,7 @@ For a guided proof path, start with:
 
 ## Scope Transparency
 
-Release 1 is intentionally strong on implemented hybrid Microsoft delivery, but it does not claim full maturity in every adjacent area. Examples of deferred or carefully scoped areas include:
+The implemented scope is intentionally strong on hybrid Microsoft delivery, but it does not claim full maturity in every adjacent area. Examples of deferred or carefully scoped areas include:
 
 - Android BYOD / MAM validation
 - Windows Autopilot / ESP optimization
@@ -171,3 +171,6 @@ For cross-release context, refer back to:
 - [Target-State Architecture](../foundation/03-target-state-architecture.md)
 - [Roadmap](../foundation/04-roadmap.md)
 - [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+
+
+

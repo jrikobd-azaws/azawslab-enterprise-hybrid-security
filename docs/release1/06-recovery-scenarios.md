@@ -64,7 +64,7 @@ It does **not** try to represent every enterprise recovery scenario. Instead, it
 5. duplicate or stale records are reviewed and cleaned up
 6. compliant state is restored
 
-This makes recovery a first-class proof of operational maturity rather than a vague â€œsupportabilityâ€ claim.
+This makes recovery a first-class proof of operational maturity rather than a vague "supportabilityâ€ claim.
 
 ---
 
@@ -77,7 +77,7 @@ A strong endpoint-control model should not only enable device protection, but al
 - the recovery path is documented and supportable
 - recovery does not permanently break the management model
 
-In this implementation, BitLocker key visibility through the managed identity/device record was a crucial part of the platformâ€™s support story.
+In this implementation, BitLocker key visibility through the managed identity/device record was a crucial part of the platform's support story.
 
 ---
 
@@ -171,7 +171,7 @@ The key engineering value here is that the platform could:
 - clean the lifecycle records
 - restore a healthy managed state
 
-That is a much stronger proof of operational maturity than a simple â€œBitLocker enabledâ€ claim.
+That is a much stronger proof of operational maturity than a simple "BitLocker enabledâ€ claim.
 
 ---
 
@@ -228,4 +228,6 @@ For cross-release context:
 
 - [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
+
+
 
