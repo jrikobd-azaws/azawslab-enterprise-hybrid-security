@@ -1,4 +1,3 @@
-# Target-State Architecture
 ﻿# Target-State Architecture
 
 ## Purpose
