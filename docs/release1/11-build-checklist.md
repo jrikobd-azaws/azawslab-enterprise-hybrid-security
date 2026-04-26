@@ -13,6 +13,7 @@ It is intended to show what was completed, what was partially evidenced, and wha
 | Status | Meaning |
 | :--- | :--- |
 | **Completed** | Implemented and supported by clear documentation and evidence in the repository |
+| **Completed (advanced validation added after baseline)** | Implemented after the original baseline freeze; fully evidenced and documented as an extension to the core release |
 | **Partial** | Implemented or configured in some form, but not fully evidenced or not validated to the same depth as completed items |
 | **Deferred** | Intentionally outside the implemented scope of this phase and reserved for later work |
 
@@ -38,7 +39,9 @@ It is intended to show what was completed, what was partially evidenced, and wha
 | Access control baseline | Conditional Access | **Completed** | Evidenced through sign-in visibility and access review |
 | Authentication hardening | MFA | **Completed** | Included as part of the identity baseline |
 | Identity self-service | SSPR | **Completed** | Included as part of the baseline identity-support posture |
-| Local admin protection | Windows LAPS policy configuration | **Partial** | Policy scope discussed carefully; retrieval/recovery evidence not treated as fully complete |
+| Local admin protection | Windows LAPS policy configuration | **Partial** | Baseline policy configuration (superseded by advanced retrieval/remediation below) |
+| **Graph API identity lifecycle – access-state (leaver)** | Disable, session revoke, enable via Graph PowerShell | **Completed (advanced validation added after baseline)** | Evidenced in `identity-operations/lifecycle/` and `graph-powershell/` |
+| **Graph API identity lifecycle – mover scenario** | Department change, dynamic group, Slack access via Graph PowerShell | **Completed (advanced validation added after baseline)** | Evidenced in `identity-operations/lifecycle/` using interactive script |
 
 ---
 
@@ -52,6 +55,7 @@ It is intended to show what was completed, what was partially evidenced, and wha
 | Teams baseline | Basic collaboration validation | **Completed** | Teams activity evidenced at baseline level |
 | SharePoint baseline | File access and usability validation | **Completed** | SharePoint file interaction evidenced |
 | OneDrive governance / administration | Full service-depth management | **Deferred** | Not a focus of the implemented phase |
+| **Email security (anti-phishing, Safe Links, Safe Attachments)** | Policy configuration and validation | **Completed (advanced validation added after baseline)** | Evidenced in `modern-workplace/email-security/` |
 
 ---
 
@@ -65,7 +69,9 @@ It is intended to show what was completed, what was partially evidenced, and wha
 | Ubuntu Linux visibility | Linux device represented in the endpoint estate | **Completed** | Included as part of platform-diversity evidence |
 | Intune as management layer | Device visibility and policy context | **Completed** | Central management plane across the endpoint story |
 | Android BYOD / MAM | Mobile application management for Android | **Deferred** | Not yet evidenced in this phase |
-| Autopilot / ESP | Modern provisioning and enrollment-status optimization | **Deferred** | Reserved for future enhancement work |
+| **Windows Autopilot + ESP** | Modern provisioning, profile assignment, ESP stages, zero‑touch OOBE | **Completed (advanced validation added after baseline)** | Evidenced in `intune-autopilot-esp/`; local VM workflow used |
+| **Graph-assisted Autopilot operational support** | Device state queries, rename via Graph PowerShell | **Completed (advanced validation added after baseline)** | Scripts in `autopilot/graph-support/`; evidence in `graph-powershell/` |
+| **Win32 application deployment** | Packaging, creation, assignment, install status (Notepad++) | **Completed (advanced validation added after baseline)** | Evidenced in `intune-app-deployment/` |
 
 ---
 
@@ -80,6 +86,8 @@ It is intended to show what was completed, what was partially evidenced, and wha
 | BitLocker-related controls | Protection with recovery-key visibility | **Completed** | Strongly supported by recovery scenario evidence |
 | Windows Update for Business | Pilot update-ring policy | **Completed** | Update governance clearly represented |
 | Full Defender for Endpoint stack | Advanced product-depth capability | **Deferred** | Outside implemented scope of this phase |
+| **Windows LAPS retrieval** | Password retrieval from Entra / Intune admin centre | **Completed (advanced validation added after baseline)** | Evidenced in `identity-protection/laps/` |
+| **LAPS remediation after Autopilot** | Missing account fix via script and device targeting | **Completed (advanced validation added after baseline)** | Evidenced in `intune-autopilot-laps/` |
 
 ---
 
@@ -104,6 +112,7 @@ It is intended to show what was completed, what was partially evidenced, and wha
 | Retention baseline | Retention-related configuration | **Partial** | Included as baseline governance scope; not deeply validated |
 | Document fingerprinting | Advanced Purview content matching | **Deferred** | Not claimed in this phase |
 | Broad auto-labeling / advanced automation | Larger-scale Purview automation | **Deferred** | Outside current scope |
+| **Document fingerprinting (advanced validation)** | Custom SIT from HR form, DLP linkage, policy tip validation | **Completed (advanced validation added after baseline)** | Evidenced in `purview-fingerprint/` with renamed screenshots |
 
 ---
 
@@ -116,6 +125,7 @@ It is intended to show what was completed, what was partially evidenced, and wha
 | Device-state visibility | Device compliance and operational status views | **Completed** | Included in monitoring proof |
 | Alert visibility | Example operational alerting in the admin view | **Completed** | Supports day-to-day supportability |
 | Full SIEM / SOC monitoring | Sentinel-led enterprise monitoring model | **Deferred** | Reserved for later Azure-focused work |
+| **Graph/PowerShell operational scripts** | User state, device state, rename via Graph API | **Completed (advanced validation added after baseline)** | Evidenced in `graph-powershell/` and scripts folder |
 
 ---
 
@@ -126,7 +136,7 @@ It is intended to show what was completed, what was partially evidenced, and wha
 | Root README | Flagship project storefront | **Completed** | Primary entry point for the repository |
 | Foundation docs | Scenario, architecture, roadmap, and skills/evidence mapping | **Completed** | Cross-release framing layer |
 | Release 1 landing page | Release 1 README | **Completed** | Role-targeted landing page |
-| Release 1 deep docs | Identity, workplace, endpoint, recovery, Purview, monitoring | **Completed** | Main implementation narrative |
+| Release 1 deep docs | Identity, workplace, endpoint, recovery, Purview, monitoring | **Completed** (with advanced validation sections added) | Main implementation narrative now includes baseline + advanced validation |
 | Evidence hubs | Screenshot dashboards by release and domain | **Partial** | Should be completed and polished during publication pass |
 | Diagram set | Architecture, flow, proof, and mapping diagrams | **Completed** | Key diagrams available for major pages |
 
@@ -137,12 +147,11 @@ It is intended to show what was completed, what was partially evidenced, and wha
 The following remain intentionally outside the implemented scope of this phase:
 
 - Android BYOD / MAM
-- Windows Autopilot / ESP optimization
 - full enterprise PKI / AD CS deployment
-- advanced Purview automation and document fingerprinting
 - broader Azure platform governance and security engineering
 - Sentinel-led monitoring / SIEM
 - secure workload modernization capabilities reserved for later releases
+- full Defender for Endpoint advanced stack
 
 See:
 - [Extensions and Future Enhancements](12-extensions-and-future-enhancements.md)
@@ -155,13 +164,13 @@ See:
 | Category | Overall Status |
 | :--- | :--- |
 | Platform foundation | **Completed** |
-| Hybrid identity and access | **Completed** |
-| Modern Workplace baseline | **Completed** |
-| Endpoint enrollment and management | **Completed** |
-| Endpoint compliance and security | **Mostly completed with some partial areas** |
+| Hybrid identity and access | **Completed** (baseline + advanced lifecycle) |
+| Modern Workplace baseline | **Completed** (baseline + email security) |
+| Endpoint enrollment and management | **Completed** (baseline + Autopilot + Graph support + app deployment) |
+| Endpoint compliance and security | **Completed** (baseline + LAPS retrieval + remediation) |
 | Recovery and lifecycle handling | **Completed** |
-| Information protection | **Mostly completed with some partial areas** |
-| Monitoring and operational visibility | **Completed** |
+| Information protection | **Completed** (baseline + document fingerprinting) |
+| Monitoring and operational visibility | **Completed** (baseline + Graph operational scripts) |
 | Future enhancements | **Deferred by design** |
 
 ---
@@ -173,5 +182,3 @@ See:
 - [Extensions and Future Enhancements](12-extensions-and-future-enhancements.md)
 - [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
 - [Roadmap](../foundation/04-roadmap.md)
-
-
