@@ -299,8 +299,8 @@ This is a realistic operational lesson rather than a project weakness. Modern pr
 - After Autopilot provisioning, the device `desktop-cdniaqb` (later renamed `win11-bel-02`) was visible in Intune as a managed device.
 - LAPS was not yet functioning correctly on that path.
 - Event Viewer showed that the `beladm01` account was not found.
-- The remediation script `EnableLapsAccount.ps1` was reviewed and deployed to restore the intended local administrator account path by enabling or creating the required `beladm01` administrator account used in the pilot build.
-- This is important because it shows that the remediation was not only about policy assignment. It also completed the local administrator control path that LAPS depended on.
+- The remediation script `EnableLapsAccount.ps1` was reviewed and deployed to restore the intended local administrator control path by enabling or creating the required `beladm01` administrator account used in the pilot build.
+- This is an important part of the story because the fix was not only policy-related. It also required **PowerShell-assisted remediation** to complete the local administrator account path that Windows LAPS depended on.
 - Device-based targeting through `SG-Autopilot-Win-Belfast` was used to align the LAPS policy with the Autopilot-managed device.
 - Script execution succeeded, the control path completed correctly, and the password became retrievable from the managed device record.
 
