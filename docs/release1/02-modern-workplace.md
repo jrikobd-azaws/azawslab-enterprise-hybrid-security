@@ -234,19 +234,19 @@ Where it is retained, it should be read as a validated protection control within
 
 ### 1. Anti-phishing policy visibility
 
-![Anti-phishing policy visibility](../../screenshots/release1/modern-workplace/email-security/01-email-security-anti-phishing-policy-review.png)
+![Anti-phishing policy visibility](../../screenshots/release1/modern-workplace/email-security/05-email-security-anti-phishing-policy-review-actions-r1-belfast.png)
 
 *Anti-phishing policy review showing that the Microsoft 365 email environment included configured protection against phishing-style threats rather than relying on service access alone.*
 
 ### 2. Safe Links policy visibility
 
-![Safe Links policy visibility](../../screenshots/release1/modern-workplace/email-security/02-email-security-safe-links-policy-review.png)
+![Safe Links policy visibility](../../screenshots/release1/modern-workplace/email-security/02-email-security-safe-links-policy-detail-r1-belfast.png)
 
 *Safe Links policy visibility showing that link-based protection controls were part of the validated email security posture.*
 
 ### 3. Safe Attachments policy visibility
 
-![Safe Attachments policy visibility](../../screenshots/release1/modern-workplace/email-security/03-email-security-safe-attachments-policy-review.png)
+![Safe Attachments policy visibility](../../screenshots/release1/modern-workplace/email-security/03-email-security-safe-attachments-policy-review-r1-belfast.png)
 
 *Safe Attachments policy visibility showing that attachment-oriented protection settings were also represented in the advanced email security validation path.*
 
