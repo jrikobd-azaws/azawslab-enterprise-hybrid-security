@@ -1,4 +1,4 @@
-﻿# Endpoint Overview
+﻿﻿# Endpoint Overview
 
 ## Purpose
 
@@ -54,7 +54,6 @@ That led to a strategy with four key elements:
 | **Corporate (Windows)** | Organization-managed enrollment | Full compliance, security baseline, BitLocker, update policy | intune-windows-corp/ |
 | **BYOD (Windows)** | Personal ownership | Compliance-aware access with lighter management expectations | intune-windows-byod/ |
 | **BYOD (iPhone)** | Company Portal enrollment | Identity-linked access and mobile onboarding proof | intune-ios/ |
-
 
 ### Corporate Devices
 
@@ -199,17 +198,71 @@ The endpoint strategy validated that:
 
 ---
 
-## Operational Insight
+## Advanced Validation Added After Baseline
 
-A key lesson from this area is that endpoint strategy should be designed around lifecycle reality, not just enrollment success.
+The following capability was implemented after the core Release 1 baseline was completed. It extends the endpoint overview story with **Win32 application deployment** – packaging, creation, assignment, and install status – demonstrating practical application lifecycle management within Intune. This directly addresses job‑market demand for Intune application deployment skills.
 
-The strongest decision here was to treat endpoints as:
-- identity-linked
-- policy-evaluated
-- ownership-aware
-- recoverable
+Evidence was captured in a compatible environment that preserved the existing platform naming and domain context for consistency.
 
-That makes the platform more supportable and more credible than a simple "device enrolled successfullyâ€ story.
+---
+
+### Advanced Validation: Win32 Application Deployment
+
+**What was validated**
+
+The platform includes a validated Win32 application deployment workflow for a real-world productivity tool (Notepad++). The validation covers:
+
+- **Application packaging** – using the `IntuneWinAppUtil.exe` tool to convert the installer into the `.intunewin` format
+- **Application creation** – configuring metadata, install/uninstall commands, and detection rules
+- **Assignment** – targeting the application to pilot devices or user groups
+- **Install status** – verifying successful installation from both device and user perspectives
+
+**Why this matters**
+
+Intune application deployment is a core responsibility for modern endpoint management roles. Demonstrating the complete Win32 app lifecycle – from packaging to successful installation visibility – shows that the platform is capable of delivering line‑of‑business and productivity applications in a managed, repeatable way. This is a direct response to market expectations for Intune administration and application lifecycle management.
+
+**Implementation and evidence**
+
+- The Notepad++ installer was packaged using `IntuneWinAppUtil.exe`, producing an `.intunewin` file.
+- In Intune, a Win32 app entry was created with:
+  - Install command: `notepadplusplus-installer.exe /S` (silent installation)
+  - Uninstall command: `"C:\Program Files\Notepad++\uninstall.exe" /S`
+  - Detection rule: file/folder existence at `C:\Program Files\Notepad++\notepad++.exe`
+- The app was assigned to the pilot device group (`SG-Autopilot-Win-Belfast` or similar).
+- After deployment, the install status was verified:
+  - **Device install status** showed successful installation on the target device.
+  - **User install status** showed successful installation for the logged‑on user context.
+
+**Flagship evidence**
+
+![Win32 app creation – package and metadata review](../../screenshots/release1/endpoint-management/intune/intune-app-deployment/02-win32-app-create-review-notepadplusplus-package-and-metadata.png)
+
+*Win32 app creation screen showing the packaged Notepad++ application with metadata, install/uninstall commands, and detection rule configuration.*
+
+![Win32 app overview – installed summary, two devices](../../screenshots/release1/endpoint-management/intune/intune-app-deployment/05-win32-app-overview-installed-summary-two-devices-notepadplusplus.png)
+
+*Application overview showing successful installation status across two devices, confirming that the deployment was effective.*
+
+![Device install status for Notepad++](../../screenshots/release1/endpoint-management/intune/intune-app-deployment/06-win32-app-device-install-status-notepadplusplus-win11-bel-02-win11-bel-157.png)
+
+*Device‑level install status showing that the Notepad++ application was successfully deployed to the target Windows device.*
+
+**Outcome**
+
+Win32 application deployment is now validated as part of the Intune management capability. The platform can package a Win32 app, create it in Intune, assign it to a pilot group, and verify successful installation. This adds a critical application lifecycle management dimension to the endpoint story.
+
+---
+
+## Updated Scope Boundaries
+
+The Win32 application deployment advanced validation above **does not** claim:
+
+- enterprise‑scale application packaging and deployment across hundreds of applications
+- complex dependency management or supersedence rules
+- automated application testing or rollback capabilities
+- deployment to non‑Windows platforms (the validated app is Windows‑only)
+
+The evidence is limited to a single pilot application (Notepad++) and the specific device/user scope shown. Broader application portfolio management, additional packaging formats (MSI, MSIX), and automated deployment pipelines remain future enhancement areas.
 
 ---
 
@@ -247,11 +300,3 @@ For cross-release context:
 - [Endpoint Management Evidence Hub](../../screenshots/release1/endpoint-management/README.md)
 - [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
 - [Release 1 Evidence Dashboard](../../screenshots/release1/README.md)
-
-
-
-
-
-
-
-
