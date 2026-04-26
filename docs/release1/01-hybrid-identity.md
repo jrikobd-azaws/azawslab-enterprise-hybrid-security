@@ -20,6 +20,7 @@ The hybrid identity implementation proves that the platform established a functi
 - identity readiness that enabled Exchange hybrid, endpoint management, and Microsoft 365 service validation
 - advanced validation added after baseline for lifecycle access-state controls
 - advanced validation added after baseline for mover automation using department-driven dynamic groups and downstream application outcome
+- Microsoft Graph API and PowerShell used for practical, operator-led lifecycle administration
 
 ---
 
@@ -159,6 +160,7 @@ The wider evidence set also includes:
 - Conditional Access and related identity-protection evidence
 - group membership and department-driven dynamic group evidence
 - lifecycle action screenshots covering disable, revoke session, re-enable, profile update, and department move
+- Graph admin-consent evidence and interactive PowerShell lifecycle tooling
 
 For guided browsing:
 
@@ -181,15 +183,26 @@ The hybrid identity baseline validated that:
 
 ## Advanced Validation Added After Baseline
 
-The following capabilities were implemented after the core Release 1 baseline was completed. They extend the hybrid identity story beyond pilot synchronization and access policies into practical, operationally focused identity lifecycle automation. The validation covers two distinct scenarios: **leaver / access response** (disable, revoke session, enable) and **mover** (department change, dynamic group membership, downstream app access). Evidence was captured in a compatible environment that preserved the existing platform naming and domain context for consistency.
+The following capabilities were implemented after the core Release 1 baseline was completed. They extend the hybrid identity story beyond pilot synchronization and access policies into practical, operationally focused identity lifecycle automation using **Microsoft Graph API and PowerShell**.
+
+This matters because Microsoft Graph is the modern programmatic interface for Entra ID and Microsoft 365, and PowerShell with the Microsoft Graph SDK is a practical operational tool for lifecycle administration outside fully event-driven orchestration. Demonstrating Graph-connected PowerShell scripts for lifecycle actions shows that the platform is not only configurable through portals, but also manageable through reusable operational tooling that can be extended for broader administrative requirements.
+
+The scripts in this project were designed as **interactive, operator-led tools** with preview-style execution and controlled apply actions, reflecting real support and engineering workflows rather than hard-coded one-off demos.
+
+The validation covers two distinct scenarios:
+
+- **leaver / access response** — disable, revoke session, enable
+- **mover** — department change, dynamic group membership, downstream application access
+
+Evidence was captured in a compatible environment that preserved the existing platform naming and domain context for consistency.
 
 ---
 
-### Advanced Validation: Identity Lifecycle - Access-State Controls (Leaver / Access Response)
+### Advanced Validation: Identity Lifecycle - Access-State Controls (Leaver / Access Response) using Graph API + PowerShell
 
 **What was validated**
 
-The platform demonstrates a controlled access-state lifecycle for a pilot user, covering both immediate access revocation and restoration. The validation includes:
+The platform demonstrates a controlled access-state lifecycle for a pilot user using Graph PowerShell scripts. The validation includes:
 
 - **Disable user account** - dry run and apply, followed by verification of the disabled state in Entra
 - **Revoke active sessions** - dry run and apply, forcing sign-out from all active sessions
@@ -199,65 +212,78 @@ All actions were performed using interactive Graph PowerShell scripts designed t
 
 **Why this matters**
 
-Identity lifecycle automation is a core expectation for Entra ID administration. Demonstrating disable, session revoke, and enable actions shows that the platform can respond to leaver events or security incidents without relying solely on portal clicks. The inclusion of dry-run modes and verification steps reflects a safer, support-oriented approach that is more realistic for operational teams than blind, irreversible commands.
+Identity lifecycle automation is a core expectation for Entra ID administration. Demonstrating disable, session revoke, and enable actions via **Graph API + PowerShell** shows that the platform can respond to leaver events or security incidents without relying solely on portal clicks. The inclusion of dry-run modes and verification steps reflects a safer, support-oriented approach that is more realistic for operational teams than blind, irreversible commands.
 
 **Implementation and evidence**
 
-- The scripts `Set-BelfastUserAccessState.ps1` and `Invoke-BelfastUserSessionRevoke.ps1` were used, both connecting via `Connect-BelfastMgGraph.ps1` with the delegated permissions required for the demonstrated actions.
+- The scripts `Set-BelfastUserAccessState.ps1` and `Invoke-BelfastUserSessionRevoke.ps1` were used, both connecting through `Connect-BelfastMgGraph.ps1`.
+- Graph admin-consent evidence was captured as part of establishing the required delegated permissions for the demonstrated lifecycle actions, including `User.ReadWrite.All` for user state and profile-update operations.
 - For **disable**: a dry run first previewed the change, then the apply command disabled the pilot user `pilot-win02`. Verification in Entra confirmed the account state changed to blocked sign-in.
 - For **session revoke**: a dry run confirmed the action, then apply revoked all active sessions.
 - For **enable**: the account was restored to an active state, verified through Entra.
 
 **Flagship evidence**
 
-![User access disable apply result](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/02-user-access-disable-apply-pilot-win02.png)
+![Graph admin consent for user enable/disable](../../screenshots/release1/identity-and-access/identity-operations/graph-powershell/03-graph-admin-consent-enable-disable-user-accounts.png)
+
+*Graph admin-consent evidence showing that the lifecycle scripts were built with awareness of delegated permission requirements rather than treated as opaque PowerShell commands.*
+
+![User access disable apply result - Graph PowerShell output](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/02-user-access-disable-apply-pilot-win02.png)
 
 *Graph PowerShell script output confirming that the pilot user account was disabled, supporting the leaver or access-response scenario.*
 
-![User session revoke apply result](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/05-user-session-revoke-apply-pilot-win02.png)
+![User session revoke apply result - Graph PowerShell output](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/05-user-session-revoke-apply-pilot-win02.png)
 
-*Session-revoke script execution demonstrating the ability to force sign-out from active sessions, which is a useful capability for incident response or immediate access removal.*
+*Session-revoke script execution via Graph PowerShell, demonstrating the ability to force sign-out from active sessions for immediate access removal.*
 
 **Outcome**
 
-The platform now includes validated access-state lifecycle controls. An administrator can disable a user account, revoke active sessions, and restore the account using scripted, repeatable workflows. This strengthens the identity operational-maturity story beyond synchronization alone.
+The platform now includes validated access-state lifecycle controls using **Graph API + PowerShell**. An administrator can disable a user account, revoke active sessions, and restore the account using scripted, repeatable workflows. This strengthens the identity operational-maturity story and makes the automation layer explicit.
 
 ---
 
-### Advanced Validation: Identity Lifecycle - Mover Scenario (Department Change, Dynamic Group, Downstream App Access)
+### Advanced Validation: Identity Lifecycle - Mover Scenario (Department Change, Dynamic Group, Downstream App Access) using Graph API + PowerShell
 
 **What was validated**
 
-The mover scenario is the stronger business-facing lifecycle validation. It demonstrates that updating a user’s organizational attributes can trigger downstream access changes through dynamic group membership and application assignment. The validation covers:
+The mover scenario is the stronger business-facing lifecycle validation. Using an **interactive Graph PowerShell script** (`Invoke-BelfastUserLifecycleAction.ps1`), the platform demonstrates that updating a user’s organizational attributes can trigger downstream access changes through dynamic group membership and application assignment. The validation covers:
 
 - baseline user profile (`pilot-win02`) in the Finance department, with no access to the Slack gallery app
 - dynamic groups: `SG-Dept-Finance-Users` (rule: `department eq "Finance"`) and `SG-Dept-Operations-Slack` (rule: `department eq "Operations"`)
 - Slack assigned to `SG-Dept-Operations-Slack` only
-- interactive script `Invoke-BelfastUserLifecycleAction.ps1` updating department and job title
+- interactive script prompting for department and job title, supporting preview-style and apply modes
 - post-update: the user’s department changes to Operations, dynamic group membership recalculates, and Slack becomes available in the user’s My Apps portal
 
 **Why this matters**
 
-The mover scenario reflects a real business need: employees change roles, departments, or locations, and their access to applications should follow automatically. By linking a department attribute change to dynamic group membership and then to a gallery app assignment, the platform shows attribute-driven access control.
+The mover scenario reflects a real business need: employees change roles, departments, or locations, and their access to applications should follow automatically. By linking a department attribute change to dynamic group membership and then to a gallery app assignment, the platform shows attribute-driven access control. This is more sophisticated than simply editing a user’s profile; it proves that the identity system can propagate changes into practical access outcomes.
 
-This is more sophisticated than simply editing a user’s profile. It proves that the identity system can propagate changes into practical access outcomes.
+Using **Graph API + PowerShell** to drive this workflow demonstrates that the identity layer is not only synchronized and policy-aware, but also operationally manageable through reusable automation.
 
 **Implementation and evidence**
 
 - Baseline state: `pilot-win02` had department = Finance and job title = Finance Analyst. Slack was not available in My Apps.
 - Dynamic group membership was verified: the user was in `SG-Dept-Finance-Users` but not in `SG-Dept-Operations-Slack`.
-- The interactive script prompted for department (`Finance` -> `Operations`) and job title. A preview step showed the intended change, then apply executed.
+- The interactive script `Invoke-BelfastUserLifecycleAction.ps1` connected through Graph, prompted for department (`Finance` -> `Operations`) and job title. A preview step showed the intended change, then apply executed.
 - After the script completed, Entra showed the user’s department as Operations and job title as Operations Analyst.
 - Dynamic group membership recalculated: the user left the Finance-aligned state and joined the Operations-linked Slack group.
 - Slack then appeared in the user’s My Apps portal, confirming that the department-driven access-control path was successful.
 
 **Flagship evidence**
 
-![Profile update script apply result](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/14-profile-update-apply-result-finance-analyst-belfast-pilot-win02.png)
+![Graph admin consent for profile update](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/11-graph-admin-consent-user-readwrite-all-lifecycle-profile-update.png)
 
-*Script output confirming that the user’s profile was updated as part of the mover workflow.*
+*Graph admin-consent evidence showing that the profile-update workflow was built with explicit awareness of the permissions required for lifecycle automation, including `User.ReadWrite.All` for user attribute updates.*
 
-![User groups after department change – now in Operations-Slack group](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/22-user-groups-operations-slack-membership-pilot-win02.png)
+![Interactive script launch - profile update start](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/12-lifecycle-script-launch-profile-update-start-pilot-win02.png)
+
+*Launch of `Invoke-BelfastUserLifecycleAction.ps1`, an interactive Graph PowerShell script designed for operator-led lifecycle administration.*
+
+![Profile update apply result - Graph PowerShell output](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/14-profile-update-apply-result-finance-analyst-belfast-pilot-win02.png)
+
+*Script output confirming that the user profile was updated through Graph PowerShell as part of the mover workflow.*
+
+![User groups after department change - now in Operations-Slack group](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/22-user-groups-operations-slack-membership-pilot-win02.png)
 
 *Dynamic group membership after the department change showing that the user is now a member of `SG-Dept-Operations-Slack`, which is assigned to the Slack gallery app.*
 
@@ -267,7 +293,7 @@ This is more sophisticated than simply editing a user’s profile. It proves tha
 
 **Outcome**
 
-The mover scenario is fully validated. The platform can update a user’s department attribute through an interactive Graph PowerShell script, trigger dynamic group membership recalculation, and change access to a gallery app based solely on that department value. This closes the loop between identity governance and application access, making the identity lifecycle story significantly stronger.
+The mover scenario is fully validated using **Graph API + PowerShell**. The platform can update a user’s department attribute through an interactive Graph PowerShell script, trigger dynamic group membership recalculation, and change access to a gallery app based solely on that department value. This closes the loop between identity governance and application access, making the identity lifecycle story significantly stronger and more operationally relevant.
 
 ---
 
@@ -283,7 +309,7 @@ That distinction matters because it preserves technical honesty. The project did
 The result is a stronger narrative:
 
 - hybrid identity establishes the trust foundation
-- lifecycle automation shows how that identity can then be administered in realistic support and access-change scenarios
+- lifecycle automation shows how that identity can then be administered in realistic support and access-change scenarios using Graph API and PowerShell
 
 ---
 
@@ -299,7 +325,7 @@ This page should be read as evidence of an **implemented and evidenced hybrid id
 - a complete HR-driven joiner/mover/leaver platform
 - every possible identity lifecycle scenario
 
-The evidence is limited to the pilot user and the specific scripts shown in the repository. Broader lifecycle automation, HR integration, and event-driven workflows remain future enhancement areas.
+The evidence is limited to the pilot user and the specific Graph PowerShell scripts shown in the repository. Broader lifecycle automation, HR integration, and event-driven workflows remain future enhancement areas.
 
 Deeper Graph operational scripting detail should be read alongside [Monitoring](08-monitoring.md), where the supporting Graph and PowerShell visibility workflows are documented more directly.
 
