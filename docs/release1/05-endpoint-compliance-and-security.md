@@ -187,18 +187,90 @@ The endpoint compliance and security work validated that:
 
 ---
 
-## Operational Insight
+---
 
-A key lesson from this area is that endpoint security should be treated as a recoverable control posture, not just a static configuration state.
+## Advanced Validation Added After Baseline
 
-The strongest design choice here was to connect:
-- compliance
-- baseline hardening
-- protection controls
-- update policy
-- recovery and restored state
+The following capabilities were implemented after the core Release 1 baseline was completed. They extend the endpoint compliance and security story with additional Windows LAPS validation covering both standard password retrieval and a post-Autopilot remediation scenario. Evidence was captured in a compatible environment that preserved the existing platform naming and domain context for consistency.
 
-That makes the endpoint story more credible than a simple "security settings configuredâ€ claim.
+---
+
+### Advanced Validation: Windows LAPS Retrieval
+
+**What was validated**
+
+The baseline Windows LAPS policy configuration was already in place, but the retrieval workflow was not yet fully evidenced. This advanced validation closes that gap by showing that a managed Windows device’s local administrator password can be retrieved from the cloud management layer through both the Entra admin centre and the Intune admin centre.
+
+**Why this matters**
+
+Local administrator password recovery is an important Windows security and supportability control. Demonstrating retrieval through the cloud management plane shows that LAPS was not only configured as policy, but was also operationally usable when administrative access to a managed device was required outside the normal user session context.
+
+**Implementation and evidence**
+
+- The LAPS policy remained scoped to the corporate Windows pilot device set.
+- After policy application, the device `win11-bel-01` showed successful policy status in Intune.
+- In the Entra admin centre, the device record exposed the local administrator password recovery view for the built-in `beladm01` account.
+- The same recovery information was also visible through the Intune admin centre’s local admin password view.
+
+**Flagship evidence**
+
+![Entra local admin password reveal](../../screenshots/release1/identity-and-access/identity-protection/laps/10-entra-local-admin-password-reveal-beladm01-win11-bel-01.png)
+
+*LAPS password retrieval from the Entra admin centre, demonstrating that the Windows local administrator password is recoverable through the cloud management layer rather than existing only as a configured policy state.*
+
+**Outcome**
+
+Windows LAPS retrieval is now fully validated for the pilot corporate Windows path. An administrator can retrieve the local administrator password for a managed Windows device through both Entra and Intune admin surfaces, closing the loop between policy configuration and operational recovery.
+
+---
+
+### Advanced Validation: LAPS Remediation After Autopilot
+
+**What was validated**
+
+During the initial Autopilot implementation, the LAPS outcome was not complete on the Autopilot-provisioned device. This exposed a practical difference between user-driven provisioning and the device-scoped targeting required for the intended LAPS control path. The issue was identified after provisioning, remediated through targeted correction, and then validated through successful password retrieval.
+
+This validation covers:
+
+- issue discovery after Autopilot provisioning
+- remediation through `EnableLapsAccount.ps1`
+- corrected device-scoped targeting
+- successful LAPS retrieval after remediation
+
+**Why this matters**
+
+This is a realistic operational lesson rather than a project weakness. Modern provisioning workflows such as Autopilot and device-scoped security controls such as LAPS do not always align perfectly on the first pass. Identifying the gap, correcting it, and validating the outcome makes the platform more credible than a simplified “everything worked immediately” narrative.
+
+**Implementation and evidence**
+
+- After Autopilot provisioning, the device `desktop-cdniaqb` (later renamed `win11-bel-02`) was visible in Intune as a managed device.
+- LAPS was not yet functioning correctly on that path.
+- Event Viewer showed that the `beladm01` account was not found.
+- The remediation script `EnableLapsAccount.ps1` was reviewed and deployed to restore the intended local administrator account path.
+- Device-based targeting through `SG-Autopilot-Win-Belfast` was used to align the LAPS policy with the Autopilot-managed device.
+- Script execution succeeded, the control path completed correctly, and the password became retrievable from the managed device record.
+
+**Flagship evidence**
+
+![LAPS password retrieval after remediation](../../screenshots/release1/endpoint-management/intune/intune-autopilot-laps/07-laps-password-retrieval-success-after-remediation-desktop-cdniaqb.png)
+
+*LAPS password retrieval after remediation, showing that the Autopilot-provisioned device now correctly exposes the local administrator password through the managed device record after targeted correction.*
+
+**Outcome**
+
+The LAPS gap in the Autopilot provisioning path was identified, remediated, and validated. The platform therefore supports both the standard corporate Windows enrollment path and the later Autopilot provisioning path with completed LAPS functionality across the evidenced pilot device scope.
+
+---
+
+## Updated Scope Boundaries
+
+The LAPS advanced validation sections above **do not** claim:
+
+- a full privileged access management programme
+- integration with PIM or broader privileged identity governance for local administrator access
+- enterprise-wide LAPS deployment beyond the pilot Windows device scope
+
+The evidence is limited to the pilot corporate Windows estate and the remediated Autopilot-managed device. Broader LAPS rollout across other device populations remains outside the validated scope shown here.
 
 ---
 
