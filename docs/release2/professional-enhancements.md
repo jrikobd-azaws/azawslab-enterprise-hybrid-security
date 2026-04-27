@@ -1,6 +1,6 @@
 # Professional Enhancements Addendum (Release 2)
 
-**Purpose:** Elevate your project from a learning demo to a production‑grade, real‑world showcase.  
+**Purpose:** Elevate the project from a learning demo to a production‑grade, real‑world showcase.  
 **Applies to:** All core phases (P0–P9c) and optional phases.  
 **Prerequisite:** You must have completed Phase 0 (Foundation Setup) and have a working Terraform backend.
 
@@ -14,11 +14,11 @@
 
 ### 1.1 Add Bastion Subnet to Hub VNet
 
-In Phase 5 (Hub‑Spoke Networking), ensure your hub VNet has a subnet named exactly `AzureBastionSubnet` with prefix `/26` (e.g., `10.0.4.0/26`). Update your `networking` module accordingly.
+In Phase 5 (Hub‑Spoke Networking), ensure the hub VNet has a subnet named exactly `AzureBastionSubnet` with prefix `/26` (e.g., `10.0.4.0/26`). Update the `networking` module accordingly.
 
 ### 1.2 Deploy Bastion Host (Terraform)
 
-Add this to your `terraform/environments/dev/main.tf` (or as a separate module). **Note:** Bastion requires a public IP.
+Add this to the `terraform/environments/dev/main.tf` (or as a separate module). **Note:** Bastion requires a public IP.
 
 ```hcl
 resource "azurerm_public_ip" "bastion_pip" {
@@ -44,11 +44,11 @@ resource "azurerm_bastion_host" "main" {
 
 ### 1.3 Remove Public IPs from Workload VMs
 
-In your `compute` module, **delete** the `azurerm_public_ip` resource and any association. Workload VMs should only have private IPs.
+In the `compute` module, **delete** the `azurerm_public_ip` resource and any association. Workload VMs should only have private IPs.
 
 ### 1.4 Configure Ansible to Use Bastion as Proxy
 
-Modify your `ansible/inventory.yml` to use the Bastion host as a `ProxyJump`.
+Modify the `ansible/inventory.yml` to use the Bastion host as a `ProxyJump`.
 
 ```yaml
 all:
@@ -65,13 +65,13 @@ all:
           ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q azureuser@<bastion-public-ip> -o StrictHostKeyChecking=no"'
 ```
 
-**Cost control:** Deploy Bastion only when you run Ansible. Run `terraform destroy -target=azurerm_bastion_host.main` after each session. Document this in your `onboarding.md`.
+**Cost control:** Deploy Bastion only when you run Ansible. Run `terraform destroy -target=azurerm_bastion_host.main` after each session. Document this in the `onboarding.md`.
 
 ---
 
 ## 2. Remote Backend & State Locking (Already Done)
 
-Terraform’s `azurerm` backend automatically uses blob leases → state locking is active. No change needed. Add this note to your `phase0-foundation-setup.md`:
+Terraform’s `azurerm` backend automatically uses blob leases → state locking is active. No change needed. Add this note to  `phase0-foundation-setup.md`:
 
 > ✅ **State locking** is enabled by default. Concurrent `terraform apply` from multiple sources will fail with a “lock conflict” error, preventing state corruption.
 
@@ -116,7 +116,7 @@ module "compute_win" {
 
 ## 4. Multi‑Environment Workspaces (Dev / Prod)
 
-Your structure already has `environments/dev/`. Add `environments/prod/` as a copy but with different CIDR blocks and naming.
+the structure already has `environments/dev/`. Add `environments/prod/` as a copy but with different CIDR blocks and naming.
 
 ### 4.1 Create `prod` environment
 
@@ -147,7 +147,7 @@ Then use `terraform.workspace` variable to change names and CIDRs. This is more 
 
 ## 5. Ansible Roles over Playbooks
 
-Refactor your monolithic playbooks into reusable roles.
+Refactor the monolithic playbooks into reusable roles.
 
 ### 5.1 Create Role Structure
 
@@ -227,7 +227,7 @@ resource "azurerm_key_vault" "this" {
 1. GitHub repo → **Settings** → **Branches** → **Add rule**.
 2. Branch name pattern: `release-2`.
 3. Require pull request reviews (≥1).
-4. Require status checks (select your CI workflow).
+4. Require status checks (select the CI workflow).
 5. Require conversation resolution.
 6. **Save.**
 
@@ -285,4 +285,4 @@ tags = {
 
 ---
 
-**After you apply these enhancements, your project will be indistinguishable from an internal enterprise platform. Recruiters will see production‑grade thinking, not just academic steps.**
+**After you apply these enhancements, the project will be indistinguishable from an internal enterprise platform. Recruiters will see production‑grade thinking, not just academic steps.**
