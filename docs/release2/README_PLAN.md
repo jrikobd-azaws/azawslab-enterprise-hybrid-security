@@ -391,6 +391,6 @@ All resources are **ephemeral** – deployed only for validation, then destroyed
 
 ## Final Note
 
-This blueprint is your **single source of truth**. It aligns every technical decision with real job market requirements, tells a cohesive story, includes explicit PowerShell / Azure CLI evidence for recruiters, and provides step‑by‑step execution guidance.
+This blueprint is the **single source of truth**. It aligns every technical decision with real job market requirements, tells a cohesive story, includes explicit PowerShell / Azure CLI evidence for recruiters, and provides step‑by‑step execution guidance.
 
 **Ready to start. Begin with Phase 1.**
