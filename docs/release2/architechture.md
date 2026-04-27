@@ -254,4 +254,3 @@ flowchart TB
     Policy -->|Enforces tags| WinVM
     RBAC -->|Least privilege| Actions
 
-```
