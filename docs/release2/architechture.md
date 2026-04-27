@@ -154,102 +154,101 @@ This document records significant architectural decisions, their context, and th
 
 # End‑to‑End Architecture Diagram – Azawslab Enterprise Hybrid Security (Release 1 & 2)
 
-```mermaid
 flowchart TB
-    subgraph OnPrem [🖥️ On‑Premises / Simulated (Release 1 & RODC)]
-        AD[Active Directory Domain Controllers<br/>DC1, DC2 (on‑prem)<br/>Domain: hq.azawslab.co.uk]
-        MEM[Microsoft Endpoint Manager]
-        EXCH[Exchange Server]
-        RODC[Read‑Only Domain Controller<br/>br1.azawslab.co.uk<br/>(Branch Site)]
+    subgraph OnPrem ["🖥️ On‑Premises / Simulated (Release 1 & RODC)"]
+        AD["Active Directory Domain Controllers<br/>DC1, DC2 (on-prem)<br/>Domain: hq.azawslab.co.uk"]
+        MEM["Microsoft Endpoint Manager"]
+        EXCH["Exchange Server"]
+        RODC["Read-Only Domain Controller<br/>br1.azawslab.co.uk<br/>(Branch Site)"]
     end
 
-    subgraph AWS [☁️ AWS (Optional Simulation)]
-        AWSServer[AWS Lightsail Windows VM<br/>Simulates on‑prem / Branch RODC]
+    subgraph AWS ["☁️ AWS (Optional Simulation)"]
+        AWSServer["AWS Lightsail Windows VM<br/>Simulates on-prem / Branch RODC"]
     end
 
-    subgraph Azure [☁️ Microsoft Azure (Release 2)]
-        subgraph Identity [🔐 Identity & Governance]
-            EntraID[Microsoft Entra ID<br/>entra.azawslab.co.uk<br/>Hybrid Identity Sync]
-            Policy[Azure Policy<br/>Allowed Locations, Tags]
-            RBAC[RBAC + Key Vault<br/>Secrets & Access Control]
+    subgraph Azure ["☁️ Microsoft Azure (Release 2)"]
+        subgraph Identity ["🔐 Identity & Governance"]
+            EntraID["Microsoft Entra ID<br/>entra.azawslab.co.uk<br/>Hybrid Identity Sync"]
+            Policy["Azure Policy<br/>Allowed Locations, Tags"]
+            RBAC["RBAC + Key Vault<br/>Secrets & Access Control"]
         end
 
-        subgraph Networking [🌐 Hub‑Spoke Networking]
-            HubVNet[Hub VNet<br/>10.0.0.0/16]
-            SpokeWorkload[Spoke – Workloads<br/>10.1.0.0/16]
-            SpokeAVD[Spoke – AVD<br/>10.2.0.0/16]
-            SpokeForti[Spoke – FortiGate NVA<br/>(Optional)<br/>10.3.0.0/16]
-            VPNGW[VPN Gateway]
-            Firewall[Azure Firewall<br/>Central Inspection]
-            Bastion[Azure Bastion / Jumpbox]
+        subgraph Networking ["🌐 Hub‑Spoke Networking"]
+            HubVNet["Hub VNet<br/>10.0.0.0/16"]
+            SpokeWorkload["Spoke – Workloads<br/>10.1.0.0/16"]
+            SpokeAVD["Spoke – AVD<br/>10.2.0.0/16"]
+            SpokeForti["Spoke – FortiGate NVA<br/>(Optional)<br/>10.3.0.0/16"]
+            VPNGW["VPN Gateway"]
+            Firewall["Azure Firewall<br/>Central Inspection"]
+            Bastion["Azure Bastion / Jumpbox"]
         end
 
-        subgraph Compute [💻 Compute & Configuration]
-            WinVM[Windows Server VM<br/>(IIS, test workloads)]
-            LinuxJumpbox[Linux Jumpbox<br/>(Ansible execution)]
-            AVD[Azure Virtual Desktop<br/>Session Hosts + FSLogix]
+        subgraph Compute ["💻 Compute & Configuration"]
+            WinVM["Windows Server VM<br/>(IIS, test workloads)"]
+            LinuxJumpbox["Linux Jumpbox<br/>(Ansible execution)"]
+            AVD["Azure Virtual Desktop<br/>Session Hosts + FSLogix"]
         end
 
-        subgraph Security [🛡️ Security & Monitoring]
-            Defender[Defender for Cloud<br/>Secure Score, CSPM]
-            Sentinel[Microsoft Sentinel<br/>SIEM, Analytics Rules]
-            Logs[Log Analytics Workspace<br/>Centralised Logs]
-            Alerts[Azure Monitor Alerts<br/>Email Action Group]
+        subgraph Security ["🛡️ Security & Monitoring"]
+            Defender["Defender for Cloud<br/>Secure Score, CSPM"]
+            Sentinel["Microsoft Sentinel<br/>SIEM, Analytics Rules"]
+            Logs["Log Analytics Workspace<br/>Centralised Logs"]
+            Alerts["Azure Monitor Alerts<br/>Email Action Group"]
         end
 
-        subgraph DR [💾 Disaster Recovery]
-            Backup[Azure Backup<br/>Daily backups, 30‑day retention]
-            ASR[Azure Site Recovery<br/>Replication to secondary region]
+        subgraph DR ["💾 Disaster Recovery"]
+            Backup["Azure Backup<br/>Daily backups, 30-day retention"]
+            ASR["Azure Site Recovery<br/>Replication to secondary region"]
         end
     end
 
-    subgraph Mgmt [⚙️ Management & CI/CD]
-        GitHub[GitHub Repository<br/>Terraform modules, Ansible roles]
-        Actions[GitHub Actions<br/>OIDC auth, plan/apply pipeline]
-        Terraform[Terraform Cloud / CLI<br/>State locked in Azure Storage]
-        Ansible[Ansible<br/>Role‑based config (ad‑join, IIS, baseline)]
+    subgraph Mgmt ["⚙️ Management & CI/CD"]
+        GitHub["GitHub Repository<br/>Terraform modules, Ansible roles"]
+        Actions["GitHub Actions<br/>OIDC auth, plan/apply pipeline"]
+        Terraform["Terraform Cloud / CLI<br/>State locked in Azure Storage"]
+        Ansible["Ansible<br/>Role-based config (ad-join, IIS, baseline)"]
     end
 
     %% Connectivity
-    OnPrem -->|Site‑to‑Site VPN<br/>IPsec| VPNGW
-    AWS -->|VPN or Simulated| VPNGW
+    OnPrem -->|"Site-to-Site VPN<br/>IPsec"| VPNGW
+    AWS -->|"VPN or Simulated"| VPNGW
     VPNGW --> HubVNet
     HubVNet --> Firewall
     Firewall --> SpokeWorkload
     Firewall --> SpokeAVD
     Firewall --> SpokeForti
     HubVNet --> Bastion
-    Bastion -->|RDP/SSH| WinVM
-    Bastion -->|RDP/SSH| LinuxJumpbox
-    LinuxJumpbox -->|Ansible over private IP| WinVM
+    Bastion -->|"RDP/SSH"| WinVM
+    Bastion -->|"RDP/SSH"| LinuxJumpbox
+    LinuxJumpbox -->|"Ansible over private IP"| WinVM
 
     %% Identity Flow
-    AD -->|Entra Connect| EntraID
-    RODC -->|Read‑only replication| AD
-    EntraID -->|Conditional Access| Sentinel
-    EntraID -->|RBAC| RBAC
+    AD -->|"Entra Connect"| EntraID
+    RODC -->|"Read-only replication"| AD
+    EntraID -->|"Conditional Access"| Sentinel
+    EntraID -->|"RBAC"| RBAC
 
     %% Management Flow
     GitHub --> Actions
-    Actions -->|Terraform apply| Terraform
-    Terraform -->|Deploys| HubVNet
-    Terraform -->|Deploys| WinVM
-    Terraform -->|Deploys| Firewall
-    Actions -->|SSH into jumpbox| LinuxJumpbox
-    LinuxJumpbox -->|Runs Ansible| WinVM
+    Actions -->|"Terraform apply"| Terraform
+    Terraform -->|"Deploys"| HubVNet
+    Terraform -->|"Deploys"| WinVM
+    Terraform -->|"Deploys"| Firewall
+    Actions -->|"SSH into jumpbox"| LinuxJumpbox
+    LinuxJumpbox -->|"Runs Ansible"| WinVM
 
     %% Security Monitoring
-    WinVM -->|Logs & Metrics| Logs
-    Firewall -->|Diagnostics| Logs
-    Defender -->|Recommendations| Sentinel
+    WinVM -->|"Logs & Metrics"| Logs
+    Firewall -->|"Diagnostics"| Logs
+    Defender -->|"Recommendations"| Sentinel
     Logs --> Sentinel
-    Sentinel -->|Alerts| Alerts
-    Alerts -->|Email| Mgmt
+    Sentinel -->|"Alerts"| Alerts
+    Alerts -->|"Email"| Mgmt
 
     %% DR
-    WinVM -->|Backup| Backup
-    WinVM -->|ASR replication| ASR
+    WinVM -->|"Backup"| Backup
+    WinVM -->|"ASR replication"| ASR
 
     %% Tags & Evidence
-    Policy -->|Enforces tags| WinVM
-    RBAC -->|Least privilege| Actions
+    Policy -->|"Enforces tags"| WinVM
+    RBAC -->|"Least privilege"| Actions
