@@ -1,4 +1,4 @@
-﻿# Release 1 - Hybrid Microsoft Platform Foundation
+﻿# Release 1 - Hybrid Microsoft Foundation
 
 Release 1 is the most complete and strongly evidenced phase of the project. It establishes the hybrid Microsoft foundation of the platform across identity, messaging, collaboration, endpoint management and security, information protection, monitoring, and operational recovery.
 
@@ -22,9 +22,9 @@ The implemented platform delivers a functional hybrid platform spanning:
 - **Hybrid identity** using Active Directory, Microsoft Entra ID, and Entra Connect Sync with controlled pilot scope
 - **Modern Workplace baseline** across Exchange hybrid, Exchange Online, Teams, and SharePoint
 - **Endpoint management** for Windows corporate, Windows BYOD, Ubuntu Linux, and iPhone BYOD scenarios
-- **Endpoint compliance and security** using Intune compliance policies, security baselines, Defender Antivirus, Attack Surface Reduction (ASR), BitLocker controls, and update policies
+- **Endpoint compliance and security** using Intune compliance policies, security baselines, Defender Antivirus, Attack Surface Reduction (ASR), BitLocker controls, Windows LAPS, and update policies
 - **Information protection** through Purview sensitivity labels, DLP policy-tip validation, and retention configuration
-- **Monitoring and operational visibility** through sign-in logs, audit logs, device status reviews, and control visibility
+- **Monitoring and operational visibility** through sign-in logs, audit logs, device status reviews, control visibility, and Microsoft Graph API + PowerShell operational tooling
 - **Operational recovery** through BitLocker recovery, stale-record cleanup, device rebuilds, and re-enrollment validation
 
 ---
@@ -48,8 +48,38 @@ From an operational perspective, this release demonstrates:
 
 - **risk reduction** through device trust, compliance, and policy enforcement
 - **control maturity** through identity, endpoint, and information protection baselines
-- **supportability** through monitoring, visibility, and recovery scenarios
+- **supportability** through monitoring, visibility, recovery scenarios, and reusable operational tooling
 - **engineering judgment** through phased scoping, honest limitations, and evidence-backed claims
+
+---
+
+## Advanced Validation Added After Baseline
+
+The core Release 1 baseline was completed first. The following capabilities were added later as **advanced validation** within the same release, extending platform coverage without rewriting the baseline story. All advanced validation sections are clearly marked in their respective documents.
+
+| Capability | Primary Document |
+|------------|------------------|
+| Windows Autopilot + ESP (zero-touch provisioning) | [Endpoint Enrollment](04-endpoint-enrollment.md) |
+| Windows LAPS retrieval and Autopilot remediation | [Endpoint Compliance and Security](05-endpoint-compliance-and-security.md) |
+| Email security (anti-phishing, Safe Links, Safe Attachments) | [Modern Workplace](02-modern-workplace.md) |
+| Graph API identity lifecycle (access-state + mover scenario) | [Hybrid Identity](01-hybrid-identity.md) |
+| Graph-assisted Autopilot operational support | [Endpoint Enrollment](04-endpoint-enrollment.md) |
+| Win32 application deployment (packaging, assignment, install) | [Endpoint Enrollment](04-endpoint-enrollment.md) |
+| Purview document fingerprinting | [Purview](07-purview.md) |
+| Graph/PowerShell operational scripts (user/device state, rename) | [Monitoring](08-monitoring.md) |
+
+---
+
+## Skills Alignment
+
+This release directly aligns with Modern Workplace, Intune, and Entra ID roles requiring:
+
+- **Microsoft Intune** - enrollment, compliance, security baselines, update rings, Autopilot + ESP, application deployment
+- **Entra ID hybrid identity** - Conditional Access, MFA, SSPR, identity lifecycle automation via Graph PowerShell
+- **PowerShell and Microsoft Graph API automation** - interactive scripts for user/device management, consent scoping, and dry-run safety
+- **Microsoft 365 services** - Exchange hybrid, Teams, SharePoint (baseline), email security
+- **Purview information protection** - sensitivity labels, DLP, document fingerprinting
+- **Operational support tooling** - device state queries, rename, recovery scenarios, LAPS remediation
 
 ---
 
@@ -64,7 +94,7 @@ Establishes a controlled hybrid identity path between on-premises Active Directo
 
 ### 2. Modern Workplace
 
-Validates the Microsoft 365 service baseline through Exchange hybrid migration readiness and pilot mailbox validation, supported by baseline collaboration proof across Teams and SharePoint.
+Validates the Microsoft 365 service baseline through Exchange hybrid migration readiness and pilot mailbox validation, supported by baseline collaboration proof across Teams and SharePoint, plus email security controls added as advanced validation.
 
 - **Documentation:** [Modern Workplace](02-modern-workplace.md)
 - **Evidence:** [Modern Workplace Evidence Hub](../../screenshots/release1/modern-workplace/README.md)
@@ -78,7 +108,7 @@ Demonstrates endpoint onboarding and lifecycle handling across multiple ownershi
 
 ### 4. Endpoint Compliance and Security
 
-Shows how endpoint trust is enforced through compliance policy, security baselines, Defender AV, ASR, BitLocker controls, Windows Update for Business, and device-state visibility. It keeps careful scope boundaries around areas that are configured but not fully validated at a broader enterprise depth.
+Shows how endpoint trust is enforced through compliance policy, security baselines, Defender AV, ASR, BitLocker controls, Windows Update for Business, and device-state visibility. It keeps careful scope boundaries around areas that are implemented at Release 1 depth without overstating broader enterprise maturity.
 
 - **Documentation:** [Endpoint Compliance and Security](05-endpoint-compliance-and-security.md)
 - **Evidence:** [Intune Evidence Hub](../../screenshots/release1/endpoint-management/intune/README.md)
@@ -92,14 +122,14 @@ Treats non-happy-path recovery as first-class evidence of operational realism. I
 
 ### 6. Information Protection
 
-Introduces a practical Purview baseline focused on visible and validated controls rather than inflated governance claims. Sensitivity labels, DLP, and retention are positioned as implemented controls with clear boundaries around advanced future work.
+Introduces a practical Purview baseline focused on visible and validated controls rather than inflated governance claims. Sensitivity labels, DLP, and retention are positioned as implemented controls with clear boundaries around advanced future work. Document fingerprinting is included as advanced validation.
 
 - **Documentation:** [Purview](07-purview.md)
 - **Evidence:** [Information Protection Evidence Hub](../../screenshots/release1/information-protection/README.md)
 
 ### 7. Monitoring and Operations
 
-Demonstrates visibility across sign-in activity, audit events, device state, and control review, proving the platform is operationally credible and supportable.
+Demonstrates visibility across sign-in activity, audit events, device state, and control review, later extended with Microsoft Graph API + PowerShell operational tooling. This helps show that the platform is not only configured, but also supportable through reusable operator-led workflows.
 
 - **Documentation:** [Monitoring](08-monitoring.md)
 - **Evidence:** [Monitoring and Operations Evidence Hub](../../screenshots/release1/monitoring-and-operations/README.md)
@@ -132,7 +162,9 @@ For a fuller view of implementation completeness and future scope:
 | :--- | :--- |
 | Exchange hybrid pilot validation and post-migration mailbox access | `screenshots/release1/modern-workplace/exchange-hybrid/` |
 | Corporate Windows endpoint enrolled and shown as compliant in Intune | `screenshots/release1/endpoint-management/intune/intune-windows-corp/` |
+| Windows Autopilot + ESP provisioning validation | `screenshots/release1/endpoint-management/intune/intune-autopilot-esp/` |
 | DLP policy-tip triggering in Microsoft Word against test financial data | `screenshots/release1/information-protection/purview/purview-dlp/` |
+| Graph PowerShell user/device state and rename workflows | `screenshots/release1/identity-and-access/identity-operations/graph-powershell/` |
 | BitLocker recovery-key retrieval and restored compliant state after recovery workflow | `screenshots/release1/endpoint-management/intune/intune-bitlocker-recovery-scenario/` |
 | Entra sign-in and audit visibility tied to access and device controls | `screenshots/release1/monitoring-and-operations/monitoring/` |
 
@@ -147,8 +179,6 @@ For a guided proof path, start with:
 The implemented scope is intentionally strong on hybrid Microsoft delivery, but it does not claim full maturity in every adjacent area. Examples of deferred or carefully scoped areas include:
 
 - Android BYOD / MAM validation
-- Windows Autopilot / ESP optimization
-- advanced Purview capabilities such as document fingerprinting or broader automation
 - full enterprise PKI / AD CS deployment
 - broader Azure platform security engineering reserved for Release 2
 - secure workload modernization capabilities reserved for Release 3
@@ -171,7 +201,3 @@ For cross-release context, refer back to:
 - [Target-State Architecture](../foundation/03-target-state-architecture.md)
 - [Roadmap](../foundation/04-roadmap.md)
 - [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
-
-
-
-

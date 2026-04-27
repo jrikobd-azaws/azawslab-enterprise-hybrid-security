@@ -36,31 +36,33 @@ The roadmap therefore shows that the project is structured around dependency ord
 
 | Release | Theme | Maturity Role |
 |---|---|---|
-| **Release 1** | Hybrid Microsoft foundation | Establishes the operational baseline across identity, messaging, endpoints, protection, monitoring, and recovery |
+| **Release 1** | Hybrid Microsoft foundation + advanced validation | Establishes the operational baseline across identity, messaging, endpoints, protection, monitoring, recovery, and modern capabilities such as Autopilot + ESP, Graph automation, email security, document fingerprinting, and application deployment |
 | **Release 2** | Azure secure platform expansion | Extends the foundation into governance, delegated administration, policy-driven control, and cloud security visibility |
 | **Release 3** | Secure workload modernization | Builds on the governed platform to support protected hosting, observability, and resilience for workloads |
 
 This progression is intentional:
-- **Release 1** creates trust and control
+- **Release 1** creates trust, control, and modern endpoint and identity workflows
 - **Release 2** strengthens governance and cloud security maturity
 - **Release 3** uses that governed platform to host and protect workloads
 
 ---
 
-## Release 1 — Hybrid Microsoft Foundation
+## Release 1 — Hybrid Microsoft Foundation (Implemented and Evidenced)
 
 ### Objective
-Release 1 establishes the first fully documented and evidenced platform state.
+
+Release 1 establishes the first fully documented and evidenced platform state, including both baseline capabilities and advanced validation added after the initial freeze.
 
 Its purpose is to move from a controlled on-premises Microsoft baseline into a hybrid operating model that demonstrates:
-- synchronized identity
-- Microsoft 365 service readiness
-- endpoint management and security
-- information protection
-- operational visibility
+- synchronized identity with Graph PowerShell automation
+- Microsoft 365 service readiness, including email security
+- endpoint management and security, including Autopilot + ESP, LAPS retrieval and remediation, and Win32 app deployment
+- information protection, including document fingerprinting
+- operational visibility and Graph-powered support tooling
 - recovery capability
 
-### Core workstreams
+### Core workstreams (all implemented and evidenced)
+
 Release 1 includes:
 
 - on-premises platform foundation hosted on Hyper-V
@@ -69,11 +71,22 @@ Release 1 includes:
 - Exchange hybrid and pilot migration validation
 - Teams and SharePoint baseline validation
 - Intune onboarding across corporate and personal device paths
-- compliance and security controls
+- compliance and security controls, including baselines, Defender Antivirus, ASR, BitLocker, and WUfB
 - Purview label, DLP, and retention validation
 - monitoring visibility and recovery workflows
 
+**Advanced validation added after baseline, now fully integrated:**
+- Windows Autopilot + ESP with zero-touch provisioning and custom branding
+- Windows LAPS retrieval through the Entra and Intune admin centres, plus post-Autopilot remediation
+- email security through anti-phishing, Safe Links, and Safe Attachments
+- Graph API identity lifecycle administration, including disable, session revoke, enable, and mover scenario workflows
+- Graph-assisted Autopilot operational support, including device-state queries and rename
+- Win32 application deployment through packaging, assignment, and install-status validation
+- Purview document fingerprinting through a custom SIT from an HR form and DLP linkage
+- Graph / PowerShell operational scripts for user and device state, plus management actions
+
 ### Why Release 1 comes first
+
 This release comes first because later platform maturity depends on it.
 
 Without Release 1:
@@ -82,23 +95,27 @@ Without Release 1:
 - endpoint and collaboration claims would remain disconnected from identity and monitoring
 - the repository would read like isolated technology exercises rather than a coherent platform
 
-### Intended outcome
-Release 1 should leave the platform in a state where:
-- hybrid identity is established
-- Microsoft 365 collaboration services are validated
-- devices are enrolled, visible, and policy-aware
-- endpoint security controls are active and reviewable
-- information protection behavior is demonstrated
-- recovery and operational review are part of the story
+### Intended outcome — achieved
 
-### Current status positioning
-Release 1 is the most complete and most evidenced release in the repository and should be read as the implementation anchor for the platform.
+Release 1 leaves the platform in a state where:
+- hybrid identity is established and automation-ready
+- Microsoft 365 collaboration services and email security are validated
+- devices are enrolled, visible, policy-aware, and provisionable through Autopilot
+- endpoint security controls are active, recoverable, and include LAPS retrieval
+- information protection includes document fingerprinting
+- recovery, operational review, and Graph-powered support are part of the story
+- application lifecycle management is demonstrated
+
+### Current status
+
+Release 1 is **complete and fully evidenced**, with clear distinctions between baseline capability and later-added advanced validation. All related documentation and evidence are available in the repository.
 
 ---
 
-## Release 2 — Azure Secure Platform Expansion
+## Release 2 — Azure Secure Platform Expansion (Planned)
 
 ### Objective
+
 Release 2 extends the Release 1 hybrid platform into Azure platform, governance, and security engineering.
 
 Its purpose is to introduce stronger cloud control-plane maturity through:
@@ -111,6 +128,7 @@ Its purpose is to introduce stronger cloud control-plane maturity through:
 - Sentinel-oriented visibility and response direction
 
 ### Why Release 2 follows Release 1
+
 Release 2 depends conceptually on Release 1 because governance is more meaningful when:
 - identity has already been structured
 - administrative boundaries have already been introduced
@@ -120,6 +138,7 @@ Release 2 depends conceptually on Release 1 because governance is more meaningfu
 Release 2 therefore builds on an established hybrid operating model instead of trying to invent governance in a vacuum.
 
 ### Intended outcome
+
 Release 2 should move the platform toward:
 - stronger Azure subscription and resource organization
 - clearer administrative separation
@@ -128,15 +147,17 @@ Release 2 should move the platform toward:
 - more explicit delegated administration and monitoring patterns
 
 ### Status positioning
-Release 2 should currently be read as a planned expansion path.
+
+Release 2 should currently be read as a **planned expansion path**.
 
 It is part of the platform design, but it should not be represented as completed implementation unless real documentation and evidence are added. Empty placeholder implementation structure should not be used to imply maturity.
 
 ---
 
-## Release 3 — Secure Workload Modernization
+## Release 3 — Secure Workload Modernization (Planned)
 
 ### Objective
+
 Release 3 extends the governed platform into secure workload delivery.
 
 Its purpose is to show how the platform can support:
@@ -147,6 +168,7 @@ Its purpose is to show how the platform can support:
 - resilience and recovery design
 
 ### Why Release 3 follows Release 2
+
 Release 3 is intentionally later because workloads should sit on top of a controlled platform rather than define the platform from the beginning.
 
 By the time Release 3 is reached, the platform should already have:
@@ -158,6 +180,7 @@ By the time Release 3 is reached, the platform should already have:
 That makes workload modernization part of a coherent platform story rather than a disconnected application experiment.
 
 ### Intended outcome
+
 Release 3 should show how the repository evolves from:
 - identity and endpoint foundation
 to
@@ -166,7 +189,8 @@ to
 - secure workload delivery and resilience
 
 ### Status positioning
-Release 3 should currently be read as planned direction, not as implied implementation.
+
+Release 3 should currently be read as **planned direction**, not as implied implementation.
 
 As with Release 2, future workload capabilities should remain in roadmap and extension documentation until they are actually built and evidenced.
 
@@ -176,23 +200,26 @@ As with Release 2, future workload capabilities should remain in roadmap and ext
 
 The three releases are ordered according to dependency and maturity, not novelty.
 
-### Step 1: establish trust and control
-Release 1 creates:
-- identity trust
-- collaboration validation
-- endpoint control
-- information protection
-- monitoring visibility
-- recovery realism
+### Step 1: establish trust, control, and modern workflows (Release 1)
 
-### Step 2: strengthen governance
+Release 1 creates:
+- identity trust and automation through Graph PowerShell
+- Microsoft 365 collaboration and email security validation
+- endpoint control, modern provisioning through Autopilot, and application deployment
+- information protection through labels, DLP, retention, and document fingerprinting
+- monitoring visibility and Graph-powered support
+- recovery realism through LAPS remediation and BitLocker recovery
+
+### Step 2: strengthen governance (Release 2)
+
 Release 2 adds:
 - policy-driven cloud governance
 - platform guardrails
 - administrative structure
 - security visibility at cloud scale
 
-### Step 3: modernize workloads on top
+### Step 3: modernize workloads on top (Release 3)
+
 Release 3 uses that governed and visible platform to support:
 - secure hosting
 - ingress protection
@@ -208,15 +235,19 @@ This sequencing is what makes the roadmap credible.
 The roadmap should always be interpreted through these rules:
 
 ### 1. Planned does not mean implemented
+
 A capability appearing in Release 2 or Release 3 is part of platform direction, not evidence of delivery.
 
 ### 2. Future structure should follow real work
+
 Do not create empty folders or documentation branches simply to make the roadmap look fuller.
 
 ### 3. Scope boundaries are part of engineering credibility
+
 If a capability was only discussed strategically, it should remain a roadmap or extension item until implemented.
 
 ### 4. Release 1 remains the proof anchor
+
 The roadmap exists to explain expansion, but Release 1 remains the primary evidence-backed operating foundation.
 
 ---
@@ -227,16 +258,16 @@ Not every future capability needs to become a new release.
 
 Some additions are better treated as **extensions within an existing release**.
 
-Examples:
-- Autopilot / ESP work under Release 1 endpoint management
-- Android BYOD / MAM under Release 1 endpoint scope
-- deeper Graph or PowerShell automation under operational enhancement
-- future virtualization variants under platform foundation
+Now that Autopilot + ESP, LAPS retrieval, document fingerprinting, email security, Graph lifecycle automation, application deployment, and Graph operational scripts are **implemented as advanced validation in Release 1**, they are no longer future items. They are fully documented and evidenced.
 
-This is why the repository also uses an extensions-and-future-enhancements document:
-- to capture future work honestly
-- to avoid constant structural redesign
-- to distinguish release direction from incremental enhancements
+The remaining future work includes:
+- Android BYOD / MAM
+- deeper Defender for Endpoint capabilities such as EDR and advanced hunting
+- more extensive automation pipelines
+- Azure platform governance in Release 2
+- workload modernization in Release 3
+
+These are captured in the [Extensions and Future Enhancements](../release1/12-extensions-and-future-enhancements.md) document.
 
 ---
 
@@ -254,7 +285,7 @@ Together, these pages explain:
 - why the platform exists
 - what it looks like
 - where it starts
-- where Release 1 is trying to take it
+- where Release 1 has now taken it
 - how later releases extend it
 
 ---
@@ -283,14 +314,12 @@ For planned expansion paths:
 
 The roadmap should be read as a structured platform progression:
 
-- **Release 1** establishes hybrid trust, collaboration validation, endpoint control, protection, monitoring, and recovery
-- **Release 2** extends that foundation into Azure governance and cloud security maturity
-- **Release 3** extends the governed platform into secure workload modernization
+- **Release 1** — **completed** — hybrid trust, Microsoft 365 collaboration and email security, endpoint control including Autopilot, LAPS, and app deployment, information protection including document fingerprinting, Graph-powered automation, recovery, and operational visibility
+- **Release 2** — **planned** — extends into Azure governance and cloud security maturity
+- **Release 3** — **planned** — extends the governed platform into secure workload modernization
 
-This order is intentional.
-
-It ensures the project grows from:
-- a credible hybrid foundation
+This order is intentional. It ensures the project grows from:
+- a credible hybrid foundation with modern capabilities
 to
 - a governed cloud platform
 to

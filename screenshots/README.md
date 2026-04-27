@@ -1,46 +1,49 @@
-﻿# Screenshots
+﻿
+---
 
-This folder is the main evidence archive for the `azawslab Enterprise Hybrid Security Platform`.
+## Release 1 evidence areas
 
-It contains the screenshot-based proof used across the Release 1 documentation set and placeholder structure for later releases.
+The `screenshots/release1/` folder is organised by operational domain.
 
-## Folder structure
+Each subfolder contains a `README.md` that serves as a domain‑level evidence dashboard, explaining what the screenshots in that area prove and linking to related documentation.
 
-- `release1/` - implemented and evidenced Release 1 artifacts
-- `release2/` - reserved for Azure secure platform and operations evidence
-- `release3/` - reserved for secure workload modernization and resilience evidence
+**Implemented and evidenced domains include:**
 
-## How to use this folder
+| Domain | Evidence folder |
+|--------|----------------|
+| Platform foundation | `platform-foundation/` |
+| Hybrid identity and Entra sync | `identity-and-access/entra-sync/` |
+| Identity protection (Conditional Access, MFA, SSPR, LAPS) | `identity-and-access/identity-protection/` |
+| Identity lifecycle automation (Graph PowerShell) | `identity-and-access/identity-operations/lifecycle/` |
+| Graph PowerShell operational scripts | `identity-and-access/identity-operations/graph-powershell/` |
+| Exchange hybrid & Microsoft 365 baseline | `modern-workplace/exchange-hybrid/` |
+| Email security (anti‑phishing, Safe Links, Safe Attachments) | `modern-workplace/email-security/` |
+| Teams & SharePoint baseline | `modern-workplace/teams-baseline/`, `sharepoint-baseline/` |
+| Intune enrollment (Windows corp/BYOD, iPhone, Linux) | `endpoint-management/intune/` |
+| Windows Autopilot + ESP | `endpoint-management/intune/intune-autopilot-esp/` |
+| LAPS remediation after Autopilot | `endpoint-management/intune/intune-autopilot-laps/` |
+| Intune compliance & security baselines | `endpoint-management/intune/intune-compliance-policy/`, `intune-security-baseline/` |
+| Win32 application deployment | `endpoint-management/intune/intune-app-deployment/` |
+| Windows Update for Business | `endpoint-management/intune/intune-windows-update/` |
+| BitLocker recovery & stale record cleanup | `endpoint-management/intune/intune-bitlocker-recovery-scenario/` |
+| Purview sensitivity labels, DLP & retention | `information-protection/purview/` |
+| Purview document fingerprinting | `information-protection/purview/purview-fingerprint/` |
+| Monitoring (sign‑ins, audits, alerts) | `monitoring-and-operations/monitoring/` |
 
-The screenshot archive is broader than the screenshots embedded in the docs. Major documentation pages embed only the strongest evidence, while this folder keeps the larger proof set available for deeper review.
+For guided navigation through the evidence, start with the **Release 1 evidence dashboard**:
+- [`screenshots/release1/README.md`](release1/README.md)
 
-## Release 1 evidence areas
+---
 
-Release 1 evidence includes:
+## Related documentation
 
-- Hyper-V and platform foundation
-- hybrid identity and Entra sync
-- Exchange hybrid and Microsoft 365 validation
-- Intune enrollment, compliance, hardening, and recovery
-- monitoring and visibility
-- Purview information protection
+- [Root README](../README.md)
+- [Release 1 summary](../docs/release1/00-summary.md)
+- [Release 1 landing page](../docs/release1/README.md)
+- [Skills & evidence index](../docs/foundation/05-skills-and-evidence-index.md)
 
-## Related docs
-
-- `README.md`
-- `docs/release1/00-summary.md`
-- `docs/release1/03-endpoint-overview.md`
-- `docs/release1/09-compliance-mapping.md`
-
-<!-- AUTO-GENERATED: START -->
+---
 
 ## Subfolders
 
-- [Release1](./release1/README.md)
-- [Release2](./release2/README.md)
-- [Release3](./release3/README.md)
-
-<!-- AUTO-GENERATED: END -->
-
-
-
+You can’t perform that action at this time.

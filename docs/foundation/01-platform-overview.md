@@ -37,7 +37,7 @@ The platform is organized into three releases:
 
 | Release | Core Theme | What It Adds |
 |---|---|---|
-| **Release 1** | Hybrid Microsoft foundation | Hybrid identity, Microsoft 365, Exchange hybrid, endpoint management and security, information protection, monitoring, and operational recovery |
+| **Release 1** | Hybrid Microsoft foundation | Hybrid identity, Microsoft 365, Exchange hybrid, endpoint management and security, information protection, monitoring, operational recovery, plus advanced validation in Autopilot + ESP, LAPS retrieval and remediation, Graph identity lifecycle, email security, document fingerprinting, application deployment, and Graph operational scripts |
 | **Release 2** | Azure secure platform expansion | Landing zone design, infrastructure as code, governance, network security, delegated administration, Defender for Cloud, and Sentinel-aligned monitoring |
 | **Release 3** | Secure workload modernization | Application hosting, containerization, protected ingress, observability, and resilience |
 
@@ -52,6 +52,7 @@ This structure allows the repository to serve both as:
 At a high level, the platform is built in layers:
 
 ### 1. Platform foundation
+
 The foundation layer provides the delivery environment and supporting infrastructure needed to host and validate the rest of the project.
 
 In Release 1, that foundation includes:
@@ -63,6 +64,7 @@ In Release 1, that foundation includes:
 This foundation is important because it makes the project reproducible, isolated, and capable of simulating a small-enterprise hybrid estate.
 
 ### 2. Identity and access
+
 The identity layer establishes the control plane for the platform:
 - on-premises Active Directory
 - Entra Connect synchronization
@@ -72,17 +74,23 @@ The identity layer establishes the control plane for the platform:
 - SSPR
 - group-driven pilot scoping
 
+**Advanced validation adds:** identity lifecycle automation via Graph PowerShell (disable, session revoke, enable) and a mover scenario (department change -> dynamic group -> Slack gallery app access).
+
 Identity is treated as the trust boundary for the rest of the platform. Endpoint trust, service access, and collaboration controls all depend on it.
 
 ### 3. Productivity and collaboration
+
 The collaboration layer demonstrates how user-facing services are modernized:
 - Exchange hybrid and pilot migration
 - Teams baseline validation
 - SharePoint baseline validation
 
+**Advanced validation adds:** email security controls (anti-phishing, Safe Links, Safe Attachments policies).
+
 This layer is included because enterprise platform value is not just about control planes; it is also about validated user outcomes.
 
 ### 4. Endpoint management and security
+
 The endpoint layer introduces device enrollment, compliance, and control:
 - Windows corporate enrollment
 - Windows BYOD distinction
@@ -95,17 +103,28 @@ The endpoint layer introduces device enrollment, compliance, and control:
 - BitLocker recovery-key escrow
 - update ring configuration
 
+**Advanced validation adds:**
+- Windows Autopilot + ESP (zero-touch provisioning, custom branding, device preparation stage)
+- Windows LAPS retrieval (Entra / Intune admin centre password recovery)
+- LAPS remediation after Autopilot (device-targeted script)
+- Win32 application deployment (packaging, assignment, install status)
+- Graph-assisted operational support (device-state queries and rename via PowerShell)
+
 This layer matters because it connects identity to device trust and turns Zero Trust concepts into visible control decisions.
 
 ### 5. Information protection
+
 The information protection layer introduces content-aware controls:
 - sensitivity labels
 - DLP policy behavior
 - retention visibility
 
+**Advanced validation adds:** document fingerprinting (custom SIT from a synthetic HR form, DLP linkage, policy-tip validation).
+
 This shows that platform security is not limited to identity and devices; it also extends to data handling and user interaction.
 
 ### 6. Monitoring and operational review
+
 The operational layer provides visibility into whether the platform is functioning as intended:
 - sign-in review
 - audit activity
@@ -113,6 +132,8 @@ The operational layer provides visibility into whether the platform is functioni
 - control and policy status
 - example alert conditions
 - recovery validation
+
+**Advanced validation adds:** Graph / PowerShell scripts for user state, managed device state, and device rename, designed for helpdesk and L3 support scenarios.
 
 This layer is a key differentiator because it proves the platform is designed for administration and troubleshooting, not only initial setup.
 
@@ -125,10 +146,13 @@ Release 1 is the most complete and most operationally evidenced part of the plat
 Its purpose is to establish a credible hybrid Microsoft environment that demonstrates:
 
 - hybrid identity design and synchronization discipline
-- modern workplace service validation
+- modern workplace service validation, including email security
 - endpoint enrollment across multiple device scenarios
-- endpoint compliance and security control enforcement
-- Purview information protection validation
+- endpoint compliance and security control enforcement, including LAPS retrieval and remediation
+- modern cloud-led provisioning through Windows Autopilot + ESP
+- Purview information protection validation, including document fingerprinting
+- Win32 application lifecycle management
+- Graph API / PowerShell automation for identity and device operations
 - operational monitoring and recovery
 
 Release 1 should be read as the implemented foundation on which the later releases build.
@@ -214,10 +238,12 @@ A major design principle of this repository is that the platform should not only
 That is why Release 1 includes scenarios and evidence related to:
 - Exchange hybrid migration friction
 - trust disruption and recovery
-- BitLocker recovery key retrieval
+- BitLocker recovery-key retrieval
 - stale record cleanup
 - re-enrollment and restored compliance
 - visibility across sign-in, audit, and device state
+- LAPS retrieval and post-provisioning remediation
+- operator-led Graph PowerShell scripts with dry-run support
 
 This operational realism is intentional. It makes the platform more useful as engineering proof than a simple “all green” demonstration.
 
@@ -260,7 +286,7 @@ Then move into the release most relevant to the role or review context.
 
 The platform should be read as a release-based, evidence-backed engineering journey:
 
-- **Release 1** establishes the hybrid Microsoft and endpoint control foundation
+- **Release 1** establishes the hybrid Microsoft and endpoint control foundation, including advanced validation for modern provisioning, Graph automation, LAPS retrieval and remediation, email security, application deployment, and document fingerprinting
 - **Release 2** extends that foundation into Azure governance and security
 - **Release 3** extends it further into secure workload modernization
 
