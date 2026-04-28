@@ -1,3 +1,48 @@
+# Phase 0: Foundation & Automation Bootstrap
+
+## 1. Overview
+Before deploying infrastructure, Phase 0 establishes the "Identity and Automation Plumbing." This phase follows the "Secretless" security principle by using **OpenID Connect (OIDC)** for GitHub Actions, ensuring no long-lived secrets are stored in the repository[cite: 2, 4].
+
+| Aspect | Detail |
+| :--- | :--- |
+| **Business Problem** | Manual deployments are unauditable; static secrets (passwords) expire and create security vulnerabilities. |
+| **Technical Solution** | Bootstrap an Azure Landing Zone with **OIDC Workload Identity Federation** and a remote **Terraform Backend** with state locking[cite: 2, 4, 6]. |
+| **Standard Naming** | `[resource]-[service]-[env]-[region]` (e.g., `rg-dev-terraformstate-uksouth`)[cite: 5]. |
+
+## 2. Implementation Steps
+
+### Step 1: Governance & Identity Bootstrap
+*   **Account Upgrade:** Upgrade the Azure Free Trial to **Pay-As-You-Go** to enable subscription democratization and higher resource limits while retaining the $200 credit[cite: 4].
+*   **Domain Verification:** Verify `entra.azawslab.co.uk` in Entra ID to establish a professional hybrid identity namespace[cite: 4].
+*   **Management Groups:** Deploy the initial hierarchy (`mg-platform`, `mg-landingzones`, `mg-sandbox`) to enable top-down policy inheritance[cite: 4].
+
+### Step 2: Secretless Automation (OIDC)
+*   **Service Principal:** Create `sp-terraform-gh` for GitHub Actions[cite: 4].
+*   **Federated Credential:** Establish an OIDC trust relationship between the Azure App Registration and the `release-2` GitHub environment[cite: 2, 4].
+*   **RBAC:** Assign the `Contributor` role to the Service Principal at the Subscription level to allow automated provisioning[cite: 4].
+
+### Step 3: Infrastructure-as-Code (IaC) Backend
+*   **State Storage:** Deploy `rg-dev-terraformstate-uksouth` and a globally unique storage account (e.g., `stdevterraform001`)[cite: 4].
+*   **State Locking:** Create the `tfstate` container. The `azurerm` backend will automatically utilize blob leases to prevent concurrent state corruption[cite: 4, 6].
+
+### Step 4: Repository Scaffolding
+*   **Structure:** Initialize the standard folder hierarchy:
+    *   `terraform/modules/` (Reusable infrastructure code)[cite: 4].
+    *   `ansible/roles/` (Configuration management)[cite: 4, 6].
+    *   `.github/workflows/` (CI/CD pipelines)[cite: 4].
+    *   `docs/release2/evidence/` (Audit and validation captures)[cite: 4].
+
+## 3. Verification Checklist
+- [ ] **OIDC Handshake:** `.github/workflows/oidc-test.yml` completes successfully without static secrets[cite: 4].
+- [ ] **Subscription Placement:** Subscription is nested under `mg-landingzones`[cite: 4].
+- [ ] **State Lock:** Terraform successfully initializes with the remote `azurerm` backend[cite: 4, 6].
+- [ ] **Identity:** Service Principal is visible in subscription **Access Control (IAM)** as a `Contributor`[cite: 4].
+
+## 4. Recruiter Hook
+"Established a production-grade automation foundation using **GitHub Actions with OIDC** for secretless authentication. Implemented a remote **Terraform backend** with state locking and a CAF-aligned **Management Group** hierarchy, ensuring all infrastructure changes are auditable, secure, and version-controlled from the first commit."
+
+---
+
 ### Phase 1: Azure Landing Zone & Governance
 
 # Phase 1: Azure Landing Zone & Governance Foundation
