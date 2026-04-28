@@ -235,3 +235,68 @@ This diagram illustrates how governance "guardrails" flow from the management ro
 "Architected a 'Secure-by-Design' foundation by implementing Policy-as-Code guardrails at the Management Group level[cite: 1, 6]. Enforced data sovereignty (UK South) and strict cost management policies while managing the end-to-end secrets lifecycle through Azure Key Vault, ensuring 100% automated compliance across the landing zone[cite: 1, 5]."
 
 ---
+## Phase 4: Azure Lighthouse (MSP Delegated Administration)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail  |
+| :--- | :--- |
+| **Business Problem** | **Identity Sprawl & Operational Silos:** Managing external environments (e.g., corporate acquisitions, B2B clients) traditionally requires creating risky B2B guest accounts, sharing credentials, and constantly switching directories. |
+| **Technical Solution** | **Azure Delegated Resource Management:** Utilizing **Azure Lighthouse** via ARM/IaC templates to logically project external subscriptions into the primary management tenant, establishing a centralized, Zero Trust administration plane[cite: 1, 2]. |
+| **Acceptance Criteria** | 1. Customer tenant securely projected into the primary `entra.azawslab.co.uk` tenant[cite: 1, 5]. 2. Primary `azw-Platform-Admins` group granted scoped `Contributor` access without creating guest accounts[cite: 4, 5]. 3. Cross-tenant queries execute successfully[cite: 5]. |
+| **Validation** | Successful execution of `az vm list --subscription <customer-sub-id>` from the primary tenant context without requiring a directory context switch[cite: 1, 5]. |
+| **Evidence** | `docs/release2/evidence/P4/`: Portal "My Customers" view, cross-tenant CLI terminal outputs, and the deployed Lighthouse ARM template (JSON)[cite: 1, 5]. |
+
+### 2. Operational Architecture (Cross-Tenant Trust)
+This diagram illustrates the logical projection of resources across separate Entra ID boundaries, eliminating the need for context switching or shared credentials[cite: 1, 2].
+```text
+[ Primary Tenant (Provider) ]             [ Secondary Tenant (Customer) ]
+   (entra.azawslab.co.uk)                    (Customer Entra ID)
+             │                                        │
+             ├── [ azw-Platform-Admins ]              ├── [ Customer Subscription ]
+             │            │                           │         └── [ Customer Resources ]
+             │            └── (Lighthouse Projection) └──┐
+             │                                           │
+             └───────────────────────────────────────────┘
+                       (Zero Trust Delegated Access: No B2B Guest Accounts)
+```
+					   
+### 3. Recruiter Hook
+"Architected a Managed Service Provider (MSP) operating model using Azure Lighthouse. Demonstrated advanced cross-tenant identity management by projecting external subscriptions into a centralized management plane, enabling secure, scalable, and credential-less administration across multiple Azure AD boundaries[cite: 1, 2]."
+
+---
+## Phase 5: Hub-Spoke Networking Foundation
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Lateral Movement & Uninspected Egress:** Flat networks allow attackers to move freely, and direct internet access from workloads bypasses corporate security inspection[cite: 1, 5]. |
+| **Technical Solution** | **Hub-Spoke Topology & Forced Tunneling:** Deploying a central Hub VNet and peered Spoke VNets via Terraform[cite: 1, 5]. Implementing User Defined Routes (UDRs) to force all egress traffic to a central inspection point, and replacing public jump-boxes with **Azure Bastion**. |
+| **Acceptance Criteria** | 1. Hub VNet contains specific subnets (`AzureBastionSubnet`, `AzureFirewallSubnet`, `GatewaySubnet`)[cite: 5]. 2. Bidirectional peering established between Hub and Spoke[cite: 5]. 3. UDR (0.0.0.0/0) attached to Spoke subnet[cite: 5]. 4. Workload VMs have **zero Public IPs**[cite: 2, 6]. |
+| **Validation** | Pinging across the peering connection is successful. RDP from the internet fails, but access via Azure Bastion succeeds[cite: 5, 6]. |
+| **Evidence** | `docs/release2/evidence/P5/`: CLI outputs of `az network vnet peering list`, effective route tables showing forced tunneling, and Bastion connection screenshots[cite: 1, 5]. |
+
+### 2. Operational Architecture (Network Boundary)
+This diagram illustrates the secure network boundary. Notice that the `GatewaySubnet` is provisioned to act as a future "socket" for the local Hyper-V lab connection[cite: 2, 5].
+```text
+[ Internet / Admin ]
+          │
+          └── (HTTPS) ──> [ Azure Bastion ] (Subnet: AzureBastionSubnet)[cite: 5, 6]
+                                 │
+  [ Local Hyper-V Lab ]          │ (RDP/SSH over Private IP)[cite: 6]
+          │                      │
+          : (Future VPN)         ▼
+          :               [ Hub VNet (10.0.0.0/16) ]
+          V                      ├── [ AzureFirewallSubnet ] (Next-Hop Target)[cite: 5]
+ [ GatewaySubnet ] <──────────── └── [ Mgmt Subnet ]
+                                         │
+                                         │ (VNet Peering)[cite: 5]
+                                         │
+                                 [ Spoke VNet: Workload (10.1.0.0/16) ]
+                                         ├── NSG: Inbound Allow from Bastion[cite: 5]
+                                         ├── UDR: 0.0.0.0/0 -> Azure Firewall IP[cite: 5]
+                                         └── [ vm-dev-client-01 ] (Private IP Only)[cite: 5, 6]
+```
+### 3. Recruiter Hook
+"Architected an enterprise-grade Hub-Spoke network topology using Terraform. Implemented strict Zero Trust network boundaries by eliminating public IPs on workloads, utilizing Azure Bastion for secure access, and configuring User Defined Routes (UDRs) to ensure all traffic is forced through central security inspection[cite: 5, 6]."
+
+---
