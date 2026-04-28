@@ -130,6 +130,8 @@ This diagram illustrates how the **Root Configuration** orchestrates specialized
                                └── Deploy: la-dev-platform[cite: 5]
                                └── Logic: Central Log Analytics Workspace[cite: 5]
 ```
+### 3. Recruiter Hook
+"Built a library of reusable Terraform modules following the 'DRY' principle[cite: 1]. Integrated Azure Key Vault for dynamic secret management and implemented resource lifecycle protection, demonstrating a production-grade approach to automated infrastructure lifecycle management[cite: 6].
 
 ---
 
@@ -159,6 +161,8 @@ Ansible orchestrates configuration across the secure management boundary establi
                                            - Security Hardening  - Domain Integration  - App Delivery							   
 ```
 
+### 3. Recruiter Hook
+"Automated post-deployment configuration using Ansible Roles, ensuring all Windows workloads adhere to a hardened security baseline and are integrated into the hybrid identity forest via secure Bastion proxies[cite: 1, 6].
 ---
 ## Phase 2c: CI/CD Pipeline (The Automation Heartbeat)
 
@@ -193,6 +197,8 @@ This diagram illustrates the automated path from a code change to a live Azure r
                                                   └── (06) OIDC Login (No Secrets)[cite: 4]
                                                   └── (07) terraform apply -auto-approve[cite: 1]
 ```
+### 3. Recruiter Hook
+"Implemented a production-grade CI/CD pipeline using GitHub Actions and OIDC, establishing a 'Secretless' deployment model[cite: 1, 4]. Integrated Branch Protection and automated linting to ensure all infrastructure changes are peer-reviewed, validated, and auditable before reaching production[cite: 6].
 
 ---
 ## Phase 3: Enterprise Governance & Guardrails
@@ -226,4 +232,6 @@ This diagram illustrates how governance "guardrails" flow from the management ro
 ```
 
 ### 3. Recruiter Hook: 
-"Architected a 'Secure-by-Design' foundation by implementing Policy-as-Code guardrails at the Management Group level[cite: 1, 6]. Enforced data sovereignty (UK South) and strict cost management policies while managing the end-to-end secrets lifecycle through Azure Key Vault, ensuring 100% automated compliance across the landing zone[cite: 1, 5]."---
+"Architected a 'Secure-by-Design' foundation by implementing Policy-as-Code guardrails at the Management Group level[cite: 1, 6]. Enforced data sovereignty (UK South) and strict cost management policies while managing the end-to-end secrets lifecycle through Azure Key Vault, ensuring 100% automated compliance across the landing zone[cite: 1, 5]."
+
+---
