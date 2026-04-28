@@ -46,7 +46,7 @@ Before deploying infrastructure, Phase 0 establishes the "Identity and Automatio
 
 # Phase 1: Azure Landing Zone & Governance Foundation
 
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail |
 | :--- | :--- |
 | **Business Problem** | **Uncontrolled Spend & Compliance Risk:** Lack of granular cloud governance leads to unorganized subscriptions, data residency (GDPR) risks, and runaway costs due to unmanaged resource deployment. |
 | **Technical Solution** | **CAF-Aligned Management Groups:** Deploying a `Root > Platform & Landing Zones` hierarchy using **Terraform**. Implementing **Policy-as-Code** (Azure Policy) to enforce "Foundational Guardrails" (Allowed Regions: UK South, Allowed VM SKUs: B-Series/Free Tier). |
@@ -101,7 +101,7 @@ Following the naming standard: `[resource]-[service]-[env]-[region]`.
 ## Phase 2a: Terraform – Reusable Modules (The Modular Engine)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail |
 | :--- | :--- |
 | **Business Problem** | **Inconsistent Infrastructure:** Manual or monolithic Terraform leads to "configuration drift," unmanaged secrets, and high maintenance debt[cite: 1, 6]. |
 | **Technical Solution** | **Modular IaC Framework:** Implementing reusable modules for scale. Integration of **Dynamic Secrets** (Key Vault) and **Resource Lifecycle Protection**. |
@@ -136,7 +136,7 @@ This diagram illustrates how the **Root Configuration** orchestrates specialized
 ## Phase 2b: Ansible Configuration Management (The Fleet Orchestrator)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail |
 | :--- | :--- |
 | **Business Problem** | **Manual Configuration Debt:** Deployed VMs are "naked" and vulnerable[cite: 1]. Manual setup is slow, inconsistent, and lacks a "Source of Truth"[cite: 6]. |
 | **Technical Solution** | **Role-Based Fleet Orchestration:** Utilizing Ansible roles for modular configuration management[cite: 6]. Connectivity is maintained via **Secure Bastion Proxies** to satisfy private-only networking[cite: 2, 6]. |
@@ -160,3 +160,66 @@ Ansible orchestrates configuration across the secure management boundary establi
 ```
 
 ---
+## Phase 2c: CI/CD Pipeline (The Automation Heartbeat)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail |
+| :--- | :--- |
+| **Business Problem** | **Manual Deployment Risk:** Lack of audit trails, manual errors, and "click-ops" lead to unstable environments and security leaks[cite: 1]. |
+| **Technical Solution** | **Secretless CI/CD Pipeline:** Implementing GitHub Actions with **OIDC authentication**[cite: 2, 4]. Integrated automated linting (Terraform/Ansible) and PR-based approval workflows[cite: 1, 6]. |
+| **Acceptance Criteria** | 1. **Branch Protection** active on `release-2` (requires PR + Status Checks). 2. `terraform plan` automatically comments on PRs[cite: 1]. 3. `ansible-lint` passes before any apply[cite: 6]. |
+| **Validation** | Successful PR cycle: Create PR -> Auto-Plan succeeds -> Review -> Merge -> Auto-Apply executes correctly in Azure[cite: 1]. |
+| **Evidence** | `docs/release2/evidence/P2c/`: Screenshots of Green GitHub Action runs, PR comments with Terraform plans, and the branch protection configuration. |
+
+### 2. CI/CD Workflow Architecture
+This diagram illustrates the automated path from a code change to a live Azure resource[cite: 1, 6].
+```text
+[ Developer Branch ] 
+          │
+          └── (01) git push ──> [ GitHub Pull Request ]
+                                         │
+                                         ├── (02) Trigger: CI Workflow
+                                         │     └── terraform fmt & validate
+                                         │     └── ansible-lint roles/[cite: 6]
+                                         │     └── terraform plan[cite: 1]
+                                         │
+                                         ├── (03) Outcome: Plan Comment on PR
+                                         │     └── "Plan: 5 to add, 0 to change"
+                                         │
+          ┌── (04) Manual Review & Approval ──┘
+          │
+          └── (05) Merge to 'release-2' ──> [ Trigger: CD Workflow ]
+                                                  │
+                                                  └── (06) OIDC Login (No Secrets)[cite: 4]
+                                                  └── (07) terraform apply -auto-approve[cite: 1]
+```
+
+---
+## Phase 3: Enterprise Governance & Guardrails
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail |
+| :--- | :--- |
+| **Business Problem** | **Compliance & Cost Drift:** Unmanaged deployments risk data residency violations (GDPR), cost overruns from oversized resources, and security gaps from exposed secrets. |
+| **Technical Solution** | **Policy-as-Code (PaC) & Identity Governance:** Automated enforcement of "Deny" policies for regional compliance and cost control. Implementation of Least Privilege RBAC and automated secret rotation via **Azure Key Vault**[cite: 6]. |
+| **Acceptance Criteria** | 1. **Data Sovereignty:** "Deny" policy for non-UK South regions active at Root MG[cite: 1, 5]. 2. **Cost Guardrails:** Allowed VM SKUs restricted to B-Series[cite: 1]. 3. **Governance:** Mandatory tagging enforced for all resources[cite: 5]. 4. **RBAC:** Least privilege roles assigned to `sp-terraform-gh` and security groups[cite: 3, 6]. |
+| **Validation** | 100% compliance score in **Azure Policy Dashboard**[cite: 1, 5]. CLI verification: Attempting to deploy in `East US` or without tags must trigger an automated `Deny` action[cite: 1, 5]. |
+| **Evidence** | `docs/release2/evidence/P3/`: Policy compliance reports, RBAC assignment lists, and CLI terminal outputs for secret retrieval[cite: 1, 5]. |
+
+### 2. Operational Architecture
+This diagram illustrates how governance "guardrails" flow from the management root down to the simulated workload boundaries[cite: 1, 3, 4].
+```text
+[ mg-azawslab-prod-global ] (Root Management Group)
+          │
+          ├── [ Policy: Data Sovereignty ] ──> (Deny: All regions except UK South)[cite: 1, 5]
+          ├── [ Policy: Cost Management ]  ──> (Deny: All VM SKUs except B-Series)[cite: 1]
+          ├── [ Policy: Mandatory Tags ]   ──> (Deny: Missing Env/Project/Owner)[cite: 5]
+          │
+          └── [ sub-azaws-enterprise-prod ] (Simulated Corporate Subscription)
+                │
+                ├── [ rg-dev-platform-uksouth ]
+                │     └── [ kv-dev-platform-001 ] ──> (Managed Secrets Lifecycle)[cite: 5, 6]
+                │           └── RBAC: azw-Security-Engineers (Reader)[cite: 5]
+                │
+                └── [ rg-dev-networking-uksouth ]
+                      └── RBAC: sp-terraform-gh (Contributor)[cite: 4, 5]
