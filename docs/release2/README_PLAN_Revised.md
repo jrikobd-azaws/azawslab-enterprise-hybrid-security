@@ -267,7 +267,7 @@ This diagram illustrates the logical projection of resources across separate Ent
 ## Phase 5: Hub-Spoke Networking Foundation
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail |
 | :--- | :--- |
 | **Business Problem** | **Lateral Movement & Uninspected Egress:** Flat networks allow attackers to move freely, and direct internet access from workloads bypasses corporate security inspection[cite: 1, 5]. |
 | **Technical Solution** | **Hub-Spoke Topology & Forced Tunneling:** Deploying a central Hub VNet and peered Spoke VNets via Terraform[cite: 1, 5]. Implementing User Defined Routes (UDRs) to force all egress traffic to a central inspection point, and replacing public jump-boxes with **Azure Bastion**. |
@@ -300,3 +300,338 @@ This diagram illustrates the secure network boundary. Notice that the `GatewaySu
 "Architected an enterprise-grade Hub-Spoke network topology using Terraform. Implemented strict Zero Trust network boundaries by eliminating public IPs on workloads, utilizing Azure Bastion for secure access, and configuring User Defined Routes (UDRs) to ensure all traffic is forced through central security inspection[cite: 5, 6]."
 
 ---
+
+## Phase 6: Azure Firewall & Central Inspection
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail  |
+| :--- | :--- |
+| **Business Problem** | **Data Exfiltration & Unaudited Traffic:** Direct outbound internet access from workloads exposes the enterprise to malware command-and-control (C2) communication and data theft. |
+| **Technical Solution** | **Centralized Inspection:** Deploying **Azure Firewall** into the Hub VNet to act as the primary inspection point for all North-South and East-West traffic[cite: 2]. Managing rules via hierarchical **Firewall Policies** and streaming diagnostics to Log Analytics[cite: 5]. |
+| **Acceptance Criteria** | 1. Firewall deployed in `AzureFirewallSubnet`[cite: 5]. 2. Network Rule allows outbound DNS (UDP/53)[cite: 5]. 3. Application Rule allows HTTPS to `*.microsoft.com` / `*.azure.com`[cite: 5]. 4. Spoke UDR dynamically updated with Firewall's private IP[cite: 5]. |
+| **Validation** | From private Spoke VM: `nslookup` succeeds, but `curl http://example.com` is actively blocked by the firewall[cite: 5]. KQL query in Log Analytics proves the block was logged[cite: 1, 5]. |
+| **Evidence** | `docs/release2/evidence/P6/`: Firewall policy screenshots, Spoke VM terminal output showing blocked traffic, and Log Analytics KQL query results[cite: 1, 5]. |
+
+### 2. Operational Architecture (Traffic Flow)
+This diagram illustrates the "Forced Tunneling" path. The workload has no direct internet access; all traffic must pass through the Firewall policy engine[cite: 1, 2, 5].
+```text
+[ Internet / External Services ]
+          ▲ (Blocked: [http://example.com](http://example.com))
+          │ (Allowed: *.microsoft.com)
+  ┌───────┴─────────────────────────────────────────┐
+  │ [ afwp-dev-uksouth ] (Firewall Policy Engine)   │[cite: 5]
+  │   ├── Network Rules: Allow DNS (8.8.8.8)        │[cite: 5]
+  │   └── Application Rules: Allow Azure APIs       │[cite: 5]
+  └───────▲─────────────────────────────────────────┘
+          │
+ [ afw-dev-uksouth-01 ] (Azure Firewall in Hub)[cite: 5]
+          ▲
+          │ (Diagnostic Logs ──> Log Analytics Workspace)[cite: 5]
+          │
+[ UDR: 0.0.0.0/0 -> Firewall Private IP ][cite: 5]
+          ▲
+          │
+[ vm-dev-client-01 ] (Private Workload in Spoke)[cite: 5]
+```
+### 3. Recruiter Hook
+"Deployed Azure Firewall as the central security appliance for the Hub-Spoke architecture. Enforced Zero Trust egress by utilizing Firewall Policies for application and network rule collections, and integrated diagnostic logging into Azure Monitor to ensure 100% visibility of blocked traffic streams[cite: 1, 5]."  
+
+### 4. FinOps / Cost Notice
+Azure Firewall is a premium resource (~$1.20/hour). This phase operates on an ephemeral deployment model. The firewall is provisioned via Terraform to generate KQL evidence and is destroyed immediately after validation to strictly protect the lab budget.
+
+---
+
+## Phase 7: Cloud Security Posture Management (CSPM)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail |
+| :--- | :--- |
+| **Business Problem** | **Security Blind Spots:** Without continuous assessment, cloud environments drift out of compliance, and vulnerabilities remain undiscovered until exploited. |
+| **Technical Solution** | **Proactive Posture Management:** Utilizing **Terraform** to enable Microsoft Defender for Cloud, establishing a baseline Secure Score and deploying Cloud Workload Protection (CWPP) for targeted assets. |
+| **Acceptance Criteria** | 1. Free CSPM enabled at the subscription level via the `azurerm` provider. 2. Targeted Defender plan enabled via IaC. 3. Documented remediation of a high-priority security recommendation. |
+| **Validation** | Track and verify a measurable increase in the Azure Secure Score after applying infrastructure remediations. |
+| **Evidence** | `docs/release2/evidence/P7/`: Terraform apply output, before-and-after Secure Score screenshots, and validation of the remediated control. |
+
+### 2. Operational Architecture (Continuous Assessment)
+This diagram illustrates how Defender continuously scans the environment to prioritize security hygiene.
+```text
+[ Azure Infrastructure (Hub & Spoke VNets, VMs, Key Vault) ]
+          │
+          └── (Continuous Scanning) ──> [ Microsoft Defender for Cloud ]
+                                                 ├── [ Free CSPM ] -> Generates Secure Score
+                                                 └── [ CWPP Plans ] -> Deep Workload Protection
+                                                          │
+                                                          └── (Action) ──> [ Apply Remediation ]
+                                                                                  │
+                                                                                  ▼
+                                                                     [ Improved Security Posture ]
+```
+### 3. Recruiter Hook
+"Implemented Microsoft Defender for Cloud to establish continuous Cloud Security Posture Management (CSPM)[cite: 1]. Demonstrated the ability to assess, prioritize, and remediate cloud vulnerabilities, resulting in a measurable improvement to the environment's Secure Score[cite: 1, 5]."
+
+### 4. FinOps Notice
+Premium Defender plans (CWPP) will be enabled only during the validation window and immediately disabled to preserve the lab budget[cite: 1, 5].
+
+---
+
+## Phase 8: Microsoft Sentinel (Cloud-Native SIEM)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail |
+| :--- | :--- |
+| **Business Problem** | **Decentralized Logs & Alert Fatigue:** Raw logs stored in Log Analytics are difficult to parse manually. Without a SIEM, security teams cannot correlate events or detect sophisticated attacks. |
+| **Technical Solution** | **Detection-as-Code:** Deploying **Microsoft Sentinel** via **Terraform** to ingest centralized logs, and utilizing KQL Analytic Rules to generate high-fidelity security incidents. |
+| **Acceptance Criteria** | 1. Sentinel onboarded to the core Log Analytics workspace via IaC. 2. Azure Activity data connector active. 3. Custom analytic rule deployed to detect anomalies (e.g., failed sign-ins). |
+| **Validation** | Simulate a security event (e.g., brute-force login attempt) and verify that Sentinel successfully correlates the logs and triggers an actionable Incident in the dashboard. |
+| **Evidence** | `docs/release2/evidence/P8/`: Terraform apply outputs, data connector status, KQL rule configuration, and a screenshot of the generated Sentinel Incident. |
+
+### 2. Operational Architecture (Threat Detection Flow)
+This diagram illustrates the aggregation of logs into the central SIEM for active threat hunting and alerting.
+```text
+[ Firewall Logs ]     [ Azure Activity Logs ]     [ Defender Alerts ]
+       │                        │                         │
+       └──────────────┬─────────┴─────────┬───────────────┘
+                      ▼                   ▼
+               [ Log Analytics Workspace (la-dev-platform) ]
+                                │
+                                ▼
+                  [ Microsoft Sentinel (SIEM) ]
+                                ├── (Ingest: Azure Activity Connector)
+                                └── (Evaluate: KQL Analytic Rules)
+                                │             (e.g., >5 failed logins)
+                                ▼
+                       [ Security Incident ] -> (Triggers SOC Response)
+```
+### 3. Recruiter Hook
+"Architected a cloud-native Security Operations Center (SOC) using Microsoft Sentinel[cite: 1]. Integrated centralized log ingestion and authored custom KQL analytic rules to correlate events, automate threat detection, and generate actionable security incidents[cite: 1, 5]."
+
+---
+
+## Phase 9a: Azure Monitor & Alerts (Observability)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail |
+| :--- | :--- |
+| **Business Problem** | **Silent Failures:** Without proactive alerting, the business only knows a server is down or degraded when users start complaining, leading to unacceptable downtime. |
+| **Technical Solution** | **Observability-as-Code:** Deploying **Azure Monitor**, **Data Collection Rules (DCRs)**, and **Action Groups** via **Terraform** to establish automated alerting for critical infrastructure thresholds. |
+| **Acceptance Criteria** | 1. Action Group (email notification) created via IaC. 2. Metric Alert Rule deployed via IaC targeting the Spoke VM. 3. DCR configured and associated with the workload to route metrics. |
+| **Validation** | Execute a CPU stress test script on the Spoke VM. Verify that the threshold is breached and an automated alert email is successfully delivered. |
+| **Evidence** | `docs/release2/evidence/P9a/`: Terraform apply outputs, alert configuration screenshots in the portal, and a screenshot of the received email alert. |
+
+### 2. Operational Architecture (Proactive Alerting)
+This diagram illustrates the automated observability flow from the workload agent to the administrator's inbox.
+```text
+[ Spoke VM (vm-dev-client-01) ]
+          │
+          └── (Azure Monitor Agent via DCR) ──> [ Azure Monitor ]
+                                                       │
+                                                       └── (Rule: CPU > 85%) ──> [ Action Group: Email Admin ]
+
+```
+
+### 3. Recruiter Hook
+"Engineered comprehensive observability using Azure Monitor & Action Groups deployed entirely via Terraform. Demonstrated 'Day 2' operational maturity by establishing automated, proactive alerting to prevent silent infrastructure failures and reduce Mean Time to Detect (MTTD)."
+
+---
+## Phase 9b: Disaster Recovery & BCDR (Resilience-as-Code)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Insider Threats & Ransomware:** Standard backup vaults are vulnerable to compromised highly-privileged accounts (e.g., Global Admins) who can disable security features and maliciously wipe recovery data. |
+| **Technical Solution** | **Zero Trust BCDR:** Deploying Recovery Services Vaults (RSV) via **Terraform**. Enforcing **Vault Immutability** and implementing **Multi-User Authorization (MUA)** via an Azure Resource Guard to ensure no single administrator can permanently destroy backups. |
+| **Acceptance Criteria** | 1. RSV and Backup Policy created via IaC. 2. Spoke VM associated with the backup policy. 3. Resource Guard deployed and linked to the RSV to enforce MUA for critical operations. 4. Documented BCDR plan outlining RPO/RTO. |
+| **Validation** | Attempt to disable Soft Delete or delete a backup item using the primary admin account; verify the action is blocked by the Resource Guard MUA policy. Execute a successful ASR test failover. |
+| **Evidence** | `docs/release2/evidence/P9b/`: Terraform apply outputs, portal screenshots of the blocked deletion attempt (MUA enforcement), ASR replication health, and the completed DR plan document. |
+
+### 2. Operational Architecture (Zero Trust Resilience)
+This diagram illustrates the tamper-proof backup architecture, separating backup execution from deletion authority.
+
+    [ Spoke VM (vm-dev-client-01) ]
+              │
+              └── (Automated Backup) ──> [ Recovery Services Vault ]
+                                                  ├── Policy: Daily, Retain 30 Days
+                                                  ├── Security: Soft Delete (14 Days) + Immutability
+                                                  │
+                                                  └── (MUA Enforcement)
+                                                            ▲
+                                                            │ (Blocks critical operations without secondary approval)
+                                                            ▼
+                                                 [ Azure Resource Guard ] (Isolated Security Context)
+
+### 3. Recruiter Hook
+"Engineered a Zero Trust Business Continuity and Disaster Recovery (BCDR) architecture utilizing **Azure Backup** and **Azure Site Recovery (ASR)**. Implemented 'Resilience-as-Code' via Terraform, enforcing Vault Immutability and **Multi-User Authorization (MUA) via Azure Resource Guard** to establish a ransomware-proof recovery baseline aligned with Microsoft Cybersecurity Architect (SC-100) standards."
+
+## Phase 9c: Platform Handover & FinOps Teardown
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Knowledge Silos & Cloud Waste:** Undocumented platforms mean only the original author can maintain the system. Leaving unused infrastructure running generates massive, unnecessary cloud consumption costs. |
+| **Technical Solution** | **DevEx & FinOps Lifecycle:** Authoring enterprise-grade Developer Experience (DevEx) documentation (`onboarding.md`, `CONTRIBUTING.md`)[cite: 1]. Executing a strict FinOps teardown via Terraform to validate state cleanliness and enforce a $0 run-rate. |
+| **Acceptance Criteria** | 1. `docs/onboarding.md` details the PR, OIDC, and deployment workflow[cite: 1]. 2. `CONTRIBUTING.md` enforces branch strategies and naming conventions[cite: 1, 6]. 3. `terraform destroy` completes successfully without orphaned resources. |
+| **Validation** | Another engineer can clone the repo and deploy the environment from scratch within 60 minutes. Azure Cost Analysis projects $0 in ongoing compute charges. |
+| **Evidence** | `docs/release2/evidence/P9c/`: Committed documentation files[cite: 1], and a terminal output screenshot of a successful, error-free `terraform destroy` execution. |
+
+### 2. Operational Architecture (The Lifecycle Loop)
+This diagram illustrates the complete infrastructure lifecycle, ensuring the platform is both maintainable by the team and financially responsible.
+
+    [ GitHub Repository ]
+          │
+          ├── (1. DevEx) ──> [ onboarding.md & CONTRIBUTING.md ] -> (Team scales autonomously)
+          │
+          └── (2. FinOps) ──> [ terraform destroy ] -> (State lock clears, Azure bills drop to $0)
+                                      │
+                                      ▼
+                           [ Clean Azure Environment ]
+
+### 3. Recruiter Hook
+"Concluded the platform lifecycle by prioritizing Developer Experience (DevEx) and FinOps. Authored comprehensive onboarding and contribution governance documentation to eliminate knowledge silos, and executed an automated infrastructure teardown to validate state cleanliness and enforce strict cost-control measures."
+
+---
+
+## Phase O1: Multi-Vendor Security (FortiGate NVA)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Vendor Lock-in & Advanced Threat Protection:** Enterprises often require third-party Next-Generation Firewalls (NGFW) like FortiGate for unified threat management (UTM) and deep packet inspection across hybrid environments[cite: 3]. |
+| **Technical Solution** | **NVA Deployment & Advanced Routing:** Deploying a FortiGate Network Virtual Appliance (NVA) from the Azure Marketplace via Terraform[cite: 3]. Updating User Defined Routes (UDRs) to steer specific Spoke traffic through the NVA for inspection. |
+| **Acceptance Criteria** | 1. FortiGate VM deployed in a dedicated subnet. 2. UDR configured with the NVA's private IP as the Next Hop. 3. Firewall policies configured via the FortiOS management interface. |
+| **Validation** | Verify traffic from the workload spoke is successfully routed through and inspected by the FortiGate NVA before reaching the internet or other spokes. |
+| **Evidence** | `docs/release2/evidence/O1/`: Terraform apply outputs, effective route table showing the NVA Next Hop, and FortiOS traffic logs. |
+
+### 2. Operational Architecture (NVA Routing)
+This diagram illustrates how User Defined Routes (UDRs) are manipulated to force traffic through a third-party appliance.
+
+    [ Spoke VM ]
+          │
+          └── (UDR: 0.0.0.0/0 -> NVA IP) ──> [ FortiGate NVA (Hub VNet) ]
+                                                     ├── (FortiOS Inspection)
+                                                     └── (Outbound to Internet)
+
+### 3. Recruiter Hook
+"Demonstrated multi-vendor network security expertise by deploying a **FortiGate Network Virtual Appliance (NVA)**. Configured advanced User Defined Routes (UDRs) to establish a custom traffic inspection path, proving the ability to integrate third-party Next-Gen Firewalls into an Azure Hub-Spoke architecture[cite: 3]."
+
+### 4. FinOps Notice
+The FortiGate appliance utilizes a 30-day free trial or BYOL (Bring Your Own License) model[cite: 3]. The underlying compute VM will be deployed ephemerally and destroyed post-validation to prevent continuous hourly charges.
+
+---
+
+## Phase O2: Hybrid Cloud Management (Azure Arc)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Operational Silos:** Managing on-premises servers separately from cloud infrastructure creates blind spots, inconsistent security policies, and fragmented monitoring[cite: 3]. |
+| **Technical Solution** | **Unified Hybrid Governance:** Deploying the **Azure Arc** connected machine agent to local Hyper-V virtual machines[cite: 3]. Projecting on-premises infrastructure into Azure Resource Manager (ARM) to centralize governance, policy enforcement, and logging. |
+| **Acceptance Criteria** | 1. Azure Arc agent installed on a local Hyper-V VM. 2. The local VM appears as a "Connected Machine" in the Azure Portal[cite: 3]. 3. An Azure Policy (e.g., tag enforcement) is successfully applied to the on-premises server. |
+| **Validation** | Run `az connectedmachine list` in the Azure CLI to verify the Hyper-V VM is communicating with Azure ARM[cite: 3]. Verify Defender for Cloud assessments are evaluating the local server[cite: 3]. |
+| **Evidence** | `docs/release2/evidence/O2/`: CLI output of connected machines, and portal screenshots showing Azure Policy applied to the Hyper-V resource[cite: 3]. |
+
+### 2. Operational Architecture (Hybrid Projection)
+This diagram illustrates how on-premises hardware is logically projected into the Azure control plane.
+
+    [ Local Hyper-V Lab ]                          [ Azure Resource Manager (ARM) ]
+            │                                                 ▲
+            ├── [ DC1 (Windows Server) ]                      │
+            │          └── (Azure Arc Agent) ─────────────────┤ (Projects Resource)
+            │                                                 │
+            └── [ App1 (Linux) ]                              │
+                       └── (Azure Arc Agent) ─────────────────┘
+                                                              │
+                                                              ├── (Enforces) <- [ Azure Policy ]
+                                                              └── (Monitors) <- [ Defender & Sentinel ]
+
+### 3. Recruiter Hook
+"Architected a unified hybrid-cloud management plane utilizing **Azure Arc**. Successfully projected on-premises Hyper-V virtual machines into Azure Resource Manager (ARM), enabling centralized governance, consistent policy enforcement, and unified security monitoring across physical and cloud boundaries[cite: 3]."
+
+---
+
+## Phase O3a: Dynamic Routing Foundation (Azure to On-Prem HQ)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Routing Overhead:** Relying on static routes for hybrid connectivity does not scale. Manual route table updates cause administrative overhead and increase the risk of routing loops or outages. |
+| **Technical Solution** | **Dynamic Route Exchange:** Enabling **BGP (Border Gateway Protocol)** on the Azure VPN Gateway and establishing a BGP peering session with the simulated on-premises HQ router (Hyper-V RRAS). |
+| **Acceptance Criteria** | 1. Azure VPN Gateway deployed with BGP enabled (ASN: 65515). 2. Local Network Gateway deployed reflecting the Hyper-V router (ASN: 65001). 3. IPSec Site-to-Site tunnel established and routing natively. |
+| **Validation** | Execute `az network vnet-gateway list-bgp-peer-status` to verify the Hyper-V peer state is "Connected". Verify effective routes on a Spoke VM show the HQ subnets learned dynamically. |
+| **Evidence** | `docs/release2/evidence/O3a/`: CLI output of the BGP peer status, and portal screenshots of the dynamically learned effective routes. |
+
+### 2. Operational Architecture (HQ Peering)
+This diagram illustrates the foundational BGP peering relationship to the simulated HQ.
+
+    [ Azure VPN Gateway (Hub VNet) ]
+    (ASN: 65515)
+          │
+          ├── (IPSec Tunnel + BGP Session)
+          │
+    [ On-Premises Router (Hyper-V RRAS) ]
+    (ASN: 65001 | Subnet: 192.168.1.0/24)
+
+### 3. Recruiter Hook
+"Architected a scalable hybrid networking topology by configuring **BGP (Border Gateway Protocol)** over an IPSec Site-to-Site VPN. Eliminated static routing overhead by establishing automated, dynamic route propagation between Azure and a simulated legacy data center."
+
+---
+
+## Phase O3b: Multi-Cloud Foundation (AWS Infrastructure & Peering)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Cloud Expansion & Configuration Drift:** Expanding into AWS requires standardizing infrastructure deployment. Manually configuring AWS networking while automating Azure leads to configuration drift and operational blind spots. |
+| **Technical Solution** | **Multi-Provider IaC:** Utilizing Terraform with **both** the `hashicorp/azurerm` and `hashicorp/aws` providers simultaneously. Deploying the AWS Branch infrastructure (VPC, Subnet, Route Table, EC2 Instance, Virtual Private Gateway) alongside the Azure Local Network Gateway to establish the BGP-enabled IPSec tunnel. |
+| **Acceptance Criteria** | 1. AWS VPC (172.16.0.0/16) and test EC2 instance deployed via Terraform. 2. AWS Virtual Private Gateway (VGW) and Customer Gateway (CGW) configured for BGP (ASN: 65002). 3. Azure Local Network Gateway deployed reflecting the AWS IP. 4. IPSec tunnel established between both clouds. |
+| **Validation** | Execute `az network vnet-gateway list-bgp-peer-status` to verify the AWS peer state is "Connected". Connect to the AWS EC2 instance (via SSM or SSH) and successfully ping the private IP of an Azure Spoke VM. |
+| **Evidence** | `docs/release2/evidence/O3b/`: Terraform apply output showing both Azure and AWS resource creation, CLI output of the BGP peer status, and a screenshot of the successful ping from the EC2 terminal. |
+
+### 2. Operational Architecture (Dual-Provider Deployment)
+This diagram illustrates the explicit infrastructure deployed across both cloud providers via a single Terraform state.
+
+    [ Azure (Terraform 'azurerm' provider) ]        [ AWS (Terraform 'aws' provider) ]
+                                                            
+    [ Hub VNet ]                                    [ Branch VPC: 172.16.0.0/16 ]
+         │                                               │
+         ├── [ Local Network Gateway ]                   ├── [ Customer Gateway (Azure IP) ]
+         │                                               │
+         └── [ Azure VPN Gateway ] <──(IPSec + BGP)──> [ AWS Virtual Private Gateway (VGW) ]
+               (ASN: 65515)                                  (ASN: 65002)
+                                                                 │
+                                                                 └── [ EC2 Instance (Test Workload) ]
+
+### 3. Recruiter Hook
+"Expanded hybrid infrastructure into a true Multi-Cloud architecture using a **Dual-Provider Terraform strategy**. Simultaneously provisioned AWS infrastructure (VPC, EC2, VGW) and Azure networking to establish a secure, BGP-routed IPSec Site-to-Site VPN, proving advanced cross-cloud orchestration capabilities."
+
+---
+
+## Phase O3c: Multi-Cloud Transit Routing (HQ to AWS via Azure)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Transitive Complexity:** Establishing direct, full-mesh connectivity between all physical sites and all cloud providers is cost-prohibitive and administratively impossible to maintain. |
+| **Technical Solution** | **Transitive BGP Hub:** Positioning Azure as the central transit hub. Leveraging the active BGP sessions from O3a and O3b to allow Azure to automatically propagate the Hyper-V routes to AWS, and the AWS routes to Hyper-V. |
+| **Acceptance Criteria** | 1. BGP Transit routing successfully advertises across all three environments. 2. No direct physical link exists between Hyper-V and AWS; all traffic must flow through the Azure VPN Gateway. |
+| **Validation** | From a local Hyper-V VM (HQ), successfully ping the private IP of an AWS EC2 instance (Branch). Run a `tracert` (Trace Route) to prove the traffic is physically hopping through the Azure Virtual Network backbone. |
+| **Evidence** | `docs/release2/evidence/O3c/`: A terminal screenshot showing a successful `tracert` from Hyper-V to AWS, explicitly displaying the Azure VPN Gateway IP as the intermediate hop. |
+
+### 2. Operational Architecture (Transitive Hub)
+This diagram illustrates Azure actively routing traffic between the legacy physical network and the secondary cloud provider.
+
+                          [ Azure VPN Gateway (Hub VNet) ]
+                          (Transit Hub | ASN: 65515)
+                                    │
+               ┌────────────────────┴────────────────────┐
+               │                                         │ 
+               ▼                                         ▼
+    [ Hyper-V RRAS (Corp HQ) ]                [ AWS VPN Gateway (Branch) ]
+         (ASN: 65001)                                (ASN: 65002)
+               │                                         │
+               └─────── (Traffic flows via Azure) ───────┘
+
+### 3. Recruiter Hook
+"Engineered a highly advanced Multi-Cloud transit network using **BGP Transitive Routing**. Positioned Azure Virtual WAN/VPN Gateway as the central transit hub, enabling seamless, dynamic communication between a simulated legacy on-premises HQ and an AWS branch office without requiring direct peer-to-peer links."
+
+---
+
