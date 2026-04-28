@@ -224,5 +224,6 @@ This diagram illustrates how governance "guardrails" flow from the management ro
                 └── [ rg-dev-networking-uksouth ]
                       └── RBAC: sp-terraform-gh (Contributor)[cite: 4, 5]
 ```
-|Architected a 'Secure-by-Design' foundation by implementing Policy-as-Code guardrails at the Management Group level[cite: 1, 6]. Enforced data sovereignty (UK South) and strict cost management policies while managing the end-to-end secrets lifecycle through Azure Key Vault, ensuring 100% automated compliance across the landing zone[cite: 1, 5].|
+
+Architected a 'Secure-by-Design' foundation by implementing Policy-as-Code guardrails at the Management Group level[cite: 1, 6]. Enforced data sovereignty (UK South) and strict cost management policies while managing the end-to-end secrets lifecycle through Azure Key Vault, ensuring 100% automated compliance across the landing zone[cite: 1, 5].
 ---
