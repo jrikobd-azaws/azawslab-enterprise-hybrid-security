@@ -43,7 +43,6 @@ Before deploying infrastructure, Phase 0 establishes the "Identity and Automatio
 
 ---
 
-### Phase 1: Azure Landing Zone & Governance
 
 # Phase 1: Azure Landing Zone & Governance Foundation
 
@@ -95,3 +94,69 @@ Following the naming standard: `[resource]-[service]-[env]-[region]`.
             ├── [mg-platform-prod-global]      (Empty - Logical Placeholder)
             ├── [mg-landingzones-prod-global] (Empty - Logical Placeholder)
             └── [mg-sandbox-prod-global]      (Empty - Logical Placeholder)
+			
+```
+---			
+
+## Phase 2a: Terraform – Reusable Modules (The Modular Engine)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Inconsistent Infrastructure:** Manual or monolithic Terraform leads to "configuration drift," unmanaged secrets, and high maintenance debt[cite: 1, 6]. |
+| **Technical Solution** | **Modular IaC Framework:** Implementing reusable modules for scale. Integration of **Dynamic Secrets** (Key Vault) and **Resource Lifecycle Protection**. |
+| **Acceptance Criteria** | 1. Modular directory tree validated (`terraform/modules/`)[cite: 4, 5]. 2. `terraform validate` passes across all components[cite: 1]. 3. Admin passwords are 100% dynamic (Key Vault)[cite: 6]. 4. Workload VMs have zero Public IPs[cite: 2, 6]. |
+| **Validation** | Successful `terraform plan` execution. Output must confirm `admin_password` is handled as a **(sensitive value)**[cite: 1, 6]. |
+| **Evidence** | `docs/release2/evidence/P2a/`: Terminal output of `tf plan`, screenshot of Key Vault secrets, and the module directory tree[cite: 1, 4, 5]. |
+
+### 2. Automation Architecture & Data Flow
+This diagram illustrates how the **Root Configuration** orchestrates specialized **Modules** to build a secure environment[cite: 1].
+```text
+[ environments/dev/main.tf ]
+          │
+          ├── (01) Calls ──> [ modules/security ]
+          │                    └── Deploy: kv-dev-platform-001[cite: 5]
+          │                    └── Logic: Generate Random Password -> Store in KV[cite: 6]
+          │
+          ├── (02) Calls ──> [ modules/networking ]
+          │                    └── Deploy: vnet-dev-uksouth-hub[cite: 5]
+          │                    └── Logic: Hub-Spoke Peering & Subnets[cite: 5, 6]
+          │
+          ├── (03) Calls ──> [ modules/compute ]
+          │                    └── Deploy: vm-dev-client-01[cite: 5]
+          │                    └── Logic: NIC-only (No Public IP) + Get Password from KV[cite: 2, 6]
+          │
+          └── (04) Calls ──> [ modules/monitoring ]
+                               └── Deploy: la-dev-platform[cite: 5]
+                               └── Logic: Central Log Analytics Workspace[cite: 5]
+```
+
+---
+
+## Phase 2b: Ansible Configuration Management (The Fleet Orchestrator)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **Manual Configuration Debt:** Deployed VMs are "naked" and vulnerable[cite: 1]. Manual setup is slow, inconsistent, and lacks a "Source of Truth"[cite: 6]. |
+| **Technical Solution** | **Role-Based Fleet Orchestration:** Utilizing Ansible roles for modular configuration management[cite: 6]. Connectivity is maintained via **Secure Bastion Proxies** to satisfy private-only networking[cite: 2, 6]. |
+| **Acceptance Criteria** | 1. `ansible-lint` passes for all roles (`common`, `ad-join`, `webserver`)[cite: 6]. 2. VMs successfully join `hq.azawslab.co.uk` via private-only NICs[cite: 2, 6]. 3. Credentials managed via **Ansible Vault**[cite: 1]. |
+| **Validation** | Successful execution of `site.yml` (Master Playbook) showing `changed=0` on re-run (Idempotency) and verified IIS connectivity. |
+| **Evidence** | `docs/release2/evidence/P2b/`: Terminal outputs of role execution, Active Directory "Computer Object" screenshots, and security baseline verification[cite: 1, 5]. |
+
+### 2. Operational Architecture
+Ansible orchestrates configuration across the secure management boundary established in Phase 0[cite: 4, 6].
+```text
+[ GitHub Actions / CLI ]
+          │
+          └── (SSH/WinRM over Proxy) ──> [ Azure Bastion ]
+                                              │
+                                              └── (ProxyJump) ──> [ Private Spokes ]
+                                                                        │
+                                                  ┌─────────────────────┴─────────────────────┐
+                                                  │                     │                     │
+                                           [ Role: Common ]      [ Role: AD-Join ]     [ Role: Web ]
+                                           - Security Hardening  - Domain Integration  - App Delivery							   
+```
+
+---
