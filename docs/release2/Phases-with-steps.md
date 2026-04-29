@@ -618,3 +618,518 @@ LEGEND:
 ```
 
 ---
+
+# Phase 3: Enterprise Governance & Guardrails
+
+## Objective
+Enforce data sovereignty (UK South only), cost control (B‑series VM SKUs only), mandatory tagging, and least‑privilege RBAC via Azure Policy and role assignments.
+
+## Step-by-Step Actions
+
+### Step 3.1: Confirm existing policies from Phase 1 (if not already done)
+Ensure three custom policy definitions exist:
+- `policy-allowed-locations` (deny if location not `uksouth`)
+- `policy-allowed-vm-skus` (deny if VM SKU not B-series)
+- `policy-mandatory-tags` (deny if missing `Environment`, `Project`, or `Owner` tags)
+
+**Deploy missing policies using Terraform** (example for VM SKU):
+```hcl
+resource "azurerm_policy_definition" "allowed_vm_skus" {
+  name         = "policy-allowed-vm-skus"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Allowed VM SKUs (B-series only)"
+
+  metadata = <<METADATA { "category": "Compute" } METADATA policy_rule="<<POLICY_RULE" "if": "allOf": [ "field": "type", "equals": "Microsoft.Compute/virtualMachines" }, "not": "Microsoft.Compute/virtualMachines/sku.name", "in": ["Standard_B1s", "Standard_B2s", "Standard_B2ms", "Standard_B4ms", "Standard_B8ms"] ] "then": "effect": "deny" POLICY_RULE resource "azurerm_management_group_policy_assignment" "allowed_vm_skus" name="policy-mandatory-tags" management_group_id="mg-landingzones-prod-global" policy_definition_id="azurerm_policy_definition.allowed_vm_skus.id" ``` ### Step 3.2: Assign mandatory tags policy (custom) ```hcl "azurerm_policy_definition" "mandatory_tags" policy_type="Custom" mode="Indexed" display_name="Require mandatory tags" metadata="<<METADATA" "Tags" "anyOf": "tags['Environment']", "exists": "false" "tags['Project']", "tags['Owner']", 3.3: Verify least‑privilege RBAC for `sp-terraform-gh` ```bash # Check current role assignments az assignment list --assignee $APP_ID --output table Ensure only Contributor at subscription level – no Owner or User Access Administrator If too broad, restrict to specific group: create --role --scope /subscriptions/$SUB_ID/resourceGroups/rg-dev-* 3.4: Validate enforcement Attempt VM in East US (should fail) vm --resource-group rg-dev-networking-uksouth --name vm-test-fail --image Win2022Datacenter --location eastus --admin-username azureuser --admin-password Test123! --no-wait Expected error: "Resource 'vm-test-fail' was disallowed by policy." with non-B SKU vm-test-sku uksouth --size Standard_D2s_v3 denied policy-allowed-vm-skus without storage account stfailtagtest --sku Standard_LRS missing required ## Validation Checklist - All three show as "Compliant" (or non‑compliant resources are creation). `az state --filter "resourceType eq 'Microsoft.Compute/virtualMachines'"` shows violations. has on restricted groups. Text Diagram Phase 3 Resources ```text PHASE 3: GOVERNANCE & GUARDRAILS="===============================" [mg-landingzones-prod-global] │ ├── Policy Assignment: polassign-allowed-locations-mg └── (deny if location !="uksouth)" polassign-allowed-skus-mg not B-series list) polassign-mandatory-tags-mg Environment/Project/Owner tags) [Subscription: sub-azaws-enterprise-prod] RBAC: sp-terraform-gh --(Contributor)--> (Resource Group: rg-dev-*)
+         │
+         └── (Any resource creation attempts)──> evaluated against MG policies
+
+Attempted violations:
+  - VM in East US → Deny
+  - VM Standard_D2s_v3 → Deny
+  - Storage account without tags → Deny
+
+LEGEND:
+======>
+[Policy Assignment]   Azure Policy applied at management group
+--(role)-->           RBAC permission
+```
+
+---
+
+# Phase 4: Azure Lighthouse (MSP Delegated Administration)
+
+## Objective
+Project a customer subscription into the primary management tenant (`entra.azawslab.co.uk`) using Azure Lighthouse, enabling cross‑tenant management without guest accounts.
+
+## Step-by-Step Actions
+
+### Step 4.1: Prepare ARM template for Lighthouse delegation
+Create `lighthouse-customer-delegation.json`:
+```json
+{
+  "$schema": "[https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#](https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#)",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "mspOfferName": {
+      "type": "string",
+      "defaultValue": "Azawslab MSP Management"
+    },
+    "mspOfferDescription": {
+      "type": "string",
+      "defaultValue": "Azure Lighthouse delegation for Azawslab Release 2"
+    },
+    "managedByTenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "Tenant ID of the managing tenant (entra.azawslab.co.uk)"
+      }
+    },
+    "authorizations": {
+      "type": "array",
+      "defaultValue": [
+        {
+          "principalId": "00000000-0000-0000-0000-000000000000",
+          "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c",
+          "principalIdDisplayName": "azw-Platform-Admins"
+        }
+      ]
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.ManagedServices/registrationDefinitions",
+      "apiVersion": "2020-02-01-preview",
+      "name": "[guid(parameters('mspOfferName'))]",
+      "properties": {
+        "registrationDefinitionName": "[parameters('mspOfferName')]",
+        "description": "[parameters('mspOfferDescription')]",
+        "managedByTenantId": "[parameters('managedByTenantId')]",
+        "authorizations": "[parameters('authorizations')]"
+      }
+    }
+  ]
+}
+```
+
+### Step 4.2: Deploy ARM template in **customer tenant** (second Entra ID / subscription)
+```bash
+# Log into customer tenant first
+az login --tenant <customer-tenant-id>
+
+# Deploy template at subscription scope
+az deployment sub create \
+  --location uksouth \
+  --template-file lighthouse-customer-delegation.json \
+  --parameters managedByTenantId="<your-primary-tenant-id>"
+```
+
+### Step 4.3: Verify delegation from primary tenant
+```bash
+# Switch back to primary tenant (entra.azawslab.co.uk)
+az login --tenant entra.azawslab.co.uk
+
+# List customer subscriptions accessible via Lighthouse
+az account list --query "[?managedByTenants]" --output table
+
+# Query resources in customer subscription without switching context
+CUSTOMER_SUB_ID="<customer-subscription-id>"
+az vm list --subscription $CUSTOMER_SUB_ID --output table
+```
+
+## Validation Checklist
+- [ ] `az account list` shows customer subscription with `managedByTenants` populated.
+- [ ] Primary `azw-Platform-Admins` group can list VMs in customer tenant without guest invitation.
+- [ ] Portal → Azure Lighthouse → My customers shows the delegated offer.
+
+## Text Diagram – Phase 4 Resources
+
+```text
+PHASE 4: AZURE LIGHTHOUSE (MSP DELEGATION)
+===========================================
+
+[Primary Tenant: entra.azawslab.co.uk]          [Customer Tenant: <customer>.onmicrosoft.com]
+         │                                                             │
+         │  (Azure Lighthouse – ARM template)                          │
+         │  managedByTenantId = primary-tenant-id                      │
+         └─────────────────────────────────────────────────────►
+                                                                       │
+                                                                       ▼
+                                                             [Customer Subscription]
+                                                             (delegated to primary)
+                                                                       │
+         ┌─────────────────────────────────────────────────────┘
+         │
+         ▼
+[Group: azw-Platform-Admins] (primary tenant)
+         │
+         └── (Contributor role on customer subscription)
+                   │
+                   └──> Can run: az vm list --subscription <customer-sub-id>
+
+No guest accounts created – pure cross‑tenant trust
+
+LEGEND:
+======>
+[Primary Tenant]      Managing tenant (your Entra ID)
+[Customer Tenant]     External tenant delegating access
+```
+
+---
+
+# Phase 5: Hub‑Spoke Networking Foundation
+
+## Objective
+Deploy Hub VNet, Spoke VNet, bidirectional peering, and forced tunneling via User Defined Routes (UDRs) to prepare for Azure Firewall inspection.
+
+## Step-by-Step Actions
+
+### Step 5.1: Create Hub VNet with required subnets
+Using Terraform module `networking`:
+```hcl
+# terraform/modules/networking/main.tf (partial)
+resource "azurerm_virtual_network" "hub" {
+  name                = "vnet-dev-uksouth-hub"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  address_space       = ["10.0.0.0/16"]
+}
+
+resource "azurerm_subnet" "azurefirewall" {
+  name                 = "AzureFirewallSubnet"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = ["10.0.1.0/26"]
+}
+
+resource "azurerm_subnet" "bastion" {
+  name                 = "AzureBastionSubnet"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = ["10.0.2.0/27"]
+}
+
+resource "azurerm_subnet" "gateway" {
+  name                 = "GatewaySubnet"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = ["10.0.3.0/27"]
+}
+
+resource "azurerm_subnet" "mgmt" {
+  name                 = "snet-mgmt"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = ["10.0.4.0/24"]
+}
+```
+
+### Step 5.2: Create Spoke VNet (workload)
+```hcl
+resource "azurerm_virtual_network" "spoke_workload" {
+  name                = "vnet-dev-uksouth-spoke-workload"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  address_space       = ["10.1.0.0/16"]
+}
+
+resource "azurerm_subnet" "workload" {
+  name                 = "snet-workload"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.spoke_workload.name
+  address_prefixes     = ["10.1.0.0/24"]
+}
+```
+
+### Step 5.3: Establish bidirectional VNet peering
+```hcl
+resource "azurerm_virtual_network_peering" "hub_to_spoke" {
+  name                      = "hub-to-spoke-workload"
+  resource_group_name       = var.resource_group_name
+  virtual_network_name      = azurerm_virtual_network.hub.name
+  remote_virtual_network_id = azurerm_virtual_network.spoke_workload.id
+  allow_virtual_network_access = true
+  allow_forwarded_traffic   = true   # Required for UDR to firewall
+  allow_gateway_transit     = false
+}
+
+resource "azurerm_virtual_network_peering" "spoke_to_hub" {
+  name                      = "spoke-workload-to-hub"
+  resource_group_name       = var.resource_group_name
+  virtual_network_name      = azurerm_virtual_network.spoke_workload.name
+  remote_virtual_network_id = azurerm_virtual_network.hub.id
+  allow_virtual_network_access = true
+  allow_forwarded_traffic   = true
+  allow_gateway_transit     = false
+}
+```
+
+### Step 5.4: Create UDR for forced tunneling (to Azure Firewall – placeholder IP)
+```hcl
+resource "azurerm_route_table" "udr_to_firewall" {
+  name                = "rt-udr-to-firewall-uksouth"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_route" "default_to_firewall" {
+  name                   = "default-route"
+  route_table_name       = azurerm_route_table.udr_to_firewall.name
+  resource_group_name    = var.resource_group_name
+  address_prefix         = "0.0.0.0/0"
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = "10.0.1.4"   # Placeholder – actual Azure Firewall IP will be known after deployment
+}
+
+resource "azurerm_subnet_route_table_association" "workload" {
+  subnet_id      = azurerm_subnet.workload.id
+  route_table_id = azurerm_route_table.udr_to_firewall.id
+}
+```
+
+### Step 5.5: Deploy Azure Bastion (optional but recommended)
+```bash
+az network bastion create \
+  --name bastion-dev-uksouth \
+  --resource-group rg-connectivity-prod-uksouth \
+  --vnet-name vnet-dev-uksouth-hub \
+  --location uksouth \
+  --sku Standard
+```
+
+## Validation Checklist
+- [ ] `az network vnet peering list --vnet-name vnet-dev-uksouth-hub --resource-group rg-connectivity-prod-uksouth` shows both peerings.
+- [ ] From spoke VM (after Phase 2a), ping hub management subnet (10.0.4.4) – should succeed.
+- [ ] Effective routes on spoke VM NIC show `0.0.0.0/0` pointing to firewall IP placeholder (actual IP will be set in Phase 6).
+
+## Text Diagram – Phase 5 Resources
+```text
+PHASE 5: HUB‑SPOKE NETWORKING
+==============================
+
+[Hub VNet: vnet-dev-uksouth-hub (10.0.0.0/16)]
+         │
+         ├── [Subnet: AzureFirewallSubnet (10.0.1.0/26)] ← placeholder for AFW
+         ├── [Subnet: AzureBastionSubnet (10.0.2.0/27)] ← Bastion service
+         ├── [Subnet: GatewaySubnet (10.0.3.0/27)]      ← future VPN
+         └── [Subnet: snet-mgmt (10.0.4.0/24)]          ← management jumpbox
+
+         │ (VNet peering: allow_forwarded_traffic)
+         ▼
+[Spoke VNet: vnet-dev-uksouth-spoke-workload (10.1.0.0/16)]
+         │
+         ├── [Subnet: snet-workload (10.1.0.0/24)]
+         │         │
+         │         └── associated with [Route Table: rt-udr-to-firewall-uksouth]
+         │                   └── route: 0.0.0.0/0 → VirtualAppliance (10.0.1.4)
+         │
+         └── VM: vm-dev-client-01 (private IP 10.1.0.4)
+
+[Azure Bastion: bastion-dev-uksouth] → provides RDP/SSH to private VMs
+
+LEGEND:
+======>
+[VNet]            Virtual Network
+[Route Table]     UDR for forced tunneling
+```
+
+---
+
+# Phase 6: Azure Firewall & Central Inspection
+
+## Objective
+Deploy Azure Firewall into the Hub VNet, configure network and application rules (allow DNS, allow Microsoft APIs), enable diagnostic logs, and update UDR with the firewall’s private IP.
+
+## Step-by-Step Actions
+
+### Step 6.1: Deploy Azure Firewall (ephemeral – destroy after validation)
+```hcl
+# terraform/modules/firewall/main.tf
+resource "azurerm_public_ip" "afw" {
+  name                = "pip-afw-uksouth-01"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
+resource "azurerm_firewall" "afw" {
+  name                = "afw-dev-uksouth-01"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  sku_name            = "AZFW_VNet"
+  sku_tier            = "Standard"
+
+  ip_configuration {
+    name                 = "configuration"
+    subnet_id            = data.azurerm_subnet.azure_firewall_subnet.id
+    public_ip_address_id = azurerm_public_ip.afw.id
+  }
+
+  tags = {
+    Environment = "Development"
+    Ephemeral   = "true"   # Mark for destruction after validation
+  }
+}
+```
+
+### Step 6.2: Create firewall policy and rule collections
+```hcl
+resource "azurerm_firewall_policy" "afwp" {
+  name                = "afwp-dev-uksouth"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+}
+
+resource "azurerm_firewall_policy_rule_collection_group" "network_rules" {
+  name               = "network-rules"
+  firewall_policy_id = azurerm_firewall_policy.afwp.id
+  priority           = 500
+
+  network_rule_collection {
+    name     = "allow-dns"
+    priority = 100
+    action   = "Allow"
+    rule {
+      name                  = "allow-dns-udp"
+      protocols             = ["UDP"]
+      source_addresses      = ["10.0.0.0/8", "10.1.0.0/16"]
+      destination_addresses = ["8.8.8.8", "1.1.1.1"]
+      destination_ports     = ["53"]
+    }
+  }
+}
+
+resource "azurerm_firewall_policy_rule_collection_group" "application_rules" {
+  name               = "app-rules"
+  firewall_policy_id = azurerm_firewall_policy.afwp.id
+  priority           = 600
+
+  application_rule_collection {
+    name     = "allow-microsoft"
+    priority = 100
+    action   = "Allow"
+    rule {
+      name = "allow-azure-apis"
+      protocols {
+        type = "Https"
+        port = 443
+      }
+      source_addresses = ["10.0.0.0/8", "10.1.0.0/16"]
+      destination_fqdns = [
+        "*.microsoft.com",
+        "*.azure.com",
+        "*.windows.net"
+      ]
+    }
+  }
+}
+```
+
+### Step 6.3: Update UDR with actual firewall private IP
+After firewall deployment, retrieve its private IP:
+```bash
+FW_IP=$(az network firewall show --name afw-dev-uksouth-01 --resource-group rg-connectivity-prod-uksouth --query "ipConfigurations[0].privateIpAddress" -o tsv)
+# Update route table (via Terraform or CLI)
+az network route table route update \
+  --name default-route \
+  --route-table-name rt-udr-to-firewall-uksouth \
+  --resource-group rg-connectivity-prod-uksouth \
+  --next-hop-ip-address $FW_IP
+```
+
+### Step 6.4: Enable diagnostics to Log Analytics
+```hcl
+resource "azurerm_monitor_diagnostic_setting" "afw_diag" {
+  name                       = "afw-diag"
+  target_resource_id         = azurerm_firewall.afw.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.la.id
+
+  enabled_log {
+    category = "AzureFirewallApplicationRule"
+  }
+  enabled_log {
+    category = "AzureFirewallNetworkRule"
+  }
+  metric {
+    category = "AllMetrics"
+    enabled  = true
+  }
+}
+```
+
+### Step 6.5: Test firewall blocking and logging
+From spoke VM (`vm-dev-client-01`):
+```powershell
+# Should succeed (allowed by application rule)
+curl [https://management.azure.com](https://management.azure.com)
+
+# Should be blocked (not a Microsoft domain)
+curl [http://example.com](http://example.com)
+# Expected: timeout or connection refused
+
+# Check KQL in Log Analytics
+AzureDiagnostics
+| where Category == "AzureFirewallApplicationRule"
+| where msg_s contains "example.com"
+| project TimeGenerated, msg_s
+```
+
+## Validation Checklist
+- [ ] `az network firewall show` shows provisioning state `Succeeded`.
+- [ ] Spoke VM can resolve DNS (`nslookup microsoft.com`).
+- [ ] `curl http://example.com` fails (blocked by firewall).
+- [ ] Log Analytics contains blocked traffic entries.
+- [ ] **FinOps:** After capturing evidence, run `terraform destroy -target=azurerm_firewall.afw` to avoid ongoing charges (~$1.20/hour).
+
+## Text Diagram – Phase 6 Resources
+```text
+PHASE 6: AZURE FIREWALL & CENTRAL INSPECTION
+=============================================
+
+[Hub VNet: vnet-dev-uksouth-hub]
+         │
+         ├── [Subnet: AzureFirewallSubnet] (10.0.1.0/26)
+         │         │
+         │         ▼
+         │   [Azure Firewall: afw-dev-uksouth-01] (private IP 10.0.1.4)
+         │         │
+         │         ├── Firewall Policy: afwp-dev-uksouth
+         │         │         ├── Network rule: allow DNS (UDP/53 to 8.8.8.8)
+         │         │         └── Application rule: allow HTTPS to *.microsoft.com
+         │         │
+         │         └── Diagnostics → [Log Analytics: la-dev-platform]
+         │
+         └── [Subnet: snet-workload] (10.1.0.0/24) with UDR route:
+                   0.0.0.0/0 → NextHop: 10.0.1.4 (firewall)
+
+[Spoke VM: vm-dev-client-01] (10.1.0.4)
+         │
+         ├── nslookup microsoft.com → success
+         ├── curl [https://management.azure.com](https://management.azure.com) → success (allowed)
+         └── curl [http://example.com](http://example.com) → blocked (logged in LA)
+
+KQL query for blocked traffic:
+AzureDiagnostics | where Category == "AzureFirewallApplicationRule" | where msg_s contains "deny"
+
+LEGEND:
+======>
+[Azure Firewall]      Managed inspection point
+→ allowed traffic     Green (success)
+→ blocked traffic     Red (deny)
+```
+
+---
+
+## FinOps Teardown for Phase 6 (Ephemeral Resource)
+
+After completing validation and capturing evidence (screenshots + terminal outputs into `docs/release2/evidence/P6/`), destroy Azure Firewall to avoid charges:
+```bash
+terraform destroy -target=azurerm_firewall.afw -auto-approve
+terraform destroy -target=azurerm_firewall_policy.afwp -auto-approve
+# Keep UDR and other networking components
+```
+
+---
+
