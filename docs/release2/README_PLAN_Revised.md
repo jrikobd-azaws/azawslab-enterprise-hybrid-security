@@ -436,7 +436,7 @@ This diagram illustrates the automated observability flow from the workload agen
 ## Phase 9b: Disaster Recovery & BCDR (Resilience-as-Code)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail  |
 | :--- | :--- |
 | **Business Problem** | **Insider Threats & Ransomware:** Standard backup vaults are vulnerable to compromised highly-privileged accounts (e.g., Global Admins) who can disable security features and maliciously wipe recovery data. |
 | **Technical Solution** | **Zero Trust BCDR:** Deploying Recovery Services Vaults (RSV) via **Terraform**. Enforcing **Vault Immutability** and implementing **Multi-User Authorization (MUA)** via an Azure Resource Guard to ensure no single administrator can permanently destroy backups. |
@@ -465,7 +465,7 @@ This diagram illustrates the tamper-proof backup architecture, separating backup
 ## Phase 9c: Platform Handover & FinOps Teardown
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail () |
 | :--- | :--- |
 | **Business Problem** | **Knowledge Silos & Cloud Waste:** Undocumented platforms mean only the original author can maintain the system. Leaving unused infrastructure running generates massive, unnecessary cloud consumption costs. |
 | **Technical Solution** | **DevEx & FinOps Lifecycle:** Authoring enterprise-grade Developer Experience (DevEx) documentation (`onboarding.md`, `CONTRIBUTING.md`)[cite: 1]. Executing a strict FinOps teardown via Terraform to validate state cleanliness and enforce a $0 run-rate. |
@@ -490,30 +490,59 @@ This diagram illustrates the complete infrastructure lifecycle, ensuring the pla
 
 ---
 
-## Phase O1: Multi-Vendor Security (FortiGate NVA)
+## Phase O1: Integrated Security Hub (Defense-in-Depth)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail () |
 | :--- | :--- |
-| **Business Problem** | **Vendor Lock-in & Advanced Threat Protection:** Enterprises often require third-party Next-Generation Firewalls (NGFW) like FortiGate for unified threat management (UTM) and deep packet inspection across hybrid environments[cite: 3]. |
-| **Technical Solution** | **NVA Deployment & Advanced Routing:** Deploying a FortiGate Network Virtual Appliance (NVA) from the Azure Marketplace via Terraform[cite: 3]. Updating User Defined Routes (UDRs) to steer specific Spoke traffic through the NVA for inspection. |
-| **Acceptance Criteria** | 1. FortiGate VM deployed in a dedicated subnet. 2. UDR configured with the NVA's private IP as the Next Hop. 3. Firewall policies configured via the FortiOS management interface. |
-| **Validation** | Verify traffic from the workload spoke is successfully routed through and inspected by the FortiGate NVA before reaching the internet or other spokes. |
-| **Evidence** | `docs/release2/evidence/O1/`: Terraform apply outputs, effective route table showing the NVA Next Hop, and FortiOS traffic logs. |
+| **Business Problem** | **Security Tool Proliferation & Inefficiency:** Using a single firewall for all traffic types often leads to "policy bloat" and performance bottlenecks. Native firewalls lack deep multi-cloud BGP support, while NVAs can be complex for simple cloud-native internet egress. |
+| **Technical Solution** | **Parallel Security Architecture:** Implementing functional traffic separation. **1. Azure Firewall** handles all Internet Egress (0.0.0.0/0) using FQDN tags for Microsoft services. **2. FortiGate NVA** handles all East-West (Spoke-to-Spoke) and Hybrid (AWS/HQ) traffic, acting as the BGP routing engine. |
+| **Acceptance Criteria** | 1. UDR on Spokes configured to route `0.0.0.0/0` to the Azure Firewall private IP. 2. UDR on Spokes configured to route `10.0.0.0/8` (Internal) to the FortiGate NVA IP. 3. Multi-vendor BGP peering established on the NVA. |
+| **Validation** | From a Spoke VM: `curl google.com` is verified in Azure Firewall logs. `ping [AWS_VM_IP]` is verified as inspected and logged within the FortiGate FortiOS monitor. |
+| **Evidence** | `docs/release2/evidence/O1/`: Terraform outputs for both security resources, comparative log exports showing the traffic split, and the effective route table showing dual Next Hops based on destination. |
 
-### 2. Operational Architecture (NVA Routing)
-This diagram illustrates how User Defined Routes (UDRs) are manipulated to force traffic through a third-party appliance.
+### 2. Operational Architecture (Functional Traffic Separation)
+This architecture utilizes User Defined Routes (UDRs) to steer traffic to the appliance best suited for the destination.
 
-    [ Spoke VM ]
-          │
-          └── (UDR: 0.0.0.0/0 -> NVA IP) ──> [ FortiGate NVA (Hub VNet) ]
-                                                     ├── (FortiOS Inspection)
-                                                     └── (Outbound to Internet)
+                           [ Public Internet ]
+                                   ▲
+                                   │ (Egress Traffic)
+                          [ Azure Firewall ]
+                                   ▲
+            ┌──────────────────────┴──────────────────────┐
+            │                                             │
+      [ Spoke VNet ] ─────────────(UDRs)──────────────> [ Hub VNet ]
+            │                                             │
+            └──────────────────────┬──────────────────────┘
+                                   ▼
+                          [ FortiGate NVA ]
+                                   ▲
+                                   │ (Hybrid / East-West Traffic)
+                    ┌──────────────┴──────────────┐
+                    ▼                             ▼
+             [ AWS Branch ]                [ Hyper-V HQ ]
 
-### 3. Recruiter Hook
-"Demonstrated multi-vendor network security expertise by deploying a **FortiGate Network Virtual Appliance (NVA)**. Configured advanced User Defined Routes (UDRs) to establish a custom traffic inspection path, proving the ability to integrate third-party Next-Gen Firewalls into an Azure Hub-Spoke architecture[cite: 3]."
+###  3. Detailed Resource Mapping
+To implement this via Terraform, we need these specific resources:
 
-### 4. FinOps Notice
+Azure Firewall: azurerm_firewall + azurerm_firewall_policy.
+
+Rule: Allow HTTPS to *.microsoft.com (FQDN Tag).
+
+FortiGate NVA: azurerm_linux_virtual_machine (Marketplace Image) + fortios_router_static.
+
+Rule: Allow SMB/RDP from AWS (172.16.x.x) to Azure Spokes.
+
+Spoke UDR Table: azurerm_route_table with two key routes:
+
+Route A: 0.0.0.0/0 -> NextHop: VirtualAppliance -> IP: AzureFirewall_IP.
+
+Route B: 10.0.0.0/8 -> NextHop: VirtualAppliance -> IP: FortiGate_IP.
+
+### 4. Recruiter Hook
+"Architected a high-performance Defense-in-Depth security model by implementing functional traffic separation. Utilized Azure Firewall for cloud-native internet egress and a FortiGate NVA for deep packet inspection of multi-cloud and hybrid traffic, proving my ability to integrate third-party appliances into a standard Azure Landing Zone architecture."
+
+### 5. FinOps Notice
 The FortiGate appliance utilizes a 30-day free trial or BYOL (Bring Your Own License) model[cite: 3]. The underlying compute VM will be deployed ephemerally and destroyed post-validation to prevent continuous hourly charges.
 
 ---
@@ -521,7 +550,7 @@ The FortiGate appliance utilizes a 30-day free trial or BYOL (Bring Your Own Lic
 ## Phase O2: Hybrid Cloud Management (Azure Arc)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail () |
 | :--- | :--- |
 | **Business Problem** | **Operational Silos:** Managing on-premises servers separately from cloud infrastructure creates blind spots, inconsistent security policies, and fragmented monitoring[cite: 3]. |
 | **Technical Solution** | **Unified Hybrid Governance:** Deploying the **Azure Arc** connected machine agent to local Hyper-V virtual machines[cite: 3]. Projecting on-premises infrastructure into Azure Resource Manager (ARM) to centralize governance, policy enforcement, and logging. |
@@ -548,90 +577,196 @@ This diagram illustrates how on-premises hardware is logically projected into th
 
 ---
 
-## Phase O3a: Dynamic Routing Foundation (Azure to On-Prem HQ)
+## Phase O3a: Dynamic Routing Foundation (FortiGate to On-Prem HQ)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail  |
 | :--- | :--- |
-| **Business Problem** | **Routing Overhead:** Relying on static routes for hybrid connectivity does not scale. Manual route table updates cause administrative overhead and increase the risk of routing loops or outages. |
-| **Technical Solution** | **Dynamic Route Exchange:** Enabling **BGP (Border Gateway Protocol)** on the Azure VPN Gateway and establishing a BGP peering session with the simulated on-premises HQ router (Hyper-V RRAS). |
-| **Acceptance Criteria** | 1. Azure VPN Gateway deployed with BGP enabled (ASN: 65515). 2. Local Network Gateway deployed reflecting the Hyper-V router (ASN: 65001). 3. IPSec Site-to-Site tunnel established and routing natively. |
-| **Validation** | Execute `az network vnet-gateway list-bgp-peer-status` to verify the Hyper-V peer state is "Connected". Verify effective routes on a Spoke VM show the HQ subnets learned dynamically. |
-| **Evidence** | `docs/release2/evidence/O3a/`: CLI output of the BGP peer status, and portal screenshots of the dynamically learned effective routes. |
+| **Business Problem** | **Routing Convergence & Human Error:** Manual static route management in hybrid environments leads to "black-holed" traffic and slow failover. Enterprises require a self-healing network that automatically updates when on-premises subnets change. |
+| **Technical Solution** | **Multi-Vendor BGP Integration:** Establishing a BGP-over-IPSec tunnel between the **Azure-based FortiGate NVA** and the **On-Premises Hyper-V RRAS**. Configuring the FortiGate as the BGP Peer (ASN: 65515) to dynamically learn and propagate on-premises routes (192.168.1.0/24) into the Azure Hub-Spoke fabric. |
+| **IaC Implementation** | **Dual-Provider Automation:** Using the `azurerm` provider to manage Azure networking (Public IPs, UDRs) and the `fortios` Terraform provider to configure the NVA's BGP neighbors, firewall policies, and virtual tunnel interfaces (VTI). |
+| **Acceptance Criteria** | 1. IPSec tunnel status is "Up" on both the FortiGate and Hyper-V RRAS. 2. BGP Peering state is "Established." 3. FortiGate routing table contains the 192.168.1.0/24 prefix learned via BGP. |
+| **Validation** | From the FortiGate CLI, execute `get router info bgp summary`. Verify that the Spoke VM's effective routes show the 192.168.1.0/24 route with the FortiGate NVA as the Next Hop. |
+| **Evidence** | `docs/release2/evidence/O3a/`: Terraform configuration for the BGP neighbor, CLI output of the BGP summary, and a screenshot of the Azure Effective Routes table. |
 
-### 2. Operational Architecture (HQ Peering)
-This diagram illustrates the foundational BGP peering relationship to the simulated HQ.
+### 2. Operational Architecture (Dynamic Hybrid Link)
+This diagram illustrates the BGP peering established between the third-party NVA and the legacy HQ.
 
-    [ Azure VPN Gateway (Hub VNet) ]
+
+
+    [ Azure Hub VNet ]
     (ASN: 65515)
           │
-          ├── (IPSec Tunnel + BGP Session)
-          │
-    [ On-Premises Router (Hyper-V RRAS) ]
-    (ASN: 65001 | Subnet: 192.168.1.0/24)
+    [ FortiGate NVA ] <──────────────────┐
+    (BGP Speaker)                        │
+          │                              │
+          │                     (BGP over IPSec Tunnel)
+          │                              │
+          ▼                              ▼
+    [ Azure Spoke VNets ]      [ Hyper-V RRAS (HQ) ]
+    (Dynamic Routes)           (ASN: 65001 | Subnet: 192.168.1.0/24)
 
 ### 3. Recruiter Hook
-"Architected a scalable hybrid networking topology by configuring **BGP (Border Gateway Protocol)** over an IPSec Site-to-Site VPN. Eliminated static routing overhead by establishing automated, dynamic route propagation between Azure and a simulated legacy data center."
+"Architected a self-healing hybrid network by implementing **Dynamic BGP Routing** on a **FortiGate NVA**. Utilized **Terraform (FortiOS Provider)** to automate the exchange of routing prefixes between Azure and on-premises infrastructure, eliminating the administrative overhead of static route tables and demonstrating deep expertise in multi-vendor networking."
 
 ---
 
-## Phase O3b: Multi-Cloud Foundation (AWS Infrastructure & Peering)
+## Phase O3b: Multi-Cloud Foundation (AWS Cisco NVA & Segmented Peering)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail () |
 | :--- | :--- |
-| **Business Problem** | **Cloud Expansion & Configuration Drift:** Expanding into AWS requires standardizing infrastructure deployment. Manually configuring AWS networking while automating Azure leads to configuration drift and operational blind spots. |
-| **Technical Solution** | **Multi-Provider IaC:** Utilizing Terraform with **both** the `hashicorp/azurerm` and `hashicorp/aws` providers simultaneously. Deploying the AWS Branch infrastructure (VPC, Subnet, Route Table, EC2 Instance, Virtual Private Gateway) alongside the Azure Local Network Gateway to establish the BGP-enabled IPSec tunnel. |
-| **Acceptance Criteria** | 1. AWS VPC (172.16.0.0/16) and test EC2 instance deployed via Terraform. 2. AWS Virtual Private Gateway (VGW) and Customer Gateway (CGW) configured for BGP (ASN: 65002). 3. Azure Local Network Gateway deployed reflecting the AWS IP. 4. IPSec tunnel established between both clouds. |
-| **Validation** | Execute `az network vnet-gateway list-bgp-peer-status` to verify the AWS peer state is "Connected". Connect to the AWS EC2 instance (via SSM or SSH) and successfully ping the private IP of an Azure Spoke VM. |
-| **Evidence** | `docs/release2/evidence/O3b/`: Terraform apply output showing both Azure and AWS resource creation, CLI output of the BGP peer status, and a screenshot of the successful ping from the EC2 terminal. |
+| **Business Problem** | **Granular Route Control:** Native cloud gateways often lack the ability to selectively advertise specific subnets (DMZ vs. Trusted) to different peers, leading to a broader attack surface and inefficient routing. |
+| **Technical Solution** | **Multi-Vendor Transit Fabric:** Deploying a **Cisco Catalyst 8000V (NVA)** in the AWS Branch VPC via Terraform. Configuring a multi-interface "Zone" architecture to isolate **Trusted (172.16.1.0/24)** and **DMZ (172.16.2.0/24)** traffic, using BGP `network` statements to selectively project these segments into the Azure Hub. |
+| **AWS Resources** | 1. **VPC:** 172.16.0.0/16. 2. **Cisco 8000V:** EC2 (t3.medium) with three ENIs (Mgmt, Untrusted/Public, Trusted/Private). 3. **Segmentation:** Dedicated DMZ and Trusted subnets with associated AWS Route Tables. |
+| **IaC Strategy** | **Cross-Vendor Orchestration:** Utilizing the `aws` provider to provision infrastructure and the `ios-xe` or `shell-local` provider to automate the Cisco IOS-XE configuration. This is synchronized with the `fortios` provider to complete the Azure-side BGP handshake. |
+| **Acceptance Criteria** | 1. Cisco 8000V status is "Up" and peering with Azure FortiGate (ASN 65515). 2. Azure FortiGate routing table shows distinct prefixes for the AWS DMZ and Trusted subnets. 3. AWS Route Tables point to the Cisco NVA ENI for all 10.x.x.x traffic. |
+| **Validation** | From Cisco CLI: `show ip bgp summary`. From Azure Spoke VM: Verify `traceroute` reaches an AWS DMZ instance, showing the FortiGate and Cisco NVAs as the primary transit hops. |
+| **Evidence** | `docs/release2/evidence/O3b/`: Terraform code for the Cisco deployment, Cisco `show ip route bgp` output, and the FortiGate routing table screenshot showing the segmented AWS prefixes. |
 
-### 2. Operational Architecture (Dual-Provider Deployment)
-This diagram illustrates the explicit infrastructure deployed across both cloud providers via a single Terraform state.
+### 2. Operational Architecture (DMZ & Zone Segmentation)
+This illustrates the internal segmentation of the AWS Branch and its dynamic advertisement to the Azure Hub.
 
-    [ Azure (Terraform 'azurerm' provider) ]        [ AWS (Terraform 'aws' provider) ]
-                                                            
-    [ Hub VNet ]                                    [ Branch VPC: 172.16.0.0/16 ]
-         │                                               │
-         ├── [ Local Network Gateway ]                   ├── [ Customer Gateway (Azure IP) ]
-         │                                               │
-         └── [ Azure VPN Gateway ] <──(IPSec + BGP)──> [ AWS Virtual Private Gateway (VGW) ]
-               (ASN: 65515)                                  (ASN: 65002)
-                                                                 │
-                                                                 └── [ EC2 Instance (Test Workload) ]
+    [ AWS Branch VPC ]                   [ Azure Hub VNet ]
+          │                                     │
+    ┌─────┴────────────────┐             [ FortiGate NVA ]
+    │ Cisco Catalyst 8000V │ <──(BGP)──> (ASN: 65515)
+    └─────┬──────────┬─────┘                    │
+          │          │                          ▼
+          │          └──(Route: 172.16.2.0/24)──> [ Azure Spokes ]
+          ▼                                     (Learns DMZ Route)
+    [ DMZ Subnet ]
+    (Web/Public Services)
+
+### 3. Route Advertisement (Cisco IOS-XE Logic)
+To simulate a real-world enterprise edge, the BGP configuration avoids "redistribute connected" and uses explicit network statements for precise prefix control:
+```bash
+router bgp 65002
+ bgp log-neighbor-changes
+ neighbor 10.0.0.5 remote-as 65515
+ !
+ address-family ipv4
+  network 172.16.1.0 mask 255.255.255.0  # Advertise Trusted Segment
+  network 172.16.2.0 mask 255.255.255.0  # Advertise DMZ Segment
+  neighbor 10.0.0.5 activate
+ exit-address-family
+ ```
 
 ### 3. Recruiter Hook
-"Expanded hybrid infrastructure into a true Multi-Cloud architecture using a **Dual-Provider Terraform strategy**. Simultaneously provisioned AWS infrastructure (VPC, EC2, VGW) and Azure networking to establish a secure, BGP-routed IPSec Site-to-Site VPN, proving advanced cross-cloud orchestration capabilities."
+"Engineered a secure multi-cloud bridge by architecting a segmented AWS VPC with dedicated DMZ and Trusted zones. Orchestrated a Cisco Catalyst 8000V using Terraform to perform granular BGP Route Advertisement, ensuring only authorized branch segments were visible to the Azure backbone while maintaining strict inspection at each cloud edge."
 
 ---
 
-## Phase O3c: Multi-Cloud Transit Routing (HQ to AWS via Azure)
+## Phase O3c: Multi-Cloud Transitive Routing (The Global Hub)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail (Expert Version) |
+| Aspect | Refined Detail |
 | :--- | :--- |
-| **Business Problem** | **Transitive Complexity:** Establishing direct, full-mesh connectivity between all physical sites and all cloud providers is cost-prohibitive and administratively impossible to maintain. |
-| **Technical Solution** | **Transitive BGP Hub:** Positioning Azure as the central transit hub. Leveraging the active BGP sessions from O3a and O3b to allow Azure to automatically propagate the Hyper-V routes to AWS, and the AWS routes to Hyper-V. |
-| **Acceptance Criteria** | 1. BGP Transit routing successfully advertises across all three environments. 2. No direct physical link exists between Hyper-V and AWS; all traffic must flow through the Azure VPN Gateway. |
-| **Validation** | From a local Hyper-V VM (HQ), successfully ping the private IP of an AWS EC2 instance (Branch). Run a `tracert` (Trace Route) to prove the traffic is physically hopping through the Azure Virtual Network backbone. |
-| **Evidence** | `docs/release2/evidence/O3c/`: A terminal screenshot showing a successful `tracert` from Hyper-V to AWS, explicitly displaying the Azure VPN Gateway IP as the intermediate hop. |
+| **Business Problem** | **Mesh Connectivity Complexity:** Establishing direct VPN tunnels between every branch (Full Mesh) is expensive and unmanageable. Enterprises require a "Hub-and-Spoke" transit model where cloud hubs broker all cross-site communication. |
+| **Technical Solution** | **Transitive BGP Propagation:** Configuring the **FortiGate NVA** to act as a Transit Router. This involves re-advertising BGP prefixes learned from the AWS Cisco NVA (172.16.x.x) to the On-Prem HQ (192.168.1.0/24) and vice-versa, allowing remote sites to communicate through the Azure backbone. |
+| **Logic Implementation** | **BGP Route Re-distribution:** Modifying BGP neighbor settings on the FortiGate to allow "AS Path" propagation. Ensuring the Azure Hub is the "Source of Truth" for all inter-site traffic by manipulating BGP attributes via the `fortios` Terraform provider. |
+| **Acceptance Criteria** | 1. AWS Cisco NVA learns the HQ subnet (192.168.1.0/24) via BGP. 2. HQ Router learns the AWS DMZ/Trusted subnets. 3. End-to-end ICMP reachability between AWS and On-Prem. |
+| **Validation** | The "Golden Trace": Run `traceroute 192.168.1.10` from an AWS EC2 instance. The output must show the **FortiGate NVA Internal IP** as the transit hop, proving traffic is traversing the Azure Hub. |
+| **Evidence** | `docs/release2/evidence/O3c/`: Traceroute logs proving transitive flow, and BGP routing table snapshots from AWS, Azure, and HQ showing a unified global routing table. |
 
-### 2. Operational Architecture (Transitive Hub)
-This diagram illustrates Azure actively routing traffic between the legacy physical network and the secondary cloud provider.
+### 2. Operational Architecture (Global Transit Hub)
+This diagram illustrates how the Azure Hub brokers traffic between independent remote sites using dynamic BGP peering.
 
-                          [ Azure VPN Gateway (Hub VNet) ]
+                          [ FortiGate NVA (Hub VNet) ]
                           (Transit Hub | ASN: 65515)
-                                    │
-               ┌────────────────────┴────────────────────┐
-               │                                         │ 
-               ▼                                         ▼
-    [ Hyper-V RRAS (Corp HQ) ]                [ AWS VPN Gateway (Branch) ]
-         (ASN: 65001)                                (ASN: 65002)
-               │                                         │
-               └─────── (Traffic flows via Azure) ───────┘
+                                      │
+                ┌─────────────────────┴─────────────────────┐
+                │                                           │ 
+                ▼                                           ▼
+     [ Hyper-V RRAS (Corp HQ) ]               [ Cisco Catalyst 8000V (AWS) ]
+           (ASN: 65001)                                (ASN: 65002)
+                │                                           │
+                └────────── (Traffic flows via Azure) ──────┘
 
-### 3. Recruiter Hook
-"Engineered a highly advanced Multi-Cloud transit network using **BGP Transitive Routing**. Positioned Azure Virtual WAN/VPN Gateway as the central transit hub, enabling seamless, dynamic communication between a simulated legacy on-premises HQ and an AWS branch office without requiring direct peer-to-peer links."
+### 3. Verification Logic (The Path of a Packet)
+To prove the transitive nature of the hub, the documentation tracks a packet across the multi-vendor environment:
+1. **Source:** AWS EC2 Instance (172.16.2.10).
+2. **Gateway 1:** Cisco Catalyst 8000V (AWS) - Routes toward Azure Hub.
+3. **Gateway 2:** FortiGate NVA (Azure) - Receives AWS traffic and performs transitive lookup to HQ.
+4. **Gateway 3:** Hyper-V RRAS (HQ) - Receives traffic via Azure IPSec tunnel.
+5. **Destination:** On-Prem Target (192.168.1.10).
+
+### 4. Recruiter Hook
+"Architected a global transit fabric by enabling **Transitive Routing** through a centralized Azure Hub. Successfully brokered dynamic BGP communication between **AWS (Cisco)** and **On-Premises (Windows)** environments, demonstrating the ability to build a scalable 'Hub-and-Spoke' global network that eliminates the need for high-maintenance full-mesh VPN topologies."
 
 ---
 
+## Phase O4: Unified Zero Trust Edge (Entra GSA)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail |
+| :--- | :--- |
+| **Business Problem** | **The Vanishing Perimeter:** Traditional VPNs create silos and high latency. Managing separate security stacks for internet filtering, SaaS access, and private apps results in high TCO and fragmented identity governance. |
+| **Technical Solution** | **Full SSE Suite Deployment:** Implementing **Microsoft Entra Global Secure Access (GSA)**. 1. **Private Access:** Per-app ZTNA tunnels. 2. **Internet Access:** Secure Web Gateway (SWG) for public traffic. 3. **Remote Networks:** Integrating the **FortiGate (Azure)** and **Cisco (AWS)** NVAs via IPSec/BGP to the GSA edge. |
+| **IaC Strategy** | **Multi-Provider Orchestration:** Using the `microsoft-graph` Terraform provider to automate GSA "Remote Network" containers and "Private Access" segments, while using `fortios`/`iosxe` providers to automate the router-side IPSec handshakes. |
+| **Acceptance Criteria** | 1. Terraform-managed IPSec tunnels between NVAs and GSA PoPs are "Established." 2. Entra GSA Traffic Logs show active flows for M365, Internet, and Private profiles. 3. Zero manual configuration in the Entra Portal. |
+| **Validation** | Verify the "Handshake": From a Spoke VM, verify that traffic to `google.com` is inspected by Entra SWG, and RDP to the AWS Branch is brokered via GSA Private Access without a traditional VPN client. |
+| **Evidence** | `docs/release2/evidence/O4/`: Terraform code for Graph API calls, FortiOS VPN status screenshots, and Entra GSA health dashboards showing "Connected" status for Remote Networks. |
+
+### 2. Operational Architecture (The Secure Edge)
+This diagram illustrates the dual-path integration: software clients for remote users and NVA-based "Remote Networks" for branch/cloud-to-cloud security.
+
+       [ Remote User ] ──────(GSA Client)──────┐
+                                              ▼
+                                [ Microsoft Entra GSA Edge ]
+                                (Identity-Aware Inspection)
+                                              │
+                ┌─────────────────────────────┼─────────────────────────────┐
+                ▼                             ▼                             ▼
+        [ Private Access ]            [ Microsoft 365 ]             [ Internet Access ]
+        (ZTNA / App Proxies)          (Tenant Restrictions)         (SWG / Web Filtering)
+                │                             │                             │
+    ┌───────────┴───────────┐                 │               ┌─────────────┴─────────────┐
+    ▼ (Remote Networks)     ▼                 ▼               ▼                           ▼
+[ FortiGate (Azure) ]  [ Cisco (AWS) ]   [ SharePoint ]    [ Public Web ]          [ SaaS Apps ]
+(ASN: 65515)           (ASN: 65002)      (Exchange)        (Filtered)              (Sanctioned)
+
+### 3. FinOps & Strategic Value
+*   **License Consolidation:** Replaces standalone SWG (e.g., Zscaler), VPN (e.g., AnyConnect), and CASB licenses with a single **Entra Suite** trial/subscription, potentially reducing security licensing costs by **40%**.
+*   **Egress Cost Management:** Utilizing GSA’s global network to optimize routing. By steering M365 traffic directly to the nearest Microsoft PoP from the **FortiGate NVA**, we reduce unnecessary data traversal across the expensive Azure backbone.
+*   **Credit Conservation ($200 Budget):** Automation via Terraform ensures the "Remote Network" tunnels and NVA-side VPN interfaces are destroyed instantly when not testing, preventing passive consumption of the $200 Azure/AWS credits.
+
+### 4. Recruiter Hook
+"Architected a comprehensive **Security Service Edge (SSE)** solution by integrating **Microsoft Entra Global Secure Access** with a multi-cloud NVA backbone. Orchestrated the deployment using **Terraform (Microsoft Graph & FortiOS providers)** to establish identity-centric Zero Trust access, replacing legacy VPN silos with a unified, cost-optimized security fabric spanning AWS, Azure, and on-premises sites."
+
+---
+
+## Phase O5: Modern End-User Computing (AVD & FSLogix)
+
+### 1. Refined Phase Detail
+| Aspect | Refined Detail (Expert Version) |
+| :--- | :--- |
+| **Business Problem** | **EUC Inefficiency & Data Volatility:** Standard VMs suffer from "profile rot," high costs due to 24/7 run-times, and potential data loss if a specific VM is corrupted or deleted. |
+| **Technical Solution** | **Stateful VDI Delivery:** Deploying an **Azure Virtual Desktop (AVD)** environment via Terraform. Implementing **FSLogix Profile Containers** on Azure Files (Premium) to decouple user "personality" from the compute resource. Integrating with the **Entra GSA** edge (Phase O4) to ensure all VDI sessions are Zero-Trust verified. |
+| **Storage Strategy** | **High-Performance Roaming:** Utilizing **Azure Files (SMB)** with Active Directory integration (via the Hybrid Link in O3a) to host `.vhdx` profile disks, ensuring sub-second login times across the session host pool. |
+| **IaC Implementation** | **Modular AVD Deployment:** Using Terraform to orchestrate the AVD "Golden Triangle": 1. **Host Pool** (Breadth-first load balancing). 2. **Application Group** (Desktop/RemoteApp). 3. **Workspace**. |
+| **Acceptance Criteria** | 1. AVD Session Hosts successfully domain-joined to `hq.azawslab.co.uk`. 2. FSLogix mounts a new profile disk upon first user login. 3. Automated Scaling Plan successfully drains and shuts down hosts after business hours. |
+| **Validation** | Verify "The Roaming Test": Log into Host-01, create a file, log out, and log into Host-02. Confirm the file persists via the FSLogix container. |
+| **Evidence** | `docs/release2/evidence/O5/`: Terraform code for the Host Pool, a screenshot of the FSLogix mount in Disk Management, and an Azure Cost Management chart showing the "Scaling Plan" dip in compute spend. |
+
+### 2. Operational Architecture (The Persistent Workspace)
+This illustrates the separation of Compute (Disposable) from User Data (Persistent), secured by the Hub-Spoke fabric.
+
+    [ Remote User ] ──(HTTPS/RDP)──> [ Azure Virtual Desktop Service ]
+                                              │
+          ┌───────────────────────────────────┘
+          ▼
+    [ AVD Session Host (Spoke VNet) ] <─────(UDR)─────> [ Hub Security Hub ]
+    (Compute - Windows 11 Multi-session)                 (AzFW / FortiGate)
+          │                                                     │
+          └─────(SMB/Port 445)─────> [ Azure Files Share ] <───┘
+                                     (FSLogix Profile Disks)
+
+### 3. FinOps & Strategic Value
+*   **Compute Auto-Scaling:** Implementing **Scaling Plans** (Autoscale) to trigger "Power-On-Connect" and "Drain-on-Logoff" logic. This ensures you only pay for compute during active hours, reducing VDI run-rate by up to **70%**.
+*   **Multi-session Licensing:** Utilizing **Windows 11 Multi-session** to allow 5-10 users per VM, drastically lowering the "Cost Per User" compared to 1-to-1 personal desktops.
+*   **Storage Tiering:** Using **Azure Files Premium** for the FSLogix IOPS burst capability but configuring **Lifecycle Management** to move stale user data to lower-cost tiers if inactive for 90+ days.
+*   **Credit Conservation ($200 Budget):** Terraform is configured to deploy **B-Series VMs** for session hosts, which are "burstable" and significantly cheaper for lab-scale testing of the VDI logic.
+
+### 4. Recruiter Hook
+"Mastered the 'Last Mile' of hybrid cloud by architecting a highly available **Azure Virtual Desktop (AVD)** environment. Implemented **FSLogix Profile Containers** to decouple user data from compute, ensuring seamless roaming and high performance. Integrated automated **Scaling Plans** and multi-session host pools to optimize cloud spend, proving a deep commitment to **FinOps** and enterprise-grade user experience."
