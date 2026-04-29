@@ -215,7 +215,7 @@ flowchart TB
             RBAC[RBAC + Key Vault]
         end
 
-        subgraph Hub [🌐Hub VNet 10.0.0.0/16]
+        subgraph Hub [🌐 Hub VNet 10.0.0.0/16]
             AzFirewall[Azure Firewall<br/>Internet Egress<br/>0.0.0.0/0 inspection]
             FortiGate[FortiGate NVA<br/>BGP ASN 65515<br/>East‑West & Hybrid Routing]
             Bastion[Azure Bastion / Jumpbox]
@@ -246,41 +246,41 @@ flowchart TB
     end
 
     %% Hybrid & Multi‑Cloud Connectivity
-    FortiGate -->|BGP over IPSec| HyperV
-    FortiGate -->|BGP over IPSec| CiscoNVA
-    CiscoNVA -->|Routes 172.16.1.0/24 & 172.16.2.0/24| FortiGate
-    FortiGate -->|Readvertises prefixes| HyperV
-    HyperV -->|Readvertises 192.168.1.0/24| FortiGate
+    FortiGate -->|"BGP over IPSec"| HyperV
+    FortiGate -->|"BGP over IPSec"| CiscoNVA
+    CiscoNVA -->|"Routes 172.16.1.0/24 and 172.16.2.0/24"| FortiGate
+    FortiGate -->|"Readvertises prefixes"| HyperV
+    HyperV -->|"Readvertises 192.168.1.0/24"| FortiGate
 
     %% Traffic Steering (UDRs)
-    SpokeWorkload -->|0.0.0.0/0 → AzFirewall| AzFirewall
-    SpokeWorkload -->|10.0.0.0/8 → FortiGate| FortiGate
-    SpokeAVD -->|0.0.0.0/0 → AzFirewall| AzFirewall
-    SpokeAVD -->|10.0.0.0/8 → FortiGate| FortiGate
+    SpokeWorkload -->|"0.0.0.0/0 -> Azure Firewall"| AzFirewall
+    SpokeWorkload -->|"10.0.0.0/8 -> FortiGate"| FortiGate
+    SpokeAVD -->|"0.0.0.0/0 -> Azure Firewall"| AzFirewall
+    SpokeAVD -->|"10.0.0.0/8 -> FortiGate"| FortiGate
 
     %% Identity & Access
-    EntraID -->|Conditional Access| GSA
-    GSA -->|ZTNA / Private Access| SpokeWorkload
-    GSA -->|Remote Networks BGP| FortiGate
-    AD -->|Entra Connect| EntraID
+    EntraID -->|"Conditional Access"| GSA
+    GSA -->|"ZTNA / Private Access"| SpokeWorkload
+    GSA -->|"Remote Networks BGP"| FortiGate
+    AD -->|"Entra Connect"| EntraID
 
     %% Management Flow
     GitHub --> Actions
-    Actions -->|Terraform apply (OIDC)| Hub
-    Actions -->|Terraform apply| SpokeWorkload
-    Actions -->|Ansible (via jumpbox)| SpokeWorkload
+    Actions -->|"Terraform apply (OIDC)"| Hub
+    Actions -->|"Terraform apply"| SpokeWorkload
+    Actions -->|"Ansible (via jumpbox)"| SpokeWorkload
 
     %% Monitoring & Security
-    AzFirewall -->|Diagnostics| Logs
-    FortiGate -->|Logs| Logs
-    SpokeWorkload -->|Metrics| Logs
+    AzFirewall -->|"Diagnostics"| Logs
+    FortiGate -->|"Logs"| Logs
+    SpokeWorkload -->|"Metrics"| Logs
     Logs --> Sentinel
-    Sentinel -->|Incidents| Alerts
-    Defender -->|Recommendations| Sentinel
+    Sentinel -->|"Incidents"| Alerts
+    Defender -->|"Recommendations"| Sentinel
 
     %% DR
-    SpokeWorkload -->|Backup| Backup
-    SpokeWorkload -->|ASR| ASR
+    SpokeWorkload -->|"Backup"| Backup
+    SpokeWorkload -->|"ASR"| ASR
 
     %% Ephemeral / FinOps
     style AzFirewall fill:#f9f,stroke:#333,stroke-dasharray: 5 5
