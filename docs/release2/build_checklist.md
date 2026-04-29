@@ -456,3 +456,31 @@ Use this when you need a simple execution memory aid.
 
 ### Next Exact Step
 - [ ] ___________________________________________
+## Workspace Strategy for Release 2
+
+Use this execution split for the project:
+
+### Local machine / local VS Code
+Primary environment for:
+- documentation work
+- markdown editing
+- Terraform authoring
+- GitHub workflow authoring
+- repository cleanup and structure updates
+- git review, commit preparation, and normal file editing
+- Azure CLI and Terraform where private network reachability is not required
+
+### Workspace / Codespace
+Use as a short-lived execution environment for:
+- **P2b** Ansible configuration work
+- **P2c** CI/CD validation and workflow-related command checks
+- any short command-driven session where the remote Linux environment is more convenient
+
+### Working rule
+The workspace is **not** the primary all-day editor for Release 2.  
+Use it as a targeted execution environment, then stop or delete it after the session if appropriate.
+
+### Cost-control rule
+- start the workspace only when needed
+- commit and push before deleting it
+- avoid keeping it running for general writing or planning work

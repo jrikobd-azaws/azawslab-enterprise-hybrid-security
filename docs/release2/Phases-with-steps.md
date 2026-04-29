@@ -2420,6 +2420,9 @@ terraform plan
 ## Objective
 Apply post-deployment configuration using reusable Ansible roles.
 
+## Execution Environment Note
+For this project, P2b is executed from the **workspace / Codespace** environment rather than the normal local editing workflow. This keeps Ansible-related work in a controlled Linux environment and separates it from general documentation work.
+
 ## Key Configuration Snapshot
 - **Roles:**
   - `common`
@@ -2500,6 +2503,9 @@ ansible-playbook -i inventory/dev/hosts.yml site.yml
 
 ## Objective
 Create secretless GitHub-based CI/CD with PR validation and controlled apply.
+
+## Execution Environment Note
+For this project, selected P2c validation tasks are performed from the **workspace / Codespace** environment to keep CI/CD-related checks in a consistent remote environment.
 
 ## Key Configuration Snapshot
 - **Workflows:**
@@ -4084,3 +4090,4 @@ terraform destroy -target=azurerm_storage_account.fslogix -auto-approve
 "Architected a full enterprise hybrid security platform using Terraform, Ansible, and GitHub Actions with OIDC – eliminating all static secrets. Implemented functional traffic separation (Azure Firewall + FortiGate NVA), multi‑cloud transitive BGP routing, and replaced legacy VPNs with Entra Global Secure Access (ZTNA). Delivered modern end‑user computing with AVD and FSLogix, all while adhering to strict FinOps principles ($200 lab budget) and CLI‑first validation."
 
 ---
+
