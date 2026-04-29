@@ -4071,7 +4071,7 @@ terraform destroy -target=azurerm_storage_account.fslogix -auto-approve
 
 ---
 
-**Congratulations!** You have now implemented the entire `README_PLAN.md` – from OIDC foundation to Zero Trust SSE and modern VDI.
+**Congratulations!** We have now implemented the entire `README_PLAN.md` – from OIDC foundation to Zero Trust SSE and modern VDI.
 
 **Final Checklist:**
 - [ ] All phases (P0–P9c, O1–O5) have evidence in `docs/release2/evidence/`.
