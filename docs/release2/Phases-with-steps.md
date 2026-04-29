@@ -1,7 +1,7 @@
 # Phase-by-Phase Implementation Guide (Release 2)
 
 **Version:** 1.0  
-**Aligns with:** `README_PLAN_Revised.md` and `naming-conventions.md`  
+**Aligns with:** `README_PLAN.md` and `naming-conventions.md`  
 **Prerequisites:** Azure Pay-As-You-Go subscription (upgraded from free trial), GitHub account, `entra.azawslab.co.uk` domain verified.
 
 ---
@@ -1614,7 +1614,7 @@ Create `docs/onboarding.md`:
 
 ## One-time setup
 1. Clone repo: `git clone [https://github.com/your-username/your-repo](https://github.com/your-username/your-repo)`
-2. Run Phase 0 OIDC scripts (see `README_PLAN_Revised.md`)
+2. Run Phase 0 OIDC scripts (see `README_PLAN.md`)
 3. Configure GitHub secrets: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`
 
 ## Deploy environment
@@ -1994,85 +1994,1423 @@ LEGEND:
 
 ---
 
-# Phase O3a: Dynamic Routing Foundation – FortiGate to On‑Prem HQ (BGP over IPSec)
+# Phase-by-Phase Implementation Guide – Release 2
+
+**Version:** 3.0  
+**Aligns with:** `README_PLAN.md`, `implementation-tracker.md`, and `naming-conventions.md`  
+**Purpose:** Operator-focused execution guide for Release 2 with compact diagrams, key configuration snapshots, validation gates, and evidence reminders.  
+**Primary Rule:** If this guide conflicts with `README_PLAN.md`, follow `README_PLAN.md` and update this file.
+
+---
+
+## 1. How to Use This Guide
+
+This file is the **working operator guide** for Release 2.
+
+Use it when you need to:
+- understand the phase quickly without jumping between files
+- see the intended topology at a glance
+- copy commands and execute in order
+- confirm key configuration values before deployment
+- validate outcomes and capture evidence
+- remember teardown actions for ephemeral resources
+
+This file is intentionally more practical than `README_PLAN.md` and more detailed than `implementation-tracker.md`.
+
+---
+
+## 2. Global Assumptions
+
+- **Primary region:** `uksouth`
+- **Primary source of truth:** `README_PLAN.md`
+- **Evidence root:** `docs/release2/evidence/`
+- **Routing standard for hybrid phases:** **VyOS**, not RRAS
+- **CLI-first validation:** preferred over portal-only screenshots
+- **Private-only workload principle:** workload VMs do not receive public IPs unless explicitly required by design
+- **FinOps rule:** expensive optional phases should be destroyed after validation unless needed by the next phase
+
+---
+
+## 3. Global Addressing and Topology Snapshot
+
+### Key Configuration Snapshot
+- **Azure Hub VNet:** `10.0.0.0/16`
+- **Azure Workload Spoke:** `10.1.0.0/16`
+- **Azure Optional AVD / extra spoke:** `10.2.0.0/16`
+- **On-prem simulated network:** `192.168.1.0/24`
+- **AWS branch VPC:** `172.16.0.0/16`
+
+### Resource Group Intent
+- **Connectivity RG:** `rg-connectivity-prod-uksouth`
+- **Corp / workload RG:** `rg-corp-prod-uksouth`
+- **Identity RG:** `rg-identity-prod-uksouth`
+- **Terraform state RG:** `rg-dev-terraformstate-uksouth`
+
+### Identity / Namespace Snapshot
+- **Entra tenant namespace:** `entra.azawslab.co.uk`
+- **HQ AD domain:** `hq.azawslab.co.uk`
+- **Branch namespace:** `br1.azawslab.co.uk`
+
+### Text Diagram
+```text
+[Entra ID: entra.azawslab.co.uk]
+              |
+              |
+      [Azure Subscription]
+              |
+   ---------------------------------
+   |               |               |
+   v               v               v
+[Connectivity]   [Identity]     [Corp/Workload]
+ rg-connectivity  rg-identity    rg-corp
+
+Azure address space:
+  Hub        = 10.0.0.0/16
+  Workload   = 10.1.0.0/16
+  Optional   = 10.2.0.0/16
+
+External connected domains:
+  On-prem HQ = 192.168.1.0/24
+  AWS Branch = 172.16.0.0/16
+```
+
+---
+
+## 4. Pre-Execution Checklist
+
+Complete these before Phase P0:
+
+- [ ] `README_PLAN.md` confirmed as current source of truth
+- [ ] `implementation-tracker.md` aligned
+- [ ] `naming-conventions.md` aligned
+- [ ] stale RRAS references removed from Release 2 support docs
+- [ ] VS Code / Codespaces plan confirmed
+- [ ] GitHub environment `release-2` created
+- [ ] Azure subscription upgraded to Pay-As-You-Go
+- [ ] domain `entra.azawslab.co.uk` verified in Entra ID
+- [ ] no CIDR overlap confirmed across Azure / on-prem / AWS
+- [ ] evidence folders created under `docs/release2/evidence/`
+
+---
+
+## 5. Recommended Execution Order
+
+### Core Phases
+`P0 → P1 → P2a → P2b → P2c → P3 → P5 → P7 → P8 → P9a → P9b → P9c`
+
+### Optional / Advanced Phases
+- `P4` Azure Lighthouse
+- `P6` Azure Firewall
+- `O1` FortiGate NVA dual-firewall pattern
+- `O2` Azure Arc
+- `O3a` FortiGate ↔ VyOS BGP over IPSec
+- `O3b` AWS Cisco branch with segmented BGP
+- `O3c` global transit / transitive routing validation
+- `O4` Entra Global Secure Access
+- `O5` Azure Virtual Desktop + FSLogix
+
+---
+
+# PHASE P0: FOUNDATION & AUTOMATION BOOTSTRAP
+==============================================
 
 ## Objective
-Establish an IPSec tunnel between FortiGate NVA (Azure) and Hyper‑V RRAS (on‑prem), then configure BGP (ASN 65515 for FortiGate, ASN 65001 for HQ) to dynamically exchange routes.
+Establish secretless authentication between GitHub Actions and Azure using OIDC, deploy the remote Terraform backend, and scaffold the repository structure.
 
-## Step-by-Step Actions
+## Key Configuration Snapshot
+- **App registration / SPN:** `sp-terraform-gh`
+- **GitHub environment:** `release-2`
+- **Terraform backend RG:** `rg-dev-terraformstate-uksouth`
+- **Terraform state storage account:** `stdevterraform001`
+- **Terraform state container:** `tfstate`
+- **Region:** `uksouth`
 
-### Step O3a.1: Create IPSec tunnel on FortiGate
-Using FortiOS provider or CLI (via SSH):
-```bash
-config vpn ipsec phase1-interface
-    edit "to-hq"
-        set interface "trust"
-        set ike-version 2
-        set peertype any
-        set proposal aes256-sha256
-        set local-gw 10.1.1.4
-        set remote-gw 192.168.1.1   # Public IP of HQ RRAS (or private if NAT)
-        set psksecret "YourPreSharedKey"
-    next
-end
-
-config vpn ipsec phase2-interface
-    edit "to-hq"
-        set phase1name "to-hq"
-        set proposal aes256-sha256
-        set pfs enable
-        set auto-negotiate enable
-        set keylifeseconds 3600
-    next
-end
+## Text Diagram
+```text
+[GitHub Repo / Actions]
+        |
+        | OIDC federated credential
+        v
+[Entra App / SPN: sp-terraform-gh]
+        |
+        | Contributor on subscription
+        v
+[Azure Subscription]
+        |
+        v
+[RG: rg-dev-terraformstate-uksouth]
+        |
+        v
+[Storage: stdevterraform001]
+        |
+        v
+[Container: tfstate]
 ```
 
-### Step O3a.2: Configure BGP on FortiGate
+## Steps
+
+### Step P0.1 – Confirm Azure context
 ```bash
-config router bgp
-    set as 65515
-    set router-id 10.1.1.4
-    config neighbor
-        edit "192.168.1.1"
-            set remote-as 65001
-            set soft-reconfiguration enable
-            set next-hop-self enable
-        next
-    end
-    config network
-        edit 1
-            set prefix 10.0.0.0 255.0.0.0
-        next
-        edit 2
-            set prefix 172.16.0.0 255.240.0.0
-        next
-    end
-end
+az account show --output table
+az account list --output table
 ```
 
-### Step O3a.3: On Hyper‑V RRAS (Windows Server), configure BGP peer
-```powershell
-# Install Remote Access role with BGP
-Install-WindowsFeature RemoteAccess -IncludeManagementTools
+### Step P0.2 – Create app registration and service principal
+```bash
+az ad app create --display-name "sp-terraform-gh" --sign-in-audience AzureADMyOrg
 
-# Add BGP router
-Add-BgpRouter -BgpIdentifier 192.168.1.1 -LocalASN 65001
+APP_ID=$(az ad app list --display-name "sp-terraform-gh" --query "[0].appId" -o tsv)
+OBJECT_ID=$(az ad app list --display-name "sp-terraform-gh" --query "[0].id" -o tsv)
 
-# Add BGP peer (FortiGate IP)
-Add-BgpPeer -Name "AzureFortiGate" -LocalIPAddress 192.168.1.1 -PeerIPAddress 10.1.1.4 -PeerASN 65515
+az ad sp create --id "$APP_ID"
 
-# Advertise on‑prem route
-Add-BgpRouteNetwork -Network 192.168.1.0/24 -NextHop 192.168.1.1
+SUB_ID=$(az account show --query id -o tsv)
+az role assignment create --assignee "$APP_ID" --role Contributor --scope "/subscriptions/$SUB_ID"
 ```
 
-### Step O3a.4: Validate BGP peering
+### Step P0.3 – Create federated credential
 ```bash
-# On FortiGate CLI
-get router info bgp summary
-# Expected output: "Neighbor 192.168.1.1 AS 65001 State: Established"
+az ad app federated-credential create --id "$OBJECT_ID" --parameters '{
+  "name": "github-actions-release2",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "subject": "repo:your-username/your-repo:environment:release-2",
+  "audiences": ["api://AzureADTokenExchange"]
+}'
+```
 
-get router info routing-table bgp
-# Expected: 192.168.1.0/24 learned via BGP
+### Step P0.4 – Create Terraform backend
+```bash
+az group create --name rg-dev-terraformstate-uksouth --location uksouth
+
+az storage account create \
+  --name stdevterraform001 \
+  --resource-group rg-dev-terraformstate-uksouth \
+  --location uksouth \
+  --sku Standard_LRS \
+  --kind StorageV2
+
+ACCOUNT_KEY=$(az storage account keys list \
+  --account-name stdevterraform001 \
+  --resource-group rg-dev-terraformstate-uksouth \
+  --query "[0].value" -o tsv)
+
+az storage container create \
+  --name tfstate \
+  --account-name stdevterraform001 \
+  --account-key "$ACCOUNT_KEY"
+```
+
+### Step P0.5 – Scaffold repo layout
+```bash
+mkdir -p terraform/modules
+mkdir -p terraform/environments/dev
+mkdir -p ansible/roles
+mkdir -p ansible/inventory/dev
+mkdir -p .github/workflows
+mkdir -p docs/release2/evidence/{P0,P1,P2a,P2b,P2c,P3,P4,P5,P6,P7,P8,P9a,P9b,P9c,O1,O2,O3a,O3b,O3c,O4,O5}
+```
+
+## Minimum Validation
+- [ ] OIDC test workflow succeeds
+- [ ] service principal has Contributor at subscription scope
+- [ ] backend `terraform init` succeeds
+
+## Suggested Evidence
+- `docs/release2/evidence/P0/oidc-test.txt`
+- `docs/release2/evidence/P0/backend-init.txt`
+- `docs/release2/evidence/P0/role-assignment.txt`
+
+---
+
+# PHASE P1: AZURE LANDING ZONE & GOVERNANCE FOUNDATION
+======================================================
+
+## Objective
+Deploy the management group hierarchy and baseline policy guardrails.
+
+## Key Configuration Snapshot
+- **Management groups:**
+  - `mg-platform-prod-global`
+  - `mg-landingzones-prod-global`
+  - `mg-sandbox-prod-global`
+- **Subscription target parent:** `mg-landingzones-prod-global`
+- **Policy themes:**
+  - allowed locations = `uksouth`
+  - allowed VM SKUs = B-series only
+  - mandatory tags
+
+## Text Diagram
+```text
+[Tenant Root Group]
+      |
+      +-- [mg-platform-prod-global]
+      |
+      +-- [mg-landingzones-prod-global]
+      |          |
+      |          v
+      |   [Azure Subscription]
+      |
+      +-- [mg-sandbox-prod-global]
+
+Policy intent at mg-landingzones:
+  - UK South only
+  - B-series only
+  - mandatory tags
+```
+
+## Steps
+
+### Step P1.1 – Create management groups
+```bash
+az account management-group create --name mg-platform-prod-global --display-name "mg-platform-prod-global"
+az account management-group create --name mg-landingzones-prod-global --display-name "mg-landingzones-prod-global"
+az account management-group create --name mg-sandbox-prod-global --display-name "mg-sandbox-prod-global"
+```
+
+### Step P1.2 – Move subscription under landing zones
+```bash
+SUB_ID=$(az account show --query id -o tsv)
+
+az account management-group subscription add \
+  --name mg-landingzones-prod-global \
+  --subscription "$SUB_ID"
+```
+
+### Step P1.3 – Verify hierarchy
+```bash
+az account management-group show --name mg-landingzones-prod-global --expand --output json
+```
+
+### Step P1.4 – Deploy custom policies
+Implement in `terraform/environments/dev/policies.tf`.
+
+Required controls:
+- allowed locations
+- allowed VM SKUs
+- mandatory tags
+
+## Minimum Validation
+- [ ] management groups visible
+- [ ] subscription nested correctly
+- [ ] policy assignments active
+- [ ] deny behavior confirmed with non-compliant test
+
+## Suggested Evidence
+- `docs/release2/evidence/P1/mg-hierarchy.txt`
+- `docs/release2/evidence/P1/policy-assignments.txt`
+- `docs/release2/evidence/P1/deny-test-region.txt`
+
+---
+
+# PHASE P2a: TERRAFORM – REUSABLE MODULES
+=========================================
+
+## Objective
+Create reusable Terraform modules for secure, repeatable Azure deployment.
+
+## Key Configuration Snapshot
+- **Module families:**
+  - `security`
+  - `networking`
+  - `compute`
+  - `monitoring`
+- **Security intent:**
+  - Key Vault-backed secret handling
+  - dynamic password generation
+- **Compute intent:**
+  - private-only NIC
+  - no workload public IP
+- **Monitoring intent:**
+  - shared Log Analytics workspace
+
+## Text Diagram
+```text
+[environments/dev/main.tf]
+        |
+        +--> [modules/security]
+        |         |
+        |         +--> Key Vault
+        |         +--> random_password
+        |
+        +--> [modules/networking]
+        |         |
+        |         +--> hub/spoke VNets
+        |         +--> subnets / NSGs / UDRs
+        |
+        +--> [modules/compute]
+        |         |
+        |         +--> private-only VM + NIC
+        |
+        +--> [modules/monitoring]
+                  |
+                  +--> Log Analytics
+```
+
+## Suggested Structure
+```text
+terraform/
+├── environments/
+│   └── dev/
+└── modules/
+    ├── compute/
+    ├── monitoring/
+    ├── networking/
+    └── security/
+```
+
+## Steps
+
+### Step P2a.1 – Create module folders
+```bash
+mkdir -p terraform/modules/{security,networking,compute,monitoring}
+```
+
+### Step P2a.2 – Build security module
+Include:
+- Key Vault
+- `random_password`
+- secret storage for VM admin password
+
+### Step P2a.3 – Build networking module
+Include:
+- hub VNet
+- workload spoke
+- optional extra spoke(s)
+- subnets
+- NSGs
+- route tables
+- peering
+
+### Step P2a.4 – Build compute module
+Include:
+- NIC without public IP
+- workload VM
+- secure admin secret flow
+
+### Step P2a.5 – Build monitoring module
+Include:
+- Log Analytics workspace
+- shared monitoring dependencies as needed
+
+### Step P2a.6 – Validate
+```bash
+cd terraform/environments/dev
+terraform fmt -check
+terraform init
+terraform validate
+terraform plan
+```
+
+## Minimum Validation
+- [ ] `terraform validate` succeeds
+- [ ] `terraform plan` succeeds
+- [ ] password handled as sensitive
+- [ ] workload NIC has no public IP
+
+## Suggested Evidence
+- `docs/release2/evidence/P2a/tf-validate.txt`
+- `docs/release2/evidence/P2a/tf-plan.txt`
+- `docs/release2/evidence/P2a/vm-networkprofile.txt`
+
+---
+
+# PHASE P2b: ANSIBLE CONFIGURATION MANAGEMENT
+=============================================
+
+## Objective
+Apply post-deployment configuration using reusable Ansible roles.
+
+## Key Configuration Snapshot
+- **Roles:**
+  - `common`
+  - `ad-join`
+  - `webserver`
+- **Execution path:** through your chosen private management path
+- **Validation standard:** lint + successful run + idempotent rerun
+
+## Text Diagram
+```text
+[Operator / Runner]
+        |
+        | management access
+        v
+[Private Azure VM / Management Path]
+        |
+        +--> [Role: common]
+        +--> [Role: ad-join]
+        +--> [Role: webserver]
+
+Target outcome:
+  - baseline config
+  - domain join where applicable
+  - IIS / app role where applicable
+```
+
+## Steps
+
+### Step P2b.1 – Create role structure
+```bash
+mkdir -p ansible/roles/{common,ad-join,webserver}/{tasks,vars,handlers}
+```
+
+### Step P2b.2 – Create playbook structure
+```bash
+touch ansible/site.yml
+mkdir -p ansible/inventory/dev
+```
+
+### Step P2b.3 – Build inventory
+Use private IP addressing and the management access path you actually deploy.
+
+### Step P2b.4 – Run lint
+```bash
+cd ansible
+ansible-lint site.yml
+```
+
+### Step P2b.5 – Execute playbook
+```bash
+cd ansible
+ansible-playbook -i inventory/dev/hosts.yml site.yml
+```
+
+### Step P2b.6 – Re-run for idempotency
+```bash
+cd ansible
+ansible-playbook -i inventory/dev/hosts.yml site.yml
+```
+
+## Minimum Validation
+- [ ] `ansible-lint` passes
+- [ ] first run succeeds
+- [ ] second run is idempotent
+- [ ] domain join verified where applicable
+- [ ] IIS / application deployment verified where applicable
+
+## Suggested Evidence
+- `docs/release2/evidence/P2b/ansible-lint.txt`
+- `docs/release2/evidence/P2b/ansible-run-01.txt`
+- `docs/release2/evidence/P2b/ansible-run-02-idempotent.txt`
+- `docs/release2/evidence/P2b/domain-join-check.txt`
+
+---
+
+# PHASE P2c: CI/CD PIPELINE (GITHUB ACTIONS + OIDC)
+===================================================
+
+## Objective
+Create secretless GitHub-based CI/CD with PR validation and controlled apply.
+
+## Key Configuration Snapshot
+- **Workflows:**
+  - `oidc-test.yml`
+  - `tf-ci.yml`
+  - `tf-cd.yml`
+- **GitHub environment:** `release-2`
+- **Core checks:**
+  - OIDC login
+  - Terraform fmt/validate/plan
+  - controlled apply on merge
+
+## Text Diagram
+```text
+[feature branch]
+      |
+      v
+[Pull Request]
+      |
+      +--> CI workflow
+      |      |
+      |      +--> OIDC login
+      |      +--> terraform fmt/validate/plan
+      |
+      v
+[Review / Approval]
+      |
+      v
+[Merge to protected branch]
+      |
+      v
+[CD workflow]
+      |
+      +--> OIDC login
+      +--> terraform apply
+```
+
+## Steps
+
+### Step P2c.1 – Create OIDC test workflow
+Create `.github/workflows/oidc-test.yml`.
+
+### Step P2c.2 – Create Terraform CI workflow
+Required checks:
+- checkout
+- Azure login via OIDC
+- setup Terraform
+- `terraform fmt -check`
+- `terraform init`
+- `terraform validate`
+- `terraform plan`
+
+### Step P2c.3 – Create Terraform CD workflow
+Required flow:
+- push/merge to controlled branch
+- Azure login via OIDC
+- `terraform init`
+- `terraform apply -auto-approve`
+
+### Step P2c.4 – Configure branch protection
+Require:
+- pull request
+- required checks
+- reviewer approval
+
+## Minimum Validation
+- [ ] PR triggers plan workflow
+- [ ] plan output visible
+- [ ] merge triggers apply
+- [ ] workflows succeed
+
+## Suggested Evidence
+- `docs/release2/evidence/P2c/oidc-workflow-run.txt`
+- `docs/release2/evidence/P2c/terraform-plan-pr-comment.txt`
+- `docs/release2/evidence/P2c/terraform-apply-run.txt`
+- `docs/release2/evidence/P2c/branch-protection-notes.md`
+
+---
+
+# PHASE P3: ENTERPRISE GOVERNANCE & GUARDRAILS
+==============================================
+
+## Objective
+Enforce regional compliance, cost control, tagging, and least-privilege access.
+
+## Key Configuration Snapshot
+- **Allowed region:** `uksouth`
+- **Allowed VM family:** B-series
+- **Mandatory tags:** at minimum `Environment`, `Project`, `Owner`
+- **RBAC focus:** least privilege for automation and operator roles
+
+## Text Diagram
+```text
+[Management Group Policy Layer]
+             |
+             +--> Allowed region = UK South
+             +--> Allowed SKUs   = B-series
+             +--> Mandatory tags
+             +--> RBAC review
+
+Any non-compliant deployment:
+  --> denied before resource creation
+```
+
+## Steps
+- confirm custom policies deployed
+- confirm assignments at correct scope
+- test deny behavior
+- review RBAC assignments
+
+## Suggested Validation Commands
+```bash
+az policy assignment list --scope "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global" --output table
+az role assignment list --scope "/subscriptions/$(az account show --query id -o tsv)" --output table
+```
+
+## Minimum Validation
+- [ ] non-UK South deployment denied
+- [ ] disallowed SKU denied
+- [ ] missing-tag deployment denied
+- [ ] RBAC assignments verified
+
+## Suggested Evidence
+- `docs/release2/evidence/P3/policy-state.txt`
+- `docs/release2/evidence/P3/deny-test-region.txt`
+- `docs/release2/evidence/P3/deny-test-sku.txt`
+- `docs/release2/evidence/P3/deny-test-tags.txt`
+- `docs/release2/evidence/P3/rbac-assignments.txt`
+
+---
+
+# PHASE P4: AZURE LIGHTHOUSE
+============================
+
+## Objective
+Demonstrate delegated cross-tenant administration.
+
+## Key Configuration Snapshot
+- **Capability:** delegated access from a managing tenant
+- **Artifacts:** registration definition + registration assignment
+
+## Text Diagram
+```text
+[Managing Tenant]
+       |
+       | delegated access
+       v
+[Customer / Target Subscription]
+       |
+       v
+[Visible delegated resources]
+```
+
+## Steps
+- deploy registration definition
+- deploy registration assignment
+- verify delegated access
+
+## Minimum Validation
+- [ ] delegated resources visible
+- [ ] cross-tenant read action succeeds
+
+## Suggested Evidence
+- `docs/release2/evidence/P4/lighthouse-registration.txt`
+- `docs/release2/evidence/P4/cross-tenant-visibility.txt`
+
+---
+
+# PHASE P5: HUB-SPOKE NETWORKING
+================================
+
+## Objective
+Deploy the core Azure network fabric used by the rest of the platform.
+
+## Key Configuration Snapshot
+- **Hub VNet:** `10.0.0.0/16`
+- **Workload spoke:** `10.1.0.0/16`
+- **Optional additional spoke:** `10.2.0.0/16`
+- **Key elements:** peerings, subnets, NSGs, route tables
+
+## Text Diagram
+```text
+               [Hub VNet]
+              10.0.0.0/16
+                  / \
+                 /   \
+                v     v
+ [Workload Spoke]     [Optional Spoke]
+   10.1.0.0/16          10.2.0.0/16
+
+Core intent:
+  - central connectivity
+  - peering-based reachability
+  - route control for later firewall phases
+```
+
+## Steps
+- deploy hub VNet
+- deploy spoke VNet(s)
+- create subnets
+- configure peerings
+- apply NSGs and UDRs where needed
+
+## Suggested Validation Commands
+```bash
+az network vnet list -o table
+az network vnet peering list --resource-group rg-connectivity-prod-uksouth --vnet-name vnet-dev-uksouth-hub -o table
+```
+
+## Minimum Validation
+- [ ] VNets deployed
+- [ ] peerings connected
+- [ ] route tables associated correctly
+- [ ] private connectivity works
+
+## Suggested Evidence
+- `docs/release2/evidence/P5/vnet-list.txt`
+- `docs/release2/evidence/P5/vnet-peering.txt`
+- `docs/release2/evidence/P5/route-table-validation.txt`
+
+---
+
+# PHASE P6: AZURE FIREWALL
+==========================
+
+## Objective
+Validate internet egress inspection and forced tunneling with Azure Firewall.
+
+## Key Configuration Snapshot
+- **Traffic intent:** `0.0.0.0/0` routed to Azure Firewall
+- **Role:** internet egress control
+- **Budget note:** commonly ephemeral
+
+## Text Diagram
+```text
+[Workload Spoke]
+      |
+      | default route 0.0.0.0/0
+      v
+[Azure Firewall]
+      |
+      v
+[Internet]
+
+Validation intent:
+  - allowed traffic passes
+  - blocked traffic denied
+  - logs confirm inspection
+```
+
+## Steps
+- deploy Azure Firewall
+- deploy Firewall Policy
+- attach UDR for default route
+- create allow and deny rules
+- validate traffic path
+
+## Minimum Validation
+- [ ] outbound path goes through firewall
+- [ ] deny rule blocks expected test
+- [ ] logs show inspected traffic
+
+## Suggested Evidence
+- `docs/release2/evidence/P6/firewall-deploy.txt`
+- `docs/release2/evidence/P6/udr-validation.txt`
+- `docs/release2/evidence/P6/blocked-request-test.txt`
+- `docs/release2/evidence/P6/firewall-log-query.txt`
+
+## Teardown Reminder
+Destroy Azure Firewall after validation unless needed for O1.
+
+---
+
+# PHASE P7: DEFENDER FOR CLOUD
+==============================
+
+## Objective
+Enable cloud security posture management and recommendations.
+
+## Key Configuration Snapshot
+- **Main outputs:** enabled plans, secure score, recommendations
+- **Scope:** target subscription / workloads in Release 2
+
+## Text Diagram
+```text
+[Azure Resources]
+      |
+      v
+[Defender for Cloud]
+      |
+      +--> plans enabled
+      +--> recommendations
+      +--> secure score
+```
+
+## Steps
+- enable required Defender plans
+- review recommendations
+- capture secure score
+
+## Minimum Validation
+- [ ] plans enabled
+- [ ] recommendations visible
+- [ ] secure score captured
+
+## Suggested Evidence
+- `docs/release2/evidence/P7/defender-plan-status.txt`
+- `docs/release2/evidence/P7/secure-score.txt`
+- `docs/release2/evidence/P7/recommendations-summary.md`
+
+---
+
+# PHASE P8: MICROSOFT SENTINEL
+==============================
+
+## Objective
+Enable SIEM capabilities on the shared monitoring workspace.
+
+## Key Configuration Snapshot
+- **Dependency:** Log Analytics workspace
+- **Core outputs:** connectors, analytics rules, incidents
+
+## Text Diagram
+```text
+[Azure / Security Data Sources]
+             |
+             v
+   [Log Analytics Workspace]
+             |
+             v
+   [Microsoft Sentinel]
+             |
+             +--> connectors
+             +--> analytics
+             +--> incidents
+```
+
+## Steps
+- enable Sentinel on workspace
+- configure data connectors
+- enable or deploy analytics rules
+- validate incident generation path
+
+## Minimum Validation
+- [ ] connectors healthy
+- [ ] analytics rule active
+- [ ] incident generated or observed
+
+## Suggested Evidence
+- `docs/release2/evidence/P8/sentinel-enable.txt`
+- `docs/release2/evidence/P8/connector-status.txt`
+- `docs/release2/evidence/P8/analytics-rule-status.txt`
+- `docs/release2/evidence/P8/incident-validation.txt`
+
+---
+
+# PHASE P9a: AZURE MONITOR ALERTS
+=================================
+
+## Objective
+Create platform alerts and verify response flow.
+
+## Key Configuration Snapshot
+- **Core artifacts:** action group + alert rule
+- **Validation target:** successful firing and notification path
+
+## Text Diagram
+```text
+[Azure Resource Metric / Signal]
+            |
+            v
+       [Alert Rule]
+            |
+            v
+      [Action Group]
+            |
+            v
+[Notification / Response Path]
+```
+
+## Steps
+- create action group
+- create alert rule
+- attach target resource
+- generate test signal where possible
+
+## Minimum Validation
+- [ ] alert rule enabled
+- [ ] action group linked
+- [ ] alert fired successfully
+
+## Suggested Evidence
+- `docs/release2/evidence/P9a/action-group.txt`
+- `docs/release2/evidence/P9a/alert-rule.txt`
+- `docs/release2/evidence/P9a/alert-validation.txt`
+
+---
+
+# PHASE P9b: BACKUP / RECOVERY SERVICES VAULT
+=============================================
+
+## Objective
+Validate backup governance, protection coverage, and recovery controls.
+
+## Key Configuration Snapshot
+- **Core vault:** Recovery Services Vault
+- **Protection elements:** backup policy, protected item
+- **Advanced option:** Resource Guard / MUA
+
+## Text Diagram
+```text
+[Protected Azure Resource]
+          |
+          v
+[Backup Policy]
+          |
+          v
+[Recovery Services Vault]
+          |
+          +--> retention / immutability
+          +--> protection state
+```
+
+## Steps
+- deploy Recovery Services Vault
+- configure backup policy
+- register protected item
+- review protection settings
+- configure Resource Guard / MUA if included
+
+## Minimum Validation
+- [ ] protected item visible
+- [ ] policy assigned
+- [ ] backup state confirmed
+
+## Suggested Evidence
+- `docs/release2/evidence/P9b/rsv-deploy.txt`
+- `docs/release2/evidence/P9b/backup-policy.txt`
+- `docs/release2/evidence/P9b/protected-item-status.txt`
+
+---
+
+# PHASE P9c: FINAL VALIDATION & PORTFOLIO EVIDENCE PACK
+=======================================================
+
+## Objective
+Close the build loop, verify documentation consistency, and prepare portfolio evidence.
+
+## Key Configuration Snapshot
+- **Final outputs:** evidence completeness, cost review, clean internal references
+- **Operator goal:** leave the project understandable and reusable
+
+## Text Diagram
+```text
+[Completed Phases]
+       |
+       v
+[Validation Review]
+       |
+       +--> evidence present
+       +--> costly resources reviewed
+       +--> docs links checked
+       |
+       v
+[Portfolio-ready Release 2]
+```
+
+## Steps
+- review all mandatory phases
+- confirm evidence files exist
+- remove stale notes
+- verify teardown for ephemeral resources
+- verify docs navigation and filenames
+- prepare concise recruiter-facing summary
+
+## Onboarding / Re-run Notes
+1. Read `README_PLAN.md`
+2. Review `implementation-tracker.md`
+3. Use this file for execution order
+4. Use `naming-conventions.md` during resource creation
+5. Store all outputs under `docs/release2/evidence/`
+
+## Minimum Validation
+- [ ] all mandatory evidence present
+- [ ] no unintended costly resources remain
+- [ ] internal file references resolve correctly
+
+## Suggested Evidence
+- `docs/release2/evidence/P9c/phase-completion-summary.md`
+- `docs/release2/evidence/P9c/resource-final-state.txt`
+- `docs/release2/evidence/P9c/cost-review.txt`
+
+---
+
+# PHASE O1: FORTIGATE NVA DUAL-FIREWALL PATTERN
+===============================================
+
+## Objective
+Add FortiGate for East-West and hybrid traffic while Azure Firewall handles internet egress.
+
+## Key Configuration Snapshot
+- **Azure Firewall:** internet egress
+- **FortiGate:** East-West + hybrid routing / inspection
+- **Traffic steering:**
+  - `0.0.0.0/0` → Azure Firewall
+  - internal / hybrid prefixes → FortiGate
+
+## Text Diagram
+```text
+                 [Azure Firewall]
+                      ^
+                      | 0.0.0.0/0
+[Workload Spokes] ----+ 
+                      |
+                      v internal / hybrid
+                 [FortiGate NVA]
+
+Intent:
+  - split policy domains
+  - keep egress and hybrid inspection separate
+```
+
+## Steps
+- deploy FortiGate
+- configure hybrid / East-West UDRs
+- confirm traffic steering intent
+- validate traffic path and logs
+
+## Minimum Validation
+- [ ] UDR steering works
+- [ ] East-West path validated
+- [ ] required logs captured
+
+## Suggested Evidence
+- `docs/release2/evidence/O1/udr-steering.txt`
+- `docs/release2/evidence/O1/traffic-validation.txt`
+
+## Teardown Reminder
+Destroy FortiGate after validation if not needed for O3a.
+
+---
+
+# PHASE O2: AZURE ARC
+=====================
+
+## Objective
+Project non-Azure machines into Azure management.
+
+## Key Configuration Snapshot
+- **Target:** on-prem or external machine
+- **Outcome:** visible and manageable through Azure Arc
+
+## Text Diagram
+```text
+[Non-Azure Machine]
+        |
+        | Arc agent
+        v
+[Azure Arc]
+        |
+        +--> visibility
+        +--> policy/tag scope
+        +--> management metadata
+```
+
+## Steps
+- install Arc agent
+- connect machine to Azure
+- verify visibility and metadata
+
+## Minimum Validation
+- [ ] machine appears connected
+- [ ] management visibility confirmed
+
+## Suggested Evidence
+- `docs/release2/evidence/O2/arc-connect.txt`
+- `docs/release2/evidence/O2/arc-machine-status.txt`
+
+---
+
+# PHASE O3a: FORTIGATE ↔ VyOS BGP OVER IPSEC
+============================================
+
+## Objective
+Establish hybrid connectivity between Azure and the on-prem simulated environment using **FortiGate on Azure** and **VyOS on Hyper-V** with BGP over IPSec.
+
+## Key Configuration Snapshot
+- **Azure edge:** FortiGate NVA
+- **On-prem edge:** VyOS
+- **Azure / FortiGate ASN:** `65515`
+- **On-prem VyOS ASN:** `65001`
+- **On-prem advertised prefix:** `192.168.1.0/24`
+- **Key protocol pair:** IPSec + BGP
+
+## Text Diagram
+```text
+             [Azure FortiGate NVA]
+                  (ASN 65515)
+                        ||
+                   IPSec + BGP
+                        ||
+                 [VyOS On-Prem Edge]
+                    (ASN 65001)
+                        |
+                        v
+                [192.168.1.0/24 HQ Lab]
+
+Route intent:
+  - FortiGate advertises Azure prefixes
+  - VyOS advertises 192.168.1.0/24
+```
+
+## Steps
+
+### Step O3a.1 – Prepare VyOS
+Document:
+- management IP
+- WAN-facing interface
+- LAN-facing interface
+- ASN
+- Azure peer IP
+- shared secret handling approach
+
+### Step O3a.2 – Enable VyOS API if using provider-based automation
+Secure and document API access appropriately.
+
+### Step O3a.3 – Configure IPSec
+Create the tunnel between FortiGate and VyOS using the values defined in the master plan.
+
+### Step O3a.4 – Configure BGP
+Establish BGP adjacency between FortiGate and VyOS.
+
+### Step O3a.5 – Validate on VyOS
+```bash
+show bgp summary
+show ip route
+show vpn ipsec sa
+```
+
+## Minimum Validation
+- [ ] IPSec tunnel established
+- [ ] BGP session up
+- [ ] Azure learns `192.168.1.0/24`
+- [ ] VyOS learns intended Azure prefixes
+- [ ] end-to-end reachability succeeds
+
+## Suggested Evidence
+- `docs/release2/evidence/O3a/ipsec-status.txt`
+- `docs/release2/evidence/O3a/bgp-summary-vyos.txt`
+- `docs/release2/evidence/O3a/route-table-validation.txt`
+- `docs/release2/evidence/O3a/end-to-end-connectivity.txt`
+
+## Teardown Reminder
+Destroy cloud-side ephemeral components after validation if not required for O3c.
+
+---
+
+# PHASE O3b: AWS CISCO BRANCH WITH SEGMENTED BGP
+================================================
+
+## Objective
+Extend the hybrid design into AWS using a Cisco branch NVA and segmented route propagation.
+
+## Key Configuration Snapshot
+- **Transit side:** Azure FortiGate
+- **Branch side:** Cisco NVA in AWS
+- **AWS branch ASN:** `65002`
+- **Example branch prefixes:**
+  - `172.16.1.0/24`
+  - `172.16.2.0/24`
+
+## Text Diagram
+```text
+          [Azure FortiGate NVA]
+               (Transit Hub)
+                     ||
+                IPSec + BGP
+                     ||
+             [AWS Cisco Branch NVA]
+                 (ASN 65002)
+                    /   \
+                   /     \
+                  v       v
+         172.16.1.0/24  172.16.2.0/24
+```
+
+## Steps
+- build AWS VPC
+- deploy Cisco NVA
+- establish VPN/BGP path
+- validate route segmentation
+
+## Minimum Validation
+- [ ] Cisco branch deployed
+- [ ] BGP route propagation works
+- [ ] intended segmentation verified
+
+## Suggested Evidence
+- `docs/release2/evidence/O3b/aws-vpc-build.txt`
+- `docs/release2/evidence/O3b/cisco-bgp-status.txt`
+- `docs/release2/evidence/O3b/branch-route-validation.txt`
+
+## Teardown Reminder
+Destroy AWS branch resources after validation.
+
+---
+
+# PHASE O3c: TRANSITIVE ROUTING (GLOBAL HUB)
+============================================
+
+## Objective
+Validate end-to-end transit routing across Azure, on-prem, and AWS with Azure FortiGate acting as the central transit hub.
+
+## Key Configuration Snapshot
+- **Transit hub:** Azure FortiGate NVA
+- **Transit hub ASN:** `65515`
+- **On-prem HQ ASN:** `65001`
+- **AWS branch ASN:** `65002`
+- **On-prem HQ prefix:** `192.168.1.0/24`
+- **AWS branch prefixes:**
+  - `172.16.1.0/24`
+  - `172.16.2.0/24`
+
+## Text Diagram
+```text
+PHASE O3c: TRANSITIVE ROUTING (GLOBAL HUB)
+===========================================
+
+                    [Azure FortiGate NVA] (ASN 65515)
+                    (Transit Hub – route reflector)
+                           /        \
+                          /          \
+   (BGP over IPSec)     /             \      (BGP over IPSec)
+                        /               \
+                       v                 v
+                 [On-Prem HQ]      [AWS Branch]
+                  (ASN 65001)       (ASN 65002)
+                 192.168.1.0/24     172.16.1.0/24
+                                     172.16.2.0/24
+
+Route propagation:
+  - HQ learns: 172.16.1.0/24, 172.16.2.0/24 via FortiGate
+  - AWS learns: 192.168.1.0/24 via FortiGate
+
+Traffic flow (AWS -> HQ):
+  172.16.2.10 -> (tunnel) -> FortiGate -> (tunnel) -> 192.168.1.10
+
+Verification:
+  traceroute from AWS to HQ shows Azure FortiGate as middle hop.
+```
+
+## Steps
+- confirm all BGP adjacencies are healthy
+- verify propagated routes on every side
+- test AWS-to-HQ and HQ-to-AWS pathing
+- record packet path notes
+
+## Minimum Validation
+- [ ] HQ learns AWS branch routes
+- [ ] AWS learns HQ route
+- [ ] traffic traverses FortiGate transit path
+- [ ] traceroute / path test confirms expected middle hop
+
+## Suggested Evidence
+- `docs/release2/evidence/O3c/transit-route-summary.txt`
+- `docs/release2/evidence/O3c/path-validation.txt`
+- `docs/release2/evidence/O3c/packet-path-notes.md`
+
+## Teardown Reminder
+Destroy transient routing lab components when validation is complete.
+
+---
+
+# PHASE O4: ENTRA GLOBAL SECURE ACCESS
+======================================
+
+## Objective
+Demonstrate Zero Trust private access as a modern alternative to legacy VPN dependence.
+
+## Key Configuration Snapshot
+- **Capability:** private access / SSE-style connectivity
+- **Narrative goal:** show modern replacement path for legacy VPN-centric access
+
+## Text Diagram
+```text
+[User / Remote Context]
+         |
+         v
+[Entra Global Secure Access]
+         |
+         v
+[Private App / Private Resource]
+
+Intent:
+  - identity-aware private access
+  - reduced dependence on legacy VPN model
+```
+
+## Steps
+- configure remote network
+- deploy connector/dependencies where required
+- define private access policy
+- validate reachability
+
+## Minimum Validation
+- [ ] remote network configured
+- [ ] private access path works
+- [ ] replacement narrative vs legacy VPN documented
+
+## Suggested Evidence
+- `docs/release2/evidence/O4/remote-network-config.txt`
+- `docs/release2/evidence/O4/private-access-validation.txt`
+
+---
+
+# PHASE O5: AZURE VIRTUAL DESKTOP + FSLOGIX
+===========================================
+
+## Objective
+Deploy Azure Virtual Desktop with FSLogix profile containers and validate user session flow.
+
+## Key Configuration Snapshot
+- **Core components:**
+  - host pool
+  - workspace
+  - application group
+  - FSLogix-backed profile storage
+- **FinOps note:** session hosts may be treated as ephemeral
+
+## Text Diagram
+```text
+[User]
+   |
+   v
+[AVD Workspace]
+   |
+   v
+[Host Pool / Session Hosts]
+   |
+   v
+[FSLogix Profile Storage]
+
+Validation intent:
+  - user can sign in
+  - profile persists correctly
+```
+
+## Steps
+- deploy host pool
+- deploy workspace
+- deploy application group
+- configure FSLogix storage
+- assign access
+- validate session behavior
+
+## Minimum Validation
+- [ ] host pool ready
+- [ ] workspace assigned
+- [ ] FSLogix path works
+- [ ] user session validated
+
+## Suggested Evidence
+- `docs/release2/evidence/O5/host-pool-status.txt`
+- `docs/release2/evidence/O5/fslogix-validation.txt`
+- `docs/release2/evidence/O5/session-validation.txt`
+
+## Teardown Reminder
+Destroy session hosts after validation if cost-sensitive.
+
+---
+
+## 6. Evidence Folder Template
+
+```text
+docs/
+└── release2/
+    └── evidence/
+        ├── P0/
+        ├── P1/
+        ├── P2a/
+        ├── P2b/
+        ├── P2c/
+        ├── P3/
+        ├── P4/
+        ├── P5/
+        ├── P6/
+        ├── P7/
+        ├── P8/
+        ├── P9a/
+        ├── P9b/
+        ├── P9c/
+        ├── O1/
+        ├── O2/
+        ├── O3a/
+        ├── O3b/
+        ├── O3c/
+        ├── O4/
+        └── O5/
+```
+
+---
+
+## 7. Final Operator Reminders
+
+- Keep this file practical and execution-focused
+- Keep `README_PLAN.md` as the architectural source of truth
+- Do not reintroduce RRAS into Release 2 hybrid routing docs
+- Keep configuration snapshots up to date if ASNs, prefixes, or resource names change
+- Capture text evidence first, screenshots second
+- Tear down expensive optional resources quickly
+- Update `implementation-tracker.md` after each completed phase
 ```
 
 ## Validation Checklist
@@ -2733,7 +4071,7 @@ terraform destroy -target=azurerm_storage_account.fslogix -auto-approve
 
 ---
 
-**Congratulations!** You have now implemented the entire `README_PLAN_Revised.md` – from OIDC foundation to Zero Trust SSE and modern VDI.
+**Congratulations!** You have now implemented the entire `README_PLAN.md` – from OIDC foundation to Zero Trust SSE and modern VDI.
 
 **Final Checklist:**
 - [ ] All phases (P0–P9c, O1–O5) have evidence in `docs/release2/evidence/`.
