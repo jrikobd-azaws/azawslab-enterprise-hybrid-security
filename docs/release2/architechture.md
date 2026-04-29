@@ -197,7 +197,7 @@ Portal screenshots are captured only as supporting material (e.g., compliance da
 flowchart TB
     subgraph OnPrem [🏢 On‑Premises HQ]
         AD[Active Directory<br/>hq.azawslab.co.uk]
-        HyperV[Hyper‑V RRAS<br/>BGP ASN 65001<br/>Subnet 192.168.1.0/24]
+        HyperV[Hyper‑V VyOS<br/>BGP ASN 65001<br/>Subnet 192.168.1.0/24]
     end
 
     subgraph AWS [☁️ AWS Branch]

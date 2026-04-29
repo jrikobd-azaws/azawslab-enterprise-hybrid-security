@@ -1,155 +1,691 @@
-```markdown
-# Implementation Tracker – Release 2 (Azure Enterprise Hybrid Security)
+# Implementation Tracker – Release 2 (Azure Platform Engineering & Security)
 
 **Last Updated:** [Date]  
 **Owner:** [Your Name]  
 **Repository:** `https://github.com/your-username/your-repo`  
-**Purpose:** Single source of truth for deployment, validation, and teardown.
+**Primary Source of Truth:** `README_PLAN.md`  
+**Purpose:** Operational control document for planning, deployment, validation, evidence capture, and teardown of Release 2.
 
 ---
 
-## Legend
+## 1. How to Use This Tracker
+
+This tracker is the execution control document for Release 2.
+
+Use it to:
+- track phase readiness and completion
+- record validation outcomes
+- capture evidence paths
+- identify blockers before proceeding
+- enforce teardown of ephemeral resources to stay within budget
+
+This file does **not** replace the master plan.  
+It should be used together with:
+- `README_PLAN.md` – authoritative phase design and detailed implementation logic
+- `Phases-with-steps.md` – step execution support
+- `naming-conventions.md` – naming and tagging standards
+- `architechture.md` – architecture decisions and rationale
+- `build_checklist.md` – execution checklist once finalised
+
+---
+
+## 2. Status Legend
 
 | Symbol | Meaning |
 |--------|---------|
-| ✅ | Completed and validated |
-| 🔄 | In progress |
-| ❌ | Blocked / failed |
-| ⚠️ | Ephemeral – destroy immediately after validation |
-| 🧪 | Optional – skip if not needed |
+| [ ] | Not started |
+| [~] | In progress |
+| [x] | Completed and validated |
+| [!] | Blocked |
+| [E] | Ephemeral – destroy after validation |
+| [O] | Optional phase |
 
 ---
 
-## Preparation Phase (Pre-P0) – Do this before any code
+## 3. Operating Rules
 
-### 1. Azure Account & Subscription
-- [ ] Upgrade free trial to **Pay-As-You-Go** (retain $200 credit)
-- [ ] Verify custom domain `entra.azawslab.co.uk` in Entra ID
-- [ ] Subscription ID: `_________________________________`
-- [ ] Set cost alerts ($10, $50, $100) in Azure Cost Management
+### 3.1 Source-of-Truth Rule
+If this tracker conflicts with `README_PLAN.md`, follow `README_PLAN.md` and update this tracker immediately.
 
-### 2. Global IP Addressing Strategy (non‑overlapping)
-- [ ] Azure Hub: `10.0.0.0/16`
-- [ ] Azure Spokes: `10.1.0.0/16`, `10.2.0.0/16`
-- [ ] On‑prem Hyper‑V: `192.168.1.0/24`
-- [ ] AWS Branch VPC: `172.16.0.0/16`
-- [ ] *Checked:* No CIDR overlaps.
+### 3.2 Validation Rule
+A phase is only marked complete when:
+1. deployment/configuration succeeds
+2. validation command(s) succeed
+3. evidence is saved to the correct path
+4. teardown is completed for ephemeral resources where required
 
-### 3. GitHub & Repository Setup
-- [ ] Create **private** repo `azawslab-release2`
-- [ ] Create environment `release-2` (Settings → Environments)
-- [ ] Prepare secrets (to be filled after Phase 0.2):
-  - `AZURE_CLIENT_ID`
-  - `AZURE_TENANT_ID`
-  - `AZURE_SUBSCRIPTION_ID`
-- [ ] *(Optional for local runs)* `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`
+### 3.3 Evidence Rule
+Release 2 is **CLI-first**.  
+Preferred evidence:
+- CLI output logs
+- Terraform plan/apply output
+- KQL query results
+- validation notes in `.md` or `.txt`
 
-### 4. Development Environment – GitHub Codespaces
-- [ ] `.devcontainer/devcontainer.json` created (see template below)
-- [ ] `az --version`, `terraform --version`, `ansible --version` all work
-- [ ] `az login --use-device-code` succeeds
+Screenshots are supplementary, not primary evidence.
 
-### 5. Local Hyper‑V & VyOS (for O3a / O3c – on‑prem simulation)
-- [ ] Deploy VyOS VM (rolling release) with two NICs.
-- [ ] Assign static IP `192.168.1.1/24` on WAN interface.
-- [ ] Enable VyOS HTTPS API manually (one‑time step documented in phase steps).
+### 3.4 FinOps Rule
+Any phase marked `[E]` must include same-day teardown after validation unless the resource is actively needed for the next dependent phase.
 
-**`.devcontainer/devcontainer.json` snippet:**
+### 3.5 Documentation Gate Rule
+Do not begin infrastructure execution until these docs are aligned:
+- `README_PLAN.md`
+- `implementation-tracker.md`
+- `Phases-with-steps.md`
+- `naming-conventions.md`
 
-    {
-      "image": "mcr.microsoft.com/devcontainers/universal:2",
-      "features": {
-        "ghcr.io/devcontainers/features/terraform:1": {},
-        "ghcr.io/devcontainers/features/azure-cli:1": {},
-        "ghcr.io/devcontainers/features/ansible:1": {}
-      },
-      "extensions": ["hashicorp.terraform", "redhat.ansible", "ms-vscode.azurecli"]
+---
+
+## 4. Pre-Execution Readiness (Planning Phase)
+
+This section reflects the current project state: planning/documentation first, execution environment later.
+
+### 4.1 Master Documentation Alignment
+- [ ] Confirm `README_PLAN.md` is the current master plan
+- [ ] Confirm all support docs reference `README_PLAN.md` consistently
+- [ ] Remove stale RRAS references from all Release 2 support docs
+- [ ] Confirm VyOS is the on-prem routing standard for O3a / O3c
+- [ ] Confirm evidence root path is `docs/release2/evidence/`
+
+### 4.2 Repository Planning Readiness
+- [ ] Repository structure reviewed for Release 2
+- [ ] Branching approach defined for docs and implementation
+- [ ] GitHub Desktop workflow currently working for commit/push
+- [ ] Decision recorded to use VS Code + Codespaces before P0 execution
+- [ ] `.gitignore` reviewed for Terraform, Ansible, logs, and local secrets
+
+### 4.3 Execution Environment Readiness (to complete before P0 build work)
+- [ ] VS Code workspace opened successfully for the repo
+- [ ] GitHub Codespaces plan confirmed
+- [ ] `.devcontainer/devcontainer.json` created or updated
+- [ ] `az --version` works in the intended execution environment
+- [ ] `terraform --version` works in the intended execution environment
+- [ ] `ansible --version` works in the intended execution environment
+- [ ] `git` works inside the intended execution environment
+- [ ] `az login --use-device-code` or equivalent sign-in works
+
+**Suggested `.devcontainer/devcontainer.json` baseline:**
+```json
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {},
+    "ghcr.io/devcontainers/features/azure-cli:1": {},
+    "ghcr.io/devcontainers/features/ansible:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "hashicorp.terraform",
+        "redhat.ansible",
+        "ms-vscode.azurecli"
+      ]
     }
-
-### 5. Local Hyper‑V (for O3a/O3c – on‑prem simulation)
-- [ ] Hyper‑V enabled (or VMware/VirtualBox)
-- [ ] VM `hyperv-dc1` (Windows Server 2022) – static IP `192.168.1.10/24`
-- [ ] (Optional) VM `hyperv-rras` – static IP `192.168.1.1/24`
-- [ ] Outbound internet tested: `ping 8.8.8.8`
-
-### 6. AWS Account (for O3b – Cisco NVA – ephemeral)
-- [ ] AWS free tier account created
-- [ ] IAM user with Programmatic access → keys saved
-- [ ] GitHub secrets added: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
-- [ ] *Note:* NVA destroyed within hours → stays within free tier limits.
-
-### 7. Entra ID & Service Principal Bootstrap
-- [ ] Global Administrator role confirmed
-- [ ] Run Phase 0.2 script → creates `sp-terraform-gh` with OIDC federated credential
-- [ ] Contributor role assigned at subscription scope
-
-### 8. Smoke Test (validation before Phase 0)
-- [ ] `az account show` → correct subscription
-- [ ] `terraform init` in empty directory → no errors
-- [ ] GitHub Actions OIDC test workflow passes (`.github/workflows/oidc-test.yml`)
-
-**Preparation finished ✅ – proceed to Phase 0.**
-
----
-
-## Core Phases (P0 – P9c)
-
-| Phase | Name | Depends | Est. | Status | Evidence Path (from repo root) | Last Run | FinOps Teardown | Validation Command |
-|-------|------|---------|------|--------|-------------------------------|----------|-----------------|--------------------|
-| **P0** | Foundation & OIDC Backend | Prep | 1h | [ ] | `docs/release2/evidence/P0/oidc-test.txt` | | N/A (persistent) | `terraform init` |
-| **P1** | Landing Zone & MGs | P0 | 30m | [ ] | `docs/release2/evidence/P1/policy-assignments.txt` | | N/A | `az policy assignment list --scope "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"` |
-| **P2a** | Terraform Modules | P1 | 1h | [ ] | `docs/release2/evidence/P2a/tf-plan.txt` | | `terraform destroy -target=module.compute` | `az vm show -n vm-dev-client-01 --expand networkProfile` (no public IP) |
-| **P2b** | Ansible Config | P2a | 45m | [ ] | `docs/release2/evidence/P2b/ansible-run.txt` | | N/A | `ansible-inventory --list` |
-| **P2c** | CI/CD Pipeline | P0,P2a | 45m | [ ] | `docs/release2/evidence/P2c/pr-plan-comment.png` | | N/A | Create PR → see plan comment |
-| **P3** | Governance (RBAC) | P1 | 30m | [ ] | `docs/release2/evidence/P3/policy-violation.txt` | | N/A | `az policy state list` |
-| **P4** | Azure Lighthouse | P0 | 30m | [ ] | `docs/release2/evidence/P4/cross-tenant-vms.txt` | | Delete registration definition | `az vm list --subscription <customer-sub-id>` |
-| **P5** | Hub‑Spoke Networking | P0 | 1h | [ ] | `docs/release2/evidence/P5/vnet-peering.txt` | | N/A | `az network vnet peering list -g rg-connectivity-prod-uksouth -n vnet-dev-uksouth-hub` |
-| **P6** | Azure Firewall (ephemeral) | P5 | 1h | [ ] | `docs/release2/evidence/P6/blocked-curl.txt` | | ⚠️ `terraform destroy -target=azurerm_firewall.afw` | `curl http://example.com` from spoke VM → blocked |
-| **P7** | Defender for Cloud | P0 | 30m | [ ] | `docs/release2/evidence/P7/secure-score-after.txt` | | Remove premium plans only | `az security secure-score list` |
-| **P8** | Microsoft Sentinel | P7 | 45m | [ ] | `docs/release2/evidence/P8/incident-screenshot.png` | | N/A | `az sentinel incident list` |
-| **P9a** | Azure Monitor & Alerts | P2a | 30m | [ ] | `docs/release2/evidence/P9a/alert-email.png` | | Delete alert rule | `az monitor metric alert show -n alert-high-cpu-vm-dev-client` |
-| **P9b** | Disaster Recovery (Backup+MUA) | P2a | 1h | [ ] | `docs/release2/evidence/P9b/mua-block.txt` | | Delete ASR vault only | `az backup item list --vault-name rsv-dev-backup` |
-| **P9c** | Handover & FinOps Teardown | All Core | 30m | [ ] | `docs/release2/evidence/P9c/terraform-destroy.txt` | | `terraform destroy -auto-approve` | Azure Cost Analysis → $0 projected |
-
----
-
-## Optional Phases (O1 – O5)
-
-| Phase | Name | Depends | Est. | Status | Evidence Path | Last Run | Teardown (mandatory) | Cost Warning |
-|-------|------|---------|------|--------|----------------|----------|----------------------|--------------|
-| **O1** | Dual‑Firewall (FortiGate NVA) | P5,P6 | 2h | [ ] | `docs/release2/evidence/O1/traceroute-eastwest.txt` | | ⚠️ `terraform destroy -target=azurerm_linux_virtual_machine.fortigate` | Ephemeral + Market image |
-| **O2** | Azure Arc | P0 | 45m | [ ] | `docs/release2/evidence/O2/connected-machine-list.txt` | | Disconnect agent | minimal |
-| **O3a** | BGP over IPSec (FortiGate ↔ VyOS) | O1, Hyper-V/VyOS | 1.5h | [ ] | `docs/release2/evidence/O3a/bgp-summary.txt` | | ⚠️ Destroy FortiGate (O1) | depends on O1 |
-| **O3b** | AWS Cisco NVA | O1, AWS | 2h | [ ] | `docs/release2/evidence/O3b/bgp-routes-fortigate.txt` | | ⚠️ `terraform -chdir=aws/ destroy` | AWS t3.micro (ephemeral) |
-| **O3c** | Transitive Routing | O3a,O3b | 1h | [ ] | `docs/release2/evidence/O3c/traceroute-aws-to-hq.txt` | | ⚠️ Destroy FortiGate + Cisco | depends on O1+O3b |
-| **O4** | Entra GSA (ZTNA) | P0,P2a | 1.5h | [ ] | `docs/release2/evidence/O4/rdp-via-gsa.txt` | | ⚠️ Destroy GSA Connector VM | trial license |
-| **O5** | AVD + FSLogix | P5,O4 | 2h | [ ] | `docs/release2/evidence/O5/fslogix-roaming.txt` | | ⚠️ `terraform destroy -target=azurerm_windows_virtual_machine.avd_session` | Azure Files Premium + B2s |
-
----
-
-## Post-Completion Checklist (Handover)
-
-- [ ] All ephemeral resources destroyed: `az resource list --tag Ephemeral=true` empty
-- [ ] Azure Firewall, FortiGate, Cisco NVA, AVD session hosts removed
-- [ ] Cost Management shows $0 projected compute spend (storage < $1 acceptable)
-- [ ] `onboarding.md` and `CONTRIBUTING.md` committed to `release-2`
-- [ ] Terraform state `.tfstate` backup downloaded locally
-- [ ] One‑line rebuild test: new engineer clones and runs the tracker from Prep – succeeds within 60 min
-
----
-
-## Troubleshooting – Common Enterprise Pitfalls
-
-| Problem | Likely Cause | Fix |
-|---------|--------------|-----|
-| **OIDC workflow fails** | Federated credential subject mismatch | Ensure `repo:<owner>/<repo>:environment:release-2` exactly matches |
-| **Terraform init fails** | Storage account name not unique | Append random digits to `stdevterraform` |
-| **VM gets public IP** | Module drift / incorrect NIC config | Check NIC has no `public_ip_address_id` |
-| **BGP peer never establishes** | NSG or AWS SG blocking UDP 500/4500 or TCP 179 | Open these ports on both sides |
-| **GSA Private Access fails** | Connector cannot reach spoke VM | Place connector in Hub management subnet, verify peering |
-| **Unexpected charges** | Ephemeral resource left running | Run `terraform destroy` for that phase immediately |
-
----
-
-**End of Implementation Tracker – Copy‑paste ready.**
+  }
+}
 ```
+
+---
+
+## 5. Preparation Phase (Pre-P0)
+
+### 5.1 Azure Account, Tenant, and Subscription
+- [ ] Azure subscription upgraded to Pay-As-You-Go
+- [ ] Verified domain `entra.azawslab.co.uk` available in Entra ID
+- [ ] Subscription ID recorded
+- [ ] Cost alerts created ($10 / $50 / $100)
+- [ ] Default region confirmed as `uksouth`
+
+### 5.2 Global IP Addressing Strategy
+- [ ] Azure Hub: `10.0.0.0/16`
+- [ ] Azure Workload Spoke: `10.1.0.0/16`
+- [ ] Azure AVD / optional spoke(s): `10.2.0.0/16`
+- [ ] On-prem simulation network: `192.168.1.0/24`
+- [ ] AWS branch VPC: `172.16.0.0/16`
+- [ ] No CIDR overlap confirmed across all segments
+
+### 5.3 GitHub Setup
+- [ ] Repo exists and is reachable
+- [ ] Environment `release-2` created in GitHub
+- [ ] Branch strategy defined
+- [ ] Planned protected branch identified
+- [ ] Placeholder secrets list prepared:
+  - [ ] `AZURE_CLIENT_ID`
+  - [ ] `AZURE_TENANT_ID`
+  - [ ] `AZURE_SUBSCRIPTION_ID`
+- [ ] Optional local env var plan documented:
+  - [ ] `ARM_CLIENT_ID`
+  - [ ] `ARM_TENANT_ID`
+  - [ ] `ARM_SUBSCRIPTION_ID`
+
+### 5.4 Local / On-Prem Simulation Readiness
+- [ ] Hyper-V host available, or alternative local virtualisation platform confirmed
+- [ ] VyOS VM planned for on-prem edge simulation
+- [ ] VyOS management access method documented
+- [ ] VyOS interface plan documented
+- [ ] On-prem test VM/DC plan documented
+- [ ] Outbound internet connectivity for local lab confirmed
+- [ ] Local subnet and gateway assignments documented
+
+### 5.5 AWS Readiness for O3b
+- [ ] AWS account available
+- [ ] IAM user / access model confirmed
+- [ ] Required credentials stored securely
+- [ ] AWS free tier / cost guardrails reviewed
+- [ ] Teardown expectation documented for AWS ephemeral resources
+
+### 5.6 Entra ID & Service Principal Bootstrap Readiness
+- [ ] Role capability confirmed for app registration and RBAC assignment
+- [ ] OIDC app registration naming confirmed
+- [ ] Subscription scope for Contributor role confirmed
+- [ ] GitHub repo/environment subject format documented for federated credential
+
+### 5.7 Pre-P0 Smoke Test
+- [ ] `az account show` returns the correct subscription
+- [ ] `terraform init` succeeds in a test directory
+- [ ] Repo can be cloned/opened in the intended execution environment
+- [ ] Documentation alignment checkpoint completed
+
+**Preparation Gate:**  
+Do **not** start P0 until sections 4 and 5 are complete.
+
+---
+
+## 6. Core Phase Tracker (P0–P9c, O1–O5)
+
+| Phase | Name | Depends On | Est. Time | Status | Evidence Path | Validation Gate | Teardown / Cost Action |
+|------|------|------------|-----------|--------|---------------|-----------------|------------------------|
+| P0 | Foundation & OIDC Backend | Prep | 1h | [ ] | `docs/release2/evidence/P0/` | OIDC workflow succeeds; backend init succeeds | Persistent |
+| P1 | Landing Zone & Management Groups | P0 | 30m | [ ] | `docs/release2/evidence/P1/` | MG hierarchy exists; policy assignments visible | Persistent |
+| P2a | Terraform Reusable Modules | P1 | 1h | [ ] | `docs/release2/evidence/P2a/` | `terraform validate` and `plan` succeed; no public IP on workload VM | Persistent |
+| P2b | Ansible Configuration Management | P2a | 45m | [ ] | `docs/release2/evidence/P2b/` | playbook succeeds; rerun shows idempotency | Persistent |
+| P2c | CI/CD Pipeline | P0, P2a | 45m | [ ] | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds | Persistent |
+| P3 | Enterprise Governance & Guardrails | P1 | 30m | [ ] | `docs/release2/evidence/P3/` | deny policy tested; RBAC verified | Persistent |
+| P4 | Azure Lighthouse | P0 | 30m | [ ] | `docs/release2/evidence/P4/` | delegated visibility works cross-tenant | Remove if no longer needed |
+| P5 | Hub-Spoke Networking | P0 | 1h | [ ] | `docs/release2/evidence/P5/` | peering and routing validated | Persistent |
+| P6 | Azure Firewall | P5 | 1h | [ ] | `docs/release2/evidence/P6/` | forced tunneling and block test succeed | [E] destroy after validation unless needed for O1 |
+| P7 | Defender for Cloud | P5 | 30m | [ ] | `docs/release2/evidence/P7/` | plans enabled; recommendations visible | Persistent |
+| P8 | Microsoft Sentinel | P7 | 45m | [ ] | `docs/release2/evidence/P8/` | incident generation path validated | Persistent |
+| P9a | Azure Monitor Alerts | P7 | 30m | [ ] | `docs/release2/evidence/P9a/` | alert rule fires and action group works | Persistent |
+| P9b | Backup / Recovery Services Vault | P5 | 45m | [ ] | `docs/release2/evidence/P9b/` | backup policy and protected item verified | Persistent |
+| P9c | Final Validation & Portfolio Evidence Pack | P0–P9b | 1h | [ ] | `docs/release2/evidence/P9c/` | all mandatory evidence complete | Persistent |
+| O1 | FortiGate NVA Dual-Firewall Pattern | P5, P6 | 1h | [ ] | `docs/release2/evidence/O1/` | UDR steering and East-West inspection validated | [E] destroy after validation |
+| O2 | Azure Arc | P5 | 45m | [ ] | `docs/release2/evidence/O2/` | Arc machine shows connected | Persistent / optional |
+| O3a | FortiGate ↔ VyOS BGP over IPSec | O1 | 1.5h | [ ] | `docs/release2/evidence/O3a/` | BGP session up; routes learned | [E] destroy cloud-side ephemeral assets if not needed |
+| O3b | AWS Cisco Branch with Segmented BGP | O3a | 1.5h | [ ] | `docs/release2/evidence/O3b/` | AWS branch routes propagate correctly | [E] destroy AWS NVA after validation |
+| O3c | Global Transit / Transitive Routing Validation | O3a, O3b | 1h | [ ] | `docs/release2/evidence/O3c/` | end-to-end path validation succeeds | [E] teardown transient routing lab components |
+| O4 | Entra Global Secure Access | P5 | 1h | [ ] | `docs/release2/evidence/O4/` | private access validated; remote network works | Optional persistent |
+| O5 | Azure Virtual Desktop + FSLogix | P5 | 1.5h | [ ] | `docs/release2/evidence/O5/` | host pool, profiles, and session validation succeed | [E] destroy session hosts after validation if budget-sensitive |
+
+---
+
+## 7. Detailed Phase Control Notes
+
+### P0 – Foundation & OIDC Backend
+**Objective:** Establish secretless automation and remote Terraform backend.
+
+**Checklist**
+- [ ] Create OIDC app/service principal for GitHub Actions
+- [ ] Assign Contributor at subscription scope
+- [ ] Create resource group for state backend
+- [ ] Create storage account for Terraform state
+- [ ] Create `tfstate` container
+- [ ] Test OIDC GitHub workflow
+- [ ] Test backend `terraform init`
+
+**Minimum Validation**
+- [ ] OIDC login succeeds in GitHub Actions
+- [ ] `terraform init` succeeds against remote backend
+- [ ] role assignment visible for the workload identity
+
+**Evidence**
+- [ ] `oidc-test.txt`
+- [ ] `backend-init.txt`
+- [ ] `role-assignment.txt`
+
+---
+
+### P1 – Landing Zone & Management Groups
+**Objective:** Build the governance scaffold.
+
+**Checklist**
+- [ ] Create management groups
+- [ ] place subscription under correct management group
+- [ ] deploy policy definitions
+- [ ] assign policy definitions at correct scope
+
+**Minimum Validation**
+- [ ] management group hierarchy visible
+- [ ] policy assignments listed successfully
+- [ ] non-compliant region deployment test fails
+
+**Evidence**
+- [ ] `mg-hierarchy.txt`
+- [ ] `policy-assignments.txt`
+- [ ] `deny-test-region.txt`
+
+---
+
+### P2a – Terraform Reusable Modules
+**Objective:** Build reusable IaC modules with dynamic secrets and private-only compute.
+
+**Checklist**
+- [ ] module structure created
+- [ ] security module created
+- [ ] networking module created
+- [ ] compute module created
+- [ ] monitoring module created if included in the phase scope
+- [ ] Key Vault integration confirmed
+- [ ] workload VM deployed without public IP
+
+**Minimum Validation**
+- [ ] `terraform fmt -check`
+- [ ] `terraform validate`
+- [ ] `terraform plan`
+- [ ] workload NIC has no public IP
+
+**Evidence**
+- [ ] `tf-validate.txt`
+- [ ] `tf-plan.txt`
+- [ ] `vm-networkprofile.txt`
+
+---
+
+### P2b – Ansible Configuration Management
+**Objective:** Apply post-deployment configuration and prove idempotent automation.
+
+**Checklist**
+- [ ] role structure created
+- [ ] `common` role created
+- [ ] `ad-join` role created
+- [ ] `webserver` role created
+- [ ] inventory created
+- [ ] vault strategy documented
+- [ ] `site.yml` created
+
+**Minimum Validation**
+- [ ] `ansible-lint` succeeds
+- [ ] first playbook run succeeds
+- [ ] second run shows idempotent behavior
+- [ ] domain join verified where applicable
+- [ ] IIS/content validation completed where applicable
+
+**Evidence**
+- [ ] `ansible-lint.txt`
+- [ ] `ansible-run-01.txt`
+- [ ] `ansible-run-02-idempotent.txt`
+- [ ] `domain-join-check.txt`
+
+---
+
+### P2c – CI/CD Pipeline
+**Objective:** Enforce PR-based automation using OIDC and GitHub Actions.
+
+**Checklist**
+- [ ] OIDC test workflow present
+- [ ] Terraform CI workflow present
+- [ ] Terraform CD workflow present
+- [ ] branch protection configured
+- [ ] required checks configured
+
+**Minimum Validation**
+- [ ] PR triggers plan workflow
+- [ ] plan is visible in PR output
+- [ ] merge triggers apply workflow
+- [ ] workflow completes successfully
+
+**Evidence**
+- [ ] `oidc-workflow-run.txt`
+- [ ] `terraform-plan-pr-comment.txt`
+- [ ] `terraform-apply-run.txt`
+- [ ] `branch-protection-notes.md`
+
+---
+
+### P3 – Enterprise Governance & Guardrails
+**Objective:** Enforce data sovereignty, tagging, and cost controls.
+
+**Checklist**
+- [ ] allowed locations policy active
+- [ ] allowed VM SKU policy active
+- [ ] mandatory tags policy active
+- [ ] RBAC assignments reviewed
+
+**Minimum Validation**
+- [ ] non-UK South test denied
+- [ ] disallowed SKU test denied
+- [ ] missing tag test denied
+- [ ] principal/role assignments verified
+
+**Evidence**
+- [ ] `policy-state.txt`
+- [ ] `deny-test-region.txt`
+- [ ] `deny-test-sku.txt`
+- [ ] `deny-test-tags.txt`
+- [ ] `rbac-assignments.txt`
+
+---
+
+### P4 – Azure Lighthouse
+**Objective:** Demonstrate delegated cross-tenant administration.
+
+**Checklist**
+- [ ] registration definition deployed
+- [ ] registration assignment deployed
+- [ ] delegated access confirmed
+
+**Minimum Validation**
+- [ ] delegated resources visible from managing tenant
+- [ ] cross-tenant read operation succeeds
+
+**Evidence**
+- [ ] `lighthouse-registration.txt`
+- [ ] `cross-tenant-visibility.txt`
+
+---
+
+### P5 – Hub-Spoke Networking
+**Objective:** Establish core connectivity for all later platform/security phases.
+
+**Checklist**
+- [ ] hub VNet deployed
+- [ ] spoke VNet(s) deployed
+- [ ] subnets created
+- [ ] peerings configured
+- [ ] NSGs / route tables created where required
+
+**Minimum Validation**
+- [ ] peering state is connected
+- [ ] route tables associated as designed
+- [ ] private connectivity works across intended paths
+
+**Evidence**
+- [ ] `vnet-list.txt`
+- [ ] `vnet-peering.txt`
+- [ ] `route-table-validation.txt`
+
+---
+
+### P6 – Azure Firewall [E]
+**Objective:** Validate controlled egress and inspection via Azure Firewall.
+
+**Checklist**
+- [ ] Azure Firewall deployed
+- [ ] Firewall policy deployed
+- [ ] UDR sends `0.0.0.0/0` to Azure Firewall
+- [ ] allow/deny rules configured
+- [ ] test workload routed through firewall
+
+**Minimum Validation**
+- [ ] public egress path confirmed
+- [ ] deny rule test succeeds
+- [ ] Azure Firewall logs show expected traffic
+
+**Evidence**
+- [ ] `firewall-deploy.txt`
+- [ ] `udr-validation.txt`
+- [ ] `blocked-request-test.txt`
+- [ ] `firewall-log-query.txt`
+
+**Teardown**
+- [ ] destroy Azure Firewall after validation unless explicitly retained for O1
+
+---
+
+### P7 – Defender for Cloud
+**Objective:** Enable cloud security posture visibility.
+
+**Checklist**
+- [ ] Defender plans enabled as required
+- [ ] recommendations reviewed
+- [ ] secure score baseline captured
+
+**Minimum Validation**
+- [ ] recommendations visible
+- [ ] secure score captured
+- [ ] target subscription covered
+
+**Evidence**
+- [ ] `defender-plan-status.txt`
+- [ ] `secure-score.txt`
+- [ ] `recommendations-summary.md`
+
+---
+
+### P8 – Microsoft Sentinel
+**Objective:** Establish SIEM ingestion and incident visibility.
+
+**Checklist**
+- [ ] Sentinel enabled on workspace
+- [ ] required connectors enabled
+- [ ] analytic rule deployed or enabled
+- [ ] incident generation path tested
+
+**Minimum Validation**
+- [ ] data connector healthy
+- [ ] analytics rule active
+- [ ] incident visible from test condition
+
+**Evidence**
+- [ ] `sentinel-enable.txt`
+- [ ] `connector-status.txt`
+- [ ] `analytics-rule-status.txt`
+- [ ] `incident-validation.txt`
+
+---
+
+### P9a – Azure Monitor Alerts
+**Objective:** Validate platform alerting and action groups.
+
+**Checklist**
+- [ ] action group created
+- [ ] alert rule created
+- [ ] target resource associated
+- [ ] test signal generated if feasible
+
+**Minimum Validation**
+- [ ] alert rule enabled
+- [ ] action group linked
+- [ ] test or actual alert fired successfully
+
+**Evidence**
+- [ ] `action-group.txt`
+- [ ] `alert-rule.txt`
+- [ ] `alert-validation.txt`
+
+---
+
+### P9b – Backup / Recovery Services Vault
+**Objective:** Validate backup controls and recovery governance.
+
+**Checklist**
+- [ ] Recovery Services Vault deployed
+- [ ] backup policy configured
+- [ ] protected item registered
+- [ ] immutability / protection settings reviewed
+- [ ] Resource Guard / MUA configured if in scope
+
+**Minimum Validation**
+- [ ] backup item protected
+- [ ] policy assigned
+- [ ] initial backup state confirmed
+
+**Evidence**
+- [ ] `rsv-deploy.txt`
+- [ ] `backup-policy.txt`
+- [ ] `protected-item-status.txt`
+
+---
+
+### P9c – Final Validation & Portfolio Evidence Pack
+**Objective:** Close the loop on implementation quality and portfolio readiness.
+
+**Checklist**
+- [ ] all mandatory phases reviewed
+- [ ] all evidence paths populated
+- [ ] all stale notes removed
+- [ ] teardown completed for ephemeral phases
+- [ ] README navigation checked
+- [ ] recruiter-facing summary notes prepared
+
+**Minimum Validation**
+- [ ] no mandatory evidence gaps remain
+- [ ] no unintended costly resources remain
+- [ ] documentation links resolve correctly
+
+**Evidence**
+- [ ] `phase-completion-summary.md`
+- [ ] `resource-final-state.txt`
+- [ ] `cost-review.txt`
+
+---
+
+## 8. Optional Advanced Phases
+
+### O1 – FortiGate NVA Dual-Firewall Pattern [E][O]
+- [ ] FortiGate deployed
+- [ ] East-West / hybrid UDRs configured
+- [ ] traffic separation from Azure Firewall validated
+- [ ] validation evidence captured
+- [ ] teardown completed after validation
+
+### O2 – Azure Arc [O]
+- [ ] Arc agent deployed to target machine
+- [ ] machine appears in Azure
+- [ ] tags/policy/management visibility confirmed
+
+### O3a – FortiGate ↔ VyOS BGP over IPSec [E][O]
+- [ ] VyOS prepared locally
+- [ ] IPSec tunnel established
+- [ ] BGP peering established
+- [ ] route learning verified
+- [ ] validation evidence captured
+- [ ] cloud-side ephemeral assets destroyed when no longer required
+
+### O3b – AWS Cisco Branch with Segmented BGP [E][O]
+- [ ] AWS branch VPC created
+- [ ] Cisco NVA deployed
+- [ ] IPSec/BGP to Azure path established
+- [ ] branch segmentation validated
+- [ ] teardown completed after validation
+
+### O3c – Global Transit / Transitive Routing Validation [E][O]
+- [ ] end-to-end route propagation verified
+- [ ] path tests completed
+- [ ] packet path notes saved
+- [ ] transit lab resources torn down after validation
+
+### O4 – Entra Global Secure Access [O]
+- [ ] remote network configured
+- [ ] connector/dependency setup completed
+- [ ] private access policy validated
+- [ ] legacy VPN replacement narrative documented
+
+### O5 – Azure Virtual Desktop + FSLogix [E][O]
+- [ ] host pool created
+- [ ] workspace created
+- [ ] app group configured
+- [ ] FSLogix storage configured
+- [ ] user session validation completed
+- [ ] teardown plan completed for session hosts if cost-sensitive
+
+---
+
+## 9. Evidence Directory Template
+
+```text
+docs/
+└── release2/
+    └── evidence/
+        ├── P0/
+        ├── P1/
+        ├── P2a/
+        ├── P2b/
+        ├── P2c/
+        ├── P3/
+        ├── P4/
+        ├── P5/
+        ├── P6/
+        ├── P7/
+        ├── P8/
+        ├── P9a/
+        ├── P9b/
+        ├── P9c/
+        ├── O1/
+        ├── O2/
+        ├── O3a/
+        ├── O3b/
+        ├── O3c/
+        ├── O4/
+        └── O5/
+```
+
+---
+
+## 10. Blocker Log
+
+Use this section during execution.
+
+| Date | Phase | Blocker | Impact | Action Taken | Status |
+|------|-------|---------|--------|--------------|--------|
+| [Date] | [Phase] | [Describe issue] | [Low/Med/High] | [Mitigation] | [Open/Closed] |
+
+---
+
+## 11. Change Log
+
+| Date | Change | Reason |
+|------|--------|--------|
+| [Date] | Initial rewritten tracker aligned to `README_PLAN.md` | Removed stale RRAS path, restructured prep flow, strengthened validation gates |
+
+---
+
+## 12. Final Completion Review
+
+### Mandatory Completion Gate
+- [ ] P0 complete
+- [ ] P1 complete
+- [ ] P2a complete
+- [ ] P2b complete
+- [ ] P2c complete
+- [ ] P3 complete
+- [ ] P5 complete
+- [ ] P7 complete
+- [ ] P8 complete
+- [ ] P9a complete
+- [ ] P9b complete
+- [ ] P9c complete
+
+### Optional Completion Gate
+- [ ] P4 complete if included
+- [ ] P6 complete if included
+- [ ] O1 complete if included
+- [ ] O2 complete if included
+- [ ] O3a complete if included
+- [ ] O3b complete if included
+- [ ] O3c complete if included
+- [ ] O4 complete if included
+- [ ] O5 complete if included
+
+### Final Operational Checks
+- [ ] No stale RRAS references remain in Release 2 docs
+- [ ] No unintended public IPs remain on workload VMs
+- [ ] No unnecessary high-cost resources remain running
+- [ ] Evidence folders are populated and readable
+- [ ] Repo docs correctly reference the final file names
+- [ ] Recruiter-facing summary points extracted from validated work
+
+---
+
+## 13. Sign-Off
+
+**Release 2 Execution Status:**  
+- [ ] Planning only
+- [ ] Pre-execution ready
+- [ ] Core build in progress
+- [ ] Core build complete
+- [ ] Optional validation in progress
+- [ ] Fully validated and portfolio-ready
+
+**Signed off by:** ____________________  
+**Date:** ____________________
