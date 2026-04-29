@@ -43,6 +43,7 @@
 | **Recovery Services Vault** | `rsv-<env>-<purpose>` | `rsv-dev-backup`, `rsv-dev-asr` | Immutable backup + MUA |
 | **Azure Resource Guard** | `rg-<env>-resourceguard` | `rg-dev-resourceguard` | For MUA enforcement on backup |
 | **Virtual Machine** | `vm-<env>-<role>-<number>` | `vm-dev-dc1-01`, `vm-dev-client-01`, `vm-dev-avd-session-01`, `vm-dev-fortigate-01` | Role: dc1, client, avd-session, fortigate, bastion, gsa-connector |
+| **VyOS (on‑prem)** | `vyos-<env>-onprem-01` | `vyos-dev-onprem-01` | Simulates enterprise edge router |
 | **Availability Set** | `aset-<env>-<role>` | `aset-dev-avdsession` | |
 | **Disk** | `disk-<vmname>-os|data-01` | `disk-dc1-os-01`, `disk-avdsession-data-01` | |
 | **Azure Policy Definition** | `policy-<shortname>` | `policy-allowed-locations`, `policy-allowed-vm-skus`, `policy-mandatory-tags` | |
@@ -189,6 +190,7 @@ All groups must include a **Description** in Microsoft Entra ID.
 | **O1** | FortiGate NSG | `nsg-fortigate-inbound` |
 | **O2** | Azure Arc enabled VM | `vm-dev-dc1-01` (Arc‑enabled) – no separate name |
 | **O3a** | BGP peer (FortiGate) | `peer-hq-rras` (logical) |
+| **O3a** | VyOS VM (Hyper-V) | `vyos-dev-onprem-01` | (not in Azure, but named for consistency) |
 | **O3b** | Cisco NVA (AWS) | `cisco-dev-branch-01` (EC2 name tag) |
 | **O3c** | Transitive route propagation | (No separate resource) |
 | **O4** | Entra GSA Remote Network | `gsa-rn-azurehub` |

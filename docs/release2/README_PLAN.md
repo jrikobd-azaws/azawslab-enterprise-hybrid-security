@@ -577,38 +577,124 @@ This diagram illustrates how on-premises hardware is logically projected into th
 
 ---
 
-## Phase O3a: Dynamic Routing Foundation (FortiGate to On-Prem HQ)
+## Phase O3a: Dynamic Routing Foundation (VyOS Edge Router)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail  |
+| Aspect | Refined Detail |
 | :--- | :--- |
 | **Business Problem** | **Routing Convergence & Human Error:** Manual static route management in hybrid environments leads to "black-holed" traffic and slow failover. Enterprises require a self-healing network that automatically updates when on-premises subnets change. |
-| **Technical Solution** | **Multi-Vendor BGP Integration:** Establishing a BGP-over-IPSec tunnel between the **Azure-based FortiGate NVA** and the **On-Premises Hyper-V RRAS**. Configuring the FortiGate as the BGP Peer (ASN: 65515) to dynamically learn and propagate on-premises routes (192.168.1.0/24) into the Azure Hub-Spoke fabric. |
-| **IaC Implementation** | **Dual-Provider Automation:** Using the `azurerm` provider to manage Azure networking (Public IPs, UDRs) and the `fortios` Terraform provider to configure the NVA's BGP neighbors, firewall policies, and virtual tunnel interfaces (VTI). |
-| **Acceptance Criteria** | 1. IPSec tunnel status is "Up" on both the FortiGate and Hyper-V RRAS. 2. BGP Peering state is "Established." 3. FortiGate routing table contains the 192.168.1.0/24 prefix learned via BGP. |
-| **Validation** | From the FortiGate CLI, execute `get router info bgp summary`. Verify that the Spoke VM's effective routes show the 192.168.1.0/24 route with the FortiGate NVA as the Next Hop. |
-| **Evidence** | `docs/release2/evidence/O3a/`: Terraform configuration for the BGP neighbor, CLI output of the BGP summary, and a screenshot of the Azure Effective Routes table. |
+| **Technical Solution** | **Multi-Vendor BGP Integration:** Establishing a BGP-over-IPSec tunnel between the **Azure-based FortiGate NVA** and **VyOS** (open-source Linux NOS) running on Hyper-V. VyOS API is bootstrapped manually, then Terraform (community provider) automates IPSec and BGP configuration. |
+| **IaC Implementation** | **Cross-Provider Automation:** `azurerm` (Azure networking), `fortios` (FortiGate NVA), and `vyos` (community provider for VyOS). |
+| **Acceptance Criteria** | 1. IPSec tunnel status is "Up" on both FortiGate and VyOS. 2. BGP Peering state is "Established". 3. FortiGate routing table contains `192.168.1.0/24` learned via BGP. |
+| **Validation** | From FortiGate CLI: `get router info bgp summary`. From VyOS: `show bgp summary`. Verify Spoke VM effective routes show `192.168.1.0/24` next-hop FortiGate. |
+| **Evidence** | `docs/release2/evidence/O3a/`: Terraform config for VyOS, BGP summary outputs, effective route table screenshot. |
 
 ### 2. Operational Architecture (Dynamic Hybrid Link)
-This diagram illustrates the BGP peering established between the third-party NVA and the legacy HQ.
+This diagram illustrates the BGP peering between FortiGate NVA (Azure) and VyOS (on-prem Hyper-V).
+```text
+[ Azure Hub VNet ]
+(ASN: 65515)
+      │
+[ FortiGate NVA ] <──────────────────┐
+(BGP Speaker)                        │
+      │                              │
+      │                     (BGP over IPSec Tunnel)
+      │                              │
+      ▼                              ▼
+[ Azure Spoke VNets ]      [ VyOS on Hyper-V (HQ) ]
+(Dynamic Routes)           (ASN: 65001 | Subnet: 192.168.1.0/24)
+```
 
+### 3. Step-by-Step Actions
 
+#### 3.1 Deploy VyOS VM on Hyper-V
+- Download VyOS rolling release `.iso` from official site.
+- Create Gen2 VM (1 vCPU, 1 GB RAM, 8 GB disk) with two NICs:
+  - **NIC1 (WAN):** Connected to NAT/Hyper-V switch, static IP `192.168.1.1/24`.
+  - **NIC2 (LAN):** Connected to internal switch for on-prem VMs (no IP needed).
+- Boot ISO, log in (user `vyos` / password `vyos`), run `install image`, reboot.
 
-    [ Azure Hub VNet ]
-    (ASN: 65515)
-          │
-    [ FortiGate NVA ] <──────────────────┐
-    (BGP Speaker)                        │
-          │                              │
-          │                     (BGP over IPSec Tunnel)
-          │                              │
-          ▼                              ▼
-    [ Azure Spoke VNets ]      [ Hyper-V RRAS (HQ) ]
-    (Dynamic Routes)           (ASN: 65001 | Subnet: 192.168.1.0/24)
+#### 3.2 Bootstrap VyOS API (manual one-time)
+```bash
+ssh vyos@192.168.1.1
+configure
+set service https api keys id tf-key key 'YourSuperSecretKey123!'
+set service https api port 443
+set service https certificates system-generated-certificate
+commit
+save
+```
 
-### 3. Recruiter Hook
-"Architected a self-healing hybrid network by implementing **Dynamic BGP Routing** on a **FortiGate NVA**. Utilized **Terraform (FortiOS Provider)** to automate the exchange of routing prefixes between Azure and on-premises infrastructure, eliminating the administrative overhead of static route tables and demonstrating deep expertise in multi-vendor networking."
+#### 3.3 Configure FortiGate IPSec tunnel (Terraform – same as original)
+> (Keep existing FortiGate IPSec configuration; ensure peer address points to VyOS public IP, e.g., `192.168.1.1`.)
 
+#### 3.4 Configure VyOS via Terraform provider
+Create `vyos-bgp.tf`:
+```hcl
+terraform {
+  required_providers {
+    vyos = {
+      source = "Foltik/vyos"
+      version = "~> 0.3.4"
+    }
+  }
+}
+
+provider "vyos" {
+  url = "[https://192.168.1.1](https://192.168.1.1)"
+  key = "YourSuperSecretKey123!"
+  # For self-signed cert in lab, add: insecure = true
+}
+
+resource "vyos_protocols_bgp_neighbor" "azure_fortigate" {
+  asn        = "65001"
+  address    = "10.1.1.4"       # FortiGate trust IP in Azure
+  remote_as  = "65515"
+}
+
+resource "vyos_protocols_bgp_address_family_ipv4_unicast_network" "on_prem_subnet" {
+  asn     = "65001"
+  network = "192.168.1.0/24"
+}
+```
+
+#### 3.5 Validate
+```bash
+# On VyOS
+show bgp summary
+# Expected: neighbor 10.1.1.4 state Established
+
+# On FortiGate CLI
+get router info bgp summary
+# Expected: neighbor 192.168.1.1 state Established
+```
+
+PHASE O3a: BGP OVER IPSEC (AZURE FORTIGATE ↔ VYOS ON-PREM)
+===========================================================
+
+[Azure Hub – FortiGate NVA: vm-dev-fortigate-01]
+   ASN: 65515
+   BGP Router ID: 10.1.1.4
+         │
+         │ (IPSec tunnel – IKEv2 / AES256)
+         │ (BGP peering over tunnel)
+         ▼
+[On-Premises Hyper-V – VyOS VM]
+   ASN: 65001
+   BGP Router ID: 192.168.1.1
+   Advertised routes: 192.168.1.0/24
+
+Routes exchanged:
+   FortiGate advertises: 10.0.0.0/8, 172.16.0.0/12
+   VyOS advertises: 192.168.1.0/24
+
+Spoke VM: vm-dev-client-01 (10.1.0.4)
+   Effective route: 192.168.1.0/24 → NextHop: 10.1.1.4 (FortiGate)
+
+Result: Azure workloads can reach on-prem servers via VyOS.
+
+### 4. Recruiter Hook
+"Replaced legacy Windows RRAS with VyOS (open-source Linux NOS) to simulate the on-premises edge. Bootstrapped the VyOS HTTP API manually, then orchestrated IPSec tunnel and BGP peering to Azure FortiGate entirely via Terraform, demonstrating multi-vendor infrastructure-as-code."
 ---
 
 ## Phase O3b: Multi-Cloud Foundation (AWS Cisco NVA & Segmented Peering)

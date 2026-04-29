@@ -49,6 +49,11 @@
 - [ ] `az --version`, `terraform --version`, `ansible --version` all work
 - [ ] `az login --use-device-code` succeeds
 
+### 5. Local Hyper‑V & VyOS (for O3a / O3c – on‑prem simulation)
+- [ ] Deploy VyOS VM (rolling release) with two NICs.
+- [ ] Assign static IP `192.168.1.1/24` on WAN interface.
+- [ ] Enable VyOS HTTPS API manually (one‑time step documented in phase steps).
+
 **`.devcontainer/devcontainer.json` snippet:**
 
     {
@@ -114,7 +119,7 @@
 |-------|------|---------|------|--------|----------------|----------|----------------------|--------------|
 | **O1** | Dual‑Firewall (FortiGate NVA) | P5,P6 | 2h | [ ] | `docs/release2/evidence/O1/traceroute-eastwest.txt` | | ⚠️ `terraform destroy -target=azurerm_linux_virtual_machine.fortigate` | Ephemeral + Market image |
 | **O2** | Azure Arc | P0 | 45m | [ ] | `docs/release2/evidence/O2/connected-machine-list.txt` | | Disconnect agent | minimal |
-| **O3a** | BGP over IPSec (FortiGate ↔ HQ) | O1, Hyper‑V | 1.5h | [ ] | `docs/release2/evidence/O3a/bgp-summary.txt` | | ⚠️ Destroy FortiGate (O1) | depends on O1 |
+| **O3a** | BGP over IPSec (FortiGate ↔ VyOS) | O1, Hyper-V/VyOS | 1.5h | [ ] | `docs/release2/evidence/O3a/bgp-summary.txt` | | ⚠️ Destroy FortiGate (O1) | depends on O1 |
 | **O3b** | AWS Cisco NVA | O1, AWS | 2h | [ ] | `docs/release2/evidence/O3b/bgp-routes-fortigate.txt` | | ⚠️ `terraform -chdir=aws/ destroy` | AWS t3.micro (ephemeral) |
 | **O3c** | Transitive Routing | O3a,O3b | 1h | [ ] | `docs/release2/evidence/O3c/traceroute-aws-to-hq.txt` | | ⚠️ Destroy FortiGate + Cisco | depends on O1+O3b |
 | **O4** | Entra GSA (ZTNA) | P0,P2a | 1.5h | [ ] | `docs/release2/evidence/O4/rdp-via-gsa.txt` | | ⚠️ Destroy GSA Connector VM | trial license |
