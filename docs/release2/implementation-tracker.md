@@ -1,8 +1,8 @@
 # Implementation Tracker – Release 2 (Azure Platform Engineering & Security)
 
-**Last Updated:** [Date]  
-**Owner:** [Your Name]  
-**Repository:** `https://github.com/your-username/your-repo`  
+**Last Updated:** [29-April-2026]  
+**Owner:** HASHIBUR RAHMAN  
+**Repository:** `https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/docs/release2/`  
 **Primary Source of Truth:** `README_PLAN.md`  
 **Purpose:** Operational control document for planning, deployment, validation, evidence capture, and teardown of Release 2.
 
@@ -687,5 +687,5 @@ Use this section during execution.
 - [ ] Optional validation in progress
 - [ ] Fully validated and portfolio-ready
 
-**Signed off by:** ____________________  
-**Date:** ____________________
+**Signed off by:** HASHIBUR RAHMAN 
+**Date:** 29-April-2026
