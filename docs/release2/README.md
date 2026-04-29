@@ -29,7 +29,7 @@ All resources follow a strict **naming convention** and are validated via **CLI�
 
 | Document | Purpose |
 |----------|---------|
-| [Master Plan](./README_PLAN_Revised.md) | Complete step‑by‑step phases, CLI commands, and architecture diagrams (source of truth) |
+| [Master Plan](./README_PLAN.md) | Complete step‑by‑step phases, CLI commands, and architecture diagrams (source of truth) |
 | [Implementation Tracker](../implementation-tracker.md) | Status checklists, evidence paths, FinOps teardown commands |
 | [Architecture Decisions](../architecture.md) | ADRs explaining why we made each choice (OIDC, dual‑firewall, GSA, etc.) |
 | [Naming Conventions](../naming-conventions.md) | Resource naming patterns for VNets, VMs, Key Vault, etc. |
@@ -74,7 +74,7 @@ For Release 1 evidence, see `/screenshots/release1/`.
 
 ## Getting Started with Release 2
 
-1. Read the [Master Plan](./README_PLAN_Revised.md) – it contains all prerequisites and phases.
+1. Read the [Master Plan](./README_PLAN.md) – it contains all prerequisites and phases.
 2. Use the [Implementation Tracker](../implementation-tracker.md) to follow your progress.
 3. Run commands from [Phase Steps](./phase-with-steps.md) – but always refer back to the master plan for context.
 4. Capture evidence into `/docs/release2/evidence/<phase>/` using the naming convention described in the master plan.
