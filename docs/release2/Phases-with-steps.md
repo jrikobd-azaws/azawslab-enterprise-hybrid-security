@@ -1,6 +1,6 @@
 # Phase-by-Phase Implementation Guide (Release 2)
 
-**Version:** 1.0 (Prompt 1 – Phases P0, P1, P2a, P2b, P2c)  
+**Version:** 1.0  
 **Aligns with:** `README_PLAN_Revised.md` and `naming-conventions.md`  
 **Prerequisites:** Azure Pay-As-You-Go subscription (upgraded from free trial), GitHub account, `entra.azawslab.co.uk` domain verified.
 
