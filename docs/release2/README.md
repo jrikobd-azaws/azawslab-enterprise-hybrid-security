@@ -5,9 +5,16 @@
 
 ## Overview
 
-Release 2 builds a modern Azure landing zone from scratch, using **infrastructure as code (Terraform)** and **secretless CI/CD (GitHub Actions + OIDC)**. It establishes a hub‑spoke network, centralised security inspection (Azure Firewall, optionally FortiGate NVA), cloud security posture management (Defender for Cloud), a SIEM (Microsoft Sentinel), and optional advanced capabilities: multi‑cloud BGP routing (AWS Cisco), hybrid management (Azure Arc), Zero Trust SSE (Entra Global Secure Access), and modern VDI (AVD + FSLogix).
+Release 2 builds a modern Azure landing zone from scratch using **Infrastructure as Code (Terraform)** and **secretless CI/CD (GitHub Actions + OIDC)**. It establishes a hub-spoke network, centralised security inspection, governance guardrails, cloud security posture management, SIEM visibility, and optional advanced capabilities for hybrid, multi-cloud, Zero Trust access, and virtual desktop delivery.
 
-All resources follow a strict **naming convention** and are validated via **CLI‑first commands** – not just portal screenshots.
+The project is designed to demonstrate:
+- Azure platform engineering
+- secure automation with OIDC
+- policy-as-code governance
+- hybrid and multi-cloud networking
+- operational validation with CLI-first evidence
+
+All resources follow a strict **naming convention** and are validated primarily through **CLI-first evidence**, not just portal screenshots.
 
 ---
 
@@ -16,12 +23,12 @@ All resources follow a strict **naming convention** and are validated via **CLI�
 | Category | Phases | What is built |
 |----------|--------|----------------|
 | **Foundation** | P0, P1, P2a, P2b, P2c | OIDC bootstrap, Terraform backend, management groups, policy guardrails, reusable Terraform modules, Ansible roles, CI/CD pipelines |
-| **Network & Security** | P5, P6, O1 | Hub‑spoke VNets, Azure Firewall, dual‑firewall with FortiGate NVA (optional), forced tunneling, UDRs |
-| **Governance & MSP** | P3, P4 | Policy‑as‑code (allowed regions, VM SKUs, mandatory tags), least‑privilege RBAC, Azure Lighthouse cross‑tenant delegation |
-| **Observability & SIEM** | P7, P8, P9a | Defender for Cloud (CSPM), Microsoft Sentinel (analytic rules, incidents), Azure Monitor alerts (CPU >85% email) |
-| **Disaster Recovery** | P9b | Recovery Services Vault with immutability, Multi‑User Authorization (Resource Guard), optional ASR |
-| **Hybrid & Multi‑Cloud** | O2, O3a, O3b, O3c | Azure Arc (on‑prem projection), BGP over IPSec (FortiGate ↔ Hyper‑V), AWS Cisco NVA with segmented BGP, transitive routing (global hub) |
-| **Zero Trust & VDI** | O4, O5 | Entra Global Secure Access (ZTNA, replaces legacy VPN), AVD with FSLogix profile containers, auto‑scaling |
+| **Network & Security** | P5, P6, O1 | Hub-spoke VNets, Azure Firewall, dual-firewall with FortiGate NVA (optional), forced tunneling, UDRs |
+| **Governance & MSP** | P3, P4 | Policy-as-code (allowed regions, VM SKUs, mandatory tags), least-privilege RBAC, Azure Lighthouse cross-tenant delegation |
+| **Observability & SIEM** | P7, P8, P9a | Defender for Cloud (CSPM), Microsoft Sentinel (analytic rules, incidents), Azure Monitor alerts |
+| **Disaster Recovery** | P9b | Recovery Services Vault with immutability, Multi-User Authorization (Resource Guard), optional ASR-aligned controls |
+| **Hybrid & Multi-Cloud** | O2, O3a, O3b, O3c | Azure Arc, BGP over IPSec (FortiGate ↔ VyOS on Hyper-V), AWS Cisco NVA with segmented BGP, transitive routing validation |
+| **Zero Trust & VDI** | O4, O5 | Entra Global Secure Access (ZTNA / private access), AVD with FSLogix profile containers |
 
 ---
 
@@ -29,31 +36,62 @@ All resources follow a strict **naming convention** and are validated via **CLI�
 
 | Document | Purpose |
 |----------|---------|
-| [Master Plan](./README_PLAN.md) | Complete step‑by‑step phases, CLI commands, and architecture diagrams (source of truth) |
-| [Implementation Tracker](../implementation-tracker.md) | Status checklists, evidence paths, FinOps teardown commands |
-| [Architecture Decisions](../architecture.md) | ADRs explaining why we made each choice (OIDC, dual‑firewall, GSA, etc.) |
-| [Naming Conventions](../naming-conventions.md) | Resource naming patterns for VNets, VMs, Key Vault, etc. |
-| [Phase Steps](./phase-with-steps.md) | Copy‑paste ready commands for each phase (extracted from master plan) |
+| [Master Plan](./README_PLAN.md) | Authoritative source of truth for scope, architecture, sequencing, and implementation intent |
+| [Implementation Tracker](../implementation-tracker.md) | Operational control document for readiness, phase progress, validation status, blockers, and teardown tracking |
+| [Architecture Decisions](../architechture.md) | ADRs that explain why major design choices were made |
+| [Naming Conventions](../naming-conventions.md) | Canonical naming, tagging, identity, evidence, and repo file naming standards |
+| [Phase Guide](./Phases-with-steps.md) | Operator-focused phase execution guide with configuration snapshots, compact text diagrams, steps, validation, and evidence reminders |
+| [Build Checklist](../build_checklist.md) | Build-time execution checklist for organized implementation flow |
+
+---
+
+## Release 2 Design Themes
+
+### 1. Secretless Automation
+GitHub Actions authenticates to Azure using **OIDC federation**, removing the need for long-lived client secrets.
+
+### 2. Governance First
+Management groups, Azure Policy, tagging, and RBAC are established early so the platform is controlled before it scales.
+
+### 3. Private-Only Workloads
+Workload VMs remain private unless a public IP is explicitly required by the design. Administrative and hybrid access flows are controlled intentionally.
+
+### 4. Hybrid and Multi-Cloud Depth
+The project goes beyond a standard Azure landing zone by introducing:
+- FortiGate-based hybrid transit
+- VyOS-based on-prem simulation on Hyper-V
+- AWS Cisco branch routing
+- transitive routing validation through a central Azure transit hub
+
+### 5. CLI-First Validation
+Evidence is collected primarily through:
+- Azure CLI output
+- Terraform plan/apply logs
+- Ansible output
+- route validation output
+- KQL / monitoring results
 
 ---
 
 ## Transition from Release 1 to Release 2
 
-Release 1 successfully established a hybrid workplace foundation using the `corp.azawslab.co.uk` AD domain and a Microsoft 365 tenant. During that phase, the domain was verified and configured.
+Release 1 established a hybrid workplace foundation using the `corp.azawslab.co.uk` domain and Microsoft 365-oriented services.
 
-For Release 2, the goal is to build a modern Azure platform with full infrastructure‑as‑code, Zero Trust networking, and advanced security monitoring. To create a clean, production‑intent environment free from legacy constraints, I established a new Microsoft Entra ID tenant with a dedicated namespace, `entra.azawslab.co.uk`. The on‑premises identity anchor is now `hq.azawslab.co.uk`, representing corporate headquarters, while a branch RODC uses `br1.azawslab.co.uk`.
+Release 2 moves into full Azure platform engineering and security by introducing:
+- a new Microsoft Entra namespace: `entra.azawslab.co.uk`
+- a new HQ AD anchor: `hq.azawslab.co.uk`
+- an optional branch namespace: `br1.azawslab.co.uk`
 
-This separation reflects real‑world scenarios where enterprises spin up greenfield cloud initiatives while maintaining existing on‑prem infrastructure. Microsoft Entra Connect synchronises identities between `hq.azawslab.co.uk` (and optionally the RODC) to `entra.azawslab.co.uk` using UPN suffix transformation – a standard pattern for rebranding or centralising cloud identity.
+This separation reflects a realistic greenfield cloud initiative where a new Azure platform is built with modern governance, Zero Trust principles, and infrastructure-as-code while legacy or previous environments remain distinct.
 
-Release 1 remains in the repository as a completed, independent phase, demonstrating the foundational hybrid workplace skills. Release 2 advances the portfolio into Azure platform engineering and security, using a fresh identity namespace to align with best practices.
+---
 
+## Domain Namespaces
 
-### Domain Namespaces
-
-| Phase | Purpose | Domain / Namespace | Status |
-|-------|---------|--------------------|--------|
+| Phase / Scope | Purpose | Domain / Namespace | Status |
+|---------------|---------|--------------------|--------|
 | Release 1 baseline | Original hybrid workplace foundation | `corp.azawslab.co.uk` | Completed |
-| Release 1 advanced validation | Cloud‑first continuation | `belfast.azawslab.co.uk` | Completed |
+| Release 1 advanced validation | Cloud-first continuation | `belfast.azawslab.co.uk` | Completed |
 | Release 2 HQ AD | Greenfield corporate identity anchor | `hq.azawslab.co.uk` | New |
 | Release 2 branch RODC | Branch office identity namespace | `br1.azawslab.co.uk` | New |
 | Release 2 Entra tenant | Greenfield cloud identity namespace | `entra.azawslab.co.uk` | New |
@@ -62,25 +100,68 @@ Release 1 remains in the repository as a completed, independent phase, demonstra
 
 ## Evidence & Validation
 
-All validation outputs (CLI logs, Terraform plans, KQL queries, and limited screenshots) are stored in:
+All Release 2 evidence should be stored under:
 
-**`/docs/release2/evidence/`** (not `/screenshots/release2/`)
+`docs/release2/evidence/`
 
-This aligns with the **CLI‑first** validation approach of Release 2. Each phase has its own subfolder (e.g., `P0/`, `P6/`, `O1/`). Raw terminal outputs and text logs are the primary evidence; screenshots are supplementary.
+This aligns with the CLI-first validation model of the project.
 
-For Release 1 evidence, see `/screenshots/release1/`.
+Each phase should have its own evidence subfolder, for example:
+- `docs/release2/evidence/P0/`
+- `docs/release2/evidence/P5/`
+- `docs/release2/evidence/O3a/`
+
+Preferred evidence types:
+- `.txt`
+- `.md`
+
+Screenshots are supplementary and should only be used where text-first evidence is not enough.
+
+For Release 1 evidence, see the Release 1 evidence path in that part of the repository.
 
 ---
 
 ## Getting Started with Release 2
 
-1. Read the [Master Plan](./README_PLAN.md) – it contains all prerequisites and phases.
-2. Use the [Implementation Tracker](../implementation-tracker.md) to follow your progress.
-3. Run commands from [Phase Steps](./phase-with-steps.md) – but always refer back to the master plan for context.
-4. Capture evidence into `/docs/release2/evidence/<phase>/` using the naming convention described in the master plan.
-
-> **Important:** Release 2 uses a **separate Entra ID tenant** (`entra.azawslab.co.uk`) and a **greenfield AD domain** (`hq.azawslab.co.uk`). Do not reuse Release 1 identities.
+1. Read the [Master Plan](./README_PLAN.md) first.
+2. Review the [Implementation Tracker](../implementation-tracker.md) to understand readiness, dependencies, and current status.
+3. Use the [Phase Guide](./Phases-with-steps.md) as the working execution companion during implementation.
+4. Follow the [Naming Conventions](../naming-conventions.md) when creating resources, identities, files, evidence, and workflows.
+5. Capture validation output into `docs/release2/evidence/<Phase>/`.
+6. Use the [Build Checklist](../build_checklist.md) to stay organized during execution.
 
 ---
 
-**Part of the azawslab Enterprise Hybrid Security Platform – building from hybrid workplace to cloud‑native security.**
+## Recommended Working Order
+
+For the most controlled implementation flow:
+
+1. Align documentation and file references.
+2. Complete environment readiness and pre-P0 checks.
+3. Execute the core platform phases first.
+4. Add optional advanced phases only after the core platform is stable.
+5. Tear down expensive ephemeral resources as soon as validation is complete.
+6. Finish with final evidence review and portfolio packaging.
+
+---
+
+## Core Release 2 Principles
+
+- **Source of truth:** `README_PLAN.md`
+- **Execution guide:** `Phases-with-steps.md`
+- **Operational control:** `implementation-tracker.md`
+- **Naming authority:** `naming-conventions.md`
+- **Architecture rationale:** `architechture.md`
+- **Execution discipline:** validate, capture evidence, then tear down ephemeral components
+
+---
+
+## Current Status
+
+Release 2 is currently in the **planning and documentation alignment stage**, with implementation designed to proceed in an organized, phase-driven manner using the supporting docs in this directory and the repo root.
+
+---
+
+## Final Note
+
+This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
