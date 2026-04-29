@@ -1,283 +1,458 @@
-﻿# Release 2 Build Checklist
+﻿# Build Checklist – Release 2
 
-## Purpose
-
-This checklist is the authoritative task-state tracker for Release 2 of the `azawslab Enterprise Hybrid Security Platform`.
-
-Release 2 focuses on Azure secure platform engineering, delegated administration, network security, governance, cloud security posture, and security monitoring.
-
-This file should reflect actual implementation state, not aspirational planning.
+**Version:** 1.0  
+**Last Updated:** [Current Date]  
+**Primary Source of Truth:** `README_PLAN.md`  
+**Supports:** `implementation-tracker.md`, `Phases-with-steps.md`, `naming-conventions.md`  
+**Purpose:** Practical hands-on execution checklist for building Release 2 in an organized, low-drift, evidence-first way.
 
 ---
 
-## Release 2 Scope Summary
+## 1. What This File Is For
 
-Release 2 includes:
+This file is the **working build checklist** for Release 2.
 
-- Azure landing zone foundation
-- Terraform or Bicep-based infrastructure deployment
-- Azure Policy, RBAC, and Key Vault governance controls
-- Azure Lighthouse delegated administration
-- Global Secure Access / Entra Private Access
-- VPN / routing / network security patterns
-- Azure Firewall
-- Defender for Cloud
-- Microsoft Sentinel
-- Optional advanced Azure edge, private service, and virtual desktop scenarios
+Use it:
+- before starting a build session
+- before beginning a new phase
+- before applying Terraform or running Ansible
+- before merging changes
+- before marking a phase complete
+- before ending the day
+- before tearing down ephemeral resources
 
----
+This file is **not** the project status tracker.  
+That role belongs to `implementation-tracker.md`.
 
-## Status Key
-
-- **Completed** = built, validated, and ready to document with evidence
-- **In Progress** = actively implemented, partially working, or under documentation/evidence refinement
-- **Pending** = not yet started or intentionally sequenced later in Release 2
-- **Optional** = valuable enhancement, but not required for Release 2 core completion
-
----
-
-## 1. Azure Landing Zone Foundation
-
-| Item | Status | Notes |
-|---|---|---|
-| Azure tenant/subscription planning model defined | Pending | Document target subscription structure |
-| Management group hierarchy designed | Pending | `Platform`, `LandingZones`, `Sandbox`, etc. |
-| Core subscriptions identified | Pending | Management / Connectivity / Workload |
-| Resource group naming convention defined | Pending | Consistent RG structure for platform and workloads |
-| Tagging model defined | Pending | Owner, environment, workload, cost center, etc. |
-| Azure landing zone structure created | Pending | Initial deployment complete |
-| Subscription placement under management groups validated | Pending | Inheritance path confirmed |
+### File Role Split
+- `README_PLAN.md` = architecture and master source of truth
+- `implementation-tracker.md` = phase status, blockers, validation ownership, evidence locations
+- `Phases-with-steps.md` = operator guide with config snapshots and diagrams
+- `build_checklist.md` = day-to-day execution discipline
+- `naming-conventions.md` = naming and tagging authority
 
 ---
 
-## 2. Infrastructure as Code (Terraform or Bicep)
+## 2. Core Build Rules
 
-| Item | Status | Notes |
-|---|---|---|
-| IaC language selected | Pending | Terraform or Bicep |
-| Repo structure for IaC created | Pending | Separate folders/modules for landing zone and platform |
-| Resource group deployment via IaC | Pending | First successful deployment |
-| VNet/subnet deployment via IaC | Pending | Core network scaffold |
-| Log Analytics deployment via IaC | Pending | Shared monitoring workspace |
-| Key Vault deployment via IaC | Pending | Platform vault |
-| Policy assignment via IaC | Pending | At least one policy deployed by code |
-| RBAC assignment via IaC | Pending | At least one scoped assignment |
-| Reusable variables / parameter model implemented | Pending | Environment reuse ready |
-| IaC deployment evidence captured | Pending | Screenshots and code snippets saved |
+- [ ] If a support doc conflicts with `README_PLAN.md`, follow `README_PLAN.md` and fix the support doc
+- [ ] Do not start infrastructure build work until docs are aligned
+- [ ] Do not create resources with ad hoc names
+- [ ] Do not skip validation just because deployment succeeded
+- [ ] Do not skip evidence capture until “later”
+- [ ] Do not leave expensive ephemeral resources running unnecessarily
+- [ ] Do not reintroduce RRAS terminology or config assumptions into Release 2
+- [ ] Treat Release 2 as CLI-first: capture text evidence first, screenshots second
 
 ---
 
-## 3. Governance: Azure Policy / RBAC / Key Vault
+## 3. Current Working Mode Check
 
-| Item | Status | Notes |
-|---|---|---|
-| Azure Policy baseline defined | Pending | Small but credible governance baseline |
-| Allowed locations policy assigned | Pending | Restrict region sprawl |
-| Required tags policy assigned | Pending | Governance consistency |
-| Public IP restriction policy reviewed/assigned | Pending | Optional deny pattern |
-| Diagnostic settings policy reviewed/assigned | Pending | If practical in scope |
-| RBAC role model documented | Pending | Reader, Contributor, Network, Security, KV access |
-| RBAC assignment scope validated | Pending | MG / subscription / RG |
-| Shared platform Key Vault deployed | Pending | Secrets/certs placeholder vault |
-| Key Vault access model validated | Pending | RBAC or access policy model confirmed |
-| Governance evidence captured | Pending | Policy assignments, compliance state, RBAC screenshots |
+### 3.1 Current Reality Check
+- [ ] I am clear whether I am in **planning mode** or **build mode**
+- [ ] I am not mixing documentation cleanup with live infrastructure changes in the same uncontrolled session
+- [ ] I know whether I am using:
+  - [ ] GitHub Desktop only
+  - [ ] local VS Code
+  - [ ] GitHub Codespaces
+  - [ ] Azure CLI from local machine
+  - [ ] Azure CLI from Codespaces
 
----
-
-## 4. Azure Lighthouse Delegated Administration
-
-| Item | Status | Notes |
-|---|---|---|
-| Provider/customer tenant model documented | Pending | MSP-style delegated ops scenario |
-| Delegated scope selected | Pending | Subscription or resource group |
-| Lighthouse onboarding template created | Pending | ARM/Bicep/Terraform as used |
-| Delegated roles defined | Pending | Least-privilege delegated access |
-| Lighthouse onboarding completed | Pending | Customer scope visible in provider tenant |
-| Delegated administration validated | Pending | One management action performed successfully |
-| Lighthouse evidence captured | Pending | My Customers, delegated scope, onboarding proof |
+### 3.2 Repo Control Check
+- [ ] I am working in the correct repo
+- [ ] I am on the intended branch
+- [ ] I know what file(s) I intend to change before I start
+- [ ] I am not making unrelated doc and infra changes in one commit unless deliberate
 
 ---
 
-## 5. Global Secure Access / Entra Private Access
+## 4. Documentation Alignment Checklist
 
-| Item | Status | Notes |
-|---|---|---|
-| Global Secure Access scope reviewed | Pending | Confirm suitability and limitations |
-| Private Network Connector deployed | Pending | Connector operational |
-| Internal app/resource selected | Pending | One service for private access validation |
-| Entra Private Access app configured | Pending | Published resource |
-| Access policy defined | Pending | User/group scoped access |
-| Private access validation completed | Pending | Pilot user access works |
-| Known limitations documented | Pending | Current service caveats recorded |
-| Evidence captured | Pending | Connector, app, access flow screenshots |
+Complete this before active build execution.
 
----
+### 4.1 Source-of-Truth Alignment
+- [ ] `README_PLAN.md` is confirmed as the master plan
+- [ ] `implementation-tracker.md` is aligned
+- [ ] `Phases-with-steps.md` is aligned
+- [ ] `naming-conventions.md` is aligned
+- [ ] `README.md` links resolve correctly
+- [ ] `build_checklist.md` reflects the current build approach
 
-## 6. VPN / Routing / Network Security
+### 4.2 Terminology Alignment
+- [ ] O3a uses **VyOS**, not RRAS
+- [ ] O3c transit-routing wording matches the current hybrid design
+- [ ] file names referenced in docs match actual repo file names
+- [ ] evidence path is consistently `docs/release2/evidence/`
 
-| Item | Status | Notes |
-|---|---|---|
-| Hub-and-spoke network design documented | Pending | Core Azure network pattern |
-| Hub VNet created | Pending | Connectivity foundation |
-| Spoke VNet created | Pending | Workload/network separation |
-| VNet peering configured | Pending | Hub-spoke connectivity |
-| Route table strategy defined | Pending | Forced routing / spoke path decisions |
-| NSG baseline defined | Pending | Inbound/outbound control model |
-| VPN pattern selected | Pending | Site-to-site or documented design |
-| VPN deployment or design validation completed | Pending | Build or strong design proof |
-| Private DNS / name resolution model documented | Pending | If applicable |
-| Network evidence captured | Pending | VNets, peering, UDRs, NSGs, gateway screenshots |
+### 4.3 Operator Readiness
+- [ ] I can navigate the docs without confusion
+- [ ] I can identify the next phase to execute
+- [ ] I know where the relevant validation commands live
+- [ ] I know where to save evidence for the next phase
 
 ---
 
-## 7. Azure Firewall
+## 5. Environment Preparation Checklist
 
-| Item | Status | Notes |
-|---|---|---|
-| Azure Firewall subnet prepared | Pending | Correct subnet model |
-| Azure Firewall deployed | Pending | Hub security control |
-| Firewall policy created | Pending | Policy-based management preferred |
-| Network rule collection configured | Pending | Core traffic rules |
-| Application rule collection configured | Pending | FQDN-based control where needed |
-| Route tables updated to use firewall path | Pending | Traffic steering validated |
-| Firewall logging to Log Analytics enabled | Pending | Diagnostics visible |
-| Firewall traffic validation completed | Pending | Allowed/denied path demonstrated |
-| Azure Firewall evidence captured | Pending | Policy, rules, routing, logs |
+### 5.1 Azure / Subscription Readiness
+- [ ] Azure subscription upgraded to Pay-As-You-Go
+- [ ] Correct subscription selected
+- [ ] Entra domain `entra.azawslab.co.uk` verified
+- [ ] region target confirmed as `uksouth`
+- [ ] budget / cost alerts configured
 
----
+### 5.2 Addressing and Topology Readiness
+- [ ] Azure Hub CIDR confirmed
+- [ ] Azure Workload Spoke CIDR confirmed
+- [ ] additional Azure spoke CIDR confirmed if used
+- [ ] on-prem lab CIDR confirmed
+- [ ] AWS branch CIDR confirmed if used
+- [ ] no CIDR overlap exists
 
-## 8. Defender for Cloud
+### 5.3 GitHub Readiness
+- [ ] repo reachable
+- [ ] GitHub environment `release-2` exists
+- [ ] branch strategy decided
+- [ ] protected branch identified
+- [ ] planned secrets/variables list documented
 
-| Item | Status | Notes |
-|---|---|---|
-| Defender for Cloud onboarded | Pending | Subscription connected |
-| Secure Score reviewed | Pending | Baseline posture recorded |
-| At least one Defender plan enabled | Pending | Example: Defender for Servers |
-| CSPM recommendations reviewed | Pending | Actionable recommendations noted |
-| One posture improvement implemented | Pending | Improve secure score or recommendation state |
-| Regulatory/compliance view reviewed | Pending | Compliance dashboard visibility |
-| Defender for Cloud evidence captured | Pending | Secure Score, plans, recommendations screenshots |
+### 5.4 Local / On-Prem Readiness
+- [ ] Hyper-V or alternative local virtualization platform confirmed
+- [ ] VyOS plan documented
+- [ ] on-prem VM/DC plan documented
+- [ ] internet connectivity for the local lab confirmed
 
----
-
-## 9. Microsoft Sentinel
-
-| Item | Status | Notes |
-|---|---|---|
-| Sentinel workspace selected/deployed | Pending | Log Analytics workspace ready |
-| Microsoft Sentinel enabled | Pending | Service onboarded |
-| Azure Activity connector enabled | Pending | Basic control-plane visibility |
-| Entra sign-in / identity source connected | Pending | If available in scope |
-| Defender for Cloud connector reviewed/enabled | Pending | Security posture/alert linkage |
-| Workbook deployed | Pending | One starter workbook |
-| Analytic rule deployed | Pending | One meaningful detection |
-| Test incident or signal observed | Pending | Basic investigation proof |
-| Sentinel evidence captured | Pending | Data connectors, incidents, workbook screenshots |
+### 5.5 AWS Readiness (if O3b planned)
+- [ ] AWS account ready
+- [ ] credential handling plan documented
+- [ ] expected cost risk understood
+- [ ] teardown plan prepared
 
 ---
 
-## 10. Expanded Monitoring and Governance
+## 6. VS Code / Codespaces Bootstrap Checklist
 
-| Item | Status | Notes |
-|---|---|---|
-| Log Analytics workspace baseline documented | Pending | Central logging role explained |
-| Azure Monitor overview documented | Pending | Metrics/log/alert role explained |
-| One alert rule created | Pending | Platform or security alert example |
-| Monitoring coverage across Firewall / Defender / Sentinel reviewed | Pending | Unified visibility concept |
-| Governance and monitoring alignment documented | Pending | Policy + logging + security posture |
-| Evidence captured | Pending | Alert, workspace, monitoring screenshots |
+Complete this before serious build execution if you intend to use Codespaces.
 
----
+### 6.1 Workspace Setup
+- [ ] repo opens correctly in VS Code
+- [ ] repo opens correctly in Codespaces if using it
+- [ ] `.devcontainer/devcontainer.json` exists or is intentionally deferred
+- [ ] required extensions are available
 
-## 11. Optional Advanced Azure Edge / Private Service Layer
+### 6.2 Tooling Check
+- [ ] `az --version` works
+- [ ] `terraform --version` works
+- [ ] `ansible --version` works
+- [ ] `git --version` works
 
-| Item | Status | Notes |
-|---|---|---|
-| Azure Front Door Standard/Premium reviewed | Optional | Global edge entry pattern |
-| Front Door deployed | Optional | Only if app edge scenario exists |
-| Application Gateway deployed | Optional | Regional ingress/WAF scenario |
-| WAF policy configured | Optional | App protection baseline |
-| Sticky session / affinity behavior tested | Optional | App Gateway cookie affinity if used |
-| Azure Load Balancer deployed | Optional | Internal/L4 service balancing |
-| HA ports pattern implemented | Optional | Only if scenario requires it |
-| Floating IP pattern implemented | Optional | Only if scenario requires it |
-| Private Link Service provider model built | Optional | Service behind Standard LB |
-| Consumer subscription/private endpoint connected | Optional | Cross-subscription private access |
-| Advanced edge/private service evidence captured | Optional | Screenshots and design notes |
+### 6.3 Authentication Check
+- [ ] Azure sign-in works in the intended execution environment
+- [ ] Git works from the intended execution environment
+- [ ] repo push/pull workflow is understood before making infra changes
 
 ---
 
-## 12. Optional Cloud AVD Workstream
+## 7. Before Starting Any Phase
 
-| Item | Status | Notes |
-|---|---|---|
-| AVD architecture documented | Optional | Keep separate from core Release 2 |
-| Host pool deployed | Optional | Pilot AVD environment |
-| Session hosts deployed | Optional | Compute layer |
-| Application group configured | Optional | User app access |
-| User assignment validated | Optional | Pilot access success |
-| FSLogix profile design implemented | Optional | Profile persistence |
-| Defender for Endpoint on session hosts enabled | Optional | Endpoint protection on AVD |
-| AVD evidence captured | Optional | Host pool, session host, FSLogix, access screenshots |
+Use this section every time before beginning a new phase.
 
----
+- [ ] I have read the phase section in `README_PLAN.md`
+- [ ] I have read the same phase in `Phases-with-steps.md`
+- [ ] I understand dependencies for this phase
+- [ ] I know whether the phase is persistent or ephemeral
+- [ ] I know the success criteria
+- [ ] I know the validation method
+- [ ] I know the evidence folder path
+- [ ] I know the teardown expectation if applicable
 
-## 13. Documentation and Evidence Closeout
-
-| Item | Status | Notes |
-|---|---|---|
-| Landing zone diagrams created | Pending | Azure architecture visuals |
-| IaC snippets/screenshots organized | Pending | Clear evidence paths |
-| Governance evidence organized | Pending | Policy/RBAC/KV screenshots |
-| Network security evidence organized | Pending | VPN, UDR, NSG, Firewall |
-| Defender for Cloud evidence organized | Pending | Secure score/recommendations |
-| Sentinel evidence organized | Pending | Data sources, analytics, incidents |
-| `README.md` updated with Release 2 status | Pending | Repo front page refresh |
-| Release 2 docs updated | Pending | Dedicated Azure platform docs |
-| Lessons learned updated | Pending | Capture Azure platform/security findings |
-| Release 2 checklist updated | Pending | Keep this file authoritative |
+### Phase Intent Check
+- [ ] I can explain what this phase is supposed to prove
+- [ ] I know what “done” means for this phase
+- [ ] I am not starting the phase just because it “looks next” without readiness
 
 ---
 
-## Core Release 2 Completion Criteria
+## 8. Pre-Apply Terraform Checklist
 
-Release 2 core should be treated as complete when these are all true:
+Use this before every Terraform apply.
 
-- Azure landing zone foundation exists
-- Terraform or Bicep deploys core Azure platform resources
-- Azure Policy / RBAC / Key Vault governance baseline is implemented
-- Azure Lighthouse delegated administration is demonstrated
-- VPN/routing/network security design is implemented or strongly validated
-- Azure Firewall is deployed and validated
-- Defender for Cloud is enabled and reviewed
-- Microsoft Sentinel is enabled with at least one useful data source and analytic rule
-- Monitoring and governance evidence is captured and documented
+### 8.1 Config Hygiene
+- [ ] resource names follow `naming-conventions.md`
+- [ ] tags are defined correctly
+- [ ] region is correct
+- [ ] no unintended public IPs are being added
+- [ ] no stale or experimental values remain in files
+- [ ] sensitive values are not hardcoded
 
-Optional edge, private service, and AVD items should strengthen Release 2, but are not mandatory for core completion.
+### 8.2 State and Backend Check
+- [ ] correct backend is configured
+- [ ] correct environment directory is selected
+- [ ] state target is understood
+- [ ] I know whether this apply could affect existing resources
+
+### 8.3 Terraform Command Discipline
+- [ ] run `terraform fmt -check`
+- [ ] run `terraform init`
+- [ ] run `terraform validate`
+- [ ] run `terraform plan`
+- [ ] review plan before apply
+- [ ] confirm the plan matches intended change scope
+
+### 8.4 Risk Check
+- [ ] no surprise destroys are present unless intentional
+- [ ] no unexpected public exposure is introduced
+- [ ] no obviously expensive resources are being created unintentionally
+- [ ] ephemeral resources are clearly identified before apply
 
 ---
 
-## Immediate Release 2 Execution Order
+## 9. Pre-Run Ansible Checklist
 
-The best execution order is:
+Use this before running playbooks.
 
-1. Azure landing zone foundation
-2. Terraform or Bicep deployment
-3. Azure Policy / RBAC / Key Vault
-4. Azure Lighthouse
-5. VPN / routing / network security
-6. Azure Firewall
-7. Defender for Cloud
-8. Sentinel
-9. Expanded monitoring and governance
-10. Optional advanced edge/private service and AVD scenarios
+- [ ] target hosts are correct
+- [ ] inventory file is correct
+- [ ] connectivity path is correct
+- [ ] variables are correct
+- [ ] no secrets are exposed in plaintext files unnecessarily
+- [ ] expected host roles are understood
+- [ ] `ansible-lint` has been run
+- [ ] I know what “successful rerun” should look like for idempotency
 
 ---
 
-## Notes
+## 10. Pre-Merge / CI-CD Checklist
 
-Release 2 should remain Azure secure platform focused.
+Use this before merging workflow or Terraform changes.
 
-Do not overload it with workload-modernization items that belong to Release 3, such as Docker, AKS, or full application modernization.
+- [ ] workflow file names are correct
+- [ ] OIDC assumptions are correct
+- [ ] no static secrets are being introduced accidentally
+- [ ] branch protection expectations are understood
+- [ ] PR description explains what changed
+- [ ] plan output has been reviewed
+- [ ] merge is appropriate for the current state of the phase
 
+---
 
+## 11. Evidence Capture Checklist
+
+Do this during the phase, not at the end of the week.
+
+### 11.1 Evidence Discipline
+- [ ] evidence folder for the phase exists
+- [ ] validation output is saved immediately after successful check
+- [ ] filenames are short, readable, and phase-appropriate
+- [ ] text evidence is preferred over screenshots
+- [ ] screenshots are only used when text evidence is insufficient
+
+### 11.2 Minimum Evidence Questions
+Before leaving a phase, confirm:
+- [ ] do I have proof it deployed?
+- [ ] do I have proof it validated?
+- [ ] do I have proof the important control or behavior works?
+- [ ] do I have enough evidence that future me can understand what happened?
+
+### 11.3 Naming Check
+- [ ] evidence filenames match the naming convention
+- [ ] files are saved under the correct phase folder
+- [ ] I did not leave important output only in terminal history
+
+---
+
+## 12. Phase Completion Checklist
+
+Before marking any phase as complete in `implementation-tracker.md`:
+
+- [ ] deployment/configuration succeeded
+- [ ] validation completed successfully
+- [ ] evidence captured in correct folder
+- [ ] notes updated if anything deviated from the plan
+- [ ] follow-on dependency impact checked
+- [ ] teardown completed if the phase is ephemeral
+- [ ] tracker status updated
+
+### Completion Quality Check
+- [ ] I could explain this phase clearly in an interview
+- [ ] I could show evidence for the claim
+- [ ] I understand the tradeoff or design reason behind the phase
+
+---
+
+## 13. Ephemeral Resource Teardown Checklist
+
+Use this immediately after validating expensive or temporary phases.
+
+### 13.1 Teardown Decision
+- [ ] this resource is truly no longer needed by the next dependent phase
+- [ ] evidence has already been captured
+- [ ] config artifacts are saved before destroy
+- [ ] I know exactly what is being destroyed
+
+### 13.2 High-Cost / Ephemeral Review
+Check especially for:
+- [ ] Azure Firewall
+- [ ] FortiGate NVA
+- [ ] AWS Cisco NVA
+- [ ] AVD session hosts
+- [ ] any test VM or temporary compute left running
+- [ ] any extra public IP or load-balancing component created only for validation
+
+### 13.3 After Destroy
+- [ ] destroy output saved if useful
+- [ ] tracker updated
+- [ ] README / notes do not imply the resource is still active
+- [ ] cost risk reduced before ending the day
+
+---
+
+## 14. End-of-Day Checklist
+
+Use this before finishing a working session.
+
+- [ ] commit-worthy changes are saved locally
+- [ ] evidence created today is stored in the repo structure
+- [ ] notes about blockers or deviations are written down
+- [ ] tracker is updated honestly
+- [ ] no expensive ephemeral resources are accidentally left running
+- [ ] I know the exact next step for the next session
+
+### Git Hygiene
+- [ ] commit message reflects the actual change
+- [ ] unrelated work is not mixed into the same commit
+- [ ] pushed or intentionally not pushed
+- [ ] I know whether the repo state is clean before stopping
+
+---
+
+## 15. GitHub Desktop Working Checklist
+
+Use this while you are still working mainly through GitHub Desktop.
+
+### Before Commit
+- [ ] review changed files carefully
+- [ ] confirm no accidental generated files are included
+- [ ] confirm no local secrets are included
+- [ ] confirm only intended documentation or infra files are staged
+
+### Before Push
+- [ ] branch name is correct
+- [ ] commit message is useful
+- [ ] I understand what the remote repo will receive
+- [ ] I am not pushing half-finished changes unless intentional
+
+### Transition-to-Codespaces Reminder
+- [ ] once build execution begins, shift toward VS Code / Codespaces for consistency
+- [ ] keep GitHub Desktop useful for simple commit/push flow if preferred
+- [ ] avoid mixing too many execution environments without documenting what changed where
+
+---
+
+## 16. Common Mistakes to Avoid
+
+- [ ] starting infra build before docs are aligned
+- [ ] using wrong file paths from outdated docs
+- [ ] forgetting to update the tracker after completing a phase
+- [ ] capturing screenshots but not preserving CLI output
+- [ ] leaving firewall or NVA resources running
+- [ ] using inconsistent naming
+- [ ] forgetting tags
+- [ ] reintroducing stale RRAS wording
+- [ ] treating “deployment succeeded” as “phase completed”
+- [ ] making too many file changes at once without controlled commits
+
+---
+
+## 17. Minimal Working Sequence for Release 2
+
+Use this when you need a simple execution memory aid.
+
+### Stage A – Control the Docs
+- [ ] align `README_PLAN.md`
+- [ ] align `implementation-tracker.md`
+- [ ] align `Phases-with-steps.md`
+- [ ] align `naming-conventions.md`
+- [ ] align `README.md`
+- [ ] align `build_checklist.md`
+
+### Stage B – Prepare the Build Environment
+- [ ] Azure readiness
+- [ ] repo readiness
+- [ ] VS Code / Codespaces readiness
+- [ ] GitHub environment readiness
+- [ ] on-prem / AWS optional readiness
+
+### Stage C – Execute Core Phases
+- [ ] P0
+- [ ] P1
+- [ ] P2a
+- [ ] P2b
+- [ ] P2c
+- [ ] P3
+- [ ] P5
+- [ ] P7
+- [ ] P8
+- [ ] P9a
+- [ ] P9b
+- [ ] P9c
+
+### Stage D – Execute Optional Phases Only If Ready
+- [ ] P4
+- [ ] P6
+- [ ] O1
+- [ ] O2
+- [ ] O3a
+- [ ] O3b
+- [ ] O3c
+- [ ] O4
+- [ ] O5
+
+### Stage E – Final Review
+- [ ] evidence complete
+- [ ] costly resources reviewed
+- [ ] tracker honest and updated
+- [ ] docs still consistent
+- [ ] final repo presentation coherent
+
+---
+
+## 18. Sign-Off Checklist
+
+### Planning Stage
+- [ ] documentation aligned
+- [ ] build path understood
+- [ ] environment prep plan complete
+
+### Build Stage
+- [ ] execution environment ready
+- [ ] first phase ready to start
+- [ ] evidence flow ready
+- [ ] teardown discipline understood
+
+### Portfolio Readiness Stage
+- [ ] completed phases are evidenced
+- [ ] architecture decisions are understandable
+- [ ] naming and file references are consistent
+- [ ] project can be explained clearly to a reviewer
+
+---
+
+## 19. Personal Session Notes
+
+### Today’s Target
+- [ ] ___________________________________________
+
+### Blockers
+- [ ] ___________________________________________
+- [ ] ___________________________________________
+
+### Evidence to Capture Today
+- [ ] ___________________________________________
+- [ ] ___________________________________________
+
+### Teardown to Remember Today
+- [ ] ___________________________________________
+
+### Next Exact Step
+- [ ] ___________________________________________
