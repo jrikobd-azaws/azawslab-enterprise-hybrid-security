@@ -49,15 +49,15 @@ This document records significant architectural decisions, their context, and th
 
 ---
 
-## ADR‑004: Infrastructure as Code (Terraform) with OIDC
+## ADR‑004: Infrastructure as Code (Terraform) with OIDC (Secretless Automation)
 
 **Context:** The project must be repeatable, auditable, and automatable to demonstrate professional DevOps practices. Long‑lived secrets (client secrets) pose a security risk.
 
 **Decision:** Use **Terraform** for all Azure resource provisioning, with modules for networking, security, compute, and monitoring. Use **OpenID Connect (OIDC)** from GitHub Actions instead of storing client secrets. Terraform state is stored in Azure Storage with state locking enabled.
 
-**Rationale:** OIDC provides short‑lived, scoped tokens. No secrets stored in GitHub or rotated manually. State locking prevents concurrent corruption.
+**Rationale:** OIDC provides short‑lived, scoped tokens. No secrets stored in GitHub or rotated manually. State locking prevents concurrent corruption. This aligns with the “Secretless” security principle mandated in Phase 0.
 
-**Consequences:** Requires a federated credential in the Entra ID app registration. Adds a few extra steps during setup but eliminates secret management.
+**Consequences:** Requires a federated credential in the Entra ID app registration. Adds a few extra steps during setup but eliminates secret management and enables direct CLI validation from GitHub Actions.
 
 ---
 
@@ -85,15 +85,18 @@ This document records significant architectural decisions, their context, and th
 
 ---
 
-## ADR‑007: Use Azure Firewall as primary inspection point
+## ADR‑007: Functional traffic separation – Azure Firewall (internet egress) + FortiGate NVA (East‑West/Hybrid)
 
-**Context:** Need central traffic inspection, outbound filtering, and logging. Third‑party NVAs (like FortiGate) are optional for multi‑vendor demos.
+**Context:** Using a single firewall for all traffic types leads to policy bloat and performance bottlenecks. Native Azure Firewall lacks deep BGP capabilities for multi‑cloud routing, while third‑party NVAs add complexity for simple internet egress.
 
-**Decision:** Deploy **Azure Firewall** in the Hub VNet. Use its policy engine for network and application rule collections. Send logs to Log Analytics.
+**Decision:** Deploy **two parallel security appliances**:
+- **Azure Firewall** in the Hub VNet – handles all `0.0.0.0/0` internet egress using FQDN tags for Microsoft services.
+- **FortiGate NVA** (in a dedicated Spoke or Hub) – handles East‑West (Spoke‑to‑Spoke) and hybrid traffic (AWS, on‑prem). Acts as the BGP routing engine.
+Traffic is steered via User Defined Routes (UDRs) based on destination prefix: `0.0.0.0/0` → Azure Firewall private IP; `10.0.0.0/8` (internal) → FortiGate NVA IP.
 
-**Rationale:** Cloud‑native, fully managed, integrates with Azure Monitor and Sentinel. Cost is manageable using ephemeral deployment (destroy after validation).
+**Rationale:** Best‑of‑breed approach: Azure Firewall is cloud‑native, fully managed, and cost‑effective for internet egress. FortiGate provides advanced BGP, route manipulation, and deep packet inspection for hybrid and multi‑cloud traffic. Functional separation avoids single points of policy overload.
 
-**Consequences:** VPN Gateway and UDRs must route traffic through the firewall. Firewall private IP must be known before UDRs can point to it (use `depends_on` or output variables).
+**Consequences:** Requires careful UDR design and maintenance of two sets of rules. Adds complexity but demonstrates enterprise‑grade defense‑in‑depth. FortiGate is ephemeral (deploy → validate → destroy) to respect the $200 budget.
 
 ---
 
@@ -109,11 +112,11 @@ This document records significant architectural decisions, their context, and th
 
 ---
 
-## ADR‑009: Use Azure Lighthouse for cross‑tenant delegation
+## ADR‑009: Use Azure Lighthouse for cross‑tenant delegation (MSP simulation)
 
 **Context:** The project should demonstrate MSP‑style multi‑tenant administration.
 
-**Decision:** Deploy an ARM template to a second (customer) tenant that delegates Contributor access to the main tenant. Validate by listing resources from the main tenant.
+**Decision:** Deploy an ARM template to a second (customer) tenant that delegates Contributor access to the main tenant. Validate by listing resources from the main tenant (CLI: `az vm list --subscription <customer-sub-id>`).
 
 **Rationale:** Lighthouse is the Microsoft‑recommended way to manage multiple tenants securely. It shows understanding of delegated administration, least‑privilege roles, and cross‑tenant operations.
 
@@ -121,136 +124,166 @@ This document records significant architectural decisions, their context, and th
 
 ---
 
-## ADR‑010: Prefer portal verification + CLI automation
+## ADR‑010: Replace legacy VPN with Entra Global Secure Access (GSA) – Zero Trust SSE
 
-**Context:** Recruiters expect both automation skills (Terraform, Ansible, CLI) and the ability to use portals and dashboards for validation.
+**Context:** Legacy OpenVPN P2S creates a “dial‑in” culture, provides excessive network‑level access, incurs high costs (Azure VPN Gateway ~$138/month), and lacks identity‑aware granularity or device compliance checks.
 
-**Decision:** Implementation is **code‑first** (Terraform, CLI, Ansible). Verification captures **both** terminal outputs **and** portal screenshots (policy compliance, Sentinel incidents, firewall rules).
+**Decision:** Decommission the Azure VPN Gateway and migrate to **Microsoft Entra Global Secure Access (GSA)**:
+- **Private Access:** Clientless ZTNA for RDP and private applications.
+- **Internet Access:** Identity‑based Secure Web Gateway (SWG).
+- **Remote Networks:** BGP/IPSec integration with FortiGate (Azure) and Cisco (AWS) to protect entire branch locations without per‑device agents.
 
-**Rationale:** CLI proves automation; portal screenshots prove understanding of the Azure management plane and are easily consumed by non‑technical reviewers.
+**Rationale:** GSA enforces Zero Trust at the identity and device level, not network perimeter. Eliminates VPN infrastructure costs (FinOps). Provides deeper auditing (Entra Traffic Logs) and integrates with Conditional Access policies.
 
-**Consequences:** Increase evidence capture time but produces a richer portfolio.
+**Consequences:** Requires Terraform provider (`microsoft-graph`) and updates to client devices (GSA client). For this lab, validation focuses on router‑to‑PoP BGP handshake and clientless Private Access demo. The VPN Gateway is destroyed after Phase O4 evidence.
 
 ---
 
-## Summary of Key Decisions
+## ADR‑011: Ephemeral deployments for premium resources (FinOps)
+
+**Context:** The project operates on a strict $200 Azure credit limit. Always‑on premium services (Azure Firewall, FortiGate NVA, AVD session hosts, Defender for Cloud premium plans) would exhaust the budget within days.
+
+**Decision:** Implement an **ephemeral deployment model** for expensive resources:
+- Deploy via Terraform → run validation (CLI commands, KQL queries, connectivity tests) → capture evidence → run `terraform destroy` immediately.
+- Azure Firewall, FortiGate, Cisco NVA, and AVD scaling plans are only active during validation windows.
+- The core Hub‑Spoke networking and Key Vault remain as low‑cost persistent state.
+
+**Rationale:** Proves the ability to automate the full lifecycle (deploy → validate → teardown) while respecting cost controls. Demonstrates FinOps maturity essential for cloud engineering roles.
+
+**Consequences:** Evidence must include terminal outputs showing both successful apply and clean destroy. State locking ensures no orphaned resources.
+
+---
+
+## ADR‑012: CLI‑First validation with portal screenshots as secondary evidence
+
+**Context:** Recruiters expect deep automation skills, but non‑technical reviewers often prefer visual dashboards.
+
+**Decision:** All validation **must** include CLI/terminal outputs as primary evidence:
+- `terraform plan/apply` outputs
+- `az` CLI queries (`az vm list`, `az policy assignment list`, `az resource-graph query`)
+- KQL queries from Log Analytics
+- Effective route table dumps
+- BGP summary (`get router info bgp summary` from FortiGate)
+Portal screenshots are captured only as supporting material (e.g., compliance dashboard, Sentinel incident view).
+
+**Rationale:** CLI outputs are verifiable, scriptable, and eliminate ambiguity. Portal screenshots provide context for documentation but do not replace automation proof.
+
+**Consequences:** Evidence directories (`docs/release2/evidence/`) contain plain text logs alongside limited images.
+
+---
+
+## Summary of Key Decisions (Updated)
 
 | Area | Decision |
 |------|----------|
 | Domain strategy | Subdomains per namespace (`hq`, `entra`, `br1`) |
 | VM public IPs | Only for jumpbox, VPN Gateway, Firewall; workloads private |
 | Server identity | AD joined (`hq.azawslab.co.uk`), not Entra joined |
-| IaC | Terraform with modules, OIDC, remote state locking |
+| IaC | Terraform with modules, **OIDC**, remote state locking |
 | Config management | Ansible roles, run from jumpbox, `ansible-lint` |
 | Environments | Dev/prod via workspaces or separate folders |
-| Firewall | Azure Firewall (primary); optional FortiGate |
+| Firewall | **Dual‑appliance**: Azure Firewall (internet egress) + FortiGate (East‑West/hybrid BGP) |
 | Secrets | Generated via `random_password`, stored in Key Vault |
 | Cross‑tenant | Azure Lighthouse (ARM template + second tenant) |
-| Verification | Both terminal and portal evidence |
+| Remote access (users) | **Entra Global Secure Access** (replaces legacy VPN) |
+| Cost control | Ephemeral deployment for premium resources |
+| Validation | **CLI‑first** (terminal outputs, KQL), portal secondary |
 
 ---
 
-**This ADR is a living document. Update it as new architectural decisions are made.**
-
-# End‑to‑End Architecture Diagram – Azawslab Enterprise Hybrid Security (Release 1 & 2)
+## End‑to‑End Architecture Diagram – Azawslab Enterprise Hybrid Security (Release 2 – Global Transit Hub)
 
 ```mermaid
 flowchart TB
-    subgraph OnPrem [🖥️ On‑Premises / Simulated (Release 1 & RODC)]
-        AD[Active Directory Domain Controllers<br/>DC1, DC2 (on‑prem)<br/>Domain: hq.azawslab.co.uk]
-        MEM[Microsoft Endpoint Manager]
-        EXCH[Exchange Server]
-        RODC[Read‑Only Domain Controller<br/>br1.azawslab.co.uk<br/>(Branch Site)]
+    subgraph OnPrem [🏢 On‑Premises HQ]
+        AD[Active Directory<br/>hq.azawslab.co.uk]
+        HyperV[Hyper‑V RRAS<br/>BGP ASN 65001<br/>Subnet 192.168.1.0/24]
     end
 
-    subgraph AWS [☁️ AWS (Optional Simulation)]
-        AWSServer[AWS Lightsail Windows VM<br/>Simulates on‑prem / Branch RODC]
+    subgraph AWS [☁️ AWS Branch]
+        VPC[AWS VPC 172.16.0.0/16]
+        CiscoNVA[Cisco Catalyst 8000V<br/>BGP ASN 65002]
+        DMZ[DMZ Subnet 172.16.2.0/24]
+        Trusted[Trusted Subnet 172.16.1.0/24]
     end
 
-    subgraph Azure [☁️ Microsoft Azure (Release 2)]
+    subgraph Azure [☁️ Microsoft Azure – Global Transit Hub]
         subgraph Identity [🔐 Identity & Governance]
-            EntraID[Microsoft Entra ID<br/>entra.azawslab.co.uk<br/>Hybrid Identity Sync]
+            EntraID[Microsoft Entra ID<br/>entra.azawslab.co.uk]
+            GSA[Entra Global Secure Access<br/>SSE Edge – ZTNA + SWG]
             Policy[Azure Policy<br/>Allowed Locations, Tags]
-            RBAC[RBAC + Key Vault<br/>Secrets & Access Control]
+            RBAC[RBAC + Key Vault]
         end
 
-        subgraph Networking [🌐 Hub‑Spoke Networking]
-            HubVNet[Hub VNet<br/>10.0.0.0/16]
-            SpokeWorkload[Spoke – Workloads<br/>10.1.0.0/16]
-            SpokeAVD[Spoke – AVD<br/>10.2.0.0/16]
-            SpokeForti[Spoke – FortiGate NVA<br/>(Optional)<br/>10.3.0.0/16]
-            VPNGW[VPN Gateway]
-            Firewall[Azure Firewall<br/>Central Inspection]
+        subgraph Hub [🌐Hub VNet 10.0.0.0/16]
+            AzFirewall[Azure Firewall<br/>Internet Egress<br/>0.0.0.0/0 inspection]
+            FortiGate[FortiGate NVA<br/>BGP ASN 65515<br/>East‑West & Hybrid Routing]
             Bastion[Azure Bastion / Jumpbox]
+            VPNGW[VPN Gateway<br/>Legacy – to be decommissioned]
         end
 
-        subgraph Compute [💻 Compute & Configuration]
-            WinVM[Windows Server VM<br/>(IIS, test workloads)]
-            LinuxJumpbox[Linux Jumpbox<br/>(Ansible execution)]
-            AVD[Azure Virtual Desktop<br/>Session Hosts + FSLogix]
+        subgraph Spokes [🔌 Spoke VNets]
+            SpokeWorkload[Workload Spoke<br/>10.1.0.0/16]
+            SpokeAVD[AVD Spoke<br/>10.2.0.0/16<br/>FSLogix + Azure Files]
         end
 
         subgraph Security [🛡️ Security & Monitoring]
-            Defender[Defender for Cloud<br/>Secure Score, CSPM]
-            Sentinel[Microsoft Sentinel<br/>SIEM, Analytics Rules]
-            Logs[Log Analytics Workspace<br/>Centralised Logs]
-            Alerts[Azure Monitor Alerts<br/>Email Action Group]
+            Defender[Defender for Cloud<br/>CSPM, Secure Score]
+            Sentinel[Microsoft Sentinel<br/>SIEM, KQL rules]
+            Logs[Log Analytics Workspace]
+            Alerts[Azure Monitor Alerts]
         end
 
         subgraph DR [💾 Disaster Recovery]
-            Backup[Azure Backup<br/>Daily backups, 30‑day retention]
-            ASR[Azure Site Recovery<br/>Replication to secondary region]
+            Backup[Azure Backup<br/>Immutable Vault + MUA]
+            ASR[Azure Site Recovery]
         end
     end
 
-    subgraph Mgmt [⚙️ Management & CI/CD]
-        GitHub[GitHub Repository<br/>Terraform modules, Ansible roles]
-        Actions[GitHub Actions<br/>OIDC auth, plan/apply pipeline]
-        Terraform[Terraform Cloud / CLI<br/>State locked in Azure Storage]
-        Ansible[Ansible<br/>Role‑based config (ad‑join, IIS, baseline)]
+    subgraph Mgmt [⚙️ CI/CD & Automation]
+        GitHub[GitHub Repo<br/>Terraform + Ansible roles]
+        Actions[GitHub Actions<br/>OIDC – Secretless]
     end
 
-    %% Connectivity
-    OnPrem -->|Site‑to‑Site VPN<br/>IPsec| VPNGW
-    AWS -->|VPN or Simulated| VPNGW
-    VPNGW --> HubVNet
-    HubVNet --> Firewall
-    Firewall --> SpokeWorkload
-    Firewall --> SpokeAVD
-    Firewall --> SpokeForti
-    HubVNet --> Bastion
-    Bastion -->|RDP/SSH| WinVM
-    Bastion -->|RDP/SSH| LinuxJumpbox
-    LinuxJumpbox -->|Ansible over private IP| WinVM
+    %% Hybrid & Multi‑Cloud Connectivity
+    FortiGate -->|BGP over IPSec| HyperV
+    FortiGate -->|BGP over IPSec| CiscoNVA
+    CiscoNVA -->|Routes 172.16.1.0/24 & 172.16.2.0/24| FortiGate
+    FortiGate -->|Readvertises prefixes| HyperV
+    HyperV -->|Readvertises 192.168.1.0/24| FortiGate
 
-    %% Identity Flow
+    %% Traffic Steering (UDRs)
+    SpokeWorkload -->|0.0.0.0/0 → AzFirewall| AzFirewall
+    SpokeWorkload -->|10.0.0.0/8 → FortiGate| FortiGate
+    SpokeAVD -->|0.0.0.0/0 → AzFirewall| AzFirewall
+    SpokeAVD -->|10.0.0.0/8 → FortiGate| FortiGate
+
+    %% Identity & Access
+    EntraID -->|Conditional Access| GSA
+    GSA -->|ZTNA / Private Access| SpokeWorkload
+    GSA -->|Remote Networks BGP| FortiGate
     AD -->|Entra Connect| EntraID
-    RODC -->|Read‑only replication| AD
-    EntraID -->|Conditional Access| Sentinel
-    EntraID -->|RBAC| RBAC
 
     %% Management Flow
     GitHub --> Actions
-    Actions -->|Terraform apply| Terraform
-    Terraform -->|Deploys| HubVNet
-    Terraform -->|Deploys| WinVM
-    Terraform -->|Deploys| Firewall
-    Actions -->|SSH into jumpbox| LinuxJumpbox
-    LinuxJumpbox -->|Runs Ansible| WinVM
+    Actions -->|Terraform apply (OIDC)| Hub
+    Actions -->|Terraform apply| SpokeWorkload
+    Actions -->|Ansible (via jumpbox)| SpokeWorkload
 
-    %% Security Monitoring
-    WinVM -->|Logs & Metrics| Logs
-    Firewall -->|Diagnostics| Logs
-    Defender -->|Recommendations| Sentinel
+    %% Monitoring & Security
+    AzFirewall -->|Diagnostics| Logs
+    FortiGate -->|Logs| Logs
+    SpokeWorkload -->|Metrics| Logs
     Logs --> Sentinel
-    Sentinel -->|Alerts| Alerts
-    Alerts -->|Email| Mgmt
+    Sentinel -->|Incidents| Alerts
+    Defender -->|Recommendations| Sentinel
 
     %% DR
-    WinVM -->|Backup| Backup
-    WinVM -->|ASR replication| ASR
+    SpokeWorkload -->|Backup| Backup
+    SpokeWorkload -->|ASR| ASR
 
-    %% Tags & Evidence
-    Policy -->|Enforces tags| WinVM
-    RBAC -->|Least privilege| Actions
-
+    %% Ephemeral / FinOps
+    style AzFirewall fill:#f9f,stroke:#333,stroke-dasharray: 5 5
+    style FortiGate fill:#f9f,stroke:#333,stroke-dasharray: 5 5
+    style CiscoNVA fill:#f9f,stroke:#333,stroke-dasharray: 5 5
+    style VPNGW fill:#ccc,stroke:#333,stroke-dasharray: 5 5

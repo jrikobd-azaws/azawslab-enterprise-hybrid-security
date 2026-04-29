@@ -1,180 +1,620 @@
-## Phase 1 – Azure Landing Zone Foundation
+# Phase-by-Phase Implementation Guide (Release 2)
 
-| Step | Action | Portal / CLI | Evidence |
-|------|--------|--------------|----------|
-| 1 | Create management groups: `mg-platform`, `mg-landingzones`, `mg-sandbox` under Tenant Root Group | Portal → Management Groups → + Create | Screenshot of hierarchy |
-| 2 | Move your subscription under `mg-landingzones` | Portal → Management Groups → select MG → + Add subscription | Screenshot showing subscription in MG |
-| 3 | Define naming convention: create `docs/release2/naming-conventions.md` with patterns for RGs, VNets, subnets, Key Vault, etc. | Local / GitHub editor | File committed |
-| 4 | Define tag model: create `docs/release2/tag-model.md` with keys `Environment`, `Project`, `Owner`, `CostCenter` | Local / GitHub editor | File committed |
-| 5 | Validate: `az account management-group list --expand` | Azure CLI | Terminal output screenshot |
+**Version:** 1.0 (Prompt 1 – Phases P0, P1, P2a, P2b, P2c)  
+**Aligns with:** `README_PLAN_Revised.md` and `naming-conventions.md`  
+**Prerequisites:** Azure Pay-As-You-Go subscription (upgraded from free trial), GitHub account, `entra.azawslab.co.uk` domain verified.
 
 ---
 
-## Phase 2a – Terraform Reusable Modules
+## Legend for Text Diagrams
 
-| Step | Action | Portal / CLI | Evidence |
-|------|--------|--------------|----------|
-| 1 | Create folder `terraform/modules/{networking,security,compute,monitoring}` | GitHub / VS Code | Folder structure screenshot |
-| 2 | Write `networking` module (VNet + subnets) with variables, outputs, README | Code editor | Module files committed |
-| 3 | Write `security` module (Key Vault) | Code editor | Module files committed |
-| 4 | Write `compute` module (Windows VM with private IP only – no public IP) | Code editor | Module files committed |
-| 5 | Write `monitoring` module (Log Analytics workspace) | Code editor | Module files committed |
-| 6 | Create `environments/dev/main.tf` that calls modules with specific names (e.g., `vnet-dev-uksouth-hub`) | Code editor | Root config committed |
-| 7 | Run `terraform init`, `terraform validate`, `terraform plan` | CLI (Codespaces or local) | Screenshot of `terraform plan` output |
-
----
-
-## Phase 2b – Ansible Configuration Management
-
-| Step | Action | Portal / CLI | Evidence |
-|------|--------|--------------|----------|
-| 1 | Create folder `ansible/playbooks/` and `ansible/roles/` structure | GitHub / VS Code | Folder structure screenshot |
-| 2 | Create `ansible/inventory.yml` with `ansible_ssh_common_args` to proxy through Bastion (once Bastion is deployed) | Code editor | Inventory file committed |
-| 3 | Write role `common` (disable SMBv1, enable Defender) | Code editor | Role YAML files committed |
-| 4 | Write role `ad-join` (domain join to `hq.azawslab.co.uk`) | Code editor | Role YAML files committed |
-| 5 | Write role `webserver` (install IIS) | Code editor | Role YAML files committed |
-| 6 | Create `site.yml` that imports all three roles | Code editor | Site.yml committed |
-| 7 | (After a Windows VM is deployed via Terraform) Run `ansible-lint site.yml`, then `ansible-playbook -i inventory.yml site.yml --ask-vault-pass` | CLI | Playbook output + VM in AD screenshot + IIS welcome page |
+| Symbol / Format | Meaning |
+|----------------|---------|
+| `[Resource Name]` | Azure resource or external system (VM, VNet, Key Vault, etc.) |
+| `--(action)-->` | Dependency or trigger (e.g., OIDC token, role assignment) |
+| `[Service Principal]` | Entra ID application / service principal |
+| `(role)` | RBAC role assignment |
+| `{branch}` | GitHub branch or environment |
+| `======` | Separation between logical steps within a phase |
 
 ---
 
-## Phase 2c – CI/CD Pipeline (GitHub Actions)
+# Phase 0: Foundation & Automation Bootstrap
 
-| Step | Action | Portal / CLI | Evidence |
-|------|--------|--------------|----------|
-| 1 | Create `.github/workflows/terraform-ci.yml` using OIDC (federated credentials) | Code editor | Workflow file committed |
-| 2 | Add GitHub secrets: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID` | GitHub Repo → Settings → Secrets | Screenshot of secrets (values hidden) |
-| 3 | Create a pull request changing a variable in `environments/dev/main.tf` | GitHub Web UI | Screenshot of PR with Terraform plan comment |
-| 4 | Merge the PR – trigger `terraform apply` | GitHub | Screenshot of green Actions run |
-| 5 | Verify resource created in Azure Portal | Azure Portal | Screenshot of resource |
+## Objective
+Establish OIDC federation between GitHub Actions and Azure, deploy remote Terraform backend with state locking, and bootstrap the repository structure.
 
----
+## Step-by-Step Actions
 
-## Phase 3 – Governance (Azure Policy, RBAC, Key Vault)
+### Step 0.1: Upgrade subscription & verify domain
+```bash
+# Ensure subscription is Pay-As-You-Go
+az account show --output table
 
-| Step | Action | Portal / CLI / Terraform | Evidence |
-|------|--------|--------------------------|----------|
-| 1 | Create custom policy definition for allowed locations (e.g., `uksouth`, `westeurope`) | Terraform: `azurerm_policy_definition` | Policy definition committed |
-| 2 | Assign the allowed locations policy to `mg-landingzones` | Terraform: `azurerm_subscription_policy_assignment` | Screenshot of policy assignment in portal |
-| 3 | Create policy for required tags (Environment, Project, Owner, CostCenter) | Terraform: `azurerm_policy_definition` + assignment | Policy JSON committed |
-| 4 | Verify: attempt to create a resource without required tags or in wrong region → fails | Azure CLI or Portal | Screenshot of error / denied |
-| 5 | Create RBAC role assignment: give `sp-terraform-gh` Contributor on the subscription | Terraform: `azurerm_role_assignment` | Screenshot of IAM + role assignment |
-| 6 | Create RBAC role assignment: give `azw-Security-Engineers` group Reader on the subscription (optional) | Terraform or Portal | Screenshot showing group membership |
-| 7 | Deploy Key Vault (`kv-dev-platform-001`) using Terraform `security` module | Terraform | Screenshot of Key Vault in portal |
-| 8 | Store a dummy secret (e.g., `dummy-password`) using `azurerm_key_vault_secret` | Terraform | Screenshot of secret in portal (value hidden) |
-| 9 | Retrieve the secret via CLI: `az keyvault secret show --name dummy-password --vault-name kv-dev-platform-001` | Azure CLI | Terminal output screenshot |
-| 10 | (Optional) Add `lifecycle { prevent_destroy = true }` to Key Vault | Terraform | Documented in code |
+# Verify verified domain in Entra ID
+az account list --query "[?isDefault]" --output table
+# Domain should show entra.azawslab.co.uk
+```
 
----
+### Step 0.2: Create service principal with OIDC federated credential
+```bash
+# Create app registration
+az ad app create --display-name "sp-terraform-gh" --sign-in-audience AzureADMyOrg
 
-## Phase 4 – Azure Lighthouse (Cross‑Tenant Delegated Administration)
+# Get app ID and object ID
+APP_ID=$(az ad app list --display-name "sp-terraform-gh" --query "[0].appId" -o tsv)
+OBJECT_ID=$(az ad app list --display-name "sp-terraform-gh" --query "[0].id" -o tsv)
 
-| Step | Action | Portal / CLI / ARM | Evidence |
-|------|--------|--------------------|----------|
-| 1 | Create a second Entra ID tenant (free) – this will be your “customer” tenant | [Entra admin center](https://entra.microsoft.com) → Create tenant | Screenshot of tenant creation |
-| 2 | In the customer tenant, create a subscription (free trial or PAYG) or use an existing empty subscription | Azure Portal (customer tenant) | Screenshot of subscription |
-| 3 | Prepare an ARM template (or Terraform) that defines Lighthouse delegation from your main (provider) tenant | Code editor | Template file committed |
-| 4 | The template must include: `managedByTenantId` (your main tenant ID), `authorizations` with principalId and roleDefinitionId (e.g., Contributor) | Code editor | Template JSON |
-| 5 | Deploy the Lighthouse template to the **customer subscription** (via Azure CLI or Portal) | `az deployment sub create --location uksouth --template-file lighthouse.json` | CLI output screenshot |
-| 6 | In your main tenant, go to **Azure Lighthouse** → **My Customers** | Azure Portal (main tenant) | Screenshot showing the delegated customer subscription |
-| 7 | Perform a delegated management action from your main tenant, e.g., list VMs in the customer subscription using `az vm list --subscription <customer-sub-id>` | Azure CLI | Terminal output screenshot |
-| 8 | (Optional) In the customer tenant, verify the delegation entry under **Azure Lighthouse** → **Service providers** | Azure Portal (customer tenant) | Screenshot |
-| 9 | Capture evidence: `evidence/P4/portal-my-customers.png`, `evidence/P4/cli-cross-tenant-vms.png`, `evidence/P4/lighthouse-template.json` | – | Files and screenshots |
+# Create service principal
+az ad sp create --id $APP_ID
 
-**Time estimate for all four phases:** Phase 1 (0.5h), Phase 2 (6‑8h), Phase 3 (2‑3h), Phase 4 (1.5h) – **Total ~10‑13 hours**
+# Assign Contributor role at subscription level
+SUB_ID=$(az account show --query id -o tsv)
+az role assignment create --assignee $APP_ID --role Contributor --scope /subscriptions/$SUB_ID
 
-## Phase 5 – Hub‑Spoke Networking + Automation
+# Create federated credential for GitHub (repo: your-username/your-repo, environment: release-2)
+az ad app federated-credential create --id $OBJECT_ID --parameters '{
+    "name": "github-actions-release2",
+    "issuer": "[https://token.actions.githubusercontent.com](https://token.actions.githubusercontent.com)",
+    "subject": "repo:your-username/your-repo:environment:release-2",
+    "audiences": ["api://AzureADTokenExchange"]
+}'
+```
 
-| Step | Action | Portal / CLI / Terraform | Evidence |
-|------|--------|--------------------------|----------|
-| 1 | Create Hub VNet (`vnet-dev-uksouth-hub`, 10.0.0.0/16) with subnets: `GatewaySubnet`, `AzureFirewallSubnet`, `Mgmt`, and `AzureBastionSubnet` | Terraform (networking module) | Screenshot of Hub VNet + subnets |
-| 2 | Create Spoke VNet (`vnet-dev-uksouth-spoke-workload`, 10.1.0.0/16) with subnet `Workload` | Terraform (networking module) | Screenshot of Spoke VNet |
-| 3 | Create bidirectional VNet peering between Hub and Spoke | Terraform: `azurerm_virtual_network_peering` | Screenshot of peering status (Connected) |
-| 4 | Create Route Table (`rt-udr-to-firewall-uksouth`) with default route (0.0.0.0/0) pointing to Azure Firewall private IP (placeholder 10.0.2.4) | Terraform: `azurerm_route_table` + `azurerm_route` | Screenshot of route table routes |
-| 5 | Associate the route table to the Spoke’s `Workload` subnet | Terraform: `azurerm_subnet_route_table_association` | CLI: `az network route-table show` |
-| 6 | Create Network Security Group (`nsg-workload-inbound`) with rule allowing RDP only from `Mgmt` subnet (10.0.3.0/24) | Terraform: `azurerm_network_security_group` + `azurerm_network_security_rule` | Screenshot of NSG inbound rules |
-| 7 | Associate NSG to the Spoke’s `Workload` subnet | Terraform: `azurerm_subnet_network_security_group_association` | Screenshot of subnet associations |
-| 8 | Deploy test VMs: one in Hub `Mgmt` subnet (jump host), one in Spoke `Workload` subnet (private, no public IP) | Terraform (compute module) | Screenshot of VMs with private IPs only |
-| 9 | Validate: Ping from Hub VM to Spoke VM (should succeed), RDP from internet to Spoke VM (should fail), RDP from Hub VM to Spoke VM (should succeed) | CLI / RDP client | Screenshot of ping success + RDP failure |
+### Step 0.3: Deploy Terraform backend storage
+```bash
+# Create resource group
+az group create --name rg-dev-terraformstate-uksouth --location uksouth
 
----
+# Create storage account (globally unique name)
+az storage account create \
+    --name stdevterraform001 \
+    --resource-group rg-dev-terraformstate-uksouth \
+    --location uksouth \
+    --sku Standard_LRS \
+    --kind StorageV2
 
-## Phase 6 – Azure Firewall
+# Get storage account key
+ACCOUNT_KEY=$(az storage account keys list --account-name stdevterraform001 --query "[0].value" -o tsv)
 
-| Step | Action | Portal / CLI / Terraform | Evidence |
-|------|--------|--------------------------|----------|
-| 1 | Deploy Azure Firewall (`afw-dev-uksouth-01`) in `AzureFirewallSubnet` with standard public IP | Terraform: `azurerm_firewall` + `azurerm_public_ip` | Screenshot of Firewall overview |
-| 2 | Create Firewall Policy (`afwp-dev-uksouth`) | Terraform: `azurerm_firewall_policy` | Screenshot of policy |
-| 3 | Add network rule collection: allow DNS (UDP/53) to 8.8.8.8, 8.8.4.4 | Terraform: `azurerm_firewall_policy_rule_collection_group` | Screenshot of network rules |
-| 4 | Add application rule collection: allow HTTPS to `*.microsoft.com`, `*.azure.com` | Terraform (as above) | Screenshot of application rules |
-| 5 | Enable diagnostic settings to send Firewall logs to Log Analytics workspace | Terraform: `azurerm_monitor_diagnostic_setting` | Screenshot of diagnostic settings |
-| 6 | Update the UDR’s next hop IP to the actual private IP of the Firewall (retrieved via `azurerm_firewall.main.ip_configuration[0].private_ip_address`) | Terraform (depends on firewall) | CLI: `az network firewall show` |
-| 7 | From Spoke test VM: `nslookup google.com` (allowed), `curl http://example.com` (blocked) | CLI on Spoke VM (via Bastion) | Screenshot of curl error + firewall logs |
-| 8 | Query Log Analytics: `AzureDiagnostics | where Category == "AzureFirewallNetworkRule" | take 10` | Log Analytics | Screenshot of KQL results showing blocked traffic |
+# Create container
+az storage container create --name tfstate --account-name stdevterraform001 --account-key $ACCOUNT_KEY
+```
 
----
+### Step 0.4: Repository scaffolding
+```bash
+mkdir -p terraform/modules terraform/environments/dev
+mkdir -p ansible/roles ansible/inventory/dev
+mkdir -p .github/workflows
+mkdir -p docs/release2/evidence/{P0,P1,P2a,P2b,P2c}
+```
 
-## Phase 7 – Defender for Cloud
+## Validation Checklist
+- [ ] OIDC handshake test: Create `.github/workflows/oidc-test.yml` and see successful run.
+- [ ] `az role assignment list --assignee $APP_ID` shows Contributor.
+- [ ] `terraform init` succeeds with backend config.
 
-| Step | Action | Portal / CLI / Terraform | Evidence |
-|------|--------|--------------------------|----------|
-| 1 | Enable Microsoft Defender for Cloud on the subscription (free CSPM features) | Portal: Defender for Cloud → Environment settings → Enable | Screenshot of enabled status |
-| 2 | Enable one Defender plan (e.g., `Servers P1` or `Key Vault`) – use free trial if available | Portal: Defender plans → toggle On | Screenshot of enabled plan |
-| 3 | Note the initial Secure Score | Portal: Defender for Cloud → Secure Score | Screenshot of before score |
-| 4 | Choose one recommendation (e.g., “Enable diagnostic logs for Key Vault”) and remediate it via Terraform or portal | Terraform: `azurerm_monitor_diagnostic_setting` for Key Vault | Screenshot of recommendation marked “Completed” |
-| 5 | Wait up to 24 hours (or force refresh) and capture the improved Secure Score | Portal | Screenshot of after score |
-| 6 | (Optional) Use CLI: `az security secure-score-controls list` | CLI | Terminal output |
+## Text Diagram – Phase 0 Resources
+```text
+PHASE 0: FOUNDATION & OIDC BOOTSTRAP
+=====================================
 
----
+[GitHub Repo: your-username/your-repo]
+         │
+         │ {branch: release-2}
+         │ (OIDC federated credential)
+         ▼
+[Entra ID App: sp-terraform-gh]
+         │
+         │ (Contributor role)
+         ▼
+[Subscription: sub-azaws-enterprise-prod]
+         │
+         │ (az group create)
+         ▼
+[Resource Group: rg-dev-terraformstate-uksouth]
+         │
+         │ (az storage account create)
+         ▼
+[Storage Account: stdevterraform001]
+         │
+         │ (container)
+         ▼
+[Container: tfstate]───(Blob lease – state locking)
 
-## Phase 8 – Microsoft Sentinel
-
-| Step | Action | Portal / CLI / Terraform | Evidence |
-|------|--------|--------------------------|----------|
-| 1 | Enable Microsoft Sentinel on the existing Log Analytics workspace (`la-dev-platform`) | Portal: Microsoft Sentinel → + Create → select workspace | Screenshot of Sentinel overview |
-| 2 | Add the “Azure Activity” data connector (free) | Portal: Sentinel → Data connectors → Azure Activity → Open connector → Connect | Screenshot showing “Connected” status |
-| 3 | Create an analytic rule (scheduled query) to detect multiple failed sign-ins: KQL: `SigninLogs | where ResultType == 50057 | summarize Occurrences = count() by IPAddress, UserPrincipalName | where Occurrences > 5` | Portal: Analytics → + Create → Scheduled query rule | Screenshot of rule KQL |
-| 4 | Set rule frequency: 1 hour, alert threshold >0, generate incident | Portal (same wizard) | Screenshot of rule configuration |
-| 5 | Generate a test incident: use a test user to attempt login with wrong password 6 times | Manual or script | Screenshot of incident in Sentinel → Incidents |
-| 6 | (Optional) Deploy a workbook (e.g., “Azure Activity Logs” built‑in) | Portal: Sentinel → Workbooks → Save | Screenshot of workbook view |
-
----
-
-## Phase 9a – Monitoring & Alerting
-
-| Step | Action | Portal / CLI / Terraform | Evidence |
-|------|--------|--------------------------|----------|
-| 1 | Create an Action Group (`ag-dev-email`) with email receiver (your email) | Terraform: `azurerm_monitor_action_group` or Portal | Screenshot of action group |
-| 2 | Create a Metric Alert rule: alert when CPU > 80% on the test VM (`vm-dev-client-01`) | Terraform: `azurerm_monitor_metric_alert` | Screenshot of alert rule |
-| 3 | Generate high CPU load on the test VM (e.g., run a stress script or loop) | CLI / PowerShell | – |
-| 4 | Verify alert fires and you receive email | Portal: Monitor → Alerts + email inbox | Screenshot of fired alert + email |
-| 5 | Create a Log Analytics dashboard: pin a saved query (e.g., `AzureActivity | take 10`) to a dashboard | Portal: Log Analytics → Query → Pin to dashboard | Screenshot of dashboard tile |
+LEGEND:
+======>
+[Name]        Azure resource or external system
+(role)        RBAC assignment
+{branch}      GitHub branch or environment
+```
 
 ---
 
-## Phase 9b – Disaster Recovery Strategy (Azure Backup + ASR)
+# Phase 1: Azure Landing Zone & Governance Foundation
 
-| Step | Action | Portal / CLI / Terraform | Evidence |
-|------|--------|--------------------------|----------|
-| 1 | Create Recovery Services Vault for Backup (`rsv-dev-backup`) | Terraform: `azurerm_recovery_services_vault` | Screenshot of vault |
-| 2 | Create a backup policy (daily backup, 30‑day retention) | Terraform: `azurerm_backup_policy_vm` | Screenshot of policy |
-| 3 | Enable backup for the test VM (`vm-dev-client-01`) | Portal: Backup → Azure Virtual Machine → select VM → assign policy | Screenshot of backup item |
-| 4 | Create second Recovery Services Vault for Azure Site Recovery (`rsv-dev-asr`) | Terraform or Portal | Screenshot of ASR vault |
-| 5 | Replicate the test VM to a secondary region (e.g., UK West) | Portal: ASR → + Replicate → select VM → target region | Screenshot of replication health “Healthy” |
-| 6 | Run a test failover (isolated network), verify VM boots | Portal: Replicated items → Test failover | Screenshot of test VM running in secondary region |
-| 7 | Clean up test failover | Portal: Cleanup test failover | – |
-| 8 | Write DR plan document `docs/release2/disaster-recovery-plan.md` with RPO (24h), RTO (1h), step‑by‑step failback procedure | Local editor | File committed |
+## Objective
+Deploy CAF-aligned management groups and enforce policy guardrails (allowed regions, VM SKUs, mandatory tags) at the root management group.
+
+## Step-by-Step Actions
+
+### Step 1.1: Create management groups
+```bash
+az account management-group create --name mg-platform-prod-global --display-name "mg-platform-prod-global"
+az account management-group create --name mg-landingzones-prod-global --display-name "mg-landingzones-prod-global"
+az account management-group create --name mg-sandbox-prod-global --display-name "mg-sandbox-prod-global"
+
+# Show hierarchy
+az account management-group show --name mg-platform-prod-global --expand --output table
+```
+
+### Step 1.2: Move subscription under mg-landingzones
+```bash
+SUB_ID=$(az account show --query id -o tsv)
+az account management-group subscription add --name mg-landingzones-prod-global --subscription $SUB_ID
+```
+
+### Step 1.3: Deploy Azure Policies (using Terraform)
+Create `terraform/environments/dev/policies.tf`:
+```hcl
+# Example: Deny non-UK South regions
+resource "azurerm_policy_definition" "allowed_locations" {
+  name         = "policy-allowed-locations"
+  policy_type  = "Custom"
+  mode         = "Indexed"
+  display_name = "Allowed locations for resources"
+
+  metadata = <<METADATA { "category": "General" } METADATA policy_rule="<<POLICY_RULE" "if": "not": "field": "location", "in": ["uksouth"] }, "then": "effect": "deny" POLICY_RULE resource "azurerm_management_group_policy_assignment" "allowed_locations" name="polassign-allowed-locations-mg" management_group_id="mg-landingzones-prod-global" policy_definition_id="azurerm_policy_definition.allowed_locations.id" description="Deny any resource not in UK South" ``` Repeat for allowed VM SKUs (B-series only) and mandatory tags. ### Step 1.4: Apply policies ```bash terraform plan apply -auto-approve ## Validation Checklist - [ ] `az policy assignment list --scope "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"` shows three assignments. Attempt to create a in East US fails with `"denied by policy"`. Standard_D2s_v3 (not B-series). Text Diagram – Phase 1 Resources ```text PHASE 1: LANDING ZONE & GOVERNANCE="==================================" [Root Management Group] (tenant root) │ ├── [mg-platform-prod-global] (empty logical placeholder) [mg-landingzones-prod-global] [Subscription: sub-azaws-enterprise-prod] Policy Assignment: polassign-allowed-locations-mg polassign-allowed-skus-mg └── polassign-mandatory-tags-mg [mg-sandbox-prod-global] (empty) Definitions (custom): policy-allowed-locations (deny if location not uksouth) policy-allowed-vm-skus SKU B-series) policy-mandatory-tags missing Environment/Project/Owner) LEGEND:="=====">
+[Name]        Management group, subscription, or policy
+```
 
 ---
 
-## Phase 9c – Onboarding Documentation
+# Phase 2a: Terraform – Reusable Modules
 
-| Step | Action | Portal / CLI / Terraform | Evidence |
-|------|--------|--------------------------|----------|
-| 1 | Create `docs/onboarding.md` with: prerequisites (Azure sub, GitHub account), setting up Codespaces, installing tools, authenticating Azure CLI, cloning repo, running Terraform, running Ansible, portal verification steps | Local editor | File committed |
-| 2 | Create `CONTRIBUTING.md` with: branch strategy (`release-2`), PR process (require plan comment, approval), naming conventions, testing requirements, how to run CI locally | Local editor | File committed |
-| 3 | (Optional) Ask a colleague or future‑self to follow the guide on a fresh environment to validate completeness | Manual | Feedback documented |
+## Objective
+Build modular IaC with dynamic secrets from Key Vault, private-only networking, and resource lifecycle protection.
+
+## Step-by-Step Actions
+
+### Step 2a.1: Create module directory structure
+```bash
+cd terraform/modules
+mkdir -p security networking compute monitoring
+```
+
+### Step 2a.2: Write `security` module (Key Vault + random password)
+`terraform/modules/security/main.tf`:
+```hcl
+resource "random_password" "admin" {
+  length  = 16
+  special = true
+  override_special = "!#$%&*"
+}
+
+resource "azurerm_key_vault" "kv" {
+  name                = "kv-dev-platform-001"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  sku_name            = "standard"
+
+  soft_delete_retention_days = 7
+  purge_protection_enabled   = true
+}
+
+resource "azurerm_key_vault_secret" "admin_password" {
+  name         = "vm-admin-password"
+  value        = random_password.admin.result
+  key_vault_id = azurerm_key_vault.kv.id
+}
+```
+
+### Step 2a.3: Write `compute` module (no public IP)
+`terraform/modules/compute/main.tf`:
+
+```hcl
+resource "azurerm_network_interface" "vm" {
+  name                = "nic-${var.vm_name}-01"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = var.subnet_id
+    private_ip_address_allocation = "Dynamic"
+    # No public_ip_address_id – forces private only
+  }
+}
+
+resource "azurerm_windows_virtual_machine" "vm" {
+  name                = var.vm_name
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  size                = "Standard_B2s"
+  admin_username      = "azureuser"
+  admin_password      = random_password.admin.result  # from security module
+  network_interface_ids = [azurerm_network_interface.vm.id]
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "StandardSSD_LRS"
+  }
+
+  source_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2022-Datacenter"
+    version   = "latest"
+  }
+}
+```
+
+### Step 2a.4: Root configuration (environments/dev/main.tf) calls modules
+```hcl
+module "security" {
+  source = "../../modules/security"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = var.location
+}
+
+module "compute" {
+  source = "../../modules/compute"
+  vm_name           = "vm-dev-client-01"
+  resource_group_name = azurerm_resource_group.rg.name
+  location          = var.location
+  subnet_id         = module.networking.spoke_subnet_id
+  admin_password    = module.security.admin_password
+}
+```
+
+## Validation Checklist
+- [ ] `terraform plan` shows admin_password as `(sensitive value)`.
+- [ ] VM NIC has no public IP (check `az vm show --name vm-dev-client-01 --expand networkProfile`).
+- [ ] Key Vault secret is created and accessible.
+
+## Text Diagram – Phase 2a Resources
+```text
+PHASE 2a: TERRAFORM MODULES (DYNAMIC SECRETS)
+==============================================
+
+[Root Config: environments/dev/main.tf]
+         │
+         ├── (calls)──> [Module: security]
+         │                  │
+         │                  ├── [random_password.admin] (generated)
+         │                  │         │
+         │                  │         ▼
+         │                  ├── [Key Vault: kv-dev-platform-001]
+         │                  │         │
+         │                  │         └── Secret: vm-admin-password
+         │                  │
+         │                  └── (returns sensitive value)
+         │
+         ├── (calls)──> [Module: networking]
+         │                  └── [VNet: vnet-dev-uksouth-hub]
+         │                        └── [Subnet: snet-workload]
+         │
+         └── (calls)──> [Module: compute]
+                             │
+                             ├── [NIC: nic-vm-dev-client-01] (no public IP)
+                             │         │
+                             │         └── (attached to)──> [Subnet: snet-workload]
+                             │
+                             └── [VM: vm-dev-client-01]
+                                   │
+                                   └── admin_password = (from Key Vault secret)
+
+LEGEND:
+======>
+[Module: name]  Logical Terraform module
+```
 
 ---
 
-**Time estimates for remaining phases:** P5 (3-4h), P6 (2-3h), P7 (1-2h), P8 (2-3h), P9a (1.5h), P9b (2-3h), P9c (1h) – **Total ~13-17 hours for phases 5-9c**
+# Phase 2b: Ansible Configuration Management
+
+## Objective
+Use Ansible roles to domain-join Windows VMs, apply security baselines, and deploy IIS – all via private network through Bastion/jumpbox.
+
+## Step-by-Step Actions
+
+### Step 2b.1: Create Ansible role directories
+```bash
+cd ansible/roles
+mkdir -p common/ad-join/webserver
+for role in common ad-join webserver; do
+    mkdir -p $role/tasks $role/vars $role/handlers
+done
+```
+
+### Step 2b.2: Write role `common/tasks/main.yml`
+```yaml
+- name: Disable IE Enhanced Security
+  win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}
+    name: IsInstalled
+    data: 0
+    type: dword
+
+- name: Set Windows Firewall to allow WinRM from management subnet
+  community.windows.win_firewall_rule:
+    name: WinRM from Management
+    direction: in
+    protocol: TCP
+    localport: 5986
+    remoteip: 10.0.0.0/24
+    action: allow
+    enabled: yes
+```
+
+### Step 2b.3: Write role `ad-join/tasks/main.yml`
+```yaml
+- name: Join domain hq.azawslab.co.uk
+  ansible.windows.win_domain_membership:
+    dns_domain_name: hq.azawslab.co.uk
+    hostname: "{{ ansible_hostname }}"
+    domain_admin_user: "{{ domain_admin_user }}"
+    domain_admin_password: "{{ domain_admin_password }}"
+    state: domain
+  register: domain_join
+
+- name: Reboot if domain joined
+  ansible.windows.win_reboot:
+    reboot_timeout: 600
+  when: domain_join.reboot_required
+```
+
+### Step 2b.4: Write role `webserver/tasks/main.yml`
+```yaml
+- name: Install IIS
+  ansible.windows.win_feature:
+    name: Web-Server
+    state: present
+
+- name: Create test index.html
+  ansible.windows.win_copy:
+    content: "<h1>Deployed by Ansible</h1>"
+    dest: C:\inetpub\wwwroot\index.html
+```
+
+### Step 2b.5: Create master playbook `ansible/site.yml`
+```yaml
+- hosts: windows_workloads
+  roles:
+    - common
+    - ad-join
+    - webserver
+```
+
+### Step 2b.6: Run Ansible from jumpbox (or self-hosted runner)
+```bash
+# SSH to jumpbox first, then:
+ansible-playbook -i inventory/dev/hosts.yml site.yml --vault-password-file .vault_pass
+```
+
+## Validation Checklist
+- [ ] `ansible-lint site.yml` passes with no warnings.
+- [ ] Playbook run shows `changed=0` on second run (idempotency).
+- [ ] VM appears in AD (`Get-ADComputer vm-dev-client-01`).
+- [ ] IIS homepage accessible from within spoke network.
+
+## Text Diagram – Phase 2b Resources
+```text
+PHASE 2b: ANSIBLE CONFIGURATION
+===============================
+
+[GitHub Actions / CLI]  (runner)
+         │
+         │ (SSH / WinRM over proxy)
+         ▼
+[Azure Bastion / Jumpbox: vm-dev-bastion-01]   (public IP only for jumpbox)
+         │
+         │ (ProxyJump – private IP)
+         ▼
+[Spoke VNet: vnet-dev-uksouth-spoke-workload]
+         │
+         ├── [Subnet: snet-workload]
+         │         │
+         │         ▼
+         │   [VM: vm-dev-client-01] (private IP only)
+         │         │
+         │         ├── (Role: common)     → security hardening, firewall rules
+         │         ├── (Role: ad-join)    → joins domain hq.azawslab.co.uk
+         │         └── (Role: webserver)  → IIS installation
+         │
+         └── [Subnet: snet-mgmt] (optional for Ansible control)
+
+Ansible Control Machine (can be same jumpbox):
+  - Inventory: ansible/inventory/dev/hosts.yml
+  - Vault: encrypted domain_admin_password
+
+LEGEND:
+======>
+[VM: name]        Virtual machine
+(Role: name)      Ansible role applied
+```
+
+---
+
+# Phase 2c: CI/CD Pipeline (GitHub Actions + OIDC)
+
+## Objective
+Establish secretless CI/CD with branch protection, automated `terraform plan` on PRs, and `terraform apply` on merge to `release-2`.
+
+## Step-by-Step Actions
+
+### Step 2c.1: Create OIDC test workflow
+`.github/workflows/oidc-test.yml`:
+```yaml
+name: OIDC Test
+on:
+  push:
+    branches: [ release-2 ]
+  pull_request:
+    branches: [ release-2 ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  oidc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure login via OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Show account
+        run: az account show
+```
+
+Add secrets in GitHub repo: `AZURE_CLIENT_ID` (app ID of `sp-terraform-gh`), `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`.
+
+### Step 2c.2: Create Terraform CI workflow
+`.github/workflows/tf-ci.yml`:
+
+```yaml
+name: Terraform CI
+on:
+  pull_request:
+    branches: [ release-2 ]
+    paths:
+      - 'terraform/**'
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: hashicorp/setup-terraform@v3
+      - name: Terraform fmt & validate
+        run: |
+          cd terraform/environments/dev
+          terraform fmt -check
+          terraform init
+          terraform validate
+      - name: Terraform plan
+        id: plan
+        run: |
+          cd terraform/environments/dev
+          terraform plan -no-color -out plan.tfplan
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const plan = `${{ steps.plan.outputs.stdout }}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Terraform Plan\n\`\`\`\n${plan}\n\`\`\``
+            })
+```
+
+### Step 2c.3: Create Terraform CD workflow
+`.github/workflows/tf-cd.yml`:
+```yaml
+name: Terraform CD
+on:
+  push:
+    branches: [ release-2 ]
+    paths:
+      - 'terraform/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    environment: release-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: hashicorp/setup-terraform@v3
+      - name: Terraform apply
+        run: |
+          cd terraform/environments/dev
+          terraform init
+          terraform apply -auto-approve
+```
+
+### Step 2c.4: Configure branch protection
+In GitHub repo: Settings → Branches → Add rule for `release-2`:
+- Require pull request reviews (1 approver)
+- Require status checks (select `Terraform CI` and `OIDC Test`)
+
+## Validation Checklist
+- [ ] Create a PR from `feature/*` to `release-2`: GitHub Action runs, comments plan.
+- [ ] Merge PR: CD workflow runs, applies changes.
+- [ ] `az vm list` shows new resources created automatically.
+
+## Text Diagram – Phase 2c Resources
+
+```text
+PHASE 2c: CI/CD PIPELINE (SECRETLESS)
+======================================
+
+[Developer Branch: feature/xyz]
+         │
+         │ (git push)
+         ▼
+[GitHub Pull Request] (target: release-2)
+         │
+         ├── Trigger: .github/workflows/tf-ci.yml
+         │         │
+         │         ├── (OIDC)──> [Azure Login – no secrets]
+         │         │
+         │         ├── terraform fmt & validate
+         │         │
+         │         └── terraform plan
+         │                 │
+         │                 └── (comment plan on PR)
+         │
+         ├── (Manual review & approval) ──┐
+         │                                │
+         └── (Merge to release-2) <───────┘
+                     │
+                     ▼
+         [GitHub Environment: release-2]
+                     │
+                     │ (Trigger: tf-cd.yml)
+                     ▼
+         [OIDC token exchange] ──> [Azure Subscription]
+                     │
+                     └── terraform apply -auto-approve
+                              │
+                              └──> Creates resources (VMs, KV, etc.)
+
+Branch Protection (release-2):
+  - Requires PR
+  - Requires status checks (CI, OIDC test)
+  - At least 1 reviewer
+
+LEGEND:
+======>
+[GitHub ...]      GitHub construct
+(OIDC)            Identity federation – no static secrets
+```
+
+---
