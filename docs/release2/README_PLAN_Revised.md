@@ -699,40 +699,42 @@ To prove the transitive nature of the hub, the documentation tracks a packet acr
 ## Phase O4: Unified Zero Trust Edge (Entra GSA)
 
 ### 1. Refined Phase Detail
-| Aspect | Refined Detail |
+| Aspect | Refined Detail (Expert Version) |
 | :--- | :--- |
-| **Business Problem** | **The Vanishing Perimeter:** Traditional VPNs create silos and high latency. Managing separate security stacks for internet filtering, SaaS access, and private apps results in high TCO and fragmented identity governance. |
-| **Technical Solution** | **Full SSE Suite Deployment:** Implementing **Microsoft Entra Global Secure Access (GSA)**. 1. **Private Access:** Per-app ZTNA tunnels. 2. **Internet Access:** Secure Web Gateway (SWG) for public traffic. 3. **Remote Networks:** Integrating the **FortiGate (Azure)** and **Cisco (AWS)** NVAs via IPSec/BGP to the GSA edge. |
-| **IaC Strategy** | **Multi-Provider Orchestration:** Using the `microsoft-graph` Terraform provider to automate GSA "Remote Network" containers and "Private Access" segments, while using `fortios`/`iosxe` providers to automate the router-side IPSec handshakes. |
-| **Acceptance Criteria** | 1. Terraform-managed IPSec tunnels between NVAs and GSA PoPs are "Established." 2. Entra GSA Traffic Logs show active flows for M365, Internet, and Private profiles. 3. Zero manual configuration in the Entra Portal. |
-| **Validation** | Verify the "Handshake": From a Spoke VM, verify that traffic to `google.com` is inspected by Entra SWG, and RDP to the AWS Branch is brokered via GSA Private Access without a traditional VPN client. |
-| **Evidence** | `docs/release2/evidence/O4/`: Terraform code for Graph API calls, FortiOS VPN status screenshots, and Entra GSA health dashboards showing "Connected" status for Remote Networks. |
+| **Business Problem** | **Legacy VPN Limitations:** OpenVPN P2S creates a manual "dial-in" culture, provides excessive network-level access, and incurs high costs for Azure VPN Gateways. It lacks identity-aware granular control and device compliance enforcement. |
+| **Technical Solution** | **Full SSE Suite Transition:** Replacing legacy VPNs with **Microsoft Entra Global Secure Access (GSA)**. 1. **Private Access:** Clientless/Seamless ZTNA for RDP and private apps. 2. **Internet Access:** Identity-based SWG for web filtering. 3. **Remote Networks:** Hardware-level integration of **FortiGate (Azure)** and **Cisco (AWS)** via BGP/IPSec tunnels. |
+| **Network Integration** | **Router-to-PoP Handshake:** The FortiGate NVA initiates a dynamic BGP peering session to the nearest Entra GSA Point of Presence (PoP). This protects the entire branch (AWS/Azure Spokes) without requiring local client installs on every server or IoT device. |
+| **IaC Strategy** | **Multi-Provider Automation:** Using the `microsoft-graph` Terraform provider to automate GSA "Remote Network" containers and "Private Access" application segments. Using `fortios` and `iosxe` providers to automate the complex IPSec/BGP handshake. |
+| **Acceptance Criteria** | 1. Legacy Azure VPN Gateway successfully decommissioned. 2. Remote User access to internal resources verified via GSA Client (No VPN adapter present). 3. BGP peering state between NVAs and GSA PoPs is "Established." |
+| **Validation** | From a remote client: Verify RDP to Spoke VMs fails without the GSA client (Network unreachable) but succeeds once authenticated via Entra MFA/Conditional Access. |
+| **Evidence** | `docs/release2/evidence/O4/`: Terraform code for the tunnel setup, Entra Traffic Logs showing User-to-App level auditing, and screenshots of the GSA Connection Diagnostics. |
 
-### 2. Operational Architecture (The Secure Edge)
-This diagram illustrates the dual-path integration: software clients for remote users and NVA-based "Remote Networks" for branch/cloud-to-cloud security.
+### 2. Operational Architecture (The Identity-Centric Edge)
+This illustrates the replacement of the legacy VPN with an identity-aware SSE fabric that supports both remote users and site-wide router integration.
 
        [ Remote User ] ──────(GSA Client)──────┐
-                                              ▼
+       (Legacy P2S Migration)                 ▼
                                 [ Microsoft Entra GSA Edge ]
-                                (Identity-Aware Inspection)
+                                (Identity & Device Compliance)
                                               │
                 ┌─────────────────────────────┼─────────────────────────────┐
                 ▼                             ▼                             ▼
         [ Private Access ]            [ Microsoft 365 ]             [ Internet Access ]
-        (ZTNA / App Proxies)          (Tenant Restrictions)         (SWG / Web Filtering)
+        (ZTNA / No VPN Adapter)       (Tenant Restrictions)         (SWG / Web Filtering)
                 │                             │                             │
     ┌───────────┴───────────┐                 │               ┌─────────────┴─────────────┐
     ▼ (Remote Networks)     ▼                 ▼               ▼                           ▼
 [ FortiGate (Azure) ]  [ Cisco (AWS) ]   [ SharePoint ]    [ Public Web ]          [ SaaS Apps ]
-(ASN: 65515)           (ASN: 65002)      (Exchange)        (Filtered)              (Sanctioned)
+(BGP / IPSec)          (BGP / IPSec)     (Optimized)       (Filtered)              (Secure)
 
 ### 3. FinOps & Strategic Value
-*   **License Consolidation:** Replaces standalone SWG (e.g., Zscaler), VPN (e.g., AnyConnect), and CASB licenses with a single **Entra Suite** trial/subscription, potentially reducing security licensing costs by **40%**.
-*   **Egress Cost Management:** Utilizing GSA’s global network to optimize routing. By steering M365 traffic directly to the nearest Microsoft PoP from the **FortiGate NVA**, we reduce unnecessary data traversal across the expensive Azure backbone.
-*   **Credit Conservation ($200 Budget):** Automation via Terraform ensures the "Remote Network" tunnels and NVA-side VPN interfaces are destroyed instantly when not testing, preventing passive consumption of the $200 Azure/AWS credits.
+*   **The "VPN Killer" Savings:** By decommissioning the **Azure VPN Gateway (VpnGw1)**, we eliminate roughly **$138/month** in passive infrastructure costs.
+*   **License Consolidation:** Replaces standalone SWG (Zscaler), VPN (AnyConnect), and Proxy licenses with a single **Entra Suite** trial, reducing security TCO by up to **40%**.
+*   **Infrastructure Reduction:** Removes the administrative overhead of managing OpenVPN certificates, client configuration files, and static IP pools for remote users.
+*   **Credit Conservation ($200 Budget):** Automated Terraform "teardown" ensures that expensive IPSec tunnels and NVA compute resources are only active during validation windows.
 
 ### 4. Recruiter Hook
-"Architected a comprehensive **Security Service Edge (SSE)** solution by integrating **Microsoft Entra Global Secure Access** with a multi-cloud NVA backbone. Orchestrated the deployment using **Terraform (Microsoft Graph & FortiOS providers)** to establish identity-centric Zero Trust access, replacing legacy VPN silos with a unified, cost-optimized security fabric spanning AWS, Azure, and on-premises sites."
+"Successfully migrated a legacy **OpenVPN Point-to-Site** environment to a modern **Security Service Edge (SSE)** fabric using **Microsoft Entra Global Secure Access**. Orchestrated the transition via **Terraform (Microsoft Graph API)**, integrating FortiGate and Cisco routers to establish a unified Zero Trust perimeter. This approach replaced network-level VPNs with identity-centric access, significantly reducing cloud infrastructure costs and improving security posture."
 
 ---
 
