@@ -1733,3 +1733,1016 @@ az consumption usage list --top 5 --output table
 ```
 
 ---
+
+
+# Phase O1: Integrated Security Hub – Dual‑Firewall (Azure Firewall + FortiGate NVA)
+
+## Objective
+Deploy FortiGate NVA in a dedicated spoke, configure functional traffic separation: Azure Firewall handles internet egress (`0.0.0.0/0`), FortiGate handles East‑West and hybrid traffic (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`).
+
+## Step-by-Step Actions
+
+### Step O1.1: Deploy FortiGate NVA (ephemeral)
+Using Terraform – deploy a Linux VM from FortiGate marketplace image:
+```hcl
+# terraform/modules/fortigate/main.tf
+data "azurerm_platform_image" "fortigate" {
+  publisher = "fortinet"
+  offer     = "fortinet_fortigate-vm_v5"
+  sku       = "fortinet_fg-vm_payg_2023"
+}
+
+resource "azurerm_public_ip" "fortigate" {
+  name                = "pip-fortigate-uksouth-01"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
+resource "azurerm_network_interface" "fortigate_mgmt" {
+  name                = "nic-fortigate-mgmt-01"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "mgmt"
+    subnet_id                     = var.mgmt_subnet_id   # snet-mgmt in hub
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.fortigate.id
+  }
+}
+
+resource "azurerm_network_interface" "fortigate_trust" {
+  name                = "nic-fortigate-trust-01"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "trust"
+    subnet_id                     = var.trust_subnet_id   # snet-workload (spoke)
+    private_ip_address_allocation = "Static"
+    private_ip_address            = "10.1.1.4"
+  }
+}
+
+resource "azurerm_linux_virtual_machine" "fortigate" {
+  name                = "vm-dev-fortigate-01"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  size                = "Standard_B2s"
+  admin_username      = "azureuser"
+  admin_password      = random_password.fortigate_admin.result
+  network_interface_ids = [
+    azurerm_network_interface.fortigate_mgmt.id,
+    azurerm_network_interface.fortigate_trust.id
+  ]
+
+  source_image_id = data.azurerm_platform_image.fortigate.id
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "StandardSSD_LRS"
+  }
+
+  tags = {
+    Ephemeral = "true"
+  }
+}
+```
+
+### Step O1.2: Configure UDRs for functional separation
+Update route tables to send internal traffic (`10.0.0.0/8`) to FortiGate, internet traffic (`0.0.0.0/0`) to Azure Firewall.
+```hcl
+# Additional routes in existing route table
+resource "azurerm_route" "internal_to_fortigate" {
+  name                   = "internal-to-fortigate"
+  route_table_name       = azurerm_route_table.udr_to_firewall.name
+  resource_group_name    = var.resource_group_name
+  address_prefix         = "10.0.0.0/8"
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = "10.1.1.4"   # FortiGate trust IP
+}
+
+# Keep existing default route (0.0.0.0/0) pointing to Azure Firewall (10.0.1.4)
+```
+
+### Step O1.3: Configure FortiGate firewall policies (via shell provisioner or Ansible)
+Example CLI snippet to allow East‑West traffic:
+```bash
+# SSH into FortiGate (using mgmt public IP)
+config firewall policy
+    edit 1
+        set name "allow-spoke-to-spoke"
+        set srcintf "trust"
+        set dstintf "trust"
+        set srcaddr "10.0.0.0/8"
+        set dstaddr "10.0.0.0/8"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+    next
+end
+```
+
+### Step O1.4: Validate traffic flow
+From spoke VM (`vm-dev-client-01`):
+```bash
+# Internet traffic should go through Azure Firewall
+curl -v [https://microsoft.com](https://microsoft.com)   # success (allowed by AzFW)
+curl -v [http://example.com](http://example.com)      # blocked by AzFW (logged)
+
+# East-West traffic to another spoke (or simulated) should go through FortiGate
+ping 10.2.0.4   # should succeed, trace route shows FortiGate IP (10.1.1.4)
+```
+
+## Validation Checklist
+- [ ] FortiGate VM is running (public IP accessible for management).
+- [ ] UDRs show two next‑hop entries: `0.0.0.0/0` → Azure Firewall, `10.0.0.0/8` → FortiGate.
+- [ ] `traceroute` from spoke VM to another internal IP shows FortiGate as hop.
+- [ ] Firewall logs (Azure Firewall) show internet egress; FortiGate logs show East‑West.
+
+## Text Diagram – Phase O1 Resources
+```
+PHASE O1: DUAL-FIREWALL (AZFW + FORTIGATE)
+===========================================
+
+[Hub VNet: vnet-dev-uksouth-hub] (10.0.0.0/16)
+         │
+         ├── [Azure Firewall: afw-dev-uksouth-01] (10.0.1.4)
+         │         └── Handles: 0.0.0.0/0 (internet egress)
+         │
+         ├── [Subnet: snet-mgmt] (10.0.4.0/24)
+         │
+         └── [Route Table: rt-udr-to-firewall-uksouth] (attached to spoke subnets)
+               ├── route default: 0.0.0.0/0 → 10.0.1.4 (AzFW)
+               └── route internal: 10.0.0.0/8 → 10.1.1.4 (FortiGate)
+
+[Spoke Workload VNet: vnet-dev-uksouth-spoke-workload] (10.1.0.0/16)
+         │
+         ├── [Subnet: snet-workload] (10.1.0.0/24)
+         │         ├── VM: vm-dev-client-01 (10.1.0.4)
+         │         └── FortiGate trust NIC: 10.1.1.4
+         │
+         └── [FortiGate NVA: vm-dev-fortigate-01] (ephemeral)
+               ├── Mgmt NIC (public IP) – for configuration
+               └── Trust NIC (10.1.1.4) – East-West inspection
+
+Traffic flow:
+  10.1.0.4 → 8.8.8.8 (internet)   → UDR default → AzFW (10.0.1.4) → internet
+  10.1.0.4 → 10.2.0.4 (internal) → UDR internal → FortiGate (10.1.1.4) → peered VNet
+
+LEGEND:
+======>
+[Azure Firewall]      Cloud-native internet egress
+[FortiGate NVA]       Third-party BGP & East-West inspection
+{ephemeral}           Destroy after validation
+```
+
+### FinOps Teardown for O1
+```bash
+terraform destroy -target=azurerm_linux_virtual_machine.fortigate -auto-approve
+# Also delete associated public IP, NICs, and disk
+terraform destroy -target=azurerm_public_ip.fortigate -auto-approve
+```
+
+---
+
+# Phase O2: Hybrid Cloud Management – Azure Arc
+
+## Objective
+Install Azure Arc agent on an on‑premises (or Hyper‑V) virtual machine, project it into Azure Resource Manager, and enforce an Azure Policy (e.g., tag enforcement) on the Arc‑connected machine.
+
+**Note:** This phase assumes you have a local Hyper‑V VM (Windows or Linux) with outbound internet access.
+
+## Step-by-Step Actions
+
+### Step O2.1: Generate Arc onboarding script
+```bash
+# From Azure CLI (logged into target subscription)
+az connectedmachine onboarding --resource-group rg-dev-arc-uksouth --location uksouth --generate-script --output-file arc-onboard.ps1
+```
+
+### Step O2.2: Run the script on the on‑premises VM (as Administrator)
+```powershell
+# On the local VM (e.g., Windows Server 2019)
+.\arc-onboard.ps1
+```
+
+### Step O2.3: Verify connected machine in Azure
+```bash
+az connectedmachine list --resource-group rg-dev-arc-uksouth --output table
+# Expected output: shows your on-prem VM (e.g., "vm-onprem-dc1" or "hyperv-vm-01")
+```
+
+### Step O2.4: Apply a test Azure Policy to the Arc machine
+Assign a policy that enforces a tag (e.g., "ArcManaged: true"):
+```hcl
+# Terraform resource for policy assignment at resource group scope
+resource "azurerm_resource_group_policy_assignment" "arc_tags" {
+  name                 = "polassign-arc-mandatory-tags"
+  resource_group_id    = azurerm_resource_group.arc.id
+  policy_definition_id = azurerm_policy_definition.mandatory_tags.id
+  parameters = jsonencode({
+    "tagName" = { value = "ArcManaged" }
+    "tagValue" = { value = "true" }
+  })
+}
+```
+
+### Step O2.5: Validate policy compliance
+```bash
+# On the Arc VM, check if policy is enforced (tag missing should cause deny)
+az tag create --resource-id $(az connectedmachine show --name <vm-name> --resource-group rg-dev-arc-uksouth --query id -o tsv) --tags ArcManaged=true
+```
+
+## Validation Checklist
+- [ ] `az connectedmachine list` shows the on‑prem VM with status "Connected".
+- [ ] Azure Policy assignment appears in compliance view.
+- [ ] The VM can be managed via Azure CLI (e.g., `az connectedmachine show`).
+
+## Text Diagram – Phase O2 Resources
+
+```
+PHASE O2: AZURE ARC (HYBRID PROJECTION)
+========================================
+
+[On-Premises / Hyper-V Lab]
+         │
+         ├── [Local VM: hyperv-vm-01] (Windows Server / Linux)
+         │         │
+         │         └── (Azure Arc agent installed) → outbound HTTPS to ARM
+         │
+         │
+         ▼
+[Azure Resource Manager]
+         │
+         └── [Resource Group: rg-dev-arc-uksouth]
+               │
+               └── [Connected Machine: hyperv-vm-01] (projected)
+                     │
+                     ├── Azure Policy: mandatory tags (ArcManaged=true)
+                     └── Can be managed like native VM (extensions, policies, logs)
+
+Logs flow to Log Analytics (optional) if agent configured.
+
+LEGEND:
+======>
+[Connected Machine]   On-prem resource projected into Azure
+[Azure Arc agent]     Bi-directional communication channel
+```
+
+---
+
+# Phase O3a: Dynamic Routing Foundation – FortiGate to On‑Prem HQ (BGP over IPSec)
+
+## Objective
+Establish an IPSec tunnel between FortiGate NVA (Azure) and Hyper‑V RRAS (on‑prem), then configure BGP (ASN 65515 for FortiGate, ASN 65001 for HQ) to dynamically exchange routes.
+
+## Step-by-Step Actions
+
+### Step O3a.1: Create IPSec tunnel on FortiGate
+Using FortiOS provider or CLI (via SSH):
+```bash
+config vpn ipsec phase1-interface
+    edit "to-hq"
+        set interface "trust"
+        set ike-version 2
+        set peertype any
+        set proposal aes256-sha256
+        set local-gw 10.1.1.4
+        set remote-gw 192.168.1.1   # Public IP of HQ RRAS (or private if NAT)
+        set psksecret "YourPreSharedKey"
+    next
+end
+
+config vpn ipsec phase2-interface
+    edit "to-hq"
+        set phase1name "to-hq"
+        set proposal aes256-sha256
+        set pfs enable
+        set auto-negotiate enable
+        set keylifeseconds 3600
+    next
+end
+```
+
+### Step O3a.2: Configure BGP on FortiGate
+```bash
+config router bgp
+    set as 65515
+    set router-id 10.1.1.4
+    config neighbor
+        edit "192.168.1.1"
+            set remote-as 65001
+            set soft-reconfiguration enable
+            set next-hop-self enable
+        next
+    end
+    config network
+        edit 1
+            set prefix 10.0.0.0 255.0.0.0
+        next
+        edit 2
+            set prefix 172.16.0.0 255.240.0.0
+        next
+    end
+end
+```
+
+### Step O3a.3: On Hyper‑V RRAS (Windows Server), configure BGP peer
+```powershell
+# Install Remote Access role with BGP
+Install-WindowsFeature RemoteAccess -IncludeManagementTools
+
+# Add BGP router
+Add-BgpRouter -BgpIdentifier 192.168.1.1 -LocalASN 65001
+
+# Add BGP peer (FortiGate IP)
+Add-BgpPeer -Name "AzureFortiGate" -LocalIPAddress 192.168.1.1 -PeerIPAddress 10.1.1.4 -PeerASN 65515
+
+# Advertise on‑prem route
+Add-BgpRouteNetwork -Network 192.168.1.0/24 -NextHop 192.168.1.1
+```
+
+### Step O3a.4: Validate BGP peering
+```bash
+# On FortiGate CLI
+get router info bgp summary
+# Expected output: "Neighbor 192.168.1.1 AS 65001 State: Established"
+
+get router info routing-table bgp
+# Expected: 192.168.1.0/24 learned via BGP
+```
+
+## Validation Checklist
+- [ ] IPSec tunnel status is "up" (FortiGate: `diagnose vpn ike gateway list`).
+- [ ] BGP state is "Established" (`get router info bgp summary`).
+- [ ] Spoke VM effective routes show `192.168.1.0/24` with next hop FortiGate IP (10.1.1.4).
+- [ ] `ping 192.168.1.10` from spoke VM succeeds through tunnel.
+
+## Text Diagram – Phase O3a Resources
+```
+PHASE O3a: BGP OVER IPSEC (AZURE FORTIGATE ↔ ON-PREM HQ)
+========================================================
+
+[Azure Hub – FortiGate NVA: vm-dev-fortigate-01]
+   ASN: 65515
+   BGP Router ID: 10.1.1.4
+         │
+         │ (IPSec tunnel – IKEv2 / AES256)
+         │ (BGP peering over tunnel)
+         ▼
+[On-Premises HQ – Hyper-V RRAS]
+   ASN: 65001
+   BGP Router ID: 192.168.1.1
+   Advertised routes: 192.168.1.0/24
+
+Routes exchanged:
+   FortiGate advertises: 10.0.0.0/8, 172.16.0.0/12
+   RRAS advertises: 192.168.1.0/24
+
+Spoke VM: vm-dev-client-01 (10.1.0.4)
+   Effective route: 192.168.1.0/24 → NextHop: 10.1.1.4 (FortiGate)
+
+Result: Azure workloads can reach on-prem servers (and vice versa).
+
+LEGEND:
+======>
+[IPSec tunnel]        Encrypted VPN
+[BGP]                 Dynamic route exchange
+```
+
+---
+
+# Phase O3b: Multi-Cloud Foundation – AWS Cisco NVA with Segmented Peering
+
+## Objective
+Deploy a Cisco Catalyst 8000V NVA in an AWS VPC (with DMZ and Trusted subnets), establish BGP peering with Azure FortiGate, and selectively advertise DMZ (172.16.2.0/24) vs. Trusted (172.16.1.0/24) routes.
+
+## Step-by-Step Actions
+
+### Step O3b.1: Deploy AWS VPC and Cisco NVA using Terraform (AWS provider)
+```hcl
+# provider "aws" configured separately
+resource "aws_vpc" "branch" {
+  cidr_block = "172.16.0.0/16"
+  tags = { Name = "vpc-azawslab-branch" }
+}
+
+resource "aws_subnet" "trusted" {
+  vpc_id            = aws_vpc.branch.id
+  cidr_block        = "172.16.1.0/24"
+  availability_zone = "us-east-1a"
+  tags = { Name = "subnet-trusted" }
+}
+
+resource "aws_subnet" "dmz" {
+  vpc_id            = aws_vpc.branch.id
+  cidr_block        = "172.16.2.0/24"
+  availability_zone = "us-east-1a"
+  tags = { Name = "subnet-dmz" }
+}
+
+# Cisco 8000V AMI (example – replace with actual)
+data "aws_ami" "cisco" {
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["Cisco Cloud Services Router (CSR) 1000V *"]
+  }
+  owners = ["679593333241"]
+}
+
+resource "aws_instance" "cisco" {
+  ami           = data.aws_ami.cisco.id
+  instance_type = "t3.medium"
+  subnet_id     = aws_subnet.trusted.id
+  associate_public_ip_address = true
+  tags = { Name = "cisco-dev-branch-01" }
+}
+```
+
+### Step O3b.2: Configure Cisco IOS‑XE for BGP (selective advertisement)
+```bash
+# SSH to Cisco instance
+configure terminal
+router bgp 65002
+ bgp router-id 172.16.1.10
+ neighbor 10.1.1.4 remote-as 65515   # Azure FortiGate IP (over IPSec tunnel)
+ neighbor 10.1.1.4 activate
+ !
+ address-family ipv4
+  network 172.16.1.0 mask 255.255.255.0   # Advertise Trusted
+  network 172.16.2.0 mask 255.255.255.0   # Advertise DMZ
+  neighbor 10.1.1.4 activate
+ exit-address-family
+end
+write memory
+```
+
+### Step O3b.3: Establish IPSec tunnel between Cisco and FortiGate (similar to O3a but with AWS public IPs)
+(Steps omitted for brevity – symmetric to O3a.)
+
+### Step O3b.4: Verify BGP routes on FortiGate
+```bash
+get router info routing-table bgp
+# Should show:
+#   172.16.1.0/24 via 10.1.1.10 (Cisco)
+#   172.16.2.0/24 via 10.1.1.10
+```
+
+## Validation Checklist
+- [ ] AWS Cisco instance is running and reachable.
+- [ ] BGP peering to FortiGate is Established (`show ip bgp summary` on Cisco).
+- [ ] FortiGate routing table includes both 172.16.1.0/24 and 172.16.2.0/24.
+- [ ] Spoke VM (`vm-dev-client-01`) can ping 172.16.1.10 (Cisco trusted NIC) via FortiGate.
+
+## Text Diagram – Phase O3b Resources
+```
+PHASE O3b: AWS CISCO NVA (SEGMENTED PEERING)
+=============================================
+
+[AWS VPC: 172.16.0.0/16]
+         │
+         ├── [Subnet: Trusted] (172.16.1.0/24) → Cisco NVA NIC: 172.16.1.10
+         ├── [Subnet: DMZ] (172.16.2.0/24)
+         │
+         └── [Cisco Catalyst 8000V: cisco-dev-branch-01] (ASN 65002)
+               │
+               │ (BGP over IPSec)
+               ▼
+[Azure FortiGate: vm-dev-fortigate-01] (ASN 65515)
+         │
+         └── (learns routes) → 172.16.1.0/24 (Trusted), 172.16.2.0/24 (DMZ)
+
+Selective advertisement (Cisco config):
+  network 172.16.1.0 mask 255.255.255.0   # Trusted segment
+  network 172.16.2.0 mask 255.255.255.0   # DMZ segment
+  # No "redistribute connected" – only these two prefixes.
+
+Azure Spoke VM can reach both subnets via FortiGate.
+
+LEGEND:
+======>
+[Cisco NVA]           Multi-cloud BGP router
+[Trusted / DMZ]       Logical workload segments
+```
+
+### FinOps Teardown for O3b
+```bash
+# From AWS CLI / Terraform
+terraform -chdir=aws/ destroy -auto-approve
+# Also remove IPSec tunnel configuration from FortiGate (Terraform destroy)
+```
+
+---
+
+# Phase O3c: Multi-Cloud Transitive Routing (The Global Hub)
+
+## Objective
+Enable transitive routing through the Azure FortiGate so that AWS branch and On‑Prem HQ can communicate via the Azure hub (without direct VPN).
+
+## Step-by-Step Actions
+
+### Step O3c.1: Configure FortiGate to readvertise routes between BGP peers
+On FortiGate, enable route redistribution:
+```bash
+config router bgp
+    config neighbor
+        edit "192.168.1.1"   # HQ
+            set route-reflector-client enable   # or simply ensure no filtering
+        next
+        edit "172.16.1.10"   # AWS Cisco
+            set route-reflector-client enable
+        next
+    end
+    config network
+        # Already advertising Azure prefixes
+    end
+    set ibgp-multipath enable
+end
+```
+
+### Step O3c.2: Ensure no inbound route filtering (default accept)
+```bash
+config router prefix-list
+    edit "allow-all"
+        config rule
+            edit 1
+                set action permit
+                set prefix 0.0.0.0 0.0.0.0
+                set ge 0 le 32
+            next
+        end
+    next
+end
+```
+
+### Step O3c.3: Verify transit routing
+From AWS Cisco NVA, attempt to ping on‑prem HQ server (192.168.1.10):
+
+```bash
+# On AWS Cisco
+ping 192.168.1.10 source 172.16.1.10
+# Should succeed, with traceroute showing Azure FortiGate IP (10.1.1.4) as transit.
+
+# On on‑prem HQ, ping AWS DMZ instance (172.16.2.10)
+ping 172.16.2.10
+```
+
+### Step O3c.4: Capture traceroute evidence
+```bash
+# From AWS Cisco
+traceroute 192.168.1.10
+# Output should show:
+# 1 172.16.1.4 (FortiGate trust IP) ... then 192.168.1.1 (HQ RRAS)
+
+# Save output
+traceroute 192.168.1.10 > docs/release2/evidence/O3c/traceroute-aws-to-hq.txt
+```
+
+## Validation Checklist
+- [ ] BGP tables on FortiGate contain both HQ and AWS prefixes.
+- [ ] AWS Cisco can ping on‑prem HQ server.
+- [ ] On‑prem HQ can ping AWS DMZ instance.
+- [ ] Traceroute shows Azure FortiGate as transit hop (proving hub‑spoke model).
+
+## Text Diagram – Phase O3c Resources
+```
+PHASE O3c: TRANSITIVE ROUTING (GLOBAL HUB)
+===========================================
+
+                    [Azure FortiGate NVA] (ASN 65515)
+                    (Transit Hub – route reflector)
+                           /        \
+                          /          \
+   (BGP over IPSec)     /             \      (BGP over IPSec)
+                        /               \
+                       ▼                 ▼
+[On-Prem HQ]                      [AWS Branch]
+ (ASN 65001)                        (ASN 65002)
+ 192.168.1.0/24                    172.16.1.0/24
+                                   172.16.2.0/24
+
+Route propagation:
+  - HQ learns: 172.16.1.0/24, 172.16.2.0/24 via FortiGate
+  - AWS learns: 192.168.1.0/24 via FortiGate
+
+Traffic flow (AWS → HQ):
+  172.16.2.10 → (tunnel) → FortiGate (10.1.1.4) → (tunnel) → 192.168.1.10
+
+Verification:
+  traceroute from AWS to HQ shows Azure FortiGate as middle hop.
+
+LEGEND:
+======>
+[Transit Hub]         Central BGP route reflector
+[Global Hub]          True multi-cloud hybrid connectivity
+```
+
+### FinOps Teardown for O3c
+No additional resources – depends on FortiGate and Cisco NVAs. Destroy those previous ephemeral resources:
+```bash
+terraform destroy -target=azurerm_linux_virtual_machine.fortigate -auto-approve
+terraform -chdir=aws/ destroy -auto-approve
+```
+
+---
+
+# Phase O4: Unified Zero Trust Edge – Entra Global Secure Access (GSA)
+
+## Objective
+Replace legacy Azure VPN Gateway (OpenVPN P2S) with Microsoft Entra Global Secure Access (SSE edge). Configure Private Access for RDP to `vm-dev-client-01` (no VPN client required), Internet Access for web filtering, and optionally Remote Networks for router‑to‑PoP BGP.
+
+## Step-by-Step Actions
+
+### Step O4.1: Enable GSA in Entra admin centre (UI or Graph API)
+```powershell
+# Using Microsoft Graph PowerShell (requires Global Admin)
+Connect-MgGraph -Scopes "NetworkAccess.ReadWrite.All"
+
+# Enable Private Access (ZTNA)
+Update-MgNetworkAccessSetting -NetworkAccessSettingId "PrivateAccess" -Enabled $true
+
+# Enable Internet Access (SWG)
+Update-MgNetworkAccessSetting -NetworkAccessSettingId "InternetAccess" -Enabled $true
+```
+
+### Step O4.2: Deploy Private Access connector (VM in Azure)
+```hcl
+# terraform/modules/gsa_connector/main.tf
+resource "azurerm_windows_virtual_machine" "gsa_connector" {
+  name                = "vm-dev-gsa-connector-01"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  size                = "Standard_B2s"
+  admin_username      = "azureuser"
+  admin_password      = random_password.gsa_connector.result
+  network_interface_ids = [azurerm_network_interface.gsa_connector.id]
+
+  source_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2022-Datacenter"
+    version   = "latest"
+  }
+}
+
+resource "azurerm_network_interface" "gsa_connector" {
+  name                = "nic-gsa-connector-01"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = var.subnet_id   # management subnet (10.0.4.0/24)
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+```
+
+After VM creation, install the GSA connector agent (download from Entra admin centre) and register it.
+
+### Step O4.3: Create Private Access application segment for RDP
+Using Microsoft Graph API:
+```json
+// docs/release2/evidence/O4/private-access-segment.json
+{
+  "name": "Seg-Corp-RDP",
+  "applicationSegments": [
+    {
+      "destinationHost": "10.1.0.4",
+      "ports": ["3389"],
+      "protocol": "TCP"
+    }
+  ],
+  "connectorGroupId": "<connector-group-id>"
+}
+```
+
+Upload via PowerShell:
+```powershell
+$body = Get-Content -Raw .\private-access-segment.json
+Invoke-MgGraphRequest -Method POST -Uri "[https://graph.microsoft.com/beta/networkAccess/applicationSegments](https://graph.microsoft.com/beta/networkAccess/applicationSegments)" -Body $body
+```
+
+### Step O4.4: Configure Conditional Access policy to require GSA
+In Entra admin centre → Protection → Conditional Access → New policy:
+- Users: `azw-Test-Users`
+- Target resources: Private Access app (RDP segment)
+- Grant: "Require compliant device" or "Require Global Secure Access"
+- Session: "Use Global Secure Access"
+
+### Step O4.5: Validate access (no VPN required)
+On a client device (Windows/macOS) with GSA client installed and signed in:
+```powershell
+# Without GSA – RDP should fail (network unreachable)
+Test-NetConnection 10.1.0.4 -Port 3389   # fails
+
+# After GSA client connects – traffic is tunneled via ZTNA
+# RDP should succeed to vm-dev-client-01 (private IP)
+mstsc /v:10.1.0.4
+```
+
+### Step O4.6: (Optional) Remote Networks – BGP from FortiGate to GSA PoP
+Replace legacy VPN Gateway by peering FortiGate directly to Entra GSA PoP. This step is complex and requires Entra GSA premium trial.
+```bash
+# On FortiGate – configure IPSec to GSA PoP (pre‑shared key provided by Entra)
+config vpn ipsec phase1-interface
+    edit "to-gsa-pop"
+        set interface "trust"
+        set ike-version 2
+        set remote-gw <gsa-pop-public-ip>
+        set psksecret "<psk>"
+    next
+end
+```
+
+Then create a "Remote Network" in Entra admin centre and associate with the BGP peer.
+
+## Validation Checklist
+- [ ] GSA Private Access connector VM status = "Active" in Entra.
+- [ ] RDP to `10.1.0.4` succeeds only when GSA client is running (proves ZTNA).
+- [ ] Azure VPN Gateway can be decommissioned (no more $138/month).
+- [ ] (Optional) BGP session to GSA PoP shows "Established".
+
+## Text Diagram – Phase O4 Resources
+```text
+PHASE O4: ENTRA GLOBAL SECURE ACCESS (SSE EDGE)
+================================================
+
+[Remote User Laptop]
+         │
+         ├── (GSA client – no VPN adapter)
+         │     └── Identity + device compliance (Conditional Access)
+         ▼
+[Entra GSA Edge – Point of Presence (PoP)]
+         │
+         ├── Private Access (ZTNA)
+         │         └── (connector: vm-dev-gsa-connector-01 in mgmt subnet)
+         │
+         ├── Internet Access (SWG)
+         │         └── Web filtering, tenant restrictions
+         │
+         └── Remote Networks (optional BGP)
+               └── IPSec tunnel to FortiGate (Azure)
+
+Traffic flow (RDP to private VM):
+  User → GSA client → GSA PoP → connector VM → spoke VM (10.1.0.4)
+  No public IP, no inbound firewall rule – true Zero Trust.
+
+Legacy VPN Gateway (vpngw-dev-uksouth) – DECOMMISSIONED.
+Savings: ~$138/month.
+
+LEGEND:
+======>
+[GSA client]          Identity‑based tunnel
+[Private Access]      ZTNA – no inbound firewall required
+```
+
+### FinOps Teardown for O4
+```bash
+# Decommission legacy VPN Gateway (if still running)
+terraform destroy -target=azurerm_virtual_network_gateway.vpngw -auto-approve
+
+# Remove GSA connector VM (if not needed)
+terraform destroy -target=azurerm_windows_virtual_machine.gsa_connector -auto-approve
+
+# In Entra admin centre, disable GSA features or leave (no cost if not used)
+```
+
+---
+
+# Phase O5: Modern End-User Computing – AVD & FSLogix
+
+## Objective
+Deploy Azure Virtual Desktop (AVD) with pooled session hosts (Windows 11 Multi‑session), FSLogix profile containers on Azure Files (premium), and auto‑scaling (power on/off). Integrate with Entra GSA (from O4) for Zero Trust access.
+
+## Step-by-Step Actions
+
+### Step O5.1: Deploy AVD host pool, workspace, and application group (Terraform)
+```hcl
+# terraform/modules/avd/main.tf
+resource "azurerm_virtual_desktop_host_pool" "pooled" {
+  name                 = "hp-dev-pooled"
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  type                 = "Pooled"
+  load_balancer_type   = "BreadthFirst"
+  maximum_sessions_allowed = 10
+
+  custom_rdp_properties = "targetisaadjoined:i:1;useavadmsgextension:i:1;"
+}
+
+resource "azurerm_virtual_desktop_application_group" "desktop" {
+  name                 = "dag-dev-desktop"
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  type                 = "Desktop"
+  host_pool_id         = azurerm_virtual_desktop_host_pool.pooled.id
+  friendly_name        = "Development Desktop"
+  description          = "Windows 11 Multi-session AVD"
+}
+
+resource "azurerm_virtual_desktop_workspace" "avd" {
+  name                = "ws-dev-uksouth"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  friendly_name       = "Azawslab AVD Workspace"
+  description         = "Central AVD workspace"
+}
+
+resource "azurerm_virtual_desktop_workspace_application_group_association" "link" {
+  workspace_id         = azurerm_virtual_desktop_workspace.avd.id
+  application_group_id = azurerm_virtual_desktop_application_group.desktop.id
+}
+```
+
+### Step O5.2: Deploy session host VMs (pooled, ephemeral)
+```hcl
+resource "azurerm_network_interface" "avd_session" {
+  count               = 2
+  name                = "nic-avd-session-0${count.index+1}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = var.avd_subnet_id   # snet-avd-sessionhosts
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+resource "azurerm_windows_virtual_machine" "avd_session" {
+  count                 = 2
+  name                  = "vm-dev-avdsession-0${count.index+1}"
+  resource_group_name   = var.resource_group_name
+  location              = var.location
+  size                  = "Standard_B2s"   # ephemeral – destroy after test
+  admin_username        = "azureuser"
+  admin_password        = var.admin_password   # from Key Vault
+  network_interface_ids = [azurerm_network_interface.avd_session[count.index].id]
+
+  source_image_reference {
+    publisher = "MicrosoftWindowsDesktop"
+    offer     = "windows-11"
+    sku       = "win11-22h2-avd-m365"
+    version   = "latest"
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "StandardSSD_LRS"
+  }
+
+  tags = {
+    Ephemeral = "true"
+  }
+}
+
+resource "azurerm_virtual_desktop_host_pool_registration_info" "avd" {
+  hostpool_id     = azurerm_virtual_desktop_host_pool.pooled.id
+  expiration_date = timeadd(timestamp(), "8h")
+  token           = azurerm_virtual_desktop_host_pool.pooled.registration_token
+}
+```
+
+### Step O5.3: Deploy Azure Files premium share for FSLogix
+```hcl
+resource "azurerm_storage_account" "fslogix" {
+  name                     = "stdevfslogix001"
+  resource_group_name      = var.resource_group_name
+  location                 = var.location
+  account_tier             = "Premium"
+  account_kind             = "FileStorage"
+  replication_type         = "LRS"
+  enable_https_traffic_only = true
+}
+
+resource "azurerm_storage_share" "fslogix" {
+  name                 = "share-dev-fslogix"
+  storage_account_name = azurerm_storage_account.fslogix.name
+  quota                = 100   # GB
+}
+```
+
+### Step O5.4: Configure FSLogix on session hosts (via DSC or Ansible)
+Example PowerShell script to run on each session host:
+```powershell
+# Install FSLogix agent
+$uri = "[https://aka.ms/fslogix_download](https://aka.ms/fslogix_download)"
+$installer = "C:\temp\FSLogix_x64.msi"
+Invoke-WebRequest -Uri $uri -OutFile $installer
+msiexec /i $installer /quiet
+
+# Configure registry
+$regPath = "HKLM:\SOFTWARE\FSLogix\Profiles"
+New-Item -Path $regPath -Force
+Set-ItemProperty -Path $regPath -Name "Enabled" -Value 1 -Type DWord
+Set-ItemProperty -Path $regPath -Name "VHDLocations" -Value "\\stdevfslogix001.file.core.windows.net\share-dev-fslogix" -Type String
+Set-ItemProperty -Path $regPath -Name "SizeInMBs" -Value 30000 -Type DWord
+```
+
+### Step O5.5: Configure auto‑scaling (scaling plan)
+Using Azure CLI (Terraform support limited):
+```bash
+az desktopvirtualization scaling-plan create \
+  --name "sp-dev-avd-scaling" \
+  --resource-group rg-dev-avd-uksouth \
+  --location uksouth \
+  --time-zone "GMT Standard Time" \
+  --schedule '{
+    "name": "Weekday",
+    "daysOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+    "rampUpStartTime": "08:00",
+    "rampUpLoadBalancingAlgorithm": "BreadthFirst",
+    "peakStartTime": "10:00",
+    "peakLoadBalancingAlgorithm": "DepthFirst",
+    "rampDownStartTime": "18:00",
+    "rampDownLoadBalancingAlgorithm": "BreadthFirst",
+    "offPeakLoadBalancingAlgorithm": "BreadthFirst"
+  }'
+```
+
+### Step O5.6: Validate FSLogix roaming
+Test procedure:
+1. User logs into `vm-dev-avdsession-01`, creates a desktop file.
+2. Logs out (profile unloads, FSLogix container saved).
+3. User logs into `vm-dev-avdsession-02` (different host).
+4. Desktop file appears – proves profile container follows the user.
+
+### Step O5.7: Integrate with Entra GSA (from O4)
+Add the AVD app (workspace URL) as a Private Access segment in GSA. Users can now access AVD without VPN.
+
+## Validation Checklist
+- [ ] AVD workspace shows as "Available" in Entra admin centre / Remote Desktop client.
+- [ ] FSLogix registry keys present on session hosts.
+- [ ] Roaming test passes (file persists across different session hosts).
+- [ ] Auto‑scaling plan shows hosts powered off during off‑peak hours (check `az vm power-state`).
+- [ ] RDP to AVD session via GSA client (no VPN) succeeds.
+
+## Text Diagram – Phase O5 Resources
+```text
+PHASE O5: AZURE VIRTUAL DESKTOP + FSLOGIX
+==========================================
+
+[Remote User – GSA Client]
+         │
+         │ (HTTPS / RDP over ZTNA)
+         ▼
+[AVD Workspace: ws-dev-uksouth] → (published desktop)
+         │
+         ▼
+[AVD Host Pool: hp-dev-pooled] (load‑balanced)
+         │
+         ├── Session Host: vm-dev-avdsession-01 (ephemeral)
+         ├── Session Host: vm-dev-avdsession-02 (ephemeral)
+         │
+         └── FSLogix agent installed on each
+
+[Azure Files Premium: stdevfslogix001]
+         │
+         └── File Share: share-dev-fslogix (Profile .vhdx containers)
+
+Auto‑scaling:
+  - Weekdays 08:00‑18:00 → hosts running (peak)
+  - Outside hours → hosts deallocated (cost savings)
+
+Roaming flow:
+  User logs into host-01 → profile mounted from share → log out → container unmounted
+  User logs into host-02 → same profile mounted → desktop files appear
+
+LEGEND:
+======>
+[FSLogix]            Profile container – separates user state from compute
+{Auto-scaling}       FinOps best practice – pay only for active sessions
+```
+
+### FinOps Teardown for O5
+```bash
+# Deallocate or destroy AVD session hosts (ephemeral)
+terraform destroy -target=azurerm_windows_virtual_machine.avd_session -auto-approve
+
+# Remove AVD resources (host pool, workspace, etc.) if not needed
+terraform destroy -target=azurerm_virtual_desktop_host_pool.pooled -auto-approve
+
+# Azure Files premium share may have cost – delete if not required
+terraform destroy -target=azurerm_storage_account.fslogix -auto-approve
+```
+
+---
+
+**Congratulations!** You have now implemented the entire `README_PLAN_Revised.md` – from OIDC foundation to Zero Trust SSE and modern VDI.
+
+**Final Checklist:**
+- [ ] All phases (P0–P9c, O1–O5) have evidence in `docs/release2/evidence/`.
+- [ ] Ephemeral resources destroyed (Azure Firewall, FortiGate, Cisco NVA, AVD hosts).
+- [ ] Terraform state clean and locked.
+- [ ] `terraform destroy` executed for all non‑persistent components.
+- [ ] Cost analysis shows $0 projected spend (except for minimal storage and Entra ID free tier).
+
+**Recruiter Hook (Final):**  
+"Architected a full enterprise hybrid security platform using Terraform, Ansible, and GitHub Actions with OIDC – eliminating all static secrets. Implemented functional traffic separation (Azure Firewall + FortiGate NVA), multi‑cloud transitive BGP routing, and replaced legacy VPNs with Entra Global Secure Access (ZTNA). Delivered modern end‑user computing with AVD and FSLogix, all while adhering to strict FinOps principles ($200 lab budget) and CLI‑first validation."
+
+---
