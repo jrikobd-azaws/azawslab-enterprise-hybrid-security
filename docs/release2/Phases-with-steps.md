@@ -1133,3 +1133,603 @@ terraform destroy -target=azurerm_firewall_policy.afwp -auto-approve
 
 ---
 
+# Phase 7: Cloud Security Posture Management (CSPM) – Defender for Cloud
+
+## Objective
+Enable Microsoft Defender for Cloud (free CSPM) at subscription level, track Secure Score, and optionally enable premium Defender plans ephemerally to demonstrate CWPP.
+
+## Step-by-Step Actions
+
+### Step 7.1: Enable Defender for Cloud on subscription (free CSPM)
+Using Terraform:
+```hcl
+# terraform/environments/dev/defender.tf
+resource "azurerm_security_center_subscription_pricing" "cspm_free" {
+  tier          = "Free"
+  resource_type = "VirtualMachines"
+  # Free tier covers CSPM basics (Secure Score, recommendations)
+}
+
+# Optional: Enable a premium plan (e.g., Servers) ephemerally
+resource "azurerm_security_center_subscription_pricing" "servers_premium" {
+  tier          = "Standard"
+  resource_type = "VirtualMachines"
+
+  lifecycle {
+    # Destroy after validation to save cost (~$15/month per VM)
+    prevent_destroy = false
+  }
+}
+```
+
+### Step 7.2: Review Secure Score and recommendations
+```bash
+# Get current Secure Score
+az security secure-score list --query "[?displayName=='Default'].current" -o tsv
+
+# List top recommendations
+az security assessment list --query "[?status.code=='Unhealthy'].displayName" -o table
+
+# Remediate a high-priority recommendation (example: enable system updates)
+# Follow portal or CLI remediation steps
+az vm extension set --resource-group rg-dev-networking-uksouth --vm-name vm-dev-client-01 --name IaaSAntimalware --publisher Microsoft.Azure.Security --settings '{"AntimalwareEnabled": true}'
+```
+
+### Step 7.3: Document before/after Secure Score
+```bash
+# Before remediation
+az security secure-score list > docs/release2/evidence/P7/secure-score-before.txt
+
+# After remediation
+az security secure-score list > docs/release2/evidence/P7/secure-score-after.txt
+```
+
+## Validation Checklist
+- [ ] `az security secure-score list` shows a numeric score (e.g., 85%).
+- [ ] At least one recommendation has been remediated and shows "Healthy".
+- [ ] Premium Defender plans (if enabled) appear in `az security pricing list`.
+
+## Text Diagram – Phase 7 Resources
+```
+PHASE 7: DEFENDER FOR CLOUD (CSPM)
+===================================
+
+[Subscription: sub-azaws-enterprise-prod]
+         │
+         ├── Defender for Cloud (Free CSPM)
+         │         ├── Continuous assessment
+         │         ├── Secure Score (baseline)
+         │         └── Recommendations (e.g., enable antimalware, system updates)
+         │
+         ├── (Optional – ephemeral) Premium plan for VirtualMachines
+         │         └── CWPP – deeper workload protection
+         │
+         └── Resources evaluated:
+               ├── VM: vm-dev-client-01
+               ├── Key Vault: kv-dev-platform-001
+               └── Networking components
+
+[Remediation action] → Update VM extension or configuration
+         │
+         ▼
+[Improved Secure Score] → Captured evidence (before/after)
+
+LEGEND:
+======>
+[Defender for Cloud]  Security posture management
+(ephemeral)           Destroyed after validation to save cost
+```
+
+### FinOps Note for P7
+Premium Defender plans (e.g., `Servers`) cost ~$15/month per VM. Enable only during validation, then:
+
+```bash
+terraform destroy -target=azurerm_security_center_subscription_pricing.servers_premium -auto-approve
+```
+
+---
+
+# Phase 8: Microsoft Sentinel (Cloud-Native SIEM)
+
+## Objective
+Onboard Sentinel to the Log Analytics workspace, enable Azure Activity data connector, and deploy a custom KQL analytic rule to detect multiple failed sign-ins.
+
+## Step-by-Step Actions
+
+### Step 8.1: Enable Sentinel on Log Analytics workspace
+```hcl
+# terraform/environments/dev/sentinel.tf
+resource "azurerm_sentinel_log_analytics_workspace_onboarding" "sentinel" {
+  workspace_id = azurerm_log_analytics_workspace.la.id
+  # No additional config – just enables Sentinel
+}
+```
+
+### Step 8.2: Enable Azure Activity data connector
+```hcl
+# Terraform does not have native resource for data connectors yet.
+# Use azapi resource or CLI.
+resource "azapi_resource" "activity_connector" {
+  type      = "Microsoft.OperationsManagement/solutions@2015-11-01-preview"
+  name      = "AzureActivity"
+  parent_id = azurerm_log_analytics_workspace.la.id
+  location  = azurerm_log_analytics_workspace.la.location
+
+  plan {
+    name      = "AzureActivity"
+    product   = "OMSGallery/AzureActivity"
+    publisher = "Microsoft"
+  }
+}
+```
+
+### Step 8.3: Create custom analytic rule (KQL)
+Using Azure CLI or REST API (Terraform via `azapi_resource`):
+```json
+// docs/release2/evidence/P8/rule-multiple-failed-signins.json
+{
+  "properties": {
+    "displayName": "rule-multiple-failed-signins",
+    "description": "Detects more than 5 failed sign-ins within 5 minutes",
+    "severity": "Medium",
+    "enabled": true,
+    "query": "SigninLogs\n| where ResultType == 50057 or ResultType == 50055\n| summarize FailedAttempts = count() by UserPrincipalName, IPAddress, bin(TimeGenerated, 5m)\n| where FailedAttempts > 5",
+    "queryFrequency": "PT5M",
+    "queryPeriod": "PT5M",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0,
+    "suppressionDuration": "PT5M",
+    "suppressionEnabled": false,
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    }
+  }
+}
+```
+
+Deploy via CLI:
+```bash
+az sentinel alert-rule create --resource-group rg-dev-platform-uksouth --workspace-name la-dev-platform --rule-name "rule-multiple-failed-signins" --rule-template-id "" --kind Scheduled --query @documents/release2/evidence/P8/rule-multiple-failed-signins.json
+```
+
+### Step 8.4: Simulate security incident (brute-force)
+```bash
+# Install Azure CLI or use PowerShell to simulate failed logins
+for i in {1..6}; do
+  az login --username test-user@entra.azawslab.co.uk --password wrongpassword --only-show-errors
+  sleep 10
+done
+```
+
+### Step 8.5: Verify incident in Sentinel
+```kql
+// Run in Log Analytics
+SigninLogs
+| where ResultType == 50057
+| summarize count() by UserPrincipalName, bin(TimeGenerated, 1h)
+
+// Check Sentinel incident (via CLI)
+az sentinel incident list --resource-group rg-dev-platform-uksouth --workspace-name la-dev-platform --orderby "properties.createdTimeUtc desc"
+```
+
+## Validation Checklist
+- [ ] `az sentinel alert-rule list` shows `rule-multiple-failed-signins`.
+- [ ] After simulating failed logins, Sentinel generates an incident (seen in portal or CLI).
+- [ ] KQL query returns the failed attempts.
+
+## Text Diagram – Phase 8 Resources
+```
+PHASE 8: MICROSOFT SENTINEL (SIEM)
+===================================
+
+[Log Analytics Workspace: la-dev-platform]
+         │
+         ├── (Onboarded to) → [Microsoft Sentinel]
+         │                            │
+         │                            ├── Data Connector: Azure Activity (connector-azure-activity)
+         │                            │
+         │                            ├── Analytic Rule: rule-multiple-failed-signins (KQL)
+         │                            │         └── Query: >5 failed sign-ins in 5 minutes
+         │                            │
+         │                            └── Incidents generated
+         │
+         ├── Ingested logs:
+         │         ├── SigninLogs (from Entra ID via diagnostic settings)
+         │         └── AzureActivity (from subscription)
+         │
+         └── Simulate brute-force → Incident triggered
+
+[Email / SOC notification] ← (Action group can be attached later)
+
+LEGEND:
+======>
+[Microsoft Sentinel]  Cloud SIEM
+[Analytic Rule]       KQL detection logic
+```
+
+---
+
+# Phase 9a: Azure Monitor & Alerts (Observability)
+
+## Objective
+Deploy Action Group (email alerts) and Metric Alert (CPU > 85% on Spoke VM) using Terraform, then stress test to verify alert delivery.
+
+## Step-by-Step Actions
+
+### Step 9a.1: Create Action Group
+```hcl
+# terraform/environments/dev/monitoring.tf
+resource "azurerm_monitor_action_group" "email" {
+  name                = "ag-dev-email"
+  resource_group_name = azurerm_resource_group.rg.name
+  short_name          = "email-ag"
+
+  email_receiver {
+    name          = "admin-email"
+    email_address = "your-email@example.com"  # Replace with your email
+  }
+}
+```
+
+### Step 9a.2: Create Metric Alert for CPU > 85%
+```hcl
+resource "azurerm_monitor_metric_alert" "high_cpu" {
+  name                = "alert-high-cpu-vm-dev-client"
+  resource_group_name = azurerm_resource_group.rg.name
+  scopes              = [azurerm_windows_virtual_machine.vm.id]
+  description         = "Alert when VM CPU exceeds 85% for 5 minutes"
+  severity            = 2
+
+  criteria {
+    metric_namespace = "Microsoft.Compute/virtualMachines"
+    metric_name      = "Percentage CPU"
+    aggregation      = "Average"
+    operator         = "GreaterThan"
+    threshold        = 85
+
+    dimension {
+      name     = "VMName"
+      operator = "Include"
+      values   = ["vm-dev-client-01"]
+    }
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.email.id
+  }
+}
+```
+
+### Step 9a.3: Stress test CPU (from within VM)
+```powershell
+# Run on vm-dev-client-01 via Bastion / PowerShell
+# Simulate high CPU for 10 minutes
+Write-Host "Starting CPU stress test..."
+for ($i=0; $i -lt 10; $i++) {
+    Start-Job -ScriptBlock { while($true) { $a = 1..1000000 | ForEach-Object { $_ * $_ } } }
+}
+```
+
+### Step 9a.4: Verify alert firing
+```bash
+# Check alert status via CLI
+az monitor metric alert show --name alert-high-cpu-vm-dev-client --resource-group rg-dev-networking-uksouth --query "properties.criteria"
+# Wait 5-10 minutes, then check email for alert notification
+```
+
+## Validation Checklist
+- [ ] Action group created: `az monitor action-group show --name ag-dev-email --resource-group rg-dev-networking-uksouth`
+- [ ] Metric alert rule exists: `az monitor metric alert list --resource-group rg-dev-networking-uksouth --output table`
+- [ ] CPU stress test triggers email alert (check inbox – may go to spam).
+
+## Text Diagram – Phase 9a Resources
+
+```
+PHASE 9a: AZURE MONITOR & ALERTS
+=================================
+
+[Spoke VM: vm-dev-client-01]
+         │
+         │ (Metrics: Percentage CPU)
+         ▼
+[Azure Monitor Metrics Store]
+         │
+         │ (Evaluation every 5 minutes)
+         ▼
+[Metric Alert: alert-high-cpu-vm-dev-client]
+         │
+         │ threshold = CPU > 85% for 5 min
+         ▼
+[Action Group: ag-dev-email]
+         │
+         └── (Email receiver: your-email@example.com)
+                   │
+                   ▼
+         [Admin email inbox] – "Alert triggered: high CPU"
+
+Stress test simulation:
+  - Run CPU-intensive loop on VM
+  - Monitor alert firing in portal/CLI
+  - Verify email delivery
+
+LEGEND:
+======>
+[Metric Alert]        Monitoring rule
+[Action Group]        Notification targets
+```
+
+---
+
+# Phase 9b: Disaster Recovery (Backup & ASR) – Resilience-as-Code
+
+## Objective
+Deploy Recovery Services Vault with immutability, configure backup policy, associate VM, and enforce Multi-User Authorization (MUA) via Azure Resource Guard. Optionally demonstrate ASR test failover.
+
+## Step-by-Step Actions
+
+### Step 9b.1: Create Resource Guard (MUA)
+```hcl
+# terraform/environments/dev/disaster_recovery.tf
+resource "azurerm_resource_guard" "backup" {
+  name                = "rg-dev-resourceguard"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+}
+```
+
+### Step 9b.2: Create Recovery Services Vault with immutability
+```hcl
+resource "azurerm_recovery_services_vault" "backup" {
+  name                = "rsv-dev-backup"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku                 = "Standard"
+
+  soft_delete_enabled = true
+  # Immutability requires explicit setting (via azurerm provider >= 3.0)
+}
+
+resource "azurerm_backup_policy_vm" "daily" {
+  name                = "backup-policy-daily"
+  resource_group_name = azurerm_resource_group.rg.name
+  recovery_vault_name = azurerm_recovery_services_vault.backup.name
+
+  timezone = "GMT Standard Time"
+
+  backup {
+    frequency = "Daily"
+    time      = "22:00"
+  }
+
+  retention_daily {
+    count = 30
+  }
+}
+
+# Associate VM to backup policy
+resource "azurerm_backup_protected_vm" "vm" {
+  resource_group_name = azurerm_resource_group.rg.name
+  recovery_vault_name = azurerm_recovery_services_vault.backup.name
+  source_vm_id        = azurerm_windows_virtual_machine.vm.id
+  backup_policy_id    = azurerm_backup_policy_vm.daily.id
+}
+```
+
+### Step 9b.3: Link Resource Guard to Vault (MUA)
+```bash
+# Azure CLI to add critical operation protection
+az resource guard update --resource-group rg-dev-networking-uksouth --name rg-dev-resourceguard --add "properties.vaultCriticalOperationExclusionList" "Microsoft.RecoveryServices/vaults/backupItems/delete"
+```
+
+### Step 9b.4: Test MUA – attempt to delete backup (should be blocked)
+```bash
+# Try to delete backup item using primary admin account
+az backup item delete --name vm-dev-client-01 --vault-name rsv-dev-backup --resource-group rg-dev-networking-uksouth --container-name <container> --backup-management-type AzureIaasVM
+# Expected error: access denied due to Resource Guard MUA policy
+```
+
+### Step 9b.5: (Optional) Configure ASR test failover
+```hcl
+resource "azurerm_recovery_services_vault" "asr" {
+  name                = "rsv-dev-asr"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku                 = "Standard"
+}
+
+resource "azurerm_site_recovery_replication_policy" "asr" {
+  resource_group_name = azurerm_resource_group.rg.name
+  recovery_vault_name = azurerm_recovery_services_vault.asr.name
+
+  recovery_point_retention_in_minutes = 1440
+  application_consistent_snapshot_frequency_in_minutes = 60
+}
+
+# Additional test failover steps omitted for brevity
+```
+
+## Validation Checklist
+- [ ] Recovery Services Vault shows "Immutability: Enabled" and "Soft delete: On".
+- [ ] Attempt to delete backup fails with MUA error.
+- [ ] VM appears in Backup Center with healthy status.
+
+## Text Diagram – Phase 9b Resources
+```
+PHASE 9b: DISASTER RECOVERY (BCDR)
+===================================
+
+[Azure Resource Guard: rg-dev-resourceguard]  (isolated security context)
+         │
+         │ (MUA enforcement)
+         ▼
+[Recovery Services Vault: rsv-dev-backup]
+         │
+         ├── Immutability: ON (cannot disable)
+         ├── Soft delete: 14 days
+         ├── Backup policy: daily at 22:00, retain 30 days
+         │
+         └── Protected item: vm-dev-client-01
+
+[Spoke VM: vm-dev-client-01] → (automated backup)
+
+Attempted deletion (primary admin):
+  - az backup item delete → blocked by Resource Guard
+  - Requires secondary approval (simulated)
+
+Optional ASR:
+[Recovery Services Vault (ASR): rsv-dev-asr]
+  - Replication policy: 60 min app-consistent snapshots
+  - Test failover validated
+
+LEGEND:
+======>
+[Recovery Services Vault]  Backup & DR hub
+[MUA]                      Multi-User Authorization
+```
+
+### FinOps Note for P9b
+Recovery Services Vault has low cost (~$0.10/day for backup storage). Keep it. ASR replication adds cost; destroy if not needed:
+```bash
+terraform destroy -target=azurerm_recovery_services_vault.asr -auto-approve
+```
+
+---
+
+# Phase 9c: Platform Handover & FinOps Teardown
+
+## Objective
+Deliver developer documentation (onboarding, contributing guidelines) and execute complete infrastructure teardown to achieve $0 run rate.
+
+## Step-by-Step Actions
+
+### Step 9c.1: Write `onboarding.md`
+Create `docs/onboarding.md`:
+```markdown
+# Onboarding – Azawslab Release 2
+
+## Prerequisites
+- Azure subscription (Pay-As-You-Go)
+- GitHub account
+- Entra ID tenant with verified domain entra.azawslab.co.uk
+
+## One-time setup
+1. Clone repo: `git clone [https://github.com/your-username/your-repo](https://github.com/your-username/your-repo)`
+2. Run Phase 0 OIDC scripts (see `README_PLAN_Revised.md`)
+3. Configure GitHub secrets: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`
+
+## Deploy environment
+- Create PR to `release-2` → CI runs `terraform plan`
+- Merge → CD applies infrastructure
+- Validate via `az vm list` and `terraform output`
+
+## Daily operations
+- Access VMs via Azure Bastion (no public IPs)
+- Monitor alerts via Action Group email
+- Update policies via Terraform modules
+
+## Teardown
+`terraform destroy` (or use GitHub Actions workflow)
+```
+
+### Step 9c.2: Write `CONTRIBUTING.md`
+```markdown
+# Contributing to Azawslab Release 2
+
+## Branch strategy
+- `release-2`: production-like, requires PR + CI checks
+- `feature/*`: development branches
+
+## Naming conventions
+See `naming-conventions.md` – all resources must follow patterns.
+
+## Pull request process
+1. Create branch from `release-2`
+2. Run `terraform fmt` and `terraform validate` locally
+3. Push → GitHub Actions runs `terraform plan` and comments on PR
+4. Request review from `azw-Platform-Admins`
+5. After approval, merge → CD deploys
+
+## Testing
+- Ansible playbooks: `ansible-lint site.yml`
+- Terraform: `terraform test` (if modules have tests)
+
+## Evidence capture
+Store outputs in `docs/release2/evidence/<phase>/` as `.txt` or `.png`.
+```
+
+### Step 9c.3: Execute final teardown
+```bash
+# From terraform/environments/dev/
+terraform state list   # Verify all resources are tracked
+
+# Destroy everything (including RG)
+terraform destroy -auto-approve
+
+# Manually check for orphaned resources
+az resource list --tag Project=Azawslab-Release2 --output table
+# Should be empty
+
+# Delete the Terraform state storage account (optional, but good for clean-up)
+az group delete --name rg-dev-terraformstate-uksouth --yes --no-wait
+```
+
+### Step 9c.4: Document teardown evidence
+```bash
+terraform destroy > docs/release2/evidence/P9c/terraform-destroy-output.txt
+echo "Clean Azure environment" >> docs/release2/evidence/P9c/teardown-notes.md
+```
+
+## Validation Checklist
+- [ ] `docs/onboarding.md` and `CONTRIBUTING.md` are committed to `release-2`.
+- [ ] Another engineer can clone and deploy within 60 minutes (simulate or describe).
+- [ ] `terraform destroy` completes without errors.
+- [ ] Azure Cost Analysis shows $0 projected compute charges.
+
+## Text Diagram – Phase 9c Resources
+```
+PHASE 9c: PLATFORM HANDOVER & FINOPS TEARDOWN
+==============================================
+
+[GitHub Repository]
+         │
+         ├── docs/onboarding.md         → Step-by-step for new engineers
+         ├── CONTRIBUTING.md            → PR process, naming, testing
+         └── terraform/                 → IaC source of truth
+
+[Engineer B] clones repo
+         │
+         │ (follows onboarding)
+         ▼
+[GitHub Actions + OIDC] → deploys full platform (P0–P9b)
+
+After validation:
+[terraform destroy] → deletes all ephemeral & persistent resources
+         │
+         ▼
+[Clean Azure subscription] → $0 ongoing charges
+         │
+         └── Evidence: terraform-destroy-output.txt
+
+FinOps check:
+  - Azure Cost Analysis: no active resources
+  - Management groups & policies remain (no cost)
+  - State storage optionally deleted
+
+LEGEND:
+======>
+[Engineer B]          Another team member
+[terraform destroy]   Full cleanup
+```
+
+### FinOps Final Check
+After teardown, verify:
+
+```bash
+# List any remaining resources (should be none)
+az resource list --tag Project=Azawslab-Release2 --output table
+
+# Check cost forecast
+az consumption usage list --top 5 --output table
+```
+
+---
