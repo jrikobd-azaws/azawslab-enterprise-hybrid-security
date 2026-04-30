@@ -81,17 +81,17 @@ Do not begin infrastructure execution until these docs are aligned:
 This section reflects the current project state: planning/documentation first, execution environment later.
 
 ### 4.1 Master Documentation Alignment
-- [ ] Confirm `README_PLAN.md` is the current master plan
-- [ ] Confirm all support docs reference `README_PLAN.md` consistently
-- [ ] Remove stale RRAS references from all Release 2 support docs
-- [ ] Confirm VyOS is the on-prem routing standard for O3a / O3c
-- [ ] Confirm evidence root path is `docs/release2/evidence/`
+- [x] Confirm `README_PLAN.md` is the current master plan
+- [x] Confirm all support docs reference `README_PLAN.md` consistently
+- [x] Remove stale RRAS references from all Release 2 support docs
+- [x] Confirm VyOS is the on-prem routing standard for O3a / O3c
+- [x] Confirm evidence root path is `docs/release2/evidence/`
 
 ### 4.2 Repository Planning Readiness
-- [ ] Repository structure reviewed for Release 2
-- [ ] Branching approach defined for docs and implementation
-- [ ] GitHub Desktop workflow currently working for commit/push
-- [ ] Decision recorded to use VS Code + Codespaces before P0 execution
+- [x] Repository structure reviewed for Release 2
+- [x] Branching approach defined for docs and implementation
+- [x] vscode workflow currently working for commit/push
+- [x] Decision recorded to use VS Code + Codespaces before P0 execution
 - [ ] `.gitignore` reviewed for Terraform, Ansible, logs, and local secrets
 
 ### 4.3 Execution Environment Readiness (to complete before P0 build work)

@@ -86,6 +86,10 @@ This separation reflects a realistic greenfield cloud initiative where a new Azu
 
 ---
 
+## Tenant and Subscription Setup Rationale
+
+To build a fully functional Azure Virtual Desktop (AVD) lab without upfront cost, I first created an Azure Free Trial subscription using my personal Microsoft Account (MSA), which provided the $200 Azure credit that Microsoft does not offer directly to newly created work/school tenants. Since Microsoft 365 E5 trials are only available to organizational tenants, I then created a new Microsoft Entra ID (work) tenant and activated the Microsoft 365 E5 trial there to unlock AVD‑required services such as Windows Enterprise, Entra ID P2, Intune, and Defender. Because Azure credits cannot be issued directly to a new work tenant, I transferred the Azure subscription (and its remaining $200 credit) from the personal MSA directory into the new organizational tenant. This unified all compute, identity, and licensing under a single enterprise tenant, enabling a clean, production‑style environment for deploying and testing Azure Virtual Desktop.
+
 ## Domain Namespaces
 
 | Phase / Scope | Purpose | Domain / Namespace | Status |
@@ -156,11 +160,19 @@ For the most controlled implementation flow:
 
 ---
 
-## Current Status
 
-Release 2 is currently in the **planning and documentation alignment stage**, with implementation designed to proceed in an organized, phase-driven manner using the supporting docs in this directory and the repo root.
+## Environment Readiness Status
+
+- **Project Status:** Deployment ready  
+- **Identity:** Primary lab admin account:** `admin-lab@entra.azawslab.co.uk`  
+- **Break-glass global account:** `hashib@entra.azawslab.co.uk`  
+- **Funding:** Azure `$200` credit successfully moved  
+- **Licensing:** Microsoft 365 E5 is active and assigned  
+- **Namespace:** `entra.azawslab.co.uk` is the verified tenant boundary
 
 ---
+
+## Current Status
 
 ## Final Note
 
