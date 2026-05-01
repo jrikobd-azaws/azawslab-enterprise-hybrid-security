@@ -1,2 +1,6 @@
-﻿# Phase P0 placeholder root module for backend initialization.
-# Real Terraform resources will be added in later phases.
+﻿module "security" {
+  source = "../../modules/security"
+
+  resource_group_name = "rg-dev-security-uksouth"
+  location            = "uksouth"
+}

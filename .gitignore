@@ -35,3 +35,7 @@ Thumbs.db
 # Python cache (for Ansible tooling if added later)
 __pycache__/
 *.pyc
+
+# Terraform plan files
+*.tfplan
+tfplan-*
