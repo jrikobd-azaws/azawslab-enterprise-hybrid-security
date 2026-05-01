@@ -169,3 +169,42 @@ OUTPUT:
 
 NOTE:
 The successful backend terraform init created the expected local working directory artifacts for the dev environment.
+
+==============================
+STEP P0.5 - GITHUB OIDC WORKFLOW VALIDATION
+
+WORKFLOW:
+.github/workflows/oidc-test.yml
+
+RESULT:
+OIDC Test workflow auto-ran after push on branch Release2_plan and completed successfully.
+
+DETAILS:
+- Trigger: push
+- Commit: e228471
+- Branch: Release2_plan
+- Status: Success
+- Duration: 17s
+
+NOTE:
+This validated secretless GitHub-to-Azure authentication through OIDC federation using the release-2 environment.
+
+FOLLOW-UP:
+A Node.js 20 deprecation warning was shown for actions/checkout@v4 and azure/login@v2. This did not affect successful P0 validation and should be handled later as workflow maintenance.
+
+==============================
+P0 CLOSURE STATUS
+
+RESULT:
+Phase P0 is complete from an implementation and validation perspective.
+
+COMPLETED:
+- OIDC app registration and service principal bootstrap
+- Subscription role assignment for the GitHub workload identity
+- Federated credential creation and verification
+- Terraform backend resource group, storage account, and tfstate container creation
+- Successful backend terraform init
+- Successful GitHub OIDC workflow validation
+
+NOTE:
+Some broader repo scaffold folders described in planning documents are not yet present, but this does not block P0 closure because the required P0 identity, backend, and validation outcomes were completed successfully.

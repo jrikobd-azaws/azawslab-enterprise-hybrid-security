@@ -230,13 +230,13 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - [X] Create resource group for state backend
 - [X] Create storage account for Terraform state
 <!-- - [X$$] Create `tfstate` container -->
-- [ ] Test OIDC GitHub workflow
-- [ ] Test backend `terraform init`
+- [X] Test OIDC GitHub workflow
+- [X] Test backend `terraform init`
 
 **Minimum Validation**
-- [ ] OIDC login succeeds in GitHub Actions
-- [ ] `terraform init` succeeds against remote backend
-- [ ] role assignment visible for the workload identity
+- [X] OIDC login succeeds in GitHub Actions
+- [X] `terraform init` succeeds against remote backend
+- [X] role assignment visible for the workload identity
 
 **Evidence**
 - [ ] `oidc-test.txt`

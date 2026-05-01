@@ -323,3 +323,48 @@ Directory: C:\GitHub\azawslab-enterprise-hybrid-security\terraform\environments\
 
 NOTE:
 This confirms the dev Terraform environment was initialized successfully and produced the expected local working files after backend initialization.
+
+==============================
+STEP P0.5 - GITHUB OIDC WORKFLOW VALIDATION
+
+WORKFLOW:
+.github/workflows/oidc-test.yml
+
+RESULT:
+OIDC Test workflow auto-ran after push on branch Release2_plan and completed successfully.
+
+DETAILS:
+- Trigger: push
+- Commit: e228471
+- Branch: Release2_plan
+- Status: Success
+- Duration: 17s
+
+NOTE:
+This confirmed that GitHub Actions could authenticate to Azure through OIDC federation using the release-2 environment configuration, without a client secret.
+
+FOLLOW-UP:
+GitHub displayed a Node.js 20 deprecation warning for actions/checkout@v4 and azure/login@v2. This is a future workflow maintenance item, not a P0 blocker.
+
+==============================
+P0 RE-AUDIT SUMMARY
+
+RESULT:
+P0 implementation objectives are complete.
+
+CONFIRMED COMPLETE:
+- OIDC app registration and service principal bootstrap
+- Subscription role assignment for workload identity
+- Federated credential creation and verification
+- Backend resource group, storage account, and tfstate container
+- Backend terraform init
+- GitHub OIDC workflow validation
+
+NOT BLOCKERS:
+- terraform\modules folder not yet present
+- ansible\inventory\dev folder not yet present
+
+FOLLOW-UP CLEANUP:
+- commit updated P0 evidence and tracker files
+- remove temporary bootstrap/helper files
+- optionally create missing scaffold folders for repo consistency
