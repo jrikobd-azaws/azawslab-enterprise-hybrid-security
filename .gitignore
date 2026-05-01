@@ -1,0 +1,37 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform plan output
+*.tfplan
+
+# Local environment / secrets
+.env
+.env.*
+*.local
+
+# Ansible
+*.retry
+.vault_pass
+vault_pass.txt
+vault-password.txt
+ansible.cfg.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python cache (for Ansible tooling if added later)
+__pycache__/
+*.pyc
