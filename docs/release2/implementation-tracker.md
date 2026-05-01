@@ -1,4 +1,4 @@
-# Implementation Tracker – Release 2 (Azure Platform Engineering & Security)
+﻿# Implementation Tracker â€“ Release 2 (Azure Platform Engineering & Security)
 
 **Last Updated:** [29-April-2026]  
 **Owner:** HASHIBUR RAHMAN  
@@ -21,11 +21,11 @@ Use it to:
 
 This file does **not** replace the master plan.  
 It should be used together with:
-- `README_PLAN.md` – authoritative phase design and detailed implementation logic
-- `Phases-with-steps.md` – step execution support
-- `naming-conventions.md` – naming and tagging standards
-- `architechture.md` – architecture decisions and rationale
-- `build_checklist.md` – execution checklist once finalised
+- `README_PLAN.md` â€“ authoritative phase design and detailed implementation logic
+- `Phases-with-steps.md` â€“ step execution support
+- `naming-conventions.md` â€“ naming and tagging standards
+- `architechture.md` â€“ architecture decisions and rationale
+- `build_checklist.md` â€“ execution checklist once finalised
 
 ---
 
@@ -37,7 +37,7 @@ It should be used together with:
 | [~]    | In progress                          |
 | [x]    | Completed and validated              |
 | [!]    | Blocked                              |
-| [E]    | Ephemeral – destroy after validation |
+| [E]    | Ephemeral â€“ destroy after validation |
 | [O]    | Optional phase                       |
 
 ---
@@ -191,7 +191,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-## 6. Core Phase Tracker (P0–P9c, O1–O5)
+## 6. Core Phase Tracker (P0â€“P9c, O1â€“O5)
 
 | Phase | Name                                           | Depends On | Est. Time | Status | Evidence Path                 | Validation Gate                                                      | Teardown / Cost Action                                         |
 | ----- | ---------------------------------------------- | ---------- | --------- | ------ | ----------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
@@ -208,10 +208,10 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P8    | Microsoft Sentinel                             | P7         | 45m       | [ ]    | `docs/release2/evidence/P8/`  | incident generation path validated                                   | Persistent                                                     |
 | P9a   | Azure Monitor Alerts                           | P7         | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                              | Persistent                                                     |
 | P9b   | Backup / Recovery Services Vault               | P5         | 45m       | [ ]    | `docs/release2/evidence/P9b/` | backup policy and protected item verified                            | Persistent                                                     |
-| P9c   | Final Validation & Portfolio Evidence Pack     | P0–P9b     | 1h        | [ ]    | `docs/release2/evidence/P9c/` | all mandatory evidence complete                                      | Persistent                                                     |
+| P9c   | Final Validation & Portfolio Evidence Pack     | P0â€“P9b     | 1h        | [ ]    | `docs/release2/evidence/P9c/` | all mandatory evidence complete                                      | Persistent                                                     |
 | O1    | FortiGate NVA Dual-Firewall Pattern            | P5, P6     | 1h        | [ ]    | `docs/release2/evidence/O1/`  | UDR steering and East-West inspection validated                      | [E] destroy after validation                                   |
 | O2    | Azure Arc                                      | P5         | 45m       | [ ]    | `docs/release2/evidence/O2/`  | Arc machine shows connected                                          | Persistent / optional                                          |
-| O3a   | FortiGate ↔ VyOS BGP over IPSec                | O1         | 1.5h      | [ ]    | `docs/release2/evidence/O3a/` | BGP session up; routes learned                                       | [E] destroy cloud-side ephemeral assets if not needed          |
+| O3a   | FortiGate â†” VyOS BGP over IPSec                | O1         | 1.5h      | [ ]    | `docs/release2/evidence/O3a/` | BGP session up; routes learned                                       | [E] destroy cloud-side ephemeral assets if not needed          |
 | O3b   | AWS Cisco Branch with Segmented BGP            | O3a        | 1.5h      | [ ]    | `docs/release2/evidence/O3b/` | AWS branch routes propagate correctly                                | [E] destroy AWS NVA after validation                           |
 | O3c   | Global Transit / Transitive Routing Validation | O3a, O3b   | 1h        | [ ]    | `docs/release2/evidence/O3c/` | end-to-end path validation succeeds                                  | [E] teardown transient routing lab components                  |
 | O4    | Entra Global Secure Access                     | P5         | 1h        | [ ]    | `docs/release2/evidence/O4/`  | private access validated; remote network works                       | Optional persistent                                            |
@@ -221,7 +221,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ## 7. Detailed Phase Control Notes
 
-### P0 – Foundation & OIDC Backend
+### P0 â€“ Foundation & OIDC Backend
 **Objective:** Establish secretless automation and remote Terraform backend.
 
 **Checklist**
@@ -245,7 +245,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P1 – Landing Zone & Management Groups
+### P1 â€“ Landing Zone & Management Groups
 **Objective:** Build the governance scaffold.
 
 **Checklist**
@@ -266,7 +266,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P2a – Terraform Reusable Modules
+### P2a â€“ Terraform Reusable Modules
 **Objective:** Build reusable IaC modules with dynamic secrets and private-only compute.
 
 **Checklist**
@@ -275,7 +275,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - [ ] networking module created
 - [ ] compute module created
 - [ ] monitoring module created if included in the phase scope
-- [ ] Key Vault integration confirmed
+- [x] Key Vault integration confirmed
 - [ ] workload VM deployed without public IP
 
 **Minimum Validation**
@@ -291,7 +291,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P2b – Ansible Configuration Management
+### P2b â€“ Ansible Configuration Management
 **Objective:** Apply post-deployment configuration and prove idempotent automation.
 
 **Checklist**
@@ -318,7 +318,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P2c – CI/CD Pipeline
+### P2c â€“ CI/CD Pipeline
 **Objective:** Enforce PR-based automation using OIDC and GitHub Actions.
 
 **Checklist**
@@ -342,7 +342,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P3 – Enterprise Governance & Guardrails
+### P3 â€“ Enterprise Governance & Guardrails
 **Objective:** Enforce data sovereignty, tagging, and cost controls.
 
 **Checklist**
@@ -366,7 +366,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P4 – Azure Lighthouse
+### P4 â€“ Azure Lighthouse
 **Objective:** Demonstrate delegated cross-tenant administration.
 
 **Checklist**
@@ -384,7 +384,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P5 – Hub-Spoke Networking
+### P5 â€“ Hub-Spoke Networking
 **Objective:** Establish core connectivity for all later platform/security phases.
 
 **Checklist**
@@ -406,7 +406,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P6 – Azure Firewall [E]
+### P6 â€“ Azure Firewall [E]
 **Objective:** Validate controlled egress and inspection via Azure Firewall.
 
 **Checklist**
@@ -432,7 +432,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P7 – Defender for Cloud
+### P7 â€“ Defender for Cloud
 **Objective:** Enable cloud security posture visibility.
 
 **Checklist**
@@ -452,7 +452,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P8 – Microsoft Sentinel
+### P8 â€“ Microsoft Sentinel
 **Objective:** Establish SIEM ingestion and incident visibility.
 
 **Checklist**
@@ -474,7 +474,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P9a – Azure Monitor Alerts
+### P9a â€“ Azure Monitor Alerts
 **Objective:** Validate platform alerting and action groups.
 
 **Checklist**
@@ -495,7 +495,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P9b – Backup / Recovery Services Vault
+### P9b â€“ Backup / Recovery Services Vault
 **Objective:** Validate backup controls and recovery governance.
 
 **Checklist**
@@ -517,7 +517,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P9c – Final Validation & Portfolio Evidence Pack
+### P9c â€“ Final Validation & Portfolio Evidence Pack
 **Objective:** Close the loop on implementation quality and portfolio readiness.
 
 **Checklist**
@@ -542,19 +542,19 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ## 8. Optional Advanced Phases
 
-### O1 – FortiGate NVA Dual-Firewall Pattern [E][O]
+### O1 â€“ FortiGate NVA Dual-Firewall Pattern [E][O]
 - [ ] FortiGate deployed
 - [ ] East-West / hybrid UDRs configured
 - [ ] traffic separation from Azure Firewall validated
 - [ ] validation evidence captured
 - [ ] teardown completed after validation
 
-### O2 – Azure Arc [O]
+### O2 â€“ Azure Arc [O]
 - [ ] Arc agent deployed to target machine
 - [ ] machine appears in Azure
 - [ ] tags/policy/management visibility confirmed
 
-### O3a – FortiGate ↔ VyOS BGP over IPSec [E][O]
+### O3a â€“ FortiGate â†” VyOS BGP over IPSec [E][O]
 - [ ] VyOS prepared locally
 - [ ] IPSec tunnel established
 - [ ] BGP peering established
@@ -562,26 +562,26 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - [ ] validation evidence captured
 - [ ] cloud-side ephemeral assets destroyed when no longer required
 
-### O3b – AWS Cisco Branch with Segmented BGP [E][O]
+### O3b â€“ AWS Cisco Branch with Segmented BGP [E][O]
 - [ ] AWS branch VPC created
 - [ ] Cisco NVA deployed
 - [ ] IPSec/BGP to Azure path established
 - [ ] branch segmentation validated
 - [ ] teardown completed after validation
 
-### O3c – Global Transit / Transitive Routing Validation [E][O]
+### O3c â€“ Global Transit / Transitive Routing Validation [E][O]
 - [ ] end-to-end route propagation verified
 - [ ] path tests completed
 - [ ] packet path notes saved
 - [ ] transit lab resources torn down after validation
 
-### O4 – Entra Global Secure Access [O]
+### O4 â€“ Entra Global Secure Access [O]
 - [ ] remote network configured
 - [ ] connector/dependency setup completed
 - [ ] private access policy validated
 - [ ] legacy VPN replacement narrative documented
 
-### O5 – Azure Virtual Desktop + FSLogix [E][O]
+### O5 â€“ Azure Virtual Desktop + FSLogix [E][O]
 - [ ] host pool created
 - [ ] workspace created
 - [ ] app group configured
@@ -595,29 +595,29 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ```text
 docs/
-└── release2/
-    └── evidence/
-        ├── P0/
-        ├── P1/
-        ├── P2a/
-        ├── P2b/
-        ├── P2c/
-        ├── P3/
-        ├── P4/
-        ├── P5/
-        ├── P6/
-        ├── P7/
-        ├── P8/
-        ├── P9a/
-        ├── P9b/
-        ├── P9c/
-        ├── O1/
-        ├── O2/
-        ├── O3a/
-        ├── O3b/
-        ├── O3c/
-        ├── O4/
-        └── O5/
+â””â”€â”€ release2/
+    â””â”€â”€ evidence/
+        â”œâ”€â”€ P0/
+        â”œâ”€â”€ P1/
+        â”œâ”€â”€ P2a/
+        â”œâ”€â”€ P2b/
+        â”œâ”€â”€ P2c/
+        â”œâ”€â”€ P3/
+        â”œâ”€â”€ P4/
+        â”œâ”€â”€ P5/
+        â”œâ”€â”€ P6/
+        â”œâ”€â”€ P7/
+        â”œâ”€â”€ P8/
+        â”œâ”€â”€ P9a/
+        â”œâ”€â”€ P9b/
+        â”œâ”€â”€ P9c/
+        â”œâ”€â”€ O1/
+        â”œâ”€â”€ O2/
+        â”œâ”€â”€ O3a/
+        â”œâ”€â”€ O3b/
+        â”œâ”€â”€ O3c/
+        â”œâ”€â”€ O4/
+        â””â”€â”€ O5/
 ```
 
 ---
@@ -717,3 +717,4 @@ Notes:
 - Governance-plane work was executed under the break-glass account due to management-group scope permissions.
 - P1 evidence is captured in docs/release2/evidence/P1/p1-evidence.txt
 - P1 raw execution history is captured in docs/release2/evidence/P1/p1-execution-log.txt
+
