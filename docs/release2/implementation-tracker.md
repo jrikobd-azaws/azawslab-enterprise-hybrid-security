@@ -689,3 +689,31 @@ Use this section during execution.
 
 **Signed off by:** HASHIBUR RAHMAN 
 **Date:** 29-April-2026
+---
+
+## P1 Closure Update
+
+Status: Complete
+
+Completed outcomes:
+- Management groups created:
+  - mg-platform-prod-global
+  - mg-landingzones-prod-global
+  - mg-sandbox-prod-global
+- Subscription moved under mg-landingzones-prod-global
+- Governance baseline implemented through Terraform policy assignments
+- Total active policy assignments: 7
+  - pa-loc-prod-uks
+  - pa-rgloc-uks
+  - pa-vmsku-prod
+  - pa-tag-env
+  - pa-tag-proj
+  - pa-tag-own
+  - pa-tag-cost
+- Azure-side policy assignment verification completed
+- Resource group location deny test succeeded for eastus
+
+Notes:
+- Governance-plane work was executed under the break-glass account due to management-group scope permissions.
+- P1 evidence is captured in docs/release2/evidence/P1/p1-evidence.txt
+- P1 raw execution history is captured in docs/release2/evidence/P1/p1-execution-log.txt

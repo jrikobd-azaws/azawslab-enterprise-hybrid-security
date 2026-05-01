@@ -484,3 +484,20 @@ Use it as a targeted execution environment, then stop or delete it after the ses
 - start the workspace only when needed
 - commit and push before deleting it
 - avoid keeping it running for general writing or planning work
+
+---
+
+## P1 Closure Checkpoint
+
+Phase status: Complete
+
+Validated:
+- Management-group hierarchy created
+- Subscription placement under landing-zones confirmed
+- Governance baseline applied
+- Azure policy assignments verified
+- Deny test for disallowed resource-group location succeeded
+
+Evidence:
+- docs/release2/evidence/P1/p1-evidence.txt
+- docs/release2/evidence/P1/p1-execution-log.txt
