@@ -1,0 +1,187 @@
+﻿Release 2 - Phase P1 Evidence
+Phase: Landing Zone and Management Groups
+Project: Azawslab Release 2
+
+This file contains curated successful evidence only.
+
+==============================
+STEP P1.0 - MANAGEMENT GROUP READINESS CONFIRMATION
+
+COMMAND:
+az account management-group list --output table
+
+OUTPUT:
+DisplayName        Name                                  TenantId
+-----------------  ------------------------------------  ------------------------------------
+Tenant Root Group  78643a83-bcc9-4a3b-ab7e-eeede0b3384e  78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+
+RESULT:
+Management-group visibility was confirmed under the break-glass account, allowing Phase P1 governance bootstrap to proceed.
+
+==============================
+STEP P1.1 - MANAGEMENT GROUP CREATION
+
+COMMAND:
+az account management-group create --name mg-platform-prod-global --display-name "mg-platform-prod-global"
+az account management-group create --name mg-landingzones-prod-global --display-name "mg-landingzones-prod-global"
+az account management-group create --name mg-sandbox-prod-global --display-name "mg-sandbox-prod-global"
+
+RESULT:
+Management groups created successfully:
+- mg-platform-prod-global
+- mg-landingzones-prod-global
+- mg-sandbox-prod-global
+
+==============================
+STEP P1.2 - SUBSCRIPTION PLACEMENT UNDER LANDING ZONES
+
+COMMAND:
+az account management-group subscription add --name mg-landingzones-prod-global --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6
+az account management-group show --name mg-landingzones-prod-global --expand --output json
+
+OUTPUT:
+{
+  "displayName": "Azure subscription 1",
+  "id": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "name": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "parent": {
+    "id": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+  },
+  "state": "Active",
+  "tenant": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "type": "Microsoft.Management/managementGroups/subscriptions"
+}
+
+{
+  "children": [
+    {
+      "displayName": "Azure subscription 1",
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+      "name": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+      "type": "/subscriptions"
+    }
+  ],
+  "details": {
+    "parent": {
+      "displayName": "Tenant Root Group",
+      "id": "/providers/Microsoft.Management/managementGroups/78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+      "name": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e"
+    }
+  },
+  "displayName": "mg-landingzones-prod-global",
+  "id": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global",
+  "name": "mg-landingzones-prod-global",
+  "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "type": "Microsoft.Management/managementGroups"
+}
+
+RESULT:
+The subscription was successfully placed under mg-landingzones-prod-global.
+
+==============================
+STEP P1.3 - TERRAFORM PLAN FOR GOVERNANCE BASELINE
+
+COMMAND:
+terraform plan -out=tfplan-p1
+
+OUTPUT:
+Plan: 7 to add, 0 to change, 0 to destroy.
+
+PLANNED ASSIGNMENTS:
+- pa-loc-prod-uks
+- pa-rgloc-uks
+- pa-vmsku-prod
+- pa-tag-env
+- pa-tag-proj
+- pa-tag-own
+- pa-tag-cost
+
+RESULT:
+The Phase P1 governance baseline planned successfully at the mg-landingzones-prod-global scope.
+
+==============================
+STEP P1.4 - TERRAFORM APPLY FOR GOVERNANCE BASELINE
+
+COMMAND:
+terraform apply "tfplan-p1"
+
+OUTPUT:
+Apply complete! Resources: 7 added, 0 changed, 0 destroyed.
+
+APPLIED ASSIGNMENTS:
+- pa-loc-prod-uks
+- pa-rgloc-uks
+- pa-vmsku-prod
+- pa-tag-env
+- pa-tag-proj
+- pa-tag-own
+- pa-tag-cost
+
+RESULT:
+The Phase P1 governance baseline was successfully applied at the mg-landingzones-prod-global management-group scope.
+
+==============================
+STEP P1.5 - AZURE POLICY ASSIGNMENT VERIFICATION
+
+COMMAND:
+az policy assignment list --scope "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global" --output table
+
+OUTPUT:
+DefinitionVersion    DisplayName      EnforcementMode    Name             PolicyDefinitionId                                                                         Scope
+-------------------  ---------------  -----------------  ---------------  -----------------------------------------------------------------------------------------  ----------------------------------------------------------------------------
+1.*.*                pa-vmsku-prod    Default            pa-vmsku-prod    /providers/Microsoft.Authorization/policyDefinitions/cccc23c7-8427-4f53-ad12-b6a63eb452b3  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-tag-env       Default            pa-tag-env       /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-tag-cost      Default            pa-tag-cost      /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-tag-proj      Default            pa-tag-proj      /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-tag-own       Default            pa-tag-own       /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-loc-prod-uks  Default            pa-loc-prod-uks  /providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-rgloc-uks     Default            pa-rgloc-uks     /providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+
+RESULT:
+Azure confirmed the full Phase P1 governance baseline at the landing-zones management-group scope.
+
+==============================
+STEP P1.6 - LOCATION GOVERNANCE DENY TEST
+
+COMMAND:
+az group create --name rg-test-policy-eastus --location eastus --tags Environment=Development Project=Azawslab-Release2 Owner=admin-lab CostCenter=Lab-123
+
+OUTPUT:
+(RequestDisallowedByPolicy) Resource 'rg-test-policy-eastus' was disallowed by policy.
+
+POLICY DETAILS:
+- Policy Assignment: pa-rgloc-uks
+- Policy Definition: Allowed locations for resource groups
+- Policy Effect: Deny
+- Policy Scope: /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+- Attempted Location: eastus
+- Allowed Location: uksouth
+
+RESULT:
+The Phase P1 location-governance deny test succeeded. Azure Policy blocked resource-group creation outside the allowed region.
+
+==============================
+P1 GOVERNANCE BASELINE COUNT
+
+RESULT:
+The Phase P1 governance baseline contains 7 Azure Policy assignments:
+- pa-loc-prod-uks
+- pa-rgloc-uks
+- pa-vmsku-prod
+- pa-tag-env
+- pa-tag-proj
+- pa-tag-own
+- pa-tag-cost
+
+==============================
+P1 CLOSURE STATUS
+
+RESULT:
+Phase P1 is complete from an implementation and validation perspective.
+
+COMPLETED:
+- management groups created
+- subscription placed under mg-landingzones-prod-global
+- 7 governance policy assignments applied
+- Azure-side policy assignment verification completed
+- location-governance deny test succeeded

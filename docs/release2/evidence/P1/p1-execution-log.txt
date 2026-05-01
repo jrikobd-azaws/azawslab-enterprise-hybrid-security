@@ -1,0 +1,256 @@
+﻿Release 2 - Phase P1 Execution Log
+Phase: Landing Zone and Management Groups
+Project: Azawslab Release 2
+
+==============================
+STEP P1.0 - MANAGEMENT GROUP READINESS CONFIRMATION
+
+COMMAND:
+az account management-group list --output table
+
+OUTPUT:
+DisplayName        Name                                  TenantId
+-----------------  ------------------------------------  ------------------------------------
+Tenant Root Group  78643a83-bcc9-4a3b-ab7e-eeede0b3384e  78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+
+RESULT:
+Management-group visibility is available under the break-glass account.
+
+NOTE:
+P1 governance-plane work can proceed under hashib. The working admin account admin-lab does not currently have management-group read access.
+
+==============================
+STEP P1.1 - MANAGEMENT GROUP CREATION
+
+COMMAND:
+az account management-group create --name mg-platform-prod-global --display-name "mg-platform-prod-global"
+az account management-group create --name mg-landingzones-prod-global --display-name "mg-landingzones-prod-global"
+az account management-group create --name mg-sandbox-prod-global --display-name "mg-sandbox-prod-global"
+
+RESULT:
+Management groups were created successfully:
+- mg-platform-prod-global
+- mg-landingzones-prod-global
+- mg-sandbox-prod-global
+
+NOTE:
+The direct create responses confirmed success even though the subsequent table list output did not yet show the new groups.
+
+==============================
+STEP P1.2 - SUBSCRIPTION PLACEMENT UNDER LANDING ZONES
+
+COMMAND:
+az account management-group subscription add --name mg-landingzones-prod-global --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6
+az account management-group show --name mg-landingzones-prod-global --expand --output json
+
+OUTPUT:
+{
+  "displayName": "Azure subscription 1",
+  "id": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "name": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "parent": {
+    "id": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+  },
+  "state": "Active",
+  "tenant": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "type": "Microsoft.Management/managementGroups/subscriptions"
+}
+
+{
+  "children": [
+    {
+      "displayName": "Azure subscription 1",
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+      "name": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+      "type": "/subscriptions"
+    }
+  ],
+  "details": {
+    "parent": {
+      "displayName": "Tenant Root Group",
+      "id": "/providers/Microsoft.Management/managementGroups/78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+      "name": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e"
+    }
+  },
+  "displayName": "mg-landingzones-prod-global",
+  "id": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global",
+  "name": "mg-landingzones-prod-global",
+  "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "type": "Microsoft.Management/managementGroups"
+}
+
+RESULT:
+The subscription was successfully placed under mg-landingzones-prod-global.
+
+NOTE:
+This establishes the correct governance scope for later P1 policy assignment and deny-validation work.
+
+==============================
+STEP P1.3 - POLICY SCAFFOLD READINESS CHECK
+
+COMMAND:
+Get-ChildItem .\terraform\environments\dev -File | Select-Object Name
+Get-ChildItem .\terraform\modules -Force
+
+OUTPUT:
+terraform\environments\dev contains:
+- .terraform.lock.hcl
+- backend.tf
+- main.tf
+- providers.tf
+
+terraform\modules exists and is currently empty.
+
+RESULT:
+No existing P1 policy Terraform files were present, so the next step is to create the initial policy scaffold in the dev environment.
+
+==============================
+STEP P1.4 - POLICY FILE SCAFFOLD CREATED
+
+COMMAND:
+Set-Content .\terraform\environments\dev\policies.tf
+Get-Content .\terraform\environments\dev\policies.tf
+
+OUTPUT:
+# Phase P1 policy scaffold
+# This file will hold Azure Policy definitions and assignments for:
+# - allowed locations
+# - allowed VM SKUs
+# - mandatory tags
+
+# Target management group:
+# mg-landingzones-prod-global
+
+RESULT:
+The initial Terraform policy scaffold file was created for Phase P1 governance controls.
+
+==============================
+STEP P1.5 - ALLOWED LOCATIONS POLICY BLOCK ADDED
+
+COMMAND:
+Get-Content .\terraform\environments\dev\policies.tf
+
+OUTPUT:
+# Phase P1 policy scaffold
+# This file holds Azure Policy assignments for:
+# - allowed locations
+# - allowed VM SKUs
+# - mandatory tags
+
+data "azurerm_policy_definition" "allowed_locations" {
+  display_name = "Allowed locations"
+}
+
+resource "azurerm_management_group_policy_assignment" "allowed_locations" {
+  name                 = "pa-allowed-locations-prod-global"
+  display_name         = "pa-allowed-locations-prod-global"
+  policy_definition_id = data.azurerm_policy_definition.allowed_locations.id
+  management_group_id  = "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+
+  parameters = jsonencode({
+    listOfAllowedLocations = {
+      value = ["uksouth"]
+    }
+  })
+}
+
+RESULT:
+The first P1 governance control was added to Terraform as a management-group policy assignment for allowed locations.
+
+==============================
+STEP P1.6 - TERRAFORM VALIDATION FIX FOR POLICY ASSIGNMENT NAME
+
+ISSUE:
+Terraform validation failed because the Azure policy assignment name exceeded the provider length limit.
+
+FIX:
+The assignment name was shortened from:
+pa-allowed-locations-prod-global
+
+to:
+pa-loc-prod-uks
+
+COMMAND:
+terraform validate
+
+RESULT:
+Success! The configuration is valid.
+
+NOTE:
+The allowed-locations policy block now validates successfully and remains scoped to mg-landingzones-prod-global.
+
+==============================
+STEP P1.7 - ALLOWED VM SKU POLICY BLOCK ADDED
+
+COMMAND:
+Get-Content .\policies.tf
+terraform fmt
+terraform validate
+
+RESULT:
+Success! The configuration is valid.
+
+NOTE:
+The second P1 governance control was added as a management-group policy assignment restricting allowed VM SKUs to Standard_B1s and Standard_B2s.
+
+==============================
+STEP P1.11 - TERRAFORM PLAN FOR P1 GOVERNANCE BASELINE
+
+COMMAND:
+terraform plan -out=tfplan-p1
+
+RESULT:
+Terraform generated a clean plan for six management-group policy assignments.
+
+PLANNED ASSIGNMENTS:
+- allowed locations
+- allowed VM SKUs
+- require tag: Environment
+- require tag: Project
+- require tag: Owner
+- require tag: CostCenter
+
+PLAN SUMMARY:
+Plan: 6 to add, 0 to change, 0 to destroy.
+
+NOTE:
+The plan was saved as tfplan-p1 and is ready for controlled apply.
+
+==============================
+STEP P1.12 - TERRAFORM APPLY FOR P1 GOVERNANCE BASELINE
+
+COMMAND:
+terraform apply "tfplan-p1"
+
+RESULT:
+Apply complete! Resources: 6 added, 0 changed, 0 destroyed.
+
+APPLIED ASSIGNMENTS:
+- pa-loc-prod-uks
+- pa-vmsku-prod
+- pa-tag-env
+- pa-tag-proj
+- pa-tag-own
+- pa-tag-cost
+
+NOTE:
+The P1 governance baseline is now active at the mg-landingzones-prod-global management-group scope.
+
+==============================
+STEP P1.13 - AZURE POLICY ASSIGNMENT VERIFICATION
+
+COMMAND:
+az policy assignment list --scope "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global" --output table
+
+OUTPUT:
+DefinitionVersion    DisplayName      EnforcementMode    Name             PolicyDefinitionId                                                                         Scope
+-------------------  ---------------  -----------------  ---------------  -----------------------------------------------------------------------------------------  ----------------------------------------------------------------------------
+1.*.*                pa-vmsku-prod    Default            pa-vmsku-prod    /providers/Microsoft.Authorization/policyDefinitions/cccc23c7-8427-4f53-ad12-b6a63eb452b3  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-tag-env       Default            pa-tag-env       /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-tag-cost      Default            pa-tag-cost      /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-tag-proj      Default            pa-tag-proj      /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-tag-own       Default            pa-tag-own       /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+1.*.*                pa-loc-prod-uks  Default            pa-loc-prod-uks  /providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+
+RESULT:
+Azure confirmed all six P1 governance policy assignments at the mg-landingzones-prod-global scope.
