@@ -96,7 +96,7 @@ Complete this before active build execution.
 
 ### 5.1 Azure / Subscription Readiness
 - [ ] Azure subscription upgraded to Pay-As-You-Go
-- [ ] Correct subscription selected
+- [X] Correct subscription selected
 - [ ] Entra domain `entra.azawslab.co.uk` verified
 - [ ] region target confirmed as `uksouth`
 - [ ] budget / cost alerts configured
@@ -111,7 +111,7 @@ Complete this before active build execution.
 
 ### 5.3 GitHub Readiness
 - [ ] repo reachable
-- [ ] GitHub environment `release-2` exists
+- [X] GitHub environment `release-2` exists
 - [ ] branch strategy decided
 - [ ] protected branch identified
 - [ ] planned secrets/variables list documented
@@ -147,7 +147,7 @@ Complete this before serious build execution if you intend to use Codespaces.
 - [ ] `git --version` works
 
 ### 6.3 Authentication Check
-- [ ] Azure sign-in works in the intended execution environment
+- [X] Azure sign-in works in the intended execution environment
 - [ ] Git works from the intended execution environment
 - [ ] repo push/pull workflow is understood before making infra changes
 
@@ -242,9 +242,9 @@ Do this during the phase, not at the end of the week.
 
 ### 11.1 Evidence Discipline
 - [ ] evidence folder for the phase exists
-- [ ] validation output is saved immediately after successful check
+- [X] validation output is saved immediately after successful check
 - [ ] filenames are short, readable, and phase-appropriate
-- [ ] text evidence is preferred over screenshots
+- [X] text evidence is preferred over screenshots
 - [ ] screenshots are only used when text evidence is insufficient
 
 ### 11.2 Minimum Evidence Questions

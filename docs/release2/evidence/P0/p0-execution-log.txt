@@ -1,0 +1,325 @@
+﻿Release 2 - P0 Execution Log
+Repo: azawslab-enterprise-hybrid-security
+Owner: jrikobd-azaws
+GitHub Environment: release-2
+Federated Subject: repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2
+Execution Context: local PowerShell / local Azure CLI
+
+==============================
+STEP P0.2 - APP REGISTRATION CHECK
+COMMAND:
+az ad app list --display-name "sp-terraform-gh" --output json
+
+OUTPUT:
+[   {     "addIns": [],     "api": {       "acceptMappedClaims": null,       "knownClientApplications": [],       "oauth2PermissionScopes": [],       "preAuthorizedApplications": [],       "requestedAccessTokenVersion": null     },     "appId": "a05993a6-d1ef-42e4-be77-b42b8caaaefe",     "appRoles": [],     "applicationTemplateId": null,     "certification": null,     "createdByAppId": "04b07795-8ddb-461a-bbee-02f9e1bf7b46",     "createdDateTime": "2026-05-01T10:04:36Z",     "defaultRedirectUri": null,     "deletedDateTime": null,     "description": null,     "disabledByMicrosoftStatus": null,     "displayName": "sp-terraform-gh",     "groupMembershipClaims": null,     "id": "3941c2dd-7e2e-4e10-a735-1f0391f948a0",     "identifierUris": [],     "info": {       "logoUrl": null,       "marketingUrl": null,       "privacyStatementUrl": null,       "supportUrl": null,       "termsOfServiceUrl": null     },     "isDeviceOnlyAuthSupported": null,     "isDisabled": null,     "isFallbackPublicClient": null,     "keyCredentials": [],     "nativeAuthenticationApisEnabled": null,     "notes": null,     "optionalClaims": null,     "parentalControlSettings": {       "countriesBlockedForMinors": [],       "legalAgeGroupRule": "Allow"     },     "passwordCredentials": [],     "publicClient": {       "redirectUris": []     },     "publisherDomain": "entra.azawslab.co.uk",     "requestSignatureVerification": null,     "requiredResourceAccess": [],     "samlMetadataUrl": null,     "serviceManagementReference": null,     "servicePrincipalLockConfiguration": null,     "signInAudience": "AzureADMyOrg",     "spa": {       "redirectUris": []     },     "tags": [],     "tokenEncryptionKeyId": null,     "uniqueName": null,     "verifiedPublisher": {       "addedDateTime": null,       "displayName": null,       "verifiedPublisherId": null     },     "web": {       "homePageUrl": null,       "implicitGrantSettings": {         "enableAccessTokenIssuance": false,         "enableIdTokenIssuance": false       },       "logoutUrl": null,       "redirectUriSettings": [],       "redirectUris": []     }   } ]
+
+==============================
+STEP P0.2 - SERVICE PRINCIPAL CREATE
+COMMAND:
+az ad sp create --id a05993a6-d1ef-42e4-be77-b42b8caaaefe
+
+OUTPUT:
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+  "accountEnabled": true,
+  "addIns": [],
+  "alternativeNames": [],
+  "appDescription": null,
+  "appDisplayName": "sp-terraform-gh",
+  "appId": "a05993a6-d1ef-42e4-be77-b42b8caaaefe",
+  "appOwnerOrganizationId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "appRoleAssignmentRequired": false,
+  "appRoles": [],
+  "applicationTemplateId": null,
+  "createdByAppId": "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+  "createdDateTime": null,
+  "deletedDateTime": null,
+  "description": null,
+  "disabledByMicrosoftStatus": null,
+  "displayName": "sp-terraform-gh",
+  "homepage": null,
+  "id": "f0c31d32-a72f-4b16-8643-c3f19900da29",
+  "info": {
+    "logoUrl": null,
+    "marketingUrl": null,
+    "privacyStatementUrl": null,
+    "supportUrl": null,
+    "termsOfServiceUrl": null
+  },
+  "isDisabled": null,
+  "keyCredentials": [],
+  "loginUrl": null,
+  "logoutUrl": null,
+  "notes": null,
+  "notificationEmailAddresses": [],
+  "oauth2PermissionScopes": [],
+  "passwordCredentials": [],
+  "preferredSingleSignOnMode": null,
+  "preferredTokenSigningKeyThumbprint": null,
+  "replyUrls": [],
+  "resourceSpecificApplicationPermissions": [],
+  "samlSingleSignOnSettings": null,
+  "servicePrincipalNames": [
+    "a05993a6-d1ef-42e4-be77-b42b8caaaefe"
+  ],
+  "servicePrincipalType": "Application",
+  "signInAudience": "AzureADMyOrg",
+  "tags": [],
+  "tokenEncryptionKeyId": null,
+  "verifiedPublisher": {
+    "addedDateTime": null,
+    "displayName": null,
+    "verifiedPublisherId": null
+  }
+}
+
+
+==============================
+STEP P0.2 - SUBSCRIPTION ROLE ASSIGNMENT
+COMMAND:
+az role assignment create --assignee a05993a6-d1ef-42e4-be77-b42b8caaaefe --role Contributor --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+OUTPUT:
+az : ERROR: (AuthorizationFailed) The client 'admin-lab@entra.azawslab.co.uk' with object id '6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d' does not have authorization to perform action 'Microsoft.Authorization/roleAssignments/write' over scope '/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleAssignments/aa6d3023-1078-4a45-987e-e98d4bb7cf35' or the scope is invalid. If access was recently granted, please refresh your credentials.
+At line:1 char:15
++ ... oleAssign = az role assignment create --assignee $APP_ID --role Contr ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ERROR: (Authori...ur credentials.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Code: AuthorizationFailed
+Message: The client 'admin-lab@entra.azawslab.co.uk' with object id '6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d' does not have authorization to perform action 'Microsoft.Authorization/roleAssignments/write' over scope '/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleAssignments/aa6d3023-1078-4a45-987e-e98d4bb7cf35' or the scope is invalid. If access was recently granted, please refresh your credentials.
+
+
+==============================
+STEP P0.2 - CURRENT USER SUBSCRIPTION ROLE CHECK
+COMMAND:
+az role assignment list --assignee 6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6 --output json
+
+OUTPUT:
+[]
+
+
+==============================
+STEP P0.2 - WORKLOAD IDENTITY ROLE ASSIGNMENT RETRY
+COMMAND:
+az role assignment create --assignee a05993a6-d1ef-42e4-be77-b42b8caaaefe --role Contributor --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+OUTPUT:
+{
+  "condition": null,
+  "conditionVersion": null,
+  "createdBy": null,
+  "createdOn": "2026-05-01T10:25:05.010006+00:00",
+  "delegatedManagedIdentityResourceId": null,
+  "description": null,
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleAssignments/55af33a6-e475-4ba7-a742-834e5995d039",
+  "name": "55af33a6-e475-4ba7-a742-834e5995d039",
+  "principalId": "f0c31d32-a72f-4b16-8643-c3f19900da29",
+  "principalType": "ServicePrincipal",
+  "roleDefinitionId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+  "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "type": "Microsoft.Authorization/roleAssignments",
+  "updatedBy": "6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d",
+  "updatedOn": "2026-05-01T10:25:06.693834+00:00"
+}
+
+
+==============================
+STEP P0.2 - FEDERATED CREDENTIAL JSON
+FILE:
+.\federated-credential.json
+
+CONTENT:
+{
+  "name": "github-actions-release2",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "subject": "repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2",
+  "audiences": [
+    "api://AzureADTokenExchange"
+  ]
+}
+
+
+==============================
+STEP P0.2 - FEDERATED CREDENTIAL CREATE
+COMMAND:
+az ad app federated-credential create --id 3941c2dd-7e2e-4e10-a735-1f0391f948a0 --parameters .\federated-credential.json
+
+OUTPUT:
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#applications('3941c2dd-7e2e-4e10-a735-1f0391f948a0')/federatedIdentityCredentials/$entity",
+  "audiences": [
+    "api://AzureADTokenExchange"
+  ],
+  "description": null,
+  "id": "02b3bdec-fcca-4f35-bade-160cb5a27a93",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "name": "github-actions-release2",
+  "subject": "repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2"
+}
+
+
+==============================
+STEP P0.2 - FEDERATED CREDENTIAL VERIFY RETRY
+COMMAND:
+az ad app federated-credential list --id 3941c2dd-7e2e-4e10-a735-1f0391f948a0 --output json
+
+OUTPUT:
+[
+  {
+    "audiences": [
+      "api://AzureADTokenExchange"
+    ],
+    "description": "",
+    "id": "02b3bdec-fcca-4f35-bade-160cb5a27a93",
+    "issuer": "https://token.actions.githubusercontent.com",
+    "name": "github-actions-release2",
+    "subject": "repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2"
+  }
+]
+
+
+==============================
+STEP P0.3 - BACKEND RESOURCE GROUP CREATE
+COMMAND:
+az group create --name rg-dev-terraformstate-uksouth --location uksouth
+
+OUTPUT:
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth",
+  "location": "uksouth",
+  "managedBy": null,
+  "name": "rg-dev-terraformstate-uksouth",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+
+==============================
+STEP P0.3 - BACKEND RESOURCE GROUP CREATE
+COMMAND:
+az group create --name rg-dev-terraformstate-uksouth --location uksouth
+
+OUTPUT:
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth",
+  "location": "uksouth",
+  "managedBy": null,
+  "name": "rg-dev-terraformstate-uksouth",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+
+==============================
+STEP P0.3 - TFSTATE CONTAINER CREATE
+COMMAND:
+az storage container create --name tfstate --account-name stdevtfstateazaws01 --auth-mode login
+
+OUTPUT:
+az : ERROR: HTTPSConnection(host='stdevtfstateazaws01.blob.core.windows.net', port=443): Failed to resolve 'stdevtfstateazaws01.blob.core.windows.net' ([Errno 11001] getaddrinfo failed)
+At line:1 char:20
++ ... nerCreate = az storage container create --name tfstate --account-name ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ERROR: HTTPSCon...ddrinfo failed):String) [], Re    moteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+
+==============================
+STEP P0.3 - BACKEND RESOURCE VERIFY
+COMMAND:
+az group show --name rg-dev-terraformstate-uksouth --output json
+az storage account show --name stdevtfstateazaws01 --resource-group rg-dev-terraformstate-uksouth --output json
+
+OUTPUT:
+--- RESOURCE GROUP ---
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth",
+  "location": "uksouth",
+  "managedBy": null,
+  "name": "rg-dev-terraformstate-uksouth",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+
+--- STORAGE ACCOUNT ---
+az : ERROR: (ResourceNotFound) The Resource 'Microsoft.Storage/storageAccounts/stdevtfstateazaws01' under resource group 'rg-dev-terraformstate-uksouth' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix
+At line:1 char:11
++ $saShow = az storage account show --name stdevtfstateazaws01 --resour ...
++           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ERROR: (Resourc...urceNotFoundFix:String) [], Re    moteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Code: ResourceNotFound
+Message: The Resource 'Microsoft.Storage/storageAccounts/stdevtfstateazaws01' under resource group 'rg-dev-terraformstate-uksouth' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix
+
+
+==============================
+STEP P0.3 - BACKEND TAG CORRECTION
+COMMAND:
+az group update --name rg-dev-terraformstate-uksouth --set tags.Environment=Development tags.Project=Azawslab-Release2 tags.Owner=admin-lab tags.CostCenter=Lab-123 tags.DeploymentMethod=AzureCLI
+az storage account update --name stdevtfstateazaws01 --resource-group rg-dev-terraformstate-uksouth --set tags.Environment=Development tags.Project=Azawslab-Release2 tags.Owner=admin-lab tags.CostCenter=Lab-123 tags.DeploymentMethod=AzureCLI
+
+OUTPUT:
+--- RESOURCE GROUP TAG UPDATE ---
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth",
+  "location": "uksouth",
+  "managedBy": null,
+  "name": "rg-dev-terraformstate-uksouth",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "AzureCLI",
+    "Environment": "Development",
+    "Owner": "admin-lab",
+    "Project": "Azawslab-Release2"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+
+--- STORAGE ACCOUNT TAG UPDATE ---
+az : WARNING: The --min-tls-version argument values TLS1_0 and TLS1_1 have been retired on 2026/02/03 and will be removed on 2026/03/03.
+At line:1 char:10
++ $saTag = az storage account update --name stdevtfstateazaws01 --resou ...
++          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: The --... on 2026/03/03.:String) [], Re    moteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ERROR: (ResourceNotFound) The Resource 'Microsoft.Storage/storageAccounts/stdevtfstateazaws01' under resource group 'rg-dev-terraformstate-uksouth' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix
+Code: ResourceNotFound
+Message: The Resource 'Microsoft.Storage/storageAccounts/stdevtfstateazaws01' under resource group 'rg-dev-terraformstate-uksouth' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix
+
+
+==============================
+STEP P0.4 - POST-INIT WORKING DIRECTORY CHECK
+
+COMMAND:
+Get-ChildItem .\terraform\environments\dev -Force
+
+OUTPUT:
+Directory: C:\GitHub\azawslab-enterprise-hybrid-security\terraform\environments\dev
+
+- .terraform directory present
+- .terraform.lock.hcl present
+- backend.tf present
+- main.tf present
+- providers.tf present
+
+NOTE:
+This confirms the dev Terraform environment was initialized successfully and produced the expected local working files after backend initialization.

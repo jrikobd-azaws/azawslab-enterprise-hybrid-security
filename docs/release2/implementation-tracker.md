@@ -31,14 +31,14 @@ It should be used together with:
 
 ## 2. Status Legend
 
-| Symbol | Meaning |
-|--------|---------|
-| [ ] | Not started |
-| [~] | In progress |
-| [x] | Completed and validated |
-| [!] | Blocked |
-| [E] | Ephemeral – destroy after validation |
-| [O] | Optional phase |
+| Symbol | Meaning                              |
+| ------ | ------------------------------------ |
+| [ ]    | Not started                          |
+| [~]    | In progress                          |
+| [x]    | Completed and validated              |
+| [!]    | Blocked                              |
+| [E]    | Ephemeral – destroy after validation |
+| [O]    | Optional phase                       |
 
 ---
 
@@ -175,10 +175,10 @@ This section reflects the current project state: planning/documentation first, e
 - [ ] Teardown expectation documented for AWS ephemeral resources
 
 ### 5.6 Entra ID & Service Principal Bootstrap Readiness
-- [ ] Role capability confirmed for app registration and RBAC assignment
-- [ ] OIDC app registration naming confirmed
-- [ ] Subscription scope for Contributor role confirmed
-- [ ] GitHub repo/environment subject format documented for federated credential
+- [X] Role capability confirmed for app registration and RBAC assignment
+- [X] OIDC app registration naming confirmed
+- [X] Subscription scope for Contributor role confirmed
+- [X] GitHub repo/environment subject format documented for federated credential
 
 ### 5.7 Pre-P0 Smoke Test
 - [ ] `az account show` returns the correct subscription
@@ -193,29 +193,29 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ## 6. Core Phase Tracker (P0–P9c, O1–O5)
 
-| Phase | Name | Depends On | Est. Time | Status | Evidence Path | Validation Gate | Teardown / Cost Action |
-|------|------|------------|-----------|--------|---------------|-----------------|------------------------|
-| P0 | Foundation & OIDC Backend | Prep | 1h | [ ] | `docs/release2/evidence/P0/` | OIDC workflow succeeds; backend init succeeds | Persistent |
-| P1 | Landing Zone & Management Groups | P0 | 30m | [ ] | `docs/release2/evidence/P1/` | MG hierarchy exists; policy assignments visible | Persistent |
-| P2a | Terraform Reusable Modules | P1 | 1h | [ ] | `docs/release2/evidence/P2a/` | `terraform validate` and `plan` succeed; no public IP on workload VM | Persistent |
-| P2b | Ansible Configuration Management | P2a | 45m | [ ] | `docs/release2/evidence/P2b/` | playbook succeeds; rerun shows idempotency | Persistent |
-| P2c | CI/CD Pipeline | P0, P2a | 45m | [ ] | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds | Persistent |
-| P3 | Enterprise Governance & Guardrails | P1 | 30m | [ ] | `docs/release2/evidence/P3/` | deny policy tested; RBAC verified | Persistent |
-| P4 | Azure Lighthouse | P0 | 30m | [ ] | `docs/release2/evidence/P4/` | delegated visibility works cross-tenant | Remove if no longer needed |
-| P5 | Hub-Spoke Networking | P0 | 1h | [ ] | `docs/release2/evidence/P5/` | peering and routing validated | Persistent |
-| P6 | Azure Firewall | P5 | 1h | [ ] | `docs/release2/evidence/P6/` | forced tunneling and block test succeed | [E] destroy after validation unless needed for O1 |
-| P7 | Defender for Cloud | P5 | 30m | [ ] | `docs/release2/evidence/P7/` | plans enabled; recommendations visible | Persistent |
-| P8 | Microsoft Sentinel | P7 | 45m | [ ] | `docs/release2/evidence/P8/` | incident generation path validated | Persistent |
-| P9a | Azure Monitor Alerts | P7 | 30m | [ ] | `docs/release2/evidence/P9a/` | alert rule fires and action group works | Persistent |
-| P9b | Backup / Recovery Services Vault | P5 | 45m | [ ] | `docs/release2/evidence/P9b/` | backup policy and protected item verified | Persistent |
-| P9c | Final Validation & Portfolio Evidence Pack | P0–P9b | 1h | [ ] | `docs/release2/evidence/P9c/` | all mandatory evidence complete | Persistent |
-| O1 | FortiGate NVA Dual-Firewall Pattern | P5, P6 | 1h | [ ] | `docs/release2/evidence/O1/` | UDR steering and East-West inspection validated | [E] destroy after validation |
-| O2 | Azure Arc | P5 | 45m | [ ] | `docs/release2/evidence/O2/` | Arc machine shows connected | Persistent / optional |
-| O3a | FortiGate ↔ VyOS BGP over IPSec | O1 | 1.5h | [ ] | `docs/release2/evidence/O3a/` | BGP session up; routes learned | [E] destroy cloud-side ephemeral assets if not needed |
-| O3b | AWS Cisco Branch with Segmented BGP | O3a | 1.5h | [ ] | `docs/release2/evidence/O3b/` | AWS branch routes propagate correctly | [E] destroy AWS NVA after validation |
-| O3c | Global Transit / Transitive Routing Validation | O3a, O3b | 1h | [ ] | `docs/release2/evidence/O3c/` | end-to-end path validation succeeds | [E] teardown transient routing lab components |
-| O4 | Entra Global Secure Access | P5 | 1h | [ ] | `docs/release2/evidence/O4/` | private access validated; remote network works | Optional persistent |
-| O5 | Azure Virtual Desktop + FSLogix | P5 | 1.5h | [ ] | `docs/release2/evidence/O5/` | host pool, profiles, and session validation succeed | [E] destroy session hosts after validation if budget-sensitive |
+| Phase | Name                                           | Depends On | Est. Time | Status | Evidence Path                 | Validation Gate                                                      | Teardown / Cost Action                                         |
+| ----- | ---------------------------------------------- | ---------- | --------- | ------ | ----------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
+| P0    | Foundation & OIDC Backend                      | Prep       | 1h        | [ ]    | `docs/release2/evidence/P0/`  | OIDC workflow succeeds; backend init succeeds                        | Persistent                                                     |
+| P1    | Landing Zone & Management Groups               | P0         | 30m       | [ ]    | `docs/release2/evidence/P1/`  | MG hierarchy exists; policy assignments visible                      | Persistent                                                     |
+| P2a   | Terraform Reusable Modules                     | P1         | 1h        | [ ]    | `docs/release2/evidence/P2a/` | `terraform validate` and `plan` succeed; no public IP on workload VM | Persistent                                                     |
+| P2b   | Ansible Configuration Management               | P2a        | 45m       | [ ]    | `docs/release2/evidence/P2b/` | playbook succeeds; rerun shows idempotency                           | Persistent                                                     |
+| P2c   | CI/CD Pipeline                                 | P0, P2a    | 45m       | [ ]    | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds             | Persistent                                                     |
+| P3    | Enterprise Governance & Guardrails             | P1         | 30m       | [ ]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                    | Persistent                                                     |
+| P4    | Azure Lighthouse                               | P0         | 30m       | [ ]    | `docs/release2/evidence/P4/`  | delegated visibility works cross-tenant                              | Remove if no longer needed                                     |
+| P5    | Hub-Spoke Networking                           | P0         | 1h        | [ ]    | `docs/release2/evidence/P5/`  | peering and routing validated                                        | Persistent                                                     |
+| P6    | Azure Firewall                                 | P5         | 1h        | [ ]    | `docs/release2/evidence/P6/`  | forced tunneling and block test succeed                              | [E] destroy after validation unless needed for O1              |
+| P7    | Defender for Cloud                             | P5         | 30m       | [ ]    | `docs/release2/evidence/P7/`  | plans enabled; recommendations visible                               | Persistent                                                     |
+| P8    | Microsoft Sentinel                             | P7         | 45m       | [ ]    | `docs/release2/evidence/P8/`  | incident generation path validated                                   | Persistent                                                     |
+| P9a   | Azure Monitor Alerts                           | P7         | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                              | Persistent                                                     |
+| P9b   | Backup / Recovery Services Vault               | P5         | 45m       | [ ]    | `docs/release2/evidence/P9b/` | backup policy and protected item verified                            | Persistent                                                     |
+| P9c   | Final Validation & Portfolio Evidence Pack     | P0–P9b     | 1h        | [ ]    | `docs/release2/evidence/P9c/` | all mandatory evidence complete                                      | Persistent                                                     |
+| O1    | FortiGate NVA Dual-Firewall Pattern            | P5, P6     | 1h        | [ ]    | `docs/release2/evidence/O1/`  | UDR steering and East-West inspection validated                      | [E] destroy after validation                                   |
+| O2    | Azure Arc                                      | P5         | 45m       | [ ]    | `docs/release2/evidence/O2/`  | Arc machine shows connected                                          | Persistent / optional                                          |
+| O3a   | FortiGate ↔ VyOS BGP over IPSec                | O1         | 1.5h      | [ ]    | `docs/release2/evidence/O3a/` | BGP session up; routes learned                                       | [E] destroy cloud-side ephemeral assets if not needed          |
+| O3b   | AWS Cisco Branch with Segmented BGP            | O3a        | 1.5h      | [ ]    | `docs/release2/evidence/O3b/` | AWS branch routes propagate correctly                                | [E] destroy AWS NVA after validation                           |
+| O3c   | Global Transit / Transitive Routing Validation | O3a, O3b   | 1h        | [ ]    | `docs/release2/evidence/O3c/` | end-to-end path validation succeeds                                  | [E] teardown transient routing lab components                  |
+| O4    | Entra Global Secure Access                     | P5         | 1h        | [ ]    | `docs/release2/evidence/O4/`  | private access validated; remote network works                       | Optional persistent                                            |
+| O5    | Azure Virtual Desktop + FSLogix                | P5         | 1.5h      | [ ]    | `docs/release2/evidence/O5/`  | host pool, profiles, and session validation succeed                  | [E] destroy session hosts after validation if budget-sensitive |
 
 ---
 
@@ -225,11 +225,11 @@ Do **not** start P0 until sections 4 and 5 are complete.
 **Objective:** Establish secretless automation and remote Terraform backend.
 
 **Checklist**
-- [ ] Create OIDC app/service principal for GitHub Actions
-- [ ] Assign Contributor at subscription scope
-- [ ] Create resource group for state backend
-- [ ] Create storage account for Terraform state
-- [ ] Create `tfstate` container
+- [X] Create OIDC app/service principal for GitHub Actions
+- [X] Assign Contributor at subscription scope
+- [X] Create resource group for state backend
+- [X] Create storage account for Terraform state
+<!-- - [X$$] Create `tfstate` container -->
 - [ ] Test OIDC GitHub workflow
 - [ ] Test backend `terraform init`
 
@@ -626,16 +626,16 @@ docs/
 
 Use this section during execution.
 
-| Date | Phase | Blocker | Impact | Action Taken | Status |
-|------|-------|---------|--------|--------------|--------|
+| Date   | Phase   | Blocker          | Impact         | Action Taken | Status        |
+| ------ | ------- | ---------------- | -------------- | ------------ | ------------- |
 | [Date] | [Phase] | [Describe issue] | [Low/Med/High] | [Mitigation] | [Open/Closed] |
 
 ---
 
 ## 11. Change Log
 
-| Date | Change | Reason |
-|------|--------|--------|
+| Date   | Change                                                | Reason                                                                         |
+| ------ | ----------------------------------------------------- | ------------------------------------------------------------------------------ |
 | [Date] | Initial rewritten tracker aligned to `README_PLAN.md` | Removed stale RRAS path, restructured prep flow, strengthened validation gates |
 
 ---

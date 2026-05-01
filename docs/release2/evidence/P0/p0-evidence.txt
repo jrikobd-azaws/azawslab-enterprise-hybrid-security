@@ -1,0 +1,171 @@
+﻿Release 2 - Phase P0 Evidence
+Phase: Foundation and OIDC Backend
+Project: Azawslab Release 2
+Subscription: Azure subscription 1
+Tenant Boundary: entra.azawslab.co.uk
+
+This file contains curated successful evidence only.
+The raw implementation history is retained separately in p0-execution-log.txt.
+
+==============================
+STEP P0.2 - APP REGISTRATION CHECK
+
+COMMAND:
+az ad app list --display-name "sp-terraform-gh" --output json
+
+OUTPUT:
+[
+  {
+    "appId": "a05993a6-d1ef-42e4-be77-b42b8caaaefe",
+    "displayName": "sp-terraform-gh",
+    "id": "3941c2dd-7e2e-4e10-a735-1f0391f948a0",
+    "publisherDomain": "entra.azawslab.co.uk",
+    "signInAudience": "AzureADMyOrg"
+  }
+]
+
+==============================
+STEP P0.2 - SERVICE PRINCIPAL CREATE
+
+COMMAND:
+az ad sp create --id a05993a6-d1ef-42e4-be77-b42b8caaaefe
+
+OUTPUT:
+{
+  "appDisplayName": "sp-terraform-gh",
+  "appId": "a05993a6-d1ef-42e4-be77-b42b8caaaefe",
+  "id": "f0c31d32-a72f-4b16-8643-c3f19900da29",
+  "servicePrincipalType": "Application",
+  "signInAudience": "AzureADMyOrg"
+}
+
+==============================
+STEP P0.2 - ADMIN-LAB SUBSCRIPTION RBAC CONFIRMATION
+
+COMMAND:
+az role assignment list --assignee $ME --scope "/subscriptions/$SUB_ID" --output table
+
+OUTPUT:
+Principal                       Role                       Scope
+------------------------------  -------------------------  ---------------------------------------------------
+admin-lab@entra.azawslab.co.uk  Contributor                /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+admin-lab@entra.azawslab.co.uk  User Access Administrator  /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+==============================
+STEP P0.2 - WORKLOAD IDENTITY ROLE ASSIGNMENT
+
+COMMAND:
+az role assignment create --assignee a05993a6-d1ef-42e4-be77-b42b8caaaefe --role Contributor --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+OUTPUT:
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleAssignments/55af33a6-e475-4ba7-a742-834e5995d039",
+  "name": "55af33a6-e475-4ba7-a742-834e5995d039",
+  "principalId": "f0c31d32-a72f-4b16-8643-c3f19900da29",
+  "principalType": "ServicePrincipal",
+  "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "type": "Microsoft.Authorization/roleAssignments",
+  "updatedBy": "6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d"
+}
+
+==============================
+STEP P0.2 - FEDERATED CREDENTIAL VERIFICATION
+
+COMMAND:
+az ad app federated-credential list --id 3941c2dd-7e2e-4e10-a735-1f0391f948a0 --output json
+
+OUTPUT:
+[
+  {
+    "audiences": [
+      "api://AzureADTokenExchange"
+    ],
+    "description": "",
+    "id": "02b3bdec-fcca-4f35-bade-160cb5a27a93",
+    "issuer": "https://token.actions.githubusercontent.com",
+    "name": "github-actions-release2",
+    "subject": "repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2"
+  }
+]
+
+==============================
+STEP P0.3 - BACKEND RESOURCE GROUP
+
+COMMAND:
+az group show --name rg-dev-terraformstate-uksouth --output table
+
+OUTPUT:
+Location    Name
+----------  -----------------------------
+uksouth     rg-dev-terraformstate-uksouth
+
+==============================
+STEP P0.3 - BACKEND STORAGE ACCOUNT
+
+COMMAND:
+az deployment group create --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6 --resource-group rg-dev-terraformstate-uksouth --name deploy-stdevtfstateazaws01 --template-file .\storage-backend-template.json
+
+OUTPUT:
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth/providers/Microsoft.Resources/deployments/deploy-stdevtfstateazaws01",
+  "name": "deploy-stdevtfstateazaws01",
+  "properties": {
+    "duration": "PT24.6198166S",
+    "error": null,
+    "mode": "Incremental",
+    "outputResources": [
+      {
+        "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth/providers/Microsoft.Storage/storageAccounts/stdevtfstateazaws01",
+        "resourceGroup": "rg-dev-terraformstate-uksouth",
+        "resourceType": "Microsoft.Storage/storageAccounts"
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "timestamp": "2026-05-01T11:11:49.173752+00:00"
+  },
+  "resourceGroup": "rg-dev-terraformstate-uksouth",
+  "type": "Microsoft.Resources/deployments"
+}
+
+COMMAND:
+az storage account show --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6 --name stdevtfstateazaws01 --resource-group rg-dev-terraformstate-uksouth --output table
+
+OUTPUT:
+AccessTier    AllowBlobPublicAccess    AllowCrossTenantReplication    CreationTime                      EnableHttpsTrafficOnly    Kind       Location    MinimumTlsVersion    Name                 PrimaryLocation    ProvisioningState    ResourceGroup                  StatusOfPrimary
+------------  -----------------------  -----------------------------  --------------------------------  ------------------------  ---------  ----------  -------------------  -------------------  -----------------  -------------------  -----------------------------  -----------------
+Hot           False                    False                          2026-05-01T11:11:26.518418+00:00  True                      StorageV2  uksouth     TLS1_2               stdevtfstateazaws01  uksouth            Succeeded            rg-dev-terraformstate-uksouth  available
+
+==============================
+STEP P0.3 - BACKEND CONTAINER
+
+COMMAND:
+az storage container create --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6 --name tfstate --account-name stdevtfstateazaws01 --auth-mode login
+
+OUTPUT:
+{
+  "created": true
+}
+
+COMMAND:
+az storage container exists --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6 --name tfstate --account-name stdevtfstateazaws01 --auth-mode login
+
+OUTPUT:
+{
+  "exists": true
+}
+
+==============================
+STEP P0.4 - POST-INIT WORKING DIRECTORY STATE
+
+COMMAND:
+Get-ChildItem .\terraform\environments\dev -Force
+
+OUTPUT:
+- .terraform directory present
+- .terraform.lock.hcl present
+- backend.tf present
+- main.tf present
+- providers.tf present
+
+NOTE:
+The successful backend terraform init created the expected local working directory artifacts for the dev environment.
