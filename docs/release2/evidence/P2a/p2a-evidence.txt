@@ -62,3 +62,53 @@ Success! The configuration is valid.
 
 RESULT:
 The reusable security module validated successfully after adding a security resource group and Key Vault placeholder.
+
+==============================
+STEP P2A.9 - FIRST SECURITY MODULE APPLY
+
+COMMAND:
+terraform apply "tfplan-p2a"
+az group show --name rg-dev-security-uksouth --output table
+az keyvault show --name kvdevazaws01 --output table
+
+OUTPUT:
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Location    Name
+----------  -----------------------
+uksouth     rg-dev-security-uksouth
+
+Location    Name          ResourceGroup
+----------  ------------  -----------------------
+uksouth     kvdevazaws01  rg-dev-security-uksouth
+
+RESULT:
+The first reusable security module resources were applied successfully:
+- rg-dev-security-uksouth
+- kvdevazaws01
+
+==============================
+STEP P2A.10 - TERRAFORM STATE VERIFICATION
+
+COMMAND:
+terraform state list
+
+OUTPUT:
+module.security.azurerm_key_vault.security
+module.security.azurerm_resource_group.security
+
+RESULT:
+Terraform state confirms the first reusable security module resources are being managed successfully.
+
+==============================
+STEP P2A.13 - DYNAMIC SECRET FLOW APPLY
+
+COMMAND:
+terraform apply "tfplan-p2a"
+az keyvault secret show --vault-name kvdevazaws01 --name local-admin-password --query name -o tsv
+
+OUTPUT:
+local-admin-password
+
+RESULT:
+The dynamic secret flow was applied successfully and the secret was confirmed in Key Vault.
