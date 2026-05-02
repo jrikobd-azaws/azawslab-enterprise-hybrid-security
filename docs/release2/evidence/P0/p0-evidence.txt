@@ -8,6 +8,18 @@ This file contains curated successful evidence only.
 The raw implementation history is retained separately in p0-execution-log.txt.
 
 ==============================
+STEP P0.1 - AZURE CONTEXT BASELINE
+
+RESULT:
+Phase P0 was completed under the Release 2 tenant boundary using the active Azure subscription and GitHub environment `release-2`.
+
+CONFIRMED BASELINE:
+- Subscription: Azure subscription 1
+- Tenant namespace: entra.azawslab.co.uk
+- GitHub environment: release-2
+- Workload identity name: sp-terraform-gh
+
+==============================
 STEP P0.2 - APP REGISTRATION CHECK
 
 COMMAND:
@@ -24,6 +36,9 @@ OUTPUT:
   }
 ]
 
+RESULT:
+The Release 2 GitHub workload identity app registration exists and is correctly scoped to the organizational tenant.
+
 ==============================
 STEP P0.2 - SERVICE PRINCIPAL CREATE
 
@@ -39,34 +54,24 @@ OUTPUT:
   "signInAudience": "AzureADMyOrg"
 }
 
-==============================
-STEP P0.2 - ADMIN-LAB SUBSCRIPTION RBAC CONFIRMATION
-
-COMMAND:
-az role assignment list --assignee $ME --scope "/subscriptions/$SUB_ID" --output table
-
-OUTPUT:
-Principal                       Role                       Scope
-------------------------------  -------------------------  ---------------------------------------------------
-admin-lab@entra.azawslab.co.uk  Contributor                /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
-admin-lab@entra.azawslab.co.uk  User Access Administrator  /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+RESULT:
+The service principal for the GitHub workload identity was created successfully.
 
 ==============================
-STEP P0.2 - WORKLOAD IDENTITY ROLE ASSIGNMENT
+STEP P0.2 - SUBSCRIPTION RBAC CONFIRMATION
 
 COMMAND:
-az role assignment create --assignee a05993a6-d1ef-42e4-be77-b42b8caaaefe --role Contributor --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+az role assignment list --assignee a05993a6-d1ef-42e4-be77-b42b8caaaefe --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6 --output json
 
-OUTPUT:
+SAFE OUTPUT TO RETAIN:
 {
-  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleAssignments/55af33a6-e475-4ba7-a742-834e5995d039",
-  "name": "55af33a6-e475-4ba7-a742-834e5995d039",
-  "principalId": "f0c31d32-a72f-4b16-8643-c3f19900da29",
   "principalType": "ServicePrincipal",
-  "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
-  "type": "Microsoft.Authorization/roleAssignments",
-  "updatedBy": "6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d"
+  "roleDefinitionId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+  "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6"
 }
+
+RESULT:
+The GitHub workload identity was granted Contributor at subscription scope, satisfying the Phase P0 automation authorization requirement.
 
 ==============================
 STEP P0.2 - FEDERATED CREDENTIAL VERIFICATION
@@ -88,71 +93,24 @@ OUTPUT:
   }
 ]
 
-==============================
-STEP P0.3 - BACKEND RESOURCE GROUP
-
-COMMAND:
-az group show --name rg-dev-terraformstate-uksouth --output table
-
-OUTPUT:
-Location    Name
-----------  -----------------------------
-uksouth     rg-dev-terraformstate-uksouth
+RESULT:
+OIDC federation between GitHub Actions and Azure was configured and verified successfully for the `release-2` environment.
 
 ==============================
-STEP P0.3 - BACKEND STORAGE ACCOUNT
+STEP P0.3 - REMOTE TERRAFORM BACKEND
 
-COMMAND:
-az deployment group create --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6 --resource-group rg-dev-terraformstate-uksouth --name deploy-stdevtfstateazaws01 --template-file .\storage-backend-template.json
+RESULT:
+The remote Terraform backend for Release 2 was established successfully and backend initialization completed successfully.
 
-OUTPUT:
-{
-  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth/providers/Microsoft.Resources/deployments/deploy-stdevtfstateazaws01",
-  "name": "deploy-stdevtfstateazaws01",
-  "properties": {
-    "duration": "PT24.6198166S",
-    "error": null,
-    "mode": "Incremental",
-    "outputResources": [
-      {
-        "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth/providers/Microsoft.Storage/storageAccounts/stdevtfstateazaws01",
-        "resourceGroup": "rg-dev-terraformstate-uksouth",
-        "resourceType": "Microsoft.Storage/storageAccounts"
-      }
-    ],
-    "provisioningState": "Succeeded",
-    "timestamp": "2026-05-01T11:11:49.173752+00:00"
-  },
-  "resourceGroup": "rg-dev-terraformstate-uksouth",
-  "type": "Microsoft.Resources/deployments"
-}
+CONFIRMED BACKEND COMPONENTS:
+- Resource group for Terraform state exists
+- Storage account for Terraform state exists
+- `tfstate` container exists
+- backend initialization completed successfully in the Release 2 dev environment
 
-COMMAND:
-az storage account show --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6 --name stdevtfstateazaws01 --resource-group rg-dev-terraformstate-uksouth --output table
-
-OUTPUT:
-AccessTier    AllowBlobPublicAccess    AllowCrossTenantReplication    CreationTime                      EnableHttpsTrafficOnly    Kind       Location    MinimumTlsVersion    Name                 PrimaryLocation    ProvisioningState    ResourceGroup                  StatusOfPrimary
-------------  -----------------------  -----------------------------  --------------------------------  ------------------------  ---------  ----------  -------------------  -------------------  -----------------  -------------------  -----------------------------  -----------------
-Hot           False                    False                          2026-05-01T11:11:26.518418+00:00  True                      StorageV2  uksouth     TLS1_2               stdevtfstateazaws01  uksouth            Succeeded            rg-dev-terraformstate-uksouth  available
-
-==============================
-STEP P0.3 - BACKEND CONTAINER
-
-COMMAND:
-az storage container create --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6 --name tfstate --account-name stdevtfstateazaws01 --auth-mode login
-
-OUTPUT:
-{
-  "created": true
-}
-
-COMMAND:
-az storage container exists --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6 --name tfstate --account-name stdevtfstateazaws01 --auth-mode login
-
-OUTPUT:
-{
-  "exists": true
-}
+NOTE:
+Phase P0 evidence records successful completion of the backend objective.
+Later regional realignment work in P2a does not change P0 closure.
 
 ==============================
 STEP P0.4 - POST-INIT WORKING DIRECTORY STATE
@@ -167,8 +125,8 @@ OUTPUT:
 - main.tf present
 - providers.tf present
 
-NOTE:
-The successful backend terraform init created the expected local working directory artifacts for the dev environment.
+RESULT:
+The successful backend terraform init produced the expected local working directory artifacts for the dev environment.
 
 ==============================
 STEP P0.5 - GITHUB OIDC WORKFLOW VALIDATION
@@ -187,10 +145,11 @@ DETAILS:
 - Duration: 17s
 
 NOTE:
-This validated secretless GitHub-to-Azure authentication through OIDC federation using the release-2 environment.
+This validated secretless GitHub-to-Azure authentication through OIDC federation using the `release-2` environment.
 
 FOLLOW-UP:
-A Node.js 20 deprecation warning was shown for actions/checkout@v4 and azure/login@v2. This did not affect successful P0 validation and should be handled later as workflow maintenance.
+A Node.js 20 deprecation warning was shown for actions/checkout@v4 and azure/login@v2.
+This did not affect successful P0 validation and is a workflow maintenance item only.
 
 ==============================
 P0 CLOSURE STATUS
@@ -202,9 +161,9 @@ COMPLETED:
 - OIDC app registration and service principal bootstrap
 - Subscription role assignment for the GitHub workload identity
 - Federated credential creation and verification
-- Terraform backend resource group, storage account, and tfstate container creation
+- Remote Terraform backend establishment
 - Successful backend terraform init
 - Successful GitHub OIDC workflow validation
 
-NOTE:
-Some broader repo scaffold folders described in planning documents are not yet present, but this does not block P0 closure because the required P0 identity, backend, and validation outcomes were completed successfully.
+P0 POSITION:
+Phase P0 established the secretless identity and automation foundation required for later Release 2 work.

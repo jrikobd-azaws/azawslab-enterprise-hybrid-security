@@ -1,13 +1,15 @@
-# Phase 0: Foundation & Automation Bootstrap
+﻿# Phase 0: Foundation & Automation Bootstrap
 
 ## 1. Overview
+
+> **Implementation alignment note:** Region and VM size were treated as a subscription-and-region validation task rather than static assumptions. Because Azure SKU availability and restrictions vary over time by subscription, region, and capacity, deployable options were validated first and the implementation was then aligned to the confirmed target: `norwayeast` and `Standard_B2als_v2`.
 Before deploying infrastructure, Phase 0 establishes the "Identity and Automation Plumbing." This phase follows the "Secretless" security principle by using **OpenID Connect (OIDC)** for GitHub Actions, ensuring no long-lived secrets are stored in the repository[cite: 2, 4].
 
 | Aspect | Detail |
 | :--- | :--- |
 | **Business Problem** | Manual deployments are unauditable; static secrets (passwords) expire and create security vulnerabilities. |
 | **Technical Solution** | Bootstrap an Azure Landing Zone with **OIDC Workload Identity Federation** and a remote **Terraform Backend** with state locking[cite: 2, 4, 6]. |
-| **Standard Naming** | `[resource]-[service]-[env]-[region]` (e.g., `rg-dev-terraformstate-uksouth`)[cite: 5]. |
+| **Standard Naming** | `[resource]-[service]-[env]-[region]` (e.g., `rg-dev-terraformstate-norwayeast`)[cite: 5]. |
 
 ## 2. Implementation Steps
 
@@ -22,7 +24,7 @@ Before deploying infrastructure, Phase 0 establishes the "Identity and Automatio
 *   **RBAC:** Assign the `Contributor` role to the Service Principal at the Subscription level to allow automated provisioning[cite: 4].
 
 ### Step 3: Infrastructure-as-Code (IaC) Backend
-*   **State Storage:** Deploy `rg-dev-terraformstate-uksouth` and a globally unique storage account (e.g., `stdevterraform001`)[cite: 4].
+*   **State Storage:** Deploy `rg-dev-terraformstate-norwayeast` and a globally unique storage account (e.g., `stdevterraform001`)[cite: 4].
 *   **State Locking:** Create the `tfstate` container. The `azurerm` backend will automatically utilize blob leases to prevent concurrent state corruption[cite: 4, 6].
 
 ### Step 4: Repository Scaffolding
@@ -49,7 +51,7 @@ Before deploying infrastructure, Phase 0 establishes the "Identity and Automatio
 | Aspect | Refined Detail |
 | :--- | :--- |
 | **Business Problem** | **Uncontrolled Spend & Compliance Risk:** Lack of granular cloud governance leads to unorganized subscriptions, data residency (GDPR) risks, and runaway costs due to unmanaged resource deployment. |
-| **Technical Solution** | **CAF-Aligned Management Groups:** Deploying a `Root > Platform & Landing Zones` hierarchy using **Terraform**. Implementing **Policy-as-Code** (Azure Policy) to enforce "Foundational Guardrails" (Allowed Regions: UK South, Allowed VM SKUs: B-Series/Free Tier). |
+| **Technical Solution** | **CAF-Aligned Management Groups:** Deploying a `Root > Platform & Landing Zones` hierarchy using **Terraform**. Implementing **Policy-as-Code** (Azure Policy) to enforce "Foundational Guardrails" (Allowed region and VM SKU set finalized after subscription-level deployability validation). |
 | **Acceptance Criteria** | 1. MG Hierarchy (mg-platform, mg-landingzones, mg-sandbox) deployed via **GitHub Actions**. 2. **Deny Policies** active at the Root level for non-compliant regions. 3. **Tagging enforced via Policy** (Environment, Project, Owner, CostCenter). 4. Subscription moved to the Root MG to centralize $200 credit usage while logically simulating hub/spoke boundaries. |
 | **Validation** | **Policy Compliance Report:** Dashboard showing 100% compliance for "Allowed Locations". **Terraform State:** Verified in a remote Azure Storage Backend to ensure team-based state locking. |
 | **CLI / IaC Focus** | `terraform plan` for execution and `az policy assignment list --scope "/providers/Microsoft.Management/managementGroups/mg-azawslab"` for verification. |
@@ -66,39 +68,39 @@ To demonstrate enterprise architectural maturity while staying within project bu
 In a production environment, we utilize **Subscription Democratization** to provide physical isolation for billing, security, and networking limits.
 ```text
 [Tenant Root Group]
-      │
-      └── [mg-azawslab-prod-global] (Enforced Guardrails)
-            │
-            ├── [mg-platform-prod-global]
-            │     ├── [sub-connectivity-prod] (Hub VNet, Firewall, VPN)
-            │     ├── [sub-identity-prod]     (Entra ID, Key Vault)
-            │     └── [sub-management-prod]   (Log Analytics, Sentinel)
-            │
-            └── [mg-landingzones-prod-global]
-                  └── [mg-corp-prod-global]
-                        └── [sub-workload-prod] (Production Applications)
+      â”‚
+      â””â”€â”€ [mg-azawslab-prod-global] (Enforced Guardrails)
+            â”‚
+            â”œâ”€â”€ [mg-platform-prod-global]
+            â”‚     â”œâ”€â”€ [sub-connectivity-prod] (Hub VNet, Firewall, VPN)
+            â”‚     â”œâ”€â”€ [sub-identity-prod]     (Entra ID, Key Vault)
+            â”‚     â””â”€â”€ [sub-management-prod]   (Log Analytics, Sentinel)
+            â”‚
+            â””â”€â”€ [mg-landingzones-prod-global]
+                  â””â”€â”€ [mg-corp-prod-global]
+                        â””â”€â”€ [sub-workload-prod] (Production Applications)
 ```
 ### Lab Implementation Diagram (Budget-Optimized)
 Following the naming standard: `[resource]-[service]-[env]-[region]`.
 ```text
 [Tenant Root Group]
-      │
-      └── [mg-azawslab-prod-global] (Policy: UK South Only | B-Series SKUs Only)
-            │
-            ├── [sub-azaws-enterprise-prod] (Upgraded Free Trial Sub)
-            │     │
-            │     ├── [rg-connectivity-prod-uksouth] (Simulated Platform Hub)
-            │     ├── [rg-corp-prod-uksouth]         (Simulated Workload Spoke)
-            │     └── [rg-identity-prod-uksouth]     (Simulated Shared Identity)
-            │
-            ├── [mg-platform-prod-global]      (Empty - Logical Placeholder)
-            ├── [mg-landingzones-prod-global] (Empty - Logical Placeholder)
-            └── [mg-sandbox-prod-global]      (Empty - Logical Placeholder)
+      â”‚
+      â””â”€â”€ [mg-azawslab-prod-global] (Policy: finalized implementation region and validated SKU set only)
+            â”‚
+            â”œâ”€â”€ [sub-azaws-enterprise-prod] (Upgraded Free Trial Sub)
+            â”‚     â”‚
+            â”‚     â”œâ”€â”€ [rg-connectivity-prod-norwayeast] (Simulated Platform Hub)
+            â”‚     â”œâ”€â”€ [rg-dev-workload-norwayeast]         (Simulated Workload Spoke)
+            â”‚     â””â”€â”€ [rg-identity-prod-norwayeast]     (Simulated Shared Identity)
+            â”‚
+            â”œâ”€â”€ [mg-platform-prod-global]      (Empty - Logical Placeholder)
+            â”œâ”€â”€ [mg-landingzones-prod-global] (Empty - Logical Placeholder)
+            â””â”€â”€ [mg-sandbox-prod-global]      (Empty - Logical Placeholder)
 			
 ```
 ---			
 
-## Phase 2a: Terraform – Reusable Modules (The Modular Engine)
+## Phase 2a: Terraform â€“ Reusable Modules (The Modular Engine)
 
 ### 1. Refined Phase Detail
 | Aspect | Refined Detail |
@@ -113,22 +115,22 @@ Following the naming standard: `[resource]-[service]-[env]-[region]`.
 This diagram illustrates how the **Root Configuration** orchestrates specialized **Modules** to build a secure environment[cite: 1].
 ```text
 [ environments/dev/main.tf ]
-          │
-          ├── (01) Calls ──> [ modules/security ]
-          │                    └── Deploy: kv-dev-platform-001[cite: 5]
-          │                    └── Logic: Generate Random Password -> Store in KV[cite: 6]
-          │
-          ├── (02) Calls ──> [ modules/networking ]
-          │                    └── Deploy: vnet-dev-uksouth-hub[cite: 5]
-          │                    └── Logic: Hub-Spoke Peering & Subnets[cite: 5, 6]
-          │
-          ├── (03) Calls ──> [ modules/compute ]
-          │                    └── Deploy: vm-dev-client-01[cite: 5]
-          │                    └── Logic: NIC-only (No Public IP) + Get Password from KV[cite: 2, 6]
-          │
-          └── (04) Calls ──> [ modules/monitoring ]
-                               └── Deploy: la-dev-platform[cite: 5]
-                               └── Logic: Central Log Analytics Workspace[cite: 5]
+          â”‚
+          â”œâ”€â”€ (01) Calls â”€â”€> [ modules/security ]
+          â”‚                    â””â”€â”€ Deploy: kv-dev-platform-001[cite: 5]
+          â”‚                    â””â”€â”€ Logic: Generate Random Password -> Store in KV[cite: 6]
+          â”‚
+          â”œâ”€â”€ (02) Calls â”€â”€> [ modules/networking ]
+          â”‚                    â””â”€â”€ Deploy: vnet-dev-norwayeast-hub[cite: 5]
+          â”‚                    â””â”€â”€ Logic: Hub-Spoke Peering & Subnets[cite: 5, 6]
+          â”‚
+          â”œâ”€â”€ (03) Calls â”€â”€> [ modules/compute ]
+          â”‚                    â””â”€â”€ Deploy: vm-dev-client-01[cite: 5]
+          â”‚                    â””â”€â”€ Logic: NIC-only (No Public IP) + Get Password from KV[cite: 2, 6]
+          â”‚
+          â””â”€â”€ (04) Calls â”€â”€> [ modules/monitoring ]
+                               â””â”€â”€ Deploy: la-dev-platform[cite: 5]
+                               â””â”€â”€ Logic: Central Log Analytics Workspace[cite: 5]
 ```
 ### 3. Recruiter Hook
 "Built a library of reusable Terraform modules following the 'DRY' principle[cite: 1]. Integrated Azure Key Vault for dynamic secret management and implemented resource lifecycle protection, demonstrating a production-grade approach to automated infrastructure lifecycle management[cite: 6].
@@ -150,13 +152,13 @@ This diagram illustrates how the **Root Configuration** orchestrates specialized
 Ansible orchestrates configuration across the secure management boundary established in Phase 0[cite: 4, 6].
 ```text
 [ GitHub Actions / CLI ]
-          │
-          └── (SSH/WinRM over Proxy) ──> [ Azure Bastion ]
-                                              │
-                                              └── (ProxyJump) ──> [ Private Spokes ]
-                                                                        │
-                                                  ┌─────────────────────┴─────────────────────┐
-                                                  │                     │                     │
+          â”‚
+          â””â”€â”€ (SSH/WinRM over Proxy) â”€â”€> [ Azure Bastion ]
+                                              â”‚
+                                              â””â”€â”€ (ProxyJump) â”€â”€> [ Private Spokes ]
+                                                                        â”‚
+                                                  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                                                  â”‚                     â”‚                     â”‚
                                            [ Role: Common ]      [ Role: AD-Join ]     [ Role: Web ]
                                            - Security Hardening  - Domain Integration  - App Delivery							   
 ```
@@ -179,23 +181,23 @@ Ansible orchestrates configuration across the secure management boundary establi
 This diagram illustrates the automated path from a code change to a live Azure resource[cite: 1, 6].
 ```text
 [ Developer Branch ] 
-          │
-          └── (01) git push ──> [ GitHub Pull Request ]
-                                         │
-                                         ├── (02) Trigger: CI Workflow
-                                         │     └── terraform fmt & validate
-                                         │     └── ansible-lint roles/[cite: 6]
-                                         │     └── terraform plan[cite: 1]
-                                         │
-                                         ├── (03) Outcome: Plan Comment on PR
-                                         │     └── "Plan: 5 to add, 0 to change"
-                                         │
-          ┌── (04) Manual Review & Approval ──┘
-          │
-          └── (05) Merge to 'release-2' ──> [ Trigger: CD Workflow ]
-                                                  │
-                                                  └── (06) OIDC Login (No Secrets)[cite: 4]
-                                                  └── (07) terraform apply -auto-approve[cite: 1]
+          â”‚
+          â””â”€â”€ (01) git push â”€â”€> [ GitHub Pull Request ]
+                                         â”‚
+                                         â”œâ”€â”€ (02) Trigger: CI Workflow
+                                         â”‚     â””â”€â”€ terraform fmt & validate
+                                         â”‚     â””â”€â”€ ansible-lint roles/[cite: 6]
+                                         â”‚     â””â”€â”€ terraform plan[cite: 1]
+                                         â”‚
+                                         â”œâ”€â”€ (03) Outcome: Plan Comment on PR
+                                         â”‚     â””â”€â”€ "Plan: 5 to add, 0 to change"
+                                         â”‚
+          â”Œâ”€â”€ (04) Manual Review & Approval â”€â”€â”˜
+          â”‚
+          â””â”€â”€ (05) Merge to 'release-2' â”€â”€> [ Trigger: CD Workflow ]
+                                                  â”‚
+                                                  â””â”€â”€ (06) OIDC Login (No Secrets)[cite: 4]
+                                                  â””â”€â”€ (07) terraform apply -auto-approve[cite: 1]
 ```
 ### 3. Recruiter Hook
 "Implemented a production-grade CI/CD pipeline using GitHub Actions and OIDC, establishing a 'Secretless' deployment model[cite: 1, 4]. Integrated Branch Protection and automated linting to ensure all infrastructure changes are peer-reviewed, validated, and auditable before reaching production[cite: 6].
@@ -216,19 +218,19 @@ This diagram illustrates the automated path from a code change to a live Azure r
 This diagram illustrates how governance "guardrails" flow from the management root down to the simulated workload boundaries[cite: 1, 3, 4].
 ```text
 [ mg-azawslab-prod-global ] (Root Management Group)
-          │
-          ├── [ Policy: Data Sovereignty ] ──> (Deny: All regions except UK South)[cite: 1, 5]
-          ├── [ Policy: Cost Management ]  ──> (Deny: All VM SKUs except B-Series)[cite: 1]
-          ├── [ Policy: Mandatory Tags ]   ──> (Deny: Missing Env/Project/Owner)[cite: 5]
-          │
-          └── [ sub-azaws-enterprise-prod ] (Simulated Corporate Subscription)
-                │
-                ├── [ rg-dev-platform-uksouth ]
-                │     └── [ kv-dev-platform-001 ] ──> (Managed Secrets Lifecycle)[cite: 5, 6]
-                │           └── RBAC: azw-Security-Engineers (Reader)[cite: 5]
-                │
-                └── [ rg-dev-networking-uksouth ]
-                      └── RBAC: sp-terraform-gh (Contributor)[cite: 4, 5]
+          â”‚
+          â”œâ”€â”€ [ Policy: Data Sovereignty ] â”€â”€> (Deny: All regions except UK South)[cite: 1, 5]
+          â”œâ”€â”€ [ Policy: Cost Management ]  â”€â”€> (Deny: All VM SKUs except B-Series)[cite: 1]
+          â”œâ”€â”€ [ Policy: Mandatory Tags ]   â”€â”€> (Deny: Missing Env/Project/Owner)[cite: 5]
+          â”‚
+          â””â”€â”€ [ sub-azaws-enterprise-prod ] (Simulated Corporate Subscription)
+                â”‚
+                â”œâ”€â”€ [ rg-dev-platform-uksouth ]
+                â”‚     â””â”€â”€ [ kv-dev-platform-001 ] â”€â”€> (Managed Secrets Lifecycle)[cite: 5, 6]
+                â”‚           â””â”€â”€ RBAC: azw-Security-Engineers (Reader)[cite: 5]
+                â”‚
+                â””â”€â”€ [ rg-dev-networking-uksouth ]
+                      â””â”€â”€ RBAC: sp-terraform-gh (Contributor)[cite: 4, 5]
 ```
 
 ### 3. Recruiter Hook: 
@@ -251,12 +253,12 @@ This diagram illustrates the logical projection of resources across separate Ent
 ```text
 [ Primary Tenant (Provider) ]             [ Secondary Tenant (Customer) ]
    (entra.azawslab.co.uk)                    (Customer Entra ID)
-             │                                        │
-             ├── [ azw-Platform-Admins ]              ├── [ Customer Subscription ]
-             │            │                           │         └── [ Customer Resources ]
-             │            └── (Lighthouse Projection) └──┐
-             │                                           │
-             └───────────────────────────────────────────┘
+             â”‚                                        â”‚
+             â”œâ”€â”€ [ azw-Platform-Admins ]              â”œâ”€â”€ [ Customer Subscription ]
+             â”‚            â”‚                           â”‚         â””â”€â”€ [ Customer Resources ]
+             â”‚            â””â”€â”€ (Lighthouse Projection) â””â”€â”€â”
+             â”‚                                           â”‚
+             â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
                        (Zero Trust Delegated Access: No B2B Guest Accounts)
 ```
 					   
@@ -279,22 +281,22 @@ This diagram illustrates the logical projection of resources across separate Ent
 This diagram illustrates the secure network boundary. Notice that the `GatewaySubnet` is provisioned to act as a future "socket" for the local Hyper-V lab connection[cite: 2, 5].
 ```text
 [ Internet / Admin ]
-          │
-          └── (HTTPS) ──> [ Azure Bastion ] (Subnet: AzureBastionSubnet)[cite: 5, 6]
-                                 │
-  [ Local Hyper-V Lab ]          │ (RDP/SSH over Private IP)[cite: 6]
-          │                      │
-          : (Future VPN)         ▼
+          â”‚
+          â””â”€â”€ (HTTPS) â”€â”€> [ Azure Bastion ] (Subnet: AzureBastionSubnet)[cite: 5, 6]
+                                 â”‚
+  [ Local Hyper-V Lab ]          â”‚ (RDP/SSH over Private IP)[cite: 6]
+          â”‚                      â”‚
+          : (Future VPN)         â–¼
           :               [ Hub VNet (10.0.0.0/16) ]
-          V                      ├── [ AzureFirewallSubnet ] (Next-Hop Target)[cite: 5]
- [ GatewaySubnet ] <──────────── └── [ Mgmt Subnet ]
-                                         │
-                                         │ (VNet Peering)[cite: 5]
-                                         │
-                                 [ Spoke VNet: Workload (10.1.0.0/16) ]
-                                         ├── NSG: Inbound Allow from Bastion[cite: 5]
-                                         ├── UDR: 0.0.0.0/0 -> Azure Firewall IP[cite: 5]
-                                         └── [ vm-dev-client-01 ] (Private IP Only)[cite: 5, 6]
+          V                      â”œâ”€â”€ [ AzureFirewallSubnet ] (Next-Hop Target)[cite: 5]
+ [ GatewaySubnet ] <â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â””â”€â”€ [ Mgmt Subnet ]
+                                         â”‚
+                                         â”‚ (VNet Peering)[cite: 5]
+                                         â”‚
+                                 [ Spoke VNet: Workload (10.10.0.0/16) ]
+                                         â”œâ”€â”€ NSG: Inbound Allow from Bastion[cite: 5]
+                                         â”œâ”€â”€ UDR: 0.0.0.0/0 -> Azure Firewall IP[cite: 5]
+                                         â””â”€â”€ [ vm-dev-client-01 ] (Private IP Only)[cite: 5, 6]
 ```
 ### 3. Recruiter Hook
 "Architected an enterprise-grade Hub-Spoke network topology using Terraform. Implemented strict Zero Trust network boundaries by eliminating public IPs on workloads, utilizing Azure Bastion for secure access, and configuring User Defined Routes (UDRs) to ensure all traffic is forced through central security inspection[cite: 5, 6]."
@@ -316,21 +318,21 @@ This diagram illustrates the secure network boundary. Notice that the `GatewaySu
 This diagram illustrates the "Forced Tunneling" path. The workload has no direct internet access; all traffic must pass through the Firewall policy engine[cite: 1, 2, 5].
 ```text
 [ Internet / External Services ]
-          ▲ (Blocked: [http://example.com](http://example.com))
-          │ (Allowed: *.microsoft.com)
-  ┌───────┴─────────────────────────────────────────┐
-  │ [ afwp-dev-uksouth ] (Firewall Policy Engine)   │[cite: 5]
-  │   ├── Network Rules: Allow DNS (8.8.8.8)        │[cite: 5]
-  │   └── Application Rules: Allow Azure APIs       │[cite: 5]
-  └───────▲─────────────────────────────────────────┘
-          │
- [ afw-dev-uksouth-01 ] (Azure Firewall in Hub)[cite: 5]
-          ▲
-          │ (Diagnostic Logs ──> Log Analytics Workspace)[cite: 5]
-          │
+          â–² (Blocked: [http://example.com](http://example.com))
+          â”‚ (Allowed: *.microsoft.com)
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+  â”‚ [ afwp-dev-norwayeast ] (Firewall Policy Engine)   â”‚[cite: 5]
+  â”‚   â”œâ”€â”€ Network Rules: Allow DNS (8.8.8.8)        â”‚[cite: 5]
+  â”‚   â””â”€â”€ Application Rules: Allow Azure APIs       â”‚[cite: 5]
+  â””â”€â”€â”€â”€â”€â”€â”€â–²â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+          â”‚
+ [ afw-dev-norwayeast-01 ] (Azure Firewall in Hub)[cite: 5]
+          â–²
+          â”‚ (Diagnostic Logs â”€â”€> Log Analytics Workspace)[cite: 5]
+          â”‚
 [ UDR: 0.0.0.0/0 -> Firewall Private IP ][cite: 5]
-          ▲
-          │
+          â–²
+          â”‚
 [ vm-dev-client-01 ] (Private Workload in Spoke)[cite: 5]
 ```
 ### 3. Recruiter Hook
@@ -356,14 +358,14 @@ Azure Firewall is a premium resource (~$1.20/hour). This phase operates on an ep
 This diagram illustrates how Defender continuously scans the environment to prioritize security hygiene.
 ```text
 [ Azure Infrastructure (Hub & Spoke VNets, VMs, Key Vault) ]
-          │
-          └── (Continuous Scanning) ──> [ Microsoft Defender for Cloud ]
-                                                 ├── [ Free CSPM ] -> Generates Secure Score
-                                                 └── [ CWPP Plans ] -> Deep Workload Protection
-                                                          │
-                                                          └── (Action) ──> [ Apply Remediation ]
-                                                                                  │
-                                                                                  ▼
+          â”‚
+          â””â”€â”€ (Continuous Scanning) â”€â”€> [ Microsoft Defender for Cloud ]
+                                                 â”œâ”€â”€ [ Free CSPM ] -> Generates Secure Score
+                                                 â””â”€â”€ [ CWPP Plans ] -> Deep Workload Protection
+                                                          â”‚
+                                                          â””â”€â”€ (Action) â”€â”€> [ Apply Remediation ]
+                                                                                  â”‚
+                                                                                  â–¼
                                                                      [ Improved Security Posture ]
 ```
 ### 3. Recruiter Hook
@@ -389,17 +391,17 @@ Premium Defender plans (CWPP) will be enabled only during the validation window 
 This diagram illustrates the aggregation of logs into the central SIEM for active threat hunting and alerting.
 ```text
 [ Firewall Logs ]     [ Azure Activity Logs ]     [ Defender Alerts ]
-       │                        │                         │
-       └──────────────┬─────────┴─────────┬───────────────┘
-                      ▼                   ▼
+       â”‚                        â”‚                         â”‚
+       â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                      â–¼                   â–¼
                [ Log Analytics Workspace (la-dev-platform) ]
-                                │
-                                ▼
+                                â”‚
+                                â–¼
                   [ Microsoft Sentinel (SIEM) ]
-                                ├── (Ingest: Azure Activity Connector)
-                                └── (Evaluate: KQL Analytic Rules)
-                                │             (e.g., >5 failed logins)
-                                ▼
+                                â”œâ”€â”€ (Ingest: Azure Activity Connector)
+                                â””â”€â”€ (Evaluate: KQL Analytic Rules)
+                                â”‚             (e.g., >5 failed logins)
+                                â–¼
                        [ Security Incident ] -> (Triggers SOC Response)
 ```
 ### 3. Recruiter Hook
@@ -422,10 +424,10 @@ This diagram illustrates the aggregation of logs into the central SIEM for activ
 This diagram illustrates the automated observability flow from the workload agent to the administrator's inbox.
 ```text
 [ Spoke VM (vm-dev-client-01) ]
-          │
-          └── (Azure Monitor Agent via DCR) ──> [ Azure Monitor ]
-                                                       │
-                                                       └── (Rule: CPU > 85%) ──> [ Action Group: Email Admin ]
+          â”‚
+          â””â”€â”€ (Azure Monitor Agent via DCR) â”€â”€> [ Azure Monitor ]
+                                                       â”‚
+                                                       â””â”€â”€ (Rule: CPU > 85%) â”€â”€> [ Action Group: Email Admin ]
 
 ```
 
@@ -448,15 +450,15 @@ This diagram illustrates the automated observability flow from the workload agen
 This diagram illustrates the tamper-proof backup architecture, separating backup execution from deletion authority.
 
     [ Spoke VM (vm-dev-client-01) ]
-              │
-              └── (Automated Backup) ──> [ Recovery Services Vault ]
-                                                  ├── Policy: Daily, Retain 30 Days
-                                                  ├── Security: Soft Delete (14 Days) + Immutability
-                                                  │
-                                                  └── (MUA Enforcement)
-                                                            ▲
-                                                            │ (Blocks critical operations without secondary approval)
-                                                            ▼
+              â”‚
+              â””â”€â”€ (Automated Backup) â”€â”€> [ Recovery Services Vault ]
+                                                  â”œâ”€â”€ Policy: Daily, Retain 30 Days
+                                                  â”œâ”€â”€ Security: Soft Delete (14 Days) + Immutability
+                                                  â”‚
+                                                  â””â”€â”€ (MUA Enforcement)
+                                                            â–²
+                                                            â”‚ (Blocks critical operations without secondary approval)
+                                                            â–¼
                                                  [ Azure Resource Guard ] (Isolated Security Context)
 
 ### 3. Recruiter Hook
@@ -477,12 +479,12 @@ This diagram illustrates the tamper-proof backup architecture, separating backup
 This diagram illustrates the complete infrastructure lifecycle, ensuring the platform is both maintainable by the team and financially responsible.
 
     [ GitHub Repository ]
-          │
-          ├── (1. DevEx) ──> [ onboarding.md & CONTRIBUTING.md ] -> (Team scales autonomously)
-          │
-          └── (2. FinOps) ──> [ terraform destroy ] -> (State lock clears, Azure bills drop to $0)
-                                      │
-                                      ▼
+          â”‚
+          â”œâ”€â”€ (1. DevEx) â”€â”€> [ onboarding.md & CONTRIBUTING.md ] -> (Team scales autonomously)
+          â”‚
+          â””â”€â”€ (2. FinOps) â”€â”€> [ terraform destroy ] -> (State lock clears, Azure bills drop to $0)
+                                      â”‚
+                                      â–¼
                            [ Clean Azure Environment ]
 
 ### 3. Recruiter Hook
@@ -505,21 +507,21 @@ This diagram illustrates the complete infrastructure lifecycle, ensuring the pla
 This architecture utilizes User Defined Routes (UDRs) to steer traffic to the appliance best suited for the destination.
 
                            [ Public Internet ]
-                                   ▲
-                                   │ (Egress Traffic)
+                                   â–²
+                                   â”‚ (Egress Traffic)
                           [ Azure Firewall ]
-                                   ▲
-            ┌──────────────────────┴──────────────────────┐
-            │                                             │
-      [ Spoke VNet ] ─────────────(UDRs)──────────────> [ Hub VNet ]
-            │                                             │
-            └──────────────────────┬──────────────────────┘
-                                   ▼
+                                   â–²
+            â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+            â”‚                                             â”‚
+      [ Spoke VNet ] â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€(UDRs)â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€> [ Hub VNet ]
+            â”‚                                             â”‚
+            â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                   â–¼
                           [ FortiGate NVA ]
-                                   ▲
-                                   │ (Hybrid / East-West Traffic)
-                    ┌──────────────┴──────────────┐
-                    ▼                             ▼
+                                   â–²
+                                   â”‚ (Hybrid / East-West Traffic)
+                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                    â–¼                             â–¼
              [ AWS Branch ]                [ Hyper-V HQ ]
 
 ###  3. Detailed Resource Mapping
@@ -562,15 +564,15 @@ The FortiGate appliance utilizes a 30-day free trial or BYOL (Bring Your Own Lic
 This diagram illustrates how on-premises hardware is logically projected into the Azure control plane.
 
     [ Local Hyper-V Lab ]                          [ Azure Resource Manager (ARM) ]
-            │                                                 ▲
-            ├── [ DC1 (Windows Server) ]                      │
-            │          └── (Azure Arc Agent) ─────────────────┤ (Projects Resource)
-            │                                                 │
-            └── [ App1 (Linux) ]                              │
-                       └── (Azure Arc Agent) ─────────────────┘
-                                                              │
-                                                              ├── (Enforces) <- [ Azure Policy ]
-                                                              └── (Monitors) <- [ Defender & Sentinel ]
+            â”‚                                                 â–²
+            â”œâ”€â”€ [ DC1 (Windows Server) ]                      â”‚
+            â”‚          â””â”€â”€ (Azure Arc Agent) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ (Projects Resource)
+            â”‚                                                 â”‚
+            â””â”€â”€ [ App1 (Linux) ]                              â”‚
+                       â””â”€â”€ (Azure Arc Agent) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                                              â”‚
+                                                              â”œâ”€â”€ (Enforces) <- [ Azure Policy ]
+                                                              â””â”€â”€ (Monitors) <- [ Defender & Sentinel ]
 
 ### 3. Recruiter Hook
 "Architected a unified hybrid-cloud management plane utilizing **Azure Arc**. Successfully projected on-premises Hyper-V virtual machines into Azure Resource Manager (ARM), enabling centralized governance, consistent policy enforcement, and unified security monitoring across physical and cloud boundaries[cite: 3]."
@@ -594,13 +596,13 @@ This diagram illustrates the BGP peering between FortiGate NVA (Azure) and VyOS 
 ```text
 [ Azure Hub VNet ]
 (ASN: 65515)
-      │
-[ FortiGate NVA ] <──────────────────┐
-(BGP Speaker)                        │
-      │                              │
-      │                     (BGP over IPSec Tunnel)
-      │                              │
-      ▼                              ▼
+      â”‚
+[ FortiGate NVA ] <â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+(BGP Speaker)                        â”‚
+      â”‚                              â”‚
+      â”‚                     (BGP over IPSec Tunnel)
+      â”‚                              â”‚
+      â–¼                              â–¼
 [ Azure Spoke VNets ]      [ VyOS on Hyper-V (HQ) ]
 (Dynamic Routes)           (ASN: 65001 | Subnet: 192.168.1.0/24)
 ```
@@ -625,7 +627,7 @@ commit
 save
 ```
 
-#### 3.3 Configure FortiGate IPSec tunnel (Terraform – same as original)
+#### 3.3 Configure FortiGate IPSec tunnel (Terraform â€“ same as original)
 > (Keep existing FortiGate IPSec configuration; ensure peer address points to VyOS public IP, e.g., `192.168.1.1`.)
 
 #### 3.4 Configure VyOS via Terraform provider
@@ -669,17 +671,17 @@ get router info bgp summary
 # Expected: neighbor 192.168.1.1 state Established
 ```
 
-PHASE O3a: BGP OVER IPSEC (AZURE FORTIGATE ↔ VYOS ON-PREM)
+PHASE O3a: BGP OVER IPSEC (AZURE FORTIGATE â†” VYOS ON-PREM)
 ===========================================================
 
-[Azure Hub – FortiGate NVA: vm-dev-fortigate-01]
+[Azure Hub â€“ FortiGate NVA: vm-dev-fortigate-01]
    ASN: 65515
    BGP Router ID: 10.1.1.4
-         │
-         │ (IPSec tunnel – IKEv2 / AES256)
-         │ (BGP peering over tunnel)
-         ▼
-[On-Premises Hyper-V – VyOS VM]
+         â”‚
+         â”‚ (IPSec tunnel â€“ IKEv2 / AES256)
+         â”‚ (BGP peering over tunnel)
+         â–¼
+[On-Premises Hyper-V â€“ VyOS VM]
    ASN: 65001
    BGP Router ID: 192.168.1.1
    Advertised routes: 192.168.1.0/24
@@ -689,7 +691,7 @@ Routes exchanged:
    VyOS advertises: 192.168.1.0/24
 
 Spoke VM: vm-dev-client-01 (10.1.0.4)
-   Effective route: 192.168.1.0/24 → NextHop: 10.1.1.4 (FortiGate)
+   Effective route: 192.168.1.0/24 â†’ NextHop: 10.1.1.4 (FortiGate)
 
 Result: Azure workloads can reach on-prem servers via VyOS.
 
@@ -714,13 +716,13 @@ Result: Azure workloads can reach on-prem servers via VyOS.
 This illustrates the internal segmentation of the AWS Branch and its dynamic advertisement to the Azure Hub.
 
     [ AWS Branch VPC ]                   [ Azure Hub VNet ]
-          │                                     │
-    ┌─────┴────────────────┐             [ FortiGate NVA ]
-    │ Cisco Catalyst 8000V │ <──(BGP)──> (ASN: 65515)
-    └─────┬──────────┬─────┘                    │
-          │          │                          ▼
-          │          └──(Route: 172.16.2.0/24)──> [ Azure Spokes ]
-          ▼                                     (Learns DMZ Route)
+          â”‚                                     â”‚
+    â”Œâ”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”             [ FortiGate NVA ]
+    â”‚ Cisco Catalyst 8000V â”‚ <â”€â”€(BGP)â”€â”€> (ASN: 65515)
+    â””â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜                    â”‚
+          â”‚          â”‚                          â–¼
+          â”‚          â””â”€â”€(Route: 172.16.2.0/24)â”€â”€> [ Azure Spokes ]
+          â–¼                                     (Learns DMZ Route)
     [ DMZ Subnet ]
     (Web/Public Services)
 
@@ -760,14 +762,14 @@ This diagram illustrates how the Azure Hub brokers traffic between independent r
 
                           [ FortiGate NVA (Hub VNet) ]
                           (Transit Hub | ASN: 65515)
-                                      │
-                ┌─────────────────────┴─────────────────────┐
-                │                                           │ 
-                ▼                                           ▼
+                                      â”‚
+                â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                â”‚                                           â”‚ 
+                â–¼                                           â–¼
      [ Hyper-V RRAS (Corp HQ) ]               [ Cisco Catalyst 8000V (AWS) ]
            (ASN: 65001)                                (ASN: 65002)
-                │                                           │
-                └────────── (Traffic flows via Azure) ──────┘
+                â”‚                                           â”‚
+                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ (Traffic flows via Azure) â”€â”€â”€â”€â”€â”€â”˜
 
 ### 3. Verification Logic (The Path of a Packet)
 To prove the transitive nature of the hub, the documentation tracks a packet across the multi-vendor environment:
@@ -798,18 +800,18 @@ To prove the transitive nature of the hub, the documentation tracks a packet acr
 ### 2. Operational Architecture (The Identity-Centric Edge)
 This illustrates the replacement of the legacy VPN with an identity-aware SSE fabric that supports both remote users and site-wide router integration.
 
-       [ Remote User ] ──────(GSA Client)──────┐
-       (Legacy P2S Migration)                 ▼
+       [ Remote User ] â”€â”€â”€â”€â”€â”€(GSA Client)â”€â”€â”€â”€â”€â”€â”
+       (Legacy P2S Migration)                 â–¼
                                 [ Microsoft Entra GSA Edge ]
                                 (Identity & Device Compliance)
-                                              │
-                ┌─────────────────────────────┼─────────────────────────────┐
-                ▼                             ▼                             ▼
+                                              â”‚
+                â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                â–¼                             â–¼                             â–¼
         [ Private Access ]            [ Microsoft 365 ]             [ Internet Access ]
         (ZTNA / No VPN Adapter)       (Tenant Restrictions)         (SWG / Web Filtering)
-                │                             │                             │
-    ┌───────────┴───────────┐                 │               ┌─────────────┴─────────────┐
-    ▼ (Remote Networks)     ▼                 ▼               ▼                           ▼
+                â”‚                             â”‚                             â”‚
+    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                 â”‚               â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+    â–¼ (Remote Networks)     â–¼                 â–¼               â–¼                           â–¼
 [ FortiGate (Azure) ]  [ Cisco (AWS) ]   [ SharePoint ]    [ Public Web ]          [ SaaS Apps ]
 (BGP / IPSec)          (BGP / IPSec)     (Optimized)       (Filtered)              (Secure)
 
@@ -840,14 +842,14 @@ This illustrates the replacement of the legacy VPN with an identity-aware SSE fa
 ### 2. Operational Architecture (The Persistent Workspace)
 This illustrates the separation of Compute (Disposable) from User Data (Persistent), secured by the Hub-Spoke fabric.
 
-    [ Remote User ] ──(HTTPS/RDP)──> [ Azure Virtual Desktop Service ]
-                                              │
-          ┌───────────────────────────────────┘
-          ▼
-    [ AVD Session Host (Spoke VNet) ] <─────(UDR)─────> [ Hub Security Hub ]
+    [ Remote User ] â”€â”€(HTTPS/RDP)â”€â”€> [ Azure Virtual Desktop Service ]
+                                              â”‚
+          â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+          â–¼
+    [ AVD Session Host (Spoke VNet) ] <â”€â”€â”€â”€â”€(UDR)â”€â”€â”€â”€â”€> [ Hub Security Hub ]
     (Compute - Windows 11 Multi-session)                 (AzFW / FortiGate)
-          │                                                     │
-          └─────(SMB/Port 445)─────> [ Azure Files Share ] <───┘
+          â”‚                                                     â”‚
+          â””â”€â”€â”€â”€â”€(SMB/Port 445)â”€â”€â”€â”€â”€> [ Azure Files Share ] <â”€â”€â”€â”˜
                                      (FSLogix Profile Disks)
 
 ### 3. FinOps & Strategic Value

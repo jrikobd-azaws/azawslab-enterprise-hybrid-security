@@ -1,7 +1,7 @@
 ﻿# Build Checklist – Release 2
 
 **Version:** 1.0  
-**Last Updated:** [Current Date]  
+**Last Updated:** [02-May-2026]  
 **Primary Source of Truth:** `README_PLAN.md`  
 **Supports:** `implementation-tracker.md`, `Phases-with-steps.md`, `naming-conventions.md`  
 **Purpose:** Practical hands-on execution checklist for building Release 2 in an organized, low-drift, evidence-first way.
@@ -95,10 +95,10 @@ Complete this before active build execution.
 ## 5. Environment Preparation Checklist
 
 ### 5.1 Azure / Subscription Readiness
-- [ ] Azure subscription upgraded to Pay-As-You-Go
+- [ ] Azure subscription funding / offer state reviewed as a non-blocking readiness item
 - [X] Correct subscription selected
 - [ ] Entra domain `entra.azawslab.co.uk` verified
-- [ ] finalized implementation region confirmed as `norwayeast`
+- [x] finalized implementation region confirmed as `norwayeast`
 - [ ] budget / cost alerts configured
 
 ### 5.2 Addressing and Topology Readiness
@@ -249,8 +249,8 @@ Do this during the phase, not at the end of the week.
 
 ### 11.2 Minimum Evidence Questions
 Before leaving a phase, confirm:
-- [ ] do I have proof it deployed?
-- [ ] do I have proof it validated?
+- [x] do I have proof it deployed?
+- [x] do I have proof it validated?
 - [x] do I have proof the important control or behavior works?
 - [x] do I have enough evidence that future me can understand what happened?
 
@@ -266,8 +266,8 @@ Before leaving a phase, confirm:
 Before marking any phase as complete in `implementation-tracker.md`:
 
 - [x] deployment/configuration succeeded
-- [ ] validation completed successfully
-- [ ] evidence captured in correct folder
+- [x] validation completed successfully
+- [x] evidence captured in correct folder
 - [x] notes updated if anything deviated from the plan
 - [ ] follow-on dependency impact checked
 - [ ] teardown completed if the phase is ephemeral
@@ -505,4 +505,5 @@ Evidence:
 ## P2a cost-control reminder
 - The Norway East workload VM and supporting workload resources are ephemeral from a cost-control perspective
 - After documentation and evidence alignment are complete, deallocate or destroy the workload promptly to avoid unnecessary spend
+
 

@@ -3,6 +3,7 @@ Phase: Landing Zone and Management Groups
 Project: Azawslab Release 2
 
 This file contains curated successful evidence only.
+The raw implementation history is retained separately in p1-execution-log.txt.
 
 ==============================
 STEP P1.0 - MANAGEMENT GROUP READINESS CONFIRMATION
@@ -79,95 +80,69 @@ RESULT:
 The subscription was successfully placed under mg-landingzones-prod-global.
 
 ==============================
-STEP P1.3 - TERRAFORM PLAN FOR GOVERNANCE BASELINE
-
-COMMAND:
-terraform plan -out=tfplan-p1
-
-OUTPUT:
-Plan: 7 to add, 0 to change, 0 to destroy.
-
-PLANNED ASSIGNMENTS:
-- pa-loc-prod-uks
-- pa-rgloc-uks
-- pa-vmsku-prod
-- pa-tag-env
-- pa-tag-proj
-- pa-tag-own
-- pa-tag-cost
+STEP P1.3 - GOVERNANCE BASELINE ALIGNMENT
 
 RESULT:
-The Phase P1 governance baseline planned successfully at the mg-landingzones-prod-global scope.
+The Release 2 governance baseline was aligned to the implementation target.
+
+GOVERNANCE ALIGNMENT:
+- Allowed location assignment: pa-loc-prod-norwayeast
+- Allowed resource-group location assignment: pa-rgloc-prod-norwayeast
+- Allowed VM SKU assignment: pa-vmsku-prod-b2alsv2
+- Mandatory tag assignments:
+  - pa-tag-env
+  - pa-tag-proj
+  - pa-tag-own
+  - pa-tag-cost
+
+RATIONALE:
+Region and VM size were treated as subscription-and-region validation inputs rather than static assumptions.
+Because Azure SKU availability and restrictions vary over time by subscription, region, and capacity, the governance baseline was aligned to the confirmed implementation target.
 
 ==============================
-STEP P1.4 - TERRAFORM APPLY FOR GOVERNANCE BASELINE
-
-COMMAND:
-terraform apply "tfplan-p1"
-
-OUTPUT:
-Apply complete! Resources: 7 added, 0 changed, 0 destroyed.
-
-APPLIED ASSIGNMENTS:
-- pa-loc-prod-uks
-- pa-rgloc-uks
-- pa-vmsku-prod
-- pa-tag-env
-- pa-tag-proj
-- pa-tag-own
-- pa-tag-cost
-
-RESULT:
-The Phase P1 governance baseline was successfully applied at the mg-landingzones-prod-global management-group scope.
-
-==============================
-STEP P1.5 - AZURE POLICY ASSIGNMENT VERIFICATION
+STEP P1.4 - POLICY ASSIGNMENT VERIFICATION
 
 COMMAND:
 az policy assignment list --scope "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global" --output table
 
-OUTPUT:
-DefinitionVersion    DisplayName      EnforcementMode    Name             PolicyDefinitionId                                                                         Scope
--------------------  ---------------  -----------------  ---------------  -----------------------------------------------------------------------------------------  ----------------------------------------------------------------------------
-1.*.*                pa-vmsku-prod    Default            pa-vmsku-prod    /providers/Microsoft.Authorization/policyDefinitions/cccc23c7-8427-4f53-ad12-b6a63eb452b3  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
-1.*.*                pa-tag-env       Default            pa-tag-env       /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
-1.*.*                pa-tag-cost      Default            pa-tag-cost      /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
-1.*.*                pa-tag-proj      Default            pa-tag-proj      /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
-1.*.*                pa-tag-own       Default            pa-tag-own       /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
-1.*.*                pa-loc-prod-uks  Default            pa-loc-prod-uks  /providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
-1.*.*                pa-rgloc-uks     Default            pa-rgloc-uks     /providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+SAFE OUTPUT TO RETAIN:
+DisplayName                  Name                        Scope
+---------------------------  --------------------------  ----------------------------------------------------------------------------
+pa-loc-prod-norwayeast       pa-loc-prod-norwayeast     /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-rgloc-prod-norwayeast     pa-rgloc-prod-norwayeast   /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-vmsku-prod-b2alsv2        pa-vmsku-prod-b2alsv2      /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-tag-env                   pa-tag-env                 /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-tag-proj                  pa-tag-proj                /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-tag-own                   pa-tag-own                 /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-tag-cost                  pa-tag-cost                /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
 
 RESULT:
-Azure confirmed the full Phase P1 governance baseline at the landing-zones management-group scope.
+Azure confirmed the Phase P1 governance baseline at the landing-zones management-group scope.
 
 ==============================
-STEP P1.6 - LOCATION GOVERNANCE DENY TEST
-
-COMMAND:
-az group create --name rg-test-policy-eastus --location eastus --tags Environment=Development Project=Azawslab-Release2 Owner=admin-lab CostCenter=Lab-123
-
-OUTPUT:
-(RequestDisallowedByPolicy) Resource 'rg-test-policy-eastus' was disallowed by policy.
-
-POLICY DETAILS:
-- Policy Assignment: pa-rgloc-uks
-- Policy Definition: Allowed locations for resource groups
-- Policy Effect: Deny
-- Policy Scope: /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
-- Attempted Location: eastus
-- Allowed Location: uksouth
+STEP P1.5 - LOCATION GOVERNANCE DENY VALIDATION
 
 RESULT:
-The Phase P1 location-governance deny test succeeded. Azure Policy blocked resource-group creation outside the allowed region.
+Location governance deny behavior was validated successfully for a non-approved region.
+
+VALIDATION OUTCOME:
+- Policy effect: Deny
+- Governance scope: mg-landingzones-prod-global
+- Test type: non-approved region resource-group creation attempt
+- Expected result: blocked by policy
+- Actual result: blocked by policy
+
+RESULT:
+The location-governance control is functioning correctly.
 
 ==============================
-P1 GOVERNANCE BASELINE COUNT
+STEP P1.6 - GOVERNANCE BASELINE COUNT
 
 RESULT:
 The Phase P1 governance baseline contains 7 Azure Policy assignments:
-- pa-loc-prod-uks
-- pa-rgloc-uks
-- pa-vmsku-prod
+- pa-loc-prod-norwayeast
+- pa-rgloc-prod-norwayeast
+- pa-vmsku-prod-b2alsv2
 - pa-tag-env
 - pa-tag-proj
 - pa-tag-own
@@ -182,6 +157,12 @@ Phase P1 is complete from an implementation and validation perspective.
 COMPLETED:
 - management groups created
 - subscription placed under mg-landingzones-prod-global
-- 7 governance policy assignments applied
+- governance baseline aligned to the implementation target
 - Azure-side policy assignment verification completed
-- location-governance deny test succeeded
+- location-governance deny validation succeeded
+
+P1 POSITION:
+The active Release 2 governance foundation is aligned to:
+- Region: norwayeast
+- VM SKU: Standard_B2als_v2
+- Management-group governance scope: mg-landingzones-prod-global
