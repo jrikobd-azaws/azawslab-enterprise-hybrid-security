@@ -1,13 +1,10 @@
-﻿data "terraform_remote_state" "platform_shared_dev" {
-  backend = "azurerm"
+module "security" {
+  source = "../../modules/security"
 
-  config = {
-    resource_group_name  = "rg-dev-terraformstate-uksouth"
-    storage_account_name = "stdevtfstateazaws01"
-    container_name       = "tfstate"
-    key                  = "platform-shared-dev.tfstate"
-  }
+  resource_group_name = "rg-dev-security-norwayeast"
+  location            = "norwayeast"
 }
+
 module "networking" {
   source = "../../modules/networking"
 
@@ -35,7 +32,7 @@ module "compute" {
   location            = "norwayeast"
   subnet_id           = module.networking.workload_subnet_id
   admin_username      = "azureuser"
-  admin_password      = data.terraform_remote_state.platform_shared_dev.outputs.generated_local_admin_password
+  admin_password      = module.security.generated_local_admin_password
 
   tags = {
     Environment      = "Development"
@@ -45,5 +42,3 @@ module "compute" {
     DeploymentMethod = "Terraform"
   }
 }
-
-
