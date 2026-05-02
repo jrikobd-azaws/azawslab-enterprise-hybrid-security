@@ -1,9 +1,9 @@
-# Release 2 Naming Conventions
+﻿# Release 2 Naming Conventions
 
 **Version:** 5.0  
 **Last Updated:** [Current Date]  
 **Aligns with:** `README_PLAN.md`  
-**Applies to:** All Release 2 phases (`P0–P9c`, `O1–O5`)  
+**Applies to:** All Release 2 phases (`P0â€“P9c`, `O1â€“O5`)  
 **Related Docs:** [Architecture Decision Records](./architechture.md), [Master Plan](./README_PLAN.md), [Implementation Tracker](./implementation-tracker.md), [Phase Guide](./Phases-with-steps.md)
 
 ---
@@ -55,11 +55,13 @@ Ephemeral resources use the same standard naming format as persistent resources,
 
 ## 3. Environment and Scope Model
 
+> **Deployability-validated naming note:** Region and compute SKU values are finalized only after subscription-level availability validation, then naming is aligned to the confirmed implementation target.
+
 Release 2 uses a **single primary lab environment** with naming that still reflects production-style structure.
 
 ### Standard Values
 - **Environment token:** `dev`
-- **Region token:** `uksouth`
+- **Region token:** `norwayeast`
 - **Management-plane region token:** `global`
 - **Subscription environment token:** `prod` where the design intentionally mirrors enterprise structure
 - **Project identifier:** `Azawslab-Release2`
@@ -77,17 +79,17 @@ Release 2 uses a **single primary lab environment** with naming that still refle
 |---|---|---|---|
 | Management Group | `mg-<purpose>-<env>-<region>` | `mg-platform-prod-global` | Management plane uses `global` |
 | Subscription | `sub-<workload>-<env>` or `sub-<workload>-<env>-<region>` | `sub-azaws-enterprise-prod` | Use actual subscription name chosen in lab |
-| Resource Group | `rg-<service>-<env>-<region>` | `rg-connectivity-prod-uksouth` | Use logical service boundary |
-| Virtual Network | `vnet-<env>-<region>-<purpose>` | `vnet-dev-uksouth-hub` | Purpose examples: `hub`, `spoke-workload`, `spoke-avd` |
+| Resource Group | `rg-<service>-<env>-<region>` | `rg-dev-workload-norwayeast` | Use logical service boundary |
+| Virtual Network | `vnet-<env>-<region>-<purpose>` | `vnet-dev-norwayeast-spoke-workload` | Purpose examples: `hub`, `spoke-workload`, `spoke-avd` |
 | Subnet | `snet-<purpose>` | `snet-workload` | Reserved names must match exactly where required |
 | Network Interface | `nic-<vmname>-<nn>` | `nic-vm-dev-client-01-01` | Keep sequence for multi-NIC scenarios |
-| Public IP | `pip-<resource>-<region>-<nn>` | `pip-azfw-uksouth-01` | Only where public IP is required |
+| Public IP | `pip-<resource>-<region>-<nn>` | `pip-azfw-norwayeast-01` | Only where public IP is required |
 | NSG | `nsg-<purpose>-<direction>` | `nsg-workload-inbound` | Purpose-driven |
-| Route Table | `rt-<purpose>-<region>` | `rt-udr-to-firewall-uksouth` | For forced tunneling / steering |
-| VPN Gateway | `vpngw-<env>-<region>` | `vpngw-dev-uksouth` | Use only if phase requires it |
+| Route Table | `rt-<purpose>-<region>` | `rt-udr-to-firewall-norwayeast` | For forced tunneling / steering |
+| VPN Gateway | `vpngw-<env>-<region>` | `vpngw-dev-norwayeast` | Use only if phase requires it |
 | Local Network Gateway | `lngw-<env>-<site>` | `lngw-dev-hq` | HQ, branch, AWS, etc. |
-| Azure Firewall | `afw-<env>-<region>-<nn>` | `afw-dev-uksouth-01` | Often ephemeral |
-| Firewall Policy | `afwp-<env>-<region>` | `afwp-dev-uksouth` | Paired with Azure Firewall |
+| Azure Firewall | `afw-<env>-<region>-<nn>` | `afw-dev-norwayeast-01` | Often ephemeral |
+| Firewall Policy | `afwp-<env>-<region>` | `afwp-dev-norwayeast` | Paired with Azure Firewall |
 | FortiGate NVA VM | `vm-<env>-fortigate-<nn>` | `vm-dev-fortigate-01` | Ephemeral for validation unless retained |
 | Key Vault | `kv-<env>-<purpose>-<suffix>` | `kv-dev-platform-001` | Suffix should be numeric or random |
 | Log Analytics Workspace | `la-<env>-<purpose>` | `la-dev-platform` | Shared monitoring target |
@@ -111,7 +113,7 @@ Release 2 uses a **single primary lab environment** with naming that still refle
 | Azure Arc Machine | existing machine name | `vm-dev-dc1-01` | Arc projects existing machine identity |
 | AVD Host Pool | `hp-<env>-<pooltype>` | `hp-dev-pooled` | `pooled`, `personal` |
 | AVD App Group | `dag-<env>-<type>` | `dag-dev-desktop` | Desktop or RemoteApp |
-| AVD Workspace | `ws-<env>-<region>` | `ws-dev-uksouth` | Use region suffix |
+| AVD Workspace | `ws-<env>-<region>` | `ws-dev-norwayeast` | Use region suffix |
 | FSLogix Share | `share-<env>-fslogix` | `share-dev-fslogix` | Azure Files share |
 | GSA Remote Network | `gsa-rn-<site>` | `gsa-rn-azurehub` | Logical object in Entra |
 | GSA Connector VM | `vm-<env>-gsa-connector-<nn>` | `vm-dev-gsa-connector-01` | Connector host VM |
@@ -145,10 +147,10 @@ This section is especially important for phases `P5`, `P6`, `O1`, `O3a`, `O3b`, 
 
 | Object | Pattern | Example |
 |---|---|---|
-| Hub VNet | `vnet-<env>-<region>-hub` | `vnet-dev-uksouth-hub` |
-| Workload spoke | `vnet-<env>-<region>-spoke-workload` | `vnet-dev-uksouth-spoke-workload` |
-| AVD spoke | `vnet-<env>-<region>-spoke-avd` | `vnet-dev-uksouth-spoke-avd` |
-| FortiGate segment/spoke | `vnet-<env>-<region>-spoke-fortigate` | `vnet-dev-uksouth-spoke-fortigate` |
+| Hub VNet | `vnet-<env>-<region>-hub` | `vnet-dev-norwayeast-hub` |
+| Workload spoke | `vnet-<env>-<region>-spoke-workload` | `vnet-dev-norwayeast-spoke-workload` |
+| AVD spoke | `vnet-<env>-<region>-spoke-avd` | `vnet-dev-norwayeast-spoke-avd` |
+| FortiGate segment/spoke | `vnet-<env>-<region>-spoke-fortigate` | `vnet-dev-norwayeast-spoke-fortigate` |
 | Workload subnet | `snet-workload` | `snet-workload` |
 | Management subnet | `snet-mgmt` | `snet-mgmt` |
 | AVD subnet | `snet-avd-sessionhosts` | `snet-avd-sessionhosts` |
@@ -293,13 +295,13 @@ Avoid ad hoc role values unless the master plan explicitly introduces a new role
 
 ## 10. Phase-Specific Naming Examples
 
-### P0 – Foundation
+### P0 â€“ Foundation
 - `sp-terraform-gh`
-- `rg-dev-terraformstate-uksouth`
+- `rg-dev-terraformstate-norwayeast`
 - `stdevterraform001`
 - `tfstate`
 
-### P1 / P3 – Governance
+### P1 / P3 â€“ Governance
 - `mg-platform-prod-global`
 - `mg-landingzones-prod-global`
 - `mg-sandbox-prod-global`
@@ -308,36 +310,36 @@ Avoid ad hoc role values unless the master plan explicitly introduces a new role
 - `policy-mandatory-tags`
 
 ### P5 – Hub-Spoke Networking
-- `vnet-dev-uksouth-hub`
-- `vnet-dev-uksouth-spoke-workload`
+- `vnet-dev-norwayeast-hub`
+- `vnet-dev-norwayeast-spoke-workload`
 - `snet-workload`
 - `snet-mgmt`
-- `rt-udr-to-firewall-uksouth`
+- `rt-udr-to-firewall-norwayeast`
 
-### P6 – Azure Firewall
-- `afw-dev-uksouth-01`
-- `afwp-dev-uksouth`
-- `pip-azfw-uksouth-01`
+### P6 â€“ Azure Firewall
+- `afw-dev-norwayeast-01`
+- `afwp-dev-norwayeast`
+- `pip-azfw-norwayeast-01`
 
-### O1 – FortiGate
+### O1 â€“ FortiGate
 - `vm-dev-fortigate-01`
-- `pip-fortigate-uksouth-01`
-- `rt-udr-to-fortigate-uksouth`
+- `pip-fortigate-norwayeast-01`
+- `rt-udr-to-fortigate-norwayeast`
 
-### O3a – FortiGate ↔ VyOS
+### O3a â€“ FortiGate â†” VyOS
 - `vm-dev-fortigate-01`
 - `vyos-dev-onprem-01`
 - `peer-hq-vyos`
 - `lngw-dev-hq`
 
-### O3b – AWS Branch
+### O3b â€“ AWS Branch
 - `peer-aws-cisco`
 - `cisco-dev-branch-01`
 
-### O5 – AVD
+### O5 â€“ AVD
 - `hp-dev-pooled`
 - `dag-dev-desktop`
-- `ws-dev-uksouth`
+- `ws-dev-norwayeast`
 - `stdevfslogix001`
 - `share-dev-fslogix`
 
@@ -452,7 +454,7 @@ If a resource is intended for teardown after validation, the `Ephemeral=true` ta
 ## 14. Naming Anti-Patterns to Avoid
 
 Do not use:
-- inconsistent region tokens such as mixing `uksouth`, `uks`, and `uksouth`
+- inconsistent region tokens such as mixing outdated and finalized region tokens such as `uksouth`, `norwayeast`, and ad hoc abbreviations
 - stale RRAS-era names such as `peer-hq-rras`
 - vague names such as `vm-test`, `rg-temp`, `net1`
 - mixed sequence styles such as `01`, `1`, `001` on the same resource family without reason
@@ -465,9 +467,9 @@ Do not use:
 |---|---|
 | `peer-hq-rras` | `peer-hq-vyos` |
 | `vm-test` | `vm-dev-client-01` |
-| `rg-temp` | `rg-corp-prod-uksouth` |
+| `rg-temp` | `rg-dev-workload-norwayeast` |
 | `storage1` | `stdevterraform001` |
-| `firewallpolicy` | `afwp-dev-uksouth` |
+| `firewallpolicy` | `afwp-dev-norwayeast` |
 
 ---
 
@@ -476,11 +478,11 @@ Do not use:
 ### Core Examples
 - `mg-platform-prod-global`
 - `sub-azaws-enterprise-prod`
-- `rg-connectivity-prod-uksouth`
-- `vnet-dev-uksouth-hub`
-- `vnet-dev-uksouth-spoke-workload`
-- `afw-dev-uksouth-01`
-- `afwp-dev-uksouth`
+- `rg-dev-workload-norwayeast`
+- `vnet-dev-norwayeast-hub`
+- `vnet-dev-norwayeast-spoke-workload`
+- `afw-dev-norwayeast-01`
+- `afwp-dev-norwayeast`
 - `vm-dev-fortigate-01`
 - `vyos-dev-onprem-01`
 - `kv-dev-platform-001`
@@ -489,7 +491,7 @@ Do not use:
 - `peer-hq-vyos`
 - `peer-aws-cisco`
 - `hp-dev-pooled`
-- `ws-dev-uksouth`
+- `ws-dev-norwayeast`
 
 ---
 
@@ -513,4 +515,14 @@ Whenever you introduce:
 - a new hybrid component
 - a new optional phase
 - a renamed support file
+
+
+
+
+
+
+
+
+
+
 

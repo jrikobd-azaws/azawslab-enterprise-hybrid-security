@@ -1,123 +1,114 @@
 ﻿Release 2 - Phase P2a Execution Log
-Phase: Reusable Terraform Modules
+Phase: Terraform Reusable Modules
 Project: Azawslab Release 2
 
-==============================
-STEP P2A.0 - MODULE READINESS CHECK
+This file records the finalized implementation path only.
 
-COMMAND:
-Get-ChildItem .\terraform -Force
-Get-ChildItem .\terraform\environments\dev -Force
-Get-ChildItem .\terraform\modules -Force
-git status
+==============================
+STEP P2A.1 - SECURITY MODULE AND DYNAMIC SECRET FLOW
+
+COMMANDS:
+terraform apply "tfplan-p2a"
+az keyvault secret show --vault-name kvdevazawsne01 --name local-admin-password --query name -o tsv
 
 RESULT:
-P2a readiness is clean.
+- Dynamic local admin password generated successfully
+- Secret stored successfully in Azure Key Vault
+- Secret confirmed by Azure CLI in the finalized Norway East design
 
-OBSERVATIONS:
-- terraform root contains environments and modules
-- dev environment contains backend, provider, root, and policy files
-- modules folder exists and is currently empty
-- tfplan-p1 is present as an untracked local plan file and should remain out of source control
-
-NEXT:
-Create the initial reusable module folders:
-- security
-- networking
-- compute
-- monitoring
-
-==============================
-STEP P2A.6 - SECURITY MODULE KEY VAULT PLACEHOLDER VALIDATION
-
-COMMAND:
-Get-Content .\terraform\modules\security\main.tf
-Get-Content .\terraform\modules\security\outputs.tf
-terraform -chdir=C:\GitHub\azawslab-enterprise-hybrid-security\terraform\environments\dev fmt
-terraform -chdir=C:\GitHub\azawslab-enterprise-hybrid-security\terraform\environments\dev validate
-
-RESULT:
-Success! The configuration is valid.
-
-NOTE:
-The reusable security module now contains a security resource group and Key Vault placeholder and validates successfully through the dev environment root.
-
-==============================
-STEP P2A.9 - FIRST SECURITY MODULE APPLY
-
-COMMAND:
-terraform -chdir=C:\GitHub\azawslab-enterprise-hybrid-security\terraform\environments\dev apply "tfplan-p2a"
-az group show --name rg-dev-security-uksouth --output table
-az keyvault show --name kvdevazaws01 --output table
-
-OUTPUT:
-module.security.azurerm_key_vault.security: Creation complete after 2m40s [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-security-uksouth/providers/Microsoft.KeyVault/vaults/kvdevazaws01]
-
-Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
-
-Location    Name
-----------  -----------------------
-uksouth     rg-dev-security-uksouth
-
-Location    Name          ResourceGroup
-----------  ------------  -----------------------
-uksouth     kvdevazaws01  rg-dev-security-uksouth
-
-RESULT:
-The first reusable security module resources were applied successfully:
-- rg-dev-security-uksouth
-- kvdevazaws01
-
-NOTE:
-This establishes the first real reusable security resources for Phase P2a and confirms that the root-to-module Terraform pattern is working against Azure.
-
-==============================
-STEP P2A.10 - TERRAFORM STATE VERIFICATION
-
-COMMAND:
-terraform -chdir=C:\GitHub\azawslab-enterprise-hybrid-security\terraform\environments\dev state list
-
-OUTPUT:
-data.azurerm_policy_definition.allowed_locations
-data.azurerm_policy_definition.allowed_rg_locations
-data.azurerm_policy_definition.allowed_vm_skus
-data.azurerm_policy_definition.require_tag_value
-azurerm_management_group_policy_assignment.allowed_locations
-azurerm_management_group_policy_assignment.allowed_rg_locations
-azurerm_management_group_policy_assignment.allowed_vm_skus
-azurerm_management_group_policy_assignment.require_tag_costcenter
-azurerm_management_group_policy_assignment.require_tag_environment
-azurerm_management_group_policy_assignment.require_tag_owner
-azurerm_management_group_policy_assignment.require_tag_project
-module.security.azurerm_key_vault.security
-module.security.azurerm_resource_group.security
-
-RESULT:
-Terraform state confirms that the reusable security module resources are now tracked successfully:
-- module.security.azurerm_resource_group.security
-- module.security.azurerm_key_vault.security
-
-NOTE:
-The dev root currently manages both the P1 governance assignments and the first P2a security module resources.
-
-==============================
-STEP P2A.13 - DYNAMIC SECRET FLOW APPLY
-
-COMMAND:
-terraform -chdir=C:\GitHub\azawslab-enterprise-hybrid-security\terraform\environments\dev apply "tfplan-p2a"
-az keyvault secret show --vault-name kvdevazaws01 --name local-admin-password --query name -o tsv
-
-OUTPUT:
+SAFE OUTPUT TO RETAIN:
 local-admin-password
 
+==============================
+STEP P2A.2 - MODULE STRUCTURE VALIDATION
+
+COMMANDS:
+terraform fmt
+terraform init
+terraform validate
+
 RESULT:
-The dynamic secret flow was applied successfully.
+- Security, networking, and compute modules aligned successfully
+- Terraform working directory initialized successfully
+- Configuration validated successfully
 
-DETAIL:
-The reusable security module now:
-- generates a password dynamically
-- stores it in Azure Key Vault
-- allows secret verification by name without exposing the secret value
+SAFE OUTPUT TO RETAIN:
+Terraform has been successfully initialized!
+Success! The configuration is valid.
 
-NOTE:
-Key Vault access was handled through Terraform so the secret workflow could complete without a manual portal-only fix.
+==============================
+STEP P2A.3 - GOVERNANCE-ALIGNED WORKLOAD FOUNDATION
+
+COMMANDS:
+terraform plan -out=tfplan-p2a
+terraform apply "tfplan-p2a"
+
+RESULT:
+- Norway East policy-aligned target finalized
+- Workload resource group created: rg-dev-workload-norwayeast
+- Workload VNet created: vnet-dev-norwayeast-spoke-workload
+- Workload subnet created: snet-workload
+- Private NIC created: nic-vm-dev-client-01-01
+- Required governance tags applied successfully
+
+SAFE OUTPUT TO RETAIN:
+Apply complete! Resources: 12 added, 0 changed, 9 destroyed.
+
+==============================
+STEP P2A.4 - VM DEPLOYMENT
+
+COMMANDS:
+terraform plan -out=tfplan-p2a
+terraform apply "tfplan-p2a"
+
+RESULT:
+- Windows VM deployed successfully in Norway East
+- Final VM size: Standard_B2als_v2
+- Windows computer name derived safely within 15-character limit
+- VM attached only to private NIC
+
+SAFE OUTPUT TO RETAIN:
+Apply complete! Resources: 12 added, 0 changed, 9 destroyed.
+
+==============================
+STEP P2A.5 - FINAL CLI VALIDATION
+
+COMMANDS:
+az vm show --name vm-dev-client-01 --resource-group rg-dev-workload-norwayeast --show-details --output json
+az network nic show --name nic-vm-dev-client-01-01 --resource-group rg-dev-workload-norwayeast --output json
+az keyvault secret show --vault-name kvdevazawsne01 --name local-admin-password --query name --output tsv
+
+RESULT:
+- VM exists and is running in Norway East
+- VM size confirmed: Standard_B2als_v2
+- Private-only outcome confirmed
+- NIC private IP confirmed: 10.10.0.4
+- No public IP returned by CLI validation
+- Secret confirmed in final Key Vault
+
+SAFE OUTPUT TO RETAIN:
+"location": "norwayeast"
+"vmSize": "Standard_B2als_v2"
+"powerState": "VM running"
+"privateIps": "10.10.0.4"
+"publicIps": ""
+local-admin-password
+
+==============================
+P2A CLOSURE STATUS
+
+RESULT:
+Phase P2a is complete from an implementation and validation perspective.
+
+FINALIZED DESIGN BASIS:
+Region and VM SKU were treated as validated deployment inputs rather than fixed assumptions.
+The final implementation target was aligned to confirmed subscription-level deployability.
+
+FINAL IMPLEMENTED TARGET:
+- Region: norwayeast
+- VM SKU: Standard_B2als_v2
+- Security RG: rg-dev-security-norwayeast
+- Workload RG: rg-dev-workload-norwayeast
+- VNet: vnet-dev-norwayeast-spoke-workload
+- Key Vault: kvdevazawsne01
+- VM: vm-dev-client-01

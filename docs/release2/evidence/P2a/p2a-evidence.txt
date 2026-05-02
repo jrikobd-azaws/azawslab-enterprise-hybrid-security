@@ -1,114 +1,109 @@
 ﻿Release 2 - Phase P2a Evidence
-Phase: Reusable Terraform Modules
+Phase: Terraform Reusable Modules
 Project: Azawslab Release 2
 
 This file contains curated successful evidence only.
+The finalized implementation target was selected after subscription-and-region deployability validation.
 
 ==============================
-STEP P2A.0 - MODULE READINESS CHECK
+STEP P2A.1 - FINALIZED DEPLOYMENT TARGET
 
 RESULT:
-Phase P2a readiness check completed successfully.
+- Final region: norwayeast
+- Final VM SKU: Standard_B2als_v2
 
-CONFIRMED:
-- terraform root structure is present
-- dev environment root files are present
-- modules folder exists and is ready for reusable module scaffolding
-
-NEXT:
-Create initial reusable Terraform modules for:
-- security
-- networking
-- compute
-- monitoring
+RATIONALE:
+VM size and region selection were treated as a subscription-and-region validation task, not a static assumption.
+Candidate regions and SKUs were finalized based on confirmed deployability for the active subscription.
 
 ==============================
-STEP P2A.1 - REUSABLE MODULE FOLDERS CREATED
+STEP P2A.2 - SECURITY AND SECRET VALIDATION
 
 COMMAND:
-Get-ChildItem .\terraform\modules -Force
-
-OUTPUT:
-- security
-- networking
-- compute
-- monitoring
-
-RESULT:
-The reusable Terraform module folder structure for Phase P2a was created successfully.
-
-==============================
-STEP P2A.5 - ROOT TO SECURITY MODULE WIRING VALIDATED
-
-COMMAND:
-terraform init
-terraform validate
-
-OUTPUT:
-Terraform has been successfully initialized.
-Success! The configuration is valid.
-
-RESULT:
-The dev environment root successfully initialized and validated after the reusable security module was wired into the Terraform structure.
-
-==============================
-STEP P2A.6 - SECURITY MODULE KEY VAULT PLACEHOLDER VALIDATION
-
-COMMAND:
-terraform validate
-
-OUTPUT:
-Success! The configuration is valid.
-
-RESULT:
-The reusable security module validated successfully after adding a security resource group and Key Vault placeholder.
-
-==============================
-STEP P2A.9 - FIRST SECURITY MODULE APPLY
-
-COMMAND:
-terraform apply "tfplan-p2a"
-az group show --name rg-dev-security-uksouth --output table
-az keyvault show --name kvdevazaws01 --output table
-
-OUTPUT:
-Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
-
-Location    Name
-----------  -----------------------
-uksouth     rg-dev-security-uksouth
-
-Location    Name          ResourceGroup
-----------  ------------  -----------------------
-uksouth     kvdevazaws01  rg-dev-security-uksouth
-
-RESULT:
-The first reusable security module resources were applied successfully:
-- rg-dev-security-uksouth
-- kvdevazaws01
-
-==============================
-STEP P2A.10 - TERRAFORM STATE VERIFICATION
-
-COMMAND:
-terraform state list
-
-OUTPUT:
-module.security.azurerm_key_vault.security
-module.security.azurerm_resource_group.security
-
-RESULT:
-Terraform state confirms the first reusable security module resources are being managed successfully.
-
-==============================
-STEP P2A.13 - DYNAMIC SECRET FLOW APPLY
-
-COMMAND:
-terraform apply "tfplan-p2a"
-az keyvault secret show --vault-name kvdevazaws01 --name local-admin-password --query name -o tsv
+az keyvault secret show --vault-name kvdevazawsne01 --name local-admin-password --query name --output tsv
 
 OUTPUT:
 local-admin-password
 
 RESULT:
-The dynamic secret flow was applied successfully and the secret was confirmed in Key Vault.
+Dynamic password generation and Key Vault secret storage completed successfully in the finalized Norway East design.
+
+==============================
+STEP P2A.3 - TERRAFORM VALIDATION
+
+COMMANDS:
+terraform fmt
+terraform init
+terraform validate
+terraform plan -out=tfplan-p2a
+
+OUTPUT:
+Terraform has been successfully initialized!
+Success! The configuration is valid.
+
+RESULT:
+Terraform module structure, policy alignment, and finalized Norway East design validated successfully.
+
+==============================
+STEP P2A.4 - TERRAFORM APPLY
+
+COMMAND:
+terraform apply "tfplan-p2a"
+
+OUTPUT:
+Apply complete! Resources: 12 added, 0 changed, 9 destroyed.
+
+RESULT:
+The finalized Norway East design was applied successfully, including:
+- governance realignment
+- security module realignment
+- workload networking deployment
+- private NIC deployment
+- Windows VM deployment
+
+==============================
+STEP P2A.5 - VM VALIDATION
+
+COMMAND:
+az vm show --name vm-dev-client-01 --resource-group rg-dev-workload-norwayeast --show-details --output json
+
+SAFE OUTPUT TO RETAIN:
+"location": "norwayeast"
+"vmSize": "Standard_B2als_v2"
+"powerState": "VM running"
+"privateIps": "10.10.0.4"
+"publicIps": ""
+
+RESULT:
+VM deployment succeeded in Norway East with the finalized SKU and no public IP.
+
+==============================
+STEP P2A.6 - NIC VALIDATION
+
+COMMAND:
+az network nic show --name nic-vm-dev-client-01-01 --resource-group rg-dev-workload-norwayeast --output json
+
+SAFE OUTPUT TO RETAIN:
+"name": "nic-vm-dev-client-01-01"
+"privateIPAddress": "10.10.0.4"
+"location": "norwayeast"
+
+RESULT:
+Private-only NIC behavior confirmed successfully.
+
+==============================
+P2A CLOSURE STATUS
+
+RESULT:
+Phase P2a is complete from an implementation and validation perspective.
+
+FINAL IMPLEMENTED STATE:
+- Region: norwayeast
+- VM SKU: Standard_B2als_v2
+- Security RG: rg-dev-security-norwayeast
+- Workload RG: rg-dev-workload-norwayeast
+- VNet: vnet-dev-norwayeast-spoke-workload
+- NIC: nic-vm-dev-client-01-01
+- VM: vm-dev-client-01
+- Key Vault: kvdevazawsne01
+- Secret: local-admin-password

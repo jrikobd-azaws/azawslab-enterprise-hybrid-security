@@ -98,7 +98,7 @@ Complete this before active build execution.
 - [ ] Azure subscription upgraded to Pay-As-You-Go
 - [X] Correct subscription selected
 - [ ] Entra domain `entra.azawslab.co.uk` verified
-- [ ] region target confirmed as `uksouth`
+- [ ] finalized implementation region confirmed as `norwayeast`
 - [ ] budget / cost alerts configured
 
 ### 5.2 Addressing and Topology Readiness
@@ -194,10 +194,10 @@ Use this before every Terraform apply.
 ### 8.3 Terraform Command Discipline
 - [ ] run `terraform fmt -check`
 - [ ] run `terraform init`
-- [ ] run `terraform validate`
-- [ ] run `terraform plan`
-- [ ] review plan before apply
-- [ ] confirm the plan matches intended change scope
+- [x] run `terraform validate`
+- [x] run `terraform plan`
+- [x] review plan before apply
+- [x] confirm the plan matches intended change scope
 
 ### 8.4 Risk Check
 - [ ] no surprise destroys are present unless intentional
@@ -251,8 +251,8 @@ Do this during the phase, not at the end of the week.
 Before leaving a phase, confirm:
 - [ ] do I have proof it deployed?
 - [ ] do I have proof it validated?
-- [ ] do I have proof the important control or behavior works?
-- [ ] do I have enough evidence that future me can understand what happened?
+- [x] do I have proof the important control or behavior works?
+- [x] do I have enough evidence that future me can understand what happened?
 
 ### 11.3 Naming Check
 - [ ] evidence filenames match the naming convention
@@ -265,13 +265,13 @@ Before leaving a phase, confirm:
 
 Before marking any phase as complete in `implementation-tracker.md`:
 
-- [ ] deployment/configuration succeeded
+- [x] deployment/configuration succeeded
 - [ ] validation completed successfully
 - [ ] evidence captured in correct folder
-- [ ] notes updated if anything deviated from the plan
+- [x] notes updated if anything deviated from the plan
 - [ ] follow-on dependency impact checked
 - [ ] teardown completed if the phase is ephemeral
-- [ ] tracker status updated
+- [x] tracker status updated
 
 ### Completion Quality Check
 - [ ] I could explain this phase clearly in an interview
@@ -501,4 +501,8 @@ Validated:
 Evidence:
 - docs/release2/evidence/P1/p1-evidence.txt
 - docs/release2/evidence/P1/p1-execution-log.txt
+
+## P2a cost-control reminder
+- The Norway East workload VM and supporting workload resources are ephemeral from a cost-control perspective
+- After documentation and evidence alignment are complete, deallocate or destroy the workload promptly to avoid unnecessary spend
 

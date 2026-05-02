@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "security" {
 }
 
 resource "azurerm_key_vault" "security" {
-  name                = "kvdevazaws01"
+  name                = "kvdevazawsne01"
   location            = azurerm_resource_group.security.location
   resource_group_name = azurerm_resource_group.security.name
   tenant_id           = "78643a83-bcc9-4a3b-ab7e-eeede0b3384e"

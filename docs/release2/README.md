@@ -174,6 +174,19 @@ For the most controlled implementation flow:
 
 ## Current Status
 
+- **P0:** Complete
+- **P1:** Complete
+- **P2a:** Complete
+- **Finalized implementation region:** `norwayeast`
+- **Finalized VM SKU:** `Standard_B2als_v2`
+
+Release 2 region and VM sizing were treated as validated implementation inputs rather than static assumptions.
+Candidate regions and SKUs were assessed against actual subscription-level deployability first, and the Terraform design was then aligned to the confirmed implementation target.
+
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
+
+
+
+

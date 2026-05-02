@@ -1,6 +1,6 @@
 ﻿# Implementation Tracker â€“ Release 2 (Azure Platform Engineering & Security)
 
-**Last Updated:** [29-April-2026]  
+**Last Updated:** [02-May-2026]  
 **Owner:** HASHIBUR RAHMAN  
 **Repository:** `https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/docs/release2/`  
 **Primary Source of Truth:** `README_PLAN.md`  
@@ -134,11 +134,11 @@ This section reflects the current project state: planning/documentation first, e
 - [ ] Verified domain `entra.azawslab.co.uk` available in Entra ID
 - [ ] Subscription ID recorded
 - [ ] Cost alerts created ($10 / $50 / $100)
-- [ ] Default region confirmed as `uksouth`
+- [ ] Finalized implementation region confirmed as `norwayeast`
 
 ### 5.2 Global IP Addressing Strategy
 - [ ] Azure Hub: `10.0.0.0/16`
-- [ ] Azure Workload Spoke: `10.1.0.0/16`
+- [ ] Azure Workload Spoke: `10.10.0.0/16`
 - [ ] Azure AVD / optional spoke(s): `10.2.0.0/16`
 - [ ] On-prem simulation network: `192.168.1.0/24`
 - [ ] AWS branch VPC: `172.16.0.0/16`
@@ -195,9 +195,9 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 | Phase | Name                                           | Depends On | Est. Time | Status | Evidence Path                 | Validation Gate                                                      | Teardown / Cost Action                                         |
 | ----- | ---------------------------------------------- | ---------- | --------- | ------ | ----------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
-| P0    | Foundation & OIDC Backend                      | Prep       | 1h        | [ ]    | `docs/release2/evidence/P0/`  | OIDC workflow succeeds; backend init succeeds                        | Persistent                                                     |
-| P1    | Landing Zone & Management Groups               | P0         | 30m       | [ ]    | `docs/release2/evidence/P1/`  | MG hierarchy exists; policy assignments visible                      | Persistent                                                     |
-| P2a   | Terraform Reusable Modules                     | P1         | 1h        | [ ]    | `docs/release2/evidence/P2a/` | `terraform validate` and `plan` succeed; no public IP on workload VM | Persistent                                                     |
+| P0    | Foundation & OIDC Backend                      | Prep       | 1h        | [x]    | `docs/release2/evidence/P0/`  | OIDC workflow succeeds; backend init succeeds                        | Persistent                                                     |
+| P1    | Landing Zone & Management Groups               | P0         | 30m       | [x]    | `docs/release2/evidence/P1/`  | MG hierarchy exists; policy assignments visible                      | Persistent                                                     |
+| P2a   | Terraform Reusable Modules                     | P1         | 1h        | [x]    | `docs/release2/evidence/P2a/` | `terraform validate` and `plan` succeed; no public IP on workload VM | Persistent                                                     |
 | P2b   | Ansible Configuration Management               | P2a        | 45m       | [ ]    | `docs/release2/evidence/P2b/` | playbook succeeds; rerun shows idempotency                           | Persistent                                                     |
 | P2c   | CI/CD Pipeline                                 | P0, P2a    | 45m       | [ ]    | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds             | Persistent                                                     |
 | P3    | Enterprise Governance & Guardrails             | P1         | 30m       | [ ]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                    | Persistent                                                     |
@@ -270,24 +270,24 @@ Do **not** start P0 until sections 4 and 5 are complete.
 **Objective:** Build reusable IaC modules with dynamic secrets and private-only compute.
 
 **Checklist**
-- [ ] module structure created
-- [ ] security module created
-- [ ] networking module created
-- [ ] compute module created
+- [x] module structure created
+- [x] security module created
+- [x] networking module created
+- [x] compute module created
 - [ ] monitoring module created if included in the phase scope
 - [x] Key Vault integration confirmed
-- [ ] workload VM deployed without public IP
+- [x] workload VM deployed without public IP
 
 **Minimum Validation**
-- [ ] `terraform fmt -check`
-- [ ] `terraform validate`
-- [ ] `terraform plan`
-- [ ] workload NIC has no public IP
+- [x] `terraform fmt -check`
+- [x] `terraform validate`
+- [x] `terraform plan`
+- [x] workload NIC has no public IP
 
 **Evidence**
 - [ ] `tf-validate.txt`
 - [ ] `tf-plan.txt`
-- [ ] `vm-networkprofile.txt`
+- [ ] `vm-validation-norwayeast.txt`
 
 ---
 
@@ -717,4 +717,24 @@ Notes:
 - Governance-plane work was executed under the break-glass account due to management-group scope permissions.
 - P1 evidence is captured in docs/release2/evidence/P1/p1-evidence.txt
 - P1 raw execution history is captured in docs/release2/evidence/P1/p1-execution-log.txt
+### P2a completion note
+- Region and VM SKU were finalized after subscription-and-region deployability validation
+- Final implemented region: `norwayeast`
+- Final implemented VM SKU: `Standard_B2als_v2`
+- Final policy alignment:
+  - `pa-loc-prod-norwayeast`
+  - `pa-rgloc-prod-norwayeast`
+  - `pa-vmsku-prod-b2alsv2`
+- Final implemented resource pattern:
+  - `rg-dev-security-norwayeast`
+  - `rg-dev-workload-norwayeast`
+  - `vnet-dev-norwayeast-spoke-workload`
+  - `nic-vm-dev-client-01-01`
+  - `vm-dev-client-01`
+  - `kvdevazawsne01`
+- Private-only workload outcome confirmed:
+  - VM running in Norway East
+  - NIC private IP `10.10.0.4`
+  - no public IP returned in CLI validation
+- Phase P2a is complete from an implementation and validation perspective
 
