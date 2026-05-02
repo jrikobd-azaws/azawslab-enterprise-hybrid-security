@@ -1,4 +1,15 @@
-﻿module "networking" {
+﻿data "terraform_remote_state" "platform_shared_dev" {
+  backend = "azurerm"
+
+  config = {
+    resource_group_name  = "rg-dev-terraformstate-uksouth"
+    storage_account_name = "stdevtfstateazaws01"
+    container_name       = "tfstate"
+    key                  = "platform-shared-dev.tfstate"
+  }
+}
+
+module "networking" {
   source = "../../modules/networking"
 
   resource_group_name      = "rg-dev-workload-norwayeast"
@@ -17,26 +28,21 @@
   }
 }
 
-# Temporary placeholder:
-# keep this root skeleton creation-only for now.
-# We will wire admin_password safely during state migration.
+module "compute" {
+  source = "../../modules/compute"
 
-# module "compute" {
-#   source = "../../modules/compute"
-#
-#   vm_name             = "vm-dev-client-01"
-#   resource_group_name = "rg-dev-workload-norwayeast"
-#   location            = "norwayeast"
-#   subnet_id           = module.networking.workload_subnet_id
-#   admin_username      = "azureuser"
-#   admin_password      = "TEMP_PLACEHOLDER_DO_NOT_APPLY"
-#
-#   tags = {
-#     Environment      = "Development"
-#     Project          = "Azawslab-Release2"
-#     Owner            = "HASHIBUR RAHMAN"
-#     CostCenter       = "Lab-123"
-#     DeploymentMethod = "Terraform"
-#   }
-# }
+  vm_name             = "vm-dev-client-01"
+  resource_group_name = "rg-dev-workload-norwayeast"
+  location            = "norwayeast"
+  subnet_id           = module.networking.workload_subnet_id
+  admin_username      = "azureuser"
+  admin_password      = data.terraform_remote_state.platform_shared_dev.outputs.generated_local_admin_password
 
+  tags = {
+    Environment      = "Development"
+    Project          = "Azawslab-Release2"
+    Owner            = "HASHIBUR RAHMAN"
+    CostCenter       = "Lab-123"
+    DeploymentMethod = "Terraform"
+  }
+}
