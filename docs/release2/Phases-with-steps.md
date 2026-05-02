@@ -413,6 +413,24 @@ terraform plan -out tfplan-p2a
 terraform apply "tfplan-p2a"
 ```
 
+### Step P2a.7 - Terraform state boundary refinement
+Separate Terraform root/state ownership was implemented to align lifecycle boundaries while keeping the reusable module structure unchanged.
+
+Active Terraform roots:
+- `terraform/governance`
+- `terraform/platform-shared/dev`
+- `terraform/workloads/dev`
+
+Ownership split:
+- `terraform/governance` manages management-group policy assignments
+- `terraform/platform-shared/dev` manages shared security resources such as Key Vault and secret flow
+- `terraform/workloads/dev` manages workload networking and compute resources
+
+Validation outcome:
+- each Terraform root initializes successfully
+- each Terraform root plans cleanly
+- destroy risk is reduced because governance, shared security, and workload resources are no longer coupled in a single state
+
 ## Minimum Validation
 - [ ] `terraform validate` succeeds
 - [ ] `terraform plan` succeeds
@@ -1365,3 +1383,4 @@ docs/
 - Capture text evidence first, screenshots second
 - Tear down expensive optional resources quickly
 - Update `implementation-tracker.md` after each completed phase
+

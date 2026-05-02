@@ -1,0 +1,12 @@
+﻿Release 2 - P2a Workloads State Validation
+
+Active root:
+terraform/workloads/dev
+
+==============================
+STATE LIST
+module.compute.azurerm_network_interface.vm module.compute.azurerm_windows_virtual_machine.vm module.networking.azurerm_resource_group.networking module.networking.azurerm_subnet.workload module.networking.azurerm_virtual_network.workload
+
+==============================
+PLAN OUTPUT
+Acquiring state lock. This may take a few moments... data.terraform_remote_state.platform_shared_dev: Reading... data.terraform_remote_state.platform_shared_dev: Read complete after 3s module.networking.azurerm_resource_group.networking: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast] module.networking.azurerm_virtual_network.workload: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload] module.networking.azurerm_subnet.workload: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload] module.compute.azurerm_network_interface.vm: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/networkInterfaces/nic-vm-dev-client-01-01] module.compute.azurerm_windows_virtual_machine.vm: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01]  No changes. Your infrastructure matches the configuration.  Terraform has compared your real infrastructure against your configuration and found no differences, so no changes are needed. Releasing state lock. This may take a few moments...

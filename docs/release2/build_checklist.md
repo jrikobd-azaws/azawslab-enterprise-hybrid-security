@@ -505,5 +505,9 @@ Evidence:
 ## P2a cost-control reminder
 - The Norway East workload VM and supporting workload resources are ephemeral from a cost-control perspective
 - After documentation and evidence alignment are complete, deallocate or destroy the workload promptly to avoid unnecessary spend
-
-
+## Terraform state boundary check
+- [x] governance resources are managed from `terraform/governance`
+- [x] shared security resources are managed from `terraform/platform-shared/dev`
+- [x] workload networking and compute are managed from `terraform/workloads/dev`
+- [x] each active Terraform root plans cleanly with no unexpected changes
+- [x] state separation aligns lifecycle boundaries without changing reusable module structure

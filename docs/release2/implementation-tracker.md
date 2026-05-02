@@ -595,29 +595,29 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ```text
 docs/
-â””â”€â”€ release2/
-    â””â”€â”€ evidence/
-        â”œâ”€â”€ P0/
-        â”œâ”€â”€ P1/
-        â”œâ”€â”€ P2a/
-        â”œâ”€â”€ P2b/
-        â”œâ”€â”€ P2c/
-        â”œâ”€â”€ P3/
-        â”œâ”€â”€ P4/
-        â”œâ”€â”€ P5/
-        â”œâ”€â”€ P6/
-        â”œâ”€â”€ P7/
-        â”œâ”€â”€ P8/
-        â”œâ”€â”€ P9a/
-        â”œâ”€â”€ P9b/
-        â”œâ”€â”€ P9c/
-        â”œâ”€â”€ O1/
-        â”œâ”€â”€ O2/
-        â”œâ”€â”€ O3a/
-        â”œâ”€â”€ O3b/
-        â”œâ”€â”€ O3c/
-        â”œâ”€â”€ O4/
-        â””â”€â”€ O5/
+`-- release2/
+    `-- evidence/
+        |-- P0/
+        |-- P1/
+        |-- P2a/
+        |-- P2b/
+        |-- P2c/
+        |-- P3/
+        |-- P4/
+        |-- P5/
+        |-- P6/
+        |-- P7/
+        |-- P8/
+        |-- P9a/
+        |-- P9b/
+        |-- P9c/
+        |-- O1/
+        |-- O2/
+        |-- O3a/
+        |-- O3b/
+        |-- O3c/
+        |-- O4/
+        `-- O5/
 ```
 
 ---
@@ -719,14 +719,14 @@ Notes:
 - P1 raw execution history is captured in docs/release2/evidence/P1/p1-execution-log.txt
 
 ### P2a completion note
-- Region and VM SKU were finalized after subscription-and-region deployability validation
-- Final implemented region: `norwayeast`
-- Final implemented VM SKU: `Standard_B2als_v2`
-- Final policy alignment:
+- Region and VM SKU were confirmed after subscription-and-region deployability validation
+- Implemented region: `norwayeast`
+- Implemented VM SKU: `Standard_B2als_v2`
+- Policy alignment:
   - `pa-loc-prod-norwayeast`
   - `pa-rgloc-prod-norwayeast`
   - `pa-vmsku-prod-b2alsv2`
-- Final implemented resource pattern:
+- Implemented resource pattern:
   - `rg-dev-security-norwayeast`
   - `rg-dev-workload-norwayeast`
   - `vnet-dev-norwayeast-spoke-workload`
@@ -738,5 +738,15 @@ Notes:
   - NIC private IP `10.10.0.4`
   - no public IP returned in CLI validation
 - Phase P2a is complete from an implementation and validation perspective
-
+### P2a terraform state boundary refinement
+- Terraform module reuse model was retained
+- Terraform root/state ownership was separated to align lifecycle boundaries
+- Active Terraform roots are now:
+  - `terraform/governance`
+  - `terraform/platform-shared/dev`
+  - `terraform/workloads/dev`
+- Governance policy assignments are now managed from `terraform/governance`
+- Shared security resources are now managed from `terraform/platform-shared/dev`
+- Workload networking and compute are now managed from `terraform/workloads/dev`
+- This refinement was implemented to reduce destroy risk and isolate operational lifecycles without changing the underlying Release 2 design
 

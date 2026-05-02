@@ -147,3 +147,44 @@ FOLLOW-UP:
 - commit updated evidence and tracker files
 - update any remaining doc references to match evidence filenames
 - deallocate or destroy workload resources when documentation and evidence work is complete
+==============================
+STEP P2A.9 - TERRAFORM STATE BOUNDARY REFINEMENT
+
+RESULT:
+After successful recovery and validation of the dev environment, Terraform state ownership was separated into dedicated roots.
+
+ACTIVE ROOTS:
+- terraform/governance
+- terraform/platform-shared/dev
+- terraform/workloads/dev
+
+STATE OWNERSHIP:
+- terraform/governance
+  - policy assignments
+- terraform/platform-shared/dev
+  - shared security resources
+- terraform/workloads/dev
+  - workload networking and compute
+
+VALIDATION OUTCOME:
+- governance root planned cleanly with no changes
+- platform-shared root planned cleanly with no changes
+- workloads root planned cleanly with no changes
+- retired environments/dev state was reduced and removed from active ownership
+
+RESULT:
+The state-boundary refinement completed successfully and reduced destroy risk by separating governance, shared security, and workload lifecycles.
+
+==============================
+P2A CLOSURE STATUS
+
+RESULT:
+Phase P2a is complete from an implementation and validation perspective.
+
+CONFIRMED COMPLETE:
+- reusable Terraform module pattern established
+- dynamic secret flow through Azure Key Vault confirmed
+- workload networking deployed successfully
+- private-only VM pattern confirmed
+- CLI validation completed successfully
+- Terraform state ownership separated across governance, shared security, and workload roots

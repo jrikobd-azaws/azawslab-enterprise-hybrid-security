@@ -116,3 +116,47 @@ IMPLEMENTED POSITION:
 - Private-only workload behavior confirmed
 - Dynamic secret flow confirmed through Azure Key Vault
 - Terraform reusable module pattern validated successfully
+==============================
+STEP P2A.8 - TERRAFORM STATE BOUNDARY REFINEMENT
+
+RESULT:
+Terraform root/state ownership was separated to align lifecycle boundaries while keeping the reusable module structure unchanged.
+
+ACTIVE TERRAFORM ROOTS:
+- terraform/governance
+- terraform/platform-shared/dev
+- terraform/workloads/dev
+
+OWNERSHIP SPLIT:
+- terraform/governance
+  - management-group policy assignments
+- terraform/platform-shared/dev
+  - shared security resources
+  - Key Vault
+  - secret flow
+- terraform/workloads/dev
+  - workload networking
+  - workload compute
+
+VALIDATION:
+- governance root state list and plan confirmed
+- platform-shared root state list and plan confirmed
+- workloads root state list and plan confirmed
+- each root planned with no unexpected changes
+
+RESULT:
+Terraform state separation completed successfully as a P2a hardening refinement.
+
+==============================
+P2A CLOSURE STATUS
+
+RESULT:
+Phase P2a is complete from an implementation and validation perspective.
+
+IMPLEMENTED POSITION:
+- Region: norwayeast
+- VM SKU: Standard_B2als_v2
+- Private-only workload behavior confirmed
+- Dynamic secret flow confirmed through Azure Key Vault
+- Terraform reusable module pattern validated successfully
+- Terraform state boundaries separated across governance, shared security, and workload roots
