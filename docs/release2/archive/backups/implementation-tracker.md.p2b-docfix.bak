@@ -180,13 +180,6 @@ This section reflects the current project state: planning/documentation first, e
 - [X] Subscription scope for Contributor role confirmed
 - [X] GitHub repo/environment subject format documented for federated credential
 
-
-### P2b dependency note
-- [x] Azure-connected Linux management host path established
-- [x] Private WinRM path to m-dev-client-01 validated
-- [x] Role-based Ansible scaffold created
-- [x] common role validated with idempotent rerun
-- [ ] d-join execution deferred until hq.azawslab.co.uk and hybrid connectivity are ready
 ### 5.7 Pre-P0 Smoke Test
 - [ ] `az account show` returns the correct subscription
 - [ ] `terraform init` succeeds in a test directory
@@ -762,6 +755,5 @@ Notes:
 - Shared security resources are now managed from `terraform/platform-shared/dev`
 - Workload networking and compute are now managed from `terraform/workloads/dev`
 - This refinement was implemented to reduce destroy risk and isolate operational lifecycles without changing the underlying Release 2 design
-
 
 

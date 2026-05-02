@@ -93,7 +93,7 @@ Release 2 uses a **single primary lab environment** with naming that still refle
 | FortiGate NVA VM | `vm-<env>-fortigate-<nn>` | `vm-dev-fortigate-01` | Ephemeral for validation unless retained |
 | Key Vault | `kv-<env>-<purpose>-<suffix>` | `kv-dev-platform-001` | Suffix should be numeric or random |
 | Log Analytics Workspace | `la-<env>-<purpose>` | `la-dev-platform` | Shared monitoring target |
-| Storage Account (Terraform state) | `st<env><service><unique>` | `stdevterraform001` | Lowercase only, no hyphens |
+| Storage Account (Terraform state) | `st<env><service><unique>` | `stdevtfstatene01` | Lowercase only, no hyphens |
 | Storage Account (FSLogix) | `st<env>fslogix<unique>` | `stdevfslogix001` | Premium as required by design |
 | Recovery Services Vault | `rsv-<env>-<purpose>` | `rsv-dev-backup` | Backup / DR scope |
 | Resource Guard RG | `rg-<env>-resourceguard` | `rg-dev-resourceguard` | For MUA / Resource Guard design |
@@ -298,7 +298,7 @@ Avoid ad hoc role values unless the master plan explicitly introduces a new role
 ### P0 â€“ Foundation
 - `sp-terraform-gh`
 - `rg-dev-terraformstate-norwayeast`
-- `stdevterraform001`
+- `stdevtfstatene01`
 - `tfstate`
 
 ### P1 / P3 â€“ Governance
@@ -468,7 +468,7 @@ Do not use:
 | `peer-hq-rras` | `peer-hq-vyos` |
 | `vm-test` | `vm-dev-client-01` |
 | `rg-temp` | `rg-dev-workload-norwayeast` |
-| `storage1` | `stdevterraform001` |
+| `storage1` | `stdevtfstatene01` |
 | `firewallpolicy` | `afwp-dev-norwayeast` |
 
 ---
@@ -515,6 +515,7 @@ Whenever you introduce:
 - a new hybrid component
 - a new optional phase
 - a renamed support file
+
 
 
 

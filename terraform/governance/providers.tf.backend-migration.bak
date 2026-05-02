@@ -6,21 +6,16 @@
       source  = "hashicorp/azurerm"
       version = "~> 4.0"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.0"
-    }
   }
 
   backend "azurerm" {
-    resource_group_name  = "rg-dev-terraformstate-norwayeast"
-    storage_account_name = "stdevtfstatene01"
+    resource_group_name  = "rg-dev-terraformstate-uksouth"
+    storage_account_name = "stdevtfstateazaws01"
     container_name       = "tfstate"
-    key                  = "platform-shared-dev.tfstate"
+    key                  = "governance.tfstate"
   }
 }
 
 provider "azurerm" {
   features {}
 }
-

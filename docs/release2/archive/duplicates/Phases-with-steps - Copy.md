@@ -132,7 +132,7 @@ Establish secretless authentication between GitHub Actions and Azure using OIDC,
 - **App registration / SPN:** `sp-terraform-gh`
 - **GitHub environment:** `release-2`
 - **Terraform backend RG:** `rg-dev-terraformstate-norwayeast`
-- **Terraform state storage account:** `stdevtfstatene01`
+- **Terraform state storage account:** `stdevterraform001`
 - **Terraform state container:** `tfstate`
 - **Region:** `norwayeast`
 
@@ -152,7 +152,7 @@ Establish secretless authentication between GitHub Actions and Azure using OIDC,
 [RG: rg-dev-terraformstate-norwayeast]
         |
         v
-[Storage: stdevtfstatene01]
+[Storage: stdevterraform001]
         |
         v
 [Container: tfstate]
@@ -194,20 +194,20 @@ az ad app federated-credential create --id "$OBJECT_ID" --parameters '{
 az group create --name rg-dev-terraformstate-norwayeast --location norwayeast
 
 az storage account create \
-  --name stdevtfstatene01 \
+  --name stdevterraform001 \
   --resource-group rg-dev-terraformstate-norwayeast \
   --location norwayeast \
   --sku Standard_LRS \
   --kind StorageV2
 
 ACCOUNT_KEY=$(az storage account keys list \
-  --account-name stdevtfstatene01 \
+  --account-name stdevterraform001 \
   --resource-group rg-dev-terraformstate-norwayeast \
   --query "[0].value" -o tsv)
 
 az storage container create \
   --name tfstate \
-  --account-name stdevtfstatene01 \
+  --account-name stdevterraform001 \
   --account-key "$ACCOUNT_KEY"
 ```
 
@@ -1436,8 +1436,6 @@ docs/
 - Capture text evidence first, screenshots second
 - Tear down expensive optional resources quickly
 - Update `implementation-tracker.md` after each completed phase
-
-
 
 
 

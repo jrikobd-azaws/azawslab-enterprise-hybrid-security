@@ -24,7 +24,7 @@ Before deploying infrastructure, Phase 0 establishes the "Identity and Automatio
 *   **RBAC:** Assign the `Contributor` role to the Service Principal at the Subscription level to allow automated provisioning[cite: 4].
 
 ### Step 3: Infrastructure-as-Code (IaC) Backend
-*   **State Storage:** Deploy `rg-dev-terraformstate-norwayeast` and a globally unique storage account (e.g., `stdevtfstatene01`)[cite: 4].
+*   **State Storage:** Deploy `rg-dev-terraformstate-norwayeast` and a globally unique storage account (e.g., `stdevterraform001`)[cite: 4].
 *   **State Locking:** Create the `tfstate` container. The `azurerm` backend will automatically utilize blob leases to prevent concurrent state corruption[cite: 4, 6].
 
 ### Step 4: Repository Scaffolding
@@ -268,11 +268,11 @@ This diagram illustrates how governance "guardrails" flow from the management ro
           â”‚
           â””â”€â”€ [ sub-azaws-enterprise-prod ] (Simulated Corporate Subscription)
                 â”‚
-                â”œâ”€â”€ [ rg-dev-security-norwayeast ]
+                â”œâ”€â”€ [ rg-dev-platform-uksouth ]
                 â”‚     â””â”€â”€ [ kv-dev-platform-001 ] â”€â”€> (Managed Secrets Lifecycle)[cite: 5, 6]
                 â”‚           â””â”€â”€ RBAC: azw-Security-Engineers (Reader)[cite: 5]
                 â”‚
-                â””â”€â”€ [ rg-dev-workload-norwayeast ]
+                â””â”€â”€ [ rg-dev-networking-uksouth ]
                       â””â”€â”€ RBAC: sp-terraform-gh (Contributor)[cite: 4, 5]
 ```
 
@@ -903,6 +903,4 @@ This illustrates the separation of Compute (Disposable) from User Data (Persiste
 
 ### 4. Recruiter Hook
 "Mastered the 'Last Mile' of hybrid cloud by architecting a highly available **Azure Virtual Desktop (AVD)** environment. Implemented **FSLogix Profile Containers** to decouple user data from compute, ensuring seamless roaming and high performance. Integrated automated **Scaling Plans** and multi-session host pools to optimize cloud spend, proving a deep commitment to **FinOps** and enterprise-grade user experience."
-
-
 

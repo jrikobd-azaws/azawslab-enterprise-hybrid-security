@@ -13,8 +13,8 @@
   }
 
   backend "azurerm" {
-    resource_group_name  = "rg-dev-terraformstate-norwayeast"
-    storage_account_name = "stdevtfstatene01"
+    resource_group_name  = "rg-dev-terraformstate-uksouth"
+    storage_account_name = "stdevtfstateazaws01"
     container_name       = "tfstate"
     key                  = "platform-shared-dev.tfstate"
   }
@@ -23,4 +23,3 @@
 provider "azurerm" {
   features {}
 }
-

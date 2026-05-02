@@ -1,4 +1,4 @@
-﻿variable "resource_group_name" {
+variable "resource_group_name" {
   type = string
 }
 
@@ -20,6 +20,16 @@ variable "workload_subnet_name" {
 
 variable "workload_subnet_prefixes" {
   type = list(string)
+}
+
+variable "management_subnet_name" {
+  type    = string
+  default = null
+}
+
+variable "management_subnet_prefixes" {
+  type    = list(string)
+  default = null
 }
 
 variable "tags" {

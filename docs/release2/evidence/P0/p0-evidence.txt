@@ -11,7 +11,7 @@ The raw implementation history is retained separately in p0-execution-log.txt.
 STEP P0.1 - AZURE CONTEXT BASELINE
 
 RESULT:
-Phase P0 was completed under the Release 2 tenant boundary using the active Azure subscription and GitHub environment `release-2`.
+Phase P0 was completed under the Release 2 tenant boundary using the active Azure subscription and GitHub environment elease-2.
 
 CONFIRMED BASELINE:
 - Subscription: Azure subscription 1
@@ -22,37 +22,15 @@ CONFIRMED BASELINE:
 ==============================
 STEP P0.2 - APP REGISTRATION CHECK
 
-COMMAND:
-az ad app list --display-name "sp-terraform-gh" --output json
-
-OUTPUT:
-[
-  {
-    "appId": "a05993a6-d1ef-42e4-be77-b42b8caaaefe",
-    "displayName": "sp-terraform-gh",
-    "id": "3941c2dd-7e2e-4e10-a735-1f0391f948a0",
-    "publisherDomain": "entra.azawslab.co.uk",
-    "signInAudience": "AzureADMyOrg"
-  }
-]
-
 RESULT:
 The Release 2 GitHub workload identity app registration exists and is correctly scoped to the organizational tenant.
 
+CONFIRMED:
+- App registration: sp-terraform-gh
+- Organizational tenant scope confirmed
+
 ==============================
 STEP P0.2 - SERVICE PRINCIPAL CREATE
-
-COMMAND:
-az ad sp create --id a05993a6-d1ef-42e4-be77-b42b8caaaefe
-
-OUTPUT:
-{
-  "appDisplayName": "sp-terraform-gh",
-  "appId": "a05993a6-d1ef-42e4-be77-b42b8caaaefe",
-  "id": "f0c31d32-a72f-4b16-8643-c3f19900da29",
-  "servicePrincipalType": "Application",
-  "signInAudience": "AzureADMyOrg"
-}
 
 RESULT:
 The service principal for the GitHub workload identity was created successfully.
@@ -60,41 +38,17 @@ The service principal for the GitHub workload identity was created successfully.
 ==============================
 STEP P0.2 - SUBSCRIPTION RBAC CONFIRMATION
 
-COMMAND:
-az role assignment list --assignee a05993a6-d1ef-42e4-be77-b42b8caaaefe --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6 --output json
-
-SAFE OUTPUT TO RETAIN:
-{
-  "principalType": "ServicePrincipal",
-  "roleDefinitionId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
-  "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6"
-}
-
 RESULT:
 The GitHub workload identity was granted Contributor at subscription scope, satisfying the Phase P0 automation authorization requirement.
 
 ==============================
 STEP P0.2 - FEDERATED CREDENTIAL VERIFICATION
 
-COMMAND:
-az ad app federated-credential list --id 3941c2dd-7e2e-4e10-a735-1f0391f948a0 --output json
-
-OUTPUT:
-[
-  {
-    "audiences": [
-      "api://AzureADTokenExchange"
-    ],
-    "description": "",
-    "id": "02b3bdec-fcca-4f35-bade-160cb5a27a93",
-    "issuer": "https://token.actions.githubusercontent.com",
-    "name": "github-actions-release2",
-    "subject": "repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2"
-  }
-]
-
 RESULT:
-OIDC federation between GitHub Actions and Azure was configured and verified successfully for the `release-2` environment.
+OIDC federation between GitHub Actions and Azure was configured and verified successfully for the elease-2 environment.
+
+CONFIRMED SUBJECT:
+- epo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2
 
 ==============================
 STEP P0.3 - REMOTE TERRAFORM BACKEND
@@ -102,31 +56,36 @@ STEP P0.3 - REMOTE TERRAFORM BACKEND
 RESULT:
 The remote Terraform backend for Release 2 was established successfully and backend initialization completed successfully.
 
-CONFIRMED BACKEND COMPONENTS:
-- Resource group for Terraform state exists
-- Storage account for Terraform state exists
-- `tfstate` container exists
-- backend initialization completed successfully in the Release 2 dev environment
+CURRENT ACTIVE BACKEND TARGET:
+- Resource group: g-dev-terraformstate-norwayeast
+- Storage account: stdevtfstatene01
+- Container: 	fstate
+
+ACTIVE ROOTS VERIFIED:
+- 	erraform/governance
+- 	erraform/platform-shared/dev
+- 	erraform/workloads/dev
+
+VERIFICATION RESULT:
+Current local Terraform initialization metadata confirms all active roots reference:
+- g-dev-terraformstate-norwayeast
+- stdevtfstatene01
 
 NOTE:
 Phase P0 evidence records successful completion of the backend objective.
-Later regional realignment work in P2a does not change P0 closure.
+Later implementation refinement standardized active roots on the current Release 2 backend target shown above.
 
 ==============================
 STEP P0.4 - POST-INIT WORKING DIRECTORY STATE
 
-COMMAND:
-Get-ChildItem .\terraform\environments\dev -Force
-
-OUTPUT:
-- .terraform directory present
-- .terraform.lock.hcl present
-- backend.tf present
-- main.tf present
-- providers.tf present
-
 RESULT:
-The successful backend terraform init produced the expected local working directory artifacts for the dev environment.
+Successful backend initialization produced the expected local working directory artifacts for the Terraform environments.
+
+CONFIRMED ARTIFACT TYPES:
+- .terraform directory
+- .terraform.lock.hcl
+- backend/provider configuration files
+- root Terraform configuration files
 
 ==============================
 STEP P0.5 - GITHUB OIDC WORKFLOW VALIDATION
@@ -139,17 +98,11 @@ OIDC Test workflow auto-ran after push on branch Release2_plan and completed suc
 
 DETAILS:
 - Trigger: push
-- Commit: e228471
 - Branch: Release2_plan
 - Status: Success
-- Duration: 17s
 
 NOTE:
-This validated secretless GitHub-to-Azure authentication through OIDC federation using the `release-2` environment.
-
-FOLLOW-UP:
-A Node.js 20 deprecation warning was shown for actions/checkout@v4 and azure/login@v2.
-This did not affect successful P0 validation and is a workflow maintenance item only.
+This validated secretless GitHub-to-Azure authentication through OIDC federation using the elease-2 environment.
 
 ==============================
 P0 CLOSURE STATUS
@@ -164,6 +117,8 @@ COMPLETED:
 - Remote Terraform backend establishment
 - Successful backend terraform init
 - Successful GitHub OIDC workflow validation
+- Current active Terraform roots verified against the standardized backend target
 
 P0 POSITION:
 Phase P0 established the secretless identity and automation foundation required for later Release 2 work.
+

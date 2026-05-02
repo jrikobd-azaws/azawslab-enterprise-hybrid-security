@@ -1,0 +1,13 @@
+﻿Release 2 - Phase P0 Backend Current State Verification
+
+Current active Terraform backend target:
+- Resource group: rg-dev-terraformstate-norwayeast
+- Storage account: stdevtfstatene01
+
+Active Terraform roots to verify:
+- terraform/governance
+- terraform/platform-shared/dev
+- terraform/workloads/dev
+
+Verification goal:
+All active roots should reference the current Release 2 backend target and not legacy backend values.

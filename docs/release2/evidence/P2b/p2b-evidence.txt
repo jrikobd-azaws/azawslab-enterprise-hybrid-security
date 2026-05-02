@@ -1,0 +1,69 @@
+
+P2b milestone: Azure-connected management host path established
+
+Implemented:
+- Separate management subnet: snet-mgmt (10.10.1.0/24)
+- Separate management resource group: rg-dev-management-norwayeast
+- Temporary Linux Ansible control node: vm-dev-mgmt-01
+- Private-only Windows workload target retained: vm-dev-client-01
+
+Validation:
+- SSH to vm-dev-mgmt-01 succeeded
+- WinRM enabled on vm-dev-client-01 using Azure Run Command
+- Private WinRM path from vm-dev-mgmt-01 to 10.10.0.4:5985 confirmed reachable
+
+P2b milestone: Role-based Ansible scaffold established
+
+Implemented on vm-dev-mgmt-01:
+- ansible.cfg
+- inventory/dev/hosts.ini
+- site.yml
+- roles/common/tasks/main.yml
+- roles/ad-join/tasks/main.yml
+- roles/webserver/tasks/main.yml
+
+This aligns the Linux management host with the documented role-based P2b design.
+
+P2b milestone: Ansible control path validated
+
+Validation completed from Linux management host vm-dev-mgmt-01:
+- ansible.windows collection installed
+- common role executed against private Windows workload VM
+- WinRM connectivity and Ansible authentication validated with win_ping
+
+Result:
+- Role-based Ansible execution path from vm-dev-mgmt-01 to vm-dev-client-01 confirmed working
+
+P2b milestone completed: Temporary Azure-connected Ansible management host operational
+
+Implemented:
+- Separate management resource group: rg-dev-management-norwayeast
+- Separate management subnet: snet-mgmt (10.10.1.0/24)
+- Temporary Linux management host: vm-dev-mgmt-01
+- Private-only Windows workload target retained: vm-dev-client-01
+
+Validation:
+- SSH access to vm-dev-mgmt-01 succeeded
+- WinRM enabled and listening on vm-dev-client-01
+- Private WinRM path from vm-dev-mgmt-01 to 10.10.0.4:5985 confirmed
+- Role-based Ansible structure created
+- ansible.windows.win_ping succeeded against vm-dev-client-01
+
+Result:
+- P2b management host and Ansible control path are operational
+
+P2b milestone completed: common role baseline and idempotency validated
+
+Implemented on vm-dev-client-01 from Linux management host vm-dev-mgmt-01:
+- WinRM connectivity validation
+- C:\Temp baseline directory check
+- Baseline marker file deployment
+- RemoteRegistry service start and state validation
+
+Validation:
+- First Ansible run applied expected baseline changes
+- Second Ansible run returned changed=0
+- Role-based Ansible execution confirmed idempotent
+
+Result:
+- P2b common role is operational and validated
