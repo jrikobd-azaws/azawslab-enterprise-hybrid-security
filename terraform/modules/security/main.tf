@@ -1,6 +1,4 @@
-﻿data "azurerm_client_config" "current" {}
-
-resource "random_password" "local_admin" {
+﻿resource "random_password" "local_admin" {
   length           = 20
   special          = true
   override_special = "!@#%^*-_=+?"
@@ -35,10 +33,12 @@ resource "azurerm_key_vault" "security" {
   }
 }
 
-resource "azurerm_key_vault_access_policy" "current_user" {
+resource "azurerm_key_vault_access_policy" "principals" {
+  for_each = toset(var.key_vault_secret_admin_object_ids)
+
   key_vault_id = azurerm_key_vault.security.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azurerm_client_config.current.object_id
+  tenant_id    = "78643a83-bcc9-4a3b-ab7e-eeede0b3384e"
+  object_id    = each.value
 
   secret_permissions = [
     "Get",
@@ -55,5 +55,5 @@ resource "azurerm_key_vault_secret" "local_admin_password" {
   value        = random_password.local_admin.result
   key_vault_id = azurerm_key_vault.security.id
 
-  depends_on = [azurerm_key_vault_access_policy.current_user]
+  depends_on = [azurerm_key_vault_access_policy.principals]
 }
