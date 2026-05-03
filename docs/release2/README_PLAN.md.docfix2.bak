@@ -144,8 +144,8 @@ This diagram illustrates how the **Root Configuration** orchestrates specialized
 | :--- | :--- |
 | **Business Problem** | **Manual Configuration Debt:** Deployed VMs are "naked" and vulnerable[cite: 1]. Manual setup is slow, inconsistent, and lacks a "Source of Truth"[cite: 6]. |
 | **Technical Solution** | **Role-Based Fleet Orchestration:** Utilizing Ansible roles for modular configuration management[cite: 6]. Connectivity is maintained via **an Azure-connected Linux management host over private WinRM** to satisfy private-only networking[cite: 2, 6]. |
-| **Acceptance Criteria** | 1. `ansible-lint` passes for all roles (`common`, `ad-join`, `webserver`)[cite: 6]. 2. Private-only Windows VMs are reachable from the Azure-connected management host over WinRM for Ansible-based administration[cite: 2, 6]. 3. Credentials managed via **Ansible Vault**[cite: 1]. 4. Execution of the `ad-join` role is deferred until `hq.azawslab.co.uk` and the required hybrid connectivity path are ready. |
-| **Validation** | Successful execution of `site.yml` (Master Playbook) showing `changed=0` on re-run (Idempotency) for currently in-scope roles. Domain join validation is deferred until `hq.azawslab.co.uk` and hybrid connectivity are ready. |
+| **Acceptance Criteria** | 1. `ansible-lint` passes for all roles (`common`, `ad-join`, `webserver`)[cite: 6]. 2. VMs successfully join `hq.azawslab.co.uk` via private-only NICs[cite: 2, 6]. 3. Credentials managed via **Ansible Vault**[cite: 1]. |
+| **Validation** | Successful execution of `site.yml` (Master Playbook) showing `changed=0` on re-run (Idempotency) and verified IIS connectivity. |
 | **Evidence** | `docs/release2/evidence/P2b/`: Terminal outputs of role execution, Active Directory "Computer Object" screenshots, and security baseline verification[cite: 1, 5]. |
 
 ### P2b Management Path Principle
@@ -903,7 +903,6 @@ This illustrates the separation of Compute (Disposable) from User Data (Persiste
 
 ### 4. Recruiter Hook
 "Mastered the 'Last Mile' of hybrid cloud by architecting a highly available **Azure Virtual Desktop (AVD)** environment. Implemented **FSLogix Profile Containers** to decouple user data from compute, ensuring seamless roaming and high performance. Integrated automated **Scaling Plans** and multi-session host pools to optimize cloud spend, proving a deep commitment to **FinOps** and enterprise-grade user experience."
-
 
 
 
