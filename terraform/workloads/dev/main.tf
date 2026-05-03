@@ -1,4 +1,4 @@
-﻿data "terraform_remote_state" "platform_shared_dev" {
+data "terraform_remote_state" "platform_shared_dev" {
   backend = "azurerm"
 
   config = {
