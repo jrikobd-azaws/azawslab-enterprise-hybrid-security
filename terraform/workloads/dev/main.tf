@@ -1,4 +1,4 @@
-data "terraform_remote_state" "platform_shared_dev" {
+﻿data "terraform_remote_state" "platform_shared_dev" {
   backend = "azurerm"
 
   config = {
@@ -113,7 +113,7 @@ resource "azurerm_linux_virtual_machine" "management" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = var.management_ssh_public_key
   }
 
   os_disk {
@@ -136,3 +136,4 @@ resource "azurerm_linux_virtual_machine" "management" {
     DeploymentMethod = "Terraform"
   }
 }
+

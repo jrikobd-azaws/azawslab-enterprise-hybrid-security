@@ -36,6 +36,9 @@ jobs:
         shell: bash
         working-directory: ${{ matrix.working_directory }}
 
+    env:
+      TF_VAR_management_ssh_public_key: ${{ secrets.MGMT_SSH_PUBLIC_KEY }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -63,5 +66,6 @@ jobs:
 
       - name: Terraform plan
         run: terraform plan -no-color -input=false
+
 
 
