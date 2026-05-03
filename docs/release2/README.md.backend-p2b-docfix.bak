@@ -136,17 +136,6 @@ For Release 1 evidence, see the Release 1 evidence path in that part of the repo
 
 ---
 
-
-## Current P2b implementation note
-
-P2b currently proves the Azure-connected management-host and Ansible control path:
-- temporary Linux management host in a separate management plane
-- private WinRM reachability to the Windows workload VM
-- role-based Ansible scaffold
-- validated common role with idempotent rerun
-
-Execution of d-join to hq.azawslab.co.uk is deferred until HQ AD and hybrid connectivity are ready.
-
 ## Recommended Working Order
 
 For the most controlled implementation flow:
@@ -197,8 +186,6 @@ Candidate regions and SKUs were assessed against actual subscription-level deplo
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
-
-
 
 
 

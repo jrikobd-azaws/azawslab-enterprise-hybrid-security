@@ -1,0 +1,297 @@
+﻿Release 2 - Phase P0 Execution Log
+Phase: Foundation and OIDC Backend
+Project: Azawslab Release 2
+Repo: azawslab-enterprise-hybrid-security
+Owner: jrikobd-azaws
+GitHub Environment: release-2
+Federated Subject: repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2
+Execution Context: local PowerShell / local Azure CLI
+
+This file records chronological Phase P0 execution history.
+It may include intermediate retries, transient errors, and superseded implementation steps.
+For curated successful evidence only, see `p0-evidence.txt`.
+
+==============================
+STEP P0.1 - AZURE CONTEXT BASELINE
+
+RESULT:
+Phase P0 work was performed under the Release 2 tenant boundary using the active Azure subscription and GitHub environment `release-2`.
+
+CONFIRMED BASELINE:
+- Subscription: Azure subscription 1
+- Tenant namespace: entra.azawslab.co.uk
+- GitHub environment: release-2
+- Workload identity name: sp-terraform-gh
+
+==============================
+STEP P0.2 - APP REGISTRATION CHECK
+
+COMMAND:
+az ad app list --display-name "sp-terraform-gh" --output json
+
+OUTPUT:
+[
+  {
+    "appId": "a05993a6-d1ef-42e4-be77-b42b8caaaefe",
+    "displayName": "sp-terraform-gh",
+    "id": "3941c2dd-7e2e-4e10-a735-1f0391f948a0",
+    "publisherDomain": "entra.azawslab.co.uk",
+    "signInAudience": "AzureADMyOrg"
+  }
+]
+
+==============================
+STEP P0.2 - SERVICE PRINCIPAL CREATE
+
+COMMAND:
+az ad sp create --id a05993a6-d1ef-42e4-be77-b42b8caaaefe
+
+OUTPUT:
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+  "accountEnabled": true,
+  "appDisplayName": "sp-terraform-gh",
+  "appId": "a05993a6-d1ef-42e4-be77-b42b8caaaefe",
+  "appOwnerOrganizationId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "displayName": "sp-terraform-gh",
+  "id": "f0c31d32-a72f-4b16-8643-c3f19900da29",
+  "servicePrincipalNames": [
+    "a05993a6-d1ef-42e4-be77-b42b8caaaefe"
+  ],
+  "servicePrincipalType": "Application",
+  "signInAudience": "AzureADMyOrg",
+  "tags": []
+}
+
+==============================
+STEP P0.2 - INITIAL SUBSCRIPTION ROLE ASSIGNMENT FAILURE
+
+COMMAND:
+az role assignment create --assignee a05993a6-d1ef-42e4-be77-b42b8caaaefe --role Contributor --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+OUTPUT:
+ERROR:
+(AuthorizationFailed) The client 'admin-lab@entra.azawslab.co.uk' with object id '6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d' does not have authorization to perform action 'Microsoft.Authorization/roleAssignments/write' over the subscription scope.
+
+NOTE:
+This was an intermediate authorization issue during bootstrap and does not represent the final P0 outcome.
+
+==============================
+STEP P0.2 - CURRENT USER SUBSCRIPTION ROLE CHECK
+
+COMMAND:
+az role assignment list --assignee 6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6 --output json
+
+OUTPUT:
+[]
+
+==============================
+STEP P0.2 - WORKLOAD IDENTITY ROLE ASSIGNMENT RETRY
+
+COMMAND:
+az role assignment create --assignee a05993a6-d1ef-42e4-be77-b42b8caaaefe --role Contributor --scope /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+OUTPUT:
+{
+  "createdOn": "2026-05-01T10:25:05.010006+00:00",
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleAssignments/55af33a6-e475-4ba7-a742-834e5995d039",
+  "name": "55af33a6-e475-4ba7-a742-834e5995d039",
+  "principalId": "f0c31d32-a72f-4b16-8643-c3f19900da29",
+  "principalType": "ServicePrincipal",
+  "roleDefinitionId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+  "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "type": "Microsoft.Authorization/roleAssignments",
+  "updatedBy": "6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d",
+  "updatedOn": "2026-05-01T10:25:06.693834+00:00"
+}
+
+RESULT:
+The workload identity role assignment succeeded on retry.
+
+==============================
+STEP P0.2 - FEDERATED CREDENTIAL JSON
+
+FILE:
+.\federated-credential.json
+
+CONTENT:
+{
+  "name": "github-actions-release2",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "subject": "repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2",
+  "audiences": [
+    "api://AzureADTokenExchange"
+  ]
+}
+
+==============================
+STEP P0.2 - FEDERATED CREDENTIAL CREATE
+
+COMMAND:
+az ad app federated-credential create --id 3941c2dd-7e2e-4e10-a735-1f0391f948a0 --parameters .\federated-credential.json
+
+OUTPUT:
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#applications('3941c2dd-7e2e-4e10-a735-1f0391f948a0')/federatedIdentityCredentials/$entity",
+  "audiences": [
+    "api://AzureADTokenExchange"
+  ],
+  "description": null,
+  "id": "02b3bdec-fcca-4f35-bade-160cb5a27a93",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "name": "github-actions-release2",
+  "subject": "repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2"
+}
+
+==============================
+STEP P0.2 - FEDERATED CREDENTIAL VERIFY
+
+COMMAND:
+az ad app federated-credential list --id 3941c2dd-7e2e-4e10-a735-1f0391f948a0 --output json
+
+OUTPUT:
+[
+  {
+    "audiences": [
+      "api://AzureADTokenExchange"
+    ],
+    "description": "",
+    "id": "02b3bdec-fcca-4f35-bade-160cb5a27a93",
+    "issuer": "https://token.actions.githubusercontent.com",
+    "name": "github-actions-release2",
+    "subject": "repo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2"
+  }
+]
+
+==============================
+STEP P0.3 - REMOTE TERRAFORM BACKEND BOOTSTRAP
+
+RESULT:
+The remote Terraform backend objective was completed successfully during Phase P0.
+Intermediate backend creation and verification attempts are retained as raw chronology in this log.
+
+NOTE:
+Backend naming and location reflected the implementation state active at the time of Phase P0 execution.
+Later implementation-region realignment work in P2a did not change P0 closure.
+
+==============================
+STEP P0.3 - BACKEND RESOURCE GROUP CREATE
+
+COMMAND:
+az group create --name rg-dev-terraformstate-uksouth --location uksouth
+
+OUTPUT:
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth",
+  "location": "uksouth",
+  "name": "rg-dev-terraformstate-uksouth",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+==============================
+STEP P0.3 - STORAGE CONTAINER CREATION ATTEMPT WITH TRANSIENT FAILURE
+
+COMMAND:
+az storage container create --name tfstate --account-name stdevtfstateazaws01 --auth-mode login
+
+OUTPUT:
+ERROR:
+HTTPSConnection(host='stdevtfstateazaws01.blob.core.windows.net', port=443): Failed to resolve 'stdevtfstateazaws01.blob.core.windows.net' ([Errno 11001] getaddrinfo failed)
+
+NOTE:
+This was a transient intermediate failure and does not represent the final backend outcome.
+
+==============================
+STEP P0.3 - BACKEND RESOURCE VERIFY ATTEMPT
+
+COMMAND:
+az group show --name rg-dev-terraformstate-uksouth --output json
+az storage account show --name stdevtfstateazaws01 --resource-group rg-dev-terraformstate-uksouth --output json
+
+OUTPUT:
+--- RESOURCE GROUP ---
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-terraformstate-uksouth",
+  "location": "uksouth",
+  "name": "rg-dev-terraformstate-uksouth",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+--- STORAGE ACCOUNT ---
+ERROR:
+(ResourceNotFound) The Resource 'Microsoft.Storage/storageAccounts/stdevtfstateazaws01' under resource group 'rg-dev-terraformstate-uksouth' was not found.
+
+NOTE:
+This verify attempt captured an intermediate state before backend bootstrap was fully settled.
+
+==============================
+STEP P0.4 - POST-INIT WORKING DIRECTORY CHECK
+
+COMMAND:
+Get-ChildItem .\terraform\environments\dev -Force
+
+OUTPUT:
+Directory: C:\GitHub\azawslab-enterprise-hybrid-security\terraform\environments\dev
+
+- .terraform directory present
+- .terraform.lock.hcl present
+- backend.tf present
+- main.tf present
+- providers.tf present
+
+NOTE:
+This confirms the dev Terraform environment was initialized successfully and produced the expected local working files after backend initialization.
+
+==============================
+STEP P0.5 - GITHUB OIDC WORKFLOW VALIDATION
+
+WORKFLOW:
+.github/workflows/oidc-test.yml
+
+RESULT:
+OIDC Test workflow auto-ran after push on branch Release2_plan and completed successfully.
+
+DETAILS:
+- Trigger: push
+- Commit: e228471
+- Branch: Release2_plan
+- Status: Success
+- Duration: 17s
+
+NOTE:
+This confirmed that GitHub Actions could authenticate to Azure through OIDC federation using the release-2 environment configuration, without a client secret.
+
+FOLLOW-UP:
+GitHub displayed a Node.js 20 deprecation warning for actions/checkout@v4 and azure/login@v2.
+This is a workflow maintenance item, not a P0 blocker.
+
+==============================
+P0 RE-AUDIT SUMMARY
+
+RESULT:
+P0 implementation objectives are complete.
+
+CONFIRMED COMPLETE:
+- OIDC app registration and service principal bootstrap
+- Subscription role assignment for workload identity
+- Federated credential creation and verification
+- Remote Terraform backend objective completed
+- Backend terraform init
+- GitHub OIDC workflow validation
+
+NOT BLOCKERS:
+- terraform\modules folder not yet present
+- ansible\inventory\dev folder not yet present
+
+FOLLOW-UP CLEANUP:
+- commit updated P0 evidence and tracker files
+- remove temporary bootstrap/helper files
+- optionally create missing scaffold folders for repo consistency

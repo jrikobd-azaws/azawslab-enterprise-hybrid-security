@@ -1,0 +1,42 @@
+
+[2026-05-02 21:35:02] P2b management host bootstrap milestone completed
+- Created management subnet: snet-mgmt (10.10.1.0/24)
+- Deployed management resource group: rg-dev-management-norwayeast
+- Deployed Linux management VM: vm-dev-mgmt-01
+- Confirmed SSH access to management VM
+- Enabled WinRM on vm-dev-client-01 via Azure Run Command
+- Confirmed WinRM reachable from management host to 10.10.0.4:5985
+
+[2026-05-02 21:36:04] P2b role-based Ansible scaffold created on Linux management host
+- Created ~/release2-ansible/ansible.cfg
+- Created ~/release2-ansible/inventory/dev/hosts.ini
+- Created ~/release2-ansible/site.yml
+- Created roles/common/tasks/main.yml
+- Created roles/ad-join/tasks/main.yml
+- Created roles/webserver/tasks/main.yml
+
+[2026-05-02 21:39:05] P2b Ansible WinRM validation succeeded
+- Installed ansible.windows collection on vm-dev-mgmt-01
+- Added common role validation task using ansible.windows.win_ping
+- Confirmed inventory resolved vm-dev-client-01
+- Successfully executed Ansible playbook against vm-dev-client-01 over private WinRM
+
+[2026-05-02 21:45:42] P2b main step completed: Ansible control path established
+- Created management subnet snet-mgmt (10.10.1.0/24)
+- Deployed management resource group rg-dev-management-norwayeast
+- Deployed Linux management host vm-dev-mgmt-01
+- Added management-subnet NSG for SSH access
+- Confirmed SSH access to vm-dev-mgmt-01
+- Enabled WinRM on private Windows workload VM vm-dev-client-01
+- Confirmed private WinRM path from vm-dev-mgmt-01 to 10.10.0.4:5985
+- Created role-based Ansible scaffold on management host
+- Validated Ansible connectivity with ansible.windows.win_ping
+
+[2026-05-02 21:50:40] P2b main step completed: common role implemented and idempotency validated
+- Updated roles/common/tasks/main.yml with baseline tasks
+- Validated WinRM connectivity with ansible.windows.win_ping
+- Ensured C:\Temp exists
+- Created baseline marker file C:\Temp\p2b-common-baseline.txt
+- Started RemoteRegistry service and set start_mode to manual
+- First run result: changed=2
+- Second run result: changed=0

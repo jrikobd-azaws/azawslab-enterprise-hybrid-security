@@ -1,0 +1,190 @@
+﻿Release 2 - Phase P2a Execution Log
+Phase: Terraform Reusable Modules
+Project: Azawslab Release 2
+
+This file records chronological Phase P2a execution history.
+For curated successful evidence only, see `p2a-evidence.txt`.
+
+==============================
+STEP P2A.1 - MODULE AND SECRET FLOW READINESS
+
+RESULT:
+Phase P2a work focused on reusable Terraform modules for security, networking, and compute, with dynamic secret handling through Azure Key Vault.
+
+TARGET COMPONENTS:
+- security module
+- networking module
+- compute module
+- dynamic local admin password generation
+- private-only workload VM pattern
+
+==============================
+STEP P2A.2 - SECURITY MODULE AND DYNAMIC SECRET FLOW
+
+COMMANDS:
+terraform apply "tfplan-p2a"
+az keyvault secret show --vault-name kvdevazawsne01 --name local-admin-password --query name -o tsv
+
+RESULT:
+- Dynamic local admin password generated successfully
+- Secret stored successfully in Azure Key Vault
+- Secret confirmed by Azure CLI in the Norway East implementation
+
+SAFE OUTPUT TO RETAIN:
+local-admin-password
+
+==============================
+STEP P2A.3 - MODULE STRUCTURE VALIDATION
+
+COMMANDS:
+terraform fmt
+terraform init
+terraform validate
+
+RESULT:
+- Security, networking, and compute modules aligned successfully
+- Terraform working directory initialized successfully
+- Configuration validated successfully
+
+SAFE OUTPUT TO RETAIN:
+Terraform has been successfully initialized!
+Success! The configuration is valid.
+
+==============================
+STEP P2A.4 - DEPLOYMENT TARGET ALIGNMENT
+
+RESULT:
+The Terraform design was aligned to the confirmed subscription deployment target.
+
+ALIGNMENT OUTCOME:
+- Region selected for implementation: norwayeast
+- VM SKU selected for implementation: Standard_B2als_v2
+
+==============================
+STEP P2A.5 - GOVERNANCE-ALIGNED WORKLOAD FOUNDATION
+
+COMMANDS:
+terraform plan -out=tfplan-p2a
+terraform apply "tfplan-p2a"
+
+RESULT:
+- Norway East target applied successfully
+- Workload resource group created: rg-dev-workload-norwayeast
+- Workload VNet created: vnet-dev-norwayeast-spoke-workload
+- Workload subnet created: snet-workload
+- Private NIC created: nic-vm-dev-client-01-01
+- Required governance tags applied successfully
+
+SAFE OUTPUT TO RETAIN:
+Apply complete! Resources: 12 added, 0 changed, 9 destroyed.
+
+==============================
+STEP P2A.6 - VM DEPLOYMENT
+
+COMMANDS:
+terraform plan -out=tfplan-p2a
+terraform apply "tfplan-p2a"
+
+RESULT:
+- Windows VM deployed successfully in Norway East
+- VM size selected: Standard_B2als_v2
+- Windows computer name derived safely within the 15-character limit
+- VM attached only to a private NIC
+
+SAFE OUTPUT TO RETAIN:
+Apply complete! Resources: 12 added, 0 changed, 9 destroyed.
+
+==============================
+STEP P2A.7 - FINAL CLI VALIDATION
+
+COMMANDS:
+az vm show --name vm-dev-client-01 --resource-group rg-dev-workload-norwayeast --show-details --output json
+az network nic show --name nic-vm-dev-client-01-01 --resource-group rg-dev-workload-norwayeast --output json
+az keyvault secret show --vault-name kvdevazawsne01 --name local-admin-password --query name --output tsv
+
+RESULT:
+- VM exists and is running in Norway East
+- VM size confirmed: Standard_B2als_v2
+- Private-only outcome confirmed
+- NIC private IP confirmed: 10.10.0.4
+- No public IP returned by CLI validation
+- Secret confirmed in Key Vault
+
+SAFE OUTPUT TO RETAIN:
+"location": "norwayeast"
+"vmSize": "Standard_B2als_v2"
+"powerState": "VM running"
+"privateIps": "10.10.0.4"
+"publicIps": ""
+local-admin-password
+
+==============================
+STEP P2A.8 - IMPLEMENTED STATE
+
+RESULT:
+Phase P2a produced the following active implementation state:
+- Security RG: rg-dev-security-norwayeast
+- Workload RG: rg-dev-workload-norwayeast
+- VNet: vnet-dev-norwayeast-spoke-workload
+- Key Vault: kvdevazawsne01
+- NIC: nic-vm-dev-client-01-01
+- VM: vm-dev-client-01
+
+==============================
+P2A CLOSURE STATUS
+
+RESULT:
+Phase P2a is complete from an implementation and validation perspective.
+
+CONFIRMED COMPLETE:
+- reusable Terraform module pattern established
+- dynamic secret flow through Azure Key Vault confirmed
+- workload networking deployed successfully
+- private-only VM pattern confirmed
+- CLI validation completed successfully
+
+FOLLOW-UP:
+- commit updated evidence and tracker files
+- update any remaining doc references to match evidence filenames
+- deallocate or destroy workload resources when documentation and evidence work is complete
+==============================
+STEP P2A.9 - TERRAFORM STATE BOUNDARY REFINEMENT
+
+RESULT:
+After successful recovery and validation of the dev environment, Terraform state ownership was separated into dedicated roots.
+
+ACTIVE ROOTS:
+- terraform/governance
+- terraform/platform-shared/dev
+- terraform/workloads/dev
+
+STATE OWNERSHIP:
+- terraform/governance
+  - policy assignments
+- terraform/platform-shared/dev
+  - shared security resources
+- terraform/workloads/dev
+  - workload networking and compute
+
+VALIDATION OUTCOME:
+- governance root planned cleanly with no changes
+- platform-shared root planned cleanly with no changes
+- workloads root planned cleanly with no changes
+- retired environments/dev state was reduced and removed from active ownership
+
+RESULT:
+The state-boundary refinement completed successfully and reduced destroy risk by separating governance, shared security, and workload lifecycles.
+
+==============================
+P2A CLOSURE STATUS
+
+RESULT:
+Phase P2a is complete from an implementation and validation perspective.
+
+CONFIRMED COMPLETE:
+- reusable Terraform module pattern established
+- dynamic secret flow through Azure Key Vault confirmed
+- workload networking deployed successfully
+- private-only VM pattern confirmed
+- CLI validation completed successfully
+- Terraform state ownership separated across governance, shared security, and workload roots

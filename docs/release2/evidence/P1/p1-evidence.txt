@@ -1,0 +1,168 @@
+﻿Release 2 - Phase P1 Evidence
+Phase: Landing Zone and Management Groups
+Project: Azawslab Release 2
+
+This file contains curated successful evidence only.
+The raw implementation history is retained separately in p1-execution-log.txt.
+
+==============================
+STEP P1.0 - MANAGEMENT GROUP READINESS CONFIRMATION
+
+COMMAND:
+az account management-group list --output table
+
+OUTPUT:
+DisplayName        Name                                  TenantId
+-----------------  ------------------------------------  ------------------------------------
+Tenant Root Group  78643a83-bcc9-4a3b-ab7e-eeede0b3384e  78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+
+RESULT:
+Management-group visibility was confirmed under the break-glass account, allowing Phase P1 governance bootstrap to proceed.
+
+==============================
+STEP P1.1 - MANAGEMENT GROUP CREATION
+
+COMMAND:
+az account management-group create --name mg-platform-prod-global --display-name "mg-platform-prod-global"
+az account management-group create --name mg-landingzones-prod-global --display-name "mg-landingzones-prod-global"
+az account management-group create --name mg-sandbox-prod-global --display-name "mg-sandbox-prod-global"
+
+RESULT:
+Management groups created successfully:
+- mg-platform-prod-global
+- mg-landingzones-prod-global
+- mg-sandbox-prod-global
+
+==============================
+STEP P1.2 - SUBSCRIPTION PLACEMENT UNDER LANDING ZONES
+
+COMMAND:
+az account management-group subscription add --name mg-landingzones-prod-global --subscription 8d99637c-13e7-417c-b334-b586d0ddc3d6
+az account management-group show --name mg-landingzones-prod-global --expand --output json
+
+OUTPUT:
+{
+  "displayName": "Azure subscription 1",
+  "id": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "name": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "parent": {
+    "id": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+  },
+  "state": "Active",
+  "tenant": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "type": "Microsoft.Management/managementGroups/subscriptions"
+}
+
+{
+  "children": [
+    {
+      "displayName": "Azure subscription 1",
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+      "name": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+      "type": "/subscriptions"
+    }
+  ],
+  "details": {
+    "parent": {
+      "displayName": "Tenant Root Group",
+      "id": "/providers/Microsoft.Management/managementGroups/78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+      "name": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e"
+    }
+  },
+  "displayName": "mg-landingzones-prod-global",
+  "id": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global",
+  "name": "mg-landingzones-prod-global",
+  "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "type": "Microsoft.Management/managementGroups"
+}
+
+RESULT:
+The subscription was successfully placed under mg-landingzones-prod-global.
+
+==============================
+STEP P1.3 - GOVERNANCE BASELINE ALIGNMENT
+
+RESULT:
+The Release 2 governance baseline was aligned to the implementation target.
+
+GOVERNANCE ALIGNMENT:
+- Allowed location assignment: pa-loc-prod-norwayeast
+- Allowed resource-group location assignment: pa-rgloc-prod-norwayeast
+- Allowed VM SKU assignment: pa-vmsku-prod-b2alsv2
+- Mandatory tag assignments:
+  - pa-tag-env
+  - pa-tag-proj
+  - pa-tag-own
+  - pa-tag-cost
+
+RATIONALE:
+Region and VM size were treated as subscription-and-region validation inputs rather than static assumptions.
+Because Azure SKU availability and restrictions vary over time by subscription, region, and capacity, the governance baseline was aligned to the confirmed implementation target.
+
+==============================
+STEP P1.4 - POLICY ASSIGNMENT VERIFICATION
+
+COMMAND:
+az policy assignment list --scope "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global" --output table
+
+SAFE OUTPUT TO RETAIN:
+DisplayName                  Name                        Scope
+---------------------------  --------------------------  ----------------------------------------------------------------------------
+pa-loc-prod-norwayeast       pa-loc-prod-norwayeast     /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-rgloc-prod-norwayeast     pa-rgloc-prod-norwayeast   /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-vmsku-prod-b2alsv2        pa-vmsku-prod-b2alsv2      /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-tag-env                   pa-tag-env                 /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-tag-proj                  pa-tag-proj                /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-tag-own                   pa-tag-own                 /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+pa-tag-cost                  pa-tag-cost                /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global
+
+RESULT:
+Azure confirmed the Phase P1 governance baseline at the landing-zones management-group scope.
+
+==============================
+STEP P1.5 - LOCATION GOVERNANCE DENY VALIDATION
+
+RESULT:
+Location governance deny behavior was validated successfully for a non-approved region.
+
+VALIDATION OUTCOME:
+- Policy effect: Deny
+- Governance scope: mg-landingzones-prod-global
+- Test type: non-approved region resource-group creation attempt
+- Expected result: blocked by policy
+- Actual result: blocked by policy
+
+RESULT:
+The location-governance control is functioning correctly.
+
+==============================
+STEP P1.6 - GOVERNANCE BASELINE COUNT
+
+RESULT:
+The Phase P1 governance baseline contains 7 Azure Policy assignments:
+- pa-loc-prod-norwayeast
+- pa-rgloc-prod-norwayeast
+- pa-vmsku-prod-b2alsv2
+- pa-tag-env
+- pa-tag-proj
+- pa-tag-own
+- pa-tag-cost
+
+==============================
+P1 CLOSURE STATUS
+
+RESULT:
+Phase P1 is complete from an implementation and validation perspective.
+
+COMPLETED:
+- management groups created
+- subscription placed under mg-landingzones-prod-global
+- governance baseline aligned to the implementation target
+- Azure-side policy assignment verification completed
+- location-governance deny validation succeeded
+
+P1 POSITION:
+The active Release 2 governance foundation is aligned to:
+- Region: norwayeast
+- VM SKU: Standard_B2als_v2
+- Management-group governance scope: mg-landingzones-prod-global

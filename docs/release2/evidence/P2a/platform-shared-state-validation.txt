@@ -1,0 +1,12 @@
+﻿Release 2 - P2a Platform-Shared State Validation
+
+Active root:
+terraform/platform-shared/dev
+
+==============================
+STATE LIST
+module.security.data.azurerm_client_config.current module.security.azurerm_key_vault.security module.security.azurerm_key_vault_access_policy.current_user module.security.azurerm_key_vault_secret.local_admin_password module.security.azurerm_resource_group.security module.security.random_password.local_admin
+
+==============================
+PLAN OUTPUT
+Acquiring state lock. This may take a few moments... module.security.random_password.local_admin: Refreshing state... [id=none] module.security.data.azurerm_client_config.current: Reading... module.security.azurerm_resource_group.security: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-security-norwayeast] module.security.data.azurerm_client_config.current: Read complete after 0s [id=Y2xpZW50Q29uZmlncy9jbGllbnRJZD0wNGIwNzc5NS04ZGRiLTQ2MWEtYmJlZS0wMmY5ZTFiZjdiNDY7b2JqZWN0SWQ9YTJmYjViZDItOTkyMC00YjBjLThiOGItYjk2NTYwYjEzNDczO3N1YnNjcmlwdGlvbklkPThkOTk2MzdjLTEzZTctNDE3Yy1iMzM0LWI1ODZkMGRkYzNkNjt0ZW5hbnRJZD03ODY0M2E4My1iY2M5LTRhM2ItYWI3ZS1lZWVkZTBiMzM4NGU=] module.security.azurerm_key_vault.security: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-security-norwayeast/providers/Microsoft.KeyVault/vaults/kvdevazawsne01] module.security.azurerm_key_vault_access_policy.current_user: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-security-norwayeast/providers/Microsoft.KeyVault/vaults/kvdevazawsne01/objectId/a2fb5bd2-9920-4b0c-8b8b-b96560b13473] module.security.azurerm_key_vault_secret.local_admin_password: Refreshing state... [id=https://kvdevazawsne01.vault.azure.net/secrets/local-admin-password/6a2e89ee31984fd7988df3a3f5f38d2f]  No changes. Your infrastructure matches the configuration.  Terraform has compared your real infrastructure against your configuration and found no differences, so no changes are needed. Releasing state lock. This may take a few moments...

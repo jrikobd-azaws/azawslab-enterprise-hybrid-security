@@ -1,0 +1,124 @@
+﻿Release 2 - Phase P0 Evidence
+Phase: Foundation and OIDC Backend
+Project: Azawslab Release 2
+Subscription: Azure subscription 1
+Tenant Boundary: entra.azawslab.co.uk
+
+This file contains curated successful evidence only.
+The raw implementation history is retained separately in p0-execution-log.txt.
+
+==============================
+STEP P0.1 - AZURE CONTEXT BASELINE
+
+RESULT:
+Phase P0 was completed under the Release 2 tenant boundary using the active Azure subscription and GitHub environment elease-2.
+
+CONFIRMED BASELINE:
+- Subscription: Azure subscription 1
+- Tenant namespace: entra.azawslab.co.uk
+- GitHub environment: release-2
+- Workload identity name: sp-terraform-gh
+
+==============================
+STEP P0.2 - APP REGISTRATION CHECK
+
+RESULT:
+The Release 2 GitHub workload identity app registration exists and is correctly scoped to the organizational tenant.
+
+CONFIRMED:
+- App registration: sp-terraform-gh
+- Organizational tenant scope confirmed
+
+==============================
+STEP P0.2 - SERVICE PRINCIPAL CREATE
+
+RESULT:
+The service principal for the GitHub workload identity was created successfully.
+
+==============================
+STEP P0.2 - SUBSCRIPTION RBAC CONFIRMATION
+
+RESULT:
+The GitHub workload identity was granted Contributor at subscription scope, satisfying the Phase P0 automation authorization requirement.
+
+==============================
+STEP P0.2 - FEDERATED CREDENTIAL VERIFICATION
+
+RESULT:
+OIDC federation between GitHub Actions and Azure was configured and verified successfully for the elease-2 environment.
+
+CONFIRMED SUBJECT:
+- epo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2
+
+==============================
+STEP P0.3 - REMOTE TERRAFORM BACKEND
+
+RESULT:
+The remote Terraform backend for Release 2 was established successfully and backend initialization completed successfully.
+
+CURRENT ACTIVE BACKEND TARGET:
+- Resource group: g-dev-terraformstate-norwayeast
+- Storage account: stdevtfstatene01
+- Container: 	fstate
+
+ACTIVE ROOTS VERIFIED:
+- 	erraform/governance
+- 	erraform/platform-shared/dev
+- 	erraform/workloads/dev
+
+VERIFICATION RESULT:
+Current local Terraform initialization metadata confirms all active roots reference:
+- g-dev-terraformstate-norwayeast
+- stdevtfstatene01
+
+NOTE:
+Phase P0 evidence records successful completion of the backend objective.
+Later implementation refinement standardized active roots on the current Release 2 backend target shown above.
+
+==============================
+STEP P0.4 - POST-INIT WORKING DIRECTORY STATE
+
+RESULT:
+Successful backend initialization produced the expected local working directory artifacts for the Terraform environments.
+
+CONFIRMED ARTIFACT TYPES:
+- .terraform directory
+- .terraform.lock.hcl
+- backend/provider configuration files
+- root Terraform configuration files
+
+==============================
+STEP P0.5 - GITHUB OIDC WORKFLOW VALIDATION
+
+WORKFLOW:
+.github/workflows/oidc-test.yml
+
+RESULT:
+OIDC Test workflow auto-ran after push on branch Release2_plan and completed successfully.
+
+DETAILS:
+- Trigger: push
+- Branch: Release2_plan
+- Status: Success
+
+NOTE:
+This validated secretless GitHub-to-Azure authentication through OIDC federation using the elease-2 environment.
+
+==============================
+P0 CLOSURE STATUS
+
+RESULT:
+Phase P0 is complete from an implementation and validation perspective.
+
+COMPLETED:
+- OIDC app registration and service principal bootstrap
+- Subscription role assignment for the GitHub workload identity
+- Federated credential creation and verification
+- Remote Terraform backend establishment
+- Successful backend terraform init
+- Successful GitHub OIDC workflow validation
+- Current active Terraform roots verified against the standardized backend target
+
+P0 POSITION:
+Phase P0 established the secretless identity and automation foundation required for later Release 2 work.
+
