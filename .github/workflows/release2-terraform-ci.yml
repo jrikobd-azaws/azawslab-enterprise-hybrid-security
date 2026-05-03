@@ -1,0 +1,66 @@
+﻿name: Release 2 Terraform CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - Release2_plan
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/release2-terraform-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  terraform-checks:
+    name: Terraform checks (${{ matrix.root_name }})
+    runs-on: ubuntu-latest
+    environment: release-2
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - root_name: governance
+            working_directory: terraform/governance
+          - root_name: platform-shared-dev
+            working_directory: terraform/platform-shared/dev
+          - root_name: workload-dev
+            working_directory: terraform/workloads/dev
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ matrix.working_directory }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.0
+
+      - name: Azure login with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform plan
+        run: terraform plan -no-color -input=false
+
