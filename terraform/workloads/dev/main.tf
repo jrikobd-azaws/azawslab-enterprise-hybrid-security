@@ -100,11 +100,11 @@ resource "azurerm_network_interface" "management" {
 }
 
 resource "azurerm_linux_virtual_machine" "management" {
-  name                = "vm-dev-mgmt-01"
-  resource_group_name = azurerm_resource_group.management.name
-  location            = azurerm_resource_group.management.location
-  size                = "Standard_B2als_v2"
-  admin_username      = "azureuser"
+  name                            = "vm-dev-mgmt-01"
+  resource_group_name             = azurerm_resource_group.management.name
+  location                        = azurerm_resource_group.management.location
+  size                            = "Standard_B2als_v2"
+  admin_username                  = "azureuser"
   disable_password_authentication = true
 
   network_interface_ids = [
