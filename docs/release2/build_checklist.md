@@ -518,11 +518,11 @@ Evidence:
 - [x] Private WinRM path validated
 - [x] Role-based Ansible scaffold created
 - [x] common role validated with idempotent rerun
-- [ ] d-join execution deferred until HQ AD and hybrid connectivity are ready
+- [ ] `ad-join` execution deferred until HQ AD and hybrid connectivity are ready
 
 ## Backend alignment note
-- [x] Active Terraform backend aligned to g-dev-terraformstate-norwayeast
-- [x] Active storage account aligned to stdevtfstatene01
+- [x] Active Terraform backend aligned to `rg-dev-terraformstate-norwayeast`
+- [x] Active storage account aligned to `stdevtfstatene01`
 - [x] Old backend retained temporarily as rollback safety until final retirement
 
 
@@ -536,8 +536,9 @@ Evidence:
   - container `tfstate`
 
 ## P2c final completion note
-- [x] Release 2 Terraform CI passed for governance, platform-shared/dev, and workload-dev
-- [x] Release 2 Terraform Apply passed for governance, platform-shared/dev, and workload-dev
+- [x] Release 2 Terraform CI passed for `governance`, `platform-shared/dev`, and `workload-dev`
+- [x] Release 2 Terraform Apply passed for `governance`, `platform-shared/dev`, and `workload-dev`
 - [x] OIDC-based Azure authentication validated for CI and apply
 - [x] Split-state Terraform automation validated end to end on main
+
 

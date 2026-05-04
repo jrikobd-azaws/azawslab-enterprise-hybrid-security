@@ -28,8 +28,8 @@ The automation layer implemented:
 - Key Vault-backed secret handling and sensitive-value protection
 - a private-only workload VM pattern
 - an Ansible role-based model for post-deployment configuration
-- a GitHub Actions pipeline model using OIDC authentication
-- validation gates for formatting, linting, planning, applying, and rerun/idempotency checks
+- GitHub Actions CI and controlled apply workflows using OIDC authentication
+- validation gates for formatting, planning, applying, and no-change state validation across the active roots
 
 This phase turns the platform from static design into operationally repeatable automation.
 
@@ -55,6 +55,11 @@ Workload active state:
 - `vnet-dev-norwayeast-spoke-workload`
 - `nic-vm-dev-client-01-01`
 - `vm-dev-client-01`
+
+Automation path:
+- PR-triggered Terraform CI across all active roots
+- controlled `workflow_dispatch` Terraform apply on `main`
+- OIDC-based Azure authentication for both CI and apply
 
 ## 5. Implementation Summary
 
@@ -93,18 +98,25 @@ This reduced destroy risk by separating governance, shared security, and workloa
 Current role in the automation model:
 - role-based configuration path defined for post-deployment workload configuration
 - management-host-based execution model defined for private workloads
-- intended responsibilities include:
-  - baseline configuration
-  - domain join
-  - application/service configuration
-- idempotent rerun remains the validation target for completion
+- current validated scope includes:
+  - temporary Azure-connected management host path
+  - private WinRM path
+  - role-based scaffold
+  - `common` role idempotent rerun
+- deferred item:
+  - `ad-join` remains deferred until `hq.azawslab.co.uk` and hybrid connectivity are ready
 
 ### P2c – CI/CD pipeline
-Current role in the automation model:
-- GitHub Actions pipeline direction established
-- OIDC login path defined for secretless Azure authentication
-- pipeline validation model prepared for Terraform and Ansible workflow quality gates
-- PR / merge-based controlled deployment model defined for Release 2
+Key implementation outcomes:
+- GitHub Actions Terraform CI workflow implemented
+- GitHub Actions controlled Terraform apply workflow implemented
+- OIDC-based Azure authentication validated for CI and apply
+- split-state matrix execution validated across:
+  - governance
+  - platform-shared/dev
+  - workload-dev
+- PR-triggered CI passed for all active Terraform roots
+- controlled apply passed on `main` for all active Terraform roots
 
 ## 6. Validation Summary
 
@@ -120,10 +132,15 @@ Validation for this chapter demonstrated for **P2a**:
 - NIC validation confirmed private-only behavior
 - governance, platform-shared, and workloads roots each planned cleanly with no unexpected changes after state separation
 
-Validation for **P2b** and **P2c** should still demonstrate:
-- successful Ansible role execution
-- successful idempotent rerun
-- successful GitHub Actions workflow validation for the CI/CD path
+Validation for **P2c** demonstrated:
+- PR-triggered Terraform CI succeeded for governance, platform-shared/dev, and workload-dev
+- controlled Terraform apply succeeded on `main` for governance, platform-shared/dev, and workload-dev
+- OIDC-based Azure authentication worked successfully for both CI and apply
+- split-state Terraform automation is now operational end to end
+
+Validation still pending for the remaining **P2b** deferred scope:
+- domain join verification once HQ AD and hybrid connectivity are ready
+- any later application-specific configuration beyond the current baseline path
 
 ## 7. Evidence Path
 
@@ -139,10 +156,8 @@ Typical evidence files:
 - `platform-shared-state-validation.txt`
 - `workloads-state-validation.txt`
 - `terraform-state-split-summary.md`
-- `ansible-lint.txt`
-- `ansible-run-01.txt`
-- `ansible-run-02-idempotent.txt`
-- CI/CD workflow validation outputs
+- `p2c-evidence.txt`
+- `p2c-execution-log.txt`
 
 ## 8. Key Commands Used
 
@@ -152,12 +167,12 @@ Typical commands and tooling used in this phase:
 - `terraform validate`
 - `terraform plan`
 - `terraform apply`
+- `terraform state list`
 - `az keyvault secret show`
 - `az vm show`
 - `az network nic show`
-- `terraform state list`
-- `ansible-lint`
 - `ansible-playbook`
+- GitHub Actions CI and apply workflows
 
 ## 9. Lessons Learned
 
@@ -166,8 +181,9 @@ Key lessons from this phase:
 - Key Vault-backed secret handling is stronger than passing sensitive values through ad hoc variables
 - private-only workload design changes how configuration tooling must be executed
 - state-boundary refinement is a worthwhile hardening step once the initial build is proven
-- Ansible and CI/CD narrative sections should only move to completion language once their evidence is captured and validated
+- controlled apply is easier to reason about when CI and apply are split into separate workflow paths
+- Ansible scope should stay honest when core pathing is validated but domain-join dependencies are not yet ready
 
 ## 10. Recruiter-Ready Outcome Statement
 
-Built the automation backbone of Release 2 by implementing reusable Terraform modules, dynamic secret flow through Azure Key Vault, a private-only workload deployment pattern, and a hardened multi-root Terraform state model. This established a production-style automation baseline for later Ansible configuration management and CI/CD pipeline delivery.
+Built the automation backbone of Release 2 by implementing reusable Terraform modules, dynamic secret flow through Azure Key Vault, a private-only workload deployment pattern, a hardened multi-root Terraform state model, and OIDC-based GitHub Actions CI/CD automation. The active Terraform roots now validate and apply successfully end to end through a controlled split-state workflow model.
