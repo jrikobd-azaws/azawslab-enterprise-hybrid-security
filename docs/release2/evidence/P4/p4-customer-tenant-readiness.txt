@@ -1,0 +1,49 @@
+﻿P4 customer tenant readiness evidence
+=====================================
+
+Purpose:
+Confirm the customer-side tenant and subscription prepared for Azure Lighthouse P4.
+
+Customer tenant/domain decision:
+- Customer tenant display name: AZAWSLAB
+- Customer verified domain: br.azawslab.co.uk
+- Previous belfast.azawslab.co.uk domain removed after Release 1 closure
+- Built-in fallback domain retained: AZAWSLAB.onmicrosoft.com
+
+Expected customer subscription:
+- Subscription name: azawslab
+- Subscription role: Azure Lighthouse customer-side subscription
+
+Azure CLI current account context:
+
+
+environmentName   : AzureCloud
+name              : azawslab
+id                : bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb
+tenantId          : f7d5a8e7-34ed-443d-bfe9-8dc4e229efb2
+homeTenantId      : f7d5a8e7-34ed-443d-bfe9-8dc4e229efb2
+tenantDisplayName : AZAWSLAB
+state             : Enabled
+isDefault         : True
+
+
+
+
+
+Available subscriptions:
+
+name     id                                   tenantId                             state
+----     --                                   --------                             -----
+azawslab bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb f7d5a8e7-34ed-443d-bfe9-8dc4e229efb2 En...
+
+
+
+
+Available tenants:
+
+tenantId                            
+--------                            
+f7d5a8e7-34ed-443d-bfe9-8dc4e229efb2
+
+
+

@@ -53,7 +53,8 @@ Current validated implementation status:
 | P2b | Complete for current scope | Azure-connected management host path, private WinRM path, common role execution, and idempotent rerun validated; AD join deferred until HQ AD and hybrid connectivity are ready |
 | P2c | Complete | GitHub Actions Terraform CI and controlled Terraform Apply validated with OIDC and split-state roots |
 | P3 | Complete | Governance/RBAC review completed; region, mandatory tag, and VM SKU deny behavior validated; resource group tag policy gap diagnosed and corrected |
-| P4+ | Not started | Later phases remain planned or optional depending on Release 2 scope and cost controls |
+| P4 | Complete | Azure Lighthouse Reader delegation deployed and validated between `AZAWSLAB / br.azawslab.co.uk` and `entra.azawslab.co.uk` |
+| P5+ | Not started | Later phases remain planned or optional depending on Release 2 scope and cost controls |
 
 
 ## 5. Reader Guide
@@ -68,4 +69,5 @@ Use the control docs at docs/release2/ root for:
 - build discipline
 
 Use docs/release2/evidence/ for CLI-first proof and validation output.
+
 

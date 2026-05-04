@@ -3,6 +3,8 @@
 > **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**  
 > Status: **In progress** – see [implementation tracker](./implementation-tracker.md)
 
+> Current implemented milestone: **P4 Azure Lighthouse Reader delegation completed and validated** between `AZAWSLAB / br.azawslab.co.uk` and `entra.azawslab.co.uk`.
+
 ## Overview
 
 Release 2 builds a modern Azure landing zone from scratch using **Infrastructure as Code (Terraform)** and **secretless CI/CD (GitHub Actions + OIDC)**. It establishes a hub-spoke network, centralised security inspection, governance guardrails, cloud security posture management, SIEM visibility, and optional advanced capabilities for hybrid, multi-cloud, Zero Trust access, and virtual desktop delivery.
@@ -199,6 +201,7 @@ Candidate regions and SKUs were assessed against actual subscription-level deplo
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
+
 
 
 

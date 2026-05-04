@@ -1,0 +1,43 @@
+﻿[2026-05-04 19:27:35 +01:00] P4 readiness checkpoint completed
+
+Scope:
+- Prepared Azure Lighthouse customer-side tenant/domain.
+- Prepared managing-tenant delegated administration group.
+
+Customer-side readiness:
+- Customer tenant: AZAWSLAB
+- Customer verified domain: br.azawslab.co.uk
+- Customer subscription: azawslab
+- Customer subscription ID: bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb
+- Previous Release 1 domain belfast.azawslab.co.uk removed after Release 1 closeout.
+
+Managing-side readiness:
+- Managing tenant: entra.azawslab.co.uk
+- Managing tenant ID: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+- Current signed-in account: admin-lab@entra.azawslab.co.uk
+- Delegated admin group: azw-Platform-Admins
+- Group object ID: 2b0de10d-6f29-4736-9952-f4a99e684c35
+- Mail nickname: azw-platform-admins
+- Security enabled: True
+
+Outcome:
+- P4 tenant/domain and managing-group prerequisites are ready for Azure Lighthouse registration definition and assignment design.
+- No Lighthouse registration has been deployed yet.
+
+[2026-05-04 20:30:54 +01:00] P4 Azure Lighthouse delegated visibility validated
+
+Scope:
+- Validated Azure Lighthouse Reader delegation from customer subscription azawslab to managing tenant entra.azawslab.co.uk.
+- Confirmed admin-lab@entra.azawslab.co.uk can see the delegated customer subscription after being added to azw-Platform-Admins.
+- Confirmed Azure subscription 1 remains the default CLI subscription to reduce accidental deployment risk.
+
+Key evidence:
+- Customer subscription: azawslab / bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb
+- Customer tenant homeTenantId: f7d5a8e7-34ed-443d-bfe9-8dc4e229efb2
+- Managing tenant: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+- Delegated group: azw-Platform-Admins / 2b0de10d-6f29-4736-9952-f4a99e684c35
+- Role: Reader / acdd72a7-3385-48ef-bd42-f606fba81ae7
+- Validation file: docs/release2/evidence/P4/p4-lighthouse-validation.txt
+
+Outcome:
+- P4 implementation and validation succeeded.

@@ -1,0 +1,45 @@
+﻿P4 Azure Lighthouse validation
+==============================
+
+Timestamp:
+2026-05-04 20:30:54 +01:00
+
+Validation purpose:
+Confirm that the customer subscription delegated through Azure Lighthouse is visible from the Release 2 managing tenant account.
+
+Managing tenant context:
+- Signed-in user: admin-lab@entra.azawslab.co.uk
+- Managing tenant ID: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+- Managing tenant domain: entra.azawslab.co.uk
+- Native managing subscription: Azure subscription 1
+- Native managing subscription ID: 8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+Customer-side delegation:
+- Customer tenant: AZAWSLAB / br.azawslab.co.uk
+- Customer tenant ID: f7d5a8e7-34ed-443d-bfe9-8dc4e229efb2
+- Customer subscription: azawslab
+- Customer subscription ID: bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb
+- Delegated role: Reader
+- Delegated group: azw-Platform-Admins
+- Delegated group object ID: 2b0de10d-6f29-4736-9952-f4a99e684c35
+
+Azure CLI current default subscription:
+EnvironmentName    HomeTenantId                          IsDefault    Name                  State    TenantDefaultDomain    TenantDisplayName    TenantId -----------------  ------------------------------------  -----------  --------------------  -------  ---------------------  -------------------  ------------------------------------ AzureCloud         78643a83-bcc9-4a3b-ab7e-eeede0b3384e  True         Azure subscription 1  Enabled  entra.azawslab.co.uk   AZAWS                78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+
+Delegated subscription visibility result:
+- Delegated subscription name: azawslab
+- Delegated subscription ID: bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb
+- Delegated subscription home tenant ID: f7d5a8e7-34ed-443d-bfe9-8dc4e229efb2
+- Visible to managing tenant through managedByTenants: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+- Is default subscription: False
+
+Native managing subscription safety check:
+- Native subscription name: Azure subscription 1
+- Native subscription ID: 8d99637c-13e7-417c-b334-b586d0ddc3d6
+- Is default subscription: True
+
+Raw refreshed subscription JSON:
+[   {     "cloudName": "AzureCloud",     "homeTenantId": "f7d5a8e7-34ed-443d-bfe9-8dc4e229efb2",     "id": "bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb",     "isDefault": false,     "managedByTenants": [       {         "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e"       }     ],     "name": "azawslab",     "state": "Enabled",     "tenantDefaultDomain": "entra.azawslab.co.uk",     "tenantDisplayName": "AZAWS",     "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",     "user": {       "name": "admin-lab@entra.azawslab.co.uk",       "type": "user"     }   },   {     "cloudName": "AzureCloud",     "homeTenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",     "id": "8d99637c-13e7-417c-b334-b586d0ddc3d6",     "isDefault": true,     "managedByTenants": [],     "name": "Azure subscription 1",     "state": "Enabled",     "tenantDefaultDomain": "entra.azawslab.co.uk",     "tenantDisplayName": "AZAWS",     "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",     "user": {       "name": "admin-lab@entra.azawslab.co.uk",       "type": "user"     }   } ]
+
+Validation outcome:
+Succeeded. The customer subscription is visible from the Release 2 managing tenant account through Azure Lighthouse delegation. The native Release 2 subscription remains the default CLI context.

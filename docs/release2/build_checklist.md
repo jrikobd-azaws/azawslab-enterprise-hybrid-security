@@ -398,7 +398,7 @@ Use this when you need a simple execution memory aid.
 - [ ] P9c
 
 ### Stage D – Execute Optional Phases Only If Ready
-- [ ] P4
+- [x] P4
 - [ ] P6
 - [ ] O1
 - [ ] O2
@@ -407,6 +407,15 @@ Use this when you need a simple execution memory aid.
 - [ ] O3c
 - [ ] O4
 - [ ] O5
+
+### P4 Lighthouse closeout note
+- [x] Azure Lighthouse Reader delegation deployed
+- [x] customer-side service provider offer visible in portal
+- [x] delegated Reader role visible for `azw-Platform-Admins`
+- [x] managing-side CLI shows delegated `azawslab` subscription through `managedByTenants`
+- [x] native Release 2 subscription remains default after validation
+- [x] evidence saved under `docs/release2/evidence/P4/`
+- [x] Lighthouse delegation intentionally retained for portfolio demonstration until later teardown decision
 
 ### Stage E – Final Review
 - [ ] evidence complete
@@ -546,4 +555,5 @@ Evidence:
 
 ### P3 evidence location
 - `docs/release2/evidence/P3/`
+
 
