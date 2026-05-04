@@ -1,0 +1,39 @@
+﻿Platform management state split plan
+====================================
+
+Timestamp: 2026-05-04 23:57:51 +01:00
+
+Objective:
+Separate the temporary Ansible management host from workload-dev Terraform state into a dedicated platform-management-dev state file.
+
+Current state:
+- terraform/workloads/dev owns the workload spoke, workload VM, and temporary Ansible management host.
+- Management resources currently in workload-dev state:
+  - azurerm_resource_group.management
+  - azurerm_public_ip.management
+  - azurerm_network_interface.management
+  - azurerm_linux_virtual_machine.management
+
+Target state:
+- terraform/platform-management/dev owns the temporary Ansible management host resources.
+- Backend key: platform-management-dev.tfstate
+
+Safety rules:
+- Do not destroy or recreate the management VM during this refactor.
+- Do not run broad terraform destroy.
+- Do not run local apply unless explicitly approved.
+- Validate state changes with terraform plan after each controlled step.
+
+Preferred migration approach:
+1. Import existing Azure management resources into platform-management-dev.tfstate.
+2. Verify platform-management plan does not propose creating duplicate resources.
+3. Remove the same management resources from workload-dev.tfstate using terraform state rm.
+4. Remove management resource blocks from terraform/workloads/dev/main.tf.
+5. Validate workload-dev plan does not propose destroying or recreating management resources.
+6. Update GitHub Actions workflows to include platform-management-dev root.
+7. Commit and PR the refactor.
+
+Rollback concept:
+- If import validation fails, do not remove resources from workload-dev state.
+- If state removal has not happened, workload-dev remains source of truth.
+- If state removal has happened but code validation fails, re-import or restore state from backend backup before proceeding.
