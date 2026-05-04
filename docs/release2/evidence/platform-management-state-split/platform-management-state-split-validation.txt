@@ -1,0 +1,73 @@
+﻿Platform management state split validation
+==========================================
+
+Timestamp: 2026-05-05 00:24:25 +01:00
+
+Objective:
+Validate that the temporary Ansible management host has been separated from workload-dev state into platform-management-dev state without destroying or recreating Azure resources.
+
+Target state model:
+- terraform/workloads/dev owns workload spoke networking and workload VM resources.
+- terraform/platform-management/dev owns temporary operations-plane management resources.
+
+Workload-dev state after split:
+
+data.terraform_remote_state.platform_shared_dev
+module.compute.azurerm_network_interface.vm
+module.compute.azurerm_windows_virtual_machine.vm
+module.networking.azurerm_network_security_group.management[0]
+module.networking.azurerm_resource_group.networking
+module.networking.azurerm_subnet.management[0]
+module.networking.azurerm_subnet.workload
+module.networking.azurerm_subnet_network_security_group_association.management[0]
+module.networking.azurerm_virtual_network.workload
+
+Platform-management-dev state after import:
+
+data.azurerm_subnet.management
+azurerm_linux_virtual_machine.management
+azurerm_network_interface.management
+azurerm_public_ip.management
+azurerm_resource_group.management
+
+Workload-dev plan result:
+
+Acquiring state lock. This may take a few moments...
+data.terraform_remote_state.platform_shared_dev: Reading...
+data.terraform_remote_state.platform_shared_dev: Read complete after 4s
+module.networking.azurerm_resource_group.networking: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast]
+module.networking.azurerm_network_security_group.management[0]: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/networkSecurityGroups/nsg-mgmt-inbound]
+module.networking.azurerm_virtual_network.workload: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload]
+module.networking.azurerm_subnet.workload: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload]
+module.networking.azurerm_subnet.management[0]: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt]
+module.compute.azurerm_network_interface.vm: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/networkInterfaces/nic-vm-dev-client-01-01]
+module.networking.azurerm_subnet_network_security_group_association.management[0]: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt]
+module.compute.azurerm_windows_virtual_machine.vm: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+Releasing state lock. This may take a few moments...
+
+Platform-management-dev plan result:
+
+Acquiring state lock. This may take a few moments...
+data.azurerm_subnet.management: Reading...
+azurerm_resource_group.management: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast]
+data.azurerm_subnet.management: Read complete after 1s [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt]
+azurerm_public_ip.management: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Network/publicIPAddresses/pip-vm-dev-mgmt-01-norwayeast-01]
+azurerm_network_interface.management: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Network/networkInterfaces/nic-vm-dev-mgmt-01-01]
+azurerm_linux_virtual_machine.management: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+Releasing state lock. This may take a few moments...
+
+Validation outcome:
+- workload-dev plan showed no changes.
+- platform-management-dev plan showed no changes.
+- management resources are now owned by platform-management-dev state.
+- no Azure resource destroy or recreate was required.

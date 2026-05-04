@@ -1,0 +1,68 @@
+﻿Platform management state split audit
+=====================================
+
+Timestamp: 2026-05-04 23:51:21 +01:00
+
+Purpose:
+Audit current Terraform state and Azure resources before separating the temporary Ansible management host from workload-dev state.
+
+Git context:
+- Branch: feature/release2-platform-management-state-split
+- Git status: 
+
+Azure context:
+- Subscription: Azure subscription 1
+- Subscription ID: 8d99637c-13e7-417c-b334-b586d0ddc3d6
+- Tenant ID: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+- User: admin-lab@entra.azawslab.co.uk
+
+Current workload Terraform state resources:
+data.terraform_remote_state.platform_shared_dev
+azurerm_linux_virtual_machine.management
+azurerm_network_interface.management
+azurerm_public_ip.management
+azurerm_resource_group.management
+module.compute.azurerm_network_interface.vm
+module.compute.azurerm_windows_virtual_machine.vm
+module.networking.azurerm_network_security_group.management[0]
+module.networking.azurerm_resource_group.networking
+module.networking.azurerm_subnet.management[0]
+module.networking.azurerm_subnet.workload
+module.networking.azurerm_subnet_network_security_group_association.management[0]
+module.networking.azurerm_virtual_network.workload
+
+Management resources currently owned by workload-dev state:
+azurerm_linux_virtual_machine.management
+azurerm_network_interface.management
+azurerm_public_ip.management
+azurerm_resource_group.management
+
+Azure management resource group:
+- Name: rg-dev-management-norwayeast
+- Location: norwayeast
+- Tags: {"CostCenter":"Lab-123","DeploymentMethod":"Terraform","Environment":"Development","Owner":"HASHIBUR RAHMAN","Project":"Azawslab-Release2"}
+
+Azure management VM:
+- Name: vm-dev-mgmt-01
+- Resource group: rg-dev-management-norwayeast
+- Location: norwayeast
+- Power state: VM deallocated
+- VM size: Standard_B2als_v2
+
+Azure management NIC:
+- Name: nic-vm-dev-mgmt-01-01
+- Resource group: rg-dev-management-norwayeast
+- Private IP: 10.10.1.4
+- Subnet ID: /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt
+- Public IP ID: /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Network/publicIPAddresses/pip-vm-dev-mgmt-01-norwayeast-01
+
+Azure management public IP:
+- Name: pip-vm-dev-mgmt-01-norwayeast-01
+- Resource group: rg-dev-management-norwayeast
+- Allocation method: Static
+- IP address: 4.235.98.212
+
+Initial interpretation:
+- The Ansible management host is an operations-plane resource, but currently lives in workload-dev Terraform state.
+- The VM is deallocated, so compute cost is controlled.
+- No state migration, destroy, or recreate action has been performed by this audit.
