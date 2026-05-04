@@ -1,0 +1,168 @@
+﻿P5 platform-networking Terraform plan evidence
+==============================================
+
+Purpose:
+Validate planned P5 hub-spoke networking changes before GitHub Actions deployment.
+
+Expected result:
+Plan should create hub-spoke networking resources only.
+Expected summary: Plan: 9 to add, 0 to change, 0 to destroy.
+
+Terraform plan output:
+
+Acquiring state lock. This may take a few moments...
+data.azurerm_virtual_network.workload_spoke: Reading...
+data.azurerm_virtual_network.workload_spoke: Read complete after 1s [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload]
+data.azurerm_subnet.workload: Reading...
+data.azurerm_subnet.workload: Read complete after 1s [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.hub_spoke_networking.azurerm_resource_group.connectivity will be created
+  + resource "azurerm_resource_group" "connectivity" {
+      + id       = (known after apply)
+      + location = "norwayeast"
+      + name     = "rg-connectivity-prod-norwayeast"
+      + tags     = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Project"          = "Azawslab-Release2"
+        }
+    }
+
+  # module.hub_spoke_networking.azurerm_route_table.workload_to_hub will be created
+  + resource "azurerm_route_table" "workload_to_hub" {
+      + bgp_route_propagation_enabled = true
+      + id                            = (known after apply)
+      + location                      = "norwayeast"
+      + name                          = "rt-workload-to-hub-norwayeast"
+      + resource_group_name           = "rg-dev-workload-norwayeast"
+      + route                         = (known after apply)
+      + subnets                       = (known after apply)
+      + tags                          = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Project"          = "Azawslab-Release2"
+        }
+    }
+
+  # module.hub_spoke_networking.azurerm_subnet.bastion will be created
+  + resource "azurerm_subnet" "bastion" {
+      + address_prefixes                              = [
+          + "10.0.0.0/26",
+        ]
+      + default_outbound_access_enabled               = true
+      + id                                            = (known after apply)
+      + name                                          = "AzureBastionSubnet"
+      + private_endpoint_network_policies             = "Disabled"
+      + private_link_service_network_policies_enabled = true
+      + resource_group_name                           = "rg-connectivity-prod-norwayeast"
+      + virtual_network_name                          = "vnet-dev-norwayeast-hub"
+    }
+
+  # module.hub_spoke_networking.azurerm_subnet.firewall will be created
+  + resource "azurerm_subnet" "firewall" {
+      + address_prefixes                              = [
+          + "10.0.1.0/26",
+        ]
+      + default_outbound_access_enabled               = true
+      + id                                            = (known after apply)
+      + name                                          = "AzureFirewallSubnet"
+      + private_endpoint_network_policies             = "Disabled"
+      + private_link_service_network_policies_enabled = true
+      + resource_group_name                           = "rg-connectivity-prod-norwayeast"
+      + virtual_network_name                          = "vnet-dev-norwayeast-hub"
+    }
+
+  # module.hub_spoke_networking.azurerm_subnet.gateway will be created
+  + resource "azurerm_subnet" "gateway" {
+      + address_prefixes                              = [
+          + "10.0.2.0/27",
+        ]
+      + default_outbound_access_enabled               = true
+      + id                                            = (known after apply)
+      + name                                          = "GatewaySubnet"
+      + private_endpoint_network_policies             = "Disabled"
+      + private_link_service_network_policies_enabled = true
+      + resource_group_name                           = "rg-connectivity-prod-norwayeast"
+      + virtual_network_name                          = "vnet-dev-norwayeast-hub"
+    }
+
+  # module.hub_spoke_networking.azurerm_subnet_route_table_association.workload will be created
+  + resource "azurerm_subnet_route_table_association" "workload" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload"
+    }
+
+  # module.hub_spoke_networking.azurerm_virtual_network.hub will be created
+  + resource "azurerm_virtual_network" "hub" {
+      + address_space                  = [
+          + "10.0.0.0/16",
+        ]
+      + dns_servers                    = (known after apply)
+      + guid                           = (known after apply)
+      + id                             = (known after apply)
+      + location                       = "norwayeast"
+      + name                           = "vnet-dev-norwayeast-hub"
+      + private_endpoint_vnet_policies = "Disabled"
+      + resource_group_name            = "rg-connectivity-prod-norwayeast"
+      + subnet                         = (known after apply)
+      + tags                           = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Project"          = "Azawslab-Release2"
+        }
+    }
+
+  # module.hub_spoke_networking.azurerm_virtual_network_peering.hub_to_workload_spoke will be created
+  + resource "azurerm_virtual_network_peering" "hub_to_workload_spoke" {
+      + allow_forwarded_traffic                = true
+      + allow_gateway_transit                  = false
+      + allow_virtual_network_access           = true
+      + id                                     = (known after apply)
+      + name                                   = "peer-hub-to-spoke-workload"
+      + peer_complete_virtual_networks_enabled = true
+      + remote_virtual_network_id              = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload"
+      + resource_group_name                    = "rg-connectivity-prod-norwayeast"
+      + use_remote_gateways                    = false
+      + virtual_network_name                   = "vnet-dev-norwayeast-hub"
+    }
+
+  # module.hub_spoke_networking.azurerm_virtual_network_peering.workload_spoke_to_hub will be created
+  + resource "azurerm_virtual_network_peering" "workload_spoke_to_hub" {
+      + allow_forwarded_traffic                = true
+      + allow_gateway_transit                  = false
+      + allow_virtual_network_access           = true
+      + id                                     = (known after apply)
+      + name                                   = "peer-spoke-workload-to-hub"
+      + peer_complete_virtual_networks_enabled = true
+      + remote_virtual_network_id              = (known after apply)
+      + resource_group_name                    = "rg-dev-workload-norwayeast"
+      + use_remote_gateways                    = false
+      + virtual_network_name                   = "vnet-dev-norwayeast-spoke-workload"
+    }
+
+Plan: 9 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + connectivity_resource_group_name = "rg-connectivity-prod-norwayeast"
+  + hub_vnet_id                      = (known after apply)
+  + hub_vnet_name                    = "vnet-dev-norwayeast-hub"
+  + workload_route_table_id          = (known after apply)
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+Releasing state lock. This may take a few moments...
