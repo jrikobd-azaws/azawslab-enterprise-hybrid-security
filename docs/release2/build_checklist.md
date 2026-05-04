@@ -525,4 +525,25 @@ Evidence:
 - [x] Active storage account aligned to stdevtfstatene01
 - [ ] Old backend retained temporarily as rollback safety until final retirement
 
+---
+
+## P3 Build Completion Checkpoint - Enterprise Governance & Guardrails
+
+**Completed:** 2026-05-04 17:25:13
+**Phase status:** Completed and validated
+
+### Build discipline completed
+- [x] P3 source-of-truth and support documentation reviewed before implementation.
+- [x] Governance-plane policy assignments reviewed before changes.
+- [x] RBAC reviewed for `hashib`, `admin-lab`, and `sp-terraform-gh`.
+- [x] Terraform correction for resource group tag enforcement validated locally.
+- [x] Terraform correction deployed through GitHub Actions controlled apply.
+- [x] Region/resource group deny behavior validated.
+- [x] Mandatory tag deny behavior validated after correction.
+- [x] Disallowed VM SKU deny behavior validated.
+- [x] Temporary validation resources cleaned up.
+- [x] Raw CLI evidence and curated evidence captured under `docs/release2/evidence/P3/`.
+
+### P3 evidence location
+- `docs/release2/evidence/P3/`
 
