@@ -24,6 +24,8 @@ jobs:
             working_directory: terraform/workloads/dev
           - root_name: platform-networking-dev
             working_directory: terraform/platform-networking/dev
+          - root_name: platform-management-dev
+            working_directory: terraform/platform-management/dev
 
     defaults:
       run:
