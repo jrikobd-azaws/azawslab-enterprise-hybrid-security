@@ -73,3 +73,24 @@ Local validation:
 Deployment path:
 - Do not apply locally.
 - Submit via PR and deploy through GitHub Actions controlled Terraform Apply.
+
+P3 deny retest - mandatory resource group tags after Terraform correction
+
+Validated:
+- Attempted to create rg-p3-denytest-missing-tags-afterfix in norwayeast without tags.
+- Azure Policy denied creation with RequestDisallowedByPolicy.
+- Deny was enforced by the resource-group tag policy assignments:
+  - pa-rgtag-own
+  - pa-rgtag-env
+  - pa-rgtag-proj
+  - pa-rgtag-cost
+- Policy definition used: Require a tag on resource groups.
+- Required tags enforced:
+  - Owner
+  - Environment
+  - Project
+  - CostCenter
+- Cleanup check confirmed rg-p3-denytest-missing-tags-afterfix was not created.
+
+Evidence:
+- p3-deny-retest-rg-missing-tags-after-fix.txt
