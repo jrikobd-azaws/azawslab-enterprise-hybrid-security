@@ -1,0 +1,73 @@
+﻿P5 readiness current-state audit
+================================
+
+Purpose:
+Capture current Azure networking state before designing P5 Hub-Spoke Networking changes.
+
+Classification:
+Working/readiness evidence. Not final P5 validation evidence.
+
+Current git branch:
+feature/release2-p5-hub-spoke-networking
+
+Git status:
+?? docs/release2/evidence/P5/
+
+Azure account context:
+- Name: Azure subscription 1
+- Subscription ID: 8d99637c-13e7-417c-b334-b586d0ddc3d6
+- Tenant ID: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+- Tenant display name: AZAWS
+- User: admin-lab@entra.azawslab.co.uk
+- Is default: True
+
+Resource groups:
+
+name                             location  
+----                             --------  
+NetworkWatcherRG                 uksouth   
+rg-dev-security-norwayeast       norwayeast
+rg-dev-workload-norwayeast       norwayeast
+rg-dev-management-norwayeast     norwayeast
+rg-dev-terraformstate-norwayeast norwayeast
+
+
+
+
+Virtual networks:
+
+name                               resourceGroup              location   addressSpace
+----                               -------------              --------   ------------
+vnet-dev-norwayeast-spoke-workload rg-dev-workload-norwayeast norwayeast 10.10.0.0/16
+
+
+
+
+Subnets:
+
+vnet                               resourceGroup              subnet        prefixes     route
+                                                                                         Table
+----                               -------------              ------        --------     -----
+vnet-dev-norwayeast-spoke-workload rg-dev-workload-norwayeast snet-workload 10.10.0.0/24      
+vnet-dev-norwayeast-spoke-workload rg-dev-workload-norwayeast snet-mgmt     10.10.1.0/24      
+
+
+
+
+Route tables:
+
+
+Public IPs:
+
+name                             resourceGroup                ipAddress    publicIPAllocationM
+                                                                           ethod              
+----                             -------------                ---------    -------------------
+pip-vm-dev-mgmt-01-norwayeast-01 rg-dev-management-norwayeast 4.235.98.212 Static             
+
+
+
+
+Readiness interpretation:
+- This file is for P5 planning only.
+- VM and peering checks will be captured separately if needed.
+- Final P5 evidence should be captured after Terraform deployment and validation.

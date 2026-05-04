@@ -22,6 +22,8 @@ jobs:
             working_directory: terraform/platform-shared/dev
           - root_name: workload-dev
             working_directory: terraform/workloads/dev
+          - root_name: platform-networking-dev
+            working_directory: terraform/platform-networking/dev
 
     defaults:
       run:
@@ -61,3 +63,4 @@ jobs:
 
       - name: Terraform apply
         run: terraform apply -input=false -auto-approve tfplan
+
