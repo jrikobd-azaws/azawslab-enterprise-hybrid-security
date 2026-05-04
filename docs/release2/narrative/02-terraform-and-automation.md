@@ -90,21 +90,25 @@ A hardening refinement was completed after the validated build:
 This reduced destroy risk by separating governance, shared security, and workload lifecycles while keeping the reusable module structure intact.
 
 ### P2b – Ansible configuration management
-Current role in the automation model:
-- role-based configuration path defined for post-deployment workload configuration
-- management-host-based execution model defined for private workloads
-- intended responsibilities include:
-  - baseline configuration
-  - domain join
-  - application/service configuration
-- idempotent rerun remains the validation target for completion
+Key implementation outcomes for the current scope:
+- Azure-connected Linux management host pattern validated for private workload administration
+- private WinRM path to the workload VM validated
+- role-based Ansible scaffold created
+- common role executed successfully
+- idempotent rerun validated with no unnecessary changes
+- `ad-join` execution intentionally deferred until `hq.azawslab.co.uk` and hybrid connectivity are ready
 
 ### P2c – CI/CD pipeline
-Current role in the automation model:
-- GitHub Actions pipeline direction established
-- OIDC login path defined for secretless Azure authentication
-- pipeline validation model prepared for Terraform and Ansible workflow quality gates
-- PR / merge-based controlled deployment model defined for Release 2
+Key implementation outcomes:
+- GitHub Actions Terraform CI workflow implemented
+- GitHub Actions controlled Terraform Apply workflow implemented
+- OIDC authentication validated for CI and apply
+- split-state Terraform automation validated across:
+  - `terraform/governance`
+  - `terraform/platform-shared/dev`
+  - `terraform/workloads/dev`
+- PR-triggered Terraform checks passed
+- controlled apply workflow passed from `main`
 
 ## 6. Validation Summary
 
@@ -120,10 +124,17 @@ Validation for this chapter demonstrated for **P2a**:
 - NIC validation confirmed private-only behavior
 - governance, platform-shared, and workloads roots each planned cleanly with no unexpected changes after state separation
 
-Validation for **P2b** and **P2c** should still demonstrate:
-- successful Ansible role execution
-- successful idempotent rerun
-- successful GitHub Actions workflow validation for the CI/CD path
+Validation for **P2b** demonstrated:
+- private management path validated from the Azure-connected management host
+- private WinRM connectivity confirmed
+- common Ansible role executed successfully
+- idempotent rerun confirmed
+
+Validation for **P2c** demonstrated:
+- GitHub Actions Terraform CI passed for governance, platform-shared/dev, and workload-dev
+- controlled Terraform Apply passed for governance, platform-shared/dev, and workload-dev
+- OIDC-based Azure authentication worked without static secrets
+- split-state automation worked end to end
 
 ## 7. Evidence Path
 
@@ -143,6 +154,9 @@ Typical evidence files:
 - `ansible-run-01.txt`
 - `ansible-run-02-idempotent.txt`
 - CI/CD workflow validation outputs
+- `p2c-evidence.txt`
+- `p2c-execution-log.txt`
+- P2c GitHub Actions success screenshots
 
 ## 8. Key Commands Used
 
@@ -166,8 +180,9 @@ Key lessons from this phase:
 - Key Vault-backed secret handling is stronger than passing sensitive values through ad hoc variables
 - private-only workload design changes how configuration tooling must be executed
 - state-boundary refinement is a worthwhile hardening step once the initial build is proven
-- Ansible and CI/CD narrative sections should only move to completion language once their evidence is captured and validated
+- automation narrative should distinguish completed validation from intentionally deferred dependent tasks such as AD join
 
 ## 10. Recruiter-Ready Outcome Statement
 
-Built the automation backbone of Release 2 by implementing reusable Terraform modules, dynamic secret flow through Azure Key Vault, a private-only workload deployment pattern, and a hardened multi-root Terraform state model. This established a production-style automation baseline for later Ansible configuration management and CI/CD pipeline delivery.
+Built the automation backbone of Release 2 by implementing reusable Terraform modules, dynamic secret flow through Azure Key Vault, a private-only workload deployment pattern, hardened multi-root Terraform state, Ansible management-host validation, and GitHub Actions OIDC-based CI/CD. This established a production-style automation baseline where infrastructure changes are validated through PR checks and deployed through controlled workflow execution.
+

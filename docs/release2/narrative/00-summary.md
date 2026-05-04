@@ -43,14 +43,18 @@ It demonstrates:
 
 ## 4. Current Build Status
 
-Update this section as the implementation progresses.
+Current validated implementation status:
 
-Suggested format:
-- P0: complete / in progress / not started
-- P1: complete / in progress / not started
-- P2a: complete / in progress / not started
-- P2b: complete / in progress / not started
-- continue through P9c and O1-O5
+| Phase | Status | Notes |
+|---|---|---|
+| P0 | Complete | OIDC/bootstrap foundation and current Norway East Terraform backend validated |
+| P1 | Complete | Management group structure and baseline governance assignments validated |
+| P2a | Complete | Reusable Terraform modules, Key Vault secret flow, private-only workload VM, and split-state model validated |
+| P2b | Complete for current scope | Azure-connected management host path, private WinRM path, common role execution, and idempotent rerun validated; AD join deferred until HQ AD and hybrid connectivity are ready |
+| P2c | Complete | GitHub Actions Terraform CI and controlled Terraform Apply validated with OIDC and split-state roots |
+| P3 | Complete | Governance/RBAC review completed; region, mandatory tag, and VM SKU deny behavior validated; resource group tag policy gap diagnosed and corrected |
+| P4+ | Not started | Later phases remain planned or optional depending on Release 2 scope and cost controls |
+
 
 ## 5. Reader Guide
 
@@ -64,3 +68,4 @@ Use the control docs at docs/release2/ root for:
 - build discipline
 
 Use docs/release2/evidence/ for CLI-first proof and validation output.
+
