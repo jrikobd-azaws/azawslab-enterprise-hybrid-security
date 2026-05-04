@@ -1,0 +1,23 @@
+﻿
+[2026-05-04 23:41:17 +01:00] P5 hub-spoke networking deployed and validated
+
+Scope:
+- Created enterprise-aligned platform-networking Terraform root.
+- Deployed hub VNet and reserved hub subnets.
+- Created bidirectional hub/spoke peering.
+- Created route table scaffold and associated it with the workload subnet.
+- Confirmed workload-dev apply showed no changes and did not affect existing workload or management VM resources.
+
+Deployment result:
+- platform-networking-dev apply completed successfully.
+- Resources: 9 added, 0 changed, 0 destroyed.
+
+Validation:
+- Hub VNet exists.
+- AzureBastionSubnet, AzureFirewallSubnet, and GatewaySubnet exist.
+- Hub-to-spoke peering is Connected.
+- Spoke-to-hub peering is Connected.
+- Workload subnet is associated with rt-workload-to-hub-norwayeast.
+
+Primary validation file:
+- docs/release2/evidence/P5/p5-platform-networking-validation.txt

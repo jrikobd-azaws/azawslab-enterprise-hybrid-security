@@ -54,7 +54,8 @@ Current validated implementation status:
 | P2c | Complete | GitHub Actions Terraform CI and controlled Terraform Apply validated with OIDC and split-state roots |
 | P3 | Complete | Governance/RBAC review completed; region, mandatory tag, and VM SKU deny behavior validated; resource group tag policy gap diagnosed and corrected |
 | P4 | Complete | Azure Lighthouse Reader delegation deployed and validated between `AZAWSLAB / br.azawslab.co.uk` and `entra.azawslab.co.uk` |
-| P5+ | Not started | Later phases remain planned or optional depending on Release 2 scope and cost controls |
+| P5 | Complete | Enterprise-aligned platform-networking root deployed hub-spoke network foundation in Norway East |
+| P6+ | Not started | Later phases remain planned or optional depending on Release 2 scope and cost controls |
 
 
 ## 5. Reader Guide
@@ -69,5 +70,6 @@ Use the control docs at docs/release2/ root for:
 - build discipline
 
 Use docs/release2/evidence/ for CLI-first proof and validation output.
+
 
 

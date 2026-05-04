@@ -1,0 +1,61 @@
+﻿P5 platform networking validation
+=================================
+
+Timestamp: 2026-05-04 23:37:19 +01:00
+
+Validation purpose:
+Confirm P5 hub-spoke networking resources were deployed through the platform-networking Terraform root.
+
+Azure context:
+- Subscription: Azure subscription 1
+- Subscription ID: 8d99637c-13e7-417c-b334-b586d0ddc3d6
+- Tenant ID: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+- User: admin-lab@entra.azawslab.co.uk
+
+Hub VNet:
+- Name: vnet-dev-norwayeast-hub
+- Resource group: rg-connectivity-prod-norwayeast
+- Location: norwayeast
+- Address space: 10.0.0.0/16
+- Subnets: AzureBastionSubnet, GatewaySubnet, AzureFirewallSubnet
+
+Workload spoke VNet:
+- Name: vnet-dev-norwayeast-spoke-workload
+- Resource group: rg-dev-workload-norwayeast
+- Location: norwayeast
+- Address space: 10.10.0.0/16
+- Subnets: snet-mgmt, snet-workload
+
+Hub peerings:
+
+name                       peeringState allowVirtualNetworkAccess allowForwardedTraffic
+----                       ------------ ------------------------- ---------------------
+peer-hub-to-spoke-workload Connected                         True                  True
+
+
+
+
+Spoke peerings:
+
+name                       peeringState allowVirtualNetworkAccess allowForwardedTraffic
+----                       ------------ ------------------------- ---------------------
+peer-spoke-workload-to-hub Connected                         True                  True
+
+
+
+
+Route tables:
+
+name                          resourceGroup              location  
+----                          -------------              --------  
+rt-workload-to-hub-norwayeast rg-dev-workload-norwayeast norwayeast
+
+
+
+
+Workload subnet route table association:
+- Subnet: snet-workload
+- Route table ID: /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/routeTables/rt-workload-to-hub-norwayeast
+
+Validation outcome:
+Succeeded if hub VNet exists, reserved hub subnets exist, bidirectional peerings are Connected, and snet-workload is associated with rt-workload-to-hub-norwayeast.
