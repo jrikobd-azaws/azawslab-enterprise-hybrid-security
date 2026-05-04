@@ -100,3 +100,21 @@ Validated:
 
 Evidence:
 - p3-deny-retest-rg-missing-tags-after-fix.txt
+
+P3 deny validation - disallowed VM SKU
+
+Validated:
+- Created a temporary compliant test resource group rg-p3-denytest-vmsku in norwayeast.
+- Attempted to create VM vm-p3-deny-sku-01 using disallowed SKU Standard_B1s.
+- Azure Policy denied VM creation with RequestDisallowedByPolicy.
+- Deny included policy assignment pa-vmsku-prod-b2alsv2.
+- Policy definition used: Allowed virtual machine size SKUs.
+- Allowed SKU parameter was Standard_B2als_v2.
+- VM check confirmed vm-p3-deny-sku-01 was not created.
+- Cleanup check confirmed rg-p3-denytest-vmsku was deleted.
+
+Evidence:
+- p3-deny-test-vm-sku.txt
+
+Note:
+- Mandatory resource tag policies also evaluated during the VM creation attempt because az vm create did not pass tags to the VM resource. The VM SKU policy still clearly evaluated the attempted Standard_B1s SKU and denied it.
