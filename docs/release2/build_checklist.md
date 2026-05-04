@@ -390,7 +390,7 @@ Use this when you need a simple execution memory aid.
 - [ ] P2b
 - [ ] P2c
 - [ ] P3
-- [ ] P5
+- [x] P5
 - [ ] P7
 - [ ] P8
 - [ ] P9a
@@ -407,6 +407,16 @@ Use this when you need a simple execution memory aid.
 - [ ] O3c
 - [ ] O4
 - [ ] O5
+
+### P5 Hub-Spoke closeout note
+- [x] `terraform/platform-networking/dev` created as a separate platform networking root
+- [x] `platform-networking-dev.tfstate` backend configured
+- [x] hub VNet deployed in `rg-connectivity-prod-norwayeast`
+- [x] reserved hub subnets deployed: `AzureBastionSubnet`, `AzureFirewallSubnet`, `GatewaySubnet`
+- [x] bidirectional hub/spoke peering validated as Connected
+- [x] workload route table scaffold associated to `snet-workload`
+- [x] existing workload and deallocated management VM were not changed during deployment
+- [x] evidence saved under `docs/release2/evidence/P5/`
 
 ### P4 Lighthouse closeout note
 - [x] Azure Lighthouse Reader delegation deployed
@@ -555,5 +565,6 @@ Evidence:
 
 ### P3 evidence location
 - `docs/release2/evidence/P3/`
+
 
 

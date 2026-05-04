@@ -3,7 +3,7 @@
 > **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**  
 > Status: **In progress** – see [implementation tracker](./implementation-tracker.md)
 
-> Current implemented milestone: **P4 Azure Lighthouse Reader delegation completed and validated** between `AZAWSLAB / br.azawslab.co.uk` and `entra.azawslab.co.uk`.
+> Current implemented milestone: **P5 Hub-Spoke Networking completed and validated** with a dedicated `platform-networking-dev` Terraform state.
 
 ## Overview
 
@@ -201,6 +201,7 @@ Candidate regions and SKUs were assessed against actual subscription-level deplo
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
+
 
 
 

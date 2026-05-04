@@ -651,6 +651,7 @@ Use this section during execution.
 | ------ | ----------------------------------------------------- | ------------------------------------------------------------------------------ |
 | [Date] | Initial rewritten tracker aligned to `README_PLAN.md` | Removed stale RRAS path, restructured prep flow, strengthened validation gates |
 | 2026-05-04 | P4 Azure Lighthouse Reader delegation completed | Registration definition and assignment deployed; customer subscription visible from managing tenant via Reader delegation |
+| 2026-05-04 | P5 Hub-Spoke Networking completed | Platform-networking root deployed hub VNet, reserved hub subnets, bidirectional peering, and workload route-table association |
 
 ---
 
@@ -663,7 +664,7 @@ Use this section during execution.
 - [ ] P2b complete
 - [ ] P2c complete
 - [ ] P3 complete
-- [ ] P5 complete
+- [x] P5 complete
 - [ ] P7 complete
 - [ ] P8 complete
 - [ ] P9a complete
@@ -792,5 +793,6 @@ Notes:
 
 ### Result
 P3 governance guardrails are validated for allowed region, mandatory tags, VM SKU restriction, RBAC review, and controlled Terraform deployment.
+
 
 

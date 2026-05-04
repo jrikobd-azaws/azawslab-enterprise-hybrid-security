@@ -1,0 +1,40 @@
+﻿P5 final evidence summary
+=========================
+
+Implementation result:
+P5 Hub-Spoke Networking was deployed and validated successfully.
+
+Terraform root:
+- terraform/platform-networking/dev
+
+Terraform state:
+- platform-networking-dev.tfstate
+
+Terraform module:
+- terraform/modules/hub-spoke-networking
+
+Deployed resources:
+- rg-connectivity-prod-norwayeast
+- vnet-dev-norwayeast-hub
+- AzureBastionSubnet
+- AzureFirewallSubnet
+- GatewaySubnet
+- peer-hub-to-spoke-workload
+- peer-spoke-workload-to-hub
+- rt-workload-to-hub-norwayeast
+- route table association to snet-workload
+
+Validation:
+- Hub VNet deployed in norwayeast.
+- Workload spoke VNet remained in rg-dev-workload-norwayeast.
+- Bidirectional VNet peerings show Connected.
+- Workload subnet snet-workload is associated with the P5 route table.
+- Existing workload-dev root showed no infrastructure changes during apply.
+
+Evidence files:
+- p5-readiness-current-state.txt
+- p5-platform-networking-plan.txt
+- p5-platform-networking-validation.txt
+
+Outcome:
+P5 Azure Hub-Spoke Networking is complete and ready for documentation closeout.
