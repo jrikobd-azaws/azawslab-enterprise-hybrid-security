@@ -1,7 +1,7 @@
 ﻿# Release 2 – Azure Platform Engineering & Security
 
 > **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**  
-> Status: **In progress** – see [implementation tracker](../implementation-tracker.md)
+> Status: **In progress** – see [implementation tracker](./implementation-tracker.md)
 
 ## Overview
 
@@ -37,11 +37,11 @@ All resources follow a strict **naming convention** and are validated primarily 
 | Document | Purpose |
 |----------|---------|
 | [Master Plan](./README_PLAN.md) | Authoritative source of truth for scope, architecture, sequencing, and implementation intent |
-| [Implementation Tracker](../implementation-tracker.md) | Operational control document for readiness, phase progress, validation status, blockers, and teardown tracking |
-| [Architecture Decisions](../architechture.md) | ADRs that explain why major design choices were made |
-| [Naming Conventions](../naming-conventions.md) | Canonical naming, tagging, identity, evidence, and repo file naming standards |
+| [Implementation Tracker](./implementation-tracker.md) | Operational control document for readiness, phase progress, validation status, blockers, and teardown tracking |
+| [Architecture Decisions](./architechture.md) | ADRs that explain why major design choices were made |
+| [Naming Conventions](./naming-conventions.md) | Canonical naming, tagging, identity, evidence, and repo file naming standards |
 | [Phase Guide](./Phases-with-steps.md) | Operator-focused phase execution guide with configuration snapshots, compact text diagrams, steps, validation, and evidence reminders |
-| [Build Checklist](../build_checklist.md) | Build-time execution checklist for organized implementation flow |
+| [Build Checklist](./build_checklist.md) | Build-time execution checklist for organized implementation flow |
 
 ---
 
@@ -128,11 +128,11 @@ For Release 1 evidence, see the Release 1 evidence path in that part of the repo
 ## Getting Started with Release 2
 
 1. Read the [Master Plan](./README_PLAN.md) first.
-2. Review the [Implementation Tracker](../implementation-tracker.md) to understand readiness, dependencies, and current status.
+2. Review the [Implementation Tracker](./implementation-tracker.md) to understand readiness, dependencies, and current status.
 3. Use the [Phase Guide](./Phases-with-steps.md) as the working execution companion during implementation.
-4. Follow the [Naming Conventions](../naming-conventions.md) when creating resources, identities, files, evidence, and workflows.
+4. Follow the [Naming Conventions](./naming-conventions.md) when creating resources, identities, files, evidence, and workflows.
 5. Capture validation output into `docs/release2/evidence/<Phase>/`.
-6. Use the [Build Checklist](../build_checklist.md) to stay organized during execution.
+6. Use the [Build Checklist](./build_checklist.md) to stay organized during execution.
 
 ---
 
@@ -145,7 +145,7 @@ P2b currently proves the Azure-connected management-host and Ansible control pat
 - role-based Ansible scaffold
 - validated common role with idempotent rerun
 
-Execution of d-join to hq.azawslab.co.uk is deferred until HQ AD and hybrid connectivity are ready.
+Execution of `ad-join` to `hq.azawslab.co.uk` is deferred until HQ AD and hybrid connectivity are ready.
 
 ## Recommended Working Order
 
@@ -199,6 +199,7 @@ Candidate regions and SKUs were assessed against actual subscription-level deplo
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
+
 
 
 
