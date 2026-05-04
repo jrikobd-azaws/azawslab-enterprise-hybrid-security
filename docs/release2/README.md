@@ -188,6 +188,8 @@ For the most controlled implementation flow:
 - **P0:** Complete
 - **P1:** Complete
 - **P2a:** Complete
+- **P2c:** Complete
+- **Current active Terraform backend:** `rg-dev-terraformstate-norwayeast` / `stdevtfstatene01`
 - **Finalized implementation region:** `norwayeast`
 - **Finalized VM SKU:** `Standard_B2als_v2`
 
