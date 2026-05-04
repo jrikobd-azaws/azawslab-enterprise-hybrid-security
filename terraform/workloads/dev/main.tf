@@ -2,8 +2,8 @@ data "terraform_remote_state" "platform_shared_dev" {
   backend = "azurerm"
 
   config = {
-    resource_group_name  = "rg-dev-terraformstate-uksouth"
-    storage_account_name = "stdevtfstateazaws01"
+    resource_group_name  = "rg-dev-terraformstate-norwayeast"
+    storage_account_name = "stdevtfstatene01"
     container_name       = "tfstate"
     key                  = "platform-shared-dev.tfstate"
   }
@@ -136,4 +136,5 @@ resource "azurerm_linux_virtual_machine" "management" {
     DeploymentMethod = "Terraform"
   }
 }
+
 
