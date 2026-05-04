@@ -55,6 +55,12 @@ Governance baseline components:
 - `pa-tag-own`
 - `pa-tag-cost`
 
+Later P3 validation strengthened this baseline by adding resource-group-specific mandatory tag assignments:
+- `pa-rgtag-env`
+- `pa-rgtag-proj`
+- `pa-rgtag-own`
+- `pa-rgtag-cost`
+
 ## 5. Implementation Summary
 
 ### P0 – Foundation and automation bootstrap
@@ -78,7 +84,7 @@ Key implementation outcomes:
 - the governance baseline was aligned to the confirmed implementation target:
   - region: `norwayeast`
   - VM SKU: `Standard_B2als_v2`
-- seven Azure Policy assignments were applied at management-group scope
+- the initial Azure Policy assignments were applied at management-group scope
 - deny validation succeeded for a non-approved region resource-group creation attempt
 
 This created the minimum viable enterprise landing zone baseline for the rest of Release 2.
@@ -92,7 +98,7 @@ Validation for this chapter demonstrated:
 - current active Terraform roots using the standardized backend target
 - visible management group hierarchy
 - verified policy assignment baseline at `mg-landingzones-prod-global`
-- successful deny-path validation for non-compliant location deployment behavior
+- successful deny-path validation for non-compliant location deployment behavior; later P3 validation extended this into mandatory tag and VM SKU deny testing
 
 ## 7. Evidence Path
 
@@ -137,3 +143,4 @@ Key lessons from this phase:
 ## 10. Recruiter-Ready Outcome Statement
 
 Established the foundational Azure landing zone and automation control plane for Release 2 by implementing GitHub Actions OIDC authentication, a remote Terraform backend with state locking, and a governance-aligned management group structure. The active Terraform roots are standardized on the current `norwayeast` backend target, and the landing-zone governance baseline is enforced through management-group Azure Policy assignments with validated deny behavior.
+
