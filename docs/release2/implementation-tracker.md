@@ -208,7 +208,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P2b   | Ansible Configuration Management               | P2a        | 45m       | [~]    | `docs/release2/evidence/P2b/` | management host path works; WinRM path validated; common role succeeds; rerun shows idempotency; AD join deferred until HQ AD and hybrid connectivity are ready | Management host ephemeral; deallocate when not actively needed |
 | P2c   | CI/CD Pipeline                                 | P0, P2a    | 45m       | [ ]    | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds             | Persistent                                                     |
 | P3    | Enterprise Governance & Guardrails             | P1         | 30m       | [x]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                    | Persistent                                                     |
-| P4    | Azure Lighthouse                               | P0         | 30m       | [ ]    | `docs/release2/evidence/P4/`  | delegated visibility works cross-tenant                              | Remove if no longer needed                                     |
+| P4    | Azure Lighthouse                               | P0         | 30m       | [x]    | `docs/release2/evidence/P4/`  | delegated Reader visibility works cross-tenant                       | Persistent until later teardown decision                       |
 | P5    | Hub-Spoke Networking                           | P0         | 1h        | [ ]    | `docs/release2/evidence/P5/`  | peering and routing validated                                        | Persistent                                                     |
 | P6    | Azure Firewall                                 | P5         | 1h        | [ ]    | `docs/release2/evidence/P6/`  | forced tunneling and block test succeed                              | [E] destroy after validation unless needed for O1              |
 | P7    | Defender for Cloud                             | P5         | 30m       | [ ]    | `docs/release2/evidence/P7/`  | plans enabled; recommendations visible                               | Persistent                                                     |
@@ -650,6 +650,7 @@ Use this section during execution.
 | Date   | Change                                                | Reason                                                                         |
 | ------ | ----------------------------------------------------- | ------------------------------------------------------------------------------ |
 | [Date] | Initial rewritten tracker aligned to `README_PLAN.md` | Removed stale RRAS path, restructured prep flow, strengthened validation gates |
+| 2026-05-04 | P4 Azure Lighthouse Reader delegation completed | Registration definition and assignment deployed; customer subscription visible from managing tenant via Reader delegation |
 
 ---
 
@@ -670,7 +671,7 @@ Use this section during execution.
 - [ ] P9c complete
 
 ### Optional Completion Gate
-- [ ] P4 complete if included
+- [x] P4 complete if included
 - [ ] P6 complete if included
 - [ ] O1 complete if included
 - [ ] O2 complete if included
@@ -791,3 +792,5 @@ Notes:
 
 ### Result
 P3 governance guardrails are validated for allowed region, mandatory tags, VM SKU restriction, RBAC review, and controlled Terraform deployment.
+
+

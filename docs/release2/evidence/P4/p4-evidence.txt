@@ -1,0 +1,63 @@
+﻿P4 readiness checkpoint
+=======================
+
+Status:
+Ready for Azure Lighthouse implementation planning.
+
+Customer-side tenant:
+- Tenant: AZAWSLAB
+- Verified customer domain: br.azawslab.co.uk
+- Subscription: azawslab
+- Subscription ID: bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb
+
+Managing-side tenant:
+- Tenant: entra.azawslab.co.uk
+- Tenant ID: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+- Delegated admin group: azw-Platform-Admins
+- Group object ID: 2b0de10d-6f29-4736-9952-f4a99e684c35
+- Security enabled: True
+
+Validation:
+- Release 1 Belfast domain was removed from the retired tenant context.
+- br.azawslab.co.uk was verified successfully for the customer-side tenant.
+- azw-Platform-Admins exists in the managing tenant and can be used as the delegated principal for Lighthouse.
+
+Evidence classification:
+- Customer domain portal screenshot: supporting evidence.
+- This file: curated readiness evidence.
+- p4-execution-log.txt: raw phase execution history.
+
+Implementation status:
+- Readiness complete.
+- Azure Lighthouse registration definition and registration assignment not yet deployed.
+
+P4 final validation summary
+===========================
+
+Implementation result:
+Azure Lighthouse Reader delegation was deployed and validated successfully.
+
+Customer side:
+- Tenant/domain: AZAWSLAB / br.azawslab.co.uk
+- Tenant ID: f7d5a8e7-34ed-443d-bfe9-8dc4e229efb2
+- Subscription: azawslab
+- Subscription ID: bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb
+
+Managing side:
+- Tenant/domain: entra.azawslab.co.uk
+- Tenant ID: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+- Delegated group: azw-Platform-Admins
+- Group object ID: 2b0de10d-6f29-4736-9952-f4a99e684c35
+- Delegated role: Reader
+
+Validation:
+- Customer-side registration definition and registration assignment were confirmed.
+- Customer portal showed the service provider offer and delegated Reader role.
+- Managing-side CLI showed the delegated customer subscription visible to admin-lab through Azure Lighthouse.
+- Native Release 2 subscription remained the default CLI context after validation.
+
+Primary evidence file:
+- docs/release2/evidence/P4/p4-lighthouse-validation.txt
+
+Outcome:
+P4 Azure Lighthouse delegated visibility is complete.

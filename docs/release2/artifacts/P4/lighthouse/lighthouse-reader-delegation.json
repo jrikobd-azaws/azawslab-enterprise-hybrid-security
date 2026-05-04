@@ -1,0 +1,86 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "mspOfferName": {
+      "type": "string",
+      "defaultValue": "Azawslab Release 2 Lighthouse Reader Delegation"
+    },
+    "mspOfferDescription": {
+      "type": "string",
+      "defaultValue": "Reader-level Azure Lighthouse delegation from the br.azawslab.co.uk customer tenant to the entra.azawslab.co.uk managing tenant for Release 2 validation."
+    },
+    "managedByTenantId": {
+      "type": "string",
+      "defaultValue": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e"
+    },
+    "principalId": {
+      "type": "string",
+      "defaultValue": "2b0de10d-6f29-4736-9952-f4a99e684c35"
+    },
+    "principalIdDisplayName": {
+      "type": "string",
+      "defaultValue": "azw-Platform-Admins"
+    },
+    "roleDefinitionId": {
+      "type": "string",
+      "defaultValue": "acdd72a7-3385-48ef-bd42-f606fba81ae7"
+    }
+  },
+  "variables": {
+    "registrationDefinitionName": "[guid(parameters('managedByTenantId'), parameters('principalId'), parameters('roleDefinitionId'), parameters('mspOfferName'))]",
+    "registrationAssignmentName": "[guid(subscription().subscriptionId, variables('registrationDefinitionName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.ManagedServices/registrationDefinitions",
+      "apiVersion": "2022-10-01",
+      "name": "[variables('registrationDefinitionName')]",
+      "properties": {
+        "registrationDefinitionName": "[parameters('mspOfferName')]",
+        "description": "[parameters('mspOfferDescription')]",
+        "managedByTenantId": "[parameters('managedByTenantId')]",
+        "authorizations": [
+          {
+            "principalId": "[parameters('principalId')]",
+            "principalIdDisplayName": "[parameters('principalIdDisplayName')]",
+            "roleDefinitionId": "[parameters('roleDefinitionId')]"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.ManagedServices/registrationAssignments",
+      "apiVersion": "2022-10-01",
+      "name": "[variables('registrationAssignmentName')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ManagedServices/registrationDefinitions', variables('registrationDefinitionName'))]"
+      ],
+      "properties": {
+        "registrationDefinitionId": "[resourceId('Microsoft.ManagedServices/registrationDefinitions', variables('registrationDefinitionName'))]"
+      }
+    }
+  ],
+  "outputs": {
+    "registrationDefinitionName": {
+      "type": "string",
+      "value": "[variables('registrationDefinitionName')]"
+    },
+    "registrationAssignmentName": {
+      "type": "string",
+      "value": "[variables('registrationAssignmentName')]"
+    },
+    "managedByTenantId": {
+      "type": "string",
+      "value": "[parameters('managedByTenantId')]"
+    },
+    "delegatedPrincipalId": {
+      "type": "string",
+      "value": "[parameters('principalId')]"
+    },
+    "delegatedRoleDefinitionId": {
+      "type": "string",
+      "value": "[parameters('roleDefinitionId')]"
+    }
+  }
+}
