@@ -1,0 +1,81 @@
+﻿[2026-05-04 16:19:59] P3 governance review started
+
+Azure account context:
+Name                  User                         TenantId                              SubscriptionId --------------------  ---------------------------  ------------------------------------  ------------------------------------ Azure subscription 1  hashib@entra.azawslab.co.uk  78643a83-bcc9-4a3b-ab7e-eeede0b3384e  8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+Management-group policy assignments at mg-landingzones-prod-global:
+Name                      DisplayName               Scope                                                                         PolicyDefinitionId ------------------------  ------------------------  ----------------------------------------------------------------------------  ----------------------------------------------------------------------------------------- pa-loc-prod-norwayeast    pa-loc-prod-norwayeast    /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global  /providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c pa-tag-proj               pa-tag-proj               /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global  /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99 pa-rgloc-prod-norwayeast  pa-rgloc-prod-norwayeast  /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global  /providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988 pa-tag-env                pa-tag-env                /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global  /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99 pa-vmsku-prod-b2alsv2     pa-vmsku-prod-b2alsv2     /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global  /providers/Microsoft.Authorization/policyDefinitions/cccc23c7-8427-4f53-ad12-b6a63eb452b3 pa-tag-own                pa-tag-own                /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global  /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99 pa-tag-cost               pa-tag-cost               /providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global  /providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99
+
+sp-terraform-gh service principal:
+DisplayName: sp-terraform-gh
+AppId: a05993a6-d1ef-42e4-be77-b42b8caaaefe
+ObjectId: f0c31d32-a72f-4b16-8643-c3f19900da29
+
+sp-terraform-gh subscription RBAC:
+Principal                             Type              Role         Scope ------------------------------------  ----------------  -----------  --------------------------------------------------- a05993a6-d1ef-42e4-be77-b42b8caaaefe  ServicePrincipal  Contributor  /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+Key user subscription RBAC:
+Principal                                               Type    Role                       Scope ------------------------------------------------------  ------  -------------------------  --------------------------------------------------- uk.hashib_outlook.com#EXT#@AZAWSLAB100.onmicrosoft.com  User    Owner                      /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6 hashib@entra.azawslab.co.uk                             User    Owner                      /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6 admin-lab@entra.azawslab.co.uk                          User    Contributor                /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6 admin-lab@entra.azawslab.co.uk                          User    User Access Administrator  /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+Result:
+- Governance policies are present at mg-landingzones-prod-global.
+- RBAC verification completed: sp-terraform-gh has Contributor at subscription scope; hashib has Owner; admin-lab has Contributor and User Access Administrator.
+
+
+P3 deny validation - resource group location
+
+Validated:
+- Attempted to create resource group rg-p3-denytest-eastus in eastus.
+- Azure Policy denied the deployment with RequestDisallowedByPolicy.
+- Deny was enforced by policy assignment pa-rgloc-prod-norwayeast.
+- Allowed location parameter was norwayeast.
+- Cleanup check confirmed rg-p3-denytest-eastus was not created.
+
+Evidence:
+- p3-deny-test-rg-location-eastus.txt
+
+P3 validation finding - mandatory tags were not enforced on resource group creation
+
+Test:
+- Attempted to create rg-p3-denytest-missing-tags in approved region norwayeast without tags.
+
+Expected:
+- Azure Policy should deny creation because mandatory tags are missing.
+
+Actual:
+- Resource group creation succeeded with tags set to null.
+- This means the current mandatory tag policy assignments did not enforce the intended resource group tag guardrail.
+
+Cleanup:
+- Temporary resource group rg-p3-denytest-missing-tags was deleted.
+- Post-cleanup check returned ResourceGroupNotFound.
+
+Evidence:
+- p3-deny-test-rg-missing-tags.txt
+
+Decision:
+- Treat this as a P3 governance policy mismatch to fix before marking P3 complete.
+
+P3 Terraform correction plan - resource group mandatory tag enforcement
+
+Finding:
+- Existing mandatory tag assignments used the built-in policy Require a tag on resources.
+- That policy is Mode: Indexed and did not deny untagged resource group creation.
+- Azure Policy discovery confirmed the correct built-in for resource groups is Require a tag on resource groups, Mode: All.
+
+Terraform correction:
+- Added resource-group-level mandatory tag assignments in terraform/governance/main.tf:
+  - pa-rgtag-env
+  - pa-rgtag-proj
+  - pa-rgtag-own
+  - pa-rgtag-cost
+
+Local validation:
+- terraform fmt -check passed.
+- terraform init succeeded.
+- terraform validate succeeded.
+- terraform plan showed 4 to add, 0 to change, 0 to destroy.
+
+Deployment path:
+- Do not apply locally.
+- Submit via PR and deploy through GitHub Actions controlled Terraform Apply.

@@ -106,3 +106,59 @@ resource "azurerm_management_group_policy_assignment" "require_tag_costcenter" {
     }
   })
 }
+
+data "azurerm_policy_definition" "require_tag_on_resource_groups" {
+  display_name = "Require a tag on resource groups"
+}
+
+resource "azurerm_management_group_policy_assignment" "require_rg_tag_environment" {
+  name                 = "pa-rgtag-env"
+  display_name         = "pa-rgtag-env"
+  policy_definition_id = data.azurerm_policy_definition.require_tag_on_resource_groups.id
+  management_group_id  = "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+
+  parameters = jsonencode({
+    tagName = {
+      value = "Environment"
+    }
+  })
+}
+
+resource "azurerm_management_group_policy_assignment" "require_rg_tag_project" {
+  name                 = "pa-rgtag-proj"
+  display_name         = "pa-rgtag-proj"
+  policy_definition_id = data.azurerm_policy_definition.require_tag_on_resource_groups.id
+  management_group_id  = "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+
+  parameters = jsonencode({
+    tagName = {
+      value = "Project"
+    }
+  })
+}
+
+resource "azurerm_management_group_policy_assignment" "require_rg_tag_owner" {
+  name                 = "pa-rgtag-own"
+  display_name         = "pa-rgtag-own"
+  policy_definition_id = data.azurerm_policy_definition.require_tag_on_resource_groups.id
+  management_group_id  = "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+
+  parameters = jsonencode({
+    tagName = {
+      value = "Owner"
+    }
+  })
+}
+
+resource "azurerm_management_group_policy_assignment" "require_rg_tag_costcenter" {
+  name                 = "pa-rgtag-cost"
+  display_name         = "pa-rgtag-cost"
+  policy_definition_id = data.azurerm_policy_definition.require_tag_on_resource_groups.id
+  management_group_id  = "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+
+  parameters = jsonencode({
+    tagName = {
+      value = "CostCenter"
+    }
+  })
+}
