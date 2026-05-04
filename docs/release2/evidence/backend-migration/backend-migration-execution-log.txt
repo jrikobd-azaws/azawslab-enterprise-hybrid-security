@@ -1,0 +1,52 @@
+﻿[2026-05-03 21:08:29] Backend migration staging completed
+- Created new backend resource group: rg-dev-terraformstate-norwayeast
+- Created new storage account: stdevtfstatene01
+- Created tfstate container in norwayeast
+- Downloaded local backup copies of active state blobs from old backend:
+  - governance.tfstate
+  - platform-shared-dev.tfstate
+  - workload-dev.tfstate
+- Uploaded active state blobs into the new backend container
+
+[2026-05-03 21:12:00] Governance backend migrated and validated
+- Updated terraform/governance backend configuration to norwayeast backend
+- Reinitialized backend successfully
+- Confirmed governance state read from new backend
+- Terraform plan returned no changes
+
+[2026-05-03 21:14:30] Platform-shared backend migrated and validated
+- Updated terraform/platform-shared/dev backend configuration to norwayeast backend
+- Reinitialized backend successfully
+- Confirmed platform-shared state read from new backend
+- Terraform plan returned no changes
+
+[2026-05-03 21:16:30] Workload backend migrated and validated
+- Updated terraform/workloads/dev backend configuration to norwayeast backend
+- Reinitialized backend successfully
+- Confirmed workload state read from new backend
+- Terraform plan returned no changes
+
+[2026-05-03 21:40:00] Backend alignment evidence captured
+- Recorded backend current state in backend-current-state.txt
+- Confirmed active backend resource group: rg-dev-terraformstate-norwayeast
+- Confirmed active backend storage account: stdevtfstatene01
+- Confirmed active container: tfstate
+- Confirmed active blobs:
+  - governance.tfstate
+  - platform-shared-dev.tfstate
+  - workload-dev.tfstate
+
+[2026-05-03 21:55:00] Old backend retirement status
+- Old backend retirement not yet executed
+- Old backend retained temporarily as rollback safety
+- Old backend still pending final backup-and-delete step:
+  - resource group: rg-dev-terraformstate-uksouth
+  - storage account: stdevtfstateazaws01
+
+[2026-05-03 21:57:57] Old backend retirement executed
+- Downloaded final offline backup of old active state blobs:
+  - governance.tfstate
+  - platform-shared-dev.tfstate
+  - workload-dev.tfstate
+- Deleted old storage account: stdevtfstateazaws01
+- Initiated deletion of old resource group: rg-dev-terraformstate-uksouth

@@ -1,0 +1,14 @@
+﻿P2c milestone completed: Release 2 Terraform automation operational
+
+Implemented:
+- GitHub Actions Terraform CI workflow
+- GitHub Actions controlled Terraform apply workflow
+- OIDC-based Azure authentication for CI/CD
+- split-state automation across governance, platform-shared/dev, and workload-dev
+
+Validated:
+- PR-triggered CI passed for all active Terraform roots
+- Manual controlled apply passed for all active Terraform roots on main
+
+Result:
+- Release 2 Terraform automation is operational and validated end to end

@@ -1,0 +1,38 @@
+﻿Backend migration completed successfully
+
+Old backend:
+- rg-dev-terraformstate-uksouth
+- stdevtfstateazaws01
+
+New backend:
+- rg-dev-terraformstate-norwayeast
+- stdevtfstatene01
+- container: tfstate
+
+Validated roots:
+- terraform/governance
+- terraform/platform-shared/dev
+- terraform/workloads/dev
+
+Evidence captured:
+- local backup copies of active old state blobs
+- backend-current-state.txt confirming the active norwayeast backend
+- clean no-change validation for all active Terraform roots
+
+Current status:
+- all active Terraform roots now use the norwayeast backend
+- backend naming and location are aligned to the final implementation
+- old backend is still retained temporarily as rollback safety and has not yet been retired
+
+Backend retirement completed
+
+Retired old backend:
+- resource group: rg-dev-terraformstate-uksouth
+- storage account: stdevtfstateazaws01
+
+Retained:
+- active backend in norwayeast
+- final offline backup of old active state blobs
+
+Result:
+- Release 2 backend naming and location are fully aligned to the final implementation

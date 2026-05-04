@@ -1,0 +1,16 @@
+== New backend resource group ==
+Name                              Location
+--------------------------------  ----------
+rg-dev-terraformstate-norwayeast  norwayeast
+
+== New backend storage account ==
+Name              Location    Sku           Kind
+----------------  ----------  ------------  ---------
+stdevtfstatene01  norwayeast  Standard_LRS  StorageV2
+
+== New backend blobs ==
+Name                         LastModified
+---------------------------  -------------------------
+governance.tfstate           2026-05-03T20:16:00+00:00
+platform-shared-dev.tfstate  2026-05-03T20:16:14+00:00
+workload-dev.tfstate         2026-05-03T20:15:49+00:00

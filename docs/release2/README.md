@@ -188,18 +188,20 @@ For the most controlled implementation flow:
 - **P0:** Complete
 - **P1:** Complete
 - **P2a:** Complete
+- **P2c:** Complete
 - **Finalized implementation region:** `norwayeast`
 - **Finalized VM SKU:** `Standard_B2als_v2`
+- **Current active Terraform backend:** `rg-dev-terraformstate-norwayeast` / `stdevtfstatene01`
 
 Release 2 region and VM sizing were treated as validated implementation inputs rather than static assumptions.
 Candidate regions and SKUs were assessed against actual subscription-level deployability first, and the Terraform design was then aligned to the confirmed implementation target.
 
+Terraform automation is now operational and validated end to end:
+- PR-triggered CI passed for governance, platform-shared/dev, and workload-dev
+- controlled apply passed on `main` for governance, platform-shared/dev, and workload-dev
+- OIDC-based Azure authentication validated for CI and apply
+
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
-
-
-
-
-
 

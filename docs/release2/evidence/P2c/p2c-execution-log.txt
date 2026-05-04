@@ -1,0 +1,24 @@
+﻿[2026-05-03 20:28:49] P2c CI slice completed successfully
+- Created GitHub Actions workflow: .github/workflows/release2-terraform-ci.yml
+- Configured OIDC-based Azure login using GitHub environment secrets
+- Added split-state matrix jobs for governance, platform-shared/dev, and workloads/dev
+- Fixed workflow secret reference mismatch
+- Fixed Terraform formatting issues surfaced by CI
+- Replaced local SSH public key file dependency in workload Terraform with TF_VAR-based CI input
+- Added MGMT_SSH_PUBLIC_KEY to GitHub environment secrets
+- Validated successful PR-triggered CI execution for governance, platform-shared/dev, and workload-dev
+
+[2026-05-03 21:17:21] P2c apply slice completed successfully
+- Added GitHub Actions workflow: .github/workflows/release2-terraform-apply.yml
+- Kept apply as a controlled manual workflow_dispatch deployment path
+- Merged Key Vault explicit-principal refactor to main
+- Validated successful apply workflow execution on main
+- governance apply job passed
+- platform-shared/dev apply job passed
+- workload-dev apply job passed
+
+[2026-05-03 21:50:19] P2c completed: Terraform CI and controlled apply validated
+- Release 2 Terraform CI passed for governance, platform-shared/dev, and workload-dev
+- Release 2 Terraform Apply passed for governance, platform-shared/dev, and workload-dev
+- OIDC-based Azure authentication validated for CI and apply
+- Split-state Terraform automation validated end to end on main
