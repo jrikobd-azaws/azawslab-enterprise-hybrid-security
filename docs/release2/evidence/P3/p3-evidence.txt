@@ -73,3 +73,42 @@ Local validation:
 Deployment path:
 - Do not apply locally.
 - Submit via PR and deploy through GitHub Actions controlled Terraform Apply.
+
+P3 deny retest - mandatory resource group tags after Terraform correction
+
+Validated:
+- Attempted to create rg-p3-denytest-missing-tags-afterfix in norwayeast without tags.
+- Azure Policy denied creation with RequestDisallowedByPolicy.
+- Deny was enforced by the resource-group tag policy assignments:
+  - pa-rgtag-own
+  - pa-rgtag-env
+  - pa-rgtag-proj
+  - pa-rgtag-cost
+- Policy definition used: Require a tag on resource groups.
+- Required tags enforced:
+  - Owner
+  - Environment
+  - Project
+  - CostCenter
+- Cleanup check confirmed rg-p3-denytest-missing-tags-afterfix was not created.
+
+Evidence:
+- p3-deny-retest-rg-missing-tags-after-fix.txt
+
+P3 deny validation - disallowed VM SKU
+
+Validated:
+- Created a temporary compliant test resource group rg-p3-denytest-vmsku in norwayeast.
+- Attempted to create VM vm-p3-deny-sku-01 using disallowed SKU Standard_B1s.
+- Azure Policy denied VM creation with RequestDisallowedByPolicy.
+- Deny included policy assignment pa-vmsku-prod-b2alsv2.
+- Policy definition used: Allowed virtual machine size SKUs.
+- Allowed SKU parameter was Standard_B2als_v2.
+- VM check confirmed vm-p3-deny-sku-01 was not created.
+- Cleanup check confirmed rg-p3-denytest-vmsku was deleted.
+
+Evidence:
+- p3-deny-test-vm-sku.txt
+
+Note:
+- Mandatory resource tag policies also evaluated during the VM creation attempt because az vm create did not pass tags to the VM resource. The VM SKU policy still clearly evaluated the attempted Standard_B1s SKU and denied it.

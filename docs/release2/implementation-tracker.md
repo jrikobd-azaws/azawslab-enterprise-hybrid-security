@@ -207,7 +207,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P2a   | Terraform Reusable Modules                     | P1         | 1h        | [x]    | `docs/release2/evidence/P2a/` | `terraform validate` and `plan` succeed; no public IP on workload VM | Persistent                                                     |
 | P2b   | Ansible Configuration Management               | P2a        | 45m       | [~]    | `docs/release2/evidence/P2b/` | management host path works; WinRM path validated; common role succeeds; rerun shows idempotency; AD join deferred until HQ AD and hybrid connectivity are ready | Management host ephemeral; deallocate when not actively needed |
 | P2c   | CI/CD Pipeline                                 | P0, P2a    | 45m       | [ ]    | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds             | Persistent                                                     |
-| P3    | Enterprise Governance & Guardrails             | P1         | 30m       | [ ]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                    | Persistent                                                     |
+| P3    | Enterprise Governance & Guardrails             | P1         | 30m       | [x]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                    | Persistent                                                     |
 | P4    | Azure Lighthouse                               | P0         | 30m       | [ ]    | `docs/release2/evidence/P4/`  | delegated visibility works cross-tenant                              | Remove if no longer needed                                     |
 | P5    | Hub-Spoke Networking                           | P0         | 1h        | [ ]    | `docs/release2/evidence/P5/`  | peering and routing validated                                        | Persistent                                                     |
 | P6    | Azure Firewall                                 | P5         | 1h        | [ ]    | `docs/release2/evidence/P6/`  | forced tunneling and block test succeed                              | [E] destroy after validation unless needed for O1              |
@@ -763,8 +763,31 @@ Notes:
 - Workload networking and compute are now managed from `terraform/workloads/dev`
 - This refinement was implemented to reduce destroy risk and isolate operational lifecycles without changing the underlying Release 2 design
 
+---
 
+## P3 Completion Note - Enterprise Governance & Guardrails
 
+**Completed:** 2026-05-04 17:25:13
+**Status:** Completed and validated
 
+### Validation completed
+- Governance policy assignments reviewed at `mg-landingzones-prod-global`.
+- RBAC reviewed for key Release 2 principals.
+- `sp-terraform-gh` confirmed with Contributor at subscription scope for GitHub Actions OIDC-based Terraform deployment.
+- Region/resource group location deny behavior validated with `eastus` resource group creation attempt.
+- Mandatory resource group tag deny behavior initially failed, was diagnosed, corrected in Terraform, deployed through GitHub Actions controlled apply, and retested successfully.
+- Disallowed VM SKU deny behavior validated with attempted `Standard_B1s` VM creation.
+- Temporary validation resources were confirmed not created or deleted after testing.
 
+### Evidence
+- `docs/release2/evidence/P3/p3-execution-log.txt`
+- `docs/release2/evidence/P3/p3-evidence.txt`
+- `docs/release2/evidence/P3/p3-deny-test-rg-location-eastus.txt`
+- `docs/release2/evidence/P3/p3-deny-test-rg-missing-tags.txt`
+- `docs/release2/evidence/P3/p3-deny-retest-rg-missing-tags-after-fix.txt`
+- `docs/release2/evidence/P3/p3-deny-test-vm-sku.txt`
+- `docs/release2/evidence/P3/p3-current-tag-policy-assignment-review.txt`
+- `docs/release2/evidence/P3/p3-tag-policy-definition-discovery.txt`
 
+### Result
+P3 governance guardrails are validated for allowed region, mandatory tags, VM SKU restriction, RBAC review, and controlled Terraform deployment.
