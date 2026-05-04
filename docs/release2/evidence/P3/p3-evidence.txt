@@ -1,0 +1,75 @@
+﻿P3 governance review - initial validation
+
+Validated:
+- Azure context confirmed under the intended subscription.
+- Management-group policy assignments exist at mg-landingzones-prod-global.
+- Policy assignments include allowed region, resource group region, allowed VM SKU, and mandatory tag controls.
+- sp-terraform-gh exists and has Contributor at subscription scope for GitHub Actions OIDC-based Terraform deployment.
+- hashib has Owner at subscription scope and is suitable for governance-plane verification when required.
+- admin-lab has Contributor and User Access Administrator at subscription scope for day-to-day lab administration.
+
+Evidence source:
+- CLI output captured in p3-execution-log.txt.
+
+Remaining validation:
+- Deny behavior for non-approved regions.
+- Deny behavior for disallowed VM SKUs.
+- Deny behavior for missing mandatory tags.
+
+P3 deny validation - resource group location
+
+Validated:
+- Attempted to create resource group rg-p3-denytest-eastus in eastus.
+- Azure Policy denied the deployment with RequestDisallowedByPolicy.
+- Deny was enforced by policy assignment pa-rgloc-prod-norwayeast.
+- Allowed location parameter was norwayeast.
+- Cleanup check confirmed rg-p3-denytest-eastus was not created.
+
+Evidence:
+- p3-deny-test-rg-location-eastus.txt
+
+P3 validation finding - mandatory tags were not enforced on resource group creation
+
+Test:
+- Attempted to create rg-p3-denytest-missing-tags in approved region norwayeast without tags.
+
+Expected:
+- Azure Policy should deny creation because mandatory tags are missing.
+
+Actual:
+- Resource group creation succeeded with tags set to null.
+- This means the current mandatory tag policy assignments did not enforce the intended resource group tag guardrail.
+
+Cleanup:
+- Temporary resource group rg-p3-denytest-missing-tags was deleted.
+- Post-cleanup check returned ResourceGroupNotFound.
+
+Evidence:
+- p3-deny-test-rg-missing-tags.txt
+
+Decision:
+- Treat this as a P3 governance policy mismatch to fix before marking P3 complete.
+
+P3 Terraform correction plan - resource group mandatory tag enforcement
+
+Finding:
+- Existing mandatory tag assignments used the built-in policy Require a tag on resources.
+- That policy is Mode: Indexed and did not deny untagged resource group creation.
+- Azure Policy discovery confirmed the correct built-in for resource groups is Require a tag on resource groups, Mode: All.
+
+Terraform correction:
+- Added resource-group-level mandatory tag assignments in terraform/governance/main.tf:
+  - pa-rgtag-env
+  - pa-rgtag-proj
+  - pa-rgtag-own
+  - pa-rgtag-cost
+
+Local validation:
+- terraform fmt -check passed.
+- terraform init succeeded.
+- terraform validate succeeded.
+- terraform plan showed 4 to add, 0 to change, 0 to destroy.
+
+Deployment path:
+- Do not apply locally.
+- Submit via PR and deploy through GitHub Actions controlled Terraform Apply.
