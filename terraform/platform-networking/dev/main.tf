@@ -42,7 +42,7 @@ module "hub_spoke_networking" {
 
   workload_route_table_name = "rt-workload-to-hub-norwayeast"
 
-  enable_azure_firewall         = false
+  enable_azure_firewall         = true
   azure_firewall_name           = "afw-dev-norwayeast-01"
   azure_firewall_public_ip_name = "pip-azfw-norwayeast-01"
   azure_firewall_policy_name    = "afwp-dev-norwayeast"
@@ -50,6 +50,7 @@ module "hub_spoke_networking" {
 
   tags = local.common_tags
 }
+
 
 
 
