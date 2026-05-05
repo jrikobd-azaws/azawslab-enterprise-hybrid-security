@@ -57,3 +57,33 @@ variable "workload_route_table_name" {
 variable "tags" {
   type = map(string)
 }
+
+variable "enable_azure_firewall" {
+  description = "Controls whether the ephemeral Azure Firewall resources are deployed for validation."
+  type        = bool
+  default     = false
+}
+
+variable "azure_firewall_name" {
+  description = "Name of the Azure Firewall instance."
+  type        = string
+  default     = "afw-dev-norwayeast-01"
+}
+
+variable "azure_firewall_public_ip_name" {
+  description = "Name of the Azure Firewall public IP address."
+  type        = string
+  default     = "pip-azfw-norwayeast-01"
+}
+
+variable "azure_firewall_policy_name" {
+  description = "Name of the Azure Firewall Policy."
+  type        = string
+  default     = "afwp-dev-norwayeast"
+}
+
+variable "azure_firewall_route_name" {
+  description = "Name of the workload default route that sends internet-bound traffic to Azure Firewall."
+  type        = string
+  default     = "route-default-to-azure-firewall"
+}

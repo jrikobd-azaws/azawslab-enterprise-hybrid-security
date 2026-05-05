@@ -1,0 +1,292 @@
+﻿============================================================
+FILE: terraform\platform-networking\dev\main.tf
+============================================================
+data "azurerm_virtual_network" "workload_spoke" {
+  name                = "vnet-dev-norwayeast-spoke-workload"
+  resource_group_name = "rg-dev-workload-norwayeast"
+}
+
+data "azurerm_subnet" "workload" {
+  name                 = "snet-workload"
+  virtual_network_name = data.azurerm_virtual_network.workload_spoke.name
+  resource_group_name  = data.azurerm_virtual_network.workload_spoke.resource_group_name
+}
+
+locals {
+  common_tags = {
+    Environment      = "Development"
+    Project          = "Azawslab-Release2"
+    Owner            = "HASHIBUR RAHMAN"
+    CostCenter       = "Lab-123"
+    DeploymentMethod = "Terraform"
+  }
+}
+
+module "hub_spoke_networking" {
+  source = "../../modules/hub-spoke-networking"
+
+  connectivity_resource_group_name = "rg-connectivity-prod-norwayeast"
+  location                         = "norwayeast"
+
+  hub_vnet_name     = "vnet-dev-norwayeast-hub"
+  hub_address_space = ["10.0.0.0/16"]
+
+  bastion_subnet_prefixes  = ["10.0.0.0/26"]
+  firewall_subnet_prefixes = ["10.0.1.0/26"]
+  gateway_subnet_prefixes  = ["10.0.2.0/27"]
+
+  workload_spoke_vnet_id             = data.azurerm_virtual_network.workload_spoke.id
+  workload_spoke_vnet_name           = data.azurerm_virtual_network.workload_spoke.name
+  workload_spoke_resource_group_name = data.azurerm_virtual_network.workload_spoke.resource_group_name
+  workload_subnet_id                 = data.azurerm_subnet.workload.id
+
+  hub_to_spoke_peering_name = "peer-hub-to-spoke-workload"
+  spoke_to_hub_peering_name = "peer-spoke-workload-to-hub"
+
+  workload_route_table_name = "rt-workload-to-hub-norwayeast"
+
+  tags = local.common_tags
+}
+
+
+============================================================
+FILE: terraform\platform-networking\dev\outputs.tf
+============================================================
+output "connectivity_resource_group_name" {
+  value = module.hub_spoke_networking.connectivity_resource_group_name
+}
+
+output "hub_vnet_name" {
+  value = module.hub_spoke_networking.hub_vnet_name
+}
+
+output "hub_vnet_id" {
+  value = module.hub_spoke_networking.hub_vnet_id
+}
+
+output "workload_route_table_id" {
+  value = module.hub_spoke_networking.workload_route_table_id
+}
+
+
+============================================================
+FILE: terraform\platform-networking\dev\providers.tf
+============================================================
+terraform {
+  required_version = ">= 1.5.0"
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.0"
+    }
+  }
+
+  backend "azurerm" {
+    resource_group_name  = "rg-dev-terraformstate-norwayeast"
+    storage_account_name = "stdevtfstatene01"
+    container_name       = "tfstate"
+    key                  = "platform-networking-dev.tfstate"
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+
+============================================================
+FILE: terraform\platform-networking\dev\README.txt
+============================================================
+# Platform-networking root
+
+This Terraform root owns shared Azure networking infrastructure for Release 2 dev scope.
+
+Owned here:
+- connectivity resource group
+- hub VNet
+- AzureBastionSubnet
+- AzureFirewallSubnet
+- GatewaySubnet
+- hub/spoke VNet peerings
+- workload route table scaffold
+
+State:
+- platform-networking-dev.tfstate
+
+This root reads workload VNet outputs from workload-dev.tfstate.
+
+
+============================================================
+FILE: terraform\modules\hub-spoke-networking\main.tf
+============================================================
+resource "azurerm_resource_group" "connectivity" {
+  name     = var.connectivity_resource_group_name
+  location = var.location
+  tags     = var.tags
+}
+
+resource "azurerm_virtual_network" "hub" {
+  name                = var.hub_vnet_name
+  location            = azurerm_resource_group.connectivity.location
+  resource_group_name = azurerm_resource_group.connectivity.name
+  address_space       = var.hub_address_space
+  tags                = var.tags
+}
+
+resource "azurerm_subnet" "bastion" {
+  name                 = "AzureBastionSubnet"
+  resource_group_name  = azurerm_resource_group.connectivity.name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = var.bastion_subnet_prefixes
+}
+
+resource "azurerm_subnet" "firewall" {
+  name                 = "AzureFirewallSubnet"
+  resource_group_name  = azurerm_resource_group.connectivity.name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = var.firewall_subnet_prefixes
+}
+
+resource "azurerm_subnet" "gateway" {
+  name                 = "GatewaySubnet"
+  resource_group_name  = azurerm_resource_group.connectivity.name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = var.gateway_subnet_prefixes
+}
+
+resource "azurerm_virtual_network_peering" "hub_to_workload_spoke" {
+  name                         = var.hub_to_spoke_peering_name
+  resource_group_name          = azurerm_resource_group.connectivity.name
+  virtual_network_name         = azurerm_virtual_network.hub.name
+  remote_virtual_network_id    = var.workload_spoke_vnet_id
+  allow_virtual_network_access = true
+  allow_forwarded_traffic      = true
+}
+
+resource "azurerm_virtual_network_peering" "workload_spoke_to_hub" {
+  name                         = var.spoke_to_hub_peering_name
+  resource_group_name          = var.workload_spoke_resource_group_name
+  virtual_network_name         = var.workload_spoke_vnet_name
+  remote_virtual_network_id    = azurerm_virtual_network.hub.id
+  allow_virtual_network_access = true
+  allow_forwarded_traffic      = true
+}
+
+resource "azurerm_route_table" "workload_to_hub" {
+  name                = var.workload_route_table_name
+  location            = azurerm_resource_group.connectivity.location
+  resource_group_name = var.workload_spoke_resource_group_name
+  tags                = var.tags
+}
+
+resource "azurerm_subnet_route_table_association" "workload" {
+  subnet_id      = var.workload_subnet_id
+  route_table_id = azurerm_route_table.workload_to_hub.id
+}
+
+
+============================================================
+FILE: terraform\modules\hub-spoke-networking\variables.tf
+============================================================
+variable "connectivity_resource_group_name" {
+  type = string
+}
+
+variable "location" {
+  type = string
+}
+
+variable "hub_vnet_name" {
+  type = string
+}
+
+variable "hub_address_space" {
+  type = list(string)
+}
+
+variable "bastion_subnet_prefixes" {
+  type = list(string)
+}
+
+variable "firewall_subnet_prefixes" {
+  type = list(string)
+}
+
+variable "gateway_subnet_prefixes" {
+  type = list(string)
+}
+
+variable "workload_spoke_vnet_id" {
+  type = string
+}
+
+variable "workload_spoke_vnet_name" {
+  type = string
+}
+
+variable "workload_spoke_resource_group_name" {
+  type = string
+}
+
+variable "workload_subnet_id" {
+  type = string
+}
+
+variable "hub_to_spoke_peering_name" {
+  type = string
+}
+
+variable "spoke_to_hub_peering_name" {
+  type = string
+}
+
+variable "workload_route_table_name" {
+  type = string
+}
+
+variable "tags" {
+  type = map(string)
+}
+
+
+============================================================
+FILE: terraform\modules\hub-spoke-networking\outputs.tf
+============================================================
+output "connectivity_resource_group_name" {
+  value = azurerm_resource_group.connectivity.name
+}
+
+output "hub_vnet_name" {
+  value = azurerm_virtual_network.hub.name
+}
+
+output "hub_vnet_id" {
+  value = azurerm_virtual_network.hub.id
+}
+
+output "bastion_subnet_id" {
+  value = azurerm_subnet.bastion.id
+}
+
+output "firewall_subnet_id" {
+  value = azurerm_subnet.firewall.id
+}
+
+output "gateway_subnet_id" {
+  value = azurerm_subnet.gateway.id
+}
+
+output "hub_to_spoke_peering_id" {
+  value = azurerm_virtual_network_peering.hub_to_workload_spoke.id
+}
+
+output "spoke_to_hub_peering_id" {
+  value = azurerm_virtual_network_peering.workload_spoke_to_hub.id
+}
+
+output "workload_route_table_id" {
+  value = azurerm_route_table.workload_to_hub.id
+}
+
+

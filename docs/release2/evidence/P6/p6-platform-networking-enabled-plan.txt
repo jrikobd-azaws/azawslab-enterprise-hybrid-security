@@ -1,0 +1,149 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.hub_spoke_networking.azurerm_firewall.this[0] will be created
+  + resource "azurerm_firewall" "this" {
+      + dns_proxy_enabled   = (known after apply)
+      + firewall_policy_id  = (known after apply)
+      + id                  = (known after apply)
+      + location            = "norwayeast"
+      + name                = "afw-dev-norwayeast-01"
+      + resource_group_name = "rg-connectivity-prod-norwayeast"
+      + sku_name            = "AZFW_VNet"
+      + sku_tier            = "Basic"
+      + tags                = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Project"          = "Azawslab-Release2"
+        }
+      + threat_intel_mode   = (known after apply)
+
+      + ip_configuration {
+          + name                 = "configuration"
+          + private_ip_address   = (known after apply)
+          + public_ip_address_id = (known after apply)
+          + subnet_id            = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureFirewallSubnet"
+        }
+    }
+
+  # module.hub_spoke_networking.azurerm_firewall_policy.this[0] will be created
+  + resource "azurerm_firewall_policy" "this" {
+      + child_policies           = (known after apply)
+      + firewalls                = (known after apply)
+      + id                       = (known after apply)
+      + location                 = "norwayeast"
+      + name                     = "afwp-dev-norwayeast"
+      + resource_group_name      = "rg-connectivity-prod-norwayeast"
+      + rule_collection_groups   = (known after apply)
+      + sku                      = "Basic"
+      + tags                     = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Project"          = "Azawslab-Release2"
+        }
+      + threat_intelligence_mode = "Alert"
+    }
+
+  # module.hub_spoke_networking.azurerm_firewall_policy_rule_collection_group.p6_validation[0] will be created
+  + resource "azurerm_firewall_policy_rule_collection_group" "p6_validation" {
+      + firewall_policy_id = (known after apply)
+      + id                 = (known after apply)
+      + name               = "rcg-p6-validation"
+      + priority           = 100
+
+      + application_rule_collection {
+          + action   = "Allow"
+          + name     = "arc-allow-microsoft-services"
+          + priority = 100
+
+          + rule {
+              + destination_fqdns = [
+                  + "*.microsoft.com",
+                  + "*.azure.com",
+                ]
+              + name              = "allow-microsoft-and-azure"
+              + source_addresses  = [
+                  + "10.10.0.0/16",
+                ]
+
+              + protocols {
+                  + port = 443
+                  + type = "Https"
+                }
+            }
+        }
+
+      + network_rule_collection {
+          + action   = "Allow"
+          + name     = "nrc-allow-dns"
+          + priority = 200
+
+          + rule {
+              + destination_addresses = [
+                  + "*",
+                ]
+              + destination_ports     = [
+                  + "53",
+                ]
+              + name                  = "allow-dns"
+              + protocols             = [
+                  + "UDP",
+                  + "TCP",
+                ]
+              + source_addresses      = [
+                  + "10.10.0.0/16",
+                ]
+            }
+        }
+    }
+
+  # module.hub_spoke_networking.azurerm_public_ip.azure_firewall[0] will be created
+  + resource "azurerm_public_ip" "azure_firewall" {
+      + allocation_method       = "Static"
+      + ddos_protection_mode    = "VirtualNetworkInherited"
+      + fqdn                    = (known after apply)
+      + id                      = (known after apply)
+      + idle_timeout_in_minutes = 4
+      + ip_address              = (known after apply)
+      + ip_version              = "IPv4"
+      + location                = "norwayeast"
+      + name                    = "pip-azfw-norwayeast-01"
+      + resource_group_name     = "rg-connectivity-prod-norwayeast"
+      + sku                     = "Standard"
+      + sku_tier                = "Regional"
+      + tags                    = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Project"          = "Azawslab-Release2"
+        }
+    }
+
+  # module.hub_spoke_networking.azurerm_route.default_to_azure_firewall[0] will be created
+  + resource "azurerm_route" "default_to_azure_firewall" {
+      + address_prefix         = "0.0.0.0/0"
+      + id                     = (known after apply)
+      + name                   = "route-default-to-azure-firewall"
+      + next_hop_in_ip_address = (known after apply)
+      + next_hop_type          = "VirtualAppliance"
+      + resource_group_name    = "rg-dev-workload-norwayeast"
+      + route_table_name       = "rt-workload-to-hub-norwayeast"
+    }
+
+Plan: 5 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + azure_firewall_default_route_id   = (known after apply)
+  + azure_firewall_id                 = (known after apply)
+  + azure_firewall_policy_id          = (known after apply)
+  + azure_firewall_private_ip_address = (known after apply)
+  + azure_firewall_public_ip_id       = (known after apply)
