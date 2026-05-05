@@ -89,3 +89,26 @@ Evidence file:
 Cost note:
 - Defender for Servers is a paid Defender for Cloud plan.
 - This should be treated as an evidence-driven implementation: enable through Terraform, validate, then decide whether to retain or disable for cost control.
+============================================================
+P7 Defender for Servers Plan 1 Terraform plan validated
+============================================================
+Date:
+2026-05-05 15:17:56 +01:00
+
+Summary:
+- Verified Terraform configuration for Microsoft Defender for Servers Plan 1.
+- Resource type: VirtualMachines.
+- Pricing tier: Standard.
+- Subplan: P1.
+- Terraform plan result: 1 to add, 0 to change, 0 to destroy.
+- Expected addition:
+  - module.security.azurerm_security_center_subscription_pricing.defender_for_servers
+- No Key Vault, Key Vault secret, Key Vault access policy, random password, workload, networking, or management resources were proposed for change.
+- Local binary tfplan file was removed after saving text evidence.
+
+Evidence file:
+- docs/release2/evidence/P7/p7-defender-for-servers-plan.txt
+
+Cost note:
+- Defender for Servers is a paid Defender for Cloud plan.
+- This is being implemented through Terraform for auditable P7 validation.

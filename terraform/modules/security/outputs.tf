@@ -14,3 +14,15 @@ output "generated_local_admin_password" {
   value     = random_password.local_admin.result
   sensitive = true
 }
+
+output "defender_for_servers_pricing_id" {
+  value = azurerm_security_center_subscription_pricing.defender_for_servers.id
+}
+
+output "defender_for_servers_pricing_tier" {
+  value = azurerm_security_center_subscription_pricing.defender_for_servers.tier
+}
+
+output "defender_for_servers_subplan" {
+  value = azurerm_security_center_subscription_pricing.defender_for_servers.subplan
+}
