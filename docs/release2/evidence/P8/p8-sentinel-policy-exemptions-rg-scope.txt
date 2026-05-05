@@ -1,0 +1,31 @@
+﻿============================================================
+P8 Microsoft Sentinel RG-scoped policy exemption validation
+============================================================
+Generated: 2026-05-05 22:11:36 +01:00
+
+Scope:
+/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast
+
+Reason:
+The parent Log Analytics workspace is tagged with Project, Environment, Owner, and CostCenter. Sentinel onboarding creates a Microsoft.SecurityInsights child/extension resource that is not taggable through the current azurerm_sentinel_log_analytics_workspace_onboarding Terraform resource. Workspace-scoped exemptions were not applied during policy evaluation, so the exemption was moved to the dedicated P8 monitoring resource group scope.
+
+============================================================
+Policy exemption: ex-p8-monitoring-rg-tag-proj
+============================================================
+{   "assignmentScopeValidation": "Default",   "description": "Narrow P8 monitoring resource group exemption for Microsoft Sentinel onboarding child resources that are not taggable through the current AzureRM Sentinel onboarding resource. Parent resource group and Log Analytics workspace remain tagged.",   "displayName": "P8 monitoring RG exemption for pa-tag-proj",   "exemptionCategory": "Waiver",   "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Authorization/policyExemptions/ex-p8-monitoring-rg-tag-proj",   "name": "ex-p8-monitoring-rg-tag-proj",   "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-proj",   "resourceGroup": "rg-dev-monitoring-norwayeast",   "systemData": {     "createdAt": "2026-05-05T21:11:09.3228515Z",     "createdBy": "hashib@entra.azawslab.co.uk",     "createdByType": "User",     "lastModifiedAt": "2026-05-05T21:11:09.3228515Z",     "lastModifiedBy": "hashib@entra.azawslab.co.uk",     "lastModifiedByType": "User"   },   "type": "Microsoft.Authorization/policyExemptions" }
+
+============================================================
+Policy exemption: ex-p8-monitoring-rg-tag-env
+============================================================
+{   "assignmentScopeValidation": "Default",   "description": "Narrow P8 monitoring resource group exemption for Microsoft Sentinel onboarding child resources that are not taggable through the current AzureRM Sentinel onboarding resource. Parent resource group and Log Analytics workspace remain tagged.",   "displayName": "P8 monitoring RG exemption for pa-tag-env",   "exemptionCategory": "Waiver",   "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Authorization/policyExemptions/ex-p8-monitoring-rg-tag-env",   "name": "ex-p8-monitoring-rg-tag-env",   "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-env",   "resourceGroup": "rg-dev-monitoring-norwayeast",   "systemData": {     "createdAt": "2026-05-05T21:11:11.9415081Z",     "createdBy": "hashib@entra.azawslab.co.uk",     "createdByType": "User",     "lastModifiedAt": "2026-05-05T21:11:11.9415081Z",     "lastModifiedBy": "hashib@entra.azawslab.co.uk",     "lastModifiedByType": "User"   },   "type": "Microsoft.Authorization/policyExemptions" }
+
+============================================================
+Policy exemption: ex-p8-monitoring-rg-tag-own
+============================================================
+{   "assignmentScopeValidation": "Default",   "description": "Narrow P8 monitoring resource group exemption for Microsoft Sentinel onboarding child resources that are not taggable through the current AzureRM Sentinel onboarding resource. Parent resource group and Log Analytics workspace remain tagged.",   "displayName": "P8 monitoring RG exemption for pa-tag-own",   "exemptionCategory": "Waiver",   "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Authorization/policyExemptions/ex-p8-monitoring-rg-tag-own",   "name": "ex-p8-monitoring-rg-tag-own",   "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-own",   "resourceGroup": "rg-dev-monitoring-norwayeast",   "systemData": {     "createdAt": "2026-05-05T21:11:13.5077574Z",     "createdBy": "hashib@entra.azawslab.co.uk",     "createdByType": "User",     "lastModifiedAt": "2026-05-05T21:11:13.5077574Z",     "lastModifiedBy": "hashib@entra.azawslab.co.uk",     "lastModifiedByType": "User"   },   "type": "Microsoft.Authorization/policyExemptions" }
+
+============================================================
+Policy exemption: ex-p8-monitoring-rg-tag-cost
+============================================================
+{   "assignmentScopeValidation": "Default",   "description": "Narrow P8 monitoring resource group exemption for Microsoft Sentinel onboarding child resources that are not taggable through the current AzureRM Sentinel onboarding resource. Parent resource group and Log Analytics workspace remain tagged.",   "displayName": "P8 monitoring RG exemption for pa-tag-cost",   "exemptionCategory": "Waiver",   "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Authorization/policyExemptions/ex-p8-monitoring-rg-tag-cost",   "name": "ex-p8-monitoring-rg-tag-cost",   "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-cost",   "resourceGroup": "rg-dev-monitoring-norwayeast",   "systemData": {     "createdAt": "2026-05-05T21:11:15.0622511Z",     "createdBy": "hashib@entra.azawslab.co.uk",     "createdByType": "User",     "lastModifiedAt": "2026-05-05T21:11:15.0622511Z",     "lastModifiedBy": "hashib@entra.azawslab.co.uk",     "lastModifiedByType": "User"   },   "type": "Microsoft.Authorization/policyExemptions" }
+
