@@ -1,4 +1,4 @@
-resource "azurerm_resource_group" "connectivity" {
+﻿resource "azurerm_resource_group" "connectivity" {
   name     = var.connectivity_resource_group_name
   location = var.location
   tags     = var.tags
@@ -80,7 +80,7 @@ resource "azurerm_firewall_policy" "this" {
   name                = var.azure_firewall_policy_name
   location            = azurerm_resource_group.connectivity.location
   resource_group_name = azurerm_resource_group.connectivity.name
-  sku                 = "Basic"
+  sku                 = "Standard"
   tags                = var.tags
 }
 
@@ -91,7 +91,7 @@ resource "azurerm_firewall" "this" {
   location            = azurerm_resource_group.connectivity.location
   resource_group_name = azurerm_resource_group.connectivity.name
   sku_name            = "AZFW_VNet"
-  sku_tier            = "Basic"
+  sku_tier            = "Standard"
   firewall_policy_id  = azurerm_firewall_policy.this[0].id
   tags                = var.tags
 
@@ -171,3 +171,4 @@ resource "azurerm_route" "default_to_azure_firewall" {
   next_hop_type          = "VirtualAppliance"
   next_hop_in_ip_address = azurerm_firewall.this[0].ip_configuration[0].private_ip_address
 }
+
