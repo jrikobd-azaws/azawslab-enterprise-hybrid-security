@@ -1,0 +1,200 @@
+﻿============================================================
+P8 Microsoft Sentinel post-apply validation
+============================================================
+Generated: 2026-05-05 22:28:22 +01:00
+Terraform root: terraform/platform-shared/dev
+
+============================================================
+Log Analytics workspace
+============================================================
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast",
+  "location": "norwayeast",
+  "name": "law-dev-platform-norwayeast",
+  "provisioningState": "Succeeded",
+  "tags": {
+    "CostCenter": "lab",
+    "Environment": "dev",
+    "Owner": "platform",
+    "Phase": "P8",
+    "Project": "azawslab"
+  }
+}
+
+============================================================
+Sentinel onboarding state
+============================================================
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/onboardingStates/default",
+  "name": "default",
+  "properties": {},
+  "systemData": {},
+  "type": "Microsoft.SecurityInsights/onboardingStates"
+}
+
+============================================================
+Sentinel analytics rules
+============================================================
+{
+  "value": [
+    {
+      "etag": "\"1a006399-0000-3d00-0000-69fa5d670000\"",
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/alertRules/BuiltInFusion",
+      "kind": "Fusion",
+      "name": "BuiltInFusion",
+      "properties": {
+        "alertRuleTemplateName": "f71aba3d-28fb-450b-b192-4e76a83015c8",
+        "description": "Microsoft Sentinel uses Fusion, a correlation engine based on scalable machine learning algorithms, to automatically detect multistage attacks by identifying combinations of anomalous behaviors and suspicious activities that are observed at various stages of the kill chain. On the basis of these discoveries, Azure Sentinel generates incidents that would otherwise be very difficult to catch. By design, these incidents are low-volume, high-fidelity, and high-severity, which is why this detection is turned ON by default.\n\nSince Fusion correlates multiple signals from various products to detect advanced multistage attacks, successful Fusion detections are presented as Fusion incidents on the Microsoft Sentinel Incidents page. This rule covers the following detections:\n- Fusion for emerging threats\n- Fusion for ransomware\n- Scenario-based Fusion detections (122 scenarios)\n\nTo enable these detections, we recommend you configure the following data connectors for best results:\n- Out-of-the-box anomaly detections\n- Microsoft Entra ID Protection\n- Azure Defender\n- Azure Defender for IoT\n- Microsoft 365 Defender\n- Microsoft Cloud App Security    \n- Microsoft Defender for Endpoint\n- Microsoft Defender for Identity\n- Microsoft Defender for Office 365\n- Scheduled analytics rules, both built-in and those created by your security analysts. Analytics rules must contain kill-chain (tactics) and entity mapping information in order to be used by Fusion.\n\nFor the full description of each detection that is supported by Fusion, go to https://aka.ms/SentinelFusion.",
+        "displayName": "Advanced Multistage Attack Detection",
+        "enabled": true,
+        "lastModifiedUtc": "2026-05-05T21:13:10.9487252Z",
+        "severity": "High",
+        "tactics": [
+          "Collection",
+          "CommandAndControl",
+          "CredentialAccess",
+          "DefenseEvasion",
+          "Discovery",
+          "Execution",
+          "Exfiltration",
+          "Impact",
+          "InitialAccess",
+          "LateralMovement",
+          "Persistence",
+          "PrivilegeEscalation"
+        ],
+        "techniques": []
+      },
+      "type": "Microsoft.SecurityInsights/alertRules"
+    },
+    {
+      "etag": "\"1a00a599-0000-3d00-0000-69fa5d780000\"",
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/alertRules/rule-p8-azure-activity-write-delete",
+      "kind": "Scheduled",
+      "name": "rule-p8-azure-activity-write-delete",
+      "properties": {
+        "alertRuleTemplateName": null,
+        "description": "",
+        "displayName": "P8 Azure Activity write or delete operations",
+        "enabled": true,
+        "incidentConfiguration": {
+          "createIncident": true,
+          "groupingConfiguration": {
+            "enabled": false,
+            "groupByAlertDetails": null,
+            "groupByCustomDetails": null,
+            "groupByEntities": [],
+            "lookbackDuration": "PT5M",
+            "matchingMethod": "AllEntities",
+            "reopenClosedIncident": false
+          }
+        },
+        "lastModifiedUtc": "2026-05-05T21:13:25.2178333Z",
+        "query": "AzureActivity\n| where OperationNameValue has_any (\"write\", \"delete\")\n| summarize OperationCount = count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)\n| where OperationCount >= 3\n",
+        "queryFrequency": "PT15M",
+        "queryPeriod": "PT15M",
+        "severity": "Medium",
+        "suppressionDuration": "PT5H",
+        "suppressionEnabled": false,
+        "tactics": [
+          "Discovery",
+          "Impact"
+        ],
+        "techniques": [],
+        "triggerOperator": "GreaterThan",
+        "triggerThreshold": 0
+      },
+      "type": "Microsoft.SecurityInsights/alertRules"
+    }
+  ]
+}
+
+============================================================
+Subscription diagnostic settings
+============================================================
+{
+  "value": [
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/microsoft.insights/diagnosticSettings/diag-subscription-activity-to-sentinel",
+      "location": "global",
+      "name": "diag-subscription-activity-to-sentinel",
+      "properties": {
+        "logs": [
+          {
+            "category": "Security",
+            "categoryGroup": null,
+            "enabled": true
+          },
+          {
+            "category": "Alert",
+            "categoryGroup": null,
+            "enabled": true
+          },
+          {
+            "category": "Policy",
+            "categoryGroup": null,
+            "enabled": true
+          },
+          {
+            "category": "Recommendation",
+            "categoryGroup": null,
+            "enabled": true
+          },
+          {
+            "category": "Administrative",
+            "categoryGroup": null,
+            "enabled": true
+          },
+          {
+            "category": "ServiceHealth",
+            "categoryGroup": null,
+            "enabled": false
+          },
+          {
+            "category": "Autoscale",
+            "categoryGroup": null,
+            "enabled": false
+          },
+          {
+            "category": "ResourceHealth",
+            "categoryGroup": null,
+            "enabled": false
+          }
+        ],
+        "workspaceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast"
+      },
+      "type": "Microsoft.Insights/diagnosticSettings"
+    }
+  ]
+}
+
+============================================================
+Terraform outputs
+============================================================
+defender_for_servers_pricing_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/VirtualMachines"
+defender_for_servers_pricing_tier = "Standard"
+defender_for_servers_subplan = "P1"
+defender_security_contact_email = "admin-lab@entra.azawslab.co.uk"
+defender_security_contact_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/securityContacts/default"
+generated_local_admin_password = <sensitive>
+p8_log_analytics_workspace_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast"
+p8_log_analytics_workspace_name = "law-dev-platform-norwayeast"
+p8_monitoring_resource_group_name = "rg-dev-monitoring-norwayeast"
+p8_sentinel_analytics_rule_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/alertRules/rule-p8-azure-activity-write-delete"
+p8_sentinel_onboarding_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/onboardingStates/default"
+
+============================================================
+Terraform state - P8 monitoring resources
+============================================================
+module.monitoring.data.azurerm_subscription.current
+module.monitoring.azurerm_log_analytics_workspace.sentinel[0]
+module.monitoring.azurerm_monitor_diagnostic_setting.subscription_activity_to_law[0]
+module.monitoring.azurerm_resource_group.monitoring[0]
+module.monitoring.azurerm_sentinel_alert_rule_scheduled.azure_activity_write_delete[0]
+module.monitoring.azurerm_sentinel_log_analytics_workspace_onboarding.sentinel[0]
+
+============================================================
+Portal validation note
+============================================================
+Azure Portal Sentinel page redirected to the Defender portal. Defender portal workspace connection was completed manually after Terraform Sentinel onboarding. Portal screenshots should be stored as supplementary evidence.
+
