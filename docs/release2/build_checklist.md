@@ -582,3 +582,13 @@ Evidence:
 - [x] After validation, set `enable_azure_firewall = false` through a follow-up PR.
 - [x] Run controlled GitHub Actions Terraform Apply after disabling to remove Azure Firewall resources and stop ongoing cost.
 
+
+## P7 Defender for Cloud implementation note
+
+- [x] Microsoft.Security provider registration validated.
+- [x] Defender pricing plan status captured.
+- [x] Secure Score baseline captured.
+- [x] Defender recommendations captured.
+- [x] Security contact deployed through Terraform in `terraform/platform-shared/dev`.
+- [x] No paid Defender workload plan enabled during this step.
+- [ ] Post-change Defender recommendations / Secure Score review still needs to be captured.

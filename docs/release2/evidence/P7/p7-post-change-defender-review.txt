@@ -1,0 +1,26 @@
+﻿============================================================
+P7 post-change Defender review
+============================================================
+
+Timestamp:
+2026-05-05 14:23:10 +01:00
+
+Subscription:
+Azure subscription 1
+
+Identity:
+admin-lab@entra.azawslab.co.uk
+
+Security contact:
+System.Object[]
+
+Contact / email-notification related assessments:
+- Status=Unhealthy | Recommendation=Email notification to subscription owner for high severity alerts should be enabled | Resource=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+- Status=Unhealthy | Recommendation=Email notification for high severity alerts should be enabled | Resource=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+- Status=Unhealthy | Recommendation=Subscriptions should have a contact email address for security issues | Resource=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6
+
+Secure Score response:
+System.Object[]
+
+Review note:
+Defender recommendation state can take time to refresh after configuration changes. This file records the post-change review immediately after the Terraform deployment.

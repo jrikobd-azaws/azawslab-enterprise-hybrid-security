@@ -65,3 +65,9 @@ resource "azurerm_security_center_contact" "defender" {
   alert_notifications = true
   alerts_to_admins    = true
 }
+
+resource "azurerm_security_center_subscription_pricing" "defender_for_servers" {
+  resource_type = "VirtualMachines"
+  tier          = var.defender_for_servers_pricing_tier
+  subplan       = var.defender_for_servers_subplan
+}

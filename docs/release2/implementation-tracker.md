@@ -211,7 +211,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P4    | Azure Lighthouse                               | P0         | 30m       | [x]    | `docs/release2/evidence/P4/`  | delegated Reader visibility works cross-tenant                       | Persistent until later teardown decision                       |
 | P5    | Hub-Spoke Networking                           | P0         | 1h        | [x]    | `docs/release2/evidence/P5/`  | peering and routing validated                                        | Persistent                                                   |
 | P6    | Azure Firewall                                 | P5         | 1h        | [x]    | `docs/release2/evidence/P6/`  | Firewall deployed; forced-tunneling route and workload egress validated; teardown complete | [E] destroyed after validation                             |
-| P7    | Defender for Cloud                             | P5         | 30m       | [ ]    | `docs/release2/evidence/P7/`  | plans enabled; recommendations visible                               | Persistent                                                     |
+| P7    | Defender for Cloud                             | P5         | 30m       | [~]    | `docs/release2/evidence/P7/`  | security contact deployed; secure score and recommendations captured; post-change review pending | Persistent                                                   |
 | P8    | Microsoft Sentinel                             | P7         | 45m       | [ ]    | `docs/release2/evidence/P8/`  | incident generation path validated                                   | Persistent                                                     |
 | P9a   | Azure Monitor Alerts                           | P7         | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                              | Persistent                                                     |
 | P9b   | Backup / Recovery Services Vault               | P5         | 45m       | [ ]    | `docs/release2/evidence/P9b/` | backup policy and protected item verified                            | Persistent                                                     |
@@ -448,22 +448,35 @@ Do **not** start P0 until sections 4 and 5 are complete.
 ---
 
 ### P7 – Defender for Cloud
-**Objective:** Enable cloud security posture visibility.
+**Objective:** Validate Microsoft Defender for Cloud / CSPM visibility and implement a low-cost security posture improvement.
 
 **Checklist**
-- [ ] Defender plans enabled as required
-- [ ] recommendations reviewed
-- [ ] secure score baseline captured
+- [x] Defender for Cloud readiness baseline captured
+- [x] Microsoft.Security provider registration validated
+- [x] Defender pricing plan status captured
+- [x] Secure Score baseline captured
+- [x] Defender recommendations captured
+- [x] Defender security contact deployed through Terraform
+- [ ] post-change recommendations / Secure Score review captured
 
 **Minimum Validation**
-- [ ] recommendations visible
-- [ ] secure score captured
-- [ ] target subscription covered
+- [x] Defender plan data visible
+- [x] recommendations visible
+- [x] secure score captured
+- [x] security contact exists in Terraform state and Azure
+- [ ] post-change Defender recommendation status reviewed
 
 **Evidence**
-- [ ] `defender-plan-status.txt`
-- [ ] `secure-score.txt`
-- [ ] `recommendations-summary.md`
+- [x] `p7-readiness-current-state.txt`
+- [x] `defender-plan-status.txt`
+- [x] `secure-score.txt`
+- [x] `recommendations-summary.md`
+- [x] `p7-platform-shared-plan.txt`
+- [x] `p7-defender-security-contact-validation.txt`
+
+**Cost / FinOps**
+- [x] No paid Defender workload plan enabled during this step
+- [x] M365 E5 licensing context noted separately from Azure Defender pricing state
 
 ---
 
@@ -826,5 +839,6 @@ P3 governance guardrails are validated for allowed region, mandatory tags, VM SK
 
 **Architecture note**
 The temporary Ansible management host is now owned by the platform management state boundary rather than the workload state boundary. This better reflects its role as an operations-plane control node, not a workload-tier resource.
+
 
 
