@@ -652,6 +652,7 @@ Use this section during execution.
 | [Date] | Initial rewritten tracker aligned to `README_PLAN.md` | Removed stale RRAS path, restructured prep flow, strengthened validation gates |
 | 2026-05-04 | P4 Azure Lighthouse Reader delegation completed | Registration definition and assignment deployed; customer subscription visible from managing tenant via Reader delegation |
 | 2026-05-04 | P5 Hub-Spoke Networking completed | Platform-networking root deployed hub VNet, reserved hub subnets, bidirectional peering, and workload route-table association |
+| 2026-05-05 | Platform management state split completed | Temporary Ansible management host moved from workload-dev state to dedicated platform-management-dev state with no Azure resource destroy or recreate |
 
 ---
 
@@ -796,3 +797,30 @@ P3 governance guardrails are validated for allowed region, mandatory tags, VM SK
 
 
 
+
+### Post-P5 platform-management state split
+
+**Objective:** Separate temporary operations-plane management resources from workload infrastructure state.
+
+**Completed outcome**
+- [x] Created `terraform/platform-management/dev`
+- [x] Created dedicated backend key `platform-management-dev.tfstate`
+- [x] Imported existing management resources into platform-management state:
+  - `azurerm_resource_group.management`
+  - `azurerm_public_ip.management`
+  - `azurerm_network_interface.management`
+  - `azurerm_linux_virtual_machine.management`
+- [x] Removed management resources from `workload-dev.tfstate`
+- [x] Removed management resource blocks from `terraform/workloads/dev/main.tf`
+- [x] Validated `workload-dev` plan: no changes
+- [x] Validated `platform-management-dev` plan: no changes
+- [x] Updated GitHub Actions Terraform workflow matrix to include `platform-management-dev`
+
+**Evidence**
+- `docs/release2/evidence/platform-management-state-split/platform-management-state-split-audit.txt`
+- `docs/release2/evidence/platform-management-state-split/platform-management-state-split-plan.txt`
+- `docs/release2/evidence/platform-management-state-split/platform-management-state-split-validation.txt`
+- `docs/release2/evidence/platform-management-state-split/state-backups/`
+
+**Architecture note**
+The temporary Ansible management host is now owned by the platform management state boundary rather than the workload state boundary. This better reflects its role as an operations-plane control node, not a workload-tier resource.

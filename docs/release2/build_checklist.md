@@ -528,8 +528,11 @@ Evidence:
 - [x] governance resources are managed from `terraform/governance`
 - [x] shared security resources are managed from `terraform/platform-shared/dev`
 - [x] workload networking and compute are managed from `terraform/workloads/dev`
+- [x] temporary Ansible management host is managed from `terraform/platform-management/dev`
+- [x] `platform-management-dev.tfstate` backend configured
 - [x] each active Terraform root plans cleanly with no unexpected changes
 - [x] state separation aligns lifecycle boundaries without changing reusable module structure
+- [x] post-P5 platform-management state split completed without Azure resource destroy/recreate
 
 
 ## P2b current completion note
@@ -565,6 +568,7 @@ Evidence:
 
 ### P3 evidence location
 - `docs/release2/evidence/P3/`
+
 
 
 

@@ -298,3 +298,22 @@ Finalized implementation target:
 This does not erase earlier design exploration; it records the final implemented state used by the current Terraform and evidence set.
 
 
+
+---
+
+## ADR - Platform Management State Boundary
+
+**Decision:** Temporary management-plane resources are owned by a dedicated Terraform root: `terraform/platform-management/dev`.
+
+**Context:** The temporary Ansible management host was originally created from the workload root during P2b because the split-state model was still maturing. After P5 introduced `terraform/platform-networking/dev`, the remaining lifecycle mismatch was that an operations-plane management VM still lived in `workload-dev.tfstate`.
+
+**Implementation:** The existing management resource group, public IP, NIC, and Linux management VM were imported into `platform-management-dev.tfstate`. The same resources were removed from `workload-dev.tfstate`, and the resource blocks were removed from `terraform/workloads/dev/main.tf`.
+
+**Result:** The final state model now separates:
+- governance guardrails: `governance.tfstate`
+- shared security: `platform-shared-dev.tfstate`
+- platform networking: `platform-networking-dev.tfstate`
+- platform management: `platform-management-dev.tfstate`
+- workload resources: `workload-dev.tfstate`
+
+**Consequence:** Future Ansible-dependent or operations-plane work can use the platform-management root without coupling the management host lifecycle to workload compute.

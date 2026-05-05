@@ -132,9 +132,10 @@ Validation for **P2b** demonstrated:
 
 Validation for **P2c** demonstrated:
 - GitHub Actions Terraform CI passed for governance, platform-shared/dev, and workload-dev
-- controlled Terraform Apply passed for governance, platform-shared/dev, and workload-dev
+- controlled Terraform Apply passed for governance, platform-shared/dev, workload-dev, platform-networking/dev, and platform-management/dev
 - OIDC-based Azure authentication worked without static secrets
 - split-state automation worked end to end
+- post-P5 state refactor separated the temporary Ansible management host into `platform-management-dev.tfstate` without destroying or recreating Azure resources
 
 ## 7. Evidence Path
 
@@ -185,4 +186,5 @@ Key lessons from this phase:
 ## 10. Recruiter-Ready Outcome Statement
 
 Built the automation backbone of Release 2 by implementing reusable Terraform modules, dynamic secret flow through Azure Key Vault, a private-only workload deployment pattern, hardened multi-root Terraform state, Ansible management-host validation, and GitHub Actions OIDC-based CI/CD. This established a production-style automation baseline where infrastructure changes are validated through PR checks and deployed through controlled workflow execution.
+
 
