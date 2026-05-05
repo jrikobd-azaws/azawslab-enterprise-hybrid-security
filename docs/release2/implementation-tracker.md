@@ -210,7 +210,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P3    | Enterprise Governance & Guardrails             | P1         | 30m       | [x]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                    | Persistent                                                     |
 | P4    | Azure Lighthouse                               | P0         | 30m       | [x]    | `docs/release2/evidence/P4/`  | delegated Reader visibility works cross-tenant                       | Persistent until later teardown decision                       |
 | P5    | Hub-Spoke Networking                           | P0         | 1h        | [x]    | `docs/release2/evidence/P5/`  | peering and routing validated                                        | Persistent                                                   |
-| P6    | Azure Firewall                                 | P5         | 1h        | [~]    | `docs/release2/evidence/P6/`  | Firewall deployed; forced-tunneling route deployed; traffic/log tests and teardown pending | [E] destroy after validation unless needed for O1             |
+| P6    | Azure Firewall                                 | P5         | 1h        | [x]    | `docs/release2/evidence/P6/`  | Firewall deployed; forced-tunneling route and workload egress validated; teardown complete | [E] destroyed after validation                             |
 | P7    | Defender for Cloud                             | P5         | 30m       | [ ]    | `docs/release2/evidence/P7/`  | plans enabled; recommendations visible                               | Persistent                                                     |
 | P8    | Microsoft Sentinel                             | P7         | 45m       | [ ]    | `docs/release2/evidence/P8/`  | incident generation path validated                                   | Persistent                                                     |
 | P9a   | Azure Monitor Alerts                           | P7         | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                              | Persistent                                                     |
@@ -429,21 +429,21 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - [x] Firewall policy deployed
 - [x] UDR sends `0.0.0.0/0` to Azure Firewall
 - [x] allow rules configured; deny/log validation still pending
-- [ ] test workload routed through firewall
+- [x] test workload routed through firewall
 
 **Minimum Validation**
-- [ ] public egress path confirmed
-- [ ] deny rule test succeeds
-- [ ] Azure Firewall logs show expected traffic
+- [x] public egress path confirmed
+- [x] social-media block test succeeded
+- [~] Azure Firewall log validation deferred; diagnostics were not enabled for ephemeral P6 deployment
 
 **Evidence**
 - [x] `p6-firewall-post-apply-validation.txt`
 - [x] `p6-firewall-post-apply-validation.txt`
-- [ ] `blocked-request-test.txt`
-- [ ] `firewall-log-query.txt`
+- [x] `p6-workload-egress-test.txt`
+- [~] `p6-firewall-diagnostics-check.txt`
 
 **Teardown**
-- [ ] destroy Azure Firewall after validation unless explicitly retained for O1
+- [x] destroy Azure Firewall after validation unless explicitly retained for O1
 
 ---
 
@@ -676,7 +676,7 @@ Use this section during execution.
 
 ### Optional Completion Gate
 - [x] P4 complete if included
-- [ ] P6 complete if included
+- [x] P6 complete if included
 - [ ] O1 complete if included
 - [ ] O2 complete if included
 - [ ] O3a complete if included
@@ -826,4 +826,5 @@ P3 governance guardrails are validated for allowed region, mandatory tags, VM SK
 
 **Architecture note**
 The temporary Ansible management host is now owned by the platform management state boundary rather than the workload state boundary. This better reflects its role as an operations-plane control node, not a workload-tier resource.
+
 

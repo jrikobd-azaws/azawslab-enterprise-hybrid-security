@@ -115,3 +115,20 @@ Result:
 
 Evidence:
 - `p6-firewall-diagnostics-check.txt`
+
+## Azure Firewall teardown validation
+
+Date: 2026-05-05 13:49:35 +01:00
+
+Azure Firewall was disabled after validation by setting `enable_azure_firewall = false` and running the controlled GitHub Actions Terraform Apply workflow.
+
+Result:
+- GitHub Actions Apply succeeded.
+- Apply summary showed `0 added, 0 changed, 5 destroyed`.
+- Ephemeral P6 firewall resources were removed.
+- Post-teardown validation confirmed firewall-specific resources were absent.
+- P5 platform-networking foundation resources remained in Terraform state.
+
+Evidence:
+- `p6-firewall-post-teardown-validation.txt`
+- `p6-github-actions-platform-networking-destroy-success.png`

@@ -105,3 +105,25 @@ Summary:
 
 Evidence file:
 - docs/release2/evidence/P6/p6-firewall-diagnostics-check.txt
+============================================================
+P6 Azure Firewall teardown completed
+============================================================
+Date:
+2026-05-05 13:49:35 +01:00
+
+Summary:
+- Azure Firewall was disabled by setting enable_azure_firewall to false.
+- Controlled GitHub Actions Terraform Apply completed successfully.
+- Workflow result showed 0 added, 0 changed, and 5 destroyed.
+- Destroyed ephemeral P6 resources:
+  - Azure Firewall
+  - Azure Firewall Policy
+  - Firewall Policy Rule Collection Group
+  - Azure Firewall Public IP
+  - Default route to Azure Firewall private IP
+- Post-teardown validation confirmed firewall-specific resources were absent.
+- P5 hub-spoke foundation resources remained in Terraform state, including hub VNet, AzureFirewallSubnet, workload route table, and workload route table association.
+
+Evidence files:
+- docs/release2/evidence/P6/p6-firewall-post-teardown-validation.txt
+- docs/release2/evidence/P6/p6-github-actions-platform-networking-destroy-success.png

@@ -578,6 +578,7 @@ Evidence:
 - [x] Azure Firewall deployment was intentionally enabled for P6 validation.
 - [x] Azure Firewall is confirmed as an ephemeral cost-heavy platform-networking resource.
 - [x] Deployment evidence has been captured under `docs/release2/evidence/P6/`.
-- [ ] Traffic validation and firewall log evidence still need to be completed.
-- [ ] After validation, set `enable_azure_firewall = false` through a follow-up PR.
-- [ ] Run controlled GitHub Actions Terraform Apply after disabling to remove Azure Firewall resources and stop ongoing cost.
+- [x] Traffic validation completed; firewall log evidence deferred because diagnostics were not enabled for the ephemeral deployment.
+- [x] After validation, set `enable_azure_firewall = false` through a follow-up PR.
+- [x] Run controlled GitHub Actions Terraform Apply after disabling to remove Azure Firewall resources and stop ongoing cost.
+
