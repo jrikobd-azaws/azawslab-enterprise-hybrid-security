@@ -1,0 +1,17 @@
+﻿============================================================
+P8 Sentinel disabled plan captured
+============================================================
+Date:
+2026-05-05 17:42:49 +01:00
+
+Summary:
+- Added P8 monitoring module wiring with enable_sentinel=false.
+- Ran Terraform plan against terraform/platform-shared/dev.
+- P8 disabled state introduced no Sentinel, Log Analytics, or subscription diagnostic-setting resources.
+- The plan still showed 1 add from the already-pending P7 Defender for Servers Plan 1 resource:
+  - module.security.azurerm_security_center_subscription_pricing.defender_for_servers
+- This is not a P8 resource and should not be interpreted as Sentinel deployment.
+- No destroy or replacement action was present.
+
+Evidence file:
+- docs/release2/evidence/P8/p8-platform-shared-disabled-plan.txt

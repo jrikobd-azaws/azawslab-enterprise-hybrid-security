@@ -1,0 +1,22 @@
+﻿
+## P8 Sentinel disabled plan
+
+Date: 2026-05-05 17:42:49 +01:00
+
+Terraform plan was run for `terraform/platform-shared/dev` after adding the P8 monitoring module with `enable_sentinel=false`.
+
+Result:
+- P8 Sentinel resources were not created.
+- No Log Analytics workspace was created.
+- No Sentinel onboarding was created.
+- No Sentinel analytic rule was created.
+- No subscription diagnostic setting was created.
+- No destroy or replacement action was present.
+
+Important dependency note:
+- The plan showed `1 to add` because the currently pending P7 Defender for Servers Plan 1 resource is still not applied in the active platform-shared state.
+- The planned resource was `module.security.azurerm_security_center_subscription_pricing.defender_for_servers`.
+- This resource belongs to P7, not P8.
+
+Evidence:
+- `p8-platform-shared-disabled-plan.txt`

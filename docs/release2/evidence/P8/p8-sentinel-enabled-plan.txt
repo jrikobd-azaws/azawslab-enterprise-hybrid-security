@@ -1,0 +1,124 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.monitoring.azurerm_log_analytics_workspace.sentinel[0] will be created
+  + resource "azurerm_log_analytics_workspace" "sentinel" {
+      + allow_resource_only_permissions = true
+      + daily_quota_gb                  = -1
+      + id                              = (known after apply)
+      + internet_ingestion_enabled      = true
+      + internet_query_enabled          = true
+      + local_authentication_disabled   = (known after apply)
+      + local_authentication_enabled    = true
+      + location                        = "norwayeast"
+      + name                            = "law-dev-platform-norwayeast"
+      + primary_shared_key              = (sensitive value)
+      + resource_group_name             = "rg-dev-monitoring-norwayeast"
+      + retention_in_days               = 30
+      + secondary_shared_key            = (sensitive value)
+      + sku                             = "PerGB2018"
+      + tags                            = {
+          + "CostCenter"  = "lab"
+          + "Environment" = "dev"
+          + "Owner"       = "platform"
+          + "Phase"       = "P8"
+          + "Project"     = "azawslab"
+        }
+      + workspace_id                    = (known after apply)
+    }
+
+  # module.monitoring.azurerm_monitor_diagnostic_setting.subscription_activity_to_law[0] will be created
+  + resource "azurerm_monitor_diagnostic_setting" "subscription_activity_to_law" {
+      + id                             = (known after apply)
+      + log_analytics_destination_type = (known after apply)
+      + log_analytics_workspace_id     = (known after apply)
+      + name                           = "diag-subscription-activity-to-sentinel"
+      + target_resource_id             = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6"
+
+      + enabled_log {
+          + category       = "Administrative"
+            # (1 unchanged attribute hidden)
+        }
+      + enabled_log {
+          + category       = "Alert"
+            # (1 unchanged attribute hidden)
+        }
+      + enabled_log {
+          + category       = "Policy"
+            # (1 unchanged attribute hidden)
+        }
+      + enabled_log {
+          + category       = "Recommendation"
+            # (1 unchanged attribute hidden)
+        }
+      + enabled_log {
+          + category       = "Security"
+            # (1 unchanged attribute hidden)
+        }
+
+      + enabled_metric (known after apply)
+
+      + metric (known after apply)
+    }
+
+  # module.monitoring.azurerm_resource_group.monitoring[0] will be created
+  + resource "azurerm_resource_group" "monitoring" {
+      + id       = (known after apply)
+      + location = "norwayeast"
+      + name     = "rg-dev-monitoring-norwayeast"
+      + tags     = {
+          + "CostCenter"  = "lab"
+          + "Environment" = "dev"
+          + "Owner"       = "platform"
+          + "Phase"       = "P8"
+          + "Project"     = "azawslab"
+        }
+    }
+
+  # module.monitoring.azurerm_sentinel_alert_rule_scheduled.azure_activity_write_delete[0] will be created
+  + resource "azurerm_sentinel_alert_rule_scheduled" "azure_activity_write_delete" {
+      + display_name               = "P8 Azure Activity write or delete operations"
+      + enabled                    = true
+      + id                         = (known after apply)
+      + log_analytics_workspace_id = (known after apply)
+      + name                       = "rule-p8-azure-activity-write-delete"
+      + query                      = <<-EOT
+            AzureActivity
+            | where OperationNameValue has_any ("write", "delete")
+            | summarize OperationCount = count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)
+            | where OperationCount >= 3
+        EOT
+      + query_frequency            = "PT15M"
+      + query_period               = "PT15M"
+      + severity                   = "Medium"
+      + suppression_duration       = "PT5H"
+      + suppression_enabled        = false
+      + tactics                    = [
+          + "Discovery",
+          + "Impact",
+        ]
+      + trigger_operator           = "GreaterThan"
+      + trigger_threshold          = 0
+
+      + incident (known after apply)
+    }
+
+  # module.monitoring.azurerm_sentinel_log_analytics_workspace_onboarding.sentinel[0] will be created
+  + resource "azurerm_sentinel_log_analytics_workspace_onboarding" "sentinel" {
+      + customer_managed_key_enabled = false
+      + id                           = (known after apply)
+      + workspace_id                 = (known after apply)
+    }
+
+Plan: 5 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + p8_log_analytics_workspace_id     = (known after apply)
+  + p8_log_analytics_workspace_name   = "law-dev-platform-norwayeast"
+  + p8_monitoring_resource_group_name = "rg-dev-monitoring-norwayeast"
+  + p8_sentinel_analytics_rule_id     = (known after apply)
+  + p8_sentinel_onboarding_id         = (known after apply)
