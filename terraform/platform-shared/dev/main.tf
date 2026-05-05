@@ -39,7 +39,7 @@ import {
 module "monitoring" {
   source = "../../modules/monitoring"
 
-  enable_sentinel              = false
+  enable_sentinel              = true
   resource_group_name          = "rg-dev-monitoring-norwayeast"
   location                     = "norwayeast"
   log_analytics_workspace_name = "law-dev-platform-norwayeast"
@@ -52,3 +52,4 @@ module "monitoring" {
     Phase       = "P8"
   }
 }
+
