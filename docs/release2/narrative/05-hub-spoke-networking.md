@@ -200,6 +200,32 @@ The improved design created a new enterprise-aligned platform networking root. T
 
 P5 also confirmed that data sources can be useful when a platform root needs to reference an existing workload VNet without requiring a workload state output change.
 
+
+## Post-P5 Platform Management State Split
+
+After P5 closeout, the temporary Ansible management host was separated from the workload Terraform root into a dedicated platform-management root:
+
+```text
+terraform/platform-management/dev
+```
+
+The new backend state key is:
+
+```text
+platform-management-dev.tfstate
+```
+
+This refactor moved ownership of the existing management resource group, public IP, NIC, and Linux management VM out of `workload-dev.tfstate` and into `platform-management-dev.tfstate`.
+
+No Azure resources were destroyed or recreated. Both roots were validated after the split:
+
+```text
+workload-dev: no changes
+platform-management-dev: no changes
+```
+
+This improves the enterprise state model by keeping workload resources, platform networking, shared security, governance, and operations-plane management resources in separate lifecycle boundaries.
 ## 10. Recruiter-Ready Outcome Statement
 
 Implemented an enterprise-aligned Azure hub-spoke networking foundation using Terraform. Added a dedicated platform networking root with separate state, deployed a hub VNet with reserved Bastion, Firewall, and Gateway subnets, configured bidirectional peering to the workload spoke, and associated a route table scaffold to the workload subnet. Validated the topology with CLI-first evidence while ensuring existing workload and management VM resources were not changed.
+
