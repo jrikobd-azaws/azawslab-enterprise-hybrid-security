@@ -14,3 +14,11 @@ output "defender_for_servers_pricing_tier" {
 output "defender_for_servers_subplan" {
   value = module.security.defender_for_servers_subplan
 }
+
+output "defender_security_contact_id" {
+  value = module.security.defender_security_contact_id
+}
+
+output "defender_security_contact_email" {
+  value = module.security.defender_security_contact_email
+}

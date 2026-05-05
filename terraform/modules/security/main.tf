@@ -63,3 +63,11 @@ resource "azurerm_security_center_subscription_pricing" "defender_for_servers" {
   tier          = var.defender_for_servers_pricing_tier
   subplan       = var.defender_for_servers_subplan
 }
+
+resource "azurerm_security_center_contact" "defender" {
+  name  = var.defender_security_contact_name
+  email = var.defender_security_contact_email
+
+  alert_notifications = true
+  alerts_to_admins    = true
+}

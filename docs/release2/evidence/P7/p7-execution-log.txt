@@ -112,3 +112,22 @@ Evidence file:
 Cost note:
 - Defender for Servers is a paid Defender for Cloud plan.
 - This is being implemented through Terraform for auditable P7 validation.
+============================================================
+P7 Defender for Servers Plan 1 plan corrected
+============================================================
+Date:
+2026-05-05 15:39:50 +01:00
+
+Summary:
+- Previous branch plan showed an unsafe destroy of module.security.azurerm_security_center_contact.defender.
+- Root cause: the branch was missing the Terraform configuration for the already-deployed Defender security contact.
+- Correction: restored the Defender security contact Terraform resource, inputs, and outputs.
+- Regenerated Terraform plan for terraform/platform-shared/dev.
+- Corrected plan result: 1 to add, 0 to change, 0 to destroy.
+- Expected addition:
+  - module.security.azurerm_security_center_subscription_pricing.defender_for_servers
+- Defender security contact is retained.
+- No Key Vault, Key Vault secret, Key Vault access policy, random password, workload, networking, or management resources are proposed for change.
+
+Evidence file:
+- docs/release2/evidence/P7/p7-defender-for-servers-plan.txt

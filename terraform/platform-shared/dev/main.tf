@@ -12,6 +12,9 @@ module "security" {
 
   defender_for_servers_pricing_tier = "Standard"
   defender_for_servers_subplan      = "P1"
+
+  defender_security_contact_name  = "default"
+  defender_security_contact_email = "admin-lab@entra.azawslab.co.uk"
 }
 
 
@@ -29,5 +32,6 @@ import {
   to = module.security.azurerm_key_vault_access_policy.principals["f0c31d32-a72f-4b16-8643-c3f19900da29"]
   id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-security-norwayeast/providers/Microsoft.KeyVault/vaults/kvdevazawsne01/objectId/f0c31d32-a72f-4b16-8643-c3f19900da29"
 }
+
 
 
