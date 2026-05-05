@@ -1,0 +1,185 @@
+﻿============================================================
+FILE: terraform\platform-shared\dev\main.tf
+============================================================
+module "security" {
+  source = "../../modules/security"
+
+  resource_group_name = "rg-dev-security-norwayeast"
+  location            = "norwayeast"
+
+  key_vault_secret_admin_object_ids = [
+    "a2fb5bd2-9920-4b0c-8b8b-b96560b13473", # hashib
+    "6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d", # admin-lab
+    "f0c31d32-a72f-4b16-8643-c3f19900da29"  # sp-terraform-gh
+  ]
+}
+
+
+import {
+  to = module.security.azurerm_key_vault_access_policy.principals["a2fb5bd2-9920-4b0c-8b8b-b96560b13473"]
+  id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-security-norwayeast/providers/Microsoft.KeyVault/vaults/kvdevazawsne01/objectId/a2fb5bd2-9920-4b0c-8b8b-b96560b13473"
+}
+
+import {
+  to = module.security.azurerm_key_vault_access_policy.principals["6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d"]
+  id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-security-norwayeast/providers/Microsoft.KeyVault/vaults/kvdevazawsne01/objectId/6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d"
+}
+
+import {
+  to = module.security.azurerm_key_vault_access_policy.principals["f0c31d32-a72f-4b16-8643-c3f19900da29"]
+  id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-security-norwayeast/providers/Microsoft.KeyVault/vaults/kvdevazawsne01/objectId/f0c31d32-a72f-4b16-8643-c3f19900da29"
+}
+
+
+
+============================================================
+FILE: terraform\platform-shared\dev\outputs.tf
+============================================================
+output "generated_local_admin_password" {
+  value     = module.security.generated_local_admin_password
+  sensitive = true
+}
+
+
+============================================================
+FILE: terraform\platform-shared\dev\providers.tf
+============================================================
+terraform {
+  required_version = ">= 1.5.0"
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
+  }
+
+  backend "azurerm" {
+    resource_group_name  = "rg-dev-terraformstate-norwayeast"
+    storage_account_name = "stdevtfstatene01"
+    container_name       = "tfstate"
+    key                  = "platform-shared-dev.tfstate"
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+
+
+============================================================
+FILE: terraform\platform-shared\dev\README.txt
+============================================================
+# Platform-shared root
+# This root owns shared security resources for dev.
+
+
+============================================================
+FILE: terraform\modules\security\main.tf
+============================================================
+resource "random_password" "local_admin" {
+  length           = 20
+  special          = true
+  override_special = "!@#%^*-_=+?"
+}
+
+resource "azurerm_resource_group" "security" {
+  name     = var.resource_group_name
+  location = var.location
+
+  tags = {
+    Environment      = "Development"
+    Project          = "Azawslab-Release2"
+    Owner            = "admin-lab"
+    CostCenter       = "Lab-123"
+    DeploymentMethod = "Terraform"
+  }
+}
+
+resource "azurerm_key_vault" "security" {
+  name                = "kvdevazawsne01"
+  location            = azurerm_resource_group.security.location
+  resource_group_name = azurerm_resource_group.security.name
+  tenant_id           = "78643a83-bcc9-4a3b-ab7e-eeede0b3384e"
+  sku_name            = "standard"
+
+  tags = {
+    Environment      = "Development"
+    Project          = "Azawslab-Release2"
+    Owner            = "admin-lab"
+    CostCenter       = "Lab-123"
+    DeploymentMethod = "Terraform"
+  }
+}
+
+resource "azurerm_key_vault_access_policy" "principals" {
+  for_each = toset(var.key_vault_secret_admin_object_ids)
+
+  key_vault_id = azurerm_key_vault.security.id
+  tenant_id    = "78643a83-bcc9-4a3b-ab7e-eeede0b3384e"
+  object_id    = each.value
+
+  secret_permissions = [
+    "Get",
+    "List",
+    "Set",
+    "Delete",
+    "Recover",
+    "Purge"
+  ]
+}
+
+resource "azurerm_key_vault_secret" "local_admin_password" {
+  name         = "local-admin-password"
+  value        = random_password.local_admin.result
+  key_vault_id = azurerm_key_vault.security.id
+
+  depends_on = [azurerm_key_vault_access_policy.principals]
+}
+
+
+============================================================
+FILE: terraform\modules\security\variables.tf
+============================================================
+variable "resource_group_name" {
+  description = "Resource group name for security resources"
+  type        = string
+}
+
+variable "location" {
+  description = "Azure region for security resources"
+  type        = string
+}
+
+variable "key_vault_secret_admin_object_ids" {
+  description = "Object IDs that should have Key Vault secret administration permissions"
+  type        = list(string)
+}
+
+
+============================================================
+FILE: terraform\modules\security\outputs.tf
+============================================================
+output "resource_group_name" {
+  value = azurerm_resource_group.security.name
+}
+
+output "key_vault_name" {
+  value = azurerm_key_vault.security.name
+}
+
+output "local_admin_password_secret_name" {
+  value = azurerm_key_vault_secret.local_admin_password.name
+}
+
+output "generated_local_admin_password" {
+  value     = random_password.local_admin.result
+  sensitive = true
+}
+
+

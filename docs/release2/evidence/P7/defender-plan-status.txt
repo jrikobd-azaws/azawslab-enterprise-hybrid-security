@@ -1,0 +1,29 @@
+﻿============================================================
+P7 Defender for Cloud plan status
+============================================================
+
+Subscription:
+Azure subscription 1
+
+Identity:
+admin-lab@entra.azawslab.co.uk
+
+Defender pricing plans:
+Plan=VirtualMachines | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=SqlServers | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=AppServices | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=StorageAccounts | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=SqlServerVirtualMachines | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=KubernetesService | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=ContainerRegistry | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=KeyVaults | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=Dns | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=Arm | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=OpenSourceRelationalDatabases | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=CosmosDbs | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=Containers | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=CloudPosture | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=Api | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=AI | Tier=Free | SubPlan= | FreeTrialRemaining=P30D
+Plan=Discovery | Tier=Standard | SubPlan= | FreeTrialRemaining=PT0S
+Plan=FoundationalCspm | Tier=Standard | SubPlan= | FreeTrialRemaining=PT0S

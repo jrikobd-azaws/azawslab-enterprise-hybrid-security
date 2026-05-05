@@ -1,0 +1,37 @@
+﻿============================================================
+P7 Defender for Cloud readiness baseline captured
+============================================================
+Date:
+2026-05-05 14:05:12 +01:00
+
+Summary:
+- Confirmed Microsoft.Security provider is registered.
+- Captured Defender for Cloud pricing plan status.
+- Captured Secure Score baseline.
+- Captured Defender assessment/recommendation summary.
+- M365 E5 licensing context was noted separately, but Azure Microsoft.Security pricing output remains the source of truth for P7.
+- No paid Defender plan was enabled or changed during this step.
+
+Evidence files:
+- docs/release2/evidence/P7/p7-readiness-current-state.txt
+- docs/release2/evidence/P7/defender-plan-status.txt
+- docs/release2/evidence/P7/secure-score.txt
+- docs/release2/evidence/P7/recommendations-summary.md
+============================================================
+P7 Terraform plan validated for Defender security contact
+============================================================
+Date:
+2026-05-05 14:12:36 +01:00
+
+Summary:
+- Added Defender for Cloud security contact configuration to the platform-shared Terraform root.
+- Ran Terraform plan against terraform/platform-shared/dev.
+- Plan result: 1 to add, 0 to change, 0 to destroy.
+- Expected addition:
+  - module.security.azurerm_security_center_contact.defender
+- No Key Vault, Key Vault secret, Key Vault access policy, or password resources were proposed for change.
+- No paid Defender pricing plan was enabled by this change.
+- Local tfplan file was removed after the plan output was saved as evidence.
+
+Evidence file:
+- docs/release2/evidence/P7/p7-platform-shared-plan.txt

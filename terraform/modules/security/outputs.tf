@@ -14,3 +14,11 @@ output "generated_local_admin_password" {
   value     = random_password.local_admin.result
   sensitive = true
 }
+
+output "defender_security_contact_id" {
+  value = azurerm_security_center_contact.defender.id
+}
+
+output "defender_security_contact_email" {
+  value = azurerm_security_center_contact.defender.email
+}

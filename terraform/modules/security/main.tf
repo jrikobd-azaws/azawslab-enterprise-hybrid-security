@@ -57,3 +57,11 @@ resource "azurerm_key_vault_secret" "local_admin_password" {
 
   depends_on = [azurerm_key_vault_access_policy.principals]
 }
+
+resource "azurerm_security_center_contact" "defender" {
+  name  = var.defender_security_contact_name
+  email = var.defender_security_contact_email
+
+  alert_notifications = true
+  alerts_to_admins    = true
+}
