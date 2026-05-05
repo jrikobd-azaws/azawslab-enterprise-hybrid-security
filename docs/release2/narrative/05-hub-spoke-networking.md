@@ -229,3 +229,30 @@ This improves the enterprise state model by keeping workload resources, platform
 
 Implemented an enterprise-aligned Azure hub-spoke networking foundation using Terraform. Added a dedicated platform networking root with separate state, deployed a hub VNet with reserved Bastion, Firewall, and Gateway subnets, configured bidirectional peering to the workload spoke, and associated a route table scaffold to the workload subnet. Validated the topology with CLI-first evidence while ensuring existing workload and management VM resources were not changed.
 
+
+## Ephemeral Azure Bastion validation update
+
+Date: 2026-05-05 20:55:24 +01:00
+
+After the original P5 hub-spoke foundation was completed, Azure Bastion was enabled ephemerally to close the P5 secure-administration evidence gap.
+
+The original P5 deployment created the hub VNet, reserved `AzureBastionSubnet`, and validated hub/spoke connectivity. The follow-up validation window deployed Azure Bastion through GitHub Actions to prove the private administration path end to end.
+
+Validation outcome:
+- Azure Bastion was deployed into the hub network.
+- Bastion public IP existed only during the validation window.
+- `vm-dev-client-01` was started only for validation.
+- `vm-dev-client-01` retained a private IP and no public IP.
+- Private RDP access through Azure Bastion was validated with screenshot evidence.
+- `vm-dev-client-01` was deallocated after validation.
+- Bastion is being disabled again after validation for FinOps control.
+
+This strengthens P5 beyond subnet reservation by proving that internet RDP remains unavailable while controlled private administration is possible through Azure Bastion during an approved validation window.
+
+Evidence:
+- `p5-github-actions-bastion-enable-apply-success.png`
+- `p5-bastion-private-rdp-session-access.png`
+- `p5-bastion-private-rdp-session-validation.png`
+- `p5-ephemeral-bastion-validation.txt`
+- `p5-ephemeral-bastion-enable-plan.txt`
+- `p5-ephemeral-bastion-disable-plan.txt`
