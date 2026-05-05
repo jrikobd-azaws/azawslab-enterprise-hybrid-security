@@ -35,3 +35,57 @@ Summary:
 
 Evidence file:
 - docs/release2/evidence/P7/p7-platform-shared-plan.txt
+============================================================
+P7 Defender security contact deployed and validated
+============================================================
+Date:
+2026-05-05 14:18:15 +01:00
+
+Summary:
+- GitHub Actions controlled Terraform Apply succeeded for platform-shared-dev.
+- Apply result: 1 added, 0 changed, 0 destroyed.
+- Defender for Cloud security contact was created as Microsoft.Security/securityContacts/default.
+- Contact email was validated as admin-lab@entra.azawslab.co.uk.
+- Terraform state contains module.security.azurerm_security_center_contact.defender.
+- No paid Defender workload plan was enabled by this implementation.
+
+Evidence file:
+- docs/release2/evidence/P7/p7-defender-security-contact-validation.txt
+============================================================
+P7 post-change Defender review captured
+============================================================
+Date:
+2026-05-05 14:23:10 +01:00
+
+Summary:
+- Captured post-change Defender for Cloud review after security contact deployment.
+- Confirmed security contact still exists through Microsoft.Security API.
+- Captured contact/email-notification related Defender assessments where returned.
+- Captured Secure Score response after the change.
+- Noted that Defender recommendation and Secure Score state may take time to refresh.
+
+Evidence file:
+- docs/release2/evidence/P7/p7-post-change-defender-review.txt
+============================================================
+P7 Defender for Servers Plan 1 Terraform plan validated
+============================================================
+Date:
+2026-05-05 14:43:53 +01:00
+
+Summary:
+- Added Terraform configuration for Microsoft Defender for Servers Plan 1.
+- Resource type: VirtualMachines.
+- Pricing tier: Standard.
+- Subplan: P1.
+- Terraform plan result: 1 to add, 0 to change, 0 to destroy.
+- Expected addition:
+  - module.security.azurerm_security_center_subscription_pricing.defender_for_servers
+- No Key Vault, Key Vault secret, Key Vault access policy, random password, workload, networking, or management resources were proposed for change.
+- Local binary tfplan file was removed after saving text evidence.
+
+Evidence file:
+- docs/release2/evidence/P7/p7-defender-for-servers-plan.txt
+
+Cost note:
+- Defender for Servers is a paid Defender for Cloud plan.
+- This should be treated as an evidence-driven implementation: enable through Terraform, validate, then decide whether to retain or disable for cost control.

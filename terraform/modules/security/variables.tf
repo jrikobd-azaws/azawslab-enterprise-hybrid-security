@@ -23,3 +23,15 @@ variable "defender_security_contact_email" {
   description = "Email address used for Microsoft Defender for Cloud security notifications."
   type        = string
 }
+
+variable "defender_for_servers_pricing_tier" {
+  description = "Microsoft Defender for Servers pricing tier. Use Standard to enable, or Free to disable."
+  type        = string
+  default     = "Standard"
+}
+
+variable "defender_for_servers_subplan" {
+  description = "Microsoft Defender for Servers subplan. P1 is lower-cost than P2 and is used for P7 validation."
+  type        = string
+  default     = "P1"
+}
