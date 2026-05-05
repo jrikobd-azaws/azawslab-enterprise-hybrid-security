@@ -1,4 +1,4 @@
-﻿module "security" {
+module "security" {
   source = "../../modules/security"
 
   resource_group_name = "rg-dev-security-norwayeast"
@@ -41,7 +41,7 @@ module "monitoring" {
 
   enable_sentinel = true
 
-  enable_monitor_alerts        = false
+  enable_monitor_alerts        = true
   monitor_action_group_email   = "admin-lab@entra.azawslab.co.uk"
   monitor_alert_target_vm_id   = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01"
   resource_group_name          = "rg-dev-monitoring-norwayeast"
@@ -56,5 +56,6 @@ module "monitoring" {
     Phase       = "P8"
   }
 }
+
 
 
