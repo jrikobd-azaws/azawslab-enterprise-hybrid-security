@@ -10,11 +10,11 @@ module "security" {
     "f0c31d32-a72f-4b16-8643-c3f19900da29"  # sp-terraform-gh
   ]
 
-  defender_security_contact_name  = "default"
-  defender_security_contact_email = "admin-lab@entra.azawslab.co.uk"
-
   defender_for_servers_pricing_tier = "Standard"
   defender_for_servers_subplan      = "P1"
+
+  defender_security_contact_name  = "default"
+  defender_security_contact_email = "admin-lab@entra.azawslab.co.uk"
 }
 
 
