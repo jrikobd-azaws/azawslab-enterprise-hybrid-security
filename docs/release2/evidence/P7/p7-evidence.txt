@@ -104,60 +104,34 @@ Cost note:
 Evidence:
 - `p7-defender-for-servers-plan.txt`
 
-## Defender for Servers Plan 1 Terraform plan
+## Defender for Servers Plan 1 post-apply validation
 
-Date: 2026-05-05 15:17:56 +01:00
+Date: 2026-05-05 19:35:45 +01:00
 
-Terraform plan validation was completed for Defender for Servers Plan 1 in `terraform/platform-shared/dev`.
+P7 Defender for Servers Plan 1 was applied through the controlled Terraform workflow.
 
-Planned resource:
-- `module.security.azurerm_security_center_subscription_pricing.defender_for_servers`
-
-Planned configuration:
-- Resource type: `VirtualMachines`
-- Tier: `Standard`
+Validated configuration:
+- Defender resource type: `VirtualMachines`
+- Pricing tier: `Standard`
 - Subplan: `P1`
+- Security contact retained: `admin-lab@entra.azawslab.co.uk`
 
-Plan result:
-- `1 to add, 0 to change, 0 to destroy`
+Evidence captured:
+- Terraform plan evidence
+- GitHub Actions apply evidence
+- Azure Defender pricing validation
+- Terraform state validation
+- Secure Score capture
+- Defender recommendations/assessments capture
 
-Safety result:
-- No Key Vault resources changed.
-- No workload resources changed.
-- No networking resources changed.
-- No management-host resources changed.
-- Local binary plan file was removed after evidence capture.
-
-Cost note:
-- Defender for Servers is a paid Defender for Cloud plan.
-- Retention or disable decision should be made after validation evidence is captured.
-
-Evidence:
+Evidence files:
 - `p7-defender-for-servers-plan.txt`
+- `p7-defender-for-servers-plan1-post-apply-validation.txt`
 
-## Defender for Servers Plan 1 corrected Terraform plan
+Screenshot evidence:
+- `p7-github-actions-platform-shared-defender-plan-apply-success.png`, if present
+- `p7-defender-for-servers-plan1-portal-validation.png`, if present
 
-Date: 2026-05-05 15:39:50 +01:00
-
-A previous branch plan showed an unsafe destroy of the already-deployed Defender security contact. The branch was corrected by restoring the Defender security contact Terraform configuration.
-
-Corrected plan result:
-- `1 to add, 0 to change, 0 to destroy`
-
-Expected addition:
-- `module.security.azurerm_security_center_subscription_pricing.defender_for_servers`
-
-Planned configuration:
-- Resource type: `VirtualMachines`
-- Tier: `Standard`
-- Subplan: `P1`
-
-Safety result:
-- Defender security contact retained.
-- No Key Vault resources changed.
-- No workload resources changed.
-- No networking resources changed.
-- No management-host resources changed.
-
-Evidence:
-- `p7-defender-for-servers-plan.txt`
+FinOps note:
+- Defender for Servers is a paid plan.
+- Retention or disablement should follow the Release 2 cost-control decision after validation.

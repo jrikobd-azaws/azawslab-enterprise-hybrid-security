@@ -1,0 +1,1635 @@
+﻿============================================================
+P7 Defender for Servers Plan 1 post-apply validation
+============================================================
+Generated: 2026-05-05 19:34:25 +01:00
+Terraform root: terraform/platform-shared/dev
+
+============================================================
+Git branch and latest commits
+============================================================
+feature/release2-p9a-monitor-alerts-implementation
+
+0fca466 Add P9a Azure Monitor alerting disabled by default
+93edfd9 Add P8 Sentinel monitoring module disabled by default
+4abca79 Merge pull request #128 from jrikobd-azaws/feature/release2-p7-defender-security-contact
+b2698e0 Add P7 Defender for Servers Plan 1
+6e9f6f1 Merge pull request #127 from jrikobd-azaws/feature/release2-p7-defender-security-contact
+35696d6 Add P7 Defender security contact
+7763649 Merge pull request #126 from jrikobd-azaws/feature/release2-p6-disable-firewall-after-validation
+89f80b0 Close out P6 Azure Firewall teardown evidence
+
+============================================================
+Azure account
+============================================================
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "id": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "Azure subscription 1",
+  "state": "Enabled",
+  "tenantDefaultDomain": "entra.azawslab.co.uk",
+  "tenantDisplayName": "AZAWS",
+  "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "user": {
+    "name": "admin-lab@entra.azawslab.co.uk",
+    "type": "user"
+  }
+}
+
+============================================================
+Defender for Servers pricing - VirtualMachines
+============================================================
+{
+  "deprecated": null,
+  "enablementTime": "2026-05-05T18:30:23.663465+00:00",
+  "extensions": [
+    {
+      "additionalExtensionProperties": null,
+      "isEnabled": "False",
+      "name": "MdeDesignatedSubscription",
+      "operationStatus": null
+    }
+  ],
+  "freeTrialRemainingTime": "29 days, 23:55:00",
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/VirtualMachines",
+  "name": "VirtualMachines",
+  "pricingTier": "Standard",
+  "replacedBy": null,
+  "subPlan": "P1",
+  "type": "Microsoft.Security/pricings"
+}
+
+============================================================
+All Microsoft Defender for Cloud pricing plans
+============================================================
+
+
+============================================================
+Security contact validation
+============================================================
+{
+  "etag": "\"b1002685-0000-0d00-0000-69f9ede40000\"",
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/securityContacts/default",
+  "location": "West Europe",
+  "name": "default",
+  "properties": {
+    "alertNotifications": {
+      "minimalSeverity": "High",
+      "state": "On"
+    },
+    "emails": "admin-lab@entra.azawslab.co.uk",
+    "notificationsByRole": {
+      "roles": [
+        "Owner"
+      ],
+      "state": "On"
+    },
+    "phone": ""
+  },
+  "type": "Microsoft.Security/securityContacts"
+}
+
+============================================================
+Terraform outputs
+============================================================
+defender_for_servers_pricing_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/VirtualMachines"
+defender_for_servers_pricing_tier = "Standard"
+defender_for_servers_subplan = "P1"
+defender_security_contact_email = "admin-lab@entra.azawslab.co.uk"
+defender_security_contact_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/securityContacts/default"
+generated_local_admin_password = <sensitive>
+
+============================================================
+Terraform state - P7 Defender resources
+============================================================
+module.security.azurerm_security_center_contact.defender
+module.security.azurerm_security_center_subscription_pricing.defender_for_servers
+
+============================================================
+Secure Score
+============================================================
+{
+  "value": [
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/secureScores/ascScore",
+      "name": "ascScore",
+      "properties": {
+        "displayName": "ASC score",
+        "score": {
+          "current": 5.33,
+          "max": 37,
+          "percentage": 0.1441
+        },
+        "weight": 73
+      },
+      "type": "Microsoft.Security/secureScores"
+    }
+  ]
+}
+
+============================================================
+Defender assessments / recommendations sample
+============================================================
+{
+  "nextLink": "https://management.azure.com/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments?api-version=2020-01-01&NextLink=_muliCloud",
+  "value": [
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/6c99f570-2ce7-46bc-8175-cde013df43bc",
+      "name": "6c99f570-2ce7-46bc-8175-cde013df43bc",
+      "properties": {
+        "displayName": "Guest Configuration extension should be installed on machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/22489c48-27d1-4e40-9420-4303ad9cffef",
+      "name": "22489c48-27d1-4e40-9420-4303ad9cffef",
+      "properties": {
+        "displayName": "Windows Defender Exploit Guard should be enabled on machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "GCExtensionIdentityMissing",
+          "code": "NotApplicable",
+          "description": "Guest Configuration extension, managed identity and user identity are missing."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/12018f4f-3d10-999b-e4c4-86ec25be08a1",
+      "name": "12018f4f-3d10-999b-e4c4-86ec25be08a1",
+      "properties": {
+        "displayName": "Virtual machines should be migrated to new Azure Resource Manager resources",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/e0e431eb-22b3-4f34-ae0d-5ec229fc28e7",
+      "name": "e0e431eb-22b3-4f34-ae0d-5ec229fc28e7",
+      "properties": {
+        "displayName": "Microsoft Defender CSPM should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/96946040-1b25-4dc4-b845-4f341b3fcaab",
+      "name": "96946040-1b25-4dc4-b845-4f341b3fcaab",
+      "properties": {
+        "displayName": "Microsoft Defender for APIs should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no API Management services available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no API Management services available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/88bbc99c-e5af-ddd7-6105-6150b2bfa519",
+      "name": "88bbc99c-e5af-ddd7-6105-6150b2bfa519",
+      "properties": {
+        "displayName": "Diagnostic logs in Key Vault should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/4ed62ae4-5072-f9e7-8d94-51c76c48159a",
+      "name": "4ed62ae4-5072-f9e7-8d94-51c76c48159a",
+      "properties": {
+        "displayName": "Key vaults should have deletion protection enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/9f97e78d-88ee-a48d-abe2-5ef12954e7ea",
+      "name": "9f97e78d-88ee-a48d-abe2-5ef12954e7ea",
+      "properties": {
+        "displayName": "Email notification to subscription owner for high severity alerts should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/f2f595ec-5dc6-68b4-82ef-b63563e9c610",
+      "name": "f2f595ec-5dc6-68b4-82ef-b63563e9c610",
+      "properties": {
+        "displayName": "Azure Backup should be enabled for virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/f6b59724-4a05-aa38-33e2-25f15eecf00b",
+      "name": "f6b59724-4a05-aa38-33e2-25f15eecf00b",
+      "properties": {
+        "displayName": "Azure Key Vaults should use private link",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/52f7826a-ace7-3107-dd0d-4875853c1576",
+      "name": "52f7826a-ace7-3107-dd0d-4875853c1576",
+      "properties": {
+        "displayName": "Firewall should be enabled on Key Vault",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/3869fbd7-5d90-84e4-37bd-d9a7f4ce9a24",
+      "name": "3869fbd7-5d90-84e4-37bd-d9a7f4ce9a24",
+      "properties": {
+        "displayName": "Email notification for high severity alerts should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/78211c00-15a9-336e-17c4-0b48613dadf4",
+      "name": "78211c00-15a9-336e-17c4-0b48613dadf4",
+      "properties": {
+        "displayName": "Key vaults should have soft delete enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/77758c9d-8a56-5f54-6ff7-69a762ca6004",
+      "name": "77758c9d-8a56-5f54-6ff7-69a762ca6004",
+      "properties": {
+        "displayName": "Subscriptions should have a contact email address for security issues",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/87448ec1-55f6-3746-3f79-0f35beee76b4",
+      "name": "87448ec1-55f6-3746-3f79-0f35beee76b4",
+      "properties": {
+        "displayName": "Windows servers should be configured to use secure communication protocols",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "GCExtensionIdentityMissing",
+          "code": "NotApplicable",
+          "description": "Guest Configuration extension, managed identity and user identity are missing."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-spoke-workload/providers/Microsoft.Security/assessments/f1f2f7dc-7bd5-18bf-c403-cbbdb7ec3d68",
+      "name": "f1f2f7dc-7bd5-18bf-c403-cbbdb7ec3d68",
+      "properties": {
+        "displayName": "Network Watcher should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-spoke-workload",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-spoke-workload",
+          "ResourceName": "vnet-dev-norwayeast-spoke-workload",
+          "ResourceProvider": "microsoft.network",
+          "ResourceType": "virtualnetworks",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/f0fb2a7e-16d5-849f-be57-86db712e9bd0",
+      "name": "f0fb2a7e-16d5-849f-be57-86db712e9bd0",
+      "properties": {
+        "displayName": "Microsoft Defender for Resource Manager should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/69ad830b-d98c-b1cf-2158-9d69d38c7093",
+      "name": "69ad830b-d98c-b1cf-2158-9d69d38c7093",
+      "properties": {
+        "displayName": "Secure Boot should be enabled on supported Windows virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/861bbc73-0a55-8d1d-efc6-e92d9e1176e0",
+      "name": "861bbc73-0a55-8d1d-efc6-e92d9e1176e0",
+      "properties": {
+        "displayName": "vTPM should be enabled on supported virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/0cb5f317-a94b-6b80-7212-13a9cc8826af",
+      "name": "0cb5f317-a94b-6b80-7212-13a9cc8826af",
+      "properties": {
+        "displayName": "Windows virtual machines should enable Azure Disk Encryption or EncryptionAtHost.",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/efbbd784-656d-473a-9863-ea7693bfcd2a",
+      "name": "efbbd784-656d-473a-9863-ea7693bfcd2a",
+      "properties": {
+        "displayName": "Virtual machines and virtual machine scale sets should have encryption at host enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/e599a9fe-30e3-47c6-a173-8b4b6d9d3255",
+      "name": "e599a9fe-30e3-47c6-a173-8b4b6d9d3255",
+      "properties": {
+        "displayName": "Microsoft Defender for Containers should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no Containers available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no Containers available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/56a6e81f-7413-4f72-9a1b-aaeeaa87c872",
+      "name": "56a6e81f-7413-4f72-9a1b-aaeeaa87c872",
+      "properties": {
+        "displayName": "Microsoft Defender for servers should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/b6a28450-dd5d-4ba4-8806-245e20ef6632",
+      "name": "b6a28450-dd5d-4ba4-8806-245e20ef6632",
+      "properties": {
+        "displayName": "Microsoft Defender for open-source relational databases should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no open-source relational databases available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no open-source relational databases available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/6ac66a74-761f-4a59-928a-d373eea3f028",
+      "name": "6ac66a74-761f-4a59-928a-d373eea3f028",
+      "properties": {
+        "displayName": "Microsoft Defender for SQL servers on machines should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no Azure SQL virtual machines/Azure Arc-enabled SQL Servers available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no Azure SQL virtual machines/Azure Arc-enabled SQL Servers available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/58d72d9d-0310-4792-9a3b-6dd111093cdb",
+      "name": "58d72d9d-0310-4792-9a3b-6dd111093cdb",
+      "properties": {
+        "displayName": "Microsoft Defender for Azure SQL Database servers should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no Azure SQL database servers/managed instances/synapse workspaces available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no Azure SQL database servers/managed instances/synapse workspaces available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/b1af52e4-e968-4e2b-b6d0-6736c9651f0a",
+      "name": "b1af52e4-e968-4e2b-b6d0-6736c9651f0a",
+      "properties": {
+        "displayName": "Microsoft Defender for Key Vault should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/90386950-71ca-4357-a12e-486d1679427c",
+      "name": "90386950-71ca-4357-a12e-486d1679427c",
+      "properties": {
+        "displayName": "Machines should be configured to periodically check for missing system updates",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/26f0d5bb-1398-49be-83c5-7161c2e39d8b",
+      "name": "26f0d5bb-1398-49be-83c5-7161c2e39d8b",
+      "properties": {
+        "displayName": "Microsoft Defender for Storage plan should be enabled with Malware Scanning and Sensitive Data Threat Detection",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/0876ef51-fee7-449d-ba1e-f2662c7e43c6",
+      "name": "0876ef51-fee7-449d-ba1e-f2662c7e43c6",
+      "properties": {
+        "displayName": "Microsoft Defender for App Service should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no Azure App Service plans available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no Azure App Service plans available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/55ed2823-a834-42bd-96ec-d3d5c97d9c6b",
+      "name": "55ed2823-a834-42bd-96ec-d3d5c97d9c6b",
+      "properties": {
+        "displayName": "Role-Based Access Control should be used on Azure Keyvault Services (AKV)",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/1195afff-c881-495e-9bc5-1486211ae03f",
+      "name": "1195afff-c881-495e-9bc5-1486211ae03f",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/1195afff-c881-495e-9bc5-1486211ae03f/subAssessments"
+        },
+        "displayName": "Machines should have vulnerability findings resolved",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "Vulnerability assessment scanner is not deployed on the machine",
+          "code": "NotApplicable",
+          "description": "Vulnerability assessment scanner is not deployed on the machine"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/1195afff-c881-495e-9bc5-1486211ae03f",
+      "name": "1195afff-c881-495e-9bc5-1486211ae03f",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/1195afff-c881-495e-9bc5-1486211ae03f/subAssessments"
+        },
+        "displayName": "Machines should have vulnerability findings resolved",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "Vulnerability assessment scanner is not deployed on the machine",
+          "code": "NotApplicable",
+          "description": "Vulnerability assessment scanner is not deployed on the machine"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureBastionSubnet/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureBastionSubnet",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureBastionSubnet",
+          "ResourceName": "AzureBastionSubnet",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/GatewaySubnet/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/GatewaySubnet",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/GatewaySubnet",
+          "ResourceName": "GatewaySubnet",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureFirewallSubnet/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureFirewallSubnet",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureFirewallSubnet",
+          "ResourceName": "AzureFirewallSubnet",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/providers/Microsoft.Security/assessments/e3de1cc0-f4dd-3b34-e496-8b5381ba2d70",
+      "name": "e3de1cc0-f4dd-3b34-e496-8b5381ba2d70",
+      "properties": {
+        "displayName": "Azure DDoS Protection Standard should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub",
+          "ResourceName": "vnet-dev-norwayeast-hub",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "virtualNetworks",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VnetHasNoAppGateways",
+          "code": "NotApplicable",
+          "description": "There are no Application Gateway resources attached to this Virtual Network"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/47bb383c-8e25-95f0-c2aa-437add1d87d3",
+      "name": "47bb383c-8e25-95f0-c2aa-437add1d87d3",
+      "properties": {
+        "displayName": "Storage accounts should be migrated to new Azure Resource Manager resources",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/12018f4f-3d10-999b-e4c4-86ec25be08a1",
+      "name": "12018f4f-3d10-999b-e4c4-86ec25be08a1",
+      "properties": {
+        "displayName": "Virtual machines should be migrated to new Azure Resource Manager resources",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/1c5de8e1-f68d-6a17-e0d2-ec259c42768c",
+      "name": "1c5de8e1-f68d-6a17-e0d2-ec259c42768c",
+      "properties": {
+        "displayName": "Secure transfer to storage accounts should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/51fd8bb1-0db4-bbf1-7e2b-cfcba7eb66a6",
+      "name": "51fd8bb1-0db4-bbf1-7e2b-cfcba7eb66a6",
+      "properties": {
+        "displayName": "Storage account public access should be disallowed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/22441184-2f7b-d4a0-e00b-4c5eaef4afc9",
+      "name": "22441184-2f7b-d4a0-e00b-4c5eaef4afc9",
+      "properties": {
+        "displayName": "Authentication to Linux machines should require SSH keys",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "GCExtensionIdentityMissing",
+          "code": "NotApplicable",
+          "description": "Guest Configuration extension, managed identity and user identity are missing."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/6c99f570-2ce7-46bc-8175-cde013df43bc",
+      "name": "6c99f570-2ce7-46bc-8175-cde013df43bc",
+      "properties": {
+        "displayName": "Guest Configuration extension should be installed on machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/f2f595ec-5dc6-68b4-82ef-b63563e9c610",
+      "name": "f2f595ec-5dc6-68b4-82ef-b63563e9c610",
+      "properties": {
+        "displayName": "Azure Backup should be enabled for virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/3b363842-30f5-4056-980d-3a40fa5de8b3",
+      "name": "3b363842-30f5-4056-980d-3a40fa5de8b3",
+      "properties": {
+        "displayName": "Storage accounts should prevent shared key access",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/cdc78c07-02b0-4af0-1cb2-cb7c672a8b0a",
+      "name": "cdc78c07-02b0-4af0-1cb2-cb7c672a8b0a",
+      "properties": {
+        "displayName": "Storage account should use a private link connection",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/861bbc73-0a55-8d1d-efc6-e92d9e1176e0",
+      "name": "861bbc73-0a55-8d1d-efc6-e92d9e1176e0",
+      "properties": {
+        "displayName": "vTPM should be enabled on supported virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/90386950-71ca-4357-a12e-486d1679427c",
+      "name": "90386950-71ca-4357-a12e-486d1679427c",
+      "properties": {
+        "displayName": "Machines should be configured to periodically check for missing system updates",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/69ad830b-d98c-b1cf-2158-9d69d38c7093",
+      "name": "69ad830b-d98c-b1cf-2158-9d69d38c7093",
+      "properties": {
+        "displayName": "Secure Boot should be enabled on supported Windows virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/efbbd784-656d-473a-9863-ea7693bfcd2a",
+      "name": "efbbd784-656d-473a-9863-ea7693bfcd2a",
+      "properties": {
+        "displayName": "Virtual machines and virtual machine scale sets should have encryption at host enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/ad4f3ff1-30eb-5042-16ed-27198f640b8d",
+      "name": "ad4f3ff1-30eb-5042-16ed-27198f640b8d",
+      "properties": {
+        "displayName": "Storage accounts should restrict network access using virtual network rules",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/a40cc620-e72c-fdf4-c554-c6ca2cd705c0",
+      "name": "a40cc620-e72c-fdf4-c554-c6ca2cd705c0",
+      "properties": {
+        "displayName": "Linux virtual machines should enable Azure Disk Encryption or EncryptionAtHost.",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/6f90a6d6-d4d6-0794-0ec1-98fa77878c2e",
+      "name": "6f90a6d6-d4d6-0794-0ec1-98fa77878c2e",
+      "properties": {
+        "additionalData": {
+          "identityDesignateLessThanXOwnersObjectIdList": "[\"27b9bfbf-b8a8-401f-b99a-95bb70a970d2\",\"a2fb5bd2-9920-4b0c-8b8b-b96560b13473\"]"
+        },
+        "displayName": "A maximum of 3 owners should be designated for subscriptions",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/2c79b4af-f830-b61e-92b9-63dfa30f16e4",
+      "name": "2c79b4af-f830-b61e-92b9-63dfa30f16e4",
+      "properties": {
+        "additionalData": {},
+        "displayName": "There should be more than one owner assigned to subscriptions",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/805651bc-6ecd-4c73-9b55-97a19d0582d0",
+      "name": "805651bc-6ecd-4c73-9b55-97a19d0582d0",
+      "properties": {
+        "displayName": "Management ports of virtual machines should be protected with just-in-time network access control",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "ServersStandardTierOnly",
+          "code": "NotApplicable",
+          "description": "Only machines protected with Defender for servers P2 plan are eligible for this feature"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/805651bc-6ecd-4c73-9b55-97a19d0582d0",
+      "name": "805651bc-6ecd-4c73-9b55-97a19d0582d0",
+      "properties": {
+        "displayName": "Management ports of virtual machines should be protected with just-in-time network access control",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "ServersStandardTierOnly",
+          "code": "NotApplicable",
+          "description": "Only machines protected with Defender for servers P2 plan are eligible for this feature"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/providers/Microsoft.Security/assessments/e3de1cc0-f4dd-3b34-e496-8b5381ba2d70",
+      "name": "e3de1cc0-f4dd-3b34-e496-8b5381ba2d70",
+      "properties": {
+        "displayName": "Azure DDoS Protection Standard should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload",
+          "ResourceName": "vnet-dev-norwayeast-spoke-workload",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "virtualNetworks",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VnetHasNoAppGateways",
+          "code": "NotApplicable",
+          "description": "There are no Application Gateway resources attached to this Virtual Network"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/483f12ed-ae23-447e-a2de-a67a10db4353",
+      "name": "483f12ed-ae23-447e-a2de-a67a10db4353",
+      "properties": {
+        "displayName": "Internet-facing virtual machines should be protected with network security groups",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/483f12ed-ae23-447e-a2de-a67a10db4353",
+      "name": "483f12ed-ae23-447e-a2de-a67a10db4353",
+      "properties": {
+        "displayName": "Internet-facing virtual machines should be protected with network security groups",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "NonInternetFacingVms",
+          "code": "NotApplicable",
+          "description": "The VM is non-internet-facing"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/c3b51c94-588b-426b-a892-24696f9e54cc",
+      "name": "c3b51c94-588b-426b-a892-24696f9e54cc",
+      "properties": {
+        "displayName": "IP forwarding on your virtual machine should be disabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/c3b51c94-588b-426b-a892-24696f9e54cc",
+      "name": "c3b51c94-588b-426b-a892-24696f9e54cc",
+      "properties": {
+        "displayName": "IP forwarding on your virtual machine should be disabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/3b20e985-f71f-483b-b078-f30d73936d43",
+      "name": "3b20e985-f71f-483b-b078-f30d73936d43",
+      "properties": {
+        "additionalData": {
+          "NSG open ports": "22"
+        },
+        "displayName": "All network ports should be restricted on network security groups associated to your virtual machine",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "NetworkPortsAreOpenToAllSources",
+          "code": "Unhealthy",
+          "description": "Network ports on your network security group are open to all sources."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/3b20e985-f71f-483b-b078-f30d73936d43",
+      "name": "3b20e985-f71f-483b-b078-f30d73936d43",
+      "properties": {
+        "displayName": "All network ports should be restricted on network security groups associated to your virtual machine",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "NoNsgOnVm",
+          "code": "NotApplicable",
+          "description": "This recommendation is relevant only for VMs protected by a network security group"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/bc303248-3d14-44c2-96a0-55f5c326b5fe",
+      "name": "bc303248-3d14-44c2-96a0-55f5c326b5fe",
+      "properties": {
+        "additionalData": {
+          "NSG open ports": "22"
+        },
+        "displayName": "Management ports should be closed on your virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "ManagementPortsAreOpenToAllSources",
+          "code": "Unhealthy",
+          "description": "Management ports on your network security group are open to all sources."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/bc303248-3d14-44c2-96a0-55f5c326b5fe",
+      "name": "bc303248-3d14-44c2-96a0-55f5c326b5fe",
+      "properties": {
+        "displayName": "Management ports should be closed on your virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "NoNsgOnVm",
+          "code": "NotApplicable",
+          "description": "This recommendation is relevant only for VMs protected by a network security group"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/a9341235-9389-42f0-a0bf-9bfb57960d44",
+      "name": "a9341235-9389-42f0-a0bf-9bfb57960d44",
+      "properties": {
+        "displayName": "Non-internet-facing virtual machines should be protected with network security groups",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VmIsNotProtectedWithNsg",
+          "code": "Unhealthy",
+          "description": "Your virtual machine is not protected with a network security group."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/a9341235-9389-42f0-a0bf-9bfb57960d44",
+      "name": "a9341235-9389-42f0-a0bf-9bfb57960d44",
+      "properties": {
+        "displayName": "Non-internet-facing virtual machines should be protected with network security groups",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "InternetFacingVms",
+          "code": "NotApplicable",
+          "description": "The VM is internet-facing"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload",
+          "ResourceName": "snet-workload",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt",
+          "ResourceName": "snet-mgmt",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/ffff0522-1e88-47fc-8382-2a80ba848f5d",
+      "name": "ffff0522-1e88-47fc-8382-2a80ba848f5d",
+      "properties": {
+        "additionalData": {
+          "Can onboard to BYOL": "true"
+        },
+        "displayName": "Machines should have a vulnerability assessment solution",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VaScannerNotInstalled",
+          "code": "Unhealthy",
+          "description": "The machine is not onboarded to any vulnerability assessments solution."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/ffff0522-1e88-47fc-8382-2a80ba848f5d",
+      "name": "ffff0522-1e88-47fc-8382-2a80ba848f5d",
+      "properties": {
+        "additionalData": {
+          "Can onboard to BYOL": "true"
+        },
+        "displayName": "Machines should have a vulnerability assessment solution",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VaScannerNotInstalled",
+          "code": "Unhealthy",
+          "description": "The machine is not onboarded to any vulnerability assessments solution."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-connectivity-prod-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-hub/providers/Microsoft.Security/assessments/f1f2f7dc-7bd5-18bf-c403-cbbdb7ec3d68",
+      "name": "f1f2f7dc-7bd5-18bf-c403-cbbdb7ec3d68",
+      "properties": {
+        "displayName": "Network Watcher should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-connectivity-prod-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-hub",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-connectivity-prod-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-hub",
+          "ResourceName": "vnet-dev-norwayeast-hub",
+          "ResourceProvider": "microsoft.network",
+          "ResourceType": "virtualnetworks",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/050ac097-3dda-4d24-ab6d-82568e7a50cf",
+      "name": "050ac097-3dda-4d24-ab6d-82568e7a50cf",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/050ac097-3dda-4d24-ab6d-82568e7a50cf/subAssessments"
+        },
+        "displayName": "Disabled accounts with owner permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/1ff0b4c9-ed56-4de6-be9c-d7ab39645926",
+      "name": "1ff0b4c9-ed56-4de6-be9c-d7ab39645926",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/1ff0b4c9-ed56-4de6-be9c-d7ab39645926/subAssessments"
+        },
+        "displayName": "Disabled accounts with read and write permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/0354476c-a12a-4fcc-a79d-f0ab7ffffdbb",
+      "name": "0354476c-a12a-4fcc-a79d-f0ab7ffffdbb",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/0354476c-a12a-4fcc-a79d-f0ab7ffffdbb/subAssessments"
+        },
+        "displayName": "Guest accounts with write permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/20606e75-05c4-48c0-9d97-add6daa2109a",
+      "name": "20606e75-05c4-48c0-9d97-add6daa2109a",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/20606e75-05c4-48c0-9d97-add6daa2109a/subAssessments"
+        },
+        "displayName": "Guest accounts with owner permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/fde1c0c9-0fd2-4ecc-87b5-98956cbc1095",
+      "name": "fde1c0c9-0fd2-4ecc-87b5-98956cbc1095",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/fde1c0c9-0fd2-4ecc-87b5-98956cbc1095/subAssessments"
+        },
+        "displayName": "Guest accounts with read permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    }
+  ]
+}
+
