@@ -1,0 +1,43 @@
+﻿# P7 Defender for Cloud Evidence
+
+Date: 2026-05-05 14:05:12 +01:00
+
+## Readiness result
+
+P7 Defender for Cloud readiness baseline was captured successfully.
+
+Confirmed:
+- Correct subscription context: Azure subscription 1.
+- Correct working identity: admin-lab@entra.azawslab.co.uk.
+- Microsoft.Security provider is registered.
+- Defender for Cloud pricing plan data is available.
+- Secure Score data is available.
+- Defender assessments/recommendations are visible.
+- M365 E5 is available in the tenant context, but Azure Defender for Cloud plan state is still validated from Microsoft.Security pricing data.
+
+## Evidence files
+
+- p7-readiness-current-state.txt
+- defender-plan-status.txt
+- secure-score.txt
+- recommendations-summary.md
+
+## Implementation note
+
+No Defender plan was changed during readiness capture. Paid Defender/CWPP plans should not be enabled until a deliberate P7 implementation decision is made and validated through Terraform/GitHub Actions.
+
+## Terraform plan validation
+
+Date: 2026-05-05 14:12:36 +01:00
+
+Terraform plan validation was completed for `terraform/platform-shared/dev`.
+
+Result:
+- Plan: 1 to add, 0 to change, 0 to destroy.
+- Expected addition: Defender for Cloud security contact.
+- No Key Vault resources changed.
+- No Defender paid pricing plan was enabled.
+- Local binary plan file was removed after evidence capture.
+
+Evidence:
+- `p7-platform-shared-plan.txt`
