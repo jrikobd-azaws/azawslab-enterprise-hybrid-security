@@ -1,0 +1,63 @@
+﻿# P6 Readiness Evidence
+
+Date: 2026-05-05 12:10:53 +01:00
+
+## Readiness result
+
+P6 Azure Firewall readiness baseline was captured successfully.
+
+Confirmed:
+- Correct Azure subscription context: Azure subscription 1.
+- Correct working identity: admin-lab@entra.azawslab.co.uk.
+- Correct Terraform root for P6: terraform/platform-networking/dev.
+- AzureFirewallSubnet exists in the hub VNet.
+- Workload subnet snet-workload is already associated with Terraform-owned route table rt-workload-to-hub-norwayeast.
+- Management and workload VMs were deallocated before P6 implementation.
+- Existing Azure Firewall inventory was captured separately.
+
+## Evidence source files
+
+- p6-readiness-current-state.txt
+- p6-existing-azure-firewalls.json
+
+## P6 design note
+
+Azure Firewall will be treated as an ephemeral platform-networking resource. Terraform code should remain in the repository, but deployment should be controlled by an enable/disable variable. After validation evidence is collected, Azure Firewall should be disabled through Terraform and removed by controlled GitHub Actions apply to reduce cost.
+
+## Disabled-mode Terraform validation
+
+Date: 2026-05-05 12:25:48 +01:00
+
+Terraform validation was run against `terraform/platform-networking/dev` with Azure Firewall disabled.
+
+Result:
+- `terraform init` succeeded.
+- `terraform validate` succeeded.
+- `terraform plan` returned no changes.
+- No Azure Firewall, public IP, firewall policy, default route, workload, or management resource changes were proposed.
+
+Evidence:
+- `p6-platform-networking-disabled-plan.txt`
+
+This validates that the P6 ephemeral Azure Firewall implementation is safe when `enable_azure_firewall = false`.
+
+## Enabled-mode Terraform plan validation
+
+Date: 2026-05-05 12:27:44 +01:00
+
+A local enabled-mode Terraform plan was generated for `terraform/platform-networking/dev` by temporarily setting `enable_azure_firewall = true`.
+
+Result:
+- Plan: 5 to add, 0 to change, 0 to destroy.
+- Expected resources only:
+  - Azure Firewall
+  - Azure Firewall Policy
+  - Firewall Policy Rule Collection Group
+  - Azure Firewall Public IP
+  - Default route from the workload route table to the Azure Firewall private IP
+- No existing P5 hub-spoke networking resources were proposed for replacement.
+- No workload or management resources were proposed for change.
+- `enable_azure_firewall` was restored to `false` after local plan inspection.
+
+Evidence:
+- `p6-platform-networking-enabled-plan.txt`

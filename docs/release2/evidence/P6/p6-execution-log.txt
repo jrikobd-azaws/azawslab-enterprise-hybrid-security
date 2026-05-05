@@ -1,0 +1,56 @@
+﻿============================================================
+P6 readiness baseline captured
+============================================================
+Date:
+2026-05-05 12:10:53 +01:00
+
+Summary:
+- Local branch was main with clean working tree.
+- Azure CLI context was admin-lab@entra.azawslab.co.uk in Azure subscription 1.
+- platform-networking-dev remote state owns hub-spoke networking resources.
+- Hub VNet exists in rg-connectivity-prod-norwayeast.
+- AzureFirewallSubnet exists as 10.0.1.0/26.
+- Workload subnet snet-workload is associated to rt-workload-to-hub-norwayeast.
+- Management VM and workload VM were deallocated at readiness check time.
+- Azure Firewall inventory was captured separately using az resource list to avoid interactive CLI extension prompt.
+
+Evidence files:
+- docs/release2/evidence/P6/p6-readiness-current-state.txt
+- docs/release2/evidence/P6/p6-existing-azure-firewalls.json
+============================================================
+P6 Terraform disabled-mode validation passed
+============================================================
+Date:
+2026-05-05 12:25:48 +01:00
+
+Summary:
+- Added P6 Azure Firewall Terraform code behind enable_azure_firewall.
+- Kept enable_azure_firewall set to false in terraform/platform-networking/dev.
+- Ran terraform init, validate, and plan against platform-networking-dev.
+- Terraform plan returned: No changes. Your infrastructure matches the configuration.
+- This confirms the P6 code is non-disruptive while Azure Firewall is disabled.
+- No existing P5 hub-spoke resources, workload resources, or management resources were changed.
+
+Evidence file:
+- docs/release2/evidence/P6/p6-platform-networking-disabled-plan.txt
+============================================================
+P6 Terraform enabled-mode plan validated locally
+============================================================
+Date:
+2026-05-05 12:27:44 +01:00
+
+Summary:
+- Temporarily set enable_azure_firewall to true for local plan inspection only.
+- Ran terraform validate and terraform plan against platform-networking-dev.
+- Plan showed exactly 5 resources to add, 0 to change, and 0 to destroy.
+- Expected additions:
+  - Azure Firewall
+  - Azure Firewall Policy
+  - Firewall Policy Rule Collection Group
+  - Azure Firewall Public IP
+  - Default route from workload route table to Azure Firewall private IP
+- No existing P5 hub-spoke resources, workload resources, or management resources were proposed for destroy or replacement.
+- Restored enable_azure_firewall to false after plan inspection.
+
+Evidence file:
+- docs/release2/evidence/P6/p6-platform-networking-enabled-plan.txt

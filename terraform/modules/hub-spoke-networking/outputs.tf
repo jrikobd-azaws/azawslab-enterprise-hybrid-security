@@ -33,3 +33,23 @@ output "spoke_to_hub_peering_id" {
 output "workload_route_table_id" {
   value = azurerm_route_table.workload_to_hub.id
 }
+
+output "azure_firewall_id" {
+  value = var.enable_azure_firewall ? azurerm_firewall.this[0].id : null
+}
+
+output "azure_firewall_private_ip_address" {
+  value = var.enable_azure_firewall ? azurerm_firewall.this[0].ip_configuration[0].private_ip_address : null
+}
+
+output "azure_firewall_public_ip_id" {
+  value = var.enable_azure_firewall ? azurerm_public_ip.azure_firewall[0].id : null
+}
+
+output "azure_firewall_policy_id" {
+  value = var.enable_azure_firewall ? azurerm_firewall_policy.this[0].id : null
+}
+
+output "azure_firewall_default_route_id" {
+  value = var.enable_azure_firewall ? azurerm_route.default_to_azure_firewall[0].id : null
+}
