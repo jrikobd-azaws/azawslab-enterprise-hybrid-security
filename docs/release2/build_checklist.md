@@ -592,3 +592,17 @@ Evidence:
 - [x] Security contact deployed through Terraform in `terraform/platform-shared/dev`.
 - [x] No paid Defender workload plan enabled during this step.
 - [ ] Post-change Defender recommendations / Secure Score review still needs to be captured.
+
+## P5 Ephemeral Bastion validation checkpoint
+
+Date: 2026-05-05 20:55:24 +01:00
+
+- [x] Bastion enabled ephemerally for private access validation
+- [x] Bastion enable apply completed through GitHub Actions
+- [x] Workload VM started temporarily for validation
+- [x] Workload VM confirmed private-only with no public IP
+- [x] Private RDP access through Bastion validated
+- [x] Bastion validation screenshots captured
+- [x] Text validation evidence captured under `docs/release2/evidence/P5/`
+- [x] Workload VM deallocated after validation
+- [~] Bastion disablement / teardown pending GitHub Actions apply

@@ -33,3 +33,11 @@ output "azure_firewall_policy_id" {
 output "azure_firewall_default_route_id" {
   value = module.hub_spoke_networking.azure_firewall_default_route_id
 }
+
+output "bastion_host_id" {
+  value = module.hub_spoke_networking.bastion_host_id
+}
+
+output "bastion_public_ip_id" {
+  value = module.hub_spoke_networking.bastion_public_ip_id
+}
