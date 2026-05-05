@@ -42,3 +42,15 @@ output "p8_sentinel_onboarding_id" {
 output "p8_sentinel_analytics_rule_id" {
   value = module.monitoring.sentinel_analytics_rule_id
 }
+
+output "p9a_action_group_id" {
+  value = module.monitoring.p9a_action_group_id
+}
+
+output "p9a_metric_alert_id" {
+  value = module.monitoring.p9a_metric_alert_id
+}
+
+output "p9a_metric_alert_target_vm_id" {
+  value = module.monitoring.p9a_metric_alert_target_vm_id
+}

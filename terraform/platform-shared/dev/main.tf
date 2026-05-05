@@ -10,11 +10,11 @@ module "security" {
     "f0c31d32-a72f-4b16-8643-c3f19900da29"  # sp-terraform-gh
   ]
 
-  defender_for_servers_pricing_tier = "Standard"
-  defender_for_servers_subplan      = "P1"
-
   defender_security_contact_name  = "default"
   defender_security_contact_email = "admin-lab@entra.azawslab.co.uk"
+
+  defender_for_servers_pricing_tier = "Standard"
+  defender_for_servers_subplan      = "P1"
 }
 
 
@@ -39,7 +39,11 @@ import {
 module "monitoring" {
   source = "../../modules/monitoring"
 
-  enable_sentinel              = true
+  enable_sentinel = true
+
+  enable_monitor_alerts        = true
+  monitor_action_group_email   = "admin-lab@entra.azawslab.co.uk"
+  monitor_alert_target_vm_id   = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01"
   resource_group_name          = "rg-dev-monitoring-norwayeast"
   location                     = "norwayeast"
   log_analytics_workspace_name = "law-dev-platform-norwayeast"
@@ -52,4 +56,6 @@ module "monitoring" {
     Phase       = "P8"
   }
 }
+
+
 

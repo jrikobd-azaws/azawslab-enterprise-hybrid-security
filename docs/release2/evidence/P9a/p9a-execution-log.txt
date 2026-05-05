@@ -1,0 +1,24 @@
+﻿============================================================
+P9a Azure Monitor alerting configuration prepared
+============================================================
+Date:
+2026-05-05 19:18:45 +01:00
+
+Summary:
+- Added P9a Azure Monitor alerting configuration to terraform/modules/monitoring.
+- Added enable_monitor_alerts=false so alert resources are not deployed by default.
+- Added action group definition for admin-lab email notification.
+- Added VM Percentage CPU metric alert targeting vm-dev-client-01.
+- Ran terraform fmt/init/validate/plan against terraform/platform-shared/dev.
+- Disabled P9a plan introduced no P9a action group or metric alert resources.
+- No destroy or replacement action was present.
+- The platform-shared plan may still show pending P7 Defender for Servers Plan 1 because that PR/apply is still pending.
+
+DCR note:
+- DCR discovery in the current-state audit was incomplete because Azure CLI requested monitor-control-service extension installation.
+- Layer 1 P9a metric alert uses Azure Monitor platform metrics and does not require a DCR.
+- DCR/AMA implementation can be handled later when the extension/provider path is confirmed.
+
+Evidence:
+- docs/release2/evidence/P9a/p9a-source-and-current-state-audit.txt
+- docs/release2/evidence/P9a/p9a-platform-shared-disabled-plan.txt

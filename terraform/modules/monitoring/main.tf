@@ -83,3 +83,44 @@ KQL
     azurerm_sentinel_log_analytics_workspace_onboarding.sentinel
   ]
 }
+
+resource "azurerm_monitor_action_group" "p9a" {
+  count = var.enable_monitor_alerts ? 1 : 0
+
+  name                = var.monitor_action_group_name
+  resource_group_name = var.resource_group_name
+  short_name          = var.monitor_action_group_short_name
+  tags                = var.tags
+
+  email_receiver {
+    name                    = "admin-lab-email"
+    email_address           = var.monitor_action_group_email
+    use_common_alert_schema = true
+  }
+}
+
+resource "azurerm_monitor_metric_alert" "vm_cpu_high" {
+  count = var.enable_monitor_alerts ? 1 : 0
+
+  name                = var.monitor_cpu_alert_name
+  resource_group_name = var.resource_group_name
+  scopes              = [var.monitor_alert_target_vm_id]
+  description         = "P9a validation alert for high CPU on vm-dev-client-01."
+  severity            = 3
+  enabled             = true
+  frequency           = "PT5M"
+  window_size         = "PT5M"
+  tags                = var.tags
+
+  criteria {
+    metric_namespace = "Microsoft.Compute/virtualMachines"
+    metric_name      = "Percentage CPU"
+    aggregation      = "Average"
+    operator         = "GreaterThan"
+    threshold        = var.monitor_cpu_alert_threshold
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.p9a[0].id
+  }
+}

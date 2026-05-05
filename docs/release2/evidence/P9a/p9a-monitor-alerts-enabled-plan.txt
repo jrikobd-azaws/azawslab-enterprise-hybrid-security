@@ -1,0 +1,93 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # module.monitoring.azurerm_monitor_action_group.p9a[0] will be created
+  + resource "azurerm_monitor_action_group" "p9a" {
+      + enabled             = true
+      + id                  = (known after apply)
+      + location            = "global"
+      + name                = "ag-p9a-platform-ops"
+      + resource_group_name = "rg-dev-monitoring-norwayeast"
+      + short_name          = "p9aops"
+      + tags                = {
+          + "CostCenter"  = "lab"
+          + "Environment" = "dev"
+          + "Owner"       = "platform"
+          + "Phase"       = "P8"
+          + "Project"     = "azawslab"
+        }
+
+      + email_receiver {
+          + email_address           = "admin-lab@entra.azawslab.co.uk"
+          + name                    = "admin-lab-email"
+          + use_common_alert_schema = true
+        }
+    }
+
+  # module.monitoring.azurerm_monitor_metric_alert.vm_cpu_high[0] will be created
+  + resource "azurerm_monitor_metric_alert" "vm_cpu_high" {
+      + auto_mitigate            = true
+      + description              = "P9a validation alert for high CPU on vm-dev-client-01."
+      + enabled                  = true
+      + frequency                = "PT5M"
+      + id                       = (known after apply)
+      + name                     = "alert-p9a-vm-cpu-high"
+      + resource_group_name      = "rg-dev-monitoring-norwayeast"
+      + scopes                   = [
+          + "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+        ]
+      + severity                 = 3
+      + tags                     = {
+          + "CostCenter"  = "lab"
+          + "Environment" = "dev"
+          + "Owner"       = "platform"
+          + "Phase"       = "P8"
+          + "Project"     = "azawslab"
+        }
+      + target_resource_location = (known after apply)
+      + target_resource_type     = (known after apply)
+      + window_size              = "PT5M"
+
+      + action {
+          + action_group_id = (known after apply)
+        }
+
+      + criteria {
+          + aggregation            = "Average"
+          + metric_name            = "Percentage CPU"
+          + metric_namespace       = "Microsoft.Compute/virtualMachines"
+          + operator               = "GreaterThan"
+          + skip_metric_validation = false
+          + threshold              = 85
+        }
+    }
+
+  # module.monitoring.azurerm_sentinel_alert_rule_scheduled.azure_activity_write_delete[0] will be updated in-place
+  ~ resource "azurerm_sentinel_alert_rule_scheduled" "azure_activity_write_delete" {
+        id                          = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/alertRules/rule-p8-azure-activity-write-delete"
+        name                        = "rule-p8-azure-activity-write-delete"
+      ~ query                       = <<-EOT
+          - AzureActivity
+          + AzureActivity
+          - | where OperationNameValue has_any ("write", "delete")
+          + | where OperationNameValue has_any ("write", "delete")
+          - | summarize OperationCount = count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)
+          + | summarize OperationCount = count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)
+            | where OperationCount >= 3
+        EOT
+        # (16 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+Plan: 2 to add, 1 to change, 0 to destroy.
+
+Changes to Outputs:
+  + p9a_action_group_id               = (known after apply)
+  + p9a_metric_alert_id               = (known after apply)
+  + p9a_metric_alert_target_vm_id     = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01"
