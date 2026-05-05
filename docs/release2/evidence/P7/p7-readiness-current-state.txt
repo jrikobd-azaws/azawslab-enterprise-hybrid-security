@@ -1,0 +1,4369 @@
+﻿============================================================
+Timestamp
+============================================================
+2026-05-05 14:00:15 +01:00
+
+============================================================
+Git branch
+============================================================
+main
+
+============================================================
+Git status
+============================================================
+?? docs/release2/evidence/P7/
+
+============================================================
+Latest commits
+============================================================
+7763649 Merge pull request #126 from jrikobd-azaws/feature/release2-p6-disable-firewall-after-validation
+89f80b0 Close out P6 Azure Firewall teardown evidence
+88f4576 Merge pull request #125 from jrikobd-azaws/feature/release2-p6-disable-firewall-after-validation
+ec157ae Disable P6 Azure Firewall after validation
+935797e Merge pull request #124 from jrikobd-azaws/feature/release2-p6-firewall-deployment-evidence
+b185d9d Document P6 Azure Firewall deployment evidence
+4b6be73 Merge pull request #123 from jrikobd-azaws/feature/release2-p6-firewall-standard-sku-fix
+2289816 Fix P6 Azure Firewall SKU for validation
+
+============================================================
+Azure account
+============================================================
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "id": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "Azure subscription 1",
+  "state": "Enabled",
+  "tenantDefaultDomain": "entra.azawslab.co.uk",
+  "tenantDisplayName": "AZAWS",
+  "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "user": {
+    "name": "admin-lab@entra.azawslab.co.uk",
+    "type": "user"
+  }
+}
+
+============================================================
+Microsoft.Security provider
+============================================================
+{
+  "authorizations": [
+    {
+      "applicationId": "8edd93e1-2103-40b4-bd70-6e34e586362d",
+      "roleDefinitionId": "855AF4C4-82F6-414C-B1A2-628025628B9A"
+    },
+    {
+      "applicationId": "fc780465-2017-40d4-a0c5-307022471b92"
+    },
+    {
+      "applicationId": "8ee8fdad-f234-4243-8f3b-15c294843740"
+    },
+    {
+      "applicationId": "e0ccf59d-5a20-4a87-a122-f42842cdb86a",
+      "roleDefinitionId": "b2b30881-ef9c-4e7c-8ce5-67e0e5ae89ff"
+    },
+    {
+      "applicationId": "0c7668b5-3260-4ad0-9f53-34ed54fa19b2"
+    },
+    {
+      "applicationId": "bd6d9218-235b-4abd-b3be-9ff157dcf36c",
+      "roleDefinitionId": "0500cf0f-72a5-4267-929a-52ca66a7b812"
+    },
+    {
+      "applicationId": "cbff9545-769a-4b41-b76e-fbb069e8727e",
+      "roleDefinitionId": "f20516f1-eb1e-47ed-8aa4-bbeafa5f475f"
+    },
+    {
+      "applicationId": "81172f0f-5d81-47c7-96f6-49c58b60d192",
+      "roleDefinitionId": "de57549b-334a-41ca-9537-7ed4f96c81a0"
+    },
+    {
+      "applicationId": "6e2cffc9-52e7-4bfa-8155-be5c1dacd81c"
+    },
+    {
+      "applicationId": "56823b05-67d8-413a-b6ab-ad19d7710cf2",
+      "roleDefinitionId": "a27a006e-1889-46ea-b476-0f3912b4e245"
+    },
+    {
+      "applicationId": "3f6aecb4-6dbf-4e45-9141-440abdced562"
+    },
+    {
+      "applicationId": "a70c8393-7c0c-4c1e-916a-811bd476ee11"
+    },
+    {
+      "applicationId": "1efb1569-5fd6-4938-8b8d-9f3aa07c658d",
+      "roleDefinitionId": "bfe6bea5-d443-4bbc-b12e-ecd5d71373e1"
+    },
+    {
+      "applicationId": "080765e3-9336-4461-b934-310acccb907d",
+      "roleDefinitionId": "86009a17-0e45-4577-8599-fd6037f70e3e"
+    },
+    {
+      "applicationId": "6b5b3617-ba00-46f6-8770-1849282a189a"
+    },
+    {
+      "applicationId": "b6a1fec6-8029-456b-81ed-de7754615362"
+    },
+    {
+      "applicationId": "ee45196f-bd15-4010-9a66-c8497a97a873",
+      "roleDefinitionId": "41758ea2-fb76-487f-b00d-700ff259d13f"
+    },
+    {
+      "applicationId": "d0ef82bb-244a-4458-9eb4-24a9f093f2c4",
+      "roleDefinitionId": "0699c755-c176-479e-aa6b-3196a5aa08ad"
+    },
+    {
+      "applicationId": "bceea168-88ac-4736-95dc-4ce488ffe324"
+    }
+  ],
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security",
+  "namespace": "Microsoft.Security",
+  "providerAuthorizationConsentState": null,
+  "registrationPolicy": "RegistrationRequired",
+  "registrationState": "Registered",
+  "resourceTypes": [
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2024-10-01-preview",
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "operations",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "securityStatuses",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "tasks",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01-preview",
+        "2020-01-01"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "secureScores",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01-preview",
+        "2020-01-01"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "secureScores/secureScoreControls",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01-preview",
+        "2020-01-01"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "secureScoreControls",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01-preview",
+        "2020-01-01"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "secureScoreControlDefinitions",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-01-01-preview",
+        "2019-01-01"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "regulatoryComplianceStandards",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-01-01-preview",
+        "2019-01-01"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "regulatoryComplianceStandards/regulatoryComplianceControls",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-01-01-preview",
+        "2019-01-01"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "regulatoryComplianceStandards/regulatoryComplianceControls/regulatoryComplianceAssessments",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2022-01-01",
+        "2021-11-01",
+        "2021-01-01",
+        "2020-01-01",
+        "2019-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "North Europe"
+      ],
+      "properties": null,
+      "resourceType": "alerts",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-01-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "alertsSuppressionRules",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-01-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "autoDismissAlertsRules",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2015-06-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "East US",
+        "East US 2",
+        "West US",
+        "North Central US",
+        "South Central US",
+        "Central US",
+        "North Europe",
+        "West Europe",
+        "Japan East",
+        "Japan West",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East"
+      ],
+      "properties": null,
+      "resourceType": "dataCollectionAgents",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2025-10-01-preview",
+        "2024-01-01",
+        "2023-01-01",
+        "2022-03-01",
+        "2018-06-01"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "pricings",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2025-10-01-preview"
+      ],
+      "capabilities": "SystemAssignedResourceIdentity, SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "securityOperators",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2023-01-01-preview"
+      ],
+      "capabilities": "SystemAssignedResourceIdentity",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "pricings/securityOperators",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-01-01",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "AutoProvisioningSettings",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2021-10-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "MdeOnboardings",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2022-03-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "global"
+      ],
+      "properties": null,
+      "resourceType": "vmScanners",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2017-08-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "Compliances",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2023-12-01-preview",
+        "2020-01-01-preview",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "securityContacts",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-01-01",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "workspaceSettings",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2017-08-01"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "complianceResults",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "policies",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2025-05-04",
+        "2021-06-01",
+        "2020-01-01",
+        "2019-01-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "assessments",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2022-01-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "governanceRules",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2025-05-04",
+        "2022-01-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "assessments/governanceAssignments",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2025-05-04",
+        "2021-06-01",
+        "2020-01-01",
+        "2019-01-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "assessmentMetadata",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2019-01-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "subAssessments",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "securitySolutions",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "locations/securitySolutions",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "discoveredSecuritySolutions",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "locations/discoveredSecuritySolutions",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "allowedConnections",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "locations/allowedConnections",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "topologies",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "locations/topologies",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "securitySolutionsReferenceData",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "locations/securitySolutionsReferenceData",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2015-06-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Brazil Southeast",
+        "Canada Central",
+        "Canada East",
+        "Central India",
+        "Central US",
+        "Chile Central",
+        "East Asia",
+        "East US",
+        "East US 2",
+        "Indonesia Central",
+        "Israel Central",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "Malaysia West",
+        "Mexico Central",
+        "New Zealand North",
+        "North Central US",
+        "Qatar Central",
+        "South Africa North",
+        "South Africa West",
+        "South Central US",
+        "South India",
+        "Southeast Asia",
+        "UAE Central",
+        "UAE North",
+        "West India",
+        "West US",
+        "West US 3",
+        "Austria East",
+        "Belgium Central",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Italy North",
+        "North Europe",
+        "Norway East",
+        "Norway West",
+        "Poland Central",
+        "Spain Central",
+        "Sweden Central",
+        "Switzerland North",
+        "UK South",
+        "UK West",
+        "West Europe",
+        "West Central US",
+        "West US 2"
+      ],
+      "properties": null,
+      "resourceType": "jitPolicies",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Brazil Southeast",
+        "Canada Central",
+        "Canada East",
+        "Central India",
+        "Central US",
+        "Chile Central",
+        "East Asia",
+        "East US",
+        "East US 2",
+        "Indonesia Central",
+        "Israel Central",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "Malaysia West",
+        "Mexico Central",
+        "New Zealand North",
+        "North Central US",
+        "Qatar Central",
+        "South Africa North",
+        "South Africa West",
+        "South Central US",
+        "South India",
+        "Southeast Asia",
+        "UAE Central",
+        "UAE North",
+        "West India",
+        "West US",
+        "West US 3",
+        "Austria East",
+        "Belgium Central",
+        "France Central",
+        "Germany West Central",
+        "Italy North",
+        "North Europe",
+        "Norway East",
+        "Norway West",
+        "Poland Central",
+        "Spain Central",
+        "Sweden Central",
+        "Switzerland North",
+        "UK South",
+        "UK West",
+        "West Europe",
+        "West Central US",
+        "West US 2"
+      ],
+      "properties": null,
+      "resourceType": "jitNetworkAccessPolicies",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Brazil Southeast",
+        "Canada Central",
+        "Canada East",
+        "Central India",
+        "Central US",
+        "Chile Central",
+        "East Asia",
+        "East US",
+        "East US 2",
+        "Indonesia Central",
+        "Israel Central",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "Malaysia West",
+        "Mexico Central",
+        "New Zealand North",
+        "North Central US",
+        "Qatar Central",
+        "South Africa North",
+        "South Africa West",
+        "South Central US",
+        "South India",
+        "Southeast Asia",
+        "UAE Central",
+        "UAE North",
+        "West India",
+        "West US",
+        "West US 3",
+        "Austria East",
+        "Belgium Central",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Italy North",
+        "North Europe",
+        "Norway East",
+        "Norway West",
+        "Poland Central",
+        "Spain Central",
+        "Sweden Central",
+        "Switzerland North",
+        "UK South",
+        "UK West",
+        "West Europe",
+        "West Central US",
+        "West US 2"
+      ],
+      "properties": null,
+      "resourceType": "locations/jitNetworkAccessPolicies",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "locations",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "securityStatusesSummaries",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2022-01-01",
+        "2021-11-01",
+        "2021-01-01",
+        "2020-01-01",
+        "2019-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "West Europe"
+      ],
+      "properties": null,
+      "resourceType": "locations/alerts",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "locations/tasks",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "externalSecuritySolutions",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "West Europe",
+        "West Central US"
+      ],
+      "properties": null,
+      "resourceType": "locations/externalSecuritySolutions",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2017-08-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "InformationProtectionPolicies",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-01-01",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Brazil Southeast",
+        "Canada Central",
+        "Canada East",
+        "Central India",
+        "Central US",
+        "East Asia",
+        "East US 2",
+        "East US",
+        "Germany West Central",
+        "France Central",
+        "Israel Central",
+        "Italy North",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "Mexico Central",
+        "New Zealand North",
+        "North Central US",
+        "North Europe",
+        "Norway East",
+        "Norway West",
+        "Poland Central",
+        "Qatar Central",
+        "South Africa North",
+        "South Africa West",
+        "South Central US",
+        "South India",
+        "Southeast Asia",
+        "Spain Central",
+        "Sweden Central",
+        "Switzerland North",
+        "UAE North",
+        "UK South",
+        "UK West",
+        "West Central US",
+        "West Europe",
+        "West India",
+        "West US",
+        "West US 2",
+        "West US 3"
+      ],
+      "properties": null,
+      "resourceType": "advancedThreatProtectionSettings",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2026-04-01-preview",
+        "2023-02-01-preview",
+        "2020-07-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "West Central US",
+        "Brazil South",
+        "Australia Central",
+        "Australia East",
+        "Canada Central",
+        "East Asia",
+        "East US",
+        "East US 2",
+        "Central India",
+        "West India",
+        "Japan East",
+        "North Central US",
+        "South Africa North",
+        "Switzerland North",
+        "UK South",
+        "West US 2",
+        "Australia Southeast",
+        "Central US",
+        "France Central",
+        "Korea Central",
+        "North Europe",
+        "South Central US",
+        "Southeast Asia",
+        "UK West",
+        "West US",
+        "West Europe",
+        "West US 3",
+        "Germany West Central",
+        "Norway East",
+        "Qatar Central",
+        "Canada East",
+        "Japan West",
+        "UAE Central",
+        "Sweden Central",
+        "UAE North",
+        "South India",
+        "Korea South",
+        "Poland Central",
+        "South Africa West",
+        "Germany North",
+        "France South",
+        "Australia Central 2",
+        "Israel Central",
+        "Italy North",
+        "Mexico Central",
+        "Spain Central",
+        "New Zealand North",
+        "Chile Central",
+        "Indonesia Central",
+        "Malaysia West",
+        "Austria East",
+        "Belgium Central",
+        "Denmark East"
+      ],
+      "properties": null,
+      "resourceType": "sqlVulnerabilityAssessments",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-08-01",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "North Central US",
+        "South Central US",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "West Central US",
+        "Korea Central",
+        "Korea South",
+        "Australia Central",
+        "Australia Central 2",
+        "UAE Central",
+        "UAE North",
+        "South Africa North",
+        "South Africa West",
+        "North Europe",
+        "West Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Norway East",
+        "Switzerland North"
+      ],
+      "properties": null,
+      "resourceType": "deviceSecurityGroups",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-08-01",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "North Central US",
+        "South Central US",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "West Central US",
+        "Korea Central",
+        "Korea South",
+        "Australia Central",
+        "Australia Central 2",
+        "UAE Central",
+        "UAE North",
+        "South Africa North",
+        "South Africa West",
+        "North Europe",
+        "West Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Norway East",
+        "Switzerland North"
+      ],
+      "properties": null,
+      "resourceType": "iotSecuritySolutions",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-08-01",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "North Central US",
+        "South Central US",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "West Central US",
+        "Korea Central",
+        "Korea South",
+        "Australia Central",
+        "Australia Central 2",
+        "UAE Central",
+        "UAE North",
+        "South Africa North",
+        "South Africa West",
+        "North Europe",
+        "West Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Norway East",
+        "Switzerland North"
+      ],
+      "properties": null,
+      "resourceType": "iotSecuritySolutions/analyticsModels",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-08-01"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "North Central US",
+        "South Central US",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "West Central US",
+        "Korea Central",
+        "Korea South",
+        "Australia Central",
+        "Australia Central 2",
+        "UAE Central",
+        "UAE North",
+        "South Africa North",
+        "South Africa West",
+        "North Europe",
+        "West Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Norway East",
+        "Switzerland North"
+      ],
+      "properties": null,
+      "resourceType": "iotSecuritySolutions/iotAlertTypes",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-08-01"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "North Central US",
+        "South Central US",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "West Central US",
+        "Korea Central",
+        "Korea South",
+        "Australia Central",
+        "Australia Central 2",
+        "UAE Central",
+        "UAE North",
+        "South Africa North",
+        "South Africa West",
+        "North Europe",
+        "West Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Norway East",
+        "Switzerland North"
+      ],
+      "properties": null,
+      "resourceType": "iotSecuritySolutions/iotAlerts",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-08-01"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "North Central US",
+        "South Central US",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "West Central US",
+        "Korea Central",
+        "Korea South",
+        "Australia Central",
+        "Australia Central 2",
+        "UAE Central",
+        "UAE North",
+        "South Africa North",
+        "South Africa West",
+        "North Europe",
+        "West Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Norway East",
+        "Switzerland North"
+      ],
+      "properties": null,
+      "resourceType": "iotSecuritySolutions/iotRecommendationTypes",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-08-01"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "North Central US",
+        "South Central US",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "West Central US",
+        "Korea Central",
+        "Korea South",
+        "Australia Central",
+        "Australia Central 2",
+        "UAE Central",
+        "UAE North",
+        "South Africa North",
+        "South Africa West",
+        "North Europe",
+        "West Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Norway East",
+        "Switzerland North"
+      ],
+      "properties": null,
+      "resourceType": "iotSecuritySolutions/iotRecommendations",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-08-01",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "North Central US",
+        "South Central US",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "West Central US",
+        "Korea Central",
+        "Korea South",
+        "Australia Central",
+        "Australia Central 2",
+        "UAE Central",
+        "UAE North",
+        "South Africa North",
+        "South Africa West",
+        "North Europe",
+        "West Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Norway East",
+        "Switzerland North"
+      ],
+      "properties": null,
+      "resourceType": "iotSecuritySolutions/analyticsModels/aggregatedAlerts",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2019-08-01",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "North Central US",
+        "South Central US",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "West Central US",
+        "Korea Central",
+        "Korea South",
+        "Australia Central",
+        "Australia Central 2",
+        "UAE Central",
+        "UAE North",
+        "South Africa North",
+        "South Africa West",
+        "North Europe",
+        "West Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Norway East",
+        "Switzerland North"
+      ],
+      "properties": null,
+      "resourceType": "iotSecuritySolutions/analyticsModels/aggregatedRecommendations",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2022-05-01",
+        "2021-07-01",
+        "2021-06-01",
+        "2019-01-01",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US"
+      ],
+      "properties": null,
+      "resourceType": "settings",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2020-01-01",
+        "2015-06-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "West Europe",
+        "North Europe",
+        "UK South",
+        "UK West",
+        "France Central",
+        "France South",
+        "Switzerland North",
+        "Germany West Central",
+        "Sweden Central",
+        "Italy North"
+      ],
+      "properties": null,
+      "resourceType": "serverVulnerabilityAssessments",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2023-05-01",
+        "2022-01-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "serverVulnerabilityAssessmentsSettings",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2023-12-01-preview",
+        "2019-01-01-preview"
+      ],
+      "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "East US 2",
+        "North Central US",
+        "South Central US",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "West Central US",
+        "Canada Central",
+        "Canada East",
+        "Brazil South",
+        "East Asia",
+        "Southeast Asia",
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Central India",
+        "South India",
+        "West India",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "South Africa North",
+        "South Africa West",
+        "UAE Central",
+        "UAE North",
+        "North Europe",
+        "West Europe",
+        "France Central",
+        "France South",
+        "UK South",
+        "UK West",
+        "Norway East",
+        "Norway West",
+        "Germany West Central",
+        "Germany North",
+        "Switzerland North",
+        "Switzerland West",
+        "Sweden Central",
+        "Qatar Central",
+        "Brazil Southeast",
+        "Spain Central",
+        "Israel Central",
+        "Poland Central"
+      ],
+      "properties": null,
+      "resourceType": "automations",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2026-03-01-preview",
+        "2025-09-01-preview",
+        "2025-07-01-preview",
+        "2025-06-01",
+        "2025-02-01-preview",
+        "2025-01-01",
+        "2024-10-01-preview",
+        "2024-08-01-preview",
+        "2022-12-01-preview",
+        "2017-08-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Brazil Southeast",
+        "Canada Central",
+        "Canada East",
+        "Central India",
+        "Central US",
+        "East Asia",
+        "East US",
+        "East US 2",
+        "France Central",
+        "France South",
+        "Germany West Central",
+        "Germany North",
+        "Israel Central",
+        "Italy North",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "Mexico Central",
+        "New Zealand North",
+        "North Central US",
+        "North Europe",
+        "Norway East",
+        "Norway West",
+        "Poland Central",
+        "Qatar Central",
+        "South Africa North",
+        "South Africa West",
+        "South Central US",
+        "South India",
+        "Southeast Asia",
+        "Spain Central",
+        "Sweden Central",
+        "Switzerland North",
+        "Switzerland West",
+        "UAE North",
+        "UK South",
+        "UK West",
+        "West Central US",
+        "West Europe",
+        "West US",
+        "West US 2",
+        "West US 3"
+      ],
+      "properties": null,
+      "resourceType": "defenderForStorageSettings",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2021-12-01-preview"
+      ],
+      "capabilities": "SystemAssignedResourceIdentity",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US"
+      ],
+      "properties": null,
+      "resourceType": "dataScanners",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2026-01-01-preview",
+        "2025-08-01-preview",
+        "2024-08-01-preview",
+        "2024-07-01-preview",
+        "2024-03-01-preview",
+        "2023-10-01-preview",
+        "2023-03-01-preview"
+      ],
+      "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "East US 2",
+        "North Central US",
+        "South Central US",
+        "West US",
+        "West US 2",
+        "West US 3",
+        "West Central US",
+        "Canada Central",
+        "Canada East",
+        "Brazil South",
+        "East Asia",
+        "Southeast Asia",
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Central India",
+        "South India",
+        "West India",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "South Africa North",
+        "South Africa West",
+        "UAE Central",
+        "UAE North",
+        "North Europe",
+        "West Europe",
+        "France Central",
+        "France South",
+        "UK South",
+        "UK West",
+        "Norway East",
+        "Norway West",
+        "Sweden Central",
+        "Switzerland North",
+        "Switzerland West",
+        "Germany West Central",
+        "Germany North",
+        "Brazil Southeast",
+        "Qatar Central",
+        "Spain Central",
+        "Israel Central",
+        "Poland Central"
+      ],
+      "properties": null,
+      "resourceType": "securityConnectors",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2025-11-01-preview",
+        "2025-03-01",
+        "2024-05-01-preview",
+        "2024-04-01",
+        "2023-09-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "UK South",
+        "East US",
+        "North Europe",
+        "Sweden Central",
+        "Canada Central",
+        "East Asia",
+        "Australia East",
+        "West Europe",
+        "Central US"
+      ],
+      "properties": null,
+      "resourceType": "securityConnectors/devops",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2024-08-01",
+        "2023-05-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "customRecommendations",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2021-07-01-preview",
+        "2021-07-01-beta",
+        "2021-07-01-alpha"
+      ],
+      "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "East US 2",
+        "North Central US",
+        "South Central US",
+        "West US",
+        "West US 2",
+        "West Central US",
+        "Canada Central",
+        "Canada East",
+        "Brazil South",
+        "East Asia",
+        "Southeast Asia",
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Central India",
+        "South India",
+        "West India",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "South Africa North",
+        "South Africa West",
+        "UAE Central",
+        "UAE North",
+        "North Europe",
+        "West Europe",
+        "France Central",
+        "France South",
+        "UK South",
+        "UK West",
+        "Norway East",
+        "Norway West",
+        "Germany West Central",
+        "Germany North",
+        "Switzerland North",
+        "Switzerland West"
+      ],
+      "properties": null,
+      "resourceType": "customAssessmentAutomations",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2024-08-01",
+        "2023-05-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "securityStandards",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2021-08-01-preview"
+      ],
+      "capabilities": "SupportsTags, SupportsLocation",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "East US 2",
+        "North Central US",
+        "South Central US",
+        "West US",
+        "West US 2",
+        "West Central US",
+        "Canada Central",
+        "Canada East",
+        "Brazil South",
+        "East Asia",
+        "Southeast Asia",
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Central India",
+        "South India",
+        "West India",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "South Africa North",
+        "South Africa West",
+        "UAE Central",
+        "UAE North",
+        "North Europe",
+        "West Europe",
+        "France Central",
+        "France South",
+        "UK South",
+        "UK West",
+        "Norway East",
+        "Norway West",
+        "Germany West Central",
+        "Germany North",
+        "Switzerland North",
+        "Switzerland West"
+      ],
+      "properties": null,
+      "resourceType": "standards",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2024-08-01",
+        "2023-05-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "standardAssignments",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2021-08-01-preview"
+      ],
+      "capabilities": "SupportsTags, SupportsLocation",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "East US 2",
+        "North Central US",
+        "South Central US",
+        "West US",
+        "West US 2",
+        "West Central US",
+        "Canada Central",
+        "Canada East",
+        "Brazil South",
+        "East Asia",
+        "Southeast Asia",
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Central India",
+        "South India",
+        "West India",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "South Africa North",
+        "South Africa West",
+        "UAE Central",
+        "UAE North",
+        "North Europe",
+        "West Europe",
+        "France Central",
+        "France South",
+        "UK South",
+        "UK West",
+        "Norway East",
+        "Norway West",
+        "Germany West Central",
+        "Germany North",
+        "Switzerland North",
+        "Switzerland West"
+      ],
+      "properties": null,
+      "resourceType": "assignments",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2023-02-15-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "sensitivitySettings",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2025-02-01-preview",
+        "2025-02-01-beta",
+        "2025-02-01-alpha",
+        "2022-04-01-preview",
+        "2022-04-01-beta",
+        "2022-04-01-alpha"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [
+        "Central US",
+        "East US",
+        "East US 2",
+        "North Central US",
+        "South Central US",
+        "West US",
+        "West US 2",
+        "West Central US",
+        "Canada Central",
+        "Canada East",
+        "Brazil South",
+        "East Asia",
+        "Southeast Asia",
+        "Australia Central",
+        "Australia Central 2",
+        "Australia East",
+        "Australia Southeast",
+        "Central India",
+        "South India",
+        "West India",
+        "Japan East",
+        "Japan West",
+        "Korea Central",
+        "Korea South",
+        "South Africa North",
+        "South Africa West",
+        "UAE Central",
+        "UAE North",
+        "North Europe",
+        "West Europe",
+        "France Central",
+        "France South",
+        "UK South",
+        "UK West",
+        "Norway East",
+        "Norway West",
+        "Switzerland North",
+        "Switzerland West",
+        "Germany West Central",
+        "Germany North"
+      ],
+      "properties": null,
+      "resourceType": "query",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2022-07-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "applications",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2023-11-15",
+        "2022-11-20-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "apiCollections",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2023-05-01-preview",
+        "2023-02-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "healthReports",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2023-06-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "aggregations",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2023-07-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "integrations",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2024-07-01-preview"
+      ],
+      "capabilities": "SupportsExtension",
+      "defaultApiVersion": null,
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "trustedIps",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2026-01-01",
+        "2025-09-01-preview"
+      ],
+      "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation",
+      "defaultApiVersion": "2025-09-01-preview",
+      "locationMappings": null,
+      "locations": [
+        "global"
+      ],
+      "properties": null,
+      "resourceType": "privateLinks",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2026-01-01",
+        "2025-09-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": "2025-09-01-preview",
+      "locationMappings": null,
+      "locations": [
+        "global"
+      ],
+      "properties": null,
+      "resourceType": "privateLinks/privateEndpointConnections",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2026-01-01",
+        "2025-09-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": "2025-09-01-preview",
+      "locationMappings": null,
+      "locations": [
+        "global"
+      ],
+      "properties": null,
+      "resourceType": "privateLinks/privateEndpointConnectionProxies",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2026-01-01",
+        "2025-09-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": "2025-09-01-preview",
+      "locationMappings": null,
+      "locations": [
+        "global"
+      ],
+      "properties": null,
+      "resourceType": "privateLinks/privateEndpointConnectionProxies/validate",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2026-01-01",
+        "2025-09-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": "2025-09-01-preview",
+      "locationMappings": null,
+      "locations": [
+        "global"
+      ],
+      "properties": null,
+      "resourceType": "privateLinks/privateLinkResources",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2025-10-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": "2025-10-01-preview",
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "locations/operationStatuses",
+      "zoneMappings": null
+    },
+    {
+      "aliases": null,
+      "apiProfiles": null,
+      "apiVersions": [
+        "2025-10-01-preview"
+      ],
+      "capabilities": "None",
+      "defaultApiVersion": "2025-10-01-preview",
+      "locationMappings": null,
+      "locations": [],
+      "properties": null,
+      "resourceType": "locations/operationResults",
+      "zoneMappings": null
+    }
+  ]
+}
+
+============================================================
+Microsoft.Security pricing API versions
+============================================================
+[
+  [
+    "2025-10-01-preview",
+    "2024-01-01",
+    "2023-01-01",
+    "2022-03-01",
+    "2018-06-01"
+  ]
+]
+
+============================================================
+Microsoft.Security pricings
+============================================================
+{
+  "value": [
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/VirtualMachines",
+      "name": "VirtualMachines",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/SqlServers",
+      "name": "SqlServers",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/AppServices",
+      "name": "AppServices",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/StorageAccounts",
+      "name": "StorageAccounts",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/SqlServerVirtualMachines",
+      "name": "SqlServerVirtualMachines",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/KubernetesService",
+      "name": "KubernetesService",
+      "properties": {
+        "deprecated": true,
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free",
+        "replacedBy": [
+          "Containers"
+        ]
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/ContainerRegistry",
+      "name": "ContainerRegistry",
+      "properties": {
+        "deprecated": true,
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free",
+        "replacedBy": [
+          "Containers"
+        ]
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/KeyVaults",
+      "name": "KeyVaults",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/Dns",
+      "name": "Dns",
+      "properties": {
+        "deprecated": true,
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free",
+        "replacedBy": [
+          "VirtualMachines"
+        ]
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/Arm",
+      "name": "Arm",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/OpenSourceRelationalDatabases",
+      "name": "OpenSourceRelationalDatabases",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/CosmosDbs",
+      "name": "CosmosDbs",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/Containers",
+      "name": "Containers",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/CloudPosture",
+      "name": "CloudPosture",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/Api",
+      "name": "Api",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/AI",
+      "name": "AI",
+      "properties": {
+        "freeTrialRemainingTime": "P30D",
+        "pricingTier": "Free"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/Discovery",
+      "name": "Discovery",
+      "properties": {
+        "freeTrialRemainingTime": "PT0S",
+        "pricingTier": "Standard",
+        "resourcesCoverageStatus": "FullyCovered"
+      },
+      "type": "Microsoft.Security/pricings"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/FoundationalCspm",
+      "name": "FoundationalCspm",
+      "properties": {
+        "freeTrialRemainingTime": "PT0S",
+        "pricingTier": "Standard",
+        "resourcesCoverageStatus": "FullyCovered"
+      },
+      "type": "Microsoft.Security/pricings"
+    }
+  ]
+}
+
+============================================================
+Microsoft Defender secure scores
+============================================================
+{
+  "value": [
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/secureScores/ascScore",
+      "name": "ascScore",
+      "properties": {
+        "displayName": "ASC score",
+        "score": {
+          "current": 5.33,
+          "max": 37,
+          "percentage": 0.1441
+        },
+        "weight": 73
+      },
+      "type": "Microsoft.Security/secureScores"
+    }
+  ]
+}
+
+============================================================
+Microsoft Defender assessments
+============================================================
+{
+  "nextLink": "https://management.azure.com/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments?api-version=2020-01-01&NextLink=_muliCloud",
+  "value": [
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/6c99f570-2ce7-46bc-8175-cde013df43bc",
+      "name": "6c99f570-2ce7-46bc-8175-cde013df43bc",
+      "properties": {
+        "displayName": "Guest Configuration extension should be installed on machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/22489c48-27d1-4e40-9420-4303ad9cffef",
+      "name": "22489c48-27d1-4e40-9420-4303ad9cffef",
+      "properties": {
+        "displayName": "Windows Defender Exploit Guard should be enabled on machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "GCExtensionIdentityMissing",
+          "code": "NotApplicable",
+          "description": "Guest Configuration extension, managed identity and user identity are missing."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/12018f4f-3d10-999b-e4c4-86ec25be08a1",
+      "name": "12018f4f-3d10-999b-e4c4-86ec25be08a1",
+      "properties": {
+        "displayName": "Virtual machines should be migrated to new Azure Resource Manager resources",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/e0e431eb-22b3-4f34-ae0d-5ec229fc28e7",
+      "name": "e0e431eb-22b3-4f34-ae0d-5ec229fc28e7",
+      "properties": {
+        "displayName": "Microsoft Defender CSPM should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/96946040-1b25-4dc4-b845-4f341b3fcaab",
+      "name": "96946040-1b25-4dc4-b845-4f341b3fcaab",
+      "properties": {
+        "displayName": "Microsoft Defender for APIs should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no API Management services available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no API Management services available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/88bbc99c-e5af-ddd7-6105-6150b2bfa519",
+      "name": "88bbc99c-e5af-ddd7-6105-6150b2bfa519",
+      "properties": {
+        "displayName": "Diagnostic logs in Key Vault should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/4ed62ae4-5072-f9e7-8d94-51c76c48159a",
+      "name": "4ed62ae4-5072-f9e7-8d94-51c76c48159a",
+      "properties": {
+        "displayName": "Key vaults should have deletion protection enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/9f97e78d-88ee-a48d-abe2-5ef12954e7ea",
+      "name": "9f97e78d-88ee-a48d-abe2-5ef12954e7ea",
+      "properties": {
+        "displayName": "Email notification to subscription owner for high severity alerts should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/f2f595ec-5dc6-68b4-82ef-b63563e9c610",
+      "name": "f2f595ec-5dc6-68b4-82ef-b63563e9c610",
+      "properties": {
+        "displayName": "Azure Backup should be enabled for virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/f6b59724-4a05-aa38-33e2-25f15eecf00b",
+      "name": "f6b59724-4a05-aa38-33e2-25f15eecf00b",
+      "properties": {
+        "displayName": "Azure Key Vaults should use private link",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/52f7826a-ace7-3107-dd0d-4875853c1576",
+      "name": "52f7826a-ace7-3107-dd0d-4875853c1576",
+      "properties": {
+        "displayName": "Firewall should be enabled on Key Vault",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/3869fbd7-5d90-84e4-37bd-d9a7f4ce9a24",
+      "name": "3869fbd7-5d90-84e4-37bd-d9a7f4ce9a24",
+      "properties": {
+        "displayName": "Email notification for high severity alerts should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/78211c00-15a9-336e-17c4-0b48613dadf4",
+      "name": "78211c00-15a9-336e-17c4-0b48613dadf4",
+      "properties": {
+        "displayName": "Key vaults should have soft delete enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/77758c9d-8a56-5f54-6ff7-69a762ca6004",
+      "name": "77758c9d-8a56-5f54-6ff7-69a762ca6004",
+      "properties": {
+        "displayName": "Subscriptions should have a contact email address for security issues",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/87448ec1-55f6-3746-3f79-0f35beee76b4",
+      "name": "87448ec1-55f6-3746-3f79-0f35beee76b4",
+      "properties": {
+        "displayName": "Windows servers should be configured to use secure communication protocols",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "GCExtensionIdentityMissing",
+          "code": "NotApplicable",
+          "description": "Guest Configuration extension, managed identity and user identity are missing."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-spoke-workload/providers/Microsoft.Security/assessments/f1f2f7dc-7bd5-18bf-c403-cbbdb7ec3d68",
+      "name": "f1f2f7dc-7bd5-18bf-c403-cbbdb7ec3d68",
+      "properties": {
+        "displayName": "Network Watcher should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-spoke-workload",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-spoke-workload",
+          "ResourceName": "vnet-dev-norwayeast-spoke-workload",
+          "ResourceProvider": "microsoft.network",
+          "ResourceType": "virtualnetworks",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/f0fb2a7e-16d5-849f-be57-86db712e9bd0",
+      "name": "f0fb2a7e-16d5-849f-be57-86db712e9bd0",
+      "properties": {
+        "displayName": "Microsoft Defender for Resource Manager should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/69ad830b-d98c-b1cf-2158-9d69d38c7093",
+      "name": "69ad830b-d98c-b1cf-2158-9d69d38c7093",
+      "properties": {
+        "displayName": "Secure Boot should be enabled on supported Windows virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/861bbc73-0a55-8d1d-efc6-e92d9e1176e0",
+      "name": "861bbc73-0a55-8d1d-efc6-e92d9e1176e0",
+      "properties": {
+        "displayName": "vTPM should be enabled on supported virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/0cb5f317-a94b-6b80-7212-13a9cc8826af",
+      "name": "0cb5f317-a94b-6b80-7212-13a9cc8826af",
+      "properties": {
+        "displayName": "Windows virtual machines should enable Azure Disk Encryption or EncryptionAtHost.",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/efbbd784-656d-473a-9863-ea7693bfcd2a",
+      "name": "efbbd784-656d-473a-9863-ea7693bfcd2a",
+      "properties": {
+        "displayName": "Virtual machines and virtual machine scale sets should have encryption at host enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/e599a9fe-30e3-47c6-a173-8b4b6d9d3255",
+      "name": "e599a9fe-30e3-47c6-a173-8b4b6d9d3255",
+      "properties": {
+        "displayName": "Microsoft Defender for Containers should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no Containers available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no Containers available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/56a6e81f-7413-4f72-9a1b-aaeeaa87c872",
+      "name": "56a6e81f-7413-4f72-9a1b-aaeeaa87c872",
+      "properties": {
+        "displayName": "Microsoft Defender for servers should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/b6a28450-dd5d-4ba4-8806-245e20ef6632",
+      "name": "b6a28450-dd5d-4ba4-8806-245e20ef6632",
+      "properties": {
+        "displayName": "Microsoft Defender for open-source relational databases should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no open-source relational databases available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no open-source relational databases available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/6ac66a74-761f-4a59-928a-d373eea3f028",
+      "name": "6ac66a74-761f-4a59-928a-d373eea3f028",
+      "properties": {
+        "displayName": "Microsoft Defender for SQL servers on machines should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no Azure SQL virtual machines/Azure Arc-enabled SQL Servers available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no Azure SQL virtual machines/Azure Arc-enabled SQL Servers available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/58d72d9d-0310-4792-9a3b-6dd111093cdb",
+      "name": "58d72d9d-0310-4792-9a3b-6dd111093cdb",
+      "properties": {
+        "displayName": "Microsoft Defender for Azure SQL Database servers should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no Azure SQL database servers/managed instances/synapse workspaces available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no Azure SQL database servers/managed instances/synapse workspaces available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/b1af52e4-e968-4e2b-b6d0-6736c9651f0a",
+      "name": "b1af52e4-e968-4e2b-b6d0-6736c9651f0a",
+      "properties": {
+        "displayName": "Microsoft Defender for Key Vault should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.Security/assessments/90386950-71ca-4357-a12e-486d1679427c",
+      "name": "90386950-71ca-4357-a12e-486d1679427c",
+      "properties": {
+        "displayName": "Machines should be configured to periodically check for missing system updates",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/26f0d5bb-1398-49be-83c5-7161c2e39d8b",
+      "name": "26f0d5bb-1398-49be-83c5-7161c2e39d8b",
+      "properties": {
+        "displayName": "Microsoft Defender for Storage plan should be enabled with Malware Scanning and Sensitive Data Threat Detection",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/0876ef51-fee7-449d-ba1e-f2662c7e43c6",
+      "name": "0876ef51-fee7-449d-ba1e-f2662c7e43c6",
+      "properties": {
+        "displayName": "Microsoft Defender for App Service should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "There are no Azure App Service plans available in the subscription",
+          "code": "NotApplicable",
+          "description": "There are no Azure App Service plans available in the subscription"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01/providers/Microsoft.Security/assessments/55ed2823-a834-42bd-96ec-d3d5c97d9c6b",
+      "name": "55ed2823-a834-42bd-96ec-d3d5c97d9c6b",
+      "properties": {
+        "displayName": "Role-Based Access Control should be used on Azure Keyvault Services (AKV)",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-security-norwayeast/providers/microsoft.keyvault/vaults/kvdevazawsne01",
+          "ResourceName": "kvdevazawsne01",
+          "ResourceProvider": "microsoft.keyvault",
+          "ResourceType": "vaults",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/1195afff-c881-495e-9bc5-1486211ae03f",
+      "name": "1195afff-c881-495e-9bc5-1486211ae03f",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/1195afff-c881-495e-9bc5-1486211ae03f/subAssessments"
+        },
+        "displayName": "Machines should have vulnerability findings resolved",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "Vulnerability assessment scanner is not deployed on the machine",
+          "code": "NotApplicable",
+          "description": "Vulnerability assessment scanner is not deployed on the machine"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/1195afff-c881-495e-9bc5-1486211ae03f",
+      "name": "1195afff-c881-495e-9bc5-1486211ae03f",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/1195afff-c881-495e-9bc5-1486211ae03f/subAssessments"
+        },
+        "displayName": "Machines should have vulnerability findings resolved",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "Vulnerability assessment scanner is not deployed on the machine",
+          "code": "NotApplicable",
+          "description": "Vulnerability assessment scanner is not deployed on the machine"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureBastionSubnet/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureBastionSubnet",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureBastionSubnet",
+          "ResourceName": "AzureBastionSubnet",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/GatewaySubnet/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/GatewaySubnet",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/GatewaySubnet",
+          "ResourceName": "GatewaySubnet",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureFirewallSubnet/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureFirewallSubnet",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureFirewallSubnet",
+          "ResourceName": "AzureFirewallSubnet",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/providers/Microsoft.Security/assessments/e3de1cc0-f4dd-3b34-e496-8b5381ba2d70",
+      "name": "e3de1cc0-f4dd-3b34-e496-8b5381ba2d70",
+      "properties": {
+        "displayName": "Azure DDoS Protection Standard should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub",
+          "ResourceName": "vnet-dev-norwayeast-hub",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "virtualNetworks",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VnetHasNoAppGateways",
+          "code": "NotApplicable",
+          "description": "There are no Application Gateway resources attached to this Virtual Network"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/47bb383c-8e25-95f0-c2aa-437add1d87d3",
+      "name": "47bb383c-8e25-95f0-c2aa-437add1d87d3",
+      "properties": {
+        "displayName": "Storage accounts should be migrated to new Azure Resource Manager resources",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/12018f4f-3d10-999b-e4c4-86ec25be08a1",
+      "name": "12018f4f-3d10-999b-e4c4-86ec25be08a1",
+      "properties": {
+        "displayName": "Virtual machines should be migrated to new Azure Resource Manager resources",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/1c5de8e1-f68d-6a17-e0d2-ec259c42768c",
+      "name": "1c5de8e1-f68d-6a17-e0d2-ec259c42768c",
+      "properties": {
+        "displayName": "Secure transfer to storage accounts should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/51fd8bb1-0db4-bbf1-7e2b-cfcba7eb66a6",
+      "name": "51fd8bb1-0db4-bbf1-7e2b-cfcba7eb66a6",
+      "properties": {
+        "displayName": "Storage account public access should be disallowed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/22441184-2f7b-d4a0-e00b-4c5eaef4afc9",
+      "name": "22441184-2f7b-d4a0-e00b-4c5eaef4afc9",
+      "properties": {
+        "displayName": "Authentication to Linux machines should require SSH keys",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "GCExtensionIdentityMissing",
+          "code": "NotApplicable",
+          "description": "Guest Configuration extension, managed identity and user identity are missing."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/6c99f570-2ce7-46bc-8175-cde013df43bc",
+      "name": "6c99f570-2ce7-46bc-8175-cde013df43bc",
+      "properties": {
+        "displayName": "Guest Configuration extension should be installed on machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/f2f595ec-5dc6-68b4-82ef-b63563e9c610",
+      "name": "f2f595ec-5dc6-68b4-82ef-b63563e9c610",
+      "properties": {
+        "displayName": "Azure Backup should be enabled for virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/3b363842-30f5-4056-980d-3a40fa5de8b3",
+      "name": "3b363842-30f5-4056-980d-3a40fa5de8b3",
+      "properties": {
+        "displayName": "Storage accounts should prevent shared key access",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/cdc78c07-02b0-4af0-1cb2-cb7c672a8b0a",
+      "name": "cdc78c07-02b0-4af0-1cb2-cb7c672a8b0a",
+      "properties": {
+        "displayName": "Storage account should use a private link connection",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/861bbc73-0a55-8d1d-efc6-e92d9e1176e0",
+      "name": "861bbc73-0a55-8d1d-efc6-e92d9e1176e0",
+      "properties": {
+        "displayName": "vTPM should be enabled on supported virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/90386950-71ca-4357-a12e-486d1679427c",
+      "name": "90386950-71ca-4357-a12e-486d1679427c",
+      "properties": {
+        "displayName": "Machines should be configured to periodically check for missing system updates",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/69ad830b-d98c-b1cf-2158-9d69d38c7093",
+      "name": "69ad830b-d98c-b1cf-2158-9d69d38c7093",
+      "properties": {
+        "displayName": "Secure Boot should be enabled on supported Windows virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/efbbd784-656d-473a-9863-ea7693bfcd2a",
+      "name": "efbbd784-656d-473a-9863-ea7693bfcd2a",
+      "properties": {
+        "displayName": "Virtual machines and virtual machine scale sets should have encryption at host enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01/providers/Microsoft.Security/assessments/ad4f3ff1-30eb-5042-16ed-27198f640b8d",
+      "name": "ad4f3ff1-30eb-5042-16ed-27198f640b8d",
+      "properties": {
+        "displayName": "Storage accounts should restrict network access using virtual network rules",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-terraformstate-norwayeast/providers/microsoft.storage/storageaccounts/stdevtfstatene01",
+          "ResourceName": "stdevtfstatene01",
+          "ResourceProvider": "microsoft.storage",
+          "ResourceType": "storageaccounts",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/a40cc620-e72c-fdf4-c554-c6ca2cd705c0",
+      "name": "a40cc620-e72c-fdf4-c554-c6ca2cd705c0",
+      "properties": {
+        "displayName": "Linux virtual machines should enable Azure Disk Encryption or EncryptionAtHost.",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-management-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "microsoft.compute",
+          "ResourceType": "virtualmachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/6f90a6d6-d4d6-0794-0ec1-98fa77878c2e",
+      "name": "6f90a6d6-d4d6-0794-0ec1-98fa77878c2e",
+      "properties": {
+        "additionalData": {
+          "identityDesignateLessThanXOwnersObjectIdList": "[\"27b9bfbf-b8a8-401f-b99a-95bb70a970d2\",\"a2fb5bd2-9920-4b0c-8b8b-b96560b13473\"]"
+        },
+        "displayName": "A maximum of 3 owners should be designated for subscriptions",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/2c79b4af-f830-b61e-92b9-63dfa30f16e4",
+      "name": "2c79b4af-f830-b61e-92b9-63dfa30f16e4",
+      "properties": {
+        "additionalData": {},
+        "displayName": "There should be more than one owner assigned to subscriptions",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/805651bc-6ecd-4c73-9b55-97a19d0582d0",
+      "name": "805651bc-6ecd-4c73-9b55-97a19d0582d0",
+      "properties": {
+        "displayName": "Management ports of virtual machines should be protected with just-in-time network access control",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "ServersStandardTierOnly",
+          "code": "NotApplicable",
+          "description": "Only machines protected with Defender for servers P2 plan are eligible for this feature"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/805651bc-6ecd-4c73-9b55-97a19d0582d0",
+      "name": "805651bc-6ecd-4c73-9b55-97a19d0582d0",
+      "properties": {
+        "displayName": "Management ports of virtual machines should be protected with just-in-time network access control",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "ServersStandardTierOnly",
+          "code": "NotApplicable",
+          "description": "Only machines protected with Defender for servers P2 plan are eligible for this feature"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/providers/Microsoft.Security/assessments/e3de1cc0-f4dd-3b34-e496-8b5381ba2d70",
+      "name": "e3de1cc0-f4dd-3b34-e496-8b5381ba2d70",
+      "properties": {
+        "displayName": "Azure DDoS Protection Standard should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload",
+          "ResourceName": "vnet-dev-norwayeast-spoke-workload",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "virtualNetworks",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VnetHasNoAppGateways",
+          "code": "NotApplicable",
+          "description": "There are no Application Gateway resources attached to this Virtual Network"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/483f12ed-ae23-447e-a2de-a67a10db4353",
+      "name": "483f12ed-ae23-447e-a2de-a67a10db4353",
+      "properties": {
+        "displayName": "Internet-facing virtual machines should be protected with network security groups",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/483f12ed-ae23-447e-a2de-a67a10db4353",
+      "name": "483f12ed-ae23-447e-a2de-a67a10db4353",
+      "properties": {
+        "displayName": "Internet-facing virtual machines should be protected with network security groups",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "NonInternetFacingVms",
+          "code": "NotApplicable",
+          "description": "The VM is non-internet-facing"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/c3b51c94-588b-426b-a892-24696f9e54cc",
+      "name": "c3b51c94-588b-426b-a892-24696f9e54cc",
+      "properties": {
+        "displayName": "IP forwarding on your virtual machine should be disabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/c3b51c94-588b-426b-a892-24696f9e54cc",
+      "name": "c3b51c94-588b-426b-a892-24696f9e54cc",
+      "properties": {
+        "displayName": "IP forwarding on your virtual machine should be disabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/3b20e985-f71f-483b-b078-f30d73936d43",
+      "name": "3b20e985-f71f-483b-b078-f30d73936d43",
+      "properties": {
+        "additionalData": {
+          "NSG open ports": "22"
+        },
+        "displayName": "All network ports should be restricted on network security groups associated to your virtual machine",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "NetworkPortsAreOpenToAllSources",
+          "code": "Unhealthy",
+          "description": "Network ports on your network security group are open to all sources."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/3b20e985-f71f-483b-b078-f30d73936d43",
+      "name": "3b20e985-f71f-483b-b078-f30d73936d43",
+      "properties": {
+        "displayName": "All network ports should be restricted on network security groups associated to your virtual machine",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "NoNsgOnVm",
+          "code": "NotApplicable",
+          "description": "This recommendation is relevant only for VMs protected by a network security group"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/bc303248-3d14-44c2-96a0-55f5c326b5fe",
+      "name": "bc303248-3d14-44c2-96a0-55f5c326b5fe",
+      "properties": {
+        "additionalData": {
+          "NSG open ports": "22"
+        },
+        "displayName": "Management ports should be closed on your virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "ManagementPortsAreOpenToAllSources",
+          "code": "Unhealthy",
+          "description": "Management ports on your network security group are open to all sources."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/bc303248-3d14-44c2-96a0-55f5c326b5fe",
+      "name": "bc303248-3d14-44c2-96a0-55f5c326b5fe",
+      "properties": {
+        "displayName": "Management ports should be closed on your virtual machines",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "NoNsgOnVm",
+          "code": "NotApplicable",
+          "description": "This recommendation is relevant only for VMs protected by a network security group"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/a9341235-9389-42f0-a0bf-9bfb57960d44",
+      "name": "a9341235-9389-42f0-a0bf-9bfb57960d44",
+      "properties": {
+        "displayName": "Non-internet-facing virtual machines should be protected with network security groups",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VmIsNotProtectedWithNsg",
+          "code": "Unhealthy",
+          "description": "Your virtual machine is not protected with a network security group."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/a9341235-9389-42f0-a0bf-9bfb57960d44",
+      "name": "a9341235-9389-42f0-a0bf-9bfb57960d44",
+      "properties": {
+        "displayName": "Non-internet-facing virtual machines should be protected with network security groups",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "InternetFacingVms",
+          "code": "NotApplicable",
+          "description": "The VM is internet-facing"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload",
+          "ResourceName": "snet-workload",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt/providers/Microsoft.Security/assessments/eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "name": "eade5b56-eefd-444f-95c8-23f29e5d93cb",
+      "properties": {
+        "displayName": "Subnets should be associated with a network security group",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt",
+          "ResourceName": "snet-mgmt",
+          "ResourceProvider": "Microsoft.Network",
+          "ResourceType": "subnets",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "OffByPolicy",
+          "code": "NotApplicable",
+          "description": "The recommendation is disabled in policy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01/providers/Microsoft.Security/assessments/ffff0522-1e88-47fc-8382-2a80ba848f5d",
+      "name": "ffff0522-1e88-47fc-8382-2a80ba848f5d",
+      "properties": {
+        "additionalData": {
+          "Can onboard to BYOL": "true"
+        },
+        "displayName": "Machines should have a vulnerability assessment solution",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-MANAGEMENT-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+          "ResourceName": "vm-dev-mgmt-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VaScannerNotInstalled",
+          "code": "Unhealthy",
+          "description": "The machine is not onboarded to any vulnerability assessments solution."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01/providers/Microsoft.Security/assessments/ffff0522-1e88-47fc-8382-2a80ba848f5d",
+      "name": "ffff0522-1e88-47fc-8382-2a80ba848f5d",
+      "properties": {
+        "additionalData": {
+          "Can onboard to BYOL": "true"
+        },
+        "displayName": "Machines should have a vulnerability assessment solution",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/RG-DEV-WORKLOAD-NORWAYEAST/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "ResourceName": "vm-dev-client-01",
+          "ResourceProvider": "Microsoft.Compute",
+          "ResourceType": "virtualMachines",
+          "Source": "Azure"
+        },
+        "status": {
+          "cause": "VaScannerNotInstalled",
+          "code": "Unhealthy",
+          "description": "The machine is not onboarded to any vulnerability assessments solution."
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-connectivity-prod-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-hub/providers/Microsoft.Security/assessments/f1f2f7dc-7bd5-18bf-c403-cbbdb7ec3d68",
+      "name": "f1f2f7dc-7bd5-18bf-c403-cbbdb7ec3d68",
+      "properties": {
+        "displayName": "Network Watcher should be enabled",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-connectivity-prod-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-hub",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-connectivity-prod-norwayeast/providers/microsoft.network/virtualnetworks/vnet-dev-norwayeast-hub",
+          "ResourceName": "vnet-dev-norwayeast-hub",
+          "ResourceProvider": "microsoft.network",
+          "ResourceType": "virtualnetworks",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/050ac097-3dda-4d24-ab6d-82568e7a50cf",
+      "name": "050ac097-3dda-4d24-ab6d-82568e7a50cf",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/050ac097-3dda-4d24-ab6d-82568e7a50cf/subAssessments"
+        },
+        "displayName": "Disabled accounts with owner permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/1ff0b4c9-ed56-4de6-be9c-d7ab39645926",
+      "name": "1ff0b4c9-ed56-4de6-be9c-d7ab39645926",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/1ff0b4c9-ed56-4de6-be9c-d7ab39645926/subAssessments"
+        },
+        "displayName": "Disabled accounts with read and write permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/0354476c-a12a-4fcc-a79d-f0ab7ffffdbb",
+      "name": "0354476c-a12a-4fcc-a79d-f0ab7ffffdbb",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/0354476c-a12a-4fcc-a79d-f0ab7ffffdbb/subAssessments"
+        },
+        "displayName": "Guest accounts with write permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/20606e75-05c4-48c0-9d97-add6daa2109a",
+      "name": "20606e75-05c4-48c0-9d97-add6daa2109a",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/20606e75-05c4-48c0-9d97-add6daa2109a/subAssessments"
+        },
+        "displayName": "Guest accounts with owner permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Unhealthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/fde1c0c9-0fd2-4ecc-87b5-98956cbc1095",
+      "name": "fde1c0c9-0fd2-4ecc-87b5-98956cbc1095",
+      "properties": {
+        "additionalData": {
+          "subAssessmentsLink": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/assessments/fde1c0c9-0fd2-4ecc-87b5-98956cbc1095/subAssessments"
+        },
+        "displayName": "Guest accounts with read permissions on Azure resources should be removed",
+        "resourceDetails": {
+          "Id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "NativeResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6",
+          "Source": "Azure"
+        },
+        "status": {
+          "code": "Healthy"
+        }
+      },
+      "type": "Microsoft.Security/assessments"
+    }
+  ]
+}
+
+============================================================
+Terraform roots
+============================================================
+C:\GitHub\azawslab-enterprise-hybrid-security\terraform\environments
+C:\GitHub\azawslab-enterprise-hybrid-security\terraform\governance
+C:\GitHub\azawslab-enterprise-hybrid-security\terraform\modules
+C:\GitHub\azawslab-enterprise-hybrid-security\terraform\platform-management
+C:\GitHub\azawslab-enterprise-hybrid-security\terraform\platform-networking
+C:\GitHub\azawslab-enterprise-hybrid-security\terraform\platform-shared
+C:\GitHub\azawslab-enterprise-hybrid-security\terraform\workloads
+
+============================================================
+Workflow matrix CI
+============================================================
+
+.github\workflows\release2-terraform-ci.yml:27:          - root_name: governance
+.github\workflows\release2-terraform-ci.yml:28:            working_directory: terraform/governance
+.github\workflows\release2-terraform-ci.yml:29:          - root_name: platform-shared-dev
+.github\workflows\release2-terraform-ci.yml:30:            working_directory: terraform/platform-shared/dev
+.github\workflows\release2-terraform-ci.yml:31:          - root_name: workload-dev
+.github\workflows\release2-terraform-ci.yml:32:            working_directory: terraform/workloads/dev
+.github\workflows\release2-terraform-ci.yml:33:          - root_name: platform-networking-dev
+.github\workflows\release2-terraform-ci.yml:34:            working_directory: terraform/platform-networking/dev
+.github\workflows\release2-terraform-ci.yml:35:          - root_name: platform-management-dev
+.github\workflows\release2-terraform-ci.yml:36:            working_directory: terraform/platform-management/dev
+
+
+
+
+============================================================
+Workflow matrix Apply
+============================================================
+
+.github\workflows\release2-terraform-apply.yml:19:          - root_name: governance
+.github\workflows\release2-terraform-apply.yml:20:            working_directory: terraform/governance
+.github\workflows\release2-terraform-apply.yml:21:          - root_name: platform-shared-dev
+.github\workflows\release2-terraform-apply.yml:22:            working_directory: terraform/platform-shared/dev
+.github\workflows\release2-terraform-apply.yml:23:          - root_name: workload-dev
+.github\workflows\release2-terraform-apply.yml:24:            working_directory: terraform/workloads/dev
+.github\workflows\release2-terraform-apply.yml:25:          - root_name: platform-networking-dev
+.github\workflows\release2-terraform-apply.yml:26:            working_directory: terraform/platform-networking/dev
+.github\workflows\release2-terraform-apply.yml:27:          - root_name: platform-management-dev
+.github\workflows\release2-terraform-apply.yml:28:            working_directory: terraform/platform-management/dev
+
+
+
+

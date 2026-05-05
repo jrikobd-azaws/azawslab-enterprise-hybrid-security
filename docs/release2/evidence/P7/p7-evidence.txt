@@ -1,0 +1,105 @@
+﻿# P7 Defender for Cloud Evidence
+
+Date: 2026-05-05 14:05:12 +01:00
+
+## Readiness result
+
+P7 Defender for Cloud readiness baseline was captured successfully.
+
+Confirmed:
+- Correct subscription context: Azure subscription 1.
+- Correct working identity: admin-lab@entra.azawslab.co.uk.
+- Microsoft.Security provider is registered.
+- Defender for Cloud pricing plan data is available.
+- Secure Score data is available.
+- Defender assessments/recommendations are visible.
+- M365 E5 is available in the tenant context, but Azure Defender for Cloud plan state is still validated from Microsoft.Security pricing data.
+
+## Evidence files
+
+- p7-readiness-current-state.txt
+- defender-plan-status.txt
+- secure-score.txt
+- recommendations-summary.md
+
+## Implementation note
+
+No Defender plan was changed during readiness capture. Paid Defender/CWPP plans should not be enabled until a deliberate P7 implementation decision is made and validated through Terraform/GitHub Actions.
+
+## Terraform plan validation
+
+Date: 2026-05-05 14:12:36 +01:00
+
+Terraform plan validation was completed for `terraform/platform-shared/dev`.
+
+Result:
+- Plan: 1 to add, 0 to change, 0 to destroy.
+- Expected addition: Defender for Cloud security contact.
+- No Key Vault resources changed.
+- No Defender paid pricing plan was enabled.
+- Local binary plan file was removed after evidence capture.
+
+Evidence:
+- `p7-platform-shared-plan.txt`
+
+## Defender security contact deployment validation
+
+Date: 2026-05-05 14:18:15 +01:00
+
+P7 Defender for Cloud security contact deployment was completed through the controlled GitHub Actions Terraform Apply workflow.
+
+Confirmed:
+- Apply result: 1 added, 0 changed, 0 destroyed.
+- Defender security contact resource: `Microsoft.Security/securityContacts/default`.
+- Contact email: `admin-lab@entra.azawslab.co.uk`.
+- Terraform state contains `module.security.azurerm_security_center_contact.defender`.
+- No paid Defender workload plan was enabled by this implementation.
+
+Evidence:
+- `p7-defender-security-contact-validation.txt`
+
+## Post-change Defender review
+
+Date: 2026-05-05 14:23:10 +01:00
+
+A post-change Defender for Cloud review was captured after deploying the Terraform-managed security contact.
+
+Confirmed:
+- Security contact still exists through Microsoft.Security API.
+- Contact/email-notification related assessments were reviewed.
+- Secure Score response was captured after the change.
+- Defender recommendation state may take time to refresh after configuration changes.
+
+Evidence:
+- `p7-post-change-defender-review.txt`
+
+## Defender for Servers Plan 1 Terraform plan
+
+Date: 2026-05-05 14:43:53 +01:00
+
+Terraform plan validation was completed for Defender for Servers Plan 1 in `terraform/platform-shared/dev`.
+
+Planned resource:
+- `module.security.azurerm_security_center_subscription_pricing.defender_for_servers`
+
+Planned configuration:
+- Resource type: `VirtualMachines`
+- Tier: `Standard`
+- Subplan: `P1`
+
+Plan result:
+- `1 to add, 0 to change, 0 to destroy`
+
+Safety result:
+- No Key Vault resources changed.
+- No workload resources changed.
+- No networking resources changed.
+- No management-host resources changed.
+- Local binary plan file was removed after evidence capture.
+
+Cost note:
+- Defender for Servers is a paid Defender for Cloud plan.
+- Retention or teardown/disable decision should be made after validation evidence is captured.
+
+Evidence:
+- `p7-defender-for-servers-plan.txt`
