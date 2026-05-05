@@ -83,3 +83,35 @@ Evidence:
 
 Design note:
 Azure Firewall remains an ephemeral cost-heavy resource. After validation testing is complete, `enable_azure_firewall` should be set back to `false` through a follow-up PR and removed using controlled GitHub Actions Apply.
+
+## Workload egress validation
+
+Date: 2026-05-05 13:23:00 +01:00
+
+Workload egress validation was completed from the private workload VM using Azure VM Run Command.
+
+Confirmed:
+- DNS resolution for `www.microsoft.com` succeeded.
+- HTTPS egress to `https://www.microsoft.com` succeeded.
+- HTTPS egress to `https://portal.azure.com` succeeded.
+- HTTPS egress to `https://www.facebook.com` failed as expected, validating controlled social-media blocking through Azure Firewall.
+- The workload VM was deallocated after testing to reduce compute cost.
+
+Evidence:
+- `p6-workload-egress-test.txt`
+- `p6-workload-vm-deallocated-after-test.txt`
+
+## Azure Firewall diagnostics check
+
+Date: 2026-05-05 13:25:56 +01:00
+
+Azure Monitor diagnostic settings were checked for `afw-dev-norwayeast-01`.
+
+Result:
+- No diagnostic settings were returned.
+- Firewall log/KQL validation is deferred for this ephemeral P6 deployment.
+- P6 still has valid deployment and traffic-control evidence from CLI validation and workload egress testing.
+- Recommended action is to tear down Azure Firewall after evidence capture to stop ongoing cost.
+
+Evidence:
+- `p6-firewall-diagnostics-check.txt`

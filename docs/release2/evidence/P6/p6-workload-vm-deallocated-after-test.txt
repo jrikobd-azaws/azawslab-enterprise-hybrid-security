@@ -1,0 +1,6 @@
+﻿{
+    "timestamp":  "2026-05-05 13:24:07 +01:00",
+    "name":  "vm-dev-client-01",
+    "resourceGroup":  "rg-dev-workload-norwayeast",
+    "powerState":  "VM deallocated"
+}
