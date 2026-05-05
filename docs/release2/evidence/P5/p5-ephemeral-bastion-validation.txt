@@ -1,0 +1,48 @@
+﻿============================================================
+P5 Ephemeral Azure Bastion validation
+============================================================
+Generated: 2026-05-05 20:40:59 +01:00
+
+============================================================
+Git branch and latest commit
+============================================================
+feature/release2-ephemeral-ops-resources
+5f6f5bb Enable ephemeral Bastion for P5 validation
+124b129 Add ephemeral Bastion controls and ops lifecycle notes
+4abca79 Merge pull request #128 from jrikobd-azaws/feature/release2-p7-defender-security-contact
+b2698e0 Add P7 Defender for Servers Plan 1
+6e9f6f1 Merge pull request #127 from jrikobd-azaws/feature/release2-p7-defender-security-contact
+
+============================================================
+Bastion resources
+============================================================
+The command requires the extension bastion. Do you want to install it now? The command will continue to run after the extension is installed. (Y/n): Name                   Location    ProvisioningState    DnsName
+---------------------  ----------  -------------------  ----------------------------------------------------------
+bas-dev-norwayeast-01  norwayeast  Succeeded            bst-1920ece6-9a6b-4c88-83de-61f575f6b9ae.bastion.azure.com
+
+============================================================
+Bastion public IP during validation
+============================================================
+Name                       IpAddress     ProvisioningState    Sku
+-------------------------  ------------  -------------------  --------
+pip-bas-dev-norwayeast-01  51.120.78.43  Succeeded            Standard
+
+============================================================
+Workload VM private-only validation
+============================================================
+Name              PrivateIps    PublicIps    PowerState
+----------------  ------------  -----------  ------------
+vm-dev-client-01  10.10.0.4                  VM running
+
+============================================================
+Platform networking Terraform state Bastion resources
+============================================================
+module.hub_spoke_networking.azurerm_bastion_host.this[0]
+module.hub_spoke_networking.azurerm_public_ip.bastion[0]
+module.hub_spoke_networking.azurerm_subnet.bastion
+
+============================================================
+Validation note
+============================================================
+Azure Bastion was enabled ephemerally through GitHub Actions to validate private administrative access to vm-dev-client-01. The workload VM remained private-only with no public IP. Bastion session screenshot evidence should be saved as p5-bastion-private-rdp-session-validation.png.
+
