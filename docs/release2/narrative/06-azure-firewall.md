@@ -106,12 +106,15 @@ Confirmed after deployment:
 - Default route output present
 - GitHub Actions `platform-networking-dev` apply succeeded
 
-Current remaining validation:
-
+Completed validation:
 - workload traffic test through the firewall
-- controlled allow/block test
-- firewall log query evidence
-- teardown after validation
+- Microsoft/Azure HTTPS allow test
+- social-media block test using facebook.com
+- workload VM deallocated after testing
+- Azure Firewall teardown completed through GitHub Actions
+
+Deferred validation:
+- firewall KQL/log validation was deferred because diagnostic settings were not enabled for this ephemeral deployment.
 
 ## 7. Evidence Path
 
@@ -166,3 +169,29 @@ GitHub Actions was used for controlled deployment rather than local Terraform ap
 ## 10. Recruiter-Ready Outcome Statement
 
 Implemented centralized Azure Firewall egress control in a Terraform-managed hub-spoke Azure landing zone. Deployed Azure Firewall, Firewall Policy, rule collections, public IP, and workload default-route steering through GitHub Actions OIDC, while preserving a cost-aware ephemeral lifecycle using Terraform enable/disable controls. Diagnosed and corrected a real Azure Firewall Basic SKU deployment issue by moving to Standard SKU and converging the partial Terraform state safely through CI/CD.
+
+## 11. Teardown Summary
+
+After deployment and workload egress validation, Azure Firewall was disabled by setting:
+
+```hcl
+enable_azure_firewall = false
+```
+
+A controlled GitHub Actions Terraform Apply was then run against `platform-networking-dev`.
+
+Result:
+
+```text
+Apply complete! Resources: 0 added, 0 changed, 5 destroyed.
+```
+
+Destroyed ephemeral P6 resources:
+
+- Azure Firewall
+- Azure Firewall Policy
+- Firewall Policy Rule Collection Group
+- Azure Firewall Public IP
+- Default route to Azure Firewall private IP
+
+Post-teardown validation confirmed that the firewall-specific resources were absent, while the P5 hub-spoke foundation remained in Terraform state.
