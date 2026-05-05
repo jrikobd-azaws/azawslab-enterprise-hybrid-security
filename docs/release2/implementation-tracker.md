@@ -842,3 +842,29 @@ The temporary Ansible management host is now owned by the platform management st
 
 
 
+
+### P5 Ephemeral Bastion validation update
+
+Date: 2026-05-05 20:55:24 +01:00
+
+P5 secure administration validation was strengthened with an ephemeral Azure Bastion validation window.
+
+Validated:
+- Azure Bastion was enabled through the controlled GitHub Actions Terraform workflow.
+- `vm-dev-client-01` was started temporarily for validation.
+- `vm-dev-client-01` remained private-only with no public IP.
+- Private RDP access through Azure Bastion was validated.
+- Screenshot evidence and CLI/text evidence were captured under `docs/release2/evidence/P5/`.
+- The workload VM was deallocated after validation.
+- Bastion is being disabled again to restore the cost-safe state.
+
+Evidence:
+- `docs/release2/evidence/P5/p5-github-actions-bastion-enable-apply-success.png`
+- `docs/release2/evidence/P5/p5-bastion-private-rdp-session-access.png`
+- `docs/release2/evidence/P5/p5-bastion-private-rdp-session-validation.png`
+- `docs/release2/evidence/P5/p5-ephemeral-bastion-validation.txt`
+- `docs/release2/evidence/P5/p5-ephemeral-bastion-enable-plan.txt`
+- `docs/release2/evidence/P5/p5-ephemeral-bastion-disable-plan.txt`
+
+Current FinOps action:
+- Bastion disablement is pending GitHub Actions apply from the follow-up disable commit.
