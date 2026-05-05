@@ -42,6 +42,10 @@ module "hub_spoke_networking" {
 
   workload_route_table_name = "rt-workload-to-hub-norwayeast"
 
+  enable_bastion         = true
+  bastion_host_name      = "bas-dev-norwayeast-01"
+  bastion_public_ip_name = "pip-bas-dev-norwayeast-01"
+
   enable_azure_firewall         = false
   azure_firewall_name           = "afw-dev-norwayeast-01"
   azure_firewall_public_ip_name = "pip-azfw-norwayeast-01"
@@ -50,6 +54,10 @@ module "hub_spoke_networking" {
 
   tags = local.common_tags
 }
+
+
+
+
 
 
 
