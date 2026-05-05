@@ -868,3 +868,31 @@ Evidence:
 
 Current FinOps action:
 - Bastion disablement is pending GitHub Actions apply from the follow-up disable commit.
+
+### P8 Microsoft Sentinel implementation update
+
+Date: 2026-05-05 22:32:34 +01:00
+
+P8 Microsoft Sentinel deployment was completed through the controlled GitHub Actions Terraform Apply workflow.
+
+Completed:
+- Monitoring resource group created: `rg-dev-monitoring-norwayeast`
+- Log Analytics workspace created: `law-dev-platform-norwayeast`
+- Microsoft Sentinel onboarding completed
+- Sentinel scheduled analytic rule deployed:
+  - `rule-p8-azure-activity-write-delete`
+- Subscription diagnostic setting configured for Azure Activity ingestion
+- Terraform outputs confirmed Sentinel onboarding and analytic rule IDs
+- Defender portal workspace connection was completed manually after Terraform onboarding
+- Required governance tags were confirmed on the Log Analytics workspace
+- A narrow RG-scoped policy exemption was created for Sentinel onboarding child resources that are not taggable through the current Terraform provider resource
+
+Evidence:
+- `docs/release2/evidence/P8/p8-sentinel-enabled-plan.txt`
+- `docs/release2/evidence/P8/p8-sentinel-policy-exemptions-rg-scope.txt`
+- `docs/release2/evidence/P8/p8-sentinel-post-apply-validation.txt`
+
+Status:
+- P8 deployment: completed
+- P8 post-apply validation: completed
+- Incident generation path: pending if required for final P8 closeout

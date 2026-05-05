@@ -606,3 +606,19 @@ Date: 2026-05-05 20:55:24 +01:00
 - [x] Text validation evidence captured under `docs/release2/evidence/P5/`
 - [x] Workload VM deallocated after validation
 - [~] Bastion disablement / teardown pending GitHub Actions apply
+
+## P8 Microsoft Sentinel validation checkpoint
+
+Date: 2026-05-05 22:32:34 +01:00
+
+- [x] Log Analytics workspace created
+- [x] Microsoft Sentinel onboarding completed
+- [x] Sentinel scheduled analytic rule deployed
+- [x] Subscription diagnostic setting configured for Azure Activity ingestion
+- [x] Terraform outputs captured
+- [x] Terraform state validation captured
+- [x] Defender portal workspace connection completed manually
+- [x] Governance policy issue documented
+- [x] Narrow RG-scoped policy exemption created for non-taggable Sentinel onboarding child resource
+- [x] P8 post-apply validation evidence captured
+- [~] Incident generation path still pending if final closeout requires an incident
