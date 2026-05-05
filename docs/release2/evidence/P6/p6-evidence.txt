@@ -61,3 +61,25 @@ Result:
 
 Evidence:
 - `p6-platform-networking-enabled-plan.txt`
+
+## Azure Firewall deployment validation
+
+Date: 2026-05-05 13:07:33 +01:00
+
+Azure Firewall deployment was completed through the controlled GitHub Actions Terraform Apply workflow.
+
+Confirmed:
+- Azure Firewall: `afw-dev-norwayeast-01`
+- Resource group: `rg-connectivity-prod-norwayeast`
+- Firewall private IP: `10.0.1.4`
+- Firewall Policy: `afwp-dev-norwayeast`
+- Public IP: `pip-azfw-norwayeast-01`
+- Workload route table: `rt-workload-to-hub-norwayeast`
+- Default route to Azure Firewall was created.
+- Portal screenshots were captured as supplementary evidence.
+
+Evidence:
+- `p6-firewall-post-apply-validation.txt`
+
+Design note:
+Azure Firewall remains an ephemeral cost-heavy resource. After validation testing is complete, `enable_azure_firewall` should be set back to `false` through a follow-up PR and removed using controlled GitHub Actions Apply.

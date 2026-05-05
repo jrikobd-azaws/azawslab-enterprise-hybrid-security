@@ -209,8 +209,8 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P2c   | CI/CD Pipeline                                 | P0, P2a    | 45m       | [ ]    | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds             | Persistent                                                     |
 | P3    | Enterprise Governance & Guardrails             | P1         | 30m       | [x]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                    | Persistent                                                     |
 | P4    | Azure Lighthouse                               | P0         | 30m       | [x]    | `docs/release2/evidence/P4/`  | delegated Reader visibility works cross-tenant                       | Persistent until later teardown decision                       |
-| P5    | Hub-Spoke Networking                           | P0         | 1h        | [ ]    | `docs/release2/evidence/P5/`  | peering and routing validated                                        | Persistent                                                     |
-| P6    | Azure Firewall                                 | P5         | 1h        | [ ]    | `docs/release2/evidence/P6/`  | forced tunneling and block test succeed                              | [E] destroy after validation unless needed for O1              |
+| P5    | Hub-Spoke Networking                           | P0         | 1h        | [x]    | `docs/release2/evidence/P5/`  | peering and routing validated                                        | Persistent                                                   |
+| P6    | Azure Firewall                                 | P5         | 1h        | [~]    | `docs/release2/evidence/P6/`  | Firewall deployed; forced-tunneling route deployed; traffic/log tests and teardown pending | [E] destroy after validation unless needed for O1             |
 | P7    | Defender for Cloud                             | P5         | 30m       | [ ]    | `docs/release2/evidence/P7/`  | plans enabled; recommendations visible                               | Persistent                                                     |
 | P8    | Microsoft Sentinel                             | P7         | 45m       | [ ]    | `docs/release2/evidence/P8/`  | incident generation path validated                                   | Persistent                                                     |
 | P9a   | Azure Monitor Alerts                           | P7         | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                              | Persistent                                                     |
@@ -422,11 +422,13 @@ Do **not** start P0 until sections 4 and 5 are complete.
 ### P6 – Azure Firewall [E]
 **Objective:** Validate controlled egress and inspection via Azure Firewall.
 
+**P6 deployment note:** Azure Firewall was deployed through GitHub Actions controlled Terraform Apply after correcting the Firewall SKU from Basic to Standard. Basic failed because it requires a management IP configuration and `AzureFirewallManagementSubnet`; the current P5 hub design uses `AzureFirewallSubnet` only. The active firewall is intentionally ephemeral and must be disabled after validation evidence is complete.
+
 **Checklist**
-- [ ] Azure Firewall deployed
-- [ ] Firewall policy deployed
-- [ ] UDR sends `0.0.0.0/0` to Azure Firewall
-- [ ] allow/deny rules configured
+- [x] Azure Firewall deployed
+- [x] Firewall policy deployed
+- [x] UDR sends `0.0.0.0/0` to Azure Firewall
+- [x] allow rules configured; deny/log validation still pending
 - [ ] test workload routed through firewall
 
 **Minimum Validation**
@@ -435,8 +437,8 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - [ ] Azure Firewall logs show expected traffic
 
 **Evidence**
-- [ ] `firewall-deploy.txt`
-- [ ] `udr-validation.txt`
+- [x] `p6-firewall-post-apply-validation.txt`
+- [x] `p6-firewall-post-apply-validation.txt`
 - [ ] `blocked-request-test.txt`
 - [ ] `firewall-log-query.txt`
 
@@ -824,3 +826,4 @@ P3 governance guardrails are validated for allowed region, mandatory tags, VM SK
 
 **Architecture note**
 The temporary Ansible management host is now owned by the platform management state boundary rather than the workload state boundary. This better reflects its role as an operations-plane control node, not a workload-tier resource.
+

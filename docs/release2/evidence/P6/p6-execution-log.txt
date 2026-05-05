@@ -54,3 +54,21 @@ Summary:
 
 Evidence file:
 - docs/release2/evidence/P6/p6-platform-networking-enabled-plan.txt
+============================================================
+P6 Azure Firewall deployment succeeded through GitHub Actions
+============================================================
+Date:
+2026-05-05 13:07:33 +01:00
+
+Summary:
+- GitHub Actions controlled Terraform Apply succeeded for platform-networking-dev after the Standard SKU fix.
+- Azure Firewall was deployed as afw-dev-norwayeast-01.
+- Firewall private IP was confirmed as 10.0.1.4.
+- Firewall Policy was confirmed as afwp-dev-norwayeast.
+- Firewall Public IP was confirmed as pip-azfw-norwayeast-01.
+- Workload route table rt-workload-to-hub-norwayeast now contains the default route to Azure Firewall.
+- Portal screenshots were captured as supplementary evidence.
+- CLI-first post-apply validation was captured in p6-firewall-post-apply-validation.txt.
+
+Evidence file:
+- docs/release2/evidence/P6/p6-firewall-post-apply-validation.txt

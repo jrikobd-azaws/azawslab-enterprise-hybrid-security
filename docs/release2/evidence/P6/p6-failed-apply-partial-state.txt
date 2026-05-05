@@ -1,0 +1,136 @@
+﻿============================================================
+Timestamp
+============================================================
+2026-05-05 12:41:19 +01:00
+
+============================================================
+Git branch
+============================================================
+feature/release2-p6-enable-firewall-validation
+
+============================================================
+Git status
+============================================================
+
+============================================================
+Azure Firewalls
+============================================================
+[]
+
+============================================================
+Firewall Policies
+============================================================
+[
+  {
+    "changedTime": "2026-05-05T11:38:44.659693+00:00",
+    "createdTime": "2026-05-05T11:38:33.390272+00:00",
+    "extendedLocation": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/firewallPolicies/afwp-dev-norwayeast",
+    "identity": null,
+    "kind": null,
+    "location": "norwayeast",
+    "managedBy": null,
+    "name": "afwp-dev-norwayeast",
+    "plan": null,
+    "properties": null,
+    "provisioningState": "Succeeded",
+    "resourceGroup": "rg-connectivity-prod-norwayeast",
+    "sku": null,
+    "tags": {
+      "CostCenter": "Lab-123",
+      "DeploymentMethod": "Terraform",
+      "Environment": "Development",
+      "Owner": "HASHIBUR RAHMAN",
+      "Project": "Azawslab-Release2"
+    },
+    "type": "Microsoft.Network/firewallPolicies"
+  }
+]
+
+============================================================
+Firewall Policy Rule Collection Groups
+============================================================
+[]
+
+============================================================
+Firewall Public IPs
+============================================================
+[
+  {
+    "ddosSettings": {
+      "protectionMode": "VirtualNetworkInherited"
+    },
+    "etag": "W/\"925e9e5a-d0b7-4983-852c-1c905db5ca11\"",
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/publicIPAddresses/pip-azfw-norwayeast-01",
+    "idleTimeoutInMinutes": 4,
+    "ipAddress": "20.100.184.232",
+    "ipTags": [],
+    "location": "norwayeast",
+    "name": "pip-azfw-norwayeast-01",
+    "provisioningState": "Succeeded",
+    "publicIPAddressVersion": "IPv4",
+    "publicIPAllocationMethod": "Static",
+    "resourceGroup": "rg-connectivity-prod-norwayeast",
+    "resourceGuid": "17b2e534-0a7f-4533-abbb-31a683729ebc",
+    "sku": {
+      "name": "Standard",
+      "tier": "Regional"
+    },
+    "tags": {
+      "CostCenter": "Lab-123",
+      "DeploymentMethod": "Terraform",
+      "Environment": "Development",
+      "Owner": "HASHIBUR RAHMAN",
+      "Project": "Azawslab-Release2"
+    },
+    "type": "Microsoft.Network/publicIPAddresses"
+  }
+]
+
+============================================================
+Workload Route Table
+============================================================
+{
+  "disableBgpRoutePropagation": false,
+  "etag": "W/\"e3c176cc-b86c-485b-8a72-98a9f006ba46\"",
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/routeTables/rt-workload-to-hub-norwayeast",
+  "location": "norwayeast",
+  "name": "rt-workload-to-hub-norwayeast",
+  "provisioningState": "Succeeded",
+  "resourceGroup": "rg-dev-workload-norwayeast",
+  "resourceGuid": "626248cf-5f59-4c9c-a848-75bb93476058",
+  "routes": [],
+  "subnets": [
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload",
+      "resourceGroup": "rg-dev-workload-norwayeast"
+    }
+  ],
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "Terraform",
+    "Environment": "Development",
+    "Owner": "HASHIBUR RAHMAN",
+    "Project": "Azawslab-Release2"
+  },
+  "type": "Microsoft.Network/routeTables"
+}
+
+============================================================
+Platform Networking Terraform State
+============================================================
+data.azurerm_subnet.workload
+data.azurerm_virtual_network.workload_spoke
+module.hub_spoke_networking.azurerm_firewall_policy.this[0]
+module.hub_spoke_networking.azurerm_firewall_policy_rule_collection_group.p6_validation[0]
+module.hub_spoke_networking.azurerm_public_ip.azure_firewall[0]
+module.hub_spoke_networking.azurerm_resource_group.connectivity
+module.hub_spoke_networking.azurerm_route_table.workload_to_hub
+module.hub_spoke_networking.azurerm_subnet.bastion
+module.hub_spoke_networking.azurerm_subnet.firewall
+module.hub_spoke_networking.azurerm_subnet.gateway
+module.hub_spoke_networking.azurerm_subnet_route_table_association.workload
+module.hub_spoke_networking.azurerm_virtual_network.hub
+module.hub_spoke_networking.azurerm_virtual_network_peering.hub_to_workload_spoke
+module.hub_spoke_networking.azurerm_virtual_network_peering.workload_spoke_to_hub
+
