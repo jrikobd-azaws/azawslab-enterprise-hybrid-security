@@ -1,0 +1,182 @@
+﻿============================================================
+P9a Azure Monitor alert firing and email notification validation
+============================================================
+Generated: 2026-05-06 00:56:38 +01:00
+
+Validation result:
+- Controlled CPU load was generated on vm-dev-client-01.
+- Azure Monitor alert fired successfully.
+- Action group membership email was received.
+- Azure Monitor alert notification email was received.
+- Portal alert evidence was captured.
+- VM was deallocated after validation.
+
+Screenshots:
+- p9a-action-group-membership-email-validation.png
+- p9a-action-group-alert-email-notification.png
+- p9a-alert-fired-portal-validation.png
+
+============================================================
+Metric alert status
+============================================================
+{
+  "value": [
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Insights/metricAlerts/alert-p9a-vm-cpu-high/status/Y3VycmVudFN0YXR1cw==",
+      "name": "Y3VycmVudFN0YXR1cw==",
+      "properties": {
+        "dimensions": {},
+        "status": "Unhealthy",
+        "timestamp": "2026-05-05T23:03:07.827315Z"
+      },
+      "type": "Microsoft.Insights/metricAlerts/status"
+    },
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Insights/metricAlerts/alert-p9a-vm-cpu-high/status/bWljcm9zb2Z0LnJlc291cmNlSWQ9L3N1YnNjcmlwdGlvbnMvOGQ5OTYzN2MtMTNlNy00MTdjLWIzMzQtYjU4NmQwZGRjM2Q2L3Jlc291cmNlR3JvdXBzL3JnLWRldi13b3JrbG9hZC1ub3J3YXllYXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuQ29tcHV0ZS92aXJ0dWFsTWFjaGluZXMvdm0tZGV2LWNsaWVudC0wMV9fX21pY3Jvc29mdC5yZXNvdXJjZVR5cGU9TWljcm9zb2Z0LkNvbXB1dGUvdmlydHVhbE1hY2hpbmVz",
+      "name": "bWljcm9zb2Z0LnJlc291cmNlSWQ9L3N1YnNjcmlwdGlvbnMvOGQ5OTYzN2MtMTNlNy00MTdjLWIzMzQtYjU4NmQwZGRjM2Q2L3Jlc291cmNlR3JvdXBzL3JnLWRldi13b3JrbG9hZC1ub3J3YXllYXN0L3Byb3ZpZGVycy9NaWNyb3NvZnQuQ29tcHV0ZS92aXJ0dWFsTWFjaGluZXMvdm0tZGV2LWNsaWVudC0wMV9fX21pY3Jvc29mdC5yZXNvdXJjZVR5cGU9TWljcm9zb2Z0LkNvbXB1dGUvdmlydHVhbE1hY2hpbmVz",
+      "properties": {
+        "dimensions": {
+          "microsoft.resourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+          "microsoft.resourceType": "Microsoft.Compute/virtualMachines"
+        },
+        "status": "Unhealthy",
+        "timestamp": "2026-05-05T23:03:07.827315Z"
+      },
+      "type": "Microsoft.Insights/metricAlerts/status"
+    }
+  ]
+}
+
+============================================================
+Alerts Management fired alert instances
+============================================================
+{
+  "value": [
+    {
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01/providers/Microsoft.AlertsManagement/alerts/4d5a9949-92ac-46a1-8c8c-c1f93aecf000",
+      "name": "alert-p9a-vm-cpu-high",
+      "properties": {
+        "essentials": {
+          "actionStatus": {
+            "isSuppressed": false
+          },
+          "alertRule": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Insights/metricAlerts/alert-p9a-vm-cpu-high",
+          "alertState": "New",
+          "description": "P9a validation alert for high CPU on vm-dev-client-01.",
+          "lastModifiedDateTime": "2026-05-05T23:41:51.3015839Z",
+          "lastModifiedUserName": "System",
+          "monitorCondition": "Fired",
+          "monitorService": "Platform",
+          "severity": "Sev3",
+          "signalType": "Metric",
+          "sourceCreatedId": "8d99637c-13e7-417c-b334-b586d0ddc3d6_rg-dev-monitoring-norwayeast_Microsoft.Insights_metricAlerts_alert-p9a-vm-cpu-high_384319030",
+          "startDateTime": "2026-05-05T23:41:51.3015839Z",
+          "targetResource": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-workload-norwayeast/providers/microsoft.compute/virtualmachines/vm-dev-client-01",
+          "targetResourceGroup": "rg-dev-workload-norwayeast",
+          "targetResourceName": "vm-dev-client-01",
+          "targetResourceType": "virtualmachines"
+        }
+      },
+      "type": "microsoft.alertsmanagement/alerts"
+    }
+  ]
+}
+
+============================================================
+Metric alert configuration
+============================================================
+{
+  "actions": [
+    {
+      "actionGroupId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Insights/actionGroups/ag-p9a-platform-ops",
+      "webHookProperties": {}
+    }
+  ],
+  "autoMitigate": true,
+  "criteria": {
+    "allOf": [
+      {
+        "criterionType": "StaticThresholdCriterion",
+        "metricName": "Percentage CPU",
+        "metricNamespace": "Microsoft.Compute/virtualMachines",
+        "name": "Metric1",
+        "operator": "GreaterThan",
+        "skipMetricValidation": false,
+        "threshold": 85.0,
+        "timeAggregation": "Average"
+      }
+    ],
+    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+  },
+  "description": "P9a validation alert for high CPU on vm-dev-client-01.",
+  "enabled": true,
+  "evaluationFrequency": "PT5M",
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Insights/metricAlerts/alert-p9a-vm-cpu-high",
+  "location": "global",
+  "name": "alert-p9a-vm-cpu-high",
+  "resourceGroup": "rg-dev-monitoring-norwayeast",
+  "scopes": [
+    "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01"
+  ],
+  "severity": 3,
+  "tags": {
+    "CostCenter": "lab",
+    "Environment": "dev",
+    "Owner": "platform",
+    "Phase": "P8",
+    "Project": "azawslab"
+  },
+  "targetResourceRegion": "",
+  "targetResourceType": "",
+  "type": "Microsoft.Insights/metricAlerts",
+  "windowSize": "PT5M"
+}
+
+============================================================
+Action group configuration
+============================================================
+{
+  "armRoleReceivers": [],
+  "automationRunbookReceivers": [],
+  "azureAppPushReceivers": [],
+  "azureFunctionReceivers": [],
+  "emailReceivers": [
+    {
+      "emailAddress": "admin-lab@entra.azawslab.co.uk",
+      "name": "admin-lab-email",
+      "status": "Enabled",
+      "useCommonAlertSchema": true
+    }
+  ],
+  "enabled": true,
+  "eventHubReceivers": [],
+  "groupShortName": "p9aops",
+  "id": "/subscriptions/8D99637C-13E7-417C-B334-B586D0DDC3D6/resourceGroups/rg-dev-monitoring-norwayeast/providers/microsoft.insights/actionGroups/ag-p9a-platform-ops",
+  "itsmReceivers": [],
+  "location": "Global",
+  "logicAppReceivers": [],
+  "name": "ag-p9a-platform-ops",
+  "resourceGroup": "rg-dev-monitoring-norwayeast",
+  "smsReceivers": [],
+  "tags": {
+    "CostCenter": "lab",
+    "Environment": "dev",
+    "Owner": "platform",
+    "Phase": "P8",
+    "Project": "azawslab"
+  },
+  "type": "Microsoft.Insights/ActionGroups",
+  "voiceReceivers": [],
+  "webhookReceivers": []
+}
+
+============================================================
+Target VM final state
+============================================================
+{
+  "name": "vm-dev-client-01",
+  "powerState": "VM deallocated",
+  "privateIps": "10.10.0.4",
+  "publicIps": ""
+}
+
