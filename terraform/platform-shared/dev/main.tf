@@ -39,7 +39,11 @@ import {
 module "monitoring" {
   source = "../../modules/monitoring"
 
-  enable_sentinel              = false
+  enable_sentinel = false
+
+  enable_monitor_alerts        = false
+  monitor_action_group_email   = "admin-lab@entra.azawslab.co.uk"
+  monitor_alert_target_vm_id   = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01"
   resource_group_name          = "rg-dev-monitoring-norwayeast"
   location                     = "norwayeast"
   log_analytics_workspace_name = "law-dev-platform-norwayeast"
@@ -52,3 +56,4 @@ module "monitoring" {
     Phase       = "P8"
   }
 }
+
