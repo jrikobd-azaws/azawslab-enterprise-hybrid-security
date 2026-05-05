@@ -1,0 +1,64 @@
+﻿# Ephemeral Ops Resources Evidence
+
+Date: 2026-05-05 16:22:51 +01:00
+
+## Purpose
+
+This corrective branch audits and standardises the lifecycle approach for operational access resources before continuing later phases.
+
+It separates two different patterns:
+
+- Azure Bastion: cost-heavy managed access service, implemented as Terraform enable/disable with default disabled.
+- Ansible management host: existing Terraform-managed VM, retained in state but kept deallocated by default.
+
+## Audit result
+
+Confirmed:
+
+- `vm-dev-mgmt-01` exists.
+- `vm-dev-mgmt-01` is owned by `terraform/platform-management/dev`.
+- `vm-dev-mgmt-01` is currently deallocated.
+- Management VM resources in state:
+  - `azurerm_resource_group.management`
+  - `azurerm_public_ip.management`
+  - `azurerm_network_interface.management`
+  - `azurerm_linux_virtual_machine.management`
+- No Azure Bastion host exists.
+- `AzureBastionSubnet` exists and is owned by `terraform/platform-networking/dev`.
+
+## Design decision
+
+Azure Bastion:
+- Add optional Terraform resources behind `enable_bastion`.
+- Keep `enable_bastion = false` by default.
+- When enabled, Terraform should create only:
+  - Azure Bastion host
+  - Azure Bastion public IP
+- After validation, disable and run controlled GitHub Actions Apply to remove Bastion cost.
+
+Ansible management host:
+- Keep the existing VM as deallocate-by-default.
+- Do not convert the existing VM to count-based destroy/recreate in this branch.
+- Avoid replacement risk from SSH key drift, OS disk lifecycle changes, or prior state-split history.
+
+## Validation
+
+Disabled-mode plan:
+- `enable_bastion = false`
+- Terraform plan returned no changes.
+
+Enabled-mode inspection plan:
+- Temporary local inspection with `enable_bastion = true`
+- Plan showed 2 to add, 0 to change, 0 to destroy.
+- Expected additions:
+  - `azurerm_bastion_host.this[0]`
+  - `azurerm_public_ip.bastion[0]`
+- Flag was restored to `enable_bastion = false` after inspection.
+- Local tfplan files were removed.
+
+## Evidence files
+
+- `ephemeral-ops-resources-readiness-audit.txt`
+- `ephemeral-ops-resources-summary.txt`
+- `ephemeral-bastion-disabled-plan.txt`
+- `ephemeral-bastion-enabled-plan.txt`

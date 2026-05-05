@@ -1,0 +1,754 @@
+﻿EPHEMERAL OPS RESOURCES READINESS AUDIT
+Generated: 2026-05-05 16:06:43 +01:00
+
+============================================================
+Git branch
+============================================================
+feature/release2-ephemeral-ops-resources
+
+
+============================================================
+Git status
+============================================================
+?? docs/release2/evidence/ephemeral-ops-resources/
+
+
+============================================================
+Latest commits
+============================================================
+4abca79 Merge pull request #128 from jrikobd-azaws/feature/release2-p7-defender-security-contact
+b2698e0 Add P7 Defender for Servers Plan 1
+6e9f6f1 Merge pull request #127 from jrikobd-azaws/feature/release2-p7-defender-security-contact
+35696d6 Add P7 Defender security contact
+7763649 Merge pull request #126 from jrikobd-azaws/feature/release2-p6-disable-firewall-after-validation
+89f80b0 Close out P6 Azure Firewall teardown evidence
+88f4576 Merge pull request #125 from jrikobd-azaws/feature/release2-p6-disable-firewall-after-validation
+ec157ae Disable P6 Azure Firewall after validation
+
+
+============================================================
+Azure account context
+============================================================
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "id": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "Azure subscription 1",
+  "state": "Enabled",
+  "tenantDefaultDomain": "entra.azawslab.co.uk",
+  "tenantDisplayName": "AZAWS",
+  "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "user": {
+    "name": "admin-lab@entra.azawslab.co.uk",
+    "type": "user"
+  }
+}
+
+
+============================================================
+Platform-management Terraform state list
+============================================================
+data.azurerm_subnet.management
+azurerm_linux_virtual_machine.management
+azurerm_network_interface.management
+azurerm_public_ip.management
+azurerm_resource_group.management
+
+
+============================================================
+Platform-networking Terraform state list
+============================================================
+data.azurerm_subnet.workload
+data.azurerm_virtual_network.workload_spoke
+module.hub_spoke_networking.azurerm_resource_group.connectivity
+module.hub_spoke_networking.azurerm_route_table.workload_to_hub
+module.hub_spoke_networking.azurerm_subnet.bastion
+module.hub_spoke_networking.azurerm_subnet.firewall
+module.hub_spoke_networking.azurerm_subnet.gateway
+module.hub_spoke_networking.azurerm_subnet_route_table_association.workload
+module.hub_spoke_networking.azurerm_virtual_network.hub
+module.hub_spoke_networking.azurerm_virtual_network_peering.hub_to_workload_spoke
+module.hub_spoke_networking.azurerm_virtual_network_peering.workload_spoke_to_hub
+
+
+============================================================
+Management resource group
+============================================================
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast",
+  "location": "norwayeast",
+  "managedBy": null,
+  "name": "rg-dev-management-norwayeast",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "Terraform",
+    "Environment": "Development",
+    "Owner": "HASHIBUR RAHMAN",
+    "Project": "Azawslab-Release2"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+
+============================================================
+Management VM instance view
+============================================================
+{
+  "diagnosticsProfile": {
+    "bootDiagnostics": {
+      "enabled": false
+    }
+  },
+  "etag": "\"4\"",
+  "extensionsTimeBudget": "PT1H30M",
+  "hardwareProfile": {
+    "vmSize": "Standard_B2als_v2"
+  },
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+  "instanceView": {
+    "disks": [
+      {
+        "name": "vm-dev-mgmt-01_OsDisk_1_1f836ac4eb73477aba52599133842ec2",
+        "statuses": [
+          {
+            "code": "ProvisioningState/succeeded",
+            "displayStatus": "Provisioning succeeded",
+            "level": "Info",
+            "time": "2026-05-02T20:57:02.2837342+00:00"
+          }
+        ]
+      }
+    ],
+    "hyperVGeneration": "V2",
+    "statuses": [
+      {
+        "code": "ProvisioningState/succeeded",
+        "displayStatus": "Provisioning succeeded",
+        "level": "Info",
+        "time": "2026-05-02T20:57:02.3201662+00:00"
+      },
+      {
+        "code": "PowerState/deallocated",
+        "displayStatus": "VM deallocated",
+        "level": "Info"
+      }
+    ]
+  },
+  "location": "norwayeast",
+  "name": "vm-dev-mgmt-01",
+  "networkProfile": {
+    "networkInterfaces": [
+      {
+        "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Network/networkInterfaces/nic-vm-dev-mgmt-01-01",
+        "primary": true,
+        "resourceGroup": "rg-dev-management-norwayeast"
+      }
+    ]
+  },
+  "osProfile": {
+    "adminUsername": "azureuser",
+    "allowExtensionOperations": true,
+    "computerName": "vm-dev-mgmt-01",
+    "linuxConfiguration": {
+      "disablePasswordAuthentication": true,
+      "patchSettings": {
+        "assessmentMode": "ImageDefault",
+        "patchMode": "ImageDefault"
+      },
+      "provisionVMAgent": true,
+      "ssh": {
+        "publicKeys": [
+          {
+            "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCaGA+kK4g33HpF0mUeZywNUqKY1Zy24rpztEmvdXXPt06EA4H9kHsMZNpHvLBHJUJ/YcafOvca9xEKgFK187Tiw6lNz8LT+ZWf4V6WjDu1/w1Dn9BFN6ww8zS5h5zMMhDUlowudQb90KaiwQ1nln03+r0tKCIYxgBPCTvWrVWKxx5bGCl6QNqxsZBXu+r0dTjhPW1soPsHeFO+0ShVgspkejqjBPJhNFw5783yOlfnMHh+qJoANUzk6m7stkPcyevhTudsLwoMjL2CHp/4UzGhaIjHqJH9XPHtskxG7djhPU3quqy7mNpnJM6cFUA0TZ9Ze7e/nff6H529hver0VRT3cqAkbUDt8gwrIBLxUL8JLRA7tkeieXOyWvGaIM/LAZy633SeqVgetedDTDfmGjs11RArW1ZEBh8skhw6LbWkPIf6xa5G14anoJdNLl8lMJ0+M7q1iRm6wNrs81KTn6DXt0N17ger2eVYpytjhXlzIx5iumbNIQIwJVobXWKSTqG5IRzmWVIxon9aXcJdQu3EPULWVN2/68IMt+ji2Hfch06eDvQF8wAJBJqAqfpK026mBCGXlOFF5EqdoQFB/fGcvpHswDhPPt9Oy3/O+OGy3w5xcMg/ZRI6kknJt20L8BHjHCVIeEBtVK+mATyM3HNlP3vzndzRnxFftFK+jc0qQ== rikor@rikolaptop\r\n",
+            "path": "/home/azureuser/.ssh/authorized_keys"
+          }
+        ]
+      }
+    },
+    "requireGuestProvisionSignal": true,
+    "secrets": []
+  },
+  "priority": "Regular",
+  "provisioningState": "Succeeded",
+  "resourceGroup": "rg-dev-management-norwayeast",
+  "storageProfile": {
+    "dataDisks": [],
+    "diskControllerType": "SCSI",
+    "imageReference": {
+      "exactVersion": "22.04.202604250",
+      "offer": "0001-com-ubuntu-server-jammy",
+      "publisher": "Canonical",
+      "sku": "22_04-lts-gen2",
+      "version": "latest"
+    },
+    "osDisk": {
+      "caching": "ReadWrite",
+      "createOption": "FromImage",
+      "deleteOption": "Detach",
+      "managedDisk": {
+        "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/disks/vm-dev-mgmt-01_OsDisk_1_1f836ac4eb73477aba52599133842ec2",
+        "resourceGroup": "rg-dev-management-norwayeast"
+      },
+      "name": "vm-dev-mgmt-01_OsDisk_1_1f836ac4eb73477aba52599133842ec2",
+      "osType": "Linux",
+      "writeAcceleratorEnabled": false
+    }
+  },
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "Terraform",
+    "Environment": "Development",
+    "Owner": "HASHIBUR RAHMAN",
+    "Project": "Azawslab-Release2"
+  },
+  "timeCreated": "2026-05-02T19:13:33.195046+00:00",
+  "type": "Microsoft.Compute/virtualMachines",
+  "vmId": "6f30d01f-fbd3-4e50-9b9a-2653e9d8737c"
+}
+
+
+============================================================
+Management VM NIC
+============================================================
+{
+  "auxiliaryMode": "None",
+  "auxiliarySku": "None",
+  "disableTcpStateTracking": false,
+  "dnsSettings": {
+    "appliedDnsServers": [],
+    "dnsServers": [],
+    "internalDomainNameSuffix": "w02zl0jrvrbelbi3wm5vvayaca.oslx.internal.cloudapp.net"
+  },
+  "enableAcceleratedNetworking": false,
+  "enableIPForwarding": false,
+  "etag": "W/\"d3c0a283-f4e8-41fe-917c-b4cd7e08b641\"",
+  "hostedWorkloads": [],
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Network/networkInterfaces/nic-vm-dev-mgmt-01-01",
+  "ipConfigurations": [
+    {
+      "etag": "W/\"d3c0a283-f4e8-41fe-917c-b4cd7e08b641\"",
+      "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Network/networkInterfaces/nic-vm-dev-mgmt-01-01/ipConfigurations/internal",
+      "name": "internal",
+      "primary": true,
+      "privateIPAddress": "10.10.1.4",
+      "privateIPAddressVersion": "IPv4",
+      "privateIPAllocationMethod": "Dynamic",
+      "provisioningState": "Succeeded",
+      "publicIPAddress": {
+        "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Network/publicIPAddresses/pip-vm-dev-mgmt-01-norwayeast-01",
+        "resourceGroup": "rg-dev-management-norwayeast"
+      },
+      "resourceGroup": "rg-dev-management-norwayeast",
+      "subnet": {
+        "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-mgmt",
+        "resourceGroup": "rg-dev-workload-norwayeast"
+      },
+      "type": "Microsoft.Network/networkInterfaces/ipConfigurations"
+    }
+  ],
+  "location": "norwayeast",
+  "macAddress": "7C-ED-8D-F3-D5-14",
+  "name": "nic-vm-dev-mgmt-01-01",
+  "nicType": "Standard",
+  "primary": true,
+  "provisioningState": "Succeeded",
+  "resourceGroup": "rg-dev-management-norwayeast",
+  "resourceGuid": "a32dbca9-6308-437e-96f4-4da35d88319e",
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "Terraform",
+    "Environment": "Development",
+    "Owner": "HASHIBUR RAHMAN",
+    "Project": "Azawslab-Release2"
+  },
+  "tapConfigurations": [],
+  "type": "Microsoft.Network/networkInterfaces",
+  "virtualMachine": {
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-mgmt-01",
+    "resourceGroup": "rg-dev-management-norwayeast"
+  },
+  "vnetEncryptionSupported": false
+}
+
+
+============================================================
+Management VM public IP
+============================================================
+{
+  "ddosSettings": {
+    "protectionMode": "VirtualNetworkInherited"
+  },
+  "etag": "W/\"c47d9452-183a-4eb7-95ce-75425a94065e\"",
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Network/publicIPAddresses/pip-vm-dev-mgmt-01-norwayeast-01",
+  "idleTimeoutInMinutes": 4,
+  "ipAddress": "4.235.98.212",
+  "ipConfiguration": {
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-management-norwayeast/providers/Microsoft.Network/networkInterfaces/nic-vm-dev-mgmt-01-01/ipConfigurations/internal",
+    "resourceGroup": "rg-dev-management-norwayeast"
+  },
+  "ipTags": [],
+  "location": "norwayeast",
+  "name": "pip-vm-dev-mgmt-01-norwayeast-01",
+  "provisioningState": "Succeeded",
+  "publicIPAddressVersion": "IPv4",
+  "publicIPAllocationMethod": "Static",
+  "resourceGroup": "rg-dev-management-norwayeast",
+  "resourceGuid": "9a99a8f4-603f-4889-860f-ccf5de6f33d5",
+  "sku": {
+    "name": "Standard",
+    "tier": "Regional"
+  },
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "Terraform",
+    "Environment": "Development",
+    "Owner": "HASHIBUR RAHMAN",
+    "Project": "Azawslab-Release2"
+  },
+  "type": "Microsoft.Network/publicIPAddresses"
+}
+
+
+============================================================
+All VMs summary
+============================================================
+[
+  {
+    "name": "vm-dev-mgmt-01",
+    "powerState": "VM deallocated",
+    "privateIps": "10.10.1.4",
+    "publicIps": "4.235.98.212",
+    "resourceGroup": "RG-DEV-MANAGEMENT-NORWAYEAST"
+  },
+  {
+    "name": "vm-dev-client-01",
+    "powerState": "VM deallocated",
+    "privateIps": "10.10.0.4",
+    "publicIps": "",
+    "resourceGroup": "RG-DEV-WORKLOAD-NORWAYEAST"
+  }
+]
+
+
+============================================================
+Azure Bastion hosts
+============================================================
+[]
+
+
+============================================================
+AzureBastionSubnet
+============================================================
+{
+  "addressPrefix": "10.0.0.0/26",
+  "defaultOutboundAccess": true,
+  "delegations": [],
+  "etag": "W/\"715a32d5-f8b7-4e3f-a60b-6bc63b7ce975\"",
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureBastionSubnet",
+  "name": "AzureBastionSubnet",
+  "privateEndpointNetworkPolicies": "Disabled",
+  "privateLinkServiceNetworkPolicies": "Enabled",
+  "provisioningState": "Succeeded",
+  "resourceGroup": "rg-connectivity-prod-norwayeast",
+  "serviceEndpoints": [],
+  "type": "Microsoft.Network/virtualNetworks/subnets"
+}
+
+
+============================================================
+Connectivity public IPs
+============================================================
+[]
+
+
+============================================================
+Platform-management main.tf
+============================================================
+data "azurerm_subnet" "management" {
+  name                 = "snet-mgmt"
+  virtual_network_name = "vnet-dev-norwayeast-spoke-workload"
+  resource_group_name  = "rg-dev-workload-norwayeast"
+}
+
+locals {
+  common_tags = {
+    Environment      = "Development"
+    Project          = "Azawslab-Release2"
+    Owner            = "HASHIBUR RAHMAN"
+    CostCenter       = "Lab-123"
+    DeploymentMethod = "Terraform"
+  }
+}
+
+resource "azurerm_resource_group" "management" {
+  name     = "rg-dev-management-norwayeast"
+  location = "norwayeast"
+
+  tags = local.common_tags
+}
+
+resource "azurerm_public_ip" "management" {
+  name                = "pip-vm-dev-mgmt-01-norwayeast-01"
+  location            = azurerm_resource_group.management.location
+  resource_group_name = azurerm_resource_group.management.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+
+  tags = local.common_tags
+}
+
+resource "azurerm_network_interface" "management" {
+  name                = "nic-vm-dev-mgmt-01-01"
+  location            = azurerm_resource_group.management.location
+  resource_group_name = azurerm_resource_group.management.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = data.azurerm_subnet.management.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.management.id
+  }
+
+  tags = local.common_tags
+}
+
+resource "azurerm_linux_virtual_machine" "management" {
+  name                            = "vm-dev-mgmt-01"
+  resource_group_name             = azurerm_resource_group.management.name
+  location                        = azurerm_resource_group.management.location
+  size                            = "Standard_B2als_v2"
+  admin_username                  = "azureuser"
+  disable_password_authentication = true
+
+  network_interface_ids = [
+    azurerm_network_interface.management.id
+  ]
+
+  admin_ssh_key {
+    username   = "azureuser"
+    public_key = var.management_ssh_public_key
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "StandardSSD_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts-gen2"
+    version   = "latest"
+  }
+
+  tags = local.common_tags
+}
+
+
+
+============================================================
+Platform-management variables.tf
+============================================================
+variable "management_ssh_public_key" {
+  type        = string
+  description = "SSH public key for the temporary Linux management host"
+}
+
+
+
+============================================================
+Platform-management providers.tf
+============================================================
+terraform {
+  required_version = ">= 1.5.0"
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.0"
+    }
+  }
+
+  backend "azurerm" {
+    resource_group_name  = "rg-dev-terraformstate-norwayeast"
+    storage_account_name = "stdevtfstatene01"
+    container_name       = "tfstate"
+    key                  = "platform-management-dev.tfstate"
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+
+
+============================================================
+Platform-management outputs.tf
+============================================================
+output "management_resource_group_name" {
+  value = azurerm_resource_group.management.name
+}
+
+output "management_vm_name" {
+  value = azurerm_linux_virtual_machine.management.name
+}
+
+output "management_private_ip" {
+  value = azurerm_network_interface.management.private_ip_address
+}
+
+output "management_public_ip_id" {
+  value = azurerm_public_ip.management.id
+}
+
+
+
+============================================================
+Platform-networking main.tf
+============================================================
+data "azurerm_virtual_network" "workload_spoke" {
+  name                = "vnet-dev-norwayeast-spoke-workload"
+  resource_group_name = "rg-dev-workload-norwayeast"
+}
+
+data "azurerm_subnet" "workload" {
+  name                 = "snet-workload"
+  virtual_network_name = data.azurerm_virtual_network.workload_spoke.name
+  resource_group_name  = data.azurerm_virtual_network.workload_spoke.resource_group_name
+}
+
+locals {
+  common_tags = {
+    Environment      = "Development"
+    Project          = "Azawslab-Release2"
+    Owner            = "HASHIBUR RAHMAN"
+    CostCenter       = "Lab-123"
+    DeploymentMethod = "Terraform"
+  }
+}
+
+module "hub_spoke_networking" {
+  source = "../../modules/hub-spoke-networking"
+
+  connectivity_resource_group_name = "rg-connectivity-prod-norwayeast"
+  location                         = "norwayeast"
+
+  hub_vnet_name     = "vnet-dev-norwayeast-hub"
+  hub_address_space = ["10.0.0.0/16"]
+
+  bastion_subnet_prefixes  = ["10.0.0.0/26"]
+  firewall_subnet_prefixes = ["10.0.1.0/26"]
+  gateway_subnet_prefixes  = ["10.0.2.0/27"]
+
+  workload_spoke_vnet_id             = data.azurerm_virtual_network.workload_spoke.id
+  workload_spoke_vnet_name           = data.azurerm_virtual_network.workload_spoke.name
+  workload_spoke_resource_group_name = data.azurerm_virtual_network.workload_spoke.resource_group_name
+  workload_subnet_id                 = data.azurerm_subnet.workload.id
+
+  hub_to_spoke_peering_name = "peer-hub-to-spoke-workload"
+  spoke_to_hub_peering_name = "peer-spoke-workload-to-hub"
+
+  workload_route_table_name = "rt-workload-to-hub-norwayeast"
+
+  enable_azure_firewall         = false
+  azure_firewall_name           = "afw-dev-norwayeast-01"
+  azure_firewall_public_ip_name = "pip-azfw-norwayeast-01"
+  azure_firewall_policy_name    = "afwp-dev-norwayeast"
+  azure_firewall_route_name     = "route-default-to-azure-firewall"
+
+  tags = local.common_tags
+}
+
+
+
+
+
+
+
+
+============================================================
+Hub-spoke networking module main.tf
+============================================================
+resource "azurerm_resource_group" "connectivity" {
+  name     = var.connectivity_resource_group_name
+  location = var.location
+  tags     = var.tags
+}
+
+resource "azurerm_virtual_network" "hub" {
+  name                = var.hub_vnet_name
+  location            = azurerm_resource_group.connectivity.location
+  resource_group_name = azurerm_resource_group.connectivity.name
+  address_space       = var.hub_address_space
+  tags                = var.tags
+}
+
+resource "azurerm_subnet" "bastion" {
+  name                 = "AzureBastionSubnet"
+  resource_group_name  = azurerm_resource_group.connectivity.name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = var.bastion_subnet_prefixes
+}
+
+resource "azurerm_subnet" "firewall" {
+  name                 = "AzureFirewallSubnet"
+  resource_group_name  = azurerm_resource_group.connectivity.name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = var.firewall_subnet_prefixes
+}
+
+resource "azurerm_subnet" "gateway" {
+  name                 = "GatewaySubnet"
+  resource_group_name  = azurerm_resource_group.connectivity.name
+  virtual_network_name = azurerm_virtual_network.hub.name
+  address_prefixes     = var.gateway_subnet_prefixes
+}
+
+resource "azurerm_virtual_network_peering" "hub_to_workload_spoke" {
+  name                         = var.hub_to_spoke_peering_name
+  resource_group_name          = azurerm_resource_group.connectivity.name
+  virtual_network_name         = azurerm_virtual_network.hub.name
+  remote_virtual_network_id    = var.workload_spoke_vnet_id
+  allow_virtual_network_access = true
+  allow_forwarded_traffic      = true
+}
+
+resource "azurerm_virtual_network_peering" "workload_spoke_to_hub" {
+  name                         = var.spoke_to_hub_peering_name
+  resource_group_name          = var.workload_spoke_resource_group_name
+  virtual_network_name         = var.workload_spoke_vnet_name
+  remote_virtual_network_id    = azurerm_virtual_network.hub.id
+  allow_virtual_network_access = true
+  allow_forwarded_traffic      = true
+}
+
+resource "azurerm_route_table" "workload_to_hub" {
+  name                = var.workload_route_table_name
+  location            = azurerm_resource_group.connectivity.location
+  resource_group_name = var.workload_spoke_resource_group_name
+  tags                = var.tags
+}
+
+resource "azurerm_subnet_route_table_association" "workload" {
+  subnet_id      = var.workload_subnet_id
+  route_table_id = azurerm_route_table.workload_to_hub.id
+}
+
+resource "azurerm_public_ip" "azure_firewall" {
+  count = var.enable_azure_firewall ? 1 : 0
+
+  name                = var.azure_firewall_public_ip_name
+  location            = azurerm_resource_group.connectivity.location
+  resource_group_name = azurerm_resource_group.connectivity.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+  tags                = var.tags
+}
+
+resource "azurerm_firewall_policy" "this" {
+  count = var.enable_azure_firewall ? 1 : 0
+
+  name                = var.azure_firewall_policy_name
+  location            = azurerm_resource_group.connectivity.location
+  resource_group_name = azurerm_resource_group.connectivity.name
+  sku                 = "Standard"
+  tags                = var.tags
+}
+
+resource "azurerm_firewall" "this" {
+  count = var.enable_azure_firewall ? 1 : 0
+
+  name                = var.azure_firewall_name
+  location            = azurerm_resource_group.connectivity.location
+  resource_group_name = azurerm_resource_group.connectivity.name
+  sku_name            = "AZFW_VNet"
+  sku_tier            = "Standard"
+  firewall_policy_id  = azurerm_firewall_policy.this[0].id
+  tags                = var.tags
+
+  ip_configuration {
+    name                 = "configuration"
+    subnet_id            = azurerm_subnet.firewall.id
+    public_ip_address_id = azurerm_public_ip.azure_firewall[0].id
+  }
+}
+
+resource "azurerm_firewall_policy_rule_collection_group" "p6_validation" {
+  count = var.enable_azure_firewall ? 1 : 0
+
+  name               = "rcg-p6-validation"
+  firewall_policy_id = azurerm_firewall_policy.this[0].id
+  priority           = 100
+
+  application_rule_collection {
+    name     = "arc-allow-microsoft-services"
+    priority = 100
+    action   = "Allow"
+
+    rule {
+      name = "allow-microsoft-and-azure"
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+
+      source_addresses = [
+        "10.10.0.0/16"
+      ]
+
+      destination_fqdns = [
+        "*.microsoft.com",
+        "*.azure.com"
+      ]
+    }
+  }
+
+  network_rule_collection {
+    name     = "nrc-allow-dns"
+    priority = 200
+    action   = "Allow"
+
+    rule {
+      name = "allow-dns"
+
+      protocols = [
+        "UDP",
+        "TCP"
+      ]
+
+      source_addresses = [
+        "10.10.0.0/16"
+      ]
+
+      destination_addresses = [
+        "*"
+      ]
+
+      destination_ports = [
+        "53"
+      ]
+    }
+  }
+}
+
+resource "azurerm_route" "default_to_azure_firewall" {
+  count = var.enable_azure_firewall ? 1 : 0
+
+  name                   = var.azure_firewall_route_name
+  resource_group_name    = var.workload_spoke_resource_group_name
+  route_table_name       = azurerm_route_table.workload_to_hub.name
+  address_prefix         = "0.0.0.0/0"
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = azurerm_firewall.this[0].ip_configuration[0].private_ip_address
+}
+
+
+
+

@@ -53,3 +53,11 @@ output "azure_firewall_policy_id" {
 output "azure_firewall_default_route_id" {
   value = var.enable_azure_firewall ? azurerm_route.default_to_azure_firewall[0].id : null
 }
+
+output "bastion_host_id" {
+  value = var.enable_bastion ? azurerm_bastion_host.this[0].id : null
+}
+
+output "bastion_public_ip_id" {
+  value = var.enable_bastion ? azurerm_public_ip.bastion[0].id : null
+}
