@@ -35,3 +35,20 @@ import {
 
 
 
+
+module "monitoring" {
+  source = "../../modules/monitoring"
+
+  enable_sentinel              = false
+  resource_group_name          = "rg-dev-monitoring-norwayeast"
+  location                     = "norwayeast"
+  log_analytics_workspace_name = "law-dev-platform-norwayeast"
+
+  tags = {
+    Environment = "dev"
+    Project     = "azawslab"
+    Owner       = "platform"
+    CostCenter  = "lab"
+    Phase       = "P8"
+  }
+}
