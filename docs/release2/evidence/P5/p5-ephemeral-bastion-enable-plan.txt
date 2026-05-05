@@ -1,0 +1,67 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.hub_spoke_networking.azurerm_bastion_host.this[0] will be created
+  + resource "azurerm_bastion_host" "this" {
+      + copy_paste_enabled        = true
+      + dns_name                  = (known after apply)
+      + file_copy_enabled         = false
+      + id                        = (known after apply)
+      + ip_connect_enabled        = false
+      + kerberos_enabled          = false
+      + location                  = "norwayeast"
+      + name                      = "bas-dev-norwayeast-01"
+      + private_only_enabled      = (known after apply)
+      + resource_group_name       = "rg-connectivity-prod-norwayeast"
+      + scale_units               = 2
+      + session_recording_enabled = false
+      + shareable_link_enabled    = false
+      + sku                       = "Basic"
+      + tags                      = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Project"          = "Azawslab-Release2"
+        }
+      + tunneling_enabled         = false
+
+      + ip_configuration {
+          + name                 = "configuration"
+          + public_ip_address_id = (known after apply)
+          + subnet_id            = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureBastionSubnet"
+        }
+    }
+
+  # module.hub_spoke_networking.azurerm_public_ip.bastion[0] will be created
+  + resource "azurerm_public_ip" "bastion" {
+      + allocation_method       = "Static"
+      + ddos_protection_mode    = "VirtualNetworkInherited"
+      + fqdn                    = (known after apply)
+      + id                      = (known after apply)
+      + idle_timeout_in_minutes = 4
+      + ip_address              = (known after apply)
+      + ip_version              = "IPv4"
+      + location                = "norwayeast"
+      + name                    = "pip-bas-dev-norwayeast-01"
+      + resource_group_name     = "rg-connectivity-prod-norwayeast"
+      + sku                     = "Standard"
+      + sku_tier                = "Regional"
+      + tags                    = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Project"          = "Azawslab-Release2"
+        }
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + bastion_host_id                   = (known after apply)
+  + bastion_public_ip_id              = (known after apply)
