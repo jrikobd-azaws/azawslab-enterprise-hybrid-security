@@ -72,3 +72,36 @@ Summary:
 
 Evidence file:
 - docs/release2/evidence/P6/p6-firewall-post-apply-validation.txt
+============================================================
+P6 workload egress validation completed
+============================================================
+Date:
+2026-05-05 13:23:00 +01:00
+
+Summary:
+- Started workload VM vm-dev-client-01 for Azure Firewall path validation.
+- Used Azure VM Run Command to test outbound access from the private workload VM.
+- DNS resolution for www.microsoft.com succeeded.
+- HTTPS request to https://www.microsoft.com succeeded with HTTP 200.
+- HTTPS request to https://portal.azure.com succeeded with HTTP 200.
+- HTTPS request to https://www.facebook.com failed as expected, validating social-media egress block behavior.
+- Workload VM was deallocated after validation to reduce compute cost.
+
+Evidence files:
+- docs/release2/evidence/P6/p6-workload-egress-test.txt
+- docs/release2/evidence/P6/p6-workload-vm-deallocated-after-test.txt
+============================================================
+P6 Azure Firewall diagnostics setting check completed
+============================================================
+Date:
+2026-05-05 13:25:56 +01:00
+
+Summary:
+- Checked Azure Monitor diagnostic settings for Azure Firewall afw-dev-norwayeast-01.
+- No diagnostic settings were returned.
+- Firewall deployment and workload egress validation are complete.
+- Firewall KQL/log validation is deferred because diagnostic settings were not enabled for this ephemeral firewall deployment.
+- Recommendation: proceed to teardown now to reduce cost, and implement diagnostic settings/log analytics integration in the later monitoring/Sentinel phase if required.
+
+Evidence file:
+- docs/release2/evidence/P6/p6-firewall-diagnostics-check.txt
