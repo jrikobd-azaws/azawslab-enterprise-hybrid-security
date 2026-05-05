@@ -29,3 +29,9 @@ Design notes:
 - Keep enable_azure_firewall false unless actively validating P6 or a dependent phase.
 - After validation evidence is captured, disable Azure Firewall again and run a controlled GitHub Actions apply to remove cost-heavy firewall resources.
 - The route table rt-workload-to-hub-norwayeast is retained as the generic workload-to-hub steering table for Azure Firewall, later FortiGate NVA routing, and future hybrid routes.
+
+Azure Bastion lifecycle:
+- AzureBastionSubnet is persistent hub-spoke foundation infrastructure.
+- Azure Bastion host deployment is optional and controlled by enable_bastion.
+- Keep enable_bastion false unless actively validating Bastion access or a dependent phase requires it.
+- After Bastion evidence is captured, disable Bastion again and run controlled GitHub Actions Apply to remove cost-heavy Bastion resources.

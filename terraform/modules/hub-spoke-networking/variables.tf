@@ -87,3 +87,21 @@ variable "azure_firewall_route_name" {
   type        = string
   default     = "route-default-to-azure-firewall"
 }
+
+variable "enable_bastion" {
+  description = "Controls whether the ephemeral Azure Bastion host is deployed for validation or operational access."
+  type        = bool
+  default     = false
+}
+
+variable "bastion_host_name" {
+  description = "Name of the Azure Bastion host."
+  type        = string
+  default     = "bas-dev-norwayeast-01"
+}
+
+variable "bastion_public_ip_name" {
+  description = "Name of the Azure Bastion public IP address."
+  type        = string
+  default     = "pip-bas-dev-norwayeast-01"
+}

@@ -58,16 +58,16 @@ resource "azurerm_key_vault_secret" "local_admin_password" {
   depends_on = [azurerm_key_vault_access_policy.principals]
 }
 
+resource "azurerm_security_center_subscription_pricing" "defender_for_servers" {
+  resource_type = "VirtualMachines"
+  tier          = var.defender_for_servers_pricing_tier
+  subplan       = var.defender_for_servers_subplan
+}
+
 resource "azurerm_security_center_contact" "defender" {
   name  = var.defender_security_contact_name
   email = var.defender_security_contact_email
 
   alert_notifications = true
   alerts_to_admins    = true
-}
-
-resource "azurerm_security_center_subscription_pricing" "defender_for_servers" {
-  resource_type = "VirtualMachines"
-  tier          = var.defender_for_servers_pricing_tier
-  subplan       = var.defender_for_servers_subplan
 }

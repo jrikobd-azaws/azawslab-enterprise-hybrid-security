@@ -103,3 +103,35 @@ Cost note:
 
 Evidence:
 - `p7-defender-for-servers-plan.txt`
+
+## Defender for Servers Plan 1 post-apply validation
+
+Date: 2026-05-05 19:35:45 +01:00
+
+P7 Defender for Servers Plan 1 was applied through the controlled Terraform workflow.
+
+Validated configuration:
+- Defender resource type: `VirtualMachines`
+- Pricing tier: `Standard`
+- Subplan: `P1`
+- Security contact retained: `admin-lab@entra.azawslab.co.uk`
+
+Evidence captured:
+- Terraform plan evidence
+- GitHub Actions apply evidence
+- Azure Defender pricing validation
+- Terraform state validation
+- Secure Score capture
+- Defender recommendations/assessments capture
+
+Evidence files:
+- `p7-defender-for-servers-plan.txt`
+- `p7-defender-for-servers-plan1-post-apply-validation.txt`
+
+Screenshot evidence:
+- `p7-github-actions-platform-shared-defender-plan-apply-success.png`, if present
+- `p7-defender-for-servers-plan1-portal-validation.png`, if present
+
+FinOps note:
+- Defender for Servers is a paid plan.
+- Retention or disablement should follow the Release 2 cost-control decision after validation.

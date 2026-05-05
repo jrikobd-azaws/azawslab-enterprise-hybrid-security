@@ -1,0 +1,39 @@
+﻿Ephemeral Ops Resources Audit Summary
+
+Decision date:
+2026-05-05 16:12:11 +01:00
+
+Branch:
+feature/release2-ephemeral-ops-resources
+
+Purpose:
+Audit and prepare cost-aware lifecycle handling for operational access resources before continuing later phases.
+
+Findings:
+- The Ansible management host exists as vm-dev-mgmt-01.
+- The management host is owned by terraform/platform-management/dev.
+- The management host is currently deallocated.
+- The management host resources in state are:
+  - azurerm_resource_group.management
+  - azurerm_public_ip.management
+  - azurerm_network_interface.management
+  - azurerm_linux_virtual_machine.management
+- The management host uses the existing workload spoke management subnet snet-mgmt.
+- The management host has a Standard public IP and a StandardSSD OS disk.
+- Because the VM is already deallocated, compute runtime cost is stopped.
+- The management host should remain deallocated when not actively needed.
+- Do not destroy/recreate the management host in this branch because the VM has state-split history and SSH key replacement risk.
+
+Bastion findings:
+- No Azure Bastion host currently exists.
+- AzureBastionSubnet already exists in the hub VNet.
+- AzureBastionSubnet is owned by terraform/platform-networking/dev through the hub-spoke networking module.
+- Azure Bastion should be implemented as a boolean-controlled ephemeral platform-networking resource with default disabled.
+
+Design decision:
+- Azure Firewall: Terraform enable/disable lifecycle, already implemented.
+- Azure Bastion: Terraform enable/disable lifecycle, to be added.
+- Ansible management host: deallocate-by-default lifecycle for now; avoid destroy/recreate until explicitly required.
+
+Evidence source:
+- ephemeral-ops-resources-readiness-audit.txt

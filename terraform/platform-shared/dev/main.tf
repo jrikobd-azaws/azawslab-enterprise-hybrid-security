@@ -1,4 +1,4 @@
-module "security" {
+﻿module "security" {
   source = "../../modules/security"
 
   resource_group_name = "rg-dev-security-norwayeast"
@@ -39,7 +39,7 @@ import {
 module "monitoring" {
   source = "../../modules/monitoring"
 
-  enable_sentinel = false
+  enable_sentinel = true
 
   enable_monitor_alerts        = false
   monitor_action_group_email   = "admin-lab@entra.azawslab.co.uk"
@@ -56,4 +56,5 @@ module "monitoring" {
     Phase       = "P8"
   }
 }
+
 

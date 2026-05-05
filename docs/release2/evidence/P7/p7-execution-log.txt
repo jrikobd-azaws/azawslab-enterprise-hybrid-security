@@ -89,3 +89,27 @@ Evidence file:
 Cost note:
 - Defender for Servers is a paid Defender for Cloud plan.
 - This should be treated as an evidence-driven implementation: enable through Terraform, validate, then decide whether to retain or disable for cost control.
+============================================================
+P7 Defender for Servers Plan 1 applied and validated
+============================================================
+Date:
+2026-05-05 19:35:45 +01:00
+
+Summary:
+- P7 Defender for Servers Plan 1 was applied through the controlled Terraform workflow.
+- Platform-shared apply completed successfully.
+- Defender for Servers pricing for VirtualMachines was validated as Standard / P1.
+- Existing Defender security contact was retained.
+- Terraform state contains the Defender for Servers subscription pricing resource.
+- Secure Score and Defender assessments/recommendations were captured after the change.
+- No local Terraform apply was used for final deployment evidence.
+
+Evidence:
+- p7-defender-for-servers-plan.txt
+- p7-defender-for-servers-plan1-post-apply-validation.txt
+- p7-github-actions-platform-shared-defender-plan-apply-success.png, if present
+- p7-defender-for-servers-plan1-portal-validation.png, if present
+
+Cost note:
+- Defender for Servers is a paid Defender for Cloud plan.
+- Retain or disable decision should be made after final validation according to the Release 2 FinOps policy.
