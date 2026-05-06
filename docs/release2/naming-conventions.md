@@ -527,3 +527,56 @@ Whenever you introduce:
 
 
 
+
+### O3b AWS Branch Resource Naming
+
+O3b represents a customer/branch AWS environment managed by the enterprise platform team. AWS resources use a dedicated Terraform root and state boundary:
+
+- `terraform/aws-branch/dev`
+- `aws-branch-dev.tfstate`
+
+| Resource | Canonical Name |
+|---|---|
+| AWS VPC | `vpc-dev-aws-branch` |
+| Mgmt subnet | `subnet-dev-aws-mgmt` |
+| Untrusted/Public subnet | `subnet-dev-aws-untrusted` |
+| Trusted subnet | `subnet-dev-aws-trusted` |
+| DMZ subnet | `subnet-dev-aws-dmz` |
+| Internet Gateway | `igw-dev-aws-branch` |
+| Mgmt route table | `rt-dev-aws-mgmt` |
+| Untrusted route table | `rt-dev-aws-untrusted` |
+| Trusted route table | `rt-dev-aws-trusted` |
+| DMZ route table | `rt-dev-aws-dmz` |
+| Cisco NVA | `cisco-dev-branch-01` |
+| Cisco mgmt ENI | `eni-dev-cisco-mgmt-01` |
+| Cisco untrusted ENI | `eni-dev-cisco-untrusted-01` |
+| Cisco trusted ENI | `eni-dev-cisco-trusted-01` |
+| Trusted test VM | `ec2-dev-aws-trusted-01` |
+| DMZ test VM | `ec2-dev-aws-dmz-01` |
+| Cisco security group | `sg-dev-aws-cisco` |
+| Test VM security group | `sg-dev-aws-test` |
+| SSH key pair | `kp-dev-aws-branch` |
+
+O3b enable flags:
+
+```hcl
+enable_o3b_aws_branch   = false
+enable_o3b_aws_test_vms = false
+enable_o3b_aws_cisco    = false
+```
+
+Cheaper AWS preparation mode:
+
+```hcl
+enable_o3b_aws_branch   = true
+enable_o3b_aws_test_vms = true
+enable_o3b_aws_cisco    = false
+```
+
+Full O3b validation mode:
+
+```hcl
+enable_o3b_aws_branch   = true
+enable_o3b_aws_test_vms = true
+enable_o3b_aws_cisco    = true
+```
