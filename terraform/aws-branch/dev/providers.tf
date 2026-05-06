@@ -8,11 +8,12 @@ terraform {
     }
   }
 
-  backend "azurerm" {
-    resource_group_name  = "rg-dev-terraformstate-norwayeast"
-    storage_account_name = "stdevtfstatene01"
-    container_name       = "tfstate"
-    key                  = "aws-branch-dev.tfstate"
+  backend "s3" {
+    bucket       = "s3-dev-azawslab-tfstate-euwest1"
+    key          = "aws-branch/dev/terraform.tfstate"
+    region       = "eu-west-1"
+    encrypt      = true
+    use_lockfile = true
   }
 }
 
