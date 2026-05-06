@@ -1,0 +1,38 @@
+﻿[
+  {
+    "changedTime": "2026-05-06T12:15:37.729396+00:00",
+    "createdTime": "2026-05-06T12:05:36.924910+00:00",
+    "extendedLocation": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/AzureBackupRG_norwayeast_1/providers/Microsoft.Compute/restorePointCollections/AzureBackup_vm-dev-client-01_7566839024171629714",
+    "identity": null,
+    "kind": null,
+    "location": "norwayeast",
+    "managedBy": null,
+    "name": "AzureBackup_vm-dev-client-01_7566839024171629714",
+    "plan": null,
+    "properties": null,
+    "provisioningState": "Succeeded",
+    "resourceGroup": "AzureBackupRG_norwayeast_1",
+    "sku": null,
+    "tags": null,
+    "type": "Microsoft.Compute/restorePointCollections"
+  },
+  {
+    "changedTime": "2026-05-06T14:14:42.588987+00:00",
+    "createdTime": "2026-05-06T14:04:41.507113+00:00",
+    "extendedLocation": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Compute/restorePointCollections/AzureBackup_vm-dev-client-01_7566839024171629714",
+    "identity": null,
+    "kind": null,
+    "location": "norwayeast",
+    "managedBy": null,
+    "name": "AzureBackup_vm-dev-client-01_7566839024171629714",
+    "plan": null,
+    "properties": null,
+    "provisioningState": "Succeeded",
+    "resourceGroup": "rg-dev-backup-rsv-rp-norwayeast-1-rg",
+    "sku": null,
+    "tags": null,
+    "type": "Microsoft.Compute/restorePointCollections"
+  }
+]
