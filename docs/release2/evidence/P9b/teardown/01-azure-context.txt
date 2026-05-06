@@ -1,0 +1,10 @@
+﻿================================================================================
+P9b teardown evidence: 01-azure-context.txt
+Generated: 2026-05-06 17:28:13 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+Subscription          SubscriptionId                        TenantId                              User
+--------------------  ------------------------------------  ------------------------------------  ---------------------------
+Azure subscription 1  8d99637c-13e7-417c-b334-b586d0ddc3d6  78643a83-bcc9-4a3b-ab7e-eeede0b3384e  hashib@entra.azawslab.co.uk
+

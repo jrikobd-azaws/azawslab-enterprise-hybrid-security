@@ -1,0 +1,51 @@
+﻿================================================================================
+P9b teardown evidence: 06-restore-point-rg-before-cleanup.txt
+Generated: 2026-05-06 17:28:22 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg",
+  "location": "norwayeast",
+  "managedBy": null,
+  "name": "rg-dev-backup-rsv-rp-norwayeast-1-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "Terraform",
+    "Environment": "Development",
+    "Owner": "HASHIBUR RAHMAN",
+    "Phase": "P9b",
+    "Project": "Azawslab-Release2",
+    "Service": "Backup"
+  },
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+Name                                              ResourceGroup                         Location    Type                                       Status
+------------------------------------------------  ------------------------------------  ----------  -----------------------------------------  ---------
+AzureBackup_vm-dev-client-01_7566839024171629714  rg-dev-backup-rsv-rp-norwayeast-1-rg  norwayeast  Microsoft.Compute/restorePointCollections  Succeeded
+
+[
+  {
+    "changedTime": "2026-05-06T14:14:42.588987+00:00",
+    "createdTime": "2026-05-06T14:04:41.507113+00:00",
+    "extendedLocation": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Compute/restorePointCollections/AzureBackup_vm-dev-client-01_7566839024171629714",
+    "identity": null,
+    "kind": null,
+    "location": "norwayeast",
+    "managedBy": null,
+    "name": "AzureBackup_vm-dev-client-01_7566839024171629714",
+    "plan": null,
+    "properties": null,
+    "provisioningState": "Succeeded",
+    "resourceGroup": "rg-dev-backup-rsv-rp-norwayeast-1-rg",
+    "sku": null,
+    "tags": null,
+    "type": "Microsoft.Compute/restorePointCollections"
+  }
+]
+
