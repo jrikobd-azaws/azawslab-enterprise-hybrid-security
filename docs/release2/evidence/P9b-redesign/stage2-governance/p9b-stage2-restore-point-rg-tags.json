@@ -1,0 +1,13 @@
+﻿{
+  "location": "norwayeast",
+  "name": "rg-dev-backup-rsv-rp-norwayeast-1-rg",
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "Terraform",
+    "Environment": "Development",
+    "Owner": "HASHIBUR RAHMAN",
+    "Phase": "P9b",
+    "Project": "Azawslab-Release2",
+    "Service": "Backup"
+  }
+}

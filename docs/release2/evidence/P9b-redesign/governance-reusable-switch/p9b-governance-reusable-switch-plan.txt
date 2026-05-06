@@ -1,0 +1,60 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # azurerm_resource_group_policy_exemption.p9b_backup_restore_point_resource_tags["CostCenter"] will be updated in-place
+  ~ resource "azurerm_resource_group_policy_exemption" "p9b_backup_restore_point_resource_tags" {
+        id                              = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Authorization/policyExemptions/ex-p9b-backup-rp-costcenter"
+      ~ metadata                        = jsonencode(
+          ~ {
+              + reusable_switch    = "enable_p9b_backup_governance"
+                # (6 unchanged attributes hidden)
+            }
+        )
+        name                            = "ex-p9b-backup-rp-costcenter"
+        # (7 unchanged attributes hidden)
+    }
+
+  # azurerm_resource_group_policy_exemption.p9b_backup_restore_point_resource_tags["Environment"] will be updated in-place
+  ~ resource "azurerm_resource_group_policy_exemption" "p9b_backup_restore_point_resource_tags" {
+        id                              = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Authorization/policyExemptions/ex-p9b-backup-rp-environment"
+      ~ metadata                        = jsonencode(
+          ~ {
+              + reusable_switch    = "enable_p9b_backup_governance"
+                # (6 unchanged attributes hidden)
+            }
+        )
+        name                            = "ex-p9b-backup-rp-environment"
+        # (7 unchanged attributes hidden)
+    }
+
+  # azurerm_resource_group_policy_exemption.p9b_backup_restore_point_resource_tags["Owner"] will be updated in-place
+  ~ resource "azurerm_resource_group_policy_exemption" "p9b_backup_restore_point_resource_tags" {
+        id                              = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Authorization/policyExemptions/ex-p9b-backup-rp-owner"
+      ~ metadata                        = jsonencode(
+          ~ {
+              + reusable_switch    = "enable_p9b_backup_governance"
+                # (6 unchanged attributes hidden)
+            }
+        )
+        name                            = "ex-p9b-backup-rp-owner"
+        # (7 unchanged attributes hidden)
+    }
+
+  # azurerm_resource_group_policy_exemption.p9b_backup_restore_point_resource_tags["Project"] will be updated in-place
+  ~ resource "azurerm_resource_group_policy_exemption" "p9b_backup_restore_point_resource_tags" {
+        id                              = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Authorization/policyExemptions/ex-p9b-backup-rp-project"
+      ~ metadata                        = jsonencode(
+          ~ {
+              + reusable_switch    = "enable_p9b_backup_governance"
+                # (6 unchanged attributes hidden)
+            }
+        )
+        name                            = "ex-p9b-backup-rp-project"
+        # (7 unchanged attributes hidden)
+    }
+
+Plan: 0 to add, 4 to change, 0 to destroy.

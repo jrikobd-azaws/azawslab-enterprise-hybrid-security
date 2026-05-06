@@ -1,0 +1,30 @@
+﻿[
+  {
+    "displayName": "P9b Backup restore point RG exemption - Owner",
+    "exemptionCategory": "Waiver",
+    "name": "ex-p9b-backup-rp-owner",
+    "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-own",
+    "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Authorization/policyExemptions/ex-p9b-backup-rp-owner"
+  },
+  {
+    "displayName": "P9b Backup restore point RG exemption - CostCenter",
+    "exemptionCategory": "Waiver",
+    "name": "ex-p9b-backup-rp-costcenter",
+    "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-cost",
+    "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Authorization/policyExemptions/ex-p9b-backup-rp-costcenter"
+  },
+  {
+    "displayName": "P9b Backup restore point RG exemption - Environment",
+    "exemptionCategory": "Waiver",
+    "name": "ex-p9b-backup-rp-environment",
+    "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-env",
+    "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Authorization/policyExemptions/ex-p9b-backup-rp-environment"
+  },
+  {
+    "displayName": "P9b Backup restore point RG exemption - Project",
+    "exemptionCategory": "Waiver",
+    "name": "ex-p9b-backup-rp-project",
+    "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-proj",
+    "scope": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg/providers/Microsoft.Authorization/policyExemptions/ex-p9b-backup-rp-project"
+  }
+]

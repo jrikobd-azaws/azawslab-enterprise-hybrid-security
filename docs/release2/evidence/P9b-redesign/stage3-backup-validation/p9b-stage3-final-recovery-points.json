@@ -1,0 +1,100 @@
+﻿[
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01/protectedItems/VM;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01/recoveryPoints/7566390631190213368",
+    "location": null,
+    "name": "7566390631190213368",
+    "properties": {
+      "createdWithPolicyType": "V1",
+      "extendedLocation": null,
+      "isInstantIlrSessionActive": false,
+      "isManagedVirtualMachine": true,
+      "isPrivateAccessEnabledOnAnyDisk": false,
+      "isSourceVmEncrypted": false,
+      "keyAndSecret": null,
+      "objectType": "IaasVMRecoveryPoint",
+      "originalStorageAccountOption": false,
+      "osType": "Windows",
+      "recoveryPointAdditionalInfo": "",
+      "recoveryPointDiskConfiguration": null,
+      "recoveryPointMoveReadinessInfo": {
+        "ArchivedRP": {
+          "additionalInfo": "Recovery point cannot be moved to Archive tier due to insufficient retention duration specified in policy.. Update policy on the protected item with appropriate retention setting and try again.",
+          "isReadyForMove": false
+        }
+      },
+      "recoveryPointProperties": null,
+      "recoveryPointTierDetails": [
+        {
+          "extendedInfo": null,
+          "status": "Valid",
+          "type": "InstantRP"
+        },
+        {
+          "extendedInfo": null,
+          "status": "Valid",
+          "type": "HardenedRP"
+        }
+      ],
+      "recoveryPointTime": "2026-05-06T14:04:41.926190+00:00",
+      "recoveryPointType": "AppConsistent",
+      "securityType": "None",
+      "sourceVmStorageType": "NormalStorage",
+      "virtualMachineSize": "Standard_B2als_v2",
+      "zones": null
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "tierType": "SnapshotAndVaultStandard",
+    "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems/recoveryPoints"
+  },
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01/protectedItems/VM;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01/recoveryPoints/7566398946646783891",
+    "location": null,
+    "name": "7566398946646783891",
+    "properties": {
+      "createdWithPolicyType": "V1",
+      "extendedLocation": null,
+      "isInstantIlrSessionActive": false,
+      "isManagedVirtualMachine": true,
+      "isPrivateAccessEnabledOnAnyDisk": false,
+      "isSourceVmEncrypted": false,
+      "keyAndSecret": null,
+      "objectType": "IaasVMRecoveryPoint",
+      "originalStorageAccountOption": false,
+      "osType": "Windows",
+      "recoveryPointAdditionalInfo": "",
+      "recoveryPointDiskConfiguration": null,
+      "recoveryPointMoveReadinessInfo": {
+        "ArchivedRP": {
+          "additionalInfo": "Recovery point cannot be moved to Archive tier due to insufficient retention duration specified in policy.. Update policy on the protected item with appropriate retention setting and try again.",
+          "isReadyForMove": false
+        }
+      },
+      "recoveryPointProperties": null,
+      "recoveryPointTierDetails": [
+        {
+          "extendedInfo": null,
+          "status": "Valid",
+          "type": "InstantRP"
+        },
+        {
+          "extendedInfo": null,
+          "status": "Valid",
+          "type": "HardenedRP"
+        }
+      ],
+      "recoveryPointTime": "2026-05-06T12:05:37.594675+00:00",
+      "recoveryPointType": "AppConsistent",
+      "securityType": "None",
+      "sourceVmStorageType": "NormalStorage",
+      "virtualMachineSize": "Standard_B2als_v2",
+      "zones": null
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "tierType": "SnapshotAndVaultStandard",
+    "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems/recoveryPoints"
+  }
+]
