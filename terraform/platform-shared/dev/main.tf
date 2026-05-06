@@ -1,3 +1,17 @@
+locals {
+  common_tags = {
+    Environment      = "Development"
+    Project          = "Azawslab-Release2"
+    Owner            = "HASHIBUR RAHMAN"
+    CostCenter       = "Lab-123"
+    DeploymentMethod = "Terraform"
+  }
+
+  p9b_tags = merge(local.common_tags, {
+    Phase   = "P9b"
+    Service = "Backup"
+  })
+}
 module "security" {
   source = "../../modules/security"
 
@@ -56,6 +70,7 @@ module "monitoring" {
     Phase       = "P8"
   }
 }
+
 
 
 
