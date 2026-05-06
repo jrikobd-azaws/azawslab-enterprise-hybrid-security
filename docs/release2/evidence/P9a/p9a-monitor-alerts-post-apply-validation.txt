@@ -1,0 +1,168 @@
+﻿============================================================
+P9a Azure Monitor Alerts post-apply validation
+============================================================
+Generated: 2026-05-05 23:52:17 +01:00
+Terraform root: terraform/platform-shared/dev
+
+============================================================
+Git branch and latest commits
+============================================================
+feature/release2-p9a-monitor-alerts-implementation
+
+99ca52b Enable P9a Azure Monitor alerting
+3ff759b Merge main into P9a monitor alerts branch
+4b168fe Merge pull request #137 from jrikobd-azaws/feature/release2-p8-sentinel-implementation
+4384b7c Document P8 Microsoft Sentinel deployment validation
+054f1dc Merge pull request #136 from jrikobd-azaws/feature/release2-p8-sentinel-implementation
+3430876 Capture P8 Sentinel post-apply validation evidence
+3cb68e4 Merge pull request #135 from jrikobd-azaws/feature/release2-p8-sentinel-implementation
+eead28f Format P8 Sentinel platform-shared outputs
+
+============================================================
+Azure account
+============================================================
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "id": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "Azure subscription 1",
+  "state": "Enabled",
+  "tenantDefaultDomain": "entra.azawslab.co.uk",
+  "tenantDisplayName": "AZAWS",
+  "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "user": {
+    "name": "hashib@entra.azawslab.co.uk",
+    "type": "user"
+  }
+}
+
+============================================================
+Action group validation
+============================================================
+{
+  "armRoleReceivers": [],
+  "automationRunbookReceivers": [],
+  "azureAppPushReceivers": [],
+  "azureFunctionReceivers": [],
+  "emailReceivers": [
+    {
+      "emailAddress": "admin-lab@entra.azawslab.co.uk",
+      "name": "admin-lab-email",
+      "status": "Enabled",
+      "useCommonAlertSchema": true
+    }
+  ],
+  "enabled": true,
+  "eventHubReceivers": [],
+  "groupShortName": "p9aops",
+  "id": "/subscriptions/8D99637C-13E7-417C-B334-B586D0DDC3D6/resourceGroups/rg-dev-monitoring-norwayeast/providers/microsoft.insights/actionGroups/ag-p9a-platform-ops",
+  "itsmReceivers": [],
+  "location": "Global",
+  "logicAppReceivers": [],
+  "name": "ag-p9a-platform-ops",
+  "resourceGroup": "rg-dev-monitoring-norwayeast",
+  "smsReceivers": [],
+  "tags": {
+    "CostCenter": "lab",
+    "Environment": "dev",
+    "Owner": "platform",
+    "Phase": "P8",
+    "Project": "azawslab"
+  },
+  "type": "Microsoft.Insights/ActionGroups",
+  "voiceReceivers": [],
+  "webhookReceivers": []
+}
+
+============================================================
+Metric alert validation
+============================================================
+{
+  "actions": [
+    {
+      "actionGroupId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Insights/actionGroups/ag-p9a-platform-ops",
+      "webHookProperties": {}
+    }
+  ],
+  "autoMitigate": true,
+  "criteria": {
+    "allOf": [
+      {
+        "criterionType": "StaticThresholdCriterion",
+        "metricName": "Percentage CPU",
+        "metricNamespace": "Microsoft.Compute/virtualMachines",
+        "name": "Metric1",
+        "operator": "GreaterThan",
+        "skipMetricValidation": false,
+        "threshold": 85.0,
+        "timeAggregation": "Average"
+      }
+    ],
+    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+  },
+  "description": "P9a validation alert for high CPU on vm-dev-client-01.",
+  "enabled": true,
+  "evaluationFrequency": "PT5M",
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Insights/metricAlerts/alert-p9a-vm-cpu-high",
+  "location": "global",
+  "name": "alert-p9a-vm-cpu-high",
+  "resourceGroup": "rg-dev-monitoring-norwayeast",
+  "scopes": [
+    "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01"
+  ],
+  "severity": 3,
+  "tags": {
+    "CostCenter": "lab",
+    "Environment": "dev",
+    "Owner": "platform",
+    "Phase": "P8",
+    "Project": "azawslab"
+  },
+  "targetResourceRegion": "",
+  "targetResourceType": "",
+  "type": "Microsoft.Insights/metricAlerts",
+  "windowSize": "PT5M"
+}
+
+============================================================
+Target VM validation
+============================================================
+{
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+  "name": "vm-dev-client-01",
+  "powerState": "VM deallocated",
+  "privateIps": "10.10.0.4",
+  "publicIps": ""
+}
+
+============================================================
+Terraform outputs
+============================================================
+defender_for_servers_pricing_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/pricings/VirtualMachines"
+defender_for_servers_pricing_tier = "Standard"
+defender_for_servers_subplan = "P1"
+defender_security_contact_email = "admin-lab@entra.azawslab.co.uk"
+defender_security_contact_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/providers/Microsoft.Security/securityContacts/default"
+generated_local_admin_password = <sensitive>
+p8_log_analytics_workspace_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast"
+p8_log_analytics_workspace_name = "law-dev-platform-norwayeast"
+p8_monitoring_resource_group_name = "rg-dev-monitoring-norwayeast"
+p8_sentinel_analytics_rule_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/alertRules/rule-p8-azure-activity-write-delete"
+p8_sentinel_onboarding_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/onboardingStates/default"
+p9a_action_group_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Insights/actionGroups/ag-p9a-platform-ops"
+p9a_metric_alert_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.Insights/metricAlerts/alert-p9a-vm-cpu-high"
+p9a_metric_alert_target_vm_id = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01"
+
+============================================================
+Terraform state - P9a monitor alert resources
+============================================================
+module.monitoring.azurerm_monitor_action_group.p9a[0]
+module.monitoring.azurerm_monitor_metric_alert.vm_cpu_high[0]
+
+============================================================
+Validation summary
+============================================================
+P9a Azure Monitor resources were applied through GitHub Actions. The action group and VM CPU metric alert exist in Azure and Terraform state. The alert targets vm-dev-client-01 and uses the Percentage CPU metric. Alert firing validation should be captured separately if performed.
+
