@@ -1,0 +1,68 @@
+﻿================================================================================
+P9b Plan Change Review
+Purpose:
+Identify the non-P9b existing resource included in the Terraform plan as "1 to change".
+================================================================================
+
+Plan summary:
+
+C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:96:Plan: 4 to add, 1 to change, 0 to destroy.
+
+
+
+Resources marked for update/change:
+
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:73:          + "Project"          = 
+"Azawslab-Release2"
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:74:          + "Service"          = "Backup"
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:75:        }
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:76:    }
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:77:
+> C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:78:  # 
+module.monitoring.azurerm_sentinel_alert_rule_scheduled.azure_activity_write_delete[0] will be updated in-place
+> C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:79:  ~ resource 
+"azurerm_sentinel_alert_rule_scheduled" "azure_activity_write_delete" {
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:80:        id                          = "/s
+ubscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-pla
+tform-norwayeast/providers/Microsoft.SecurityInsights/alertRules/rule-p8-azure-activity-write-delete"
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:81:        name                        = 
+"rule-p8-azure-activity-write-delete"
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:82:      ~ query                       = 
+<<-EOT
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:83:          - AzureActivity
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:84:          + AzureActivity
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:85:          - | where OperationNameValue 
+has_any ("write", "delete")
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:86:          + | where OperationNameValue 
+has_any ("write", "delete")
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:87:          - | summarize OperationCount = 
+count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:88:          + | summarize OperationCount = 
+count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:89:            | where OperationCount >= 3
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:90:        EOT
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:91:        # (16 unchanged attributes 
+hidden)
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:92:
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:93:        # (1 unchanged block hidden)
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:94:    }
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:95:
+  C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:96:Plan: 4 to add, 1 to change, 0 to 
+destroy.
+
+
+
+All resource action headers:
+
+C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:9:  # azurerm_backup_policy_vm.p9b_daily[0] 
+will be created
+C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:29:  # 
+azurerm_backup_protected_vm.p9b_workload_vm[0] will be created
+C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:39:  # 
+azurerm_recovery_services_vault.p9b_backup[0] will be created
+C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:62:  # azurerm_resource_group.p9b_backup[0] 
+will be created
+C:\GitHub\azawslab-enterprise-hybrid-security\docs\release2\evidence\P9b\p9b-platform-shared-enabled-plan.txt:78:  # 
+module.monitoring.azurerm_sentinel_alert_rule_scheduled.azure_activity_write_delete[0] will be updated in-place
+
+

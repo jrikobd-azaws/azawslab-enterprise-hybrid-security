@@ -1,0 +1,96 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # azurerm_backup_policy_vm.p9b_daily[0] will be created
+  + resource "azurerm_backup_policy_vm" "p9b_daily" {
+      + id                             = (known after apply)
+      + instant_restore_retention_days = (known after apply)
+      + name                           = "bp-dev-vm-daily"
+      + policy_type                    = "V1"
+      + recovery_vault_name            = "rsv-dev-backup"
+      + resource_group_name            = "rg-dev-backup-norwayeast"
+      + timezone                       = "GMT Standard Time"
+
+      + backup {
+          + frequency = "Daily"
+          + time      = "23:00"
+        }
+
+      + retention_daily {
+          + count = 30
+        }
+    }
+
+  # azurerm_backup_protected_vm.p9b_workload_vm[0] will be created
+  + resource "azurerm_backup_protected_vm" "p9b_workload_vm" {
+      + backup_policy_id    = (known after apply)
+      + id                  = (known after apply)
+      + protection_state    = (known after apply)
+      + recovery_vault_name = "rsv-dev-backup"
+      + resource_group_name = "rg-dev-backup-norwayeast"
+      + source_vm_id        = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01"
+    }
+
+  # azurerm_recovery_services_vault.p9b_backup[0] will be created
+  + resource "azurerm_recovery_services_vault" "p9b_backup" {
+      + cross_region_restore_enabled  = false
+      + id                            = (known after apply)
+      + immutability                  = (known after apply)
+      + location                      = "norwayeast"
+      + name                          = "rsv-dev-backup"
+      + public_network_access_enabled = true
+      + resource_group_name           = "rg-dev-backup-norwayeast"
+      + sku                           = "Standard"
+      + soft_delete_enabled           = true
+      + storage_mode_type             = "GeoRedundant"
+      + tags                          = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "P9b"
+          + "Project"          = "Azawslab-Release2"
+          + "Service"          = "Backup"
+        }
+    }
+
+  # azurerm_resource_group.p9b_backup[0] will be created
+  + resource "azurerm_resource_group" "p9b_backup" {
+      + id       = (known after apply)
+      + location = "norwayeast"
+      + name     = "rg-dev-backup-norwayeast"
+      + tags     = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "P9b"
+          + "Project"          = "Azawslab-Release2"
+          + "Service"          = "Backup"
+        }
+    }
+
+  # module.monitoring.azurerm_sentinel_alert_rule_scheduled.azure_activity_write_delete[0] will be updated in-place
+  ~ resource "azurerm_sentinel_alert_rule_scheduled" "azure_activity_write_delete" {
+        id                          = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/alertRules/rule-p8-azure-activity-write-delete"
+        name                        = "rule-p8-azure-activity-write-delete"
+      ~ query                       = <<-EOT
+          - AzureActivity
+          + AzureActivity
+          - | where OperationNameValue has_any ("write", "delete")
+          + | where OperationNameValue has_any ("write", "delete")
+          - | summarize OperationCount = count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)
+          + | summarize OperationCount = count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)
+            | where OperationCount >= 3
+        EOT
+        # (16 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+Plan: 4 to add, 1 to change, 0 to destroy.
