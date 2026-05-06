@@ -1,0 +1,92 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_resource_group_policy_exemption.p9b_backup_restore_point_resource_tags["CostCenter"] will be created
+  + resource "azurerm_resource_group_policy_exemption" "p9b_backup_restore_point_resource_tags" {
+      + description          = "P9b scoped exemption for Azure Backup restore point resources in rg-dev-backup-rsv-rp-norwayeast-1-rg. Existing P3 resource tag deny assignments remain active everywhere else. This exemption is scoped only to the deterministic Azure Backup restore point resource group because Azure Backup creates Microsoft.Compute/restorePointCollections runtime resources that may not carry required tags at creation time."
+      + display_name         = "P9b Backup restore point RG exemption - CostCenter"
+      + exemption_category   = "Waiver"
+      + id                   = (known after apply)
+      + metadata             = jsonencode(
+            {
+              + enterprise_pattern = "narrow resource-group-scoped policy exemption"
+              + phase              = "P9b"
+              + project            = "Azawslab-Release2"
+              + restore_point_rg   = "rg-dev-backup-rsv-rp-norwayeast-1-rg"
+              + scope_reason       = "Azure Backup restore point collection runtime resources"
+              + service            = "Azure Backup"
+            }
+        )
+      + name                 = "ex-p9b-backup-rp-costcenter"
+      + policy_assignment_id = "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-cost"
+      + resource_group_id    = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg"
+    }
+
+  # azurerm_resource_group_policy_exemption.p9b_backup_restore_point_resource_tags["Environment"] will be created
+  + resource "azurerm_resource_group_policy_exemption" "p9b_backup_restore_point_resource_tags" {
+      + description          = "P9b scoped exemption for Azure Backup restore point resources in rg-dev-backup-rsv-rp-norwayeast-1-rg. Existing P3 resource tag deny assignments remain active everywhere else. This exemption is scoped only to the deterministic Azure Backup restore point resource group because Azure Backup creates Microsoft.Compute/restorePointCollections runtime resources that may not carry required tags at creation time."
+      + display_name         = "P9b Backup restore point RG exemption - Environment"
+      + exemption_category   = "Waiver"
+      + id                   = (known after apply)
+      + metadata             = jsonencode(
+            {
+              + enterprise_pattern = "narrow resource-group-scoped policy exemption"
+              + phase              = "P9b"
+              + project            = "Azawslab-Release2"
+              + restore_point_rg   = "rg-dev-backup-rsv-rp-norwayeast-1-rg"
+              + scope_reason       = "Azure Backup restore point collection runtime resources"
+              + service            = "Azure Backup"
+            }
+        )
+      + name                 = "ex-p9b-backup-rp-environment"
+      + policy_assignment_id = "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-env"
+      + resource_group_id    = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg"
+    }
+
+  # azurerm_resource_group_policy_exemption.p9b_backup_restore_point_resource_tags["Owner"] will be created
+  + resource "azurerm_resource_group_policy_exemption" "p9b_backup_restore_point_resource_tags" {
+      + description          = "P9b scoped exemption for Azure Backup restore point resources in rg-dev-backup-rsv-rp-norwayeast-1-rg. Existing P3 resource tag deny assignments remain active everywhere else. This exemption is scoped only to the deterministic Azure Backup restore point resource group because Azure Backup creates Microsoft.Compute/restorePointCollections runtime resources that may not carry required tags at creation time."
+      + display_name         = "P9b Backup restore point RG exemption - Owner"
+      + exemption_category   = "Waiver"
+      + id                   = (known after apply)
+      + metadata             = jsonencode(
+            {
+              + enterprise_pattern = "narrow resource-group-scoped policy exemption"
+              + phase              = "P9b"
+              + project            = "Azawslab-Release2"
+              + restore_point_rg   = "rg-dev-backup-rsv-rp-norwayeast-1-rg"
+              + scope_reason       = "Azure Backup restore point collection runtime resources"
+              + service            = "Azure Backup"
+            }
+        )
+      + name                 = "ex-p9b-backup-rp-owner"
+      + policy_assignment_id = "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-own"
+      + resource_group_id    = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg"
+    }
+
+  # azurerm_resource_group_policy_exemption.p9b_backup_restore_point_resource_tags["Project"] will be created
+  + resource "azurerm_resource_group_policy_exemption" "p9b_backup_restore_point_resource_tags" {
+      + description          = "P9b scoped exemption for Azure Backup restore point resources in rg-dev-backup-rsv-rp-norwayeast-1-rg. Existing P3 resource tag deny assignments remain active everywhere else. This exemption is scoped only to the deterministic Azure Backup restore point resource group because Azure Backup creates Microsoft.Compute/restorePointCollections runtime resources that may not carry required tags at creation time."
+      + display_name         = "P9b Backup restore point RG exemption - Project"
+      + exemption_category   = "Waiver"
+      + id                   = (known after apply)
+      + metadata             = jsonencode(
+            {
+              + enterprise_pattern = "narrow resource-group-scoped policy exemption"
+              + phase              = "P9b"
+              + project            = "Azawslab-Release2"
+              + restore_point_rg   = "rg-dev-backup-rsv-rp-norwayeast-1-rg"
+              + scope_reason       = "Azure Backup restore point collection runtime resources"
+              + service            = "Azure Backup"
+            }
+        )
+      + name                 = "ex-p9b-backup-rp-project"
+      + policy_assignment_id = "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-proj"
+      + resource_group_id    = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg"
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
