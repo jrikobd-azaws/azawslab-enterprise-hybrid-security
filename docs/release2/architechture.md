@@ -317,3 +317,26 @@ This does not erase earlier design exploration; it records the final implemented
 - workload resources: `workload-dev.tfstate`
 
 **Consequence:** Future Ansible-dependent or operations-plane work can use the platform-management root without coupling the management host lifecycle to workload compute.
+
+---
+
+## ADR - AWS Branch State Boundary
+
+**Decision:** O3b AWS Branch resources will use a dedicated Terraform root and state file: `terraform/aws-branch/dev` with backend key `aws-branch-dev.tfstate`.
+
+**Context:** O3b represents an AWS customer/branch environment using a Cisco Catalyst 8000V NVA, segmented AWS VPC routing, and BGP peering to the Azure FortiGate transit hub. Although the enterprise platform team manages the branch connectivity, the AWS branch has a separate cloud/account lifecycle from the Azure landing zone.
+
+**Rationale:** Keeping AWS branch resources out of `platform-networking-dev.tfstate` reduces blast radius, separates provider/authentication concerns, supports clean cost-controlled teardown, and better reflects a real enterprise/customer branch operating model.
+
+**Implementation:** Future reusable AWS branch code may be placed under `terraform/modules/aws-branch/`, but deployable O3b code will be called from `terraform/aws-branch/dev`. The state backend will use the existing Release 2 Terraform backend storage account and container, with key `aws-branch-dev.tfstate`.
+
+**Result:** The Release 2 Terraform state model intentionally expands from five Azure-focused roots to include a sixth optional multi-cloud branch root:
+
+- `governance.tfstate`
+- `platform-shared-dev.tfstate`
+- `platform-networking-dev.tfstate`
+- `platform-management-dev.tfstate`
+- `workload-dev.tfstate`
+- `aws-branch-dev.tfstate`
+
+**Consequence:** GitHub Actions workflows and control docs must be updated before AWS branch Terraform is implemented. No AWS infrastructure should be deployed until AWS account readiness, budget controls, authentication model, and teardown plan are documented.
