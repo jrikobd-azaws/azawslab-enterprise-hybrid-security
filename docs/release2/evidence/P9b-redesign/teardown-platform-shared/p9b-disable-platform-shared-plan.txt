@@ -1,0 +1,129 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+  - destroy
+
+Terraform will perform the following actions:
+
+  # azurerm_backup_policy_vm.p9b_daily[0] will be destroyed
+  # (because index [0] is out of range for count)
+  - resource "azurerm_backup_policy_vm" "p9b_daily" {
+      - id                             = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupPolicies/bp-dev-vm-daily" -> null
+      - instant_restore_retention_days = 2 -> null
+      - name                           = "bp-dev-vm-daily" -> null
+      - policy_type                    = "V1" -> null
+      - recovery_vault_name            = "rsv-dev-backup" -> null
+      - resource_group_name            = "rg-dev-backup-norwayeast" -> null
+      - timezone                       = "GMT Standard Time" -> null
+        # (1 unchanged attribute hidden)
+
+      - backup {
+          - frequency     = "Daily" -> null
+          - hour_duration = 0 -> null
+          - hour_interval = 0 -> null
+          - time          = "23:00" -> null
+          - weekdays      = [] -> null
+        }
+
+      - instant_restore_resource_group {
+          - prefix = "rg-dev-backup-rsv-rp-norwayeast-" -> null
+          - suffix = "-rg" -> null
+        }
+
+      - retention_daily {
+          - count = 30 -> null
+        }
+    }
+
+  # azurerm_backup_protected_vm.p9b_workload_vm[0] will be destroyed
+  # (because index [0] is out of range for count)
+  - resource "azurerm_backup_protected_vm" "p9b_workload_vm" {
+      - backup_policy_id    = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupPolicies/bp-dev-vm-daily" -> null
+      - id                  = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupFabrics/Azure/protectionContainers/iaasvmcontainer;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01/protectedItems/VM;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01" -> null
+      - protection_state    = "Protected" -> null
+      - recovery_vault_name = "rsv-dev-backup" -> null
+      - resource_group_name = "rg-dev-backup-norwayeast" -> null
+      - source_vm_id        = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01" -> null
+    }
+
+  # azurerm_recovery_services_vault.p9b_backup[0] will be destroyed
+  # (because index [0] is out of range for count)
+  - resource "azurerm_recovery_services_vault" "p9b_backup" {
+      - classic_vmware_replication_enabled = false -> null
+      - cross_region_restore_enabled       = false -> null
+      - id                                 = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup" -> null
+      - immutability                       = "Disabled" -> null
+      - location                           = "norwayeast" -> null
+      - name                               = "rsv-dev-backup" -> null
+      - public_network_access_enabled      = true -> null
+      - resource_group_name                = "rg-dev-backup-norwayeast" -> null
+      - sku                                = "Standard" -> null
+      - soft_delete_enabled                = true -> null
+      - storage_mode_type                  = "GeoRedundant" -> null
+      - tags                               = {
+          - "CostCenter"       = "Lab-123"
+          - "DeploymentMethod" = "Terraform"
+          - "Environment"      = "Development"
+          - "Owner"            = "HASHIBUR RAHMAN"
+          - "Phase"            = "P9b"
+          - "Project"          = "Azawslab-Release2"
+          - "Service"          = "Backup"
+        } -> null
+    }
+
+  # azurerm_resource_group.p9b_backup[0] will be destroyed
+  # (because index [0] is out of range for count)
+  - resource "azurerm_resource_group" "p9b_backup" {
+      - id         = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast" -> null
+      - location   = "norwayeast" -> null
+      - name       = "rg-dev-backup-norwayeast" -> null
+      - tags       = {
+          - "CostCenter"       = "Lab-123"
+          - "DeploymentMethod" = "Terraform"
+          - "Environment"      = "Development"
+          - "Owner"            = "HASHIBUR RAHMAN"
+          - "Phase"            = "P9b"
+          - "Project"          = "Azawslab-Release2"
+          - "Service"          = "Backup"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # azurerm_resource_group.p9b_backup_restore_points[0] will be destroyed
+  # (because index [0] is out of range for count)
+  - resource "azurerm_resource_group" "p9b_backup_restore_points" {
+      - id         = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-rsv-rp-norwayeast-1-rg" -> null
+      - location   = "norwayeast" -> null
+      - name       = "rg-dev-backup-rsv-rp-norwayeast-1-rg" -> null
+      - tags       = {
+          - "CostCenter"       = "Lab-123"
+          - "DeploymentMethod" = "Terraform"
+          - "Environment"      = "Development"
+          - "Owner"            = "HASHIBUR RAHMAN"
+          - "Phase"            = "P9b"
+          - "Project"          = "Azawslab-Release2"
+          - "Service"          = "Backup"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.monitoring.azurerm_sentinel_alert_rule_scheduled.azure_activity_write_delete[0] will be updated in-place
+  ~ resource "azurerm_sentinel_alert_rule_scheduled" "azure_activity_write_delete" {
+        id                          = "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-monitoring-norwayeast/providers/Microsoft.OperationalInsights/workspaces/law-dev-platform-norwayeast/providers/Microsoft.SecurityInsights/alertRules/rule-p8-azure-activity-write-delete"
+        name                        = "rule-p8-azure-activity-write-delete"
+      ~ query                       = <<-EOT
+          - AzureActivity
+          + AzureActivity
+          - | where OperationNameValue has_any ("write", "delete")
+          + | where OperationNameValue has_any ("write", "delete")
+          - | summarize OperationCount = count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)
+          + | summarize OperationCount = count() by Caller, OperationNameValue, ResourceGroup, bin(TimeGenerated, 15m)
+            | where OperationCount >= 3
+        EOT
+        # (16 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+Plan: 0 to add, 1 to change, 5 to destroy.
