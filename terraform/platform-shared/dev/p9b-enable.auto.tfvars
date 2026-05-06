@@ -1,6 +1,5 @@
 # P9b implementation switch
-# Intentionally committed for the P9b validation deployment.
-# Contains no secrets.
-# After P9b evidence is complete, set this to false or remove this file.
+# Disabled after successful P9b validation to avoid ongoing Backup cost.
+# P9b Terraform code remains reusable and can be re-enabled when required.
 
-enable_p9b_backup = true
+enable_p9b_backup = false
