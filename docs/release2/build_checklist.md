@@ -622,3 +622,19 @@ Date: 2026-05-05 22:32:34 +01:00
 - [x] Narrow RG-scoped policy exemption created for non-taggable Sentinel onboarding child resource
 - [x] P8 post-apply validation evidence captured
 - [~] Incident generation path still pending if final closeout requires an incident
+
+## P9a Azure Monitor Alerts validation checkpoint
+
+Date: 2026-05-06 00:59:25 +01:00
+
+- [x] Azure Monitor Action Group deployed
+- [x] Action group membership email received
+- [x] VM CPU metric alert deployed
+- [x] Alert target associated to `vm-dev-client-01`
+- [x] Terraform outputs captured
+- [x] Terraform state validation captured
+- [x] Post-apply resource validation captured
+- [x] Controlled CPU load generated on target VM
+- [x] Alert firing evidence captured
+- [x] Azure Monitor alert email notification captured
+- [x] VM deallocated after validation

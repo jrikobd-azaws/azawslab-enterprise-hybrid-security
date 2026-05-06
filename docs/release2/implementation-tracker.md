@@ -896,3 +896,35 @@ Status:
 - P8 deployment: completed
 - P8 post-apply validation: completed
 - Incident generation path: pending if required for final P8 closeout
+
+### P9a Azure Monitor Alerts completion update
+
+Date: 2026-05-06 00:59:25 +01:00
+
+P9a Azure Monitor alerting was deployed and validated.
+
+Completed:
+- Azure Monitor Action Group created: `ag-p9a-platform-ops`
+- Action group membership email received
+- VM CPU metric alert created: `alert-p9a-vm-cpu-high`
+- Alert target configured for `vm-dev-client-01`
+- Metric namespace: `Microsoft.Compute/virtualMachines`
+- Metric name: `Percentage CPU`
+- Controlled CPU load generated on `vm-dev-client-01`
+- Alert fired successfully and was captured in Azure Portal
+- Azure Monitor alert notification email was received
+- VM was deallocated after validation
+
+Evidence:
+- `docs/release2/evidence/P9a/p9a-monitor-alerts-enabled-plan.txt`
+- `docs/release2/evidence/P9a/p9a-monitor-alerts-post-apply-validation.txt`
+- `docs/release2/evidence/P9a/p9a-monitor-alerts-alert-test.txt`
+- `docs/release2/evidence/P9a/p9a-cpu-stress-test.ps1`
+- `docs/release2/evidence/P9a/p9a-action-group-membership-email-validation.png`
+- `docs/release2/evidence/P9a/p9a-action-group-alert-email-notification.png`
+- `docs/release2/evidence/P9a/p9a-alert-fired-portal-validation.png`
+
+Status:
+- P9a deployment: completed
+- P9a alert firing validation: completed
+- P9a action group email notification validation: completed
