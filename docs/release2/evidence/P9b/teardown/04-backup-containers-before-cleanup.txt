@@ -1,0 +1,29 @@
+﻿================================================================================
+P9b teardown evidence: 04-backup-containers-before-cleanup.txt
+Generated: 2026-05-06 17:28:18 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+[
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+    "location": null,
+    "name": "IaasVMContainer;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+    "properties": {
+      "backupManagementType": "AzureIaasVM",
+      "containerType": "Microsoft.Compute/virtualMachines",
+      "friendlyName": "vm-dev-client-01",
+      "healthStatus": "Healthy",
+      "protectableObjectType": "Microsoft.Compute/virtualMachines",
+      "registrationStatus": "SoftDeleted",
+      "resourceGroup": "rg-dev-workload-norwayeast",
+      "virtualMachineId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+      "virtualMachineVersion": "Compute"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers"
+  }
+]
+

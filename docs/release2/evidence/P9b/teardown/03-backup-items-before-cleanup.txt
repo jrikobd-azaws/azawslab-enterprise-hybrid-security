@@ -1,0 +1,60 @@
+﻿================================================================================
+P9b teardown evidence: 03-backup-items-before-cleanup.txt
+Generated: 2026-05-06 17:28:16 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+[
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01/protectedItems/VM;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+    "location": null,
+    "name": "VM;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+    "properties": {
+      "backupManagementType": "AzureIaasVM",
+      "backupSetName": null,
+      "containerName": "iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+      "createMode": null,
+      "deferredDeleteTimeInUtc": "2026-05-06T15:13:32.363818+00:00",
+      "deferredDeleteTimeRemaining": "13.22:45:14.5009296",
+      "extendedInfo": null,
+      "extendedProperties": null,
+      "friendlyName": "vm-dev-client-01",
+      "healthDetails": [
+        {
+          "code": 400239,
+          "message": "Backup pre-check status of this virtual machine is OK.",
+          "recommendations": [],
+          "title": "IaasVmHealthGreenDefault"
+        }
+      ],
+      "healthStatus": "Passed",
+      "isArchiveEnabled": false,
+      "isDeferredDeleteScheduleUpcoming": null,
+      "isRehydrate": null,
+      "isScheduledForDeferredDelete": true,
+      "kpisHealths": null,
+      "lastBackupStatus": "Completed",
+      "lastBackupTime": "2026-05-06T14:04:34.426002+00:00",
+      "lastRecoveryPoint": "2026-05-06T14:04:41.926190+00:00",
+      "policyId": "",
+      "policyName": "",
+      "policyType": "V1",
+      "protectedItemDataId": "7566839024171629714",
+      "protectedItemType": "Microsoft.Compute/virtualMachines",
+      "protectionState": "ProtectionStopped",
+      "protectionStatus": "Healthy",
+      "resourceGuardOperationRequests": null,
+      "softDeleteRetentionPeriod": 14,
+      "softDeleteRetentionPeriodInDays": null,
+      "sourceResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+      "vaultId": "https://management.azure.com/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup",
+      "virtualMachineId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Compute/virtualMachines/vm-dev-client-01",
+      "workloadType": "VM"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems"
+  }
+]
+

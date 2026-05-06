@@ -1,0 +1,265 @@
+﻿================================================================================
+P9b teardown evidence: 10-backup-jobs-after-delete-data.txt
+Generated: 2026-05-06 17:31:12 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+Name                                  Operation         Status     Item Name         Backup Management Type    Start Time UTC                    Duration
+------------------------------------  ----------------  ---------  ----------------  ------------------------  --------------------------------  --------------
+037ab8ec-6fbb-475f-80be-11100b6171a7  DeleteBackupData  Completed  vm-dev-client-01  AzureIaasVM               2026-05-06T15:13:32.363818+00:00  0:00:11.247255
+d3def8f4-e048-4ebd-9f9f-6a244156a26f  Backup            Completed  vm-dev-client-01  AzureIaasVM               2026-05-06T14:04:34.426002+00:00  0:26:15.130460
+8e0b37d6-e2df-4543-87ab-1e14a6c83e8a  ConfigureBackup   Completed  vm-dev-client-01  AzureIaasVM               2026-05-06T13:44:23.243543+00:00  0:00:11.680893
+b773f437-bc6e-4f0f-a336-11fa8696b5c7  Backup            Completed  vm-dev-client-01  AzureIaasVM               2026-05-06T12:05:31.739333+00:00  0:41:13.993260
+e996dd5a-be60-4351-8241-de07d5bf36b0  Backup            Failed     vm-dev-client-01  AzureIaasVM               2026-05-06T12:00:43.799800+00:00  0:00:07.195535
+b4bb7ddd-e35e-445a-9fac-bf7153b60c6e  Backup            Failed     vm-dev-client-01  AzureIaasVM               2026-05-06T11:47:48.209582+00:00  0:00:04.568798
+482eb11e-0646-4e83-beaa-acfa24a8c2f6  Backup            Failed     vm-dev-client-01  AzureIaasVM               2026-05-06T11:29:00.453449+00:00  0:00:06.298780
+e1e64d65-a8c5-4c24-b676-a2b846f99630  ConfigureBackup   Completed  vm-dev-client-01  AzureIaasVM               2026-05-06T10:42:13.411211+00:00  0:01:10.902678
+
+[
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupJobs/037ab8ec-6fbb-475f-80be-11100b6171a7",
+    "location": null,
+    "name": "037ab8ec-6fbb-475f-80be-11100b6171a7",
+    "properties": {
+      "actionsInfo": null,
+      "activityId": "39cfec85-7fbd-4944-b289-7c6de52b097c",
+      "backupManagementType": "AzureIaasVM",
+      "containerName": "iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+      "duration": "0:00:11.247255",
+      "endTime": "2026-05-06T15:13:43.611073+00:00",
+      "entityFriendlyName": "vm-dev-client-01",
+      "errorDetails": null,
+      "extendedInfo": null,
+      "isUserTriggered": null,
+      "jobType": "AzureIaaSVMJob",
+      "operation": "DeleteBackupData",
+      "startTime": "2026-05-06T15:13:32.363818+00:00",
+      "status": "Completed",
+      "virtualMachineVersion": "Compute"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupJobs"
+  },
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupJobs/d3def8f4-e048-4ebd-9f9f-6a244156a26f",
+    "location": null,
+    "name": "d3def8f4-e048-4ebd-9f9f-6a244156a26f",
+    "properties": {
+      "actionsInfo": [
+        "Cancellable"
+      ],
+      "activityId": "81f58c93-4954-11f1-b32c-44e517beb17a",
+      "backupManagementType": "AzureIaasVM",
+      "containerName": "iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+      "duration": "0:26:15.130460",
+      "endTime": "2026-05-06T14:30:49.556461+00:00",
+      "entityFriendlyName": "vm-dev-client-01",
+      "errorDetails": null,
+      "extendedInfo": null,
+      "isUserTriggered": null,
+      "jobType": "AzureIaaSVMJob",
+      "operation": "Backup",
+      "startTime": "2026-05-06T14:04:34.426002+00:00",
+      "status": "Completed",
+      "virtualMachineVersion": "Compute"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupJobs"
+  },
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupJobs/8e0b37d6-e2df-4543-87ab-1e14a6c83e8a",
+    "location": null,
+    "name": "8e0b37d6-e2df-4543-87ab-1e14a6c83e8a",
+    "properties": {
+      "actionsInfo": null,
+      "activityId": "6954d19a-e192-4153-a3fc-47bc2c6f2782",
+      "backupManagementType": "AzureIaasVM",
+      "containerName": "iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+      "duration": "0:00:11.680893",
+      "endTime": "2026-05-06T13:44:34.924435+00:00",
+      "entityFriendlyName": "vm-dev-client-01",
+      "errorDetails": null,
+      "extendedInfo": null,
+      "isUserTriggered": null,
+      "jobType": "AzureIaaSVMJob",
+      "operation": "ConfigureBackup",
+      "startTime": "2026-05-06T13:44:23.243543+00:00",
+      "status": "Completed",
+      "virtualMachineVersion": "Compute"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupJobs"
+  },
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupJobs/b773f437-bc6e-4f0f-a336-11fa8696b5c7",
+    "location": null,
+    "name": "b773f437-bc6e-4f0f-a336-11fa8696b5c7",
+    "properties": {
+      "actionsInfo": [
+        "Cancellable"
+      ],
+      "activityId": "e04a0fac-4943-11f1-a400-44e517beb17a",
+      "backupManagementType": "AzureIaasVM",
+      "containerName": "iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+      "duration": "0:41:13.993260",
+      "endTime": "2026-05-06T12:46:45.732593+00:00",
+      "entityFriendlyName": "vm-dev-client-01",
+      "errorDetails": null,
+      "extendedInfo": null,
+      "isUserTriggered": null,
+      "jobType": "AzureIaaSVMJob",
+      "operation": "Backup",
+      "startTime": "2026-05-06T12:05:31.739333+00:00",
+      "status": "Completed",
+      "virtualMachineVersion": "Compute"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupJobs"
+  },
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupJobs/e996dd5a-be60-4351-8241-de07d5bf36b0",
+    "location": null,
+    "name": "e996dd5a-be60-4351-8241-de07d5bf36b0",
+    "properties": {
+      "actionsInfo": [
+        "Cancellable"
+      ],
+      "activityId": "34d3759d-4943-11f1-8985-44e517beb17a",
+      "backupManagementType": "AzureIaasVM",
+      "containerName": "iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+      "duration": "0:00:07.195535",
+      "endTime": "2026-05-06T12:00:50.995336+00:00",
+      "entityFriendlyName": "vm-dev-client-01",
+      "errorDetails": [
+        {
+          "errorCode": 400211,
+          "errorString": "An invalid policy is configured on the VM which is preventing Snapshot operation.",
+          "errorTitle": "UserErrorRequestDisallowedByPolicy",
+          "recommendations": [
+            "Please correct the policy and retry the operation. For more details, refer to http://aka.ms/UserErrorRequestDisallowedByPolicy "
+          ]
+        }
+      ],
+      "extendedInfo": null,
+      "isUserTriggered": null,
+      "jobType": "AzureIaaSVMJob",
+      "operation": "Backup",
+      "startTime": "2026-05-06T12:00:43.799800+00:00",
+      "status": "Failed",
+      "virtualMachineVersion": "Compute"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupJobs"
+  },
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupJobs/b4bb7ddd-e35e-445a-9fac-bf7153b60c6e",
+    "location": null,
+    "name": "b4bb7ddd-e35e-445a-9fac-bf7153b60c6e",
+    "properties": {
+      "actionsInfo": [
+        "Cancellable"
+      ],
+      "activityId": "66012af1-4941-11f1-b2f6-44e517beb17a",
+      "backupManagementType": "AzureIaasVM",
+      "containerName": "iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+      "duration": "0:00:04.568798",
+      "endTime": "2026-05-06T11:47:52.778380+00:00",
+      "entityFriendlyName": "vm-dev-client-01",
+      "errorDetails": [
+        {
+          "errorCode": 400211,
+          "errorString": "An invalid policy is configured on the VM which is preventing Snapshot operation.",
+          "errorTitle": "UserErrorRequestDisallowedByPolicy",
+          "recommendations": [
+            "Please correct the policy and retry the operation. For more details, refer to http://aka.ms/UserErrorRequestDisallowedByPolicy "
+          ]
+        }
+      ],
+      "extendedInfo": null,
+      "isUserTriggered": null,
+      "jobType": "AzureIaaSVMJob",
+      "operation": "Backup",
+      "startTime": "2026-05-06T11:47:48.209582+00:00",
+      "status": "Failed",
+      "virtualMachineVersion": "Compute"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupJobs"
+  },
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupJobs/482eb11e-0646-4e83-beaa-acfa24a8c2f6",
+    "location": null,
+    "name": "482eb11e-0646-4e83-beaa-acfa24a8c2f6",
+    "properties": {
+      "actionsInfo": [
+        "Cancellable"
+      ],
+      "activityId": "c5805f7d-493e-11f1-9ea3-44e517beb17a",
+      "backupManagementType": "AzureIaasVM",
+      "containerName": "iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+      "duration": "0:00:06.298780",
+      "endTime": "2026-05-06T11:29:06.752229+00:00",
+      "entityFriendlyName": "vm-dev-client-01",
+      "errorDetails": [
+        {
+          "errorCode": 400211,
+          "errorString": "An invalid policy is configured on the VM which is preventing Snapshot operation.",
+          "errorTitle": "UserErrorRequestDisallowedByPolicy",
+          "recommendations": [
+            "Please correct the policy and retry the operation. For more details, refer to http://aka.ms/UserErrorRequestDisallowedByPolicy "
+          ]
+        }
+      ],
+      "extendedInfo": null,
+      "isUserTriggered": null,
+      "jobType": "AzureIaaSVMJob",
+      "operation": "Backup",
+      "startTime": "2026-05-06T11:29:00.453449+00:00",
+      "status": "Failed",
+      "virtualMachineVersion": "Compute"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupJobs"
+  },
+  {
+    "eTag": null,
+    "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupJobs/e1e64d65-a8c5-4c24-b676-a2b846f99630",
+    "location": null,
+    "name": "e1e64d65-a8c5-4c24-b676-a2b846f99630",
+    "properties": {
+      "actionsInfo": null,
+      "activityId": "5a6ab962-dd70-4994-8ce2-99213ef54dc6",
+      "backupManagementType": "AzureIaasVM",
+      "containerName": "iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01",
+      "duration": "0:01:10.902678",
+      "endTime": "2026-05-06T10:43:24.313888+00:00",
+      "entityFriendlyName": "vm-dev-client-01",
+      "errorDetails": null,
+      "extendedInfo": null,
+      "isUserTriggered": null,
+      "jobType": "AzureIaaSVMJob",
+      "operation": "ConfigureBackup",
+      "startTime": "2026-05-06T10:42:13.411211+00:00",
+      "status": "Completed",
+      "virtualMachineVersion": "Compute"
+    },
+    "resourceGroup": "rg-dev-backup-norwayeast",
+    "tags": null,
+    "type": "Microsoft.RecoveryServices/vaults/backupJobs"
+  }
+]
+

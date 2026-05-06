@@ -1,0 +1,76 @@
+﻿================================================================================
+P9b teardown evidence: 02-vault-status-before-cleanup.txt
+Generated: 2026-05-06 17:28:13 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+{
+  "etag": "W/\"datetime'2026-05-06T10%3A40%3A19.357595Z'\"",
+  "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup",
+  "identity": {
+    "principalId": null,
+    "tenantId": null,
+    "type": "None",
+    "userAssignedIdentities": null
+  },
+  "location": "norwayeast",
+  "name": "rsv-dev-backup",
+  "properties": {
+    "backupStorageVersion": "V1",
+    "bcdrSecurityLevel": "Poor",
+    "encryption": null,
+    "monitoringSettings": null,
+    "moveDetails": null,
+    "moveState": null,
+    "privateEndpointConnections": null,
+    "privateEndpointStateForBackup": "None",
+    "privateEndpointStateForSiteRecovery": "None",
+    "provisioningState": "Succeeded",
+    "publicNetworkAccess": "Enabled",
+    "redundancySettings": {
+      "crossRegionRestore": "Disabled",
+      "standardTierStorageRedundancy": "GeoRedundant"
+    },
+    "resourceGuardOperationRequests": null,
+    "restoreSettings": {
+      "crossSubscriptionRestoreSettings": {
+        "crossSubscriptionRestoreState": "Enabled"
+      }
+    },
+    "secureScore": "None",
+    "securitySettings": {
+      "immutabilitySettings": null,
+      "multiUserAuthorization": "Disabled",
+      "softDeleteSettings": {
+        "enhancedSecurityState": "Enabled",
+        "softDeleteRetentionPeriodInDays": 14,
+        "softDeleteState": "Enabled"
+      },
+      "sourceScanConfiguration": {
+        "sourceScanIdentity": null,
+        "state": "Disabled"
+      }
+    },
+    "upgradeDetails": null
+  },
+  "resourceGroup": "rg-dev-backup-norwayeast",
+  "sku": {
+    "capacity": null,
+    "family": null,
+    "name": "Standard",
+    "size": null,
+    "tier": null
+  },
+  "systemData": null,
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "Terraform",
+    "Environment": "Development",
+    "Owner": "HASHIBUR RAHMAN",
+    "Phase": "P9b",
+    "Project": "Azawslab-Release2",
+    "Service": "Backup"
+  },
+  "type": "Microsoft.RecoveryServices/vaults"
+}
+
