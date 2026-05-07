@@ -18,6 +18,16 @@ variable "aws_region" {
   type        = string
 }
 
+variable "ssh_source_cidr" {
+  description = "Temporary source CIDR allowed to SSH to AWS test VMs."
+  type        = string
+}
+
+variable "test_vm_instance_type" {
+  description = "EC2 instance type for O3b AWS test VMs."
+  type        = string
+}
+
 variable "vpc_name" {
   description = "Canonical AWS branch VPC name."
   type        = string
@@ -83,8 +93,13 @@ variable "dmz_vm_name" {
   type        = string
 }
 
+variable "test_sg_name" {
+  description = "AWS security group name for O3b test VMs."
+  type        = string
+}
+
 variable "key_pair_name" {
-  description = "AWS key pair name for O3b branch instances."
+  description = "Existing AWS EC2 key pair name for O3b branch instances."
   type        = string
 }
 

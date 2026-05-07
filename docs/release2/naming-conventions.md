@@ -554,7 +554,7 @@ O3b represents a customer/branch AWS environment managed by the enterprise platf
 | Trusted test VM | `ec2-dev-aws-trusted-01` |
 | DMZ test VM | `ec2-dev-aws-dmz-01` |
 | Cisco security group | `sg-dev-aws-cisco` |
-| Test VM security group | `sg-dev-aws-test` |
+| Test VM security group | `azawslab-dev-aws-test-sg` |
 | SSH key pair | `kp-dev-aws-branch` |
 
 O3b enable flags:
@@ -580,3 +580,4 @@ enable_o3b_aws_branch   = true
 enable_o3b_aws_test_vms = true
 enable_o3b_aws_cisco    = true
 ```
+

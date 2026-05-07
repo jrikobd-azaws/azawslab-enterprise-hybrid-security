@@ -1,0 +1,69 @@
+﻿name: Release 2 AWS Branch Terraform Apply
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  aws-branch-apply:
+    name: Terraform apply (aws-branch-dev)
+    runs-on: ubuntu-latest
+    environment: release-2
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: terraform/aws-branch/dev
+
+    env:
+      TF_VAR_enable_o3b_aws_branch: ${{ vars.O3B_ENABLE_AWS_BRANCH }}
+      TF_VAR_enable_o3b_aws_test_vms: ${{ vars.O3B_ENABLE_AWS_TEST_VMS }}
+      TF_VAR_enable_o3b_aws_cisco: ${{ vars.O3B_ENABLE_AWS_CISCO }}
+      TF_VAR_ssh_source_cidr: ${{ vars.O3B_SSH_SOURCE_CIDR }}
+      TF_VAR_key_pair_name: ${{ vars.O3B_KEY_PAIR_NAME }}
+      TF_VAR_test_vm_instance_type: ${{ vars.O3B_TEST_VM_INSTANCE_TYPE }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.0
+
+      - name: Validate O3b variables
+        run: |
+          test -n "${TF_VAR_enable_o3b_aws_branch}"
+          test -n "${TF_VAR_enable_o3b_aws_test_vms}"
+          test -n "${TF_VAR_enable_o3b_aws_cisco}"
+          test -n "${TF_VAR_ssh_source_cidr}"
+          test -n "${TF_VAR_key_pair_name}"
+          test -n "${TF_VAR_test_vm_instance_type}"
+
+      - name: Configure AWS credentials with OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform plan
+        run: terraform plan -no-color -input=false -out=tfplan
+
+      - name: Terraform apply
+        run: terraform apply -input=false -auto-approve tfplan
