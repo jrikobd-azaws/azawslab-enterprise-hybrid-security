@@ -39,3 +39,4 @@ __pycache__/
 # Terraform plan files
 *.tfplan
 tfplan-*
+*.local.auto.tfvars
