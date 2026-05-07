@@ -53,12 +53,14 @@ resource "azurerm_backup_policy_vm" "p9b_daily" {
   }
 
   backup {
-    frequency = "Daily"
+    frequency = "Weekly"
     time      = "23:00"
+    weekdays  = ["Sunday"]
   }
 
-  retention_daily {
-    count = 30
+  retention_weekly {
+    count    = 1
+    weekdays = ["Sunday"]
   }
 
   depends_on = [
@@ -74,4 +76,7 @@ resource "azurerm_backup_protected_vm" "p9b_workload_vm" {
   source_vm_id        = data.azurerm_virtual_machine.p9b_workload_vm[0].id
   backup_policy_id    = azurerm_backup_policy_vm.p9b_daily[0].id
 }
+
+
+
 
