@@ -1,0 +1,16 @@
+﻿--- Hyper-V Lab Local Evidence Collection ---
+Generated: 05/07/2026 13:19:21
+-------------------------------------------
+--- VyOS01 Planned Commands ---
+VyOS IP: 192.168.1.254
+Commands to execute manually on VyOS CLI:
+1. show interfaces
+2. show ip route
+3. show nat
+# Connect using SSH with username/password
+# Example: ssh vyos@192.168.1.254
+--- Optional SSH into LinuxVM01 / Win11VM01 ---
+Note: Requires credentials and SSH server enabled on VM.
+Use SSH to collect:
+- LinuxVM01: ip a, route, resolv.conf
+- Win11VM01: ipconfig /all

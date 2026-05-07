@@ -1,0 +1,43 @@
+﻿--- Hyper-V Lab Network Connectivity Audit ---
+Generated: 05/07/2026 12:38:50
+Ping from DC1 to 192.168.1.254
+
+Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms) 
+------        -----------     -----------      -----------                              -----    -------- 
+RIKOLAPTOP    192.168.1.254                                                             32       0        
+RIKOLAPTOP    192.168.1.254                                                             32       0        
+
+
+
+Ping from MEM1 to 192.168.1.254
+
+Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms) 
+------        -----------     -----------      -----------                              -----    -------- 
+RIKOLAPTOP    192.168.1.254                                                             32       0        
+RIKOLAPTOP    192.168.1.254                                                             32       1        
+
+
+
+Ping from LinuxVM01 to 192.168.1.254
+
+Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms) 
+------        -----------     -----------      -----------                              -----    -------- 
+RIKOLAPTOP    192.168.1.254                                                             32       0        
+RIKOLAPTOP    192.168.1.254                                                             32       1        
+
+
+
+Ping from Win11VM01 to 192.168.1.254
+
+Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms) 
+------        -----------     -----------      -----------                              -----    -------- 
+RIKOLAPTOP    192.168.1.254                                                             32       0        
+RIKOLAPTOP    192.168.1.254                                                             32       1        
+
+
+
+--- VyOS01 Planned Commands ---
+1. show interfaces
+2. show ip route
+3. show nat
+# Execute manually on VyOS CLI with password vyos

@@ -1,0 +1,54 @@
+﻿--- Hyper-V Lab NIC and IP Evidence ---
+Generated: 05/07/2026 13:27:00
+-------------------------------------------
+=== VM: DC1-HQ ===
+State: Running
+NIC Name: Network Adapter
+Connected Switch: AZAWSLAB-Internal
+IP Addresses: 192.168.1.10, fe80::408e:6e42:d425:906
+
+=== VM: LinuxVM01 ===
+State: Running
+NIC Name: Network Adapter
+Connected Switch: AZAWSLAB-Internal
+IP Addresses: 
+
+=== VM: Mem1 ===
+State: Running
+NIC Name: Network Adapter
+Connected Switch: AZAWSLAB-Internal
+IP Addresses: 192.168.1.20, fe80::1c0b:a2ca:3c68:9c9d
+
+=== VM: ubuntu24-master ===
+State: Off
+NIC Name: Network Adapter
+Connected Switch: Default Switch
+IP Addresses: 
+
+=== VM: vyos-dev-onprem-01 ===
+State: Running
+NIC Name: WAN
+Connected Switch: Default Switch
+IP Addresses: 
+NIC Name: LAN
+Connected Switch: AZAWSLAB-Internal
+IP Addresses: 
+
+=== VM: win11-master ===
+State: Off
+NIC Name: Network Adapter
+Connected Switch: Default Switch
+IP Addresses: 
+
+=== VM: Win11VM01 ===
+State: Running
+NIC Name: Network Adapter
+Connected Switch: AZAWSLAB-Internal
+IP Addresses: 192.168.1.40, fe80::1faa:659f:9982:f13f
+
+=== VM: win2022-master ===
+State: Off
+NIC Name: Network Adapter
+Connected Switch: AZAWSLAB-Internal
+IP Addresses: 
+

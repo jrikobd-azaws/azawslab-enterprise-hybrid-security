@@ -1,0 +1,37 @@
+﻿--- Hyper-V Lab Local Connectivity & IP Assignment ---
+Generated: 05/07/2026 13:35:25
+-------------------------------------------
+Error assigning IP to LinuxVM01: Connection failed to establish within 10000 milliseconds.
+
+--- Ping Test: DC1-HQ [192.168.1.10] ---
+
+Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms) 
+------        -----------     -----------      -----------                              -----    -------- 
+RIKOLAPTOP    192.168.1.10    192.168.1.10     fe80::408e:6e42:d425:906%21              32       0        
+RIKOLAPTOP    192.168.1.10    192.168.1.10     fe80::408e:6e42:d425:906%21              32       0        
+
+
+
+--- Ping Test: MEM1 [192.168.1.20] ---
+Ping failed: Testing connection to computer '192.168.1.20' failed: Error due to lack of resources
+
+--- Ping Test: LinuxVM01 [192.168.1.30] ---
+
+Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms) 
+------        -----------     -----------      -----------                              -----    -------- 
+RIKOLAPTOP    192.168.1.30                                                              32       0        
+RIKOLAPTOP    192.168.1.30                                                              32       0        
+
+
+
+--- Ping Test: Win11VM01 [192.168.1.40] ---
+Ping failed: Testing connection to computer '192.168.1.40' failed: Error due to lack of resources
+
+--- Ping Test: VyOS01 [192.168.1.254] ---
+
+Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms) 
+------        -----------     -----------      -----------                              -----    -------- 
+RIKOLAPTOP    192.168.1.254                                                             32       0        
+RIKOLAPTOP    192.168.1.254                                                             32       0        
+
+

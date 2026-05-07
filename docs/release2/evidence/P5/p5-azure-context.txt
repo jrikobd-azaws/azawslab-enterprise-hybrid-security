@@ -1,0 +1,3 @@
+﻿EnvironmentName    HomeTenantId                          IsDefault    Name                  State    TenantDefaultDomain    TenantDisplayName    TenantId
+-----------------  ------------------------------------  -----------  --------------------  -------  ---------------------  -------------------  ------------------------------------
+AzureCloud         78643a83-bcc9-4a3b-ab7e-eeede0b3384e  True         Azure subscription 1  Enabled  entra.azawslab.co.uk   AZAWS                78643a83-bcc9-4a3b-ab7e-eeede0b3384e
