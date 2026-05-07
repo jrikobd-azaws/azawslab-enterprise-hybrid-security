@@ -162,3 +162,4 @@ resource "azurerm_management_group_policy_assignment" "require_rg_tag_costcenter
     }
   })
 }
+
