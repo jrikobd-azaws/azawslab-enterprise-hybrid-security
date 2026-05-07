@@ -62,6 +62,17 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Configure AWS credentials with OIDC
+        if: matrix.root_name == 'aws-branch-dev'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Verify AWS identity
+        if: matrix.root_name == 'aws-branch-dev'
+        run: aws sts get-caller-identity
+
       - name: Terraform fmt check
         run: terraform fmt -check -recursive
 
@@ -73,6 +84,7 @@ jobs:
 
       - name: Terraform plan
         run: terraform plan -no-color -input=false
+
 
 
 
