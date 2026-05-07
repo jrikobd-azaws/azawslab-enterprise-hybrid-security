@@ -45,7 +45,8 @@ resource "azurerm_management_group_policy_assignment" "allowed_vm_skus" {
   parameters = jsonencode({
     listOfAllowedSKUs = {
       value = [
-        "Standard_B2als_v2"
+        "Standard_B2als_v2",
+        "Standard_D2as_v5"
       ]
     }
   })
@@ -162,4 +163,5 @@ resource "azurerm_management_group_policy_assignment" "require_rg_tag_costcenter
     }
   })
 }
+
 
