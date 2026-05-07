@@ -35,7 +35,7 @@ variable "enable_o3a_fortigate_vyos_ipsec" {
 
 variable "p5_fortigate_vm_size" {
   type        = string
-  default     = "Standard_B2als_v2"
+  default     = "Standard_D2as_v5"
   description = "Azure VM size for the FortiGate PAYG Gen2 VM."
 }
 
@@ -363,6 +363,7 @@ resource "azurerm_linux_virtual_machine" "fortigate" {
 
   tags = var.p5_fortigate_tags
 }
+
 
 
 
