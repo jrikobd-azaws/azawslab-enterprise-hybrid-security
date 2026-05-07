@@ -1,0 +1,70 @@
+﻿name: Release 2 - FortiGate Stage 1 Apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_apply:
+        description: "Type true to apply FortiGate Stage 1 resources"
+        required: true
+        default: "false"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  fortigate-stage1:
+    name: FortiGate Stage 1 - Platform Networking
+    runs-on: ubuntu-latest
+    environment: release-2
+
+    defaults:
+      run:
+        working-directory: terraform/platform-networking/dev
+
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_USE_OIDC: true
+      ARM_USE_AZUREAD: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform plan - FortiGate Stage 1
+        run: |
+          terraform plan \
+            -out=tfplan \
+            -var='enable_p5_fortigate=true' \
+            -var='enable_o3a_fortigate_vyos_ipsec=false'
+
+      - name: Terraform apply - FortiGate Stage 1
+        if: ${{ github.event.inputs.confirm_apply == 'true' }}
+        run: terraform apply -auto-approve tfplan
+
+      - name: Skip apply
+        if: ${{ github.event.inputs.confirm_apply != 'true' }}
+        run: |
+          echo "Apply skipped because confirm_apply was not true."
+          echo "Review the Terraform plan output, then rerun with confirm_apply=true when ready."
