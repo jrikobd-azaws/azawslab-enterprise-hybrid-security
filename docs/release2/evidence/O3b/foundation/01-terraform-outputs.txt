@@ -1,0 +1,13 @@
+﻿================================================================================
+O3b AWS foundation evidence: 01-terraform-outputs.txt
+Generated: 2026-05-07 09:47:34 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+aws_branch_enabled = true
+aws_cisco_enabled = false
+aws_test_vms_enabled = true
+dmz_vm_public_ip = "108.130.173.141"
+trusted_vm_public_ip = "34.248.23.45"
+vpc_id = "vpc-07abca4bb2f2bd030"
+

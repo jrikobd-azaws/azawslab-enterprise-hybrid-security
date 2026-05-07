@@ -1,0 +1,26 @@
+﻿================================================================================
+O3b AWS foundation evidence: 02-terraform-state-list.txt
+Generated: 2026-05-07 09:47:35 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+module.aws_branch.data.aws_ami.amazon_linux_2023
+module.aws_branch.data.aws_availability_zones.available
+module.aws_branch.aws_instance.dmz[0]
+module.aws_branch.aws_instance.trusted[0]
+module.aws_branch.aws_internet_gateway.this[0]
+module.aws_branch.aws_route_table.dmz[0]
+module.aws_branch.aws_route_table.mgmt[0]
+module.aws_branch.aws_route_table.trusted[0]
+module.aws_branch.aws_route_table.untrusted[0]
+module.aws_branch.aws_route_table_association.dmz[0]
+module.aws_branch.aws_route_table_association.mgmt[0]
+module.aws_branch.aws_route_table_association.trusted[0]
+module.aws_branch.aws_route_table_association.untrusted[0]
+module.aws_branch.aws_security_group.test[0]
+module.aws_branch.aws_subnet.dmz[0]
+module.aws_branch.aws_subnet.mgmt[0]
+module.aws_branch.aws_subnet.trusted[0]
+module.aws_branch.aws_subnet.untrusted[0]
+module.aws_branch.aws_vpc.this[0]
+

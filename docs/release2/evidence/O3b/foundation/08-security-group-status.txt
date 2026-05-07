@@ -1,0 +1,64 @@
+﻿================================================================================
+O3b AWS foundation evidence: 08-security-group-status.txt
+Generated: 2026-05-07 09:47:49 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+[
+    {
+        "GroupName": "azawslab-dev-aws-test-sg",
+        "GroupId": "sg-0f09fded4d70257a3",
+        "Description": "O3b AWS branch test VM security group",
+        "Ingress": [
+            {
+                "IpProtocol": "tcp",
+                "FromPort": 22,
+                "ToPort": 22,
+                "UserIdGroupPairs": [],
+                "IpRanges": [
+                    {
+                        "Description": "Temporary SSH from approved source",
+                        "CidrIp": "<redacted-home-ip>/32"
+                    }
+                ],
+                "Ipv6Ranges": [],
+                "PrefixListIds": []
+            },
+            {
+                "IpProtocol": "icmp",
+                "FromPort": -1,
+                "ToPort": -1,
+                "UserIdGroupPairs": [],
+                "IpRanges": [
+                    {
+                        "Description": "ICMP inside branch VPC",
+                        "CidrIp": "172.16.0.0/16"
+                    }
+                ],
+                "Ipv6Ranges": [],
+                "PrefixListIds": []
+            }
+        ]
+    },
+    {
+        "GroupName": "default",
+        "GroupId": "sg-003b4c50ef67582aa",
+        "Description": "default VPC security group",
+        "Ingress": [
+            {
+                "IpProtocol": "-1",
+                "UserIdGroupPairs": [
+                    {
+                        "UserId": "275544662748",
+                        "GroupId": "sg-003b4c50ef67582aa"
+                    }
+                ],
+                "IpRanges": [],
+                "Ipv6Ranges": [],
+                "PrefixListIds": []
+            }
+        ]
+    }
+]
+
+
