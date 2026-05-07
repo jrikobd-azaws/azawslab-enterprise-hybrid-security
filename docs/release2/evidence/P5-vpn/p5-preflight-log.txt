@@ -1,0 +1,68 @@
+﻿p5-fortigate-vpn
+On branch p5-fortigate-vpn
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	../../../docs/release2/evidence/HyperVLab/
+	../../../docs/release2/evidence/P5-vpn/
+	../../../docs/release2/evidence/P5/p5-azure-context.txt
+	../../../docs/release2/evidence/P5/p5-firewall-status.txt
+	../../../docs/release2/evidence/P5/p5-route-tables.txt
+	../../../docs/release2/evidence/P5/p5-state-list.txt
+	../../../docs/release2/evidence/P5/p5-subscriptions.txt
+	../../../docs/release2/evidence/P5/p5-terraform-init.txt
+	../../../docs/release2/evidence/P5/p5-terraform-validate.txt
+	../../../docs/release2/evidence/P5/p5-vnet-list.txt
+	../../../docs/release2/evidence/P5/p5-vnet-peerings.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+EnvironmentName    HomeTenantId                          IsDefault    Name                  State    TenantDefaultDomain    TenantDisplayName    TenantId
+-----------------  ------------------------------------  -----------  --------------------  -------  ---------------------  -------------------  ------------------------------------
+AzureCloud         78643a83-bcc9-4a3b-ab7e-eeede0b3384e  True         Azure subscription 1  Enabled  entra.azawslab.co.uk   AZAWS                78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+Initializing modules...
+Initializing provider plugins found in the configuration...
+- Reusing previous version of hashicorp/azurerm from the dependency lock file
+- Using previously-installed hashicorp/azurerm v4.71.0
+
+Initializing the backend...
+
+Initializing provider plugins found in the state...
+- Reusing previous version of hashicorp/azurerm
+- Using previously-installed hashicorp/azurerm v4.71.0
+
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+Success! The configuration is valid.
+
+Acquiring state lock. This may take a few moments...
+data.azurerm_virtual_network.workload_spoke: Reading...
+module.hub_spoke_networking.azurerm_resource_group.connectivity: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast]
+module.hub_spoke_networking.azurerm_virtual_network.hub: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub]
+data.azurerm_virtual_network.workload_spoke: Read complete after 2s [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload]
+data.azurerm_subnet.workload: Reading...
+module.hub_spoke_networking.azurerm_route_table.workload_to_hub: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/routeTables/rt-workload-to-hub-norwayeast]
+module.hub_spoke_networking.azurerm_subnet.bastion: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureBastionSubnet]
+module.hub_spoke_networking.azurerm_virtual_network_peering.hub_to_workload_spoke: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/virtualNetworkPeerings/peer-hub-to-spoke-workload]
+module.hub_spoke_networking.azurerm_subnet.gateway: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/GatewaySubnet]
+module.hub_spoke_networking.azurerm_virtual_network_peering.workload_spoke_to_hub: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/virtualNetworkPeerings/peer-spoke-workload-to-hub]
+module.hub_spoke_networking.azurerm_subnet.firewall: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-connectivity-prod-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-hub/subnets/AzureFirewallSubnet]
+data.azurerm_subnet.workload: Read complete after 0s [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload]
+module.hub_spoke_networking.azurerm_subnet_route_table_association.workload: Refreshing state... [id=/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/virtualNetworks/vnet-dev-norwayeast-spoke-workload/subnets/snet-workload]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+Releasing state lock. This may take a few moments...
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.

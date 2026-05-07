@@ -1,0 +1,35 @@
+﻿--- Hyper-V Lab Local Evidence Collection ---
+Generated: 05/07/2026 13:23:07
+-------------------------------------------
+=== VM: DC1-HQ ===
+Error: VM 'DC1-HQ' not found or inaccessible.
+
+=== VM: LinuxVM01 ===
+Error: VM 'LinuxVM01' not found or inaccessible.
+
+=== VM: Mem1 ===
+Error: VM 'Mem1' not found or inaccessible.
+
+=== VM: ubuntu24-master ===
+Error: VM 'ubuntu24-master' not found or inaccessible.
+
+=== VM: vyos-dev-onprem-01 ===
+Error: VM 'vyos-dev-onprem-01' not found or inaccessible.
+
+=== VM: win11-master ===
+Error: VM 'win11-master' not found or inaccessible.
+
+=== VM: Win11VM01 ===
+Error: VM 'Win11VM01' not found or inaccessible.
+
+=== VM: win2022-master ===
+Error: VM 'win2022-master' not found or inaccessible.
+
+--- VyOS01 Planned Commands ---
+VyOS IP: 192.168.1.254
+Commands to execute manually on VyOS CLI:
+1. show interfaces
+2. show ip route
+3. show nat
+# Use SSH with username/password
+# Example: ssh vyos@192.168.1.254

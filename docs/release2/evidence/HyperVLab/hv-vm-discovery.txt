@@ -1,0 +1,13 @@
+﻿
+Name                 State
+----                 -----
+DC1-HQ             Running
+LinuxVM01          Running
+Mem1               Running
+ubuntu24-master        Off
+vyos-dev-onprem-01 Running
+win11-master           Off
+Win11VM01          Running
+win2022-master         Off
+
+
