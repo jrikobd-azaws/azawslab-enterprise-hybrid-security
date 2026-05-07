@@ -34,6 +34,8 @@ jobs:
             working_directory: terraform/platform-networking/dev
           - root_name: platform-management-dev
             working_directory: terraform/platform-management/dev
+          - root_name: aws-branch-dev
+            working_directory: terraform/aws-branch/dev
 
     defaults:
       run:
@@ -53,6 +55,7 @@ jobs:
           terraform_version: 1.15.0
 
       - name: Azure login with OIDC
+        if: matrix.root_name != 'aws-branch-dev'
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -70,6 +73,7 @@ jobs:
 
       - name: Terraform plan
         run: terraform plan -no-color -input=false
+
 
 
 
