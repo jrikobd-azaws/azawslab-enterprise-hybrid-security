@@ -56,7 +56,7 @@ jobs:
             -no-color \
             -input=false \
             -var-file=o3b-dev.tfvars \
-            -var="ssh_source_cidr=${{ inputs.ssh_source_cidr }}" \
+            -var="ssh_source_cidr=${{ vars.O3B_SSH_SOURCE_CIDR }}" \
             -out=tfplan
 
       - name: Terraform apply
