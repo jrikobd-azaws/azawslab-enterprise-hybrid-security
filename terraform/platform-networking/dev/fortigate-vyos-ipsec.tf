@@ -19,7 +19,7 @@
 variable "enable_p5_fortigate" {
   type        = bool
   default     = false
-  description = "Enable FortiGate PAYG Gen2 VM foundation deployment for O3a/P5 hybrid connectivity."
+  description = "Enable FortiGate BYOL VM foundation deployment for O3a/P5 hybrid connectivity."
 }
 
 variable "enable_o3a_fortigate_vyos_ipsec" {
@@ -35,8 +35,8 @@ variable "enable_o3a_fortigate_vyos_ipsec" {
 
 variable "p5_fortigate_vm_size" {
   type        = string
-  default     = "Standard_D2as_v5"
-  description = "Azure VM size for the FortiGate PAYG Gen2 VM."
+  default     = "Standard_D2s_v4"
+  description = "Azure VM size for the FortiGate BYOL VM."
 }
 
 variable "p5_hub_resource_group_name" {
@@ -331,14 +331,14 @@ resource "azurerm_linux_virtual_machine" "fortigate" {
   plan {
     publisher = "fortinet"
     product   = "fortinet_fortigate-vm_v5"
-    name      = "fortinet_fg-vm_payg_2023_g2"
+    name      = "fortinet_fg-vm"
   }
 
   source_image_reference {
     publisher = "fortinet"
     offer     = "fortinet_fortigate-vm_v5"
-    sku       = "fortinet_fg-vm_payg_2023_g2"
-    version   = "7.6.5"
+    sku       = "fortinet_fg-vm"
+    version   = "7.2.13"
   }
 
   os_disk {
@@ -363,6 +363,9 @@ resource "azurerm_linux_virtual_machine" "fortigate" {
 
   tags = var.p5_fortigate_tags
 }
+
+
+
 
 
 
