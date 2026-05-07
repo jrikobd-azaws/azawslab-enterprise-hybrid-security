@@ -1,0 +1,13 @@
+﻿================================================================================
+O3b AWS foundation evidence: 09-cisco-disabled-validation.txt
+Generated: 2026-05-07 09:47:52 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+Terraform output:
+false
+
+Cisco-related Terraform state entries:
+
+Expected result: aws_cisco_enabled = false and no Cisco resources in state.
+

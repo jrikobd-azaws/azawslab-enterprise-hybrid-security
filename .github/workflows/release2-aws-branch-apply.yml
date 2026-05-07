@@ -2,6 +2,11 @@
 
 on:
   workflow_dispatch:
+    inputs:
+      ssh_source_cidr:
+        description: "Temporary SSH source CIDR for O3b validation, for example x.x.x.x/32"
+        required: true
+        type: string
 
 permissions:
   id-token: write
@@ -46,7 +51,13 @@ jobs:
         run: terraform validate
 
       - name: Terraform plan
-        run: terraform plan -no-color -input=false -var-file=o3b-dev.tfvars -out=tfplan
+        run: |
+          terraform plan \
+            -no-color \
+            -input=false \
+            -var-file=o3b-dev.tfvars \
+            -var="ssh_source_cidr=${{ inputs.ssh_source_cidr }}" \
+            -out=tfplan
 
       - name: Terraform apply
         run: terraform apply -input=false -auto-approve tfplan

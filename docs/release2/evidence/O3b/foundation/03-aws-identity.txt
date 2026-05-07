@@ -1,0 +1,12 @@
+﻿================================================================================
+O3b AWS foundation evidence: 03-aws-identity.txt
+Generated: 2026-05-07 09:47:37 +01:00
+RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security
+================================================================================
+
+{
+    "UserId": "AIDAUAJ554LOLSCWT5GCV",
+    "Account": "275544662748",
+    "Arn": "arn:aws:iam::275544662748:user/azawslab-admin"
+}
+
