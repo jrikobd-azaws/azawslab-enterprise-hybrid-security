@@ -150,8 +150,8 @@ variable "o3a_vyos_asn" {
 
 variable "p5_fortigate_enable_accelerated_networking" {
   type        = bool
-  default     = true
-  description = "Enable accelerated networking on FortiGate NICs where supported by the chosen VM size."
+  default     = false
+  description = "Enable accelerated networking on FortiGate NICs. Disabled by default because Standard_D2s_v4 is restricted to one accelerated NIC and this lab deploys two NICs."
 }
 
 variable "p5_fortigate_tags" {
@@ -363,6 +363,7 @@ resource "azurerm_linux_virtual_machine" "fortigate" {
 
   tags = var.p5_fortigate_tags
 }
+
 
 
 
