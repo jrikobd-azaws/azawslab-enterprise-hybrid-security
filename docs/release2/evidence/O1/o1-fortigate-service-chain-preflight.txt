@@ -813,4 +813,397 @@ Command fail. Return code -61
 
 vm-dev-fgt-01 # 
  
- 
+ vm-dev-fgt-01 # show firewall address AZURE_WORKLOAD_10_10_0_0_16
+config firewall address
+    edit "AZURE_WORKLOAD_10_10_0_0_16"
+        set uuid ec79b5f0-4aec-51f1-86af-fc1c03bf9426
+        set comment "Release 2 O1 Azure workload spoke prefix"
+        set subnet 10.10.0.0 255.255.0.0
+    next
+end
+
+vm-dev-fgt-01 # show firewall address HQ_LAB_192_168_1_0_24
+config firewall address
+    edit "HQ_LAB_192_168_1_0_24"
+        set uuid ec7ac8aa-4aec-51f1-a4f4-031640d0c07d
+        set comment "Release 2 O1 HQ lab prefix behind VyOS"
+        set subnet 192.168.1.0 255.255.255.0
+    next
+end
+
+vm-dev-fgt-01 # show firewall policy
+config firewall policy
+    edit 1
+        set name "O1-AzureWorkload-to-HQ-ICMP-SNAT"
+        set uuid 5273389a-4aed-51f1-6c7e-6187ebee9f91
+        set srcintf "port2"
+        set dstintf "port1"
+        set action accept
+        set srcaddr "AZURE_WORKLOAD_10_10_0_0_16"
+        set dstaddr "HQ_LAB_192_168_1_0_24"
+        set schedule "always"
+        set service "PING"
+        set logtraffic all
+        set nat enable
+        set comments "Release 2 O1 lab validation policy. SNAT enabled to avoid asymmetric return path during first service-chain test."
+    next
+end
+
+vm-dev-fgt-01 # diagnose sys session stat
+misc info:       session_count=18 setup_rate=0 exp_count=0 clash=0
+        memory_tension_drop=0 ephemeral=0/65532 removeable=0 extreme_low_mem=0
+        npu_session_count=0
+delete=0, flush=0, dev_down=0/0
+session walkers: active=0, vf-33, dev-0, saddr-0, npu-0, wildcard-0
+TCP sessions:
+         1 in ESTABLISHED state
+firewall error stat:
+error1=00000000
+error2=00000000
+error3=00000000
+error4=00000000
+tt=00000000
+cont=00000000
+ips_recv=00000000
+policy_deny=00000000
+av_recv=00000000
+fqdn_count=00000009
+fqdn6_count=00000000
+global: ses_limit=0 ses6_limit=0 rt_limit=0 rt6_limit=0
+
+vm-dev-fgt-01 # diagnose sys session filter clear
+
+vm-dev-fgt-01 # diagnose sys session list
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->210.7.96.53:53(0.0.0.0:0)
+hook=in dir=reply act=noop 210.7.96.53:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007824 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=168 expire=11 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=76/1/1 reply=76/1/1 tuples=2
+tx speed(Bps/kbps): 0/0 rx speed(Bps/kbps): 0/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:123->208.91.112.60:123(0.0.0.0:0)
+hook=in dir=reply act=noop 208.91.112.60:123->10.0.3.4:123(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=000077fa tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=148 expire=31 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=76/1/1 reply=76/1/1 tuples=2
+tx speed(Bps/kbps): 0/0 rx speed(Bps/kbps): 0/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:123->208.91.112.61:123(0.0.0.0:0)
+hook=in dir=reply act=noop 208.91.112.61:123->10.0.3.4:123(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007808 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=178 expire=1 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=76/1/1 reply=76/1/1 tuples=2
+tx speed(Bps/kbps): 0/0 rx speed(Bps/kbps): 0/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:123->208.91.112.62:123(0.0.0.0:0)
+hook=in dir=reply act=noop 208.91.112.62:123->10.0.3.4:123(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=000077f4 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=125 expire=54 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=76/1/1 reply=76/1/1 tuples=2
+tx speed(Bps/kbps): 0/0 rx speed(Bps/kbps): 0/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:123->208.91.112.63:123(0.0.0.0:0)
+hook=in dir=reply act=noop 208.91.112.63:123->10.0.3.4:123(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007816 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=120 expire=59 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->208.91.112.220:53(0.0.0.0:0)
+hook=in dir=reply act=noop 208.91.112.220:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007818 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->173.243.138.81:53(0.0.0.0:0)
+hook=in dir=reply act=noop 173.243.138.81:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007822 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=208 expire=176 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=3226/48/1 reply=7701/48/1 tuples=2
+tx speed(Bps/kbps): 15/0 rx speed(Bps/kbps): 37/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3501->168.63.129.16:53(0.0.0.0:0)
+hook=in dir=reply act=noop 168.63.129.16:53->10.0.3.4:3501(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=000077e2 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->194.69.172.53:53(0.0.0.0:0)
+hook=in dir=reply act=noop 194.69.172.53:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007825 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->83.231.212.53:53(0.0.0.0:0)
+hook=in dir=reply act=noop 83.231.212.53:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007823 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=6 proto_state=05 duration=1 expire=0 timeout=3600 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ vlan_cos=255/255
+state=log local 
+statistic(bytes/packets/allow_err): org=441/5/1 reply=275/5/1 tuples=2
+tx speed(Bps/kbps): 0/0 rx speed(Bps/kbps): 0/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:24912->12.34.97.16:443(0.0.0.0:0)
+hook=in dir=reply act=noop 12.34.97.16:443->10.0.3.4:24912(0.0.0.0:0)
+pos/(before,after) 0/(0,0), 0/(0,0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007868 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->154.52.12.53:53(0.0.0.0:0)
+hook=in dir=reply act=noop 154.52.12.53:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007826 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->154.52.30.55:53(0.0.0.0:0)
+hook=in dir=reply act=noop 154.52.30.55:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007828 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=6 proto_state=01 duration=1400 expire=3600 timeout=3600 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ vlan_cos=0/0
+state=local may_dirty 
+statistic(bytes/packets/allow_err): org=45017/619/1 reply=169391/677/1 tuples=2
+tx speed(Bps/kbps): 27/0 rx speed(Bps/kbps): 137/1
+orgin->sink: org pre->in, reply out->post dev=4->6/6->4 gwy=0.0.0.0/0.0.0.0
+hook=pre dir=org act=noop 77.99.208.6:51144->10.0.3.4:22(0.0.0.0:0)
+hook=post dir=reply act=noop 10.0.3.4:22->77.99.208.6:51144(0.0.0.0:0)
+pos/(before,after) 0/(0,0), 0/(0,0)
+misc=0 policy_id=4294967295 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=0000752b tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->54.232.58.26:53(0.0.0.0:0)
+hook=in dir=reply act=noop 54.232.58.26:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007821 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->139.138.105.61:53(0.0.0.0:0)
+hook=in dir=reply act=noop 139.138.105.61:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=0000781f tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->209.40.106.52:53(0.0.0.0:0)
+hook=in dir=reply act=noop 209.40.106.52:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007829 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->209.40.96.52:53(0.0.0.0:0)
+hook=in dir=reply act=noop 209.40.96.52:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007827 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+
+session info: proto=17 proto_state=01 duration=110 expire=69 timeout=0 flags=00000000 socktype=0 sockport=0 av_idx=0 use=3
+origin-shaper=
+reply-shaper=
+per_ip_shaper=
+class_id=0 ha_id=0 policy_dir=0 tunnel=/ helper=dns-udp vlan_cos=255/255
+state=log local nds 
+statistic(bytes/packets/allow_err): org=138/1/1 reply=290/1/1 tuples=2
+tx speed(Bps/kbps): 1/0 rx speed(Bps/kbps): 2/0
+orgin->sink: org out->post, reply pre->in dev=6->4/4->6 gwy=0.0.0.0/0.0.0.0
+hook=out dir=org act=noop 10.0.3.4:3291->65.0.232.185:53(0.0.0.0:0)
+hook=in dir=reply act=noop 65.0.232.185:53->10.0.3.4:3291(0.0.0.0:0)
+misc=0 policy_id=0 pol_uuid_idx=0 auth_info=0 chk_client_info=0 vd=0
+serial=00007820 tos=ff/ff app_list=0 app=0 url_cat=0
+rpdb_link_id=00000000 ngfwid=n/a
+npu_state=00000000
+no_ofld_reason:  local
+total session 19
+
+vm-dev-fgt-01 # 
+
+FortiGate service-chain policy has been created but inspection is not yet claimed.
+Azure workload route to 192.168.1.0/24 has not yet been changed to FortiGate.
+Next validation gate is Terraform optional UDR:
+192.168.1.0/24 -> VirtualAppliance 10.0.3.36

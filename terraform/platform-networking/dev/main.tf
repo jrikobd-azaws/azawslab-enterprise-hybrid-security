@@ -40,11 +40,14 @@ module "hub_spoke_networking" {
   hub_to_spoke_peering_name = "peer-hub-to-spoke-workload"
   spoke_to_hub_peering_name = "peer-spoke-workload-to-hub"
 
-  workload_route_table_name = "rt-workload-to-hub-norwayeast"
-
-  enable_bastion         = false
-  bastion_host_name      = "bas-dev-norwayeast-01"
-  bastion_public_ip_name = "pip-bas-dev-norwayeast-01"
+  workload_route_table_name         = "rt-workload-to-hub-norwayeast"
+  enable_o1_fortigate_service_chain = var.enable_o1_fortigate_service_chain
+  o1_service_chain_route_name       = var.o1_service_chain_route_name
+  o1_service_chain_hq_prefix        = var.o1_service_chain_hq_prefix
+  o1_service_chain_next_hop_ip      = var.o1_service_chain_next_hop_ip
+  enable_bastion                    = false
+  bastion_host_name                 = "bas-dev-norwayeast-01"
+  bastion_public_ip_name            = "pip-bas-dev-norwayeast-01"
 
   enable_azure_firewall         = false
   azure_firewall_name           = "afw-dev-norwayeast-01"
@@ -54,6 +57,7 @@ module "hub_spoke_networking" {
 
   tags = local.common_tags
 }
+
 
 
 

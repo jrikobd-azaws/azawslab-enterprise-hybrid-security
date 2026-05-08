@@ -182,3 +182,63 @@ Required validation before claiming inspection:
 
 Do not modify GatewaySubnet routes unless separately researched and justified.
 
+
+---
+
+## O1 Service-Chain Route Design: Workload to HQ via FortiGate
+
+The O1 service-chain validation introduces a narrow workload route that sends only the HQ lab prefix to the FortiGate trusted interface. This is not a broad forced-tunnelling change and does not modify the GatewaySubnet.
+
+```text
+[Azure Workload VM]
+  vm-dev-client-01 / 10.10.0.4
+        |
+        | Azure workload subnet UDR:
+        | 192.168.1.0/24 -> VirtualAppliance 10.0.3.36
+        v
+[FortiGate trusted interface]
+  port2 / 10.0.3.36
+        |
+        | FortiGate policy:
+        | source      = 10.10.0.0/16
+        | destination = 192.168.1.0/24
+        | service     = PING for first validation
+        | logging     = enabled
+        | NAT         = enabled as lab delta
+        v
+[FortiGate hub interface]
+  port1 / 10.0.3.4
+        |
+        | existing Azure hub path
+        v
+[Azure VPN Gateway]
+  20.100.50.9
+        |
+        | IKEv2/IPSec to VyOS
+        v
+[VyOS / HQ Lab]
+  192.168.1.254 / 192.168.1.0/24
+```
+
+### Validation Requirements
+
+FortiGate inspection must not be claimed from the route alone. Success requires evidence across four planes:
+
+```text
+Routing plane:
+  Workload effective route shows 192.168.1.0/24 via 10.0.3.36.
+
+Data plane:
+  vm-dev-client-01 reaches 192.168.1.254.
+
+Control plane:
+  Azure VPN Gateway to VyOS remains connected and counters increase.
+
+Security plane:
+  FortiGate session table, logs, or policy counters show policy ID 1 handling the test traffic.
+```
+
+### Lab Delta
+
+SNAT is enabled on the first FortiGate validation policy to avoid asymmetric return routing during the initial proof. This is a controlled lab delta and should be revisited before presenting the design as a production service-chaining pattern.
+
