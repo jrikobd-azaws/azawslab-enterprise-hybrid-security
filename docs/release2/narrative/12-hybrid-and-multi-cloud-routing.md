@@ -64,3 +64,81 @@ The FortiGate and VPN resources are held behind Terraform enable flags and are n
 
 Successful validation will prove that Azure can route to the Hyper-V lab subnet through the approved VPN path. This is a prerequisite before Azure-hosted Ansible orchestration can perform domain join, configuration management, or server administration against private Hyper-V systems.
 
+
+## P5/O3a Hybrid Connectivity Decision: Decoupling IPSec Termination from NVA Inspection
+
+The P5/O3a hybrid connectivity milestone established secure connectivity between the Azure hub/spoke environment and the Hyper-V/VyOS lab network.
+
+The final implemented design separates encrypted tunnel termination from future security inspection:
+
+```text
+[Azure Workload Spoke]
+  vm-dev-client-01 / 10.10.0.4
+        |
+        | route to 192.168.1.0/24 learned via hub VPN Gateway
+        |
+[Azure Hub VNet]
+  Azure VPN Gateway
+        |
+        | IKEv2 / IPSec
+        | AES256 / SHA256 / DHGroup14 / PFS14
+        |
+[VyOS01 / Hyper-V]
+  vyos01.hq.azawslab.co.uk
+  192.168.1.0/24
+        |
+        v
+[Home / HQ Lab]
+```
+
+FortiGate was originally selected as the Azure hub NVA and successfully deployed through Terraform. The deployment validated a real NVA foundation:
+
+- Key Vault-backed FortiGate admin credential.
+- Azure Policy-governed VM SKU.
+- Restricted management NSG rule.
+- Two-NIC FortiGate model.
+- IP forwarding enabled.
+- FortiGate GUI access validated.
+
+During IPSec validation, the FortiGate BYOL permanent evaluation license was found to restrict IPSec proposals to DES-class low-encryption options. VyOS did not support single DES, and using legacy DES would not meet the project security baseline.
+
+Rather than weaken the cryptographic standard, the design was pivoted to a service-chaining-ready model:
+
+```text
+Azure VPN Gateway:
+  managed AES-256 IPSec tunnel termination
+
+FortiGate NVA:
+  deployed inspection and segmentation plane
+
+VyOS:
+  simulated HQ/branch edge
+```
+
+This is an enterprise-aligned design decision because it separates the connectivity plane from the inspection plane. The Azure VPN Gateway provides managed route-based IPSec termination, while FortiGate remains available for controlled service-chaining and inspection validation in the next phase.
+
+The final tunnel successfully negotiated:
+
+```text
+IKEv2
+AES256
+SHA256
+DHGroup14
+PFS14
+NAT-T
+```
+
+Gateway transit was enabled on the hub/spoke peering so the workload spoke could learn the HQ lab prefix through the hub VPN Gateway:
+
+```text
+192.168.1.0/24 -> VirtualNetworkGateway
+```
+
+Final data-plane validation confirmed:
+
+```text
+Azure workload VM 10.10.0.4 -> VyOS LAN gateway 192.168.1.254
+VyOS LAN source 192.168.1.254 -> Azure hub FortiGate interface 10.0.3.4
+```
+
+This milestone demonstrates a realistic enterprise architecture pattern: native Azure VPN Gateway for supportable encrypted connectivity, with FortiGate retained as the NVA inspection plane for future service chaining.
