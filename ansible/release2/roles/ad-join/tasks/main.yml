@@ -1,0 +1,7 @@
+﻿---
+- name: AD join intentionally deferred
+  ansible.builtin.debug:
+    msg:
+      - 'Release 2 ad-join role is intentionally deferred.'
+      - 'Do not run domain join until hq.azawslab.co.uk domain services, DNS, routing, and hybrid connectivity are confirmed.'
+      - 'This placeholder preserves the P2b role scaffold without claiming domain-join implementation.'
