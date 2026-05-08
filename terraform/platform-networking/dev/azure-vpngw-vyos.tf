@@ -76,6 +76,7 @@ resource "azurerm_public_ip" "o3a_vpngw" {
   resource_group_name = data.azurerm_resource_group.p5_connectivity.name
   allocation_method   = "Static"
   sku                 = "Standard"
+  zones               = ["1", "2", "3"]
   tags                = local.o3a_vpngw_tags
 }
 
@@ -153,5 +154,6 @@ resource "azurerm_virtual_network_gateway_connection" "o3a_vpngw_to_vyos" {
 
   tags = local.o3a_vpngw_tags
 }
+
 
 
