@@ -1,0 +1,816 @@
+﻿O1 FortiGate Service-Chain Preflight
+
+Purpose:
+Validate current FortiGate, Azure VPN Gateway, routing, and management state before introducing any Azure UDR or FortiGate inspection-policy change.
+
+Important:
+This evidence does not claim FortiGate inspection.
+Inspection can only be claimed after FortiGate policy counters or logs prove traffic traversal.
+
+Target future path:
+Azure workload VM 10.10.0.4
+  -> workload subnet UDR for 192.168.1.0/24
+  -> FortiGate trusted interface 10.0.3.36
+  -> FortiGate policy/logging
+  -> Azure VPN Gateway
+  -> VyOS/HQ 192.168.1.0/24
+- - -   A z u r e   c o n t e x t   - - - 
+ 
+ E n v i r o n m e n t N a m e         H o m e T e n a n t I d                                                     I s D e f a u l t         N a m e                                     S t a t e         T e n a n t D e f a u l t D o m a i n         T e n a n t D i s p l a y N a m e         T e n a n t I d 
+ 
+ - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - -     - - - - - - -     - - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+ 
+ A z u r e C l o u d                   7 8 6 4 3 a 8 3 - b c c 9 - 4 a 3 b - a b 7 e - e e e d e 0 b 3 3 8 4 e     T r u e                   A z u r e   s u b s c r i p t i o n   1     E n a b l e d     e n t r a . a z a w s l a b . c o . u k       A Z A W S                                 7 8 6 4 3 a 8 3 - b c c 9 - 4 a 3 b - a b 7 e - e e e d e 0 b 3 3 8 4 e 
+ 
+ - - -   F o r t i G a t e   V M   s t a t e   - - - 
+ 
+ N a m e                                   P o w e r S t a t e         P r i v a t e I p s                     P u b l i c I p s               V m S i z e 
+ 
+ - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - 
+ 
+ v m - d e v - f o r t i g a t e - 0 1     V M   r u n n i n g         1 0 . 0 . 3 . 4 , 1 0 . 0 . 3 . 3 6     2 0 . 1 0 0 . 1 9 5 . 1 6 6     S t a n d a r d _ D 2 s _ v 4 
+ 
+ - - -   F o r t i G a t e   N I C   I P   f o r w a r d i n g   a n d   p r i v a t e   I P s   - - - 
+ 
+ N a m e                                                               E n a b l e I P F o r w a r d i n g         P r i v a t e I p 
+ 
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - 
+ 
+ n i c - v m - d e v - f o r t i g a t e - 0 1 - u n t r u s t e d     T r u e                                     1 0 . 0 . 3 . 4 
+ 
+ N a m e                                                           E n a b l e I P F o r w a r d i n g         P r i v a t e I p 
+ 
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - 
+ 
+ n i c - v m - d e v - f o r t i g a t e - 0 1 - t r u s t e d     T r u e                                     1 0 . 0 . 3 . 3 6 
+ 
+ - - -   A z u r e   V P N   c o n n e c t i o n   s t a t u s   - - - 
+ 
+ N a m e                                       C o n n e c t i o n S t a t u s         E g r e s s B y t e s T r a n s f e r r e d         I n g r e s s B y t e s T r a n s f e r r e d 
+ 
+ - - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - - - - - - - 
+ 
+ v c n - d e v - v p n g w - t o - v y o s     C o n n e c t e d                       1 1 5 2                                             1 2 3 2 4 
+ 
+ - - -   C u r r e n t   w o r k l o a d   e f f e c t i v e   r o u t e   t a b l e   - - - 
+ 
+ S o u r c e                                   S t a t e         A d d r e s s   P r e f i x         N e x t   H o p   T y p e                     N e x t   H o p   I P 
+ 
+ - - - - - - - - - - - - - - - - - - - - -     - - - - - - -     - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - 
+ 
+ D e f a u l t                                 A c t i v e       1 0 . 1 0 . 0 . 0 / 1 6             V n e t L o c a l 
+ 
+ D e f a u l t                                 A c t i v e       1 0 . 0 . 0 . 0 / 1 6               V N e t P e e r i n g 
+ 
+ V i r t u a l N e t w o r k G a t e w a y     A c t i v e       1 9 2 . 1 6 8 . 1 . 0 / 2 4         V i r t u a l N e t w o r k G a t e w a y     2 0 . 1 0 0 . 5 0 . 9 
+ 
+ D e f a u l t                                 A c t i v e       0 . 0 . 0 . 0 / 0                   I n t e r n e t 
+ 
+ D e f a u l t                                 A c t i v e       1 0 . 0 . 0 . 0 / 8                 N o n e 
+ 
+ D e f a u l t                                 A c t i v e       1 2 7 . 0 . 0 . 0 / 8               N o n e 
+ 
+ D e f a u l t                                 A c t i v e       1 0 0 . 6 4 . 0 . 0 / 1 0           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       1 7 2 . 1 6 . 0 . 0 / 1 2           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 5 . 1 7 6 . 0 . 0 / 1 3           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 5 . 1 5 2 . 0 . 0 / 1 4           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 5 . 1 8 4 . 0 . 0 / 1 4           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 5 . 4 . 0 . 0 / 1 4               N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 5 . 1 4 8 . 0 . 0 / 1 5           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       1 9 8 . 1 8 . 0 . 0 / 1 5           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 5 . 1 5 0 . 0 . 0 / 1 6           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 5 . 1 5 6 . 0 . 0 / 1 6           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 5 . 1 5 9 . 0 . 0 / 1 6           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       4 0 . 1 0 9 . 0 . 0 / 1 6           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       1 9 2 . 1 6 8 . 0 . 0 / 1 6         N o n e 
+ 
+ D e f a u l t                                 A c t i v e       1 0 4 . 1 4 7 . 0 . 0 / 1 6         N o n e 
+ 
+ D e f a u l t                                 A c t i v e       1 5 7 . 5 9 . 0 . 0 / 1 6           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       4 0 . 1 0 8 . 0 . 0 / 1 7           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       1 0 4 . 1 4 6 . 0 . 0 / 1 7         N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 3 . 1 0 3 . 0 . 0 / 1 8           N o n e 
+ 
+ D e f a u l t                                 A c t i v e       2 0 . 3 5 . 2 5 2 . 0 / 2 2         N o n e 
+
+
+
+vm-dev-fgt-01 # get system interface                                   
+== [ port1 ]
+name: port1   mode: dhcp    ip: 10.0.3.4 255.255.255.224   status: up    netbios-forward: disable    type: physical   ring-rx: 0   ring-tx: 0   netflow-sampler: disable    sflow-sampler: disable    src-check: enable    explicit-web-proxy: disable    explicit-ftp-proxy: disable    proxy-captive-portal: disable    wccp: disable    drop-overlapped-fragment: disable    drop-fragment: disable    mtu-override: disable    
+== [ port2 ]
+name: port2   mode: dhcp    ip: 10.0.3.36 255.255.255.224   status: up    netbios-forward: disable    type: physical   ring-rx: 0   ring-tx: 0   netflow-sampler: disable    sflow-sampler: disable    src-check: enable    explicit-web-proxy: disable    explicit-ftp-proxy: disable    proxy-captive-portal: disable    wccp: disable    drop-overlapped-fragment: disable    drop-fragment: disable    mtu-override: disable    
+== [ naf.root ]
+name: naf.root   ip: 0.0.0.0 0.0.0.0   status: up    netbios-forward: disable    type: tunnel   netflow-sampler: disable    sflow-sampler: disable    src-check: disable    explicit-web-proxy: disable    explicit-ftp-proxy: disable    proxy-captive-portal: disable    wccp: disable    
+== [ l2t.root ]
+name: l2t.root   ip: 0.0.0.0 0.0.0.0   status: up    netbios-forward: disable    type: tunnel   netflow-sampler: disable    sflow-sampler: disable    src-check: enable    explicit-web-proxy: disable    explicit-ftp-proxy: disable    proxy-captive-portal: disable    wccp: disable    
+== [ ssl.root ]
+name: ssl.root   ip: 0.0.0.0 0.0.0.0   status: up    netbios-forward: disable    type: tunnel   netflow-sampler: disable    sflow-sampler: disable    src-check: enable    explicit-web-proxy: disable    explicit-ftp-proxy: disable    proxy-captive-portal: disable    wccp: disable    
+== [ fortilink ]
+name: fortilink   mode: static    ip: 10.255.1.1 255.255.255.0   status: up    netbios-forward: disable    type: aggregate   netflow-sampler: disable    sflow-sampler: disable    src-check: enable    explicit-web-proxy: disable    explicit-ftp-proxy: disable    proxy-captive-portal: disable    wccp: disable    drop-overlapped-fragment: disable    drop-fragment: disable    mtu-override: disable    
+== [ ipsec-vyos ]
+name: ipsec-vyos   ip: 169.254.100.1 255.255.255.255   status: up    netbios-forward: disable    type: tunnel   netflow-sampler: disable    sflow-sampler: disable    src-check: enable    explicit-web-proxy: disable    explicit-ftp-proxy: disable    proxy-captive-portal: disable    wccp: disable    mtu-override: disable    
+
+vm-dev-fgt-01 # get router info routing-table all
+Codes: K - kernel, C - connected, S - static, R - RIP, B - BGP
+       O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       V - BGP VPNv4
+       * - candidate default
+
+Routing table for VRF=0
+S*      0.0.0.0/0 [5/0] via 10.0.3.1, port1, [1/0]
+C       10.0.3.0/27 is directly connected, port1
+C       10.0.3.32/27 is directly connected, port2
+C       169.254.100.1/32 is directly connected, ipsec-vyos
+
+
+vm-dev-fgt-01 # execute ping-options source 10.0.3.36
+
+vm-dev-fgt-01 # execute ping 192.168.1.254
+PING 192.168.1.254 (192.168.1.254): 56 data bytes
+64 bytes from 192.168.1.254: icmp_seq=0 ttl=64 time=52.6 ms
+64 bytes from 192.168.1.254: icmp_seq=1 ttl=64 time=46.9 ms
+64 bytes from 192.168.1.254: icmp_seq=2 ttl=64 time=49.1 ms
+64 bytes from 192.168.1.254: icmp_seq=3 ttl=64 time=48.0 ms
+^C
+--- 192.168.1.254 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max = 46.9/49.1/52.6 ms
+
+vm-dev-fgt-01 # diagnose firewall iprope list
+
+Policy Group 00100000
+
+policy index=4294967295 uuid_idx=0 action=drop
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00100000 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): -1 -> zone(1): -1 
+source(1): 0.0.0.0-0.0.0.0, uuid_idx=0, 
+dest(1): 0.0.0.0-0.0.0.0, uuid_idx=0, 
+service(0): 
+
+Policy Group 00000001
+
+policy index=4294967295 uuid_idx=0 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000001 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(53,53)] flags:0 helper:auto  
+
+Policy Group 00100002
+
+policy index=4294967295 uuid_idx=0 action=drop
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00100002 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): -1 -> zone(1): -1 
+source(1): 0.0.0.0-0.0.0.0, uuid_idx=0, 
+dest(1): 0.0.0.0-0.0.0.0, uuid_idx=0, 
+service(0): 
+
+Policy Group 00000003
+
+policy index=4294967295 uuid_idx=0 action=accept
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000003 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(53,53)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000003 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10300/(0,65535)->(21,21)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000003 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10400/(0,65535)->(23,23)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000003 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10000/(0,65535)->(80,80)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000003 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10000/(0,65535)->(1000,1000)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000003 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10100/(0,65535)->(443,443)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000003 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10100/(0,65535)->(1003,1003)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=drop
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000003 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [0:0x0:0/(0,65535)->(0,0)] flags:4 helper:auto  
+
+Policy Group 00100003
+
+policy index=0 uuid_idx=1 action=drop
+flag (8010800): d_rm master pol_stats 
+flag2 (4000): resolve_sso 
+flag3 (100): last-deny 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00100003 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [0:0x0:0/(0,0)->(0,0)] flags:0 helper:auto  
+
+Policy Group 00000004
+
+policy index=4294967295 uuid_idx=0 action=accept
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000004 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(53,53)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000004 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10300/(0,65535)->(21,21)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000004 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10400/(0,65535)->(23,23)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000004 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10000/(0,65535)->(80,80)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000004 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10000/(0,65535)->(1000,1000)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000004 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10100/(0,65535)->(443,443)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000004 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10100/(0,65535)->(1003,1003)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=drop
+flag (20): auth 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000004 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [0:0x0:0/(0,65535)->(0,0)] flags:4 helper:auto  
+
+Policy Group 00100004
+
+policy index=0 uuid_idx=1 action=drop
+flag (8010800): d_rm master pol_stats 
+flag2 (4000): resolve_sso 
+flag3 (100): last-deny 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00100004 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [0:0x0:0/(0,0)->(0,0)] flags:0 helper:auto  
+
+Policy Group 00000005
+
+policy index=4294967295 uuid_idx=0 action=accept
+flag (0): 
+flag2 (80000000): captive-portal 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000005 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(53,53)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (8): redir 
+flag2 (80000000): captive-portal 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000005 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10000/(0,65535)->(80,80)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (8): redir 
+flag2 (80000000): captive-portal 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000005 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10000/(0,65535)->(1000,1000)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (8): redir 
+flag2 (80000000): captive-portal 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000005 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10100/(0,65535)->(443,443)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (8): redir 
+flag2 (80000000): captive-portal 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000005 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10100/(0,65535)->(1003,1003)] flags:4 helper:auto  
+
+policy index=4294967295 uuid_idx=0 action=drop
+flag (0): 
+flag2 (80000000): captive-portal 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000005 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [0:0x0:0/(0,65535)->(0,65535)] flags:0 helper:auto  
+
+Policy Group 00000008
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=00000008 av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x4:10200/(0,65535)->(80,80)] flags:4 helper:auto  
+
+Policy Group 0010000a
+
+policy index=4294967295 uuid_idx=30 action=drop
+flag (800): d_rm 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000a av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [0:0x0:0/(0,0)->(0,0)] flags:0 helper:auto  
+
+Policy Group 0010000c
+
+policy index=4294967295 uuid_idx=0 action=redirect
+flag (8000000): pol_stats 
+schedule()
+sockport=1011  cos_fwd=0  cos_rev=0 
+group=0010000c av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+service(1): 
+        [6:0x4:1011/(0,65535)->(80,80)] flags:0 helper:auto  
+
+Policy Group 0010000d
+
+policy index=0 uuid_idx=0 action=accept
+flag (8000000): pol_stats 
+flag3 (4100): last-deny snat-deny 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000d av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [0:0x0:0/(0,0)->(0,0)] flags:0 helper:auto  
+
+Policy Group 0010000e
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 10 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(123,123)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 10 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(0,0)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(6): 
+        [17:0x0:0/(0,65535)->(500,500)] flags:0 helper:auto  
+        [17:0x0:0/(0,65535)->(4500,4500)] flags:0 helper:auto  
+        [17:0x0:0/(0,65535)->(1144,1144)] flags:0 helper:auto  
+        [17:0x0:0/(0,65535)->(2000,2000)] flags:0 helper:auto  
+        [17:0x0:0/(0,65535)->(3799,3799)] flags:0 helper:auto  
+        [17:0x0:0/(0,65535)->(8014,8014)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(4): 
+        [17:0x0:0/(0,65535)->(520,520)] flags:0 helper:auto  
+        [89:0x0:0/(0,65535)->(0,65535)] flags:0 helper:auto  
+        [2:0x0:0/(0,65535)->(0,65535)] flags:0 helper:auto  
+        [103:0x0:0/(0,65535)->(0,65535)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 10 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(67,67)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 4 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(68,68)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 5 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(68,68)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 10 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(3): 10.255.1.1-10.255.1.1, uuid_idx=0, 224.0.1.140-224.0.1.140, uuid_idx=0, 255.255.255.255-255.255.255.255, uuid_idx=0, 
+service(4): 
+        [17:0x0:9500/(0,65535)->(5246,5246)] flags:0 helper:auto  
+        [17:0x0:9501/(0,65535)->(5247,5247)] flags:0 helper:auto  
+        [17:0x0:9502/(0,65535)->(5248,5248)] flags:0 helper:auto  
+        [17:0x0:9503/(0,65535)->(5249,5249)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 10 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [17:0x0:0/(0,65535)->(25246,25246)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 10 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [6:0x0:0/(0,65535)->(8013,8013)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=4 action=drop
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000e av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [0:0x0:0/(0,0)->(0,0)] flags:0 helper:auto  
+
+Policy Group 0010000f
+
+policy index=4294967295 uuid_idx=7 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000f av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 4 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 10.0.3.4-10.0.3.4, uuid_idx=0, 
+service(4): 
+        [1:0x0:0/(0,65535)->(13,13)] flags:0 helper:auto  
+        [1:0x0:0/(0,65535)->(8,8)] flags:0 helper:auto  
+        [6:0x0:0/(0,65535)->(443,443)] flags:0 helper:auto  
+        [6:0x0:0/(0,65535)->(22,22)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=7 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000f av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 10 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 10.255.1.1-10.255.1.1, uuid_idx=0, 
+service(2): 
+        [1:0x0:0/(0,65535)->(13,13)] flags:0 helper:auto  
+        [1:0x0:0/(0,65535)->(8,8)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=7 action=accept
+flag (0): 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000f av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 14 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 169.254.100.1-169.254.100.1, uuid_idx=0, 
+service(2): 
+        [1:0x0:0/(0,65535)->(13,13)] flags:0 helper:auto  
+        [1:0x0:0/(0,65535)->(8,8)] flags:0 helper:auto  
+
+policy index=4294967295 uuid_idx=11 action=drop
+flag (800): d_rm 
+schedule()
+cos_fwd=0  cos_rev=0 
+group=0010000f av=00000000 au=00000000 split=00000000
+host=0 chk_client_info=0x0 app_list=0 ips_view=0
+misc=0
+zone(1): 0 -> zone(1): 0 
+source(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+dest(1): 0.0.0.0-255.255.255.255, uuid_idx=0, 
+service(1): 
+        [0:0x0:0/(0,0)->(0,0)] flags:0 helper:auto  
+
+vm-dev-fgt-01 # diagnose firewall policy list
+
+command parse error before 'policy'
+Command fail. Return code -61
+
+vm-dev-fgt-01 # 
+ 
+ 
