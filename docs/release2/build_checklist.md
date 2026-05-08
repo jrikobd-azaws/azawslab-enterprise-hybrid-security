@@ -638,3 +638,20 @@ Date: 2026-05-06 00:59:25 +01:00
 - [x] Alert firing evidence captured
 - [x] Azure Monitor alert email notification captured
 - [x] VM deallocated after validation
+
+---
+
+## O1 FortiGate Service-Chain Closeout Checklist
+
+- [x] FortiGate policy created for Azure workload to HQ ICMP validation.
+- [x] FortiGate address objects created for `10.10.0.0/16` and `192.168.1.0/24`.
+- [x] FortiGate static route added for Azure workload return route via `port2`.
+- [x] Azure workload UDR applied for `192.168.1.0/24 -> VirtualAppliance 10.0.3.36`.
+- [x] FortiGate debug flow showed `Allowed by Policy-1: SNAT`.
+- [x] FortiGate SNAT translated `10.10.0.4 -> 10.0.3.4`.
+- [x] VyOS tcpdump confirmed ICMP request/reply on `vti1`.
+- [x] FortiGate sniffer confirmed four-leg request/reply traversal.
+- [x] SNAT documented as a lab delta.
+- [ ] HQ-initiated inspection toward Azure workloads intentionally deferred.
+- [ ] GatewaySubnet route changes intentionally deferred.
+

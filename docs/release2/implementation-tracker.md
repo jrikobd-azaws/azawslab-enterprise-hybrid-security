@@ -216,7 +216,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P9a   | Azure Monitor Alerts                           | P7         | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                              | Persistent                                                     |
 | P9b   | Backup / Recovery Services Vault               | P5         | 45m       | [ ]    | `docs/release2/evidence/P9b/` | backup policy and protected item verified                            | Persistent                                                     |
 | P9c   | Final Validation & Portfolio Evidence Pack     | P0–P9b     | 1h        | [ ]    | `docs/release2/evidence/P9c/` | all mandatory evidence complete                                      | Persistent                                                     |
-| O1    | FortiGate Service-Chaining / Inspection          | P5, O3a    | 1h        | [ ]    | `docs/release2/evidence/O1/`  | FortiGate route/policy/log counters prove selected hybrid traffic traversal | [E] retain only for dependent validation; destroy/deallocate when no longer needed |
+| O1    | FortiGate Azure-to-HQ Service-Chaining / Inspection | P5, O3a    | 1h        | [x]    | `docs/release2/evidence/O1/`  | Azure workload to HQ traffic validated through FortiGate policy 1 with SNAT lab delta | Retain only while dependent hybrid validation needs FortiGate/VPN resources |
 | O2    | Azure Arc                                      | P5         | 45m       | [ ]    | `docs/release2/evidence/O2/`  | Arc machine shows connected                                          | Persistent / optional                                          |
 | O3a   | Azure VPN Gateway to VyOS Hybrid Connectivity   | P5         | 1.5h      | [x]    | `docs/release2/evidence/O3a/` | VPN connected; AES256/SHA256/DHGroup14/PFS14 validated; workload reaches VyOS LAN gateway | Retain only while O1/O3 service-chaining validation depends on it |
 | O3b   | AWS Cisco Branch with Segmented BGP            | O3a        | 1.5h      | [ ]    | `docs/release2/evidence/O3b/` | AWS branch routes propagate correctly                                | [E] destroy AWS NVA after validation                           |
@@ -948,4 +948,33 @@ VyOS:
 
 The previous direct FortiGate-to-VyOS IPSec objective is retained only as design history and lab-delta context. It is not the current active implementation path.
 
+
+
+
+### O1 Closeout – FortiGate Azure-to-HQ Service Chaining
+
+O1 is validated for the Azure workload to HQ direction.
+
+Validated path:
+
+```text
+10.10.0.4
+  -> workload UDR for 192.168.1.0/24
+  -> FortiGate port2 / 10.0.3.36
+  -> FortiGate policy ID 1
+  -> SNAT to 10.0.3.4
+  -> FortiGate port1
+  -> Azure VPN Gateway
+  -> VyOS / 192.168.1.254
+  -> reply through FortiGate back to 10.10.0.4
+```
+
+Evidence confirms:
+- effective route to `192.168.1.0/24` via `10.0.3.36`
+- FortiGate debug flow `Allowed by Policy-1: SNAT`
+- FortiGate SNAT `10.10.0.4 -> 10.0.3.4`
+- VyOS tcpdump saw requests from `10.0.3.4` and replies to `10.0.3.4`
+- FortiGate sniffer showed the four-leg request/reply path
+
+This does not yet claim HQ-initiated inspection toward Azure workloads. That remains a later routing and enterprise-design decision.
 

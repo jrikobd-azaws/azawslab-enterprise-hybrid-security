@@ -947,3 +947,57 @@ Next implementation target:
 - Do not claim FortiGate inspection until FortiGate policy counters or logs prove traversal.
 - Do not modify GatewaySubnet routes unless separately researched and justified.
 
+
+---
+
+## Current O1 Service-Chain Validation Status
+
+O1 has validated the Azure workload to HQ service-chain path through the FortiGate NVA.
+
+```text
+[Azure Workload VM]
+  vm-dev-client-01 / 10.10.0.4
+        |
+        | workload subnet UDR:
+        | 192.168.1.0/24 -> VirtualAppliance 10.0.3.36
+        v
+[FortiGate trusted interface]
+  port2 / 10.0.3.36
+        |
+        | policy ID 1:
+        | source      = 10.10.0.0/16
+        | destination = 192.168.1.0/24
+        | service     = PING
+        | NAT         = enabled
+        v
+[FortiGate hub interface]
+  port1 / 10.0.3.4
+        |
+        | Azure hub / VPN Gateway path
+        v
+[Azure VPN Gateway]
+  20.100.50.9
+        |
+        | IKEv2/IPSec to VyOS
+        v
+[VyOS / HQ Lab]
+  192.168.1.254 / 192.168.1.0/24
+```
+
+Validated:
+- Azure workload effective route for `192.168.1.0/24` used `VirtualAppliance 10.0.3.36`.
+- FortiGate received traffic on `port2`.
+- FortiGate policy ID 1 allowed the traffic.
+- FortiGate applied SNAT from `10.10.0.4` to `10.0.3.4`.
+- FortiGate forwarded traffic out `port1` toward the Azure VPN Gateway/VyOS path.
+- VyOS observed the SNATed ICMP requests and sent replies.
+- FortiGate received replies on `port1` and forwarded them back out `port2` to the Azure workload.
+
+Lab delta:
+SNAT is used for the first controlled validation to avoid asymmetric return routing. Production design should separately evaluate whether to retain SNAT, use symmetric routing without NAT, or steer VPN Gateway ingress traffic through the NVA.
+
+Out of current O1 scope:
+- HQ/VyOS-initiated inspection toward Azure workloads.
+- GatewaySubnet route changes.
+- Bidirectional NVA inspection design.
+
