@@ -1,0 +1,7 @@
+﻿---
+fortigate_vdom: root
+fortigate_workload_prefix: 10.10.0.0/16
+fortigate_hq_prefix: 192.168.1.0/24
+fortigate_trusted_interface: port2
+fortigate_trusted_ip: 10.0.3.36
+fortigate_enable_lab_snat: true

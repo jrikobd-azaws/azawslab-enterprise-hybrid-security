@@ -1,0 +1,6 @@
+﻿---
+- name: P2b Windows baseline and role orchestration
+  hosts: windows
+  gather_facts: false
+  roles:
+    - common

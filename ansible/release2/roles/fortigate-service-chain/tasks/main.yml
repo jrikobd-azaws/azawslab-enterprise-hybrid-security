@@ -1,0 +1,8 @@
+﻿---
+- name: FortiGate service-chain implementation intentionally gated
+  ansible.builtin.debug:
+    msg:
+      - 'This role is the Release 2 FortiGate service-chain control point.'
+      - 'Before enabling Azure UDR, validate FortiGate route table, policy, logging, and optional lab SNAT.'
+      - 'Do not claim inspection until FortiGate policy counters or logs prove traffic traversal.'
+      - 'Live FortiGate configuration tasks will be added after preflight and design confirmation.'

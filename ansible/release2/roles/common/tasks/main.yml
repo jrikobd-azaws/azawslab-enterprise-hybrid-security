@@ -1,0 +1,30 @@
+﻿---
+- name: Validate WinRM connectivity to Windows target
+  ansible.windows.win_ping:
+
+- name: Ensure temp directory exists
+  ansible.windows.win_file:
+    path: C:\Temp
+    state: directory
+
+- name: Create baseline marker file
+  ansible.windows.win_copy:
+    dest: C:\Temp\p2b-common-baseline.txt
+    content: |
+      Release 2 - P2b common baseline applied
+      Managed by Ansible common role
+
+- name: Ensure RemoteRegistry service is started
+  ansible.windows.win_service:
+    name: RemoteRegistry
+    start_mode: manual
+    state: started
+
+- name: Gather service facts
+  ansible.windows.win_service_info:
+    name: RemoteRegistry
+  register: remote_registry_info
+
+- name: Show RemoteRegistry service state
+  ansible.builtin.debug:
+    var: remote_registry_info.services
