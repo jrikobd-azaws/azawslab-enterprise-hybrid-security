@@ -216,9 +216,9 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P9a   | Azure Monitor Alerts                           | P7         | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                              | Persistent                                                     |
 | P9b   | Backup / Recovery Services Vault               | P5         | 45m       | [ ]    | `docs/release2/evidence/P9b/` | backup policy and protected item verified                            | Persistent                                                     |
 | P9c   | Final Validation & Portfolio Evidence Pack     | P0–P9b     | 1h        | [ ]    | `docs/release2/evidence/P9c/` | all mandatory evidence complete                                      | Persistent                                                     |
-| O1    | FortiGate NVA Dual-Firewall Pattern            | P5, P6     | 1h        | [ ]    | `docs/release2/evidence/O1/`  | UDR steering and East-West inspection validated                      | [E] destroy after validation                                   |
+| O1    | FortiGate Service-Chaining / Inspection          | P5, O3a    | 1h        | [ ]    | `docs/release2/evidence/O1/`  | FortiGate route/policy/log counters prove selected hybrid traffic traversal | [E] retain only for dependent validation; destroy/deallocate when no longer needed |
 | O2    | Azure Arc                                      | P5         | 45m       | [ ]    | `docs/release2/evidence/O2/`  | Arc machine shows connected                                          | Persistent / optional                                          |
-| O3a   | FortiGate ↔ VyOS BGP over IPSec                | O1         | 1.5h      | [ ]    | `docs/release2/evidence/O3a/` | BGP session up; routes learned                                       | [E] destroy cloud-side ephemeral assets if not needed          |
+| O3a   | Azure VPN Gateway to VyOS Hybrid Connectivity   | P5         | 1.5h      | [x]    | `docs/release2/evidence/O3a/` | VPN connected; AES256/SHA256/DHGroup14/PFS14 validated; workload reaches VyOS LAN gateway | Retain only while O1/O3 service-chaining validation depends on it |
 | O3b   | AWS Cisco Branch with Segmented BGP            | O3a        | 1.5h      | [ ]    | `docs/release2/evidence/O3b/` | AWS branch routes propagate correctly                                | [E] destroy AWS NVA after validation                           |
 | O3c   | Global Transit / Transitive Routing Validation | O3a, O3b   | 1h        | [ ]    | `docs/release2/evidence/O3c/` | end-to-end path validation succeeds                                  | [E] teardown transient routing lab components                  |
 | O4    | Entra Global Secure Access                     | P5         | 1h        | [ ]    | `docs/release2/evidence/O4/`  | private access validated; remote network works                       | Optional persistent                                            |
@@ -582,7 +582,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - [ ] machine appears in Azure
 - [ ] tags/policy/management visibility confirmed
 
-### O3a – FortiGate ↔ VyOS BGP over IPSec [E][O]
+### O3a – Azure VPN Gateway to VyOS Hybrid Connectivity [E][O]
 - [ ] VyOS prepared locally
 - [ ] IPSec tunnel established
 - [ ] BGP peering established
@@ -928,3 +928,24 @@ Status:
 - P9a deployment: completed
 - P9a alert firing validation: completed
 - P9a action group email notification validation: completed
+
+
+
+### Current P5/O3a Hybrid Design Note
+
+The active validated hybrid design is Azure VPN Gateway to VyOS IPSec, with FortiGate retained for inspection and service chaining.
+
+```text
+Azure VPN Gateway:
+  connectivity plane and IPSec termination
+
+FortiGate:
+  inspection plane and future service-chain validation
+
+VyOS:
+  HQ/on-prem edge simulation
+```
+
+The previous direct FortiGate-to-VyOS IPSec objective is retained only as design history and lab-delta context. It is not the current active implementation path.
+
+

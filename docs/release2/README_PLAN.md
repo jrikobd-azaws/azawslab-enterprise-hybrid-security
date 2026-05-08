@@ -908,3 +908,42 @@ This illustrates the separation of Compute (Disposable) from User Data (Persiste
 
 
 
+
+---
+
+## Current P5/O3a Hybrid Connectivity Design Alignment
+
+The active P5/O3a design is now the validated Azure VPN Gateway to VyOS model.
+
+```text
+Connectivity plane:
+  Azure VPN Gateway terminates IKEv2/IPSec to VyOS.
+
+Inspection plane:
+  FortiGate remains deployed as the NVA inspection and service-chaining plane.
+
+Remote edge:
+  VyOS on Hyper-V represents the HQ/on-prem lab edge.
+
+Routing plane:
+  Hub/spoke gateway transit propagates the HQ prefix to the workload spoke.
+```
+
+The original direct FortiGate-to-VyOS IPSec goal was tested but not retained as the active implementation path. FortiGate BYOL trial mode exposed only DES-class IPSec proposals, while the project security baseline requires modern encryption. The implementation therefore uses Azure VPN Gateway for AES-256 IPSec termination and reserves FortiGate for controlled inspection/service-chaining validation.
+
+Current validated state:
+- Azure VPN Gateway public IP: `20.100.50.9`
+- VPN Gateway: `vpngw-dev-vyos-norwayeast-01`
+- Local Network Gateway: `lngw-dev-vyos-norwayeast-01`
+- VPN connection: `vcn-dev-vpngw-to-vyos`
+- VyOS peer: `vyos01.hq.azawslab.co.uk`
+- HQ/on-prem prefix: `192.168.1.0/24`
+- Workload VM: `vm-dev-client-01` / `10.10.0.4`
+- FortiGate trusted interface: `10.0.3.36`
+- FortiGate untrusted/hub interface: `10.0.3.4`
+
+Next implementation target:
+- FortiGate service chaining for selected Azure workload to HQ traffic.
+- Do not claim FortiGate inspection until FortiGate policy counters or logs prove traversal.
+- Do not modify GatewaySubnet routes unless separately researched and justified.
+
