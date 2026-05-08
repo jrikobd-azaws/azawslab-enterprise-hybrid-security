@@ -40,6 +40,8 @@ resource "azurerm_virtual_network_peering" "hub_to_workload_spoke" {
   remote_virtual_network_id    = var.workload_spoke_vnet_id
   allow_virtual_network_access = true
   allow_forwarded_traffic      = true
+  allow_gateway_transit        = true
+  use_remote_gateways          = false
 }
 
 resource "azurerm_virtual_network_peering" "workload_spoke_to_hub" {
@@ -49,6 +51,12 @@ resource "azurerm_virtual_network_peering" "workload_spoke_to_hub" {
   remote_virtual_network_id    = azurerm_virtual_network.hub.id
   allow_virtual_network_access = true
   allow_forwarded_traffic      = true
+  allow_gateway_transit        = false
+  use_remote_gateways          = true
+
+  depends_on = [
+    azurerm_virtual_network_peering.hub_to_workload_spoke
+  ]
 }
 
 resource "azurerm_route_table" "workload_to_hub" {
@@ -199,3 +207,5 @@ resource "azurerm_bastion_host" "this" {
     public_ip_address_id = azurerm_public_ip.bastion[0].id
   }
 }
+
+
