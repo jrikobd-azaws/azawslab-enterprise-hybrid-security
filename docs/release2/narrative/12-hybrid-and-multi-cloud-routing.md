@@ -142,3 +142,43 @@ VyOS LAN source 192.168.1.254 -> Azure hub FortiGate interface 10.0.3.4
 ```
 
 This milestone demonstrates a realistic enterprise architecture pattern: native Azure VPN Gateway for supportable encrypted connectivity, with FortiGate retained as the NVA inspection plane for future service chaining.
+
+---
+
+## Next Phase Gate: FortiGate Service Chaining / Inspection
+
+The next implementation target is controlled FortiGate service chaining for selected Azure workload to HQ traffic.
+
+This must not be treated as only an Azure UDR change. The FortiGate must be able to route, permit, log, and count the traffic before Azure workload traffic is steered to it.
+
+Target path:
+
+```text
+[Azure Workload VM]
+  10.10.0.4
+      |
+      | future narrow UDR:
+      | 192.168.1.0/24 -> VirtualAppliance 10.0.3.36
+      v
+[FortiGate trusted interface]
+  10.0.3.36
+      |
+      | FortiGate route / policy / logging
+      | optional lab SNAT only if required for first symmetric validation
+      v
+[Azure VPN Gateway]
+  20.100.50.9
+      |
+      v
+[VyOS / HQ Lab]
+  192.168.1.254 / 192.168.1.0/24
+```
+
+Required validation before claiming inspection:
+- workload effective route shows `192.168.1.0/24` via `10.0.3.36`
+- Azure workload can reach `192.168.1.254`
+- Azure VPN connection remains connected and counters increase
+- FortiGate policy counters or logs prove traffic traversal
+
+Do not modify GatewaySubnet routes unless separately researched and justified.
+

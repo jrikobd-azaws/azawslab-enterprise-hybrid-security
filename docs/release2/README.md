@@ -3,7 +3,7 @@
 > **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**  
 > Status: **In progress** – see [implementation tracker](./implementation-tracker.md)
 
-> Current implemented milestone: **P5 Hub-Spoke Networking completed and validated**, with post-P5 platform-management state split completed for the temporary Ansible management host.
+> Current implemented milestone: **P5/O3a Azure VPN Gateway to VyOS hybrid connectivity completed and validated**, with FortiGate retained as the NVA inspection/service-chaining plane for the next controlled validation phase.
 
 ## Overview
 
@@ -29,7 +29,7 @@ All resources follow a strict **naming convention** and are validated primarily 
 | **Governance & MSP** | P3, P4 | Policy-as-code (allowed regions, VM SKUs, mandatory tags), least-privilege RBAC, Azure Lighthouse cross-tenant delegation |
 | **Observability & SIEM** | P7, P8, P9a | Defender for Cloud (CSPM), Microsoft Sentinel (analytic rules, incidents), Azure Monitor alerts |
 | **Disaster Recovery** | P9b | Recovery Services Vault with immutability, Multi-User Authorization (Resource Guard), optional ASR-aligned controls |
-| **Hybrid & Multi-Cloud** | O2, O3a, O3b, O3c | Azure Arc, BGP over IPSec (FortiGate ↔ VyOS on Hyper-V), AWS Cisco NVA with segmented BGP, transitive routing validation |
+| **Hybrid & Multi-Cloud** | O2, O3a, O3b, O3c | Azure Arc, Azure VPN Gateway to VyOS IPSec, FortiGate service-chaining/inspection, AWS Cisco NVA with segmented BGP, transitive routing validation |
 | **Zero Trust & VDI** | O4, O5 | Entra Global Secure Access (ZTNA / private access), AVD with FSLogix profile containers |
 
 ---
@@ -201,6 +201,8 @@ Candidate regions and SKUs were assessed against actual subscription-level deplo
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
+
+
 
 
 

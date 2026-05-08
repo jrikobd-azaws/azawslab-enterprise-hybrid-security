@@ -114,7 +114,7 @@ Complete these before Phase P0:
 - `P6` Azure Firewall
 - `O1` FortiGate NVA dual-firewall pattern
 - `O2` Azure Arc
-- `O3a` FortiGate <-> VyOS BGP over IPSec
+- `O3a` Azure VPN Gateway to VyOS IPSec with FortiGate service chaining / inspection
 - `O3b` AWS Cisco branch with segmented BGP
 - `O3c` global transit / transitive routing validation
 - `O4` Entra Global Secure Access
@@ -1153,54 +1153,105 @@ Project non-Azure machines into Azure management.
 
 ---
 
-# PHASE O3a: FORTIGATE <-> VyOS BGP OVER IPSEC
-==============================================
+# PHASE O3a: AZURE VPN GATEWAY TO VyOS HYBRID CONNECTIVITY
+=========================================================
 
 ## Objective
-Establish hybrid connectivity between Azure and the on-prem simulated environment using FortiGate on Azure and VyOS on Hyper-V with BGP over IPSec.
+Establish secure hybrid connectivity between Azure and the Hyper-V/VyOS HQ lab using Azure VPN Gateway for standards-based IPSec termination, while retaining FortiGate as the inspection and service-chaining plane.
 
-## Key Configuration Snapshot
-- **Azure edge:** FortiGate NVA
-- **On-prem edge:** VyOS
-- **Azure / FortiGate ASN:** `65515`
-- **On-prem VyOS ASN:** `65001`
-- **On-prem advertised prefix:** `192.168.1.0/24`
+## Active Design Decision
+The original FortiGate-to-VyOS IPSec target was tested but not retained as the active design because the FortiGate BYOL evaluation mode exposed only DES-class IPSec proposals. The project did not weaken the security baseline to accommodate lab licensing limits.
 
-## Text Diagram
+The validated active design is:
+
 ```text
-             [Azure FortiGate NVA]
-                  (ASN 65515)
-                        ||
-                   IPSec + BGP
-                        ||
-                 [VyOS On-Prem Edge]
-                    (ASN 65001)
-                        |
-                        v
-                [192.168.1.0/24 HQ Lab]
+[Azure Workload Spoke]
+  vm-dev-client-01 / 10.10.0.4
+        |
+        | route to 192.168.1.0/24 learned through hub gateway transit
+        v
+[Azure Hub VPN Gateway]
+  vpngw-dev-vyos-norwayeast-01
+  public IP: 20.100.50.9
+        |
+        | IKEv2 / IPSec
+        | AES256 / SHA256 / DHGroup14 / PFS14 / NAT-T
+        v
+[VyOS on Hyper-V]
+  vyos01.hq.azawslab.co.uk
+  LAN gateway: 192.168.1.254
+        |
+        v
+[HQ Lab Network]
+  192.168.1.0/24
 ```
 
-## Steps
-- prepare VyOS
-- configure IPSec
-- configure BGP
-- validate routing tables and tunnel state
+## Key Configuration Snapshot
+- **Connectivity plane:** Azure VPN Gateway
+- **Inspection plane:** FortiGate NVA
+- **On-prem edge:** VyOS on Hyper-V
+- **Azure VPN Gateway:** `vpngw-dev-vyos-norwayeast-01`
+- **Azure VPN Gateway public IP:** `20.100.50.9`
+- **Local Network Gateway:** `lngw-dev-vyos-norwayeast-01`
+- **VPN connection:** `vcn-dev-vpngw-to-vyos`
+- **VyOS FQDN:** `vyos01.hq.azawslab.co.uk`
+- **HQ prefix:** `192.168.1.0/24`
+- **Workload VM:** `vm-dev-client-01` / `10.10.0.4`
+- **FortiGate untrusted/hub interface:** `10.0.3.4`
+- **FortiGate trusted interface:** `10.0.3.36`
+
+## Terraform Ownership
+These resources belong to:
+
+```text
+terraform/platform-networking/dev
+backend key: platform-networking-dev.tfstate
+```
+
+This root owns hub/spoke networking, FortiGate Azure NVA resources, Azure VPN Gateway resources, Local Network Gateway, VPN connection, and route-table updates related to hybrid transit.
+
+## Completed Validation
+- Azure VPN connection reached `Connected`.
+- VyOS IKE SA and IPsec SA were up.
+- Azure `list-ike-sas` confirmed AES256/SHA256/DHGroup14 and QuickMode SA.
+- PFS14 was observed in later validation.
+- Hub/spoke gateway transit was fixed.
+- Workload effective route showed `192.168.1.0/24` via `VirtualNetworkGateway`.
+- Azure workload VM `10.10.0.4` successfully reached VyOS LAN gateway `192.168.1.254`.
+- VyOS successfully reached Azure FortiGate hub interface `10.0.3.4` using source address `192.168.1.254`.
+
+## Lab Delta
+In production, the remote peer would normally use static public addressing, redundant appliances, formal change control, and enterprise-grade routing/firewall policy review. In this lab, VyOS uses Dynamic DNS and the FortiGate trial licensing limitation is documented as a lab constraint.
+
+## Next Phase
+FortiGate service chaining / inspection is the next controlled validation target.
+
+Do not treat service chaining as only an Azure UDR change. It must include:
+- FortiGate route validation
+- FortiGate firewall policy
+- FortiGate logging/counter evidence
+- optional lab SNAT only if needed to avoid asymmetric routing during first validation
+- Azure workload UDR only after FortiGate forwarding is ready
+
+Do not claim FortiGate inspection until FortiGate counters or logs prove traffic traversal.
 
 ## Minimum Validation
-- [ ] IPSec tunnel established
-- [ ] BGP session up
-- [ ] Azure learns `192.168.1.0/24`
-- [ ] VyOS learns intended Azure prefixes
-- [ ] end-to-end reachability succeeds
+- [x] Azure VPN Gateway to VyOS tunnel connected
+- [x] AES256/SHA256/DHGroup14/PFS14 validated
+- [x] workload route to `192.168.1.0/24` propagated through hub gateway transit
+- [x] workload VM reaches VyOS LAN gateway
+- [x] VyOS reaches Azure FortiGate hub interface
+- [ ] FortiGate service-chain inspection validated in O1
 
 ## Suggested Evidence
 - `docs/release2/evidence/O3a/ipsec-status.txt`
-- `docs/release2/evidence/O3a/bgp-summary-vyos.txt`
-- `docs/release2/evidence/O3a/route-table-validation.txt`
-- `docs/release2/evidence/O3a/end-to-end-connectivity.txt`
+- `docs/release2/evidence/O3a/azure-list-ike-sas.txt`
+- `docs/release2/evidence/O3a/workload-effective-route.txt`
+- `docs/release2/evidence/O3a/data-plane-validation.txt`
+- `docs/release2/evidence/O3a/hybrid-connectivity-decision-log.md`
 
 ## Teardown Reminder
-Destroy cloud-side ephemeral components after validation if not required for O3c.
+Keep Azure VPN Gateway, FortiGate, and related paid resources only while needed for dependent O1/O3 validation. If retained, document the FinOps reason. If disabled later, preserve the evidence and expected rollback path.
 
 ---
 
@@ -1436,6 +1487,8 @@ docs/
 - Capture text evidence first, screenshots second
 - Tear down expensive optional resources quickly
 - Update `implementation-tracker.md` after each completed phase
+
+
 
 
 
