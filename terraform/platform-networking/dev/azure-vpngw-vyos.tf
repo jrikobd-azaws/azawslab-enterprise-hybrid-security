@@ -17,7 +17,7 @@ variable "enable_o3a_azure_vpngw_vyos" {
 
 variable "o3a_azure_vpngw_sku" {
   type        = string
-  default     = "VpnGw1"
+  default     = "VpnGw1AZ"
   description = "Azure VPN Gateway SKU for O3a lab fallback connectivity."
 }
 
@@ -153,4 +153,5 @@ resource "azurerm_virtual_network_gateway_connection" "o3a_vpngw_to_vyos" {
 
   tags = local.o3a_vpngw_tags
 }
+
 
