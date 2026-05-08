@@ -1496,3 +1496,63 @@ docs/
 
 
 
+
+---
+
+## O1 Closeout Addendum – FortiGate Azure-to-HQ Service Chaining
+
+O1 has validated controlled Azure workload to HQ service chaining through the FortiGate NVA.
+
+### Validated Direction
+
+```text
+Azure workload -> FortiGate -> Azure VPN Gateway -> VyOS/HQ
+```
+
+### Validated Path
+
+```text
+[Azure Workload VM]
+  10.10.0.4
+      |
+      | UDR:
+      | 192.168.1.0/24 -> VirtualAppliance 10.0.3.36
+      v
+[FortiGate port2]
+  10.0.3.36
+      |
+      | policy ID 1
+      | SNAT enabled
+      v
+[FortiGate port1]
+  10.0.3.4
+      |
+      v
+[Azure VPN Gateway]
+  20.100.50.9
+      |
+      v
+[VyOS / HQ]
+  192.168.1.254
+```
+
+### Proof Summary
+
+- Workload effective route showed `192.168.1.0/24 -> VirtualAppliance 10.0.3.36`.
+- FortiGate debug flow confirmed `Allowed by Policy-1: SNAT`.
+- FortiGate translated `10.10.0.4 -> 10.0.3.4`.
+- VyOS observed ICMP requests from `10.0.3.4` and sent replies.
+- FortiGate sniffer showed request and reply traversal across both interfaces.
+
+### Lab Delta
+
+SNAT was used for the first controlled proof to avoid asymmetric return routing. This validates the service-chain path but should not be presented as the only production design. A later enterprise design decision should evaluate symmetric routing without NAT or VPN Gateway ingress steering through the NVA.
+
+### Explicit Non-Claims
+
+This phase does not yet claim:
+- HQ-initiated traffic inspection toward Azure workloads.
+- GatewaySubnet route-table changes.
+- full bidirectional NVA inspection.
+- production-ready no-NAT service chaining.
+

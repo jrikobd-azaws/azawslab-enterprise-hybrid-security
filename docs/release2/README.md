@@ -3,7 +3,7 @@
 > **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**  
 > Status: **In progress** – see [implementation tracker](./implementation-tracker.md)
 
-> Current implemented milestone: **P5/O3a Azure VPN Gateway to VyOS hybrid connectivity completed and validated**, with FortiGate retained as the NVA inspection/service-chaining plane for the next controlled validation phase.
+> Current implemented milestone: **O1 FortiGate Azure-to-HQ service-chain validation completed**, with FortiGate policy/SNAT proof, Azure workload UDR to the NVA, and Azure VPN Gateway to VyOS retained as the IPSec termination path.
 
 ## Overview
 
@@ -201,6 +201,7 @@ Candidate regions and SKUs were assessed against actual subscription-level deplo
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
+
 
 
 

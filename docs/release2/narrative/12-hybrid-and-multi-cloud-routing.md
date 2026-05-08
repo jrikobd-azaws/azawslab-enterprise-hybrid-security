@@ -242,3 +242,106 @@ Security plane:
 
 SNAT is enabled on the first FortiGate validation policy to avoid asymmetric return routing during the initial proof. This is a controlled lab delta and should be revisited before presenting the design as a production service-chaining pattern.
 
+
+---
+
+## O1 Closeout: FortiGate Azure-to-HQ Service-Chain Validation
+
+O1 validated the first controlled FortiGate NVA service-chain path for Azure workload traffic destined to the HQ lab subnet.
+
+### Validated Traffic Direction
+
+```text
+Azure workload -> HQ/VyOS
+```
+
+HQ/VyOS-initiated inspection toward Azure workloads remains a later design decision.
+
+### Final Validated Path
+
+```text
+[Azure Workload VM]
+  vm-dev-client-01 / 10.10.0.4
+        |
+        | Azure workload subnet UDR:
+        | 192.168.1.0/24 -> VirtualAppliance 10.0.3.36
+        v
+[FortiGate trusted interface]
+  port2 / 10.0.3.36
+        |
+        | FortiGate policy ID 1:
+        | source      = 10.10.0.0/16
+        | destination = 192.168.1.0/24
+        | service     = PING
+        | action      = accept
+        | logging     = enabled
+        | NAT         = enabled
+        v
+[FortiGate hub interface]
+  port1 / 10.0.3.4
+        |
+        | existing Azure hub path
+        v
+[Azure VPN Gateway]
+  20.100.50.9
+        |
+        | IKEv2/IPSec to VyOS
+        v
+[VyOS / HQ Lab]
+  192.168.1.254 / 192.168.1.0/24
+        |
+        | ICMP reply returns to 10.0.3.4,
+        | FortiGate de-NATs and forwards back to 10.10.0.4
+        v
+[Azure Workload VM]
+  vm-dev-client-01 / 10.10.0.4
+```
+
+### Evidence Summary
+
+Azure routing proof:
+```text
+192.168.1.0/24 -> VirtualAppliance -> 10.0.3.36
+```
+
+FortiGate debug flow proof:
+```text
+Allowed by Policy-1: SNAT
+SNAT 10.10.0.4 -> 10.0.3.4
+gw 10.0.3.1 via port1
+```
+
+VyOS packet proof:
+```text
+vti1 In   10.0.3.4 -> 192.168.1.254  ICMP echo request
+vti1 Out  192.168.1.254 -> 10.0.3.4  ICMP echo reply
+```
+
+FortiGate four-leg sniffer proof:
+```text
+port2 in   10.10.0.4 -> 192.168.1.254  echo request
+port1 out  10.0.3.4 -> 192.168.1.254   echo request
+port1 in   192.168.1.254 -> 10.0.3.4   echo reply
+port2 out  192.168.1.254 -> 10.10.0.4  echo reply
+```
+
+### Lab Delta
+
+SNAT was enabled on the first validation policy to avoid asymmetric return routing. This is acceptable for the lab proof because the purpose was to validate that the FortiGate NVA could receive, inspect, translate, forward, and return Azure workload traffic through the hybrid path.
+
+A production design should separately evaluate:
+- whether SNAT should remain
+- whether symmetric routing without NAT is required
+- whether VPN Gateway ingress traffic should be steered through FortiGate
+- whether GatewaySubnet route-table association is appropriate and supportable for the chosen Azure design
+
+### Final O1 Status
+
+O1 is validated for Azure workload to HQ service chaining through FortiGate NVA.
+
+Not yet validated:
+- HQ-initiated traffic to Azure workloads through FortiGate
+- bidirectional inspection
+- GatewaySubnet ingress steering
+- production no-NAT service-chain design
+
