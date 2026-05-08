@@ -1,0 +1,96 @@
+﻿name: Release 2 - Platform Networking Hybrid Apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "Platform-networking deployment profile"
+        required: true
+        default: "current-hybrid"
+        type: choice
+        options:
+          - current-hybrid
+          - o1-service-chain
+      confirm_apply:
+        description: "Set to true to apply the reviewed Terraform plan"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  platform-networking-hybrid:
+    name: Platform networking hybrid plan/apply
+    runs-on: ubuntu-latest
+    environment: release-2
+
+    defaults:
+      run:
+        working-directory: terraform/platform-networking/dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init
+        run: terraform init -reconfigure
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Select platform-networking profile
+        id: profile
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          case "${{ github.event.inputs.profile }}" in
+            current-hybrid)
+              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=false'" >> "$GITHUB_OUTPUT"
+              ;;
+            o1-service-chain)
+              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=true'" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "Unsupported profile: ${{ github.event.inputs.profile }}"
+              exit 1
+              ;;
+          esac
+
+      - name: Terraform plan - platform networking hybrid
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          terraform plan \
+            -out=tfplan \
+            ${{ steps.profile.outputs.flags }}
+
+      - name: Terraform apply - platform networking hybrid
+        if: ${{ github.event.inputs.confirm_apply == 'true' }}
+        run: terraform apply -auto-approve tfplan
+
+      - name: Skip apply
+        if: ${{ github.event.inputs.confirm_apply != 'true' }}
+        run: |
+          echo "Apply skipped because confirm_apply was not true."
+          echo "Review the Terraform plan output, then rerun with confirm_apply=true when ready."

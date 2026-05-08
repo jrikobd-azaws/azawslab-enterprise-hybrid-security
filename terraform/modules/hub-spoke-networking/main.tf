@@ -70,6 +70,20 @@ resource "azurerm_subnet_route_table_association" "workload" {
   subnet_id      = var.workload_subnet_id
   route_table_id = azurerm_route_table.workload_to_hub.id
 }
+resource "azurerm_route" "o1_hq_via_fortigate" {
+  count = var.enable_o1_fortigate_service_chain ? 1 : 0
+
+  name                   = var.o1_service_chain_route_name
+  resource_group_name    = var.workload_spoke_resource_group_name
+  route_table_name       = azurerm_route_table.workload_to_hub.name
+  address_prefix         = var.o1_service_chain_hq_prefix
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = var.o1_service_chain_next_hop_ip
+
+  depends_on = [
+    azurerm_subnet_route_table_association.workload
+  ]
+}
 
 resource "azurerm_public_ip" "azure_firewall" {
   count = var.enable_azure_firewall ? 1 : 0
@@ -207,5 +221,6 @@ resource "azurerm_bastion_host" "this" {
     public_ip_address_id = azurerm_public_ip.bastion[0].id
   }
 }
+
 
 
