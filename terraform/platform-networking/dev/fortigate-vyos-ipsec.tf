@@ -87,6 +87,18 @@ variable "p5_fortigate_mgmt_source_cidr_secret_name" {
   description = "Key Vault secret name containing the allowed source CIDR for FortiGate management access."
 }
 
+variable "p5_use_key_vault_for_vyos_public_cidr" {
+  type        = bool
+  default     = true
+  description = "When true, read the VyOS public source CIDR from the existing shared Key Vault."
+}
+
+variable "p5_vyos_public_source_cidr_secret_name" {
+  type        = string
+  default     = "p5-vyos-public-source-cidr"
+  description = "Key Vault secret name containing the VyOS public source CIDR for IPSec NSG allowance."
+}
+
 variable "p5_fortigate_admin_password" {
   type        = string
   default     = null
@@ -187,9 +199,16 @@ data "azurerm_key_vault_secret" "p5_fortigate_mgmt_source_cidr" {
   key_vault_id = data.azurerm_key_vault.p5_shared[0].id
 }
 
+data "azurerm_key_vault_secret" "p5_vyos_public_source_cidr" {
+  count        = var.enable_p5_fortigate && var.p5_use_key_vault_for_vyos_public_cidr ? 1 : 0
+  name         = var.p5_vyos_public_source_cidr_secret_name
+  key_vault_id = data.azurerm_key_vault.p5_shared[0].id
+}
+
 locals {
   p5_fortigate_admin_password   = var.enable_p5_fortigate && var.p5_use_key_vault_for_fortigate_admin ? data.azurerm_key_vault_secret.p5_fortigate_admin_password[0].value : var.p5_fortigate_admin_password
   p5_fortigate_mgmt_source_cidr = var.enable_p5_fortigate && var.p5_use_key_vault_for_fortigate_admin ? data.azurerm_key_vault_secret.p5_fortigate_mgmt_source_cidr[0].value : null
+  p5_vyos_public_source_cidrs   = var.enable_p5_fortigate && var.p5_use_key_vault_for_vyos_public_cidr ? [data.azurerm_key_vault_secret.p5_vyos_public_source_cidr[0].value] : var.p5_vyos_public_source_cidrs
 }
 
 # -----------------------------------------------------------------------------
@@ -250,7 +269,7 @@ resource "azurerm_network_security_rule" "fortigate_mgmt" {
 }
 
 resource "azurerm_network_security_rule" "fortigate_ipsec_from_vyos" {
-  count                       = var.enable_p5_fortigate && length(var.p5_vyos_public_source_cidrs) > 0 ? 1 : 0
+  count                       = var.enable_p5_fortigate && length(local.p5_vyos_public_source_cidrs) > 0 ? 1 : 0
   name                        = "Allow-VyOS-IPSec-IKE-NATT"
   priority                    = 110
   direction                   = "Inbound"
@@ -258,7 +277,7 @@ resource "azurerm_network_security_rule" "fortigate_ipsec_from_vyos" {
   protocol                    = "Udp"
   source_port_range           = "*"
   destination_port_ranges     = ["500", "4500"]
-  source_address_prefixes     = var.p5_vyos_public_source_cidrs
+  source_address_prefixes     = local.p5_vyos_public_source_cidrs
   destination_address_prefix  = "*"
   resource_group_name         = data.azurerm_resource_group.p5_connectivity.name
   network_security_group_name = azurerm_network_security_group.fortigate_untrusted[0].name
@@ -363,6 +382,7 @@ resource "azurerm_linux_virtual_machine" "fortigate" {
 
   tags = var.p5_fortigate_tags
 }
+
 
 
 
