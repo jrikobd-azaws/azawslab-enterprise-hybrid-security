@@ -50,3 +50,27 @@ Use example inventories and runtime secret injection instead.
 FortiGate service-chain work must include route, policy, logging, and counter validation.
 
 Do not claim inspection until FortiGate policy counters or logs prove traffic traversal.
+
+## O1 FortiGate Service-Chain Codification
+
+The FortiGate service-chain role codifies the validated O1 manual configuration.
+
+```text
+Terraform:
+  Azure route table and UDR
+
+Ansible:
+  FortiGate address objects
+  FortiGate static routes
+  FortiGate policy
+  SNAT lab-delta setting
+```
+
+Runbook playbook:
+
+```text
+ansible/release2/playbooks/fortigate-service-chain.yml
+```
+
+Do not commit FortiGate credentials, API tokens, private keys, or vault password files.
+

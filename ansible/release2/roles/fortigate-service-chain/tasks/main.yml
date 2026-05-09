@@ -1,8 +1,73 @@
 ﻿---
-- name: FortiGate service-chain implementation intentionally gated
+- name: Ensure O1 Azure workload address object exists
+  fortinet.fortios.fortios_firewall_address:
+    vdom: "{{ fortigate_vdom }}"
+    state: present
+    firewall_address:
+      name: "{{ fortigate_o1_azure_workload_address_name }}"
+      subnet: "{{ fortigate_o1_azure_workload_prefix }}"
+      comment: "{{ fortigate_o1_azure_workload_comment }}"
+
+- name: Ensure O1 HQ lab address object exists
+  fortinet.fortios.fortios_firewall_address:
+    vdom: "{{ fortigate_vdom }}"
+    state: present
+    firewall_address:
+      name: "{{ fortigate_o1_hq_address_name }}"
+      subnet: "{{ fortigate_o1_hq_prefix }}"
+      comment: "{{ fortigate_o1_hq_comment }}"
+
+- name: Ensure O1 return route to Azure workload spoke exists
+  fortinet.fortios.fortios_router_static:
+    vdom: "{{ fortigate_vdom }}"
+    state: present
+    router_static:
+      seq_num: "{{ fortigate_o1_workload_return_route_seq }}"
+      dst: "{{ fortigate_o1_workload_return_route_dst }}"
+      gateway: "{{ fortigate_o1_workload_return_route_gateway }}"
+      device: "{{ fortigate_o1_workload_return_route_device }}"
+      comment: "{{ fortigate_o1_workload_return_route_comment }}"
+
+- name: Ensure O1 explicit HQ route via Azure hub/VPN path exists
+  fortinet.fortios.fortios_router_static:
+    vdom: "{{ fortigate_vdom }}"
+    state: present
+    router_static:
+      seq_num: "{{ fortigate_o1_hq_route_seq }}"
+      dst: "{{ fortigate_o1_hq_route_dst }}"
+      gateway: "{{ fortigate_o1_hq_route_gateway }}"
+      device: "{{ fortigate_o1_hq_route_device }}"
+      comment: "{{ fortigate_o1_hq_route_comment }}"
+
+- name: Ensure O1 Azure workload to HQ ICMP SNAT policy exists
+  fortinet.fortios.fortios_firewall_policy:
+    vdom: "{{ fortigate_vdom }}"
+    state: present
+    firewall_policy:
+      policyid: "{{ fortigate_o1_policy_id }}"
+      name: "{{ fortigate_o1_policy_name }}"
+      status: "{{ fortigate_o1_policy_status }}"
+      srcintf:
+        - name: "{{ fortigate_o1_policy_src_interface }}"
+      dstintf:
+        - name: "{{ fortigate_o1_policy_dst_interface }}"
+      srcaddr:
+        - name: "{{ fortigate_o1_azure_workload_address_name }}"
+      dstaddr:
+        - name: "{{ fortigate_o1_hq_address_name }}"
+      action: "{{ fortigate_o1_policy_action }}"
+      schedule: "{{ fortigate_o1_policy_schedule }}"
+      service:
+        - name: "{{ fortigate_o1_policy_service }}"
+      logtraffic: "{{ fortigate_o1_policy_logtraffic }}"
+      nat: "{{ fortigate_o1_policy_nat }}"
+      comments: "{{ fortigate_o1_policy_comments }}"
+
+- name: Show O1 service-chain codification summary
   ansible.builtin.debug:
     msg:
-      - 'This role is the Release 2 FortiGate service-chain control point.'
-      - 'Before enabling Azure UDR, validate FortiGate route table, policy, logging, and optional lab SNAT.'
-      - 'Do not claim inspection until FortiGate policy counters or logs prove traffic traversal.'
-      - 'Live FortiGate configuration tasks will be added after preflight and design confirmation.'
+      - "O1 FortiGate service-chain desired state is codified."
+      - "Direction: Azure workload 10.10.0.0/16 to HQ 192.168.1.0/24."
+      - "Policy: {{ fortigate_o1_policy_name }}."
+      - "Lab delta: SNAT is enabled for the first controlled validation."
+      - "This role does not configure HQ-initiated inspection or GatewaySubnet ingress steering."
