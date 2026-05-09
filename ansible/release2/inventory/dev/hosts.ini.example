@@ -3,9 +3,23 @@ vm-dev-client-01 ansible_host=10.10.0.4
 
 [windows:vars]
 ansible_user=REDACTED
-ansible_password=REDACTED
+# ansible_password must be supplied at runtime using Ansible Vault, environment-specific uncommitted inventory, or another approved secret source.
 ansible_connection=winrm
 ansible_port=5985
 ansible_winrm_scheme=http
 ansible_winrm_transport=ntlm
 ansible_winrm_server_cert_validation=ignore
+
+# FortiGate API-token authentication pattern.
+# Do not commit real tokens.
+# Set the token at runtime on the management host:
+#   export FORTIOS_ACCESS_TOKEN='<token value>'
+
+[fortigate:vars]
+ansible_connection=httpapi
+ansible_network_os=fortinet.fortios.fortios
+ansible_httpapi_use_ssl=true
+ansible_httpapi_validate_certs=false
+ansible_httpapi_port=443
+ansible_httpapi_token={{ lookup('env', 'FORTIOS_ACCESS_TOKEN') }}
+
