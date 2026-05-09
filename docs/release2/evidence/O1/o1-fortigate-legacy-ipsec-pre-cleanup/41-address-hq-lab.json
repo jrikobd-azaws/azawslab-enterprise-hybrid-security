@@ -1,0 +1,49 @@
+{
+  "http_method":"GET",
+  "revision":"118ccec1dfa9bcda8f86ce238d9d7654",
+  "results":[
+    {
+      "name":"HQ_LAB_192_168_1_0_24",
+      "q_origin_key":"HQ_LAB_192_168_1_0_24",
+      "uuid":"ec7ac8aa-4aec-51f1-a4f4-031640d0c07d",
+      "subnet":"192.168.1.0 255.255.255.0",
+      "type":"ipmask",
+      "sub-type":"sdn",
+      "clearpass-spt":"unknown",
+      "macaddr":[
+      ],
+      "country":"",
+      "cache-ttl":0,
+      "sdn":"",
+      "fsso-group":[
+      ],
+      "interface":"",
+      "obj-type":"ip",
+      "tag-detection-level":"",
+      "tag-type":"",
+      "dirty":"dirty",
+      "comment":"Release 2 O1 HQ lab prefix behind VyOS",
+      "associated-interface":"",
+      "color":0,
+      "filter":"",
+      "sdn-addr-type":"private",
+      "node-ip-only":"disable",
+      "obj-id":"",
+      "list":[
+      ],
+      "tagging":[
+      ],
+      "allow-routing":"disable",
+      "fabric-object":"disable"
+    }
+  ],
+  "vdom":"root",
+  "path":"firewall",
+  "name":"address",
+  "mkey":"HQ_LAB_192_168_1_0_24",
+  "status":"success",
+  "http_status":200,
+  "serial":"FGVMEVRJ22G4-ZAC",
+  "version":"v7.2.13",
+  "build":1762
+}

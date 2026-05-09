@@ -1,0 +1,18 @@
+{
+  "http_method":"GET",
+  "results":{
+    "model_name":"FortiGate",
+    "model_number":"VM64-AZURE",
+    "model":"FGVMAZ",
+    "hostname":"vm-dev-fgt-01",
+    "log_disk_status":"not_available"
+  },
+  "vdom":"root",
+  "path":"system",
+  "name":"status",
+  "action":"",
+  "status":"success",
+  "serial":"FGVMEVRJ22G4-ZAC",
+  "version":"v7.2.13",
+  "build":1762
+}
