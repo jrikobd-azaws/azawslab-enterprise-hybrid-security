@@ -1,7 +1,44 @@
 ﻿---
+# Release 2 O1 FortiGate service-chain validated configuration.
+#
+# Scope:
+#   Azure workload -> FortiGate -> Azure VPN Gateway -> VyOS/HQ
+#
+# Out of scope:
+#   HQ/VyOS-initiated inspection toward Azure workloads.
+#   GatewaySubnet ingress steering.
+#   production no-NAT service chaining.
+
 fortigate_vdom: root
-fortigate_workload_prefix: 10.10.0.0/16
-fortigate_hq_prefix: 192.168.1.0/24
-fortigate_trusted_interface: port2
-fortigate_trusted_ip: 10.0.3.36
-fortigate_enable_lab_snat: true
+
+fortigate_o1_azure_workload_address_name: AZURE_WORKLOAD_10_10_0_0_16
+fortigate_o1_azure_workload_prefix: 10.10.0.0 255.255.0.0
+fortigate_o1_azure_workload_comment: Release 2 O1 Azure workload spoke prefix
+
+fortigate_o1_hq_address_name: HQ_LAB_192_168_1_0_24
+fortigate_o1_hq_prefix: 192.168.1.0 255.255.255.0
+fortigate_o1_hq_comment: Release 2 O1 HQ lab prefix behind VyOS
+
+fortigate_o1_workload_return_route_seq: 10
+fortigate_o1_workload_return_route_dst: 10.10.0.0 255.255.0.0
+fortigate_o1_workload_return_route_gateway: 10.0.3.33
+fortigate_o1_workload_return_route_device: port2
+fortigate_o1_workload_return_route_comment: Release 2 O1 return route to Azure workload spoke via trusted interface
+
+fortigate_o1_hq_route_seq: 11
+fortigate_o1_hq_route_dst: 192.168.1.0 255.255.255.0
+fortigate_o1_hq_route_gateway: 10.0.3.1
+fortigate_o1_hq_route_device: port1
+fortigate_o1_hq_route_comment: Release 2 O1 explicit HQ route via Azure hub/VPN Gateway path
+
+fortigate_o1_policy_id: 1
+fortigate_o1_policy_name: O1-AzureWorkload-to-HQ-ICMP-SNAT
+fortigate_o1_policy_src_interface: port2
+fortigate_o1_policy_dst_interface: port1
+fortigate_o1_policy_service: PING
+fortigate_o1_policy_schedule: always
+fortigate_o1_policy_action: accept
+fortigate_o1_policy_logtraffic: all
+fortigate_o1_policy_nat: enable
+fortigate_o1_policy_status: enable
+fortigate_o1_policy_comments: Release 2 O1 lab validation policy. SNAT enabled to avoid asymmetric return path during first service-chain test.

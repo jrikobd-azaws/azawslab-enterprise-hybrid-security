@@ -1,0 +1,6 @@
+﻿---
+- name: Codify Release 2 O1 FortiGate service-chain configuration
+  hosts: fortigate
+  gather_facts: false
+  roles:
+    - fortigate-service-chain
