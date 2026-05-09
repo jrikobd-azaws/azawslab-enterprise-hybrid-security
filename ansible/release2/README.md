@@ -74,3 +74,27 @@ ansible/release2/playbooks/fortigate-service-chain.yml
 
 Do not commit FortiGate credentials, API tokens, private keys, or vault password files.
 
+
+## FortiGate API Token Model
+
+Release 2 FortiGate automation should use a dedicated REST API token rather than reusable human admin credentials.
+
+Runbook:
+
+```text
+ansible/release2/docs/fortigate-api-token-runbook.md
+```
+
+Do not commit API tokens, passwords, private keys, or vault password files.
+
+## FortiGate Legacy IPSec Cleanup
+
+The old direct FortiGate-to-VyOS IPSec configuration should be cleaned only after a pre-cleanup snapshot and reference review.
+
+Runbook:
+
+```text
+ansible/release2/docs/fortigate-legacy-ipsec-cleanup-runbook.md
+```
+
+Do not delete `ipsec-vyos` until references are reviewed and O1 service-chain validation can be preserved.
