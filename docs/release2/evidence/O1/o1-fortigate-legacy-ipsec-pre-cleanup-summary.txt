@@ -1,0 +1,67 @@
+﻿O1 FortiGate Legacy IPSec Pre-Cleanup Summary
+
+Purpose:
+Capture and review FortiGate state before removing the legacy direct FortiGate-to-VyOS IPSec configuration.
+
+Active design:
+Azure workload -> FortiGate NVA service-chain -> Azure VPN Gateway -> VyOS/HQ
+
+Legacy object under review:
+ipsec-vyos
+
+Evidence bundle:
+docs/release2/evidence/O1/o1-fortigate-legacy-ipsec-pre-cleanup.tar.gz
+
+Extracted evidence directory:
+docs/release2/evidence/O1/o1-fortigate-legacy-ipsec-pre-cleanup/
+
+Reference review:
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\10-vpn-ipsec-phase1-interface.json:9: "name":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\10-vpn-ipsec-phase1-interface.json:10: "q_origin_key":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\10-vpn-ipsec-phase1-interface.json:12: "interface":"port1",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\11-vpn-ipsec-phase2-interface.json:9: "name":"ipsec-vyos-p2",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\11-vpn-ipsec-phase2-interface.json:10: "q_origin_key":"ipsec-vyos-p2",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\11-vpn-ipsec-phase2-interface.json:11: "phase1name":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\12-system-interface-ipsec-vyos.json:6: "name":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\12-system-interface-ipsec-vyos.json:7: "q_origin_key":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\12-system-interface-ipsec-vyos.json:120: "interface":"port1",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\12-system-interface-ipsec-vyos.json:273: "mkey":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\20-router-static.json:18: "device":"port2",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\20-router-static.json:42: "device":"port1",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\30-firewall-policy.json:17: "name":"port2",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\30-firewall-policy.json:18: "q_origin_key":"port2"
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\30-firewall-policy.json:23: "name":"port1",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\30-firewall-policy.json:24: "q_origin_key":"port1"
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\30-firewall-policy.json:34: "name":"AZURE_WORKLOAD_10_10_0_0_16",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\30-firewall-policy.json:35: "q_origin_key":"AZURE_WORKLOAD_10_10_0_0_16"
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\30-firewall-policy.json:40: "name":"HQ_LAB_192_168_1_0_24",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\30-firewall-policy.json:41: "q_origin_key":"HQ_LAB_192_168_1_0_24"
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\40-address-azure-workload.json:6: "name":"AZURE_WORKLOAD_10_10_0_0_16",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\40-address-azure-workload.json:7: "q_origin_key":"AZURE_WORKLOAD_10_10_0_0_16",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\40-address-azure-workload.json:43: "mkey":"AZURE_WORKLOAD_10_10_0_0_16",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\41-address-hq-lab.json:6: "name":"HQ_LAB_192_168_1_0_24",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\41-address-hq-lab.json:7: "q_origin_key":"HQ_LAB_192_168_1_0_24",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\41-address-hq-lab.json:43: "mkey":"HQ_LAB_192_168_1_0_24",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\90-ipsec-vyos-reference-grep.txt:1: ./10-vpn-ipsec-phase1-interface.json:      "name":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\90-ipsec-vyos-reference-grep.txt:2: ./10-vpn-ipsec-phase1-interface.json:      "q_origin_key":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\90-ipsec-vyos-reference-grep.txt:3: ./11-vpn-ipsec-phase2-interface.json:      "name":"ipsec-vyos-p2",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\90-ipsec-vyos-reference-grep.txt:4: ./11-vpn-ipsec-phase2-interface.json:      "q_origin_key":"ipsec-vyos-p2",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\90-ipsec-vyos-reference-grep.txt:5: ./11-vpn-ipsec-phase2-interface.json:      "phase1name":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\90-ipsec-vyos-reference-grep.txt:6: ./README.txt:ipsec-vyos
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\90-ipsec-vyos-reference-grep.txt:7: ./12-system-interface-ipsec-vyos.json:      "name":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\90-ipsec-vyos-reference-grep.txt:8: ./12-system-interface-ipsec-vyos.json:      "q_origin_key":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\90-ipsec-vyos-reference-grep.txt:9: ./12-system-interface-ipsec-vyos.json:  "mkey":"ipsec-vyos",
+docs\release2\evidence\O1\o1-fortigate-legacy-ipsec-pre-cleanup\README.txt:10: ipsec-vyos
+
+Preliminary cleanup guardrail:
+Do not delete ipsec-vyos until the reference review confirms it is not used by the active O1 FortiGate policy, O1 static routes, or current Azure VPN Gateway service-chain path.
+
+Expected active O1 objects:
+- Firewall policy: O1-AzureWorkload-to-HQ-ICMP-SNAT
+- Azure workload address object: AZURE_WORKLOAD_10_10_0_0_16
+- HQ address object: HQ_LAB_192_168_1_0_24
+- Route to 10.10.0.0/16 via port2 / 10.0.3.33
+- Route to 192.168.1.0/24 via port1 / 10.0.3.1
+
+Cleanup decision:
+Pending review.

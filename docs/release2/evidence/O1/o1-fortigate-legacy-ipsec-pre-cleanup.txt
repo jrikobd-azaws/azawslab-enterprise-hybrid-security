@@ -1,0 +1,15 @@
+﻿O1 FortiGate Legacy IPSec Pre-Cleanup Evidence
+
+Purpose:
+Capture the FortiGate state before removing the legacy direct FortiGate-to-VyOS IPSec configuration named ipsec-vyos.
+
+Active design:
+Azure workload -> FortiGate NVA service-chain -> Azure VPN Gateway -> VyOS/HQ
+
+Legacy design being reviewed:
+FortiGate direct IPSec to VyOS using ipsec-vyos
+
+Reason for cleanup:
+The direct FortiGate-to-VyOS IPSec design was abandoned because FortiGate BYOL trial mode exposed only DES-class IPSec proposals. The active design uses Azure VPN Gateway for AES-256 IPSec termination and FortiGate as the NVA inspection/service-chain plane.
+
+Pre-cleanup commands and output:

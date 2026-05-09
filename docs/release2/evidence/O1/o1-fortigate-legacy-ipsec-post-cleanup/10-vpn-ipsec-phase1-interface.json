@@ -1,0 +1,17 @@
+{
+  "http_method":"GET",
+  "size":0,
+  "matched_count":0,
+  "next_idx":0,
+  "revision":"7a318924bb35e0fcd5d7e46577a29816",
+  "results":[
+  ],
+  "vdom":"root",
+  "path":"vpn.ipsec",
+  "name":"phase1-interface",
+  "status":"success",
+  "http_status":200,
+  "serial":"FGVMEVRJ22G4-ZAC",
+  "version":"v7.2.13",
+  "build":1762
+}
