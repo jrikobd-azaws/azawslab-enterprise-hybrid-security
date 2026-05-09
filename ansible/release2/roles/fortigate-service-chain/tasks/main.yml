@@ -2,24 +2,29 @@
 - name: Ensure O1 Azure workload address object exists
   fortinet.fortios.fortios_firewall_address:
     vdom: "{{ fortigate_vdom }}"
+    access_token: "{{ fortios_access_token }}"
     state: present
     firewall_address:
       name: "{{ fortigate_o1_azure_workload_address_name }}"
       subnet: "{{ fortigate_o1_azure_workload_prefix }}"
       comment: "{{ fortigate_o1_azure_workload_comment }}"
+  no_log: "{{ fortigate_hide_sensitive_output }}"
 
 - name: Ensure O1 HQ lab address object exists
   fortinet.fortios.fortios_firewall_address:
     vdom: "{{ fortigate_vdom }}"
+    access_token: "{{ fortios_access_token }}"
     state: present
     firewall_address:
       name: "{{ fortigate_o1_hq_address_name }}"
       subnet: "{{ fortigate_o1_hq_prefix }}"
       comment: "{{ fortigate_o1_hq_comment }}"
+  no_log: "{{ fortigate_hide_sensitive_output }}"
 
 - name: Ensure O1 return route to Azure workload spoke exists
   fortinet.fortios.fortios_router_static:
     vdom: "{{ fortigate_vdom }}"
+    access_token: "{{ fortios_access_token }}"
     state: present
     router_static:
       seq_num: "{{ fortigate_o1_workload_return_route_seq }}"
@@ -27,10 +32,12 @@
       gateway: "{{ fortigate_o1_workload_return_route_gateway }}"
       device: "{{ fortigate_o1_workload_return_route_device }}"
       comment: "{{ fortigate_o1_workload_return_route_comment }}"
+  no_log: "{{ fortigate_hide_sensitive_output }}"
 
 - name: Ensure O1 explicit HQ route via Azure hub/VPN path exists
   fortinet.fortios.fortios_router_static:
     vdom: "{{ fortigate_vdom }}"
+    access_token: "{{ fortios_access_token }}"
     state: present
     router_static:
       seq_num: "{{ fortigate_o1_hq_route_seq }}"
@@ -38,10 +45,12 @@
       gateway: "{{ fortigate_o1_hq_route_gateway }}"
       device: "{{ fortigate_o1_hq_route_device }}"
       comment: "{{ fortigate_o1_hq_route_comment }}"
+  no_log: "{{ fortigate_hide_sensitive_output }}"
 
 - name: Ensure O1 Azure workload to HQ ICMP SNAT policy exists
   fortinet.fortios.fortios_firewall_policy:
     vdom: "{{ fortigate_vdom }}"
+    access_token: "{{ fortios_access_token }}"
     state: present
     firewall_policy:
       policyid: "{{ fortigate_o1_policy_id }}"
@@ -62,6 +71,7 @@
       logtraffic: "{{ fortigate_o1_policy_logtraffic }}"
       nat: "{{ fortigate_o1_policy_nat }}"
       comments: "{{ fortigate_o1_policy_comments }}"
+  no_log: "{{ fortigate_hide_sensitive_output }}"
 
 - name: Show O1 service-chain codification summary
   ansible.builtin.debug:

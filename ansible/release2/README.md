@@ -98,3 +98,19 @@ ansible/release2/docs/fortigate-legacy-ipsec-cleanup-runbook.md
 ```
 
 Do not delete `ipsec-vyos` until references are reviewed and O1 service-chain validation can be preserved.
+
+## FortiGate API Readiness Validation
+
+Read-only validation playbook:
+
+```text
+ansible/release2/playbooks/fortigate-readonly-api-check.yml
+```
+
+Service-chain codification playbook:
+
+```text
+ansible/release2/playbooks/fortigate-service-chain.yml
+```
+
+Both playbooks expect the FortiGate token to be loaded from the runtime environment as `FORTIOS_ACCESS_TOKEN`.

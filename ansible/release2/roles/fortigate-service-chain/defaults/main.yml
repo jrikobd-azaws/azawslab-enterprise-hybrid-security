@@ -42,3 +42,6 @@ fortigate_o1_policy_logtraffic: all
 fortigate_o1_policy_nat: enable
 fortigate_o1_policy_status: enable
 fortigate_o1_policy_comments: Release 2 O1 lab validation policy. SNAT enabled to avoid asymmetric return path during first service-chain test.
+
+# Hide FortiGate module arguments/results by default because tasks receive an API token.
+fortigate_hide_sensitive_output: true
