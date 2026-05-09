@@ -1,0 +1,36 @@
+﻿O1 FortiGate Ansible Token-Auth Validation
+
+Purpose:
+Validate that the manually proven O1 FortiGate service-chain configuration is now codified and executable through Ansible from vm-dev-mgmt-01 using a dedicated FortiGate REST API token.
+
+Authentication:
+- FortiGate API user: ansible-o1-svc
+- Admin profile: ansible_o1_service_chain_rw
+- Trusted host: vm-dev-mgmt-01 private IP 10.10.1.4/32
+- API endpoint: https://10.0.3.4
+- Token storage: outside Git on vm-dev-mgmt-01
+- Token was not committed to the repository
+
+Readiness validation:
+- Direct curl API status check from vm-dev-mgmt-01 succeeded.
+- Ansible read-only FortiGate API playbook succeeded.
+- FortiGate service-chain playbook syntax check succeeded.
+- Fortinet collection was available on vm-dev-mgmt-01.
+
+Live Ansible validation:
+- FortiGate service-chain role executed from vm-dev-mgmt-01.
+- Role codified the validated O1 address objects, static routes, and policy.
+- Repeated role execution was used to confirm idempotency.
+- No Terraform or Azure apply was performed during this validation.
+
+Validated desired state:
+- Address object AZURE_WORKLOAD_10_10_0_0_16 for 10.10.0.0/16
+- Address object HQ_LAB_192_168_1_0_24 for 192.168.1.0/24
+- Static route 10.10.0.0/16 via 10.0.3.33 on port2
+- Static route 192.168.1.0/24 via 10.0.3.1 on port1
+- Firewall policy O1-AzureWorkload-to-HQ-ICMP-SNAT
+- SNAT enabled as O1 lab delta
+- Logging enabled
+
+Conclusion:
+O1 FortiGate service-chain configuration is now manually validated, codified in Ansible, authenticated using a dedicated FortiGate API token, and ready for repeatable operations from the management host.

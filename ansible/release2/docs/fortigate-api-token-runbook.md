@@ -180,3 +180,21 @@ Revoke the token immediately if:
 ## Lab Delta
 
 If a broad admin profile is temporarily used for speed, document it as a lab delta. The target enterprise pattern remains a dedicated API admin with trusted-host restriction and least privilege.
+
+## Fortinet Module Token Pattern
+
+Fortinet module tasks should receive the token explicitly:
+
+```yaml
+vars:
+  fortios_access_token: "{{ lookup('env', 'FORTIOS_ACCESS_TOKEN') }}"
+
+tasks:
+  - name: Example FortiGate API module call
+    fortinet.fortios.fortios_monitor_fact:
+      vdom: root
+      access_token: "{{ fortios_access_token }}"
+      selector: system_status
+```
+
+The token must be loaded at runtime and must not be committed to inventory.

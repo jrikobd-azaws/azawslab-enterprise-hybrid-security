@@ -1,0 +1,38 @@
+﻿---
+- name: Read-only FortiGate API validation
+  hosts: fortigate
+  gather_facts: false
+
+  vars:
+    fortios_access_token: "{{ lookup('env', 'FORTIOS_ACCESS_TOKEN') }}"
+    fortigate_vdom: root
+
+  tasks:
+    - name: Assert FortiGate API token is available from environment
+      ansible.builtin.assert:
+        that:
+          - fortios_access_token | length > 0
+        fail_msg: "FORTIOS_ACCESS_TOKEN is not loaded. Run: source ~/.azawslab-secrets/fortigate-o1.env"
+        success_msg: "FORTIOS_ACCESS_TOKEN is loaded for this Ansible run."
+
+    - name: Read FortiGate system status
+      fortinet.fortios.fortios_monitor_fact:
+        vdom: "{{ fortigate_vdom }}"
+        access_token: "{{ fortios_access_token }}"
+        selector: system_status
+      no_log: true
+
+    - name: Read FortiGate port1 interface
+      fortinet.fortios.fortios_configuration_fact:
+        vdom: "{{ fortigate_vdom }}"
+        access_token: "{{ fortios_access_token }}"
+        selector: system_interface
+        filters:
+          - name==port1
+      no_log: true
+
+    - name: Read-only FortiGate API validation summary
+      ansible.builtin.debug:
+        msg:
+          - "Read-only FortiGate API validation completed."
+          - "No configuration changes were requested by this playbook."

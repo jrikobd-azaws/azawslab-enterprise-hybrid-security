@@ -2,5 +2,17 @@
 - name: Codify Release 2 O1 FortiGate service-chain configuration
   hosts: fortigate
   gather_facts: false
+
+  vars:
+    fortios_access_token: "{{ lookup('env', 'FORTIOS_ACCESS_TOKEN') }}"
+
+  pre_tasks:
+    - name: Assert FortiGate API token is available from environment
+      ansible.builtin.assert:
+        that:
+          - fortios_access_token | length > 0
+        fail_msg: "FORTIOS_ACCESS_TOKEN is not loaded. Run: source ~/.azawslab-secrets/fortigate-o1.env"
+        success_msg: "FORTIOS_ACCESS_TOKEN is loaded for this Ansible run."
+
   roles:
     - fortigate-service-chain

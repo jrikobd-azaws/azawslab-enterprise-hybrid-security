@@ -10,10 +10,8 @@ ansible_winrm_scheme=http
 ansible_winrm_transport=ntlm
 ansible_winrm_server_cert_validation=ignore
 
-# FortiGate API-token authentication pattern.
-# Do not commit real tokens.
-# Set the token at runtime on the management host:
-#   export FORTIOS_ACCESS_TOKEN='<token value>'
+[fortigate]
+fortigate-azure ansible_host=10.0.3.4
 
 [fortigate:vars]
 ansible_connection=httpapi
@@ -21,5 +19,11 @@ ansible_network_os=fortinet.fortios.fortios
 ansible_httpapi_use_ssl=true
 ansible_httpapi_validate_certs=false
 ansible_httpapi_port=443
-ansible_httpapi_token={{ lookup('env', 'FORTIOS_ACCESS_TOKEN') }}
 
+# FortiGate token handling:
+# Do not commit real tokens.
+# Playbooks read the token from the runtime environment:
+#   source ~/.azawslab-secrets/fortigate-o1.env
+#   FORTIOS_ACCESS_TOKEN='<token value>'
+#
+# Do not place fortios_access_token or ansible_httpapi_token in committed inventory.
