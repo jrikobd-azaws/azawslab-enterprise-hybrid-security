@@ -1,0 +1,215 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260510132114
+Username: HQ\administrator
+RunAs User: HQ\administrator
+Configuration Name: 
+Machine: MEM1 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 5680
+PSVersion: 5.1.20348.4294
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.4294
+BuildVersion: 10.0.20348.4294
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Temp\AzawsLab-O2\o2-mem1-vyos-gateway-arc-preflight.txt
+PS C:\Users\administrator.HQ> Write-Output 'O2 MEM1 VyOS gateway alignment and Azure Arc preflight'
+O2 MEM1 VyOS gateway alignment and Azure Arc preflight
+PS C:\Users\administrator.HQ> Write-Output "Generated UTC: $((Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss'))"
+Generated UTC: 2026-05-10 20:21:14
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $InterfaceAlias = (
+    Get-NetIPConfiguration |
+    Where-Object { $_.IPv4Address.IPAddress -eq '192.168.1.20' } |
+    Select-Object -First 1 -ExpandProperty InterfaceAlias
+)
+PS C:\Users\administrator.HQ> if (-not $InterfaceAlias) {
+    throw 'Could not find interface with IP 192.168.1.20. Stop and inspect Get-NetIPConfiguration.'
+}
+PS C:\Users\administrator.HQ> Write-Output "Target interface: $InterfaceAlias"
+Target interface: Ethernet
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Before change ==='
+=== Before change ===
+PS C:\Users\administrator.HQ> Get-NetIPConfiguration -InterfaceAlias $InterfaceAlias | Format-List
+
+
+InterfaceAlias       : Ethernet
+InterfaceIndex       : 5
+InterfaceDescription : Microsoft Hyper-V Network Adapter
+NetProfile.Name      : hq.azawslab.co.uk
+IPv4Address          : 192.168.1.20
+IPv6DefaultGateway   :
+IPv4DefaultGateway   : 192.168.1.254
+DNSServer            : 192.168.1.10
+
+
+
+PS C:\Users\administrator.HQ> Get-NetRoute -InterfaceAlias $InterfaceAlias -DestinationPrefix '0.0.0.0/0' | Format-Table -AutoSize
+
+ifIndex DestinationPrefix NextHop       RouteMetric ifMetric PolicyStore
+------- ----------------- -------       ----------- -------- -----------
+5       0.0.0.0/0         192.168.1.254         256 15       ActiveStore
+
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Validate VyOS gateway reachability ==='
+=== Validate VyOS gateway reachability ===
+PS C:\Users\administrator.HQ> Test-Connection -ComputerName '192.168.1.254' -Count 4
+
+Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms)
+------        -----------     -----------      -----------                              -----    --------
+MEM1          192.168.1.254                                                             32       0
+MEM1          192.168.1.254                                                             32       0
+MEM1          192.168.1.254                                                             32       0
+MEM1          192.168.1.254                                                             32       0
+
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Change MEM1 default gateway to VyOS ==='
+=== Change MEM1 default gateway to VyOS ===
+PS C:\Users\administrator.HQ> netsh interface ipv4 set address name="$InterfaceAlias" static 192.168.1.20 255.255.255.0 192.168.1.254
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Start-Sleep -Seconds 5
+PS C:\Users\administrator.HQ> Write-Output '=== After change ==='
+=== After change ===
+PS C:\Users\administrator.HQ> Get-NetIPConfiguration -InterfaceAlias $InterfaceAlias | Format-List
+
+
+InterfaceAlias       : Ethernet
+InterfaceIndex       : 5
+InterfaceDescription : Microsoft Hyper-V Network Adapter
+NetProfile.Name      : hq.azawslab.co.uk
+IPv4Address          : 192.168.1.20
+IPv6DefaultGateway   :
+IPv4DefaultGateway   : 192.168.1.254
+DNSServer            : 192.168.1.10
+
+
+
+PS C:\Users\administrator.HQ> Get-NetRoute -InterfaceAlias $InterfaceAlias -DestinationPrefix '0.0.0.0/0' | Format-Table -AutoSize
+
+ifIndex DestinationPrefix NextHop       RouteMetric ifMetric PolicyStore
+------- ----------------- -------       ----------- -------- -----------
+5       0.0.0.0/0         192.168.1.254           1 15       ActiveStore
+
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Route path check ==='
+=== Route path check ===
+PS C:\Users\administrator.HQ> tracert -d 8.8.8.8
+
+Tracing route to 8.8.8.8 over a maximum of 30 hops
+
+  1    <1 ms    <1 ms    <1 ms  192.168.1.254
+  2     *        *        *     Request timed out.
+  3     9 ms     5 ms     4 ms  192.168.0.1
+  4     *        *        *     Request timed out.
+  5    17 ms    15 ms    10 ms  80.255.192.140
+  6     *        *        *     Request timed out.
+  7    27 ms    26 ms    23 ms  80.255.204.67
+  8    24 ms    24 ms    24 ms  72.14.210.114
+  9    34 ms    23 ms    23 ms  209.85.249.187
+ 10    24 ms    24 ms    23 ms  142.251.52.143
+ 11    26 ms    24 ms    22 ms  8.8.8.8
+
+Trace complete.
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Azure Arc endpoint HTTPS checks through VyOS gateway ==='
+=== Azure Arc endpoint HTTPS checks through VyOS gateway ===
+PS C:\Users\administrator.HQ> $Targets = @(
+    'management.azure.com',
+    'login.microsoftonline.com',
+    'packages.microsoft.com',
+    'aka.ms'
+)
+PS C:\Users\administrator.HQ> foreach ($Target in $Targets) {
+    Write-Output "--- $Target tcp/443 ---"
+    Test-NetConnection -ComputerName $Target -Port 443 -InformationLevel Detailed
+    Write-Output ''
+}
+--- management.azure.com tcp/443 ---
+
+
+ComputerName            : management.azure.com
+RemoteAddress           : 4.150.240.10
+RemotePort              : 443
+NameResolutionResults   : 4.150.240.10
+MatchingIPsecRules      :
+NetworkIsolationContext : Internet
+InterfaceAlias          : Ethernet
+SourceAddress           : 192.168.1.20
+NetRoute (NextHop)      : 192.168.1.254
+TcpTestSucceeded        : True
+
+
+--- login.microsoftonline.com tcp/443 ---
+ComputerName            : login.microsoftonline.com
+RemoteAddress           : 20.190.159.71
+RemotePort              : 443
+NameResolutionResults   : 20.190.159.71
+                          20.190.159.75
+                          20.190.159.128
+                          20.190.159.0
+                          40.126.31.2
+                          20.190.159.4
+                          20.190.159.130
+                          40.126.31.129
+MatchingIPsecRules      :
+NetworkIsolationContext : Internet
+InterfaceAlias          : Ethernet
+SourceAddress           : 192.168.1.20
+NetRoute (NextHop)      : 192.168.1.254
+TcpTestSucceeded        : True
+
+
+--- packages.microsoft.com tcp/443 ---
+ComputerName            : packages.microsoft.com
+RemoteAddress           : 13.107.246.64
+RemotePort              : 443
+NameResolutionResults   : 13.107.246.64
+                          13.107.213.64
+MatchingIPsecRules      :
+NetworkIsolationContext : Internet
+InterfaceAlias          : Ethernet
+SourceAddress           : 192.168.1.20
+NetRoute (NextHop)      : 192.168.1.254
+TcpTestSucceeded        : True
+
+
+--- aka.ms tcp/443 ---
+ComputerName            : aka.ms
+RemoteAddress           : 184.25.193.167
+RemotePort              : 443
+NameResolutionResults   : 184.25.193.167
+MatchingIPsecRules      :
+NetworkIsolationContext : Internet
+InterfaceAlias          : Ethernet
+SourceAddress           : 192.168.1.20
+NetRoute (NextHop)      : 192.168.1.254
+TcpTestSucceeded        : True
+
+
+
+
+PS C:\Users\administrator.HQ> Write-Output '=== Result marker ==='
+=== Result marker ===
+PS C:\Users\administrator.HQ> Write-Output 'MEM1 now uses VyOS 192.168.1.254 as default gateway. Azure Arc endpoint preflight completed.'
+MEM1 now uses VyOS 192.168.1.254 as default gateway. Azure Arc endpoint preflight completed.
+PS C:\Users\administrator.HQ> Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20260510132247
+**********************

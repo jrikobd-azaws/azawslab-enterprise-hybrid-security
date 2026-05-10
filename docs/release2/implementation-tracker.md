@@ -1060,3 +1060,32 @@ Evidence:
 - `docs/release2/evidence/P5-vpn/firewall-policy-current-post-gateway-udr.json`
 - `docs/release2/evidence/P5-vpn/p5-fortigate-gateway-ingress-symmetry-validation.txt`
 
+
+
+### O2 Azure Arc MEM1 Closeout
+
+O2 was completed using MEM1 as the first Azure Arc-enabled server target.
+
+Validated state:
+- Target: `mem1.hq.azawslab.co.uk`
+- IP: `192.168.1.20`
+- Arc resource name: `mem1`
+- Resource group: `rg-dev-arc-norwayeast`
+- Location: `norwayeast`
+- Agent version: `1.63.03384.2896`
+- Azure-side status: `Connected`
+- Provisioning state: `Succeeded`
+
+Design notes:
+- MEM1 was selected instead of DC1 to avoid using a sensitive domain controller as the first Arc target.
+- MEM1 egress uses the HQ/VyOS path.
+- The scoped onboarding service principal remains limited to Azure Connected Machine Onboarding on `rg-dev-arc-norwayeast`.
+- Mandatory governance tags were applied during onboarding: `Environment`, `Project`, `Owner`, and `CostCenter`.
+
+Evidence:
+- `docs/release2/evidence/O2/o2-mem1-vyos-gateway-arc-preflight.txt`
+- `docs/release2/evidence/O2/o2-arc-onboarding-identity-bootstrap.txt`
+- `docs/release2/evidence/O2/o2-mem1-arc-connect-console.txt`
+- `docs/release2/evidence/O2/o2-mem1-arc-azure-validation.txt`
+
+

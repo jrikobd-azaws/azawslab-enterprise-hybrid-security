@@ -1,0 +1,1292 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260510143037
+Username: HQ\administrator
+RunAs User: HQ\administrator
+Configuration Name: 
+Machine: MEM1 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 5680
+PSVersion: 5.1.20348.4294
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.4294
+BuildVersion: 10.0.20348.4294
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console.txt
+PS C:\Users\administrator.HQ> Write-Output 'O2 Azure Arc MEM1 connect from console'
+O2 Azure Arc MEM1 connect from console
+PS C:\Users\administrator.HQ> Write-Output "Generated UTC: $((Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss'))"
+Generated UTC: 2026-05-10 21:30:37
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output 'Secret value was entered through SecureString prompt before transcripted connect flow. Secret value is not printed.'
+Secret value was entered through SecureString prompt before transcripted connect flow. Secret value is not printed.
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $AzcmAgent = 'C:\Program Files\AzureConnectedMachineAgent\azcmagent.exe'
+PS C:\Users\administrator.HQ> if (-not (Test-Path $AzcmAgent)) {
+    throw "azcmagent not found at $AzcmAgent"
+}
+PS C:\Users\administrator.HQ> Write-Output '=== Pre-connect agent status ==='
+=== Pre-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent version
+azcmagent version  1.63.03384.2896
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $ClientSecretPtr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($ServicePrincipalSecretSecure)
+PS C:\Users\administrator.HQ> try {
+    $ServicePrincipalSecretPlain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ClientSecretPtr)
+
+    Write-Output '=== Connect MEM1 to Azure Arc ==='
+    Write-Output 'Using scoped service principal. Secret value is not printed.'
+
+    & $AzcmAgent connect `
+        --service-principal-id $ServicePrincipalId `
+        --service-principal-secret $ServicePrincipalSecretPlain `
+        --tenant-id $TenantId `
+        --subscription-id $SubscriptionId `
+        --resource-group $ResourceGroup `
+        --location $Location `
+        --resource-name $ArcResourceName `
+        --tags "Project=AzawsLab,Environment=dev,Role=MEM,Phase=O2,Gateway=VyOS" `
+        --cloud AzureCloud
+
+    $ExitCode = $LASTEXITCODE
+    Write-Output "azcmagent connect exit code: $ExitCode"
+}
+finally {
+    if ($ClientSecretPtr -ne [IntPtr]::Zero) {
+        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ClientSecretPtr)
+    }
+
+    $ServicePrincipalSecretPlain = $null
+    $ServicePrincipalSecretSecure = $null
+}
+=== Connect MEM1 to Azure Arc ===
+Using scoped service principal. Secret value is not printed.
+INFO    Connecting machine to Azure... This might take a few minutes.
+INFO    Cloud: AzureCloud
+INFO    Testing connectivity to endpoints that are needed to connect to Azure... This might take a few minutes.
+ERROR   Failed to obtain access token
+INFO    AZCM0041: Failed to Get Access Token
+INFO    Please refer to https://learn.microsoft.com/en-us/azure/azure-arc/servers/prerequisites#required-permissions for
+ permissions required to connect/disconnect a machine. If the home tenant of the login credentials is different than the
+ resource tenant, you must specify both tenants using --tenant-id and --user-tenant-id accordingly.
+INFO    For more troubleshooting tips, please refer to https://aka.ms/arc/azcmerror
+FATAL   failed to get token: ClientSecretCredential authentication failed.  POST https://login.microsoftonline.com/78643
+a83-bcc9-4a3b-ab7e-eeede0b3384e/oauth2/v2.0/token ----------------------------------------------------------------------
+---------- RESPONSE 400: 400 Bad Request -------------------------------------------------------------------------------
+- {   "error": "unauthorized_client",   "error_description": "AADSTS700016: Application with identifier 'lly using scope
+d service principal.'' was not found in the directory 'AZAWS'. This can happen if the application has not been installed
+ by the administrator of the tenant or consented to by any user in the tenant. You may have sent your authentication req
+uest to the wrong tenant. Trace ID: f8804d42-aaa3-4958-8094-af6b0a9c1d00 Correlation ID: 52bfe1a0-d518-4aa7-a53b-339e667
+490ff Timestamp: 2026-05-10 21:30:44Z",   "error_codes": [     700016   ],   "timestamp": "2026-05-10 21:30:44Z",   "tra
+ce_id": "f8804d42-aaa3-4958-8094-af6b0a9c1d00",   "correlation_id": "52bfe1a0-d518-4aa7-a53b-339e667490ff",   "error_uri
+": "https://login.microsoftonline.com/error?code=700016" } -------------------------------------------------------------
+------------------- To troubleshoot, visit https://aka.ms/azsdk/go/identity/troubleshoot#client-secret
+azcmagent connect exit code: 41
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Post-connect agent status ==='
+=== Post-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Agent services ==='
+=== Agent services ===
+PS C:\Users\administrator.HQ> Get-Service -Name himds,azcmagent,extensionservice,gcarcservice -ErrorAction SilentlyContinue | Format-Table -AutoSize
+
+Status  Name             DisplayName
+------  ----             -----------
+Running extensionservice Guest Configuration Extension Service
+Running gcarcservice     Guest Configuration Arc Service
+Running himds            Azure Hybrid Instance Metadata Service
+
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Result marker ==='
+=== Result marker ===
+PS C:\Users\administrator.HQ> $SubscriptionId = '8d99637c-13e7-417c-b334-b586d0ddc3d6'
+PS C:\Users\administrator.HQ> $TenantId = '78643a83-bcc9-4a3b-ab7e-eeede0b3384e'
+PS C:\Users\administrator.HQ> $ResourceGroup = 'rg-dev-arc-norwayeast'
+PS C:\Users\administrator.HQ> $Location = 'norwayeast'
+PS C:\Users\administrator.HQ> $ArcResourceName = 'mem1'
+PS C:\Users\administrator.HQ> $ServicePrincipalId = '113983f8-865e-44aa-8bc8-720c7e5f6767'
+PS C:\Users\administrator.HQ> if ($ServicePrincipalId -notmatch '^[0-9a-fA-F-]{36}$') {
+    throw "ServicePrincipalId is not a GUID: $ServicePrincipalId"
+}
+PS C:\Users\administrator.HQ> $ServicePrincipalSecretSecure = Read-Host -Prompt 'Paste service principal secret' -AsSecureString
+PS C:\Users\administrator.HQ> $EvidenceDir = 'C:\Temp\AzawsLab-O2'
+PS C:\Users\administrator.HQ> $EvidenceFile = Join-Path $EvidenceDir 'o2-mem1-arc-connect-console-retry.txt'
+PS C:\Users\administrator.HQ> New-Item -ItemType Directory -Force -Path $EvidenceDir | Out-Null
+PS C:\Users\administrator.HQ> Start-Transcript -Path $EvidenceFile -Force
+Transcript started, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console-retry.txt
+PS C:\Users\administrator.HQ> Write-Output 'O2 Azure Arc MEM1 connect retry from console'
+O2 Azure Arc MEM1 connect retry from console
+PS C:\Users\administrator.HQ> Write-Output "Generated UTC: $((Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss'))"
+Generated UTC: 2026-05-10 21:33:29
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output "Service principal appId: $ServicePrincipalId"
+Service principal appId: 113983f8-865e-44aa-8bc8-720c7e5f6767
+PS C:\Users\administrator.HQ> Write-Output 'Secret value was entered through SecureString prompt. Secret value is not printed.'
+Secret value was entered through SecureString prompt. Secret value is not printed.
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $AzcmAgent = 'C:\Program Files\AzureConnectedMachineAgent\azcmagent.exe'
+PS C:\Users\administrator.HQ> if (-not (Test-Path $AzcmAgent)) {
+    throw "azcmagent not found at $AzcmAgent"
+}
+PS C:\Users\administrator.HQ> Write-Output '=== Pre-connect agent status ==='
+=== Pre-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent version
+azcmagent version  1.63.03384.2896
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $ClientSecretPtr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($ServicePrincipalSecretSecure)
+PS C:\Users\administrator.HQ> try {
+    $ServicePrincipalSecretPlain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ClientSecretPtr)
+
+    Write-Output '=== Connect MEM1 to Azure Arc ==='
+    Write-Output 'Using scoped service principal. Secret value is not printed.'
+
+    & $AzcmAgent connect `
+        --service-principal-id $ServicePrincipalId `
+        --service-principal-secret $ServicePrincipalSecretPlain `
+        --tenant-id $TenantId `
+        --subscription-id $SubscriptionId `
+        --resource-group $ResourceGroup `
+        --location $Location `
+        --resource-name $ArcResourceName `
+        --tags "Project=AzawsLab,Environment=dev,Role=MEM,Phase=O2,Gateway=VyOS" `
+        --cloud AzureCloud
+
+    $ExitCode = $LASTEXITCODE
+    Write-Output "azcmagent connect exit code: $ExitCode"
+}
+finally {
+    if ($ClientSecretPtr -ne [IntPtr]::Zero) {
+        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ClientSecretPtr)
+    }
+
+    $ServicePrincipalSecretPlain = $null
+    $ServicePrincipalSecretSecure = $null
+}
+=== Connect MEM1 to Azure Arc ===
+Using scoped service principal. Secret value is not printed.
+INFO    Connecting machine to Azure... This might take a few minutes.
+INFO    Cloud: AzureCloud
+INFO    Testing connectivity to endpoints that are needed to connect to Azure... This might take a few minutes.
+  20% [==>            ]
+  30% [===>           ]
+  INFO    Creating resource in Azure...                 Correlation ID=9f2d4ed8-e47f-4fb8-8728-6052617fba49 Resource ID=
+/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompu
+te/machines/mem1
+INFO    Creating resource in Azure...                 Correlation ID=9f2d4ed8-e47f-4fb8-8728-6052617fba49 Resource ID=/s
+ubscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompute
+/machines/mem1
+ERROR   Please verify that the service principal with application ID '113983f8-865e-44aa-8bc8-720c7e5f6767' has access t
+o create resources in resource group 'rg-dev-arc-norwayeast' under subscription '8d99637c-13e7-417c-b334-b586d0ddc3d6'.
+For required permissions and resource provider registrations, see https://learn.microsoft.com/azure/azure-arc/servers/pr
+erequisites
+INFO    AZCM0042: Failed to Create Resource
+INFO    Please review the error message for suggestions on how to fix the specific issues.
+INFO    For more troubleshooting tips, please refer to https://aka.ms/arc/azcmerror
+FATAL   RequestCorrelationId:9f2d4ed8-e47f-4fb8-8728-6052617fba49 Message: Resource 'mem1' was disallowed by policy. Pol
+icy identifiers: '[{"policyAssignment":{"name":"pa-tag-own","id":"/providers/Microsoft.Management/managementGroups/mg-la
+ndingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-own"},"policyDefinition":{"name":"Requ
+ire a tag on resources","id":"/providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecfa99"
+,"version":"1.0.1"}},{"policyAssignment":{"name":"pa-tag-cost","id":"/providers/Microsoft.Management/managementGroups/mg
+-landingzones-prod-global/providers/Microsoft.Authorization/policyAssignments/pa-tag-cost"},"policyDefinition":{"name":"
+Require a tag on resources","id":"/providers/Microsoft.Authorization/policyDefinitions/871b6d14-10aa-478d-b590-94f262ecf
+a99","version":"1.0.1"}}]'. Code: RequestDisallowedByPolicy httpStatusCode:403
+azcmagent connect exit code: 42
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Post-connect agent status ==='
+=== Post-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Agent services ==='
+=== Agent services ===
+PS C:\Users\administrator.HQ> Get-Service -Name himds,azcmagent,extensionservice,gcarcservice -ErrorAction SilentlyContinue | Format-Table -AutoSize
+
+Status  Name             DisplayName
+------  ----             -----------
+Running extensionservice Guest Configuration Extension Service
+Running gcarcservice     Guest Configuration Arc Service
+Running himds            Azure Hybrid Instance Metadata Service
+
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Result marker ==='
+=== Result marker ===
+PS C:\Users\administrator.HQ> if ($ExitCode -eq 0) {
+    Write-Output 'MEM1 Azure Arc connect completed successfully using scoped service principal.'
+}
+PS C:\Users\administrator.HQ> else {
+    Write-Output 'MEM1 Azure Arc connect did not complete successfully. Review azcmagent output above.'
+}
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\administrator.HQ> Stop-Transcript
+Transcript stopped, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console-retry.txt
+PS C:\Users\administrator.HQ> $SubscriptionId = '8d99637c-13e7-417c-b334-b586d0ddc3d6'
+PS C:\Users\administrator.HQ> $TenantId = '78643a83-bcc9-4a3b-ab7e-eeede0b3384e'
+PS C:\Users\administrator.HQ> $ResourceGroup = 'rg-dev-arc-norwayeast'
+PS C:\Users\administrator.HQ> $Location = 'norwayeast'
+PS C:\Users\administrator.HQ> $ArcResourceName = 'mem1'
+PS C:\Users\administrator.HQ> $ServicePrincipalId = '113983f8-865e-44aa-8bc8-720c7e5f6767'
+PS C:\Users\administrator.HQ> $Tags = 'Environment=dev,Project=Azawslab-Release2,Owner=Hashib,CostCenter=Lab,Role=MEM,Phase=O2,Gateway=VyOS'
+PS C:\Users\administrator.HQ> if ($ServicePrincipalId -notmatch '^[0-9a-fA-F-]{36}$') {
+    throw "ServicePrincipalId is not a GUID: $ServicePrincipalId"
+}
+PS C:\Users\administrator.HQ> $ServicePrincipalSecretSecure = Read-Host -Prompt 'Paste service principal secret' -AsSecureString
+PS C:\Users\administrator.HQ> $EvidenceDir = 'C:\Temp\AzawsLab-O2'
+PS C:\Users\administrator.HQ> $EvidenceFile = Join-Path $EvidenceDir 'o2-mem1-arc-connect-console-retry.txt'
+PS C:\Users\administrator.HQ> New-Item -ItemType Directory -Force -Path $EvidenceDir | Out-Null
+PS C:\Users\administrator.HQ> Start-Transcript -Path $EvidenceFile -Force
+Transcript started, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console-retry.txt
+PS C:\Users\administrator.HQ> Write-Output 'O2 Azure Arc MEM1 connect retry from console'
+O2 Azure Arc MEM1 connect retry from console
+PS C:\Users\administrator.HQ> Write-Output "Generated UTC: $((Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss'))"
+Generated UTC: 2026-05-10 21:46:31
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output "Service principal appId: $ServicePrincipalId"
+Service principal appId: 113983f8-865e-44aa-8bc8-720c7e5f6767
+PS C:\Users\administrator.HQ> Write-Output 'Secret value was entered through SecureString prompt. Secret value is not printed.'
+Secret value was entered through SecureString prompt. Secret value is not printed.
+PS C:\Users\administrator.HQ> Write-Output "Tags: $Tags"
+Tags: Environment=dev,Project=Azawslab-Release2,Owner=Hashib,CostCenter=Lab,Role=MEM,Phase=O2,Gateway=VyOS
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $AzcmAgent = 'C:\Program Files\AzureConnectedMachineAgent\azcmagent.exe'
+PS C:\Users\administrator.HQ> if (-not (Test-Path $AzcmAgent)) {
+    throw "azcmagent not found at $AzcmAgent"
+}
+PS C:\Users\administrator.HQ> Write-Output '=== Pre-connect agent status ==='
+=== Pre-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent version
+azcmagent version  1.63.03384.2896
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $ClientSecretPtr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($ServicePrincipalSecretSecure)
+PS C:\Users\administrator.HQ> try {
+    $ServicePrincipalSecretPlain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ClientSecretPtr)
+
+    Write-Output '=== Connect MEM1 to Azure Arc ==='
+    Write-Output 'Using scoped service principal. Secret value is not printed.'
+
+    & $AzcmAgent connect `
+        --service-principal-id $ServicePrincipalId `
+        --service-principal-secret $ServicePrincipalSecretPlain `
+        --tenant-id $TenantId `
+        --subscription-id $SubscriptionId `
+        --resource-group $ResourceGroup `
+        --location $Location `
+        --resource-name $ArcResourceName `
+        --tags $Tags `
+        --cloud AzureCloud
+
+    $ExitCode = $LASTEXITCODE
+    Write-Output "azcmagent connect exit code: $ExitCode"
+}
+finally {
+    if ($ClientSecretPtr -ne [IntPtr]::Zero) {
+        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ClientSecretPtr)
+    }
+
+    $ServicePrincipalSecretPlain = $null
+    $ServicePrincipalSecretSecure = $null
+}
+=== Connect MEM1 to Azure Arc ===
+Using scoped service principal. Secret value is not printed.
+INFO    Connecting machine to Azure... This might take a few minutes.
+INFO    Cloud: AzureCloud
+INFO    Testing connectivity to endpoints that are needed to connect to Azure... This might take a few minutes.
+  20% [==>            ]
+  30% [===>           ]
+  INFO    Creating resource in Azure...                 Correlation ID=93e73c4d-292a-4f36-8144-2681917033b0 Resource ID=
+/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompu
+te/machines/mem1
+INFO    Creating resource in Azure...                 Correlation ID=93e73c4d-292a-4f36-8144-2681917033b0 Resource ID=/s
+ubscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompute
+/machines/mem1
+ERROR   Please verify that the service principal with application ID '113983f8-865e-44aa-8bc8-720c7e5f6767' has access t
+o create resources in resource group 'rg-dev-arc-norwayeast' under subscription '8d99637c-13e7-417c-b334-b586d0ddc3d6'.
+For required permissions and resource provider registrations, see https://learn.microsoft.com/azure/azure-arc/servers/pr
+erequisites
+INFO    AZCM0042: Failed to Create Resource
+INFO    Please review the error message for suggestions on how to fix the specific issues.
+INFO    For more troubleshooting tips, please refer to https://aka.ms/arc/azcmerror
+FATAL   RequestCorrelationId:93e73c4d-292a-4f36-8144-2681917033b0 Message: The client '113983f8-865e-44aa-8bc8-720c7e5f6
+767' with object id '29005897-5056-4876-9567-f2d815256886' does not have authorization to perform action 'Microsoft.Hybr
+idCompute/register/action' over scope '/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6' or the scope is invalid. If
+access was recently granted, please refresh your credentials. Code: AuthorizationFailed httpStatusCode:403
+azcmagent connect exit code: 42
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Post-connect agent status ==='
+=== Post-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Agent services ==='
+=== Agent services ===
+PS C:\Users\administrator.HQ> Get-Service -Name himds,azcmagent,extensionservice,gcarcservice -ErrorAction SilentlyContinue | Format-Table -AutoSize
+
+Status  Name             DisplayName
+------  ----             -----------
+Running extensionservice Guest Configuration Extension Service
+Running gcarcservice     Guest Configuration Arc Service
+Running himds            Azure Hybrid Instance Metadata Service
+
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Result marker ==='
+=== Result marker ===
+PS C:\Users\administrator.HQ> if ($ExitCode -eq 0) {
+    Write-Output 'MEM1 Azure Arc connect completed successfully using scoped service principal and mandatory governance tags.'
+}
+PS C:\Users\administrator.HQ> else {
+    Write-Output 'MEM1 Azure Arc connect did not complete successfully. Review azcmagent output above.'
+}
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\administrator.HQ> Stop-Transcript
+Transcript stopped, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console-retry.txt
+PS C:\Users\administrator.HQ> $SubscriptionId = '8d99637c-13e7-417c-b334-b586d0ddc3d6'
+PS C:\Users\administrator.HQ> $TenantId = '78643a83-bcc9-4a3b-ab7e-eeede0b3384e'
+PS C:\Users\administrator.HQ> $ResourceGroup = 'rg-dev-arc-norwayeast'
+PS C:\Users\administrator.HQ> $Location = 'norwayeast'
+PS C:\Users\administrator.HQ> $ArcResourceName = 'mem1'
+PS C:\Users\administrator.HQ> $ServicePrincipalId = '113983f8-865e-44aa-8bc8-720c7e5f6767'
+PS C:\Users\administrator.HQ> $Tags = 'Environment=dev,Project=Azawslab-Release2,Owner=Hashib,CostCenter=Lab,Role=MEM,Phase=O2,Gateway=VyOS'
+PS C:\Users\administrator.HQ> if ($ServicePrincipalId -notmatch '^[0-9a-fA-F-]{36}$') {
+    throw "ServicePrincipalId is not a GUID: $ServicePrincipalId"
+}
+PS C:\Users\administrator.HQ> $ServicePrincipalSecretSecure = Read-Host -Prompt 'Paste service principal secret' -AsSecureString
+PS C:\Users\administrator.HQ> $EvidenceDir = 'C:\Temp\AzawsLab-O2'
+PS C:\Users\administrator.HQ> $EvidenceFile = Join-Path $EvidenceDir 'o2-mem1-arc-connect-console-retry.txt'
+PS C:\Users\administrator.HQ> New-Item -ItemType Directory -Force -Path $EvidenceDir | Out-Null
+PS C:\Users\administrator.HQ> Start-Transcript -Path $EvidenceFile -Force
+Transcript started, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console-retry.txt
+PS C:\Users\administrator.HQ> Write-Output 'O2 Azure Arc MEM1 connect retry from console'
+O2 Azure Arc MEM1 connect retry from console
+PS C:\Users\administrator.HQ> Write-Output "Generated UTC: $((Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss'))"
+Generated UTC: 2026-05-10 21:53:19
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output "Service principal appId: $ServicePrincipalId"
+Service principal appId: 113983f8-865e-44aa-8bc8-720c7e5f6767
+PS C:\Users\administrator.HQ> Write-Output 'Secret value was entered through SecureString prompt. Secret value is not printed.'
+Secret value was entered through SecureString prompt. Secret value is not printed.
+PS C:\Users\administrator.HQ> Write-Output "Tags: $Tags"
+Tags: Environment=dev,Project=Azawslab-Release2,Owner=Hashib,CostCenter=Lab,Role=MEM,Phase=O2,Gateway=VyOS
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $AzcmAgent = 'C:\Program Files\AzureConnectedMachineAgent\azcmagent.exe'
+PS C:\Users\administrator.HQ> if (-not (Test-Path $AzcmAgent)) {
+    throw "azcmagent not found at $AzcmAgent"
+}
+PS C:\Users\administrator.HQ> Write-Output '=== Pre-connect agent status ==='
+=== Pre-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent version
+azcmagent version  1.63.03384.2896
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $ClientSecretPtr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($ServicePrincipalSecretSecure)
+PS C:\Users\administrator.HQ> try {
+    $ServicePrincipalSecretPlain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ClientSecretPtr)
+
+    Write-Output '=== Connect MEM1 to Azure Arc ==='
+    Write-Output 'Using scoped service principal. Secret value is not printed.'
+
+    & $AzcmAgent connect `
+        --service-principal-id $ServicePrincipalId `
+        --service-principal-secret $ServicePrincipalSecretPlain `
+        --tenant-id $TenantId `
+        --subscription-id $SubscriptionId `
+        --resource-group $ResourceGroup `
+        --location $Location `
+        --resource-name $ArcResourceName `
+        --tags $Tags `
+        --cloud AzureCloud
+
+    $ExitCode = $LASTEXITCODE
+    Write-Output "azcmagent connect exit code: $ExitCode"
+}
+finally {
+    if ($ClientSecretPtr -ne [IntPtr]::Zero) {
+        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ClientSecretPtr)
+    }
+
+    $ServicePrincipalSecretPlain = $null
+    $ServicePrincipalSecretSecure = $null
+}
+=== Connect MEM1 to Azure Arc ===
+Using scoped service principal. Secret value is not printed.
+INFO    Connecting machine to Azure... This might take a few minutes.
+INFO    Cloud: AzureCloud
+INFO    Testing connectivity to endpoints that are needed to connect to Azure... This might take a few minutes.
+  20% [==>            ]
+  30% [===>           ]
+  INFO    Creating resource in Azure...                 Correlation ID=3586ddb3-b65d-497f-9fc0-6e9993e50e5d Resource ID=
+/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompu
+te/machines/mem1
+INFO    Creating resource in Azure...                 Correlation ID=3586ddb3-b65d-497f-9fc0-6e9993e50e5d Resource ID=/s
+ubscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompute
+/machines/mem1
+ERROR   Please verify that the service principal with application ID '113983f8-865e-44aa-8bc8-720c7e5f6767' has access t
+o create resources in resource group 'rg-dev-arc-norwayeast' under subscription '8d99637c-13e7-417c-b334-b586d0ddc3d6'.
+For required permissions and resource provider registrations, see https://learn.microsoft.com/azure/azure-arc/servers/pr
+erequisites
+INFO    AZCM0042: Failed to Create Resource
+INFO    Please review the error message for suggestions on how to fix the specific issues.
+INFO    For more troubleshooting tips, please refer to https://aka.ms/arc/azcmerror
+FATAL   RequestCorrelationId:3586ddb3-b65d-497f-9fc0-6e9993e50e5d Message: The client '113983f8-865e-44aa-8bc8-720c7e5f6
+767' with object id '29005897-5056-4876-9567-f2d815256886' does not have authorization to perform action 'Microsoft.Hybr
+idCompute/register/action' over scope '/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6' or the scope is invalid. If
+access was recently granted, please refresh your credentials. Code: AuthorizationFailed httpStatusCode:403
+azcmagent connect exit code: 42
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Post-connect agent status ==='
+=== Post-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Agent services ==='
+=== Agent services ===
+PS C:\Users\administrator.HQ> Get-Service -Name himds,azcmagent,extensionservice,gcarcservice -ErrorAction SilentlyContinue | Format-Table -AutoSize
+
+Status  Name             DisplayName
+------  ----             -----------
+Running extensionservice Guest Configuration Extension Service
+Running gcarcservice     Guest Configuration Arc Service
+Running himds            Azure Hybrid Instance Metadata Service
+
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Result marker ==='
+=== Result marker ===
+PS C:\Users\administrator.HQ> if ($ExitCode -eq 0) {
+    Write-Output 'MEM1 Azure Arc connect completed successfully using scoped service principal and mandatory governance tags.'
+}
+PS C:\Users\administrator.HQ> else {
+    Write-Output 'MEM1 Azure Arc connect did not complete successfully. Review azcmagent output above.'
+}
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\administrator.HQ> Stop-Transcript
+Transcript stopped, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console-retry.txt
+PS C:\Users\administrator.HQ> $SubscriptionId = '8d99637c-13e7-417c-b334-b586d0ddc3d6'
+PS C:\Users\administrator.HQ> $TenantId = '78643a83-bcc9-4a3b-ab7e-eeede0b3384e'
+PS C:\Users\administrator.HQ> $ResourceGroup = 'rg-dev-arc-norwayeast'
+PS C:\Users\administrator.HQ> $Location = 'norwayeast'
+PS C:\Users\administrator.HQ> $ArcResourceName = 'mem1'
+PS C:\Users\administrator.HQ> $ServicePrincipalId = '113983f8-865e-44aa-8bc8-720c7e5f6767'
+PS C:\Users\administrator.HQ> $Tags = 'Environment=dev,Project=Azawslab-Release2,Owner=Hashib,CostCenter=Lab,Role=MEM,Phase=O2,Gateway=VyOS'
+PS C:\Users\administrator.HQ> if ($ServicePrincipalId -notmatch '^[0-9a-fA-F-]{36}$') {
+    throw "ServicePrincipalId is not a GUID: $ServicePrincipalId"
+}
+PS C:\Users\administrator.HQ> $ServicePrincipalSecretSecure = Read-Host -Prompt 'Paste service principal secret' -AsSecureString
+PS C:\Users\administrator.HQ> $EvidenceDir = 'C:\Temp\AzawsLab-O2'
+PS C:\Users\administrator.HQ> $EvidenceFile = Join-Path $EvidenceDir 'o2-mem1-arc-connect-console-retry.txt'
+PS C:\Users\administrator.HQ> New-Item -ItemType Directory -Force -Path $EvidenceDir | Out-Null
+PS C:\Users\administrator.HQ> Start-Transcript -Path $EvidenceFile -Force
+Transcript started, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console-retry.txt
+PS C:\Users\administrator.HQ> Write-Output 'O2 Azure Arc MEM1 connect retry from console'
+O2 Azure Arc MEM1 connect retry from console
+PS C:\Users\administrator.HQ> Write-Output "Generated UTC: $((Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss'))"
+Generated UTC: 2026-05-10 22:00:10
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output "Service principal appId: $ServicePrincipalId"
+Service principal appId: 113983f8-865e-44aa-8bc8-720c7e5f6767
+PS C:\Users\administrator.HQ> Write-Output 'Secret value was entered through SecureString prompt. Secret value is not printed.'
+Secret value was entered through SecureString prompt. Secret value is not printed.
+PS C:\Users\administrator.HQ> Write-Output "Tags: $Tags"
+Tags: Environment=dev,Project=Azawslab-Release2,Owner=Hashib,CostCenter=Lab,Role=MEM,Phase=O2,Gateway=VyOS
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $AzcmAgent = 'C:\Program Files\AzureConnectedMachineAgent\azcmagent.exe'
+PS C:\Users\administrator.HQ> if (-not (Test-Path $AzcmAgent)) {
+    throw "azcmagent not found at $AzcmAgent"
+}
+PS C:\Users\administrator.HQ> Write-Output '=== Pre-connect agent status ==='
+=== Pre-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent version
+azcmagent version  1.63.03384.2896
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $ClientSecretPtr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($ServicePrincipalSecretSecure)
+PS C:\Users\administrator.HQ> try {
+    $ServicePrincipalSecretPlain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ClientSecretPtr)
+
+    Write-Output '=== Connect MEM1 to Azure Arc ==='
+    Write-Output 'Using scoped service principal. Secret value is not printed.'
+
+    & $AzcmAgent connect `
+        --service-principal-id $ServicePrincipalId `
+        --service-principal-secret $ServicePrincipalSecretPlain `
+        --tenant-id $TenantId `
+        --subscription-id $SubscriptionId `
+        --resource-group $ResourceGroup `
+        --location $Location `
+        --resource-name $ArcResourceName `
+        --tags $Tags `
+        --cloud AzureCloud
+
+    $ExitCode = $LASTEXITCODE
+    Write-Output "azcmagent connect exit code: $ExitCode"
+}
+finally {
+    if ($ClientSecretPtr -ne [IntPtr]::Zero) {
+        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ClientSecretPtr)
+    }
+
+    $ServicePrincipalSecretPlain = $null
+    $ServicePrincipalSecretSecure = $null
+}
+=== Connect MEM1 to Azure Arc ===
+Using scoped service principal. Secret value is not printed.
+INFO    Connecting machine to Azure... This might take a few minutes.
+INFO    Cloud: AzureCloud
+INFO    Testing connectivity to endpoints that are needed to connect to Azure... This might take a few minutes.
+  20% [==>            ]
+  30% [===>           ]
+  INFO    Creating resource in Azure...                 Correlation ID=09b13542-d2dd-4a62-866d-09c6b8d8379e Resource ID=
+/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompu
+te/machines/mem1
+INFO    Creating resource in Azure...                 Correlation ID=09b13542-d2dd-4a62-866d-09c6b8d8379e Resource ID=/s
+ubscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompute
+/machines/mem1
+  60% [========>      ]
+  INFO    Retrieving MSI certificate... This might take a few minutes.
+  80% [===========>   ]
+ 100% [===============]
+  INFO    Connected machine to Azure
+INFO    Machine overview page: https://portal.azure.com/#@78643a83-bcc9-4a3b-ab7e-eeede0b3384e/resource/subscriptions/8d
+99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompute/machines/mem1/
+overview
+azcmagent connect exit code: 0
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Post-connect agent status ==='
+=== Post-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           : mem1
+Resource Group Name                     : rg-dev-arc-norwayeast
+Resource Namespace                      : Microsoft.HybridCompute
+Resource Id                             : /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-
+norwayeast/providers/Microsoft.HybridCompute/machines/mem1
+Subscription ID                         : 8d99637c-13e7-417c-b334-b586d0ddc3d6
+Tenant ID                               : 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+VM ID                                   : 2be188ae-498c-41bc-ac18-4c37d47029c9
+Correlation ID                          : 09b13542-d2dd-4a62-866d-09c6b8d8379e
+VM UUID                                 : 7CCBDF45-58F8-4371-8B2A-8CD3FD19CE87
+Location                                : norwayeast
+Cloud                                   : AzureCloud
+Identity Key Store                      : Default
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Connected
+Agent Last Heartbeat                    : 2026-05-10T15:00:24-07:00
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             : https://portal.azure.com/#@78643a83-bcc9-4a3b-ab7e-eeede0b3384e/resource/subsc
+riptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompute/mac
+hines/mem1/overview
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Agent services ==='
+=== Agent services ===
+PS C:\Users\administrator.HQ> Get-Service -Name himds,azcmagent,extensionservice,gcarcservice -ErrorAction SilentlyContinue | Format-Table -AutoSize
+
+Status  Name             DisplayName
+------  ----             -----------
+Running extensionservice Guest Configuration Extension Service
+Running gcarcservice     Guest Configuration Arc Service
+Running himds            Azure Hybrid Instance Metadata Service
+
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Result marker ==='
+=== Result marker ===
+PS C:\Users\administrator.HQ> if ($ExitCode -eq 0) {
+    Write-Output 'MEM1 Azure Arc connect completed successfully using scoped service principal and mandatory governance tags.'
+}
+MEM1 Azure Arc connect completed successfully using scoped service principal and mandatory governance tags.
+PS C:\Users\administrator.HQ> else {
+    Write-Output 'MEM1 Azure Arc connect did not complete successfully. Review azcmagent output above.'
+}
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\administrator.HQ> Stop-Transcript
+Transcript stopped, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console-retry.txt
+PS C:\Users\administrator.HQ> Get-Content -Path $EvidenceFile
+**********************
+Windows PowerShell transcript start
+Start time: 20260510150010
+Username: HQ\administrator
+RunAs User: HQ\administrator
+Configuration Name:
+Machine: MEM1 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 5680
+PSVersion: 5.1.20348.4294
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.4294
+BuildVersion: 10.0.20348.4294
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Temp\AzawsLab-O2\o2-mem1-arc-connect-console-retry.txt
+PS C:\Users\administrator.HQ> Write-Output 'O2 Azure Arc MEM1 connect retry from console'
+O2 Azure Arc MEM1 connect retry from console
+PS C:\Users\administrator.HQ> Write-Output "Generated UTC: $((Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss'))"
+Generated UTC: 2026-05-10 22:00:10
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output "Service principal appId: $ServicePrincipalId"
+Service principal appId: 113983f8-865e-44aa-8bc8-720c7e5f6767
+PS C:\Users\administrator.HQ> Write-Output 'Secret value was entered through SecureString prompt. Secret value is not printed.'
+Secret value was entered through SecureString prompt. Secret value is not printed.
+PS C:\Users\administrator.HQ> Write-Output "Tags: $Tags"
+Tags: Environment=dev,Project=Azawslab-Release2,Owner=Hashib,CostCenter=Lab,Role=MEM,Phase=O2,Gateway=VyOS
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $AzcmAgent = 'C:\Program Files\AzureConnectedMachineAgent\azcmagent.exe'
+PS C:\Users\administrator.HQ> if (-not (Test-Path $AzcmAgent)) {
+    throw "azcmagent not found at $AzcmAgent"
+}
+PS C:\Users\administrator.HQ> Write-Output '=== Pre-connect agent status ==='
+=== Pre-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent version
+azcmagent version  1.63.03384.2896
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           :
+Resource Group Name                     :
+Resource Namespace                      :
+Resource Id                             :
+Subscription ID                         :
+Tenant ID                               :
+VM ID                                   :
+Correlation ID                          :
+VM UUID                                 :
+Location                                :
+Cloud                                   :
+Identity Key Store                      :
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Disconnected
+Agent Last Heartbeat                    :
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             :
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> $ClientSecretPtr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($ServicePrincipalSecretSecure)
+PS C:\Users\administrator.HQ> try {
+    $ServicePrincipalSecretPlain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ClientSecretPtr)
+
+    Write-Output '=== Connect MEM1 to Azure Arc ==='
+    Write-Output 'Using scoped service principal. Secret value is not printed.'
+
+    & $AzcmAgent connect `
+        --service-principal-id $ServicePrincipalId `
+        --service-principal-secret $ServicePrincipalSecretPlain `
+        --tenant-id $TenantId `
+        --subscription-id $SubscriptionId `
+        --resource-group $ResourceGroup `
+        --location $Location `
+        --resource-name $ArcResourceName `
+        --tags $Tags `
+        --cloud AzureCloud
+
+    $ExitCode = $LASTEXITCODE
+    Write-Output "azcmagent connect exit code: $ExitCode"
+}
+finally {
+    if ($ClientSecretPtr -ne [IntPtr]::Zero) {
+        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ClientSecretPtr)
+    }
+
+    $ServicePrincipalSecretPlain = $null
+    $ServicePrincipalSecretSecure = $null
+}
+=== Connect MEM1 to Azure Arc ===
+Using scoped service principal. Secret value is not printed.
+INFO    Connecting machine to Azure... This might take a few minutes.
+INFO    Cloud: AzureCloud
+INFO    Testing connectivity to endpoints that are needed to connect to Azure... This might take a few minutes.
+  20% [==>            ]
+  30% [===>           ]
+  INFO    Creating resource in Azure...                 Correlation ID=09b13542-d2dd-4a62-866d-09c6b8d8379e Resource ID=
+/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompu
+te/machines/mem1
+INFO    Creating resource in Azure...                 Correlation ID=09b13542-d2dd-4a62-866d-09c6b8d8379e Resource ID=/s
+ubscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompute
+/machines/mem1
+  60% [========>      ]
+  INFO    Retrieving MSI certificate... This might take a few minutes.
+  80% [===========>   ]
+ 100% [===============]
+  INFO    Connected machine to Azure
+INFO    Machine overview page: https://portal.azure.com/#@78643a83-bcc9-4a3b-ab7e-eeede0b3384e/resource/subscriptions/8d
+99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompute/machines/mem1/
+overview
+azcmagent connect exit code: 0
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Post-connect agent status ==='
+=== Post-connect agent status ===
+PS C:\Users\administrator.HQ> & $AzcmAgent show
+Resource Name                           : mem1
+Resource Group Name                     : rg-dev-arc-norwayeast
+Resource Namespace                      : Microsoft.HybridCompute
+Resource Id                             : /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-
+norwayeast/providers/Microsoft.HybridCompute/machines/mem1
+Subscription ID                         : 8d99637c-13e7-417c-b334-b586d0ddc3d6
+Tenant ID                               : 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+VM ID                                   : 2be188ae-498c-41bc-ac18-4c37d47029c9
+Correlation ID                          : 09b13542-d2dd-4a62-866d-09c6b8d8379e
+VM UUID                                 : 7CCBDF45-58F8-4371-8B2A-8CD3FD19CE87
+Location                                : norwayeast
+Cloud                                   : AzureCloud
+Identity Key Store                      : Default
+Agent Version                           : 1.63.03384.2896
+Agent Logfile                           : C:\ProgramData\AzureConnectedMachineAgent\Log\himds.log
+Agent Status                            : Connected
+Agent Last Heartbeat                    : 2026-05-10T15:00:24-07:00
+Agent Error Code                        :
+Agent Error Details                     :
+Agent Error Timestamp                   :
+Using HTTPS Proxy                       :
+Proxy Bypass List                       :
+Upstream Proxy                          :
+Gateway URL                             :
+Cloud Provider                          : N/A
+Cloud Metadata
+Manufacturer                            : Microsoft Corporation
+Model                                   : Virtual Machine
+MSSQL Server Detected                   : false
+MySQL Server Detected                   : false
+PGSQL Server Detected                   : false
+Dependent Service Status
+  Agent Service (himds)                 : running
+  Azure Arc Proxy (arcproxy)            : running
+  Extension Service (extensionservice)  : running
+  GC Service (gcarcservice)             : running
+  SMS Agent Host (CcmExec)              : unknown
+Portal Page                             : https://portal.azure.com/#@78643a83-bcc9-4a3b-ab7e-eeede0b3384e/resource/subsc
+riptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast/providers/Microsoft.HybridCompute/mac
+hines/mem1/overview
+Disabled Features                       :
+Agent Auto Upgrade Task Status          : enabled, id: {320AFC97-A8F7-4AAC-B56D-1AE7A0F1CB91}
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Agent services ==='
+=== Agent services ===
+PS C:\Users\administrator.HQ> Get-Service -Name himds,azcmagent,extensionservice,gcarcservice -ErrorAction SilentlyContinue | Format-Table -AutoSize
+
+Status  Name             DisplayName
+------  ----             -----------
+Running extensionservice Guest Configuration Extension Service
+Running gcarcservice     Guest Configuration Arc Service
+Running himds            Azure Hybrid Instance Metadata Service
+
+
+PS C:\Users\administrator.HQ> Write-Output ''
+
+PS C:\Users\administrator.HQ> Write-Output '=== Result marker ==='
+=== Result marker ===
+PS C:\Users\administrator.HQ> if ($ExitCode -eq 0) {
+    Write-Output 'MEM1 Azure Arc connect completed successfully using scoped service principal and mandatory governance tags.'
+}
+MEM1 Azure Arc connect completed successfully using scoped service principal and mandatory governance tags.
+PS C:\Users\administrator.HQ> else {
+    Write-Output 'MEM1 Azure Arc connect did not complete successfully. Review azcmagent output above.'
+}
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+else : The term 'else' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ else {
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (else:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\administrator.HQ> Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20260510150026
+**********************

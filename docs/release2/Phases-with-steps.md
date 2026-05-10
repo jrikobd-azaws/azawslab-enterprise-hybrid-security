@@ -1636,3 +1636,42 @@ Evidence:
 - `docs/release2/evidence/P5-vpn/firewall-policy-current-post-gateway-udr.json`
 - `docs/release2/evidence/P5-vpn/p5-fortigate-gateway-ingress-symmetry-validation.txt`
 
+
+## O2 Implementation Update - MEM1 Azure Arc Onboarding
+
+The first O2 Azure Arc target is MEM1 rather than DC1.
+
+```text
+[MEM1]
+  hostname: mem1.hq.azawslab.co.uk
+  IP: 192.168.1.20
+  gateway: 192.168.1.254 / VyOS
+        |
+        | HTTPS/443
+        v
+[Azure Arc]
+  resource group: rg-dev-arc-norwayeast
+  resource name: mem1
+```
+
+Final validated state:
+- Azure Connected Machine agent installed
+- Agent version: `1.63.03384.2896`
+- Azure-side status: `Connected`
+- Provisioning state: `Succeeded`
+- Mandatory governance tags present
+- Scoped onboarding service principal used
+
+Important design decision:
+- Do not install Azure CLI on MEM1 just for Key Vault retrieval.
+- Retrieve the Arc onboarding secret from Key Vault on the admin machine, paste it into MEM1 through a SecureString prompt, and do not print or commit the secret.
+- Do not broaden the onboarding service principal beyond the required scope.
+- Register required Arc resource providers at subscription scope using an appropriate admin/platform identity before onboarding.
+
+Evidence:
+- `docs/release2/evidence/O2/o2-mem1-vyos-gateway-arc-preflight.txt`
+- `docs/release2/evidence/O2/o2-arc-onboarding-identity-bootstrap.txt`
+- `docs/release2/evidence/O2/o2-mem1-arc-connect-console.txt`
+- `docs/release2/evidence/O2/o2-mem1-arc-azure-validation.txt`
+
+

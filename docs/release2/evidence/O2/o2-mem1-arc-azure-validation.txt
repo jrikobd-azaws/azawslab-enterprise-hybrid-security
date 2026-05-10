@@ -1,0 +1,22 @@
+﻿O2 Azure Arc MEM1 Azure-side validation
+Generated UTC: 2026-05-10 22:04:39
+
+Expected result: MEM1 appears as an Azure Arc-enabled server with Connected status.
+
+Name: mem1
+Resource Group: rg-dev-arc-norwayeast
+Location: norwayeast
+Status: Connected
+Provisioning State: Succeeded
+OS Name: windows
+Machine FQDN: MEM1.hq.azawslab.co.uk
+Agent Version: 1.63.03384.2896
+
+Tags:
+- CostCenter: Lab
+- Environment: dev
+- Gateway: VyOS
+- Owner: Hashib
+- Phase: O2
+- Project: Azawslab-Release2
+- Role: MEM
