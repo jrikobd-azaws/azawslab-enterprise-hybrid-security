@@ -1,4 +1,4 @@
-﻿---
+---
 - name: Read-only FortiGate API validation
   hosts: fortigate
   gather_facts: false

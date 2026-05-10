@@ -1,83 +1,99 @@
-﻿---
-- name: Ensure O1 Azure workload address object exists
+---
+- name: Read current FortiGate firewall policies before reconciliation
+  ansible.builtin.uri:
+    url: "https://{{ ansible_host }}/api/v2/cmdb/firewall/policy?vdom={{ fortigate_vdom }}"
+    method: GET
+    validate_certs: false
+    headers:
+      Authorization: "Bearer {{ fortios_access_token }}"
+    status_code: 200
+  register: fortigate_policy_before
+  no_log: "{{ fortigate_hide_sensitive_output }}"
+
+- name: Build current FortiGate policy ID list
+  ansible.builtin.set_fact:
+    fortigate_current_policy_ids: "{{ fortigate_policy_before.json.results | map(attribute='policyid') | map('int') | list | sort }}"
+
+- name: Assert FortiGate policy layout is safe for two-policy reconciliation
+  ansible.builtin.assert:
+    that:
+      - fortigate_current_policy_ids | difference(fortigate_expected_policy_ids) | length == 0
+    fail_msg: >-
+      FortiGate has unmanaged policy IDs {{ fortigate_current_policy_ids | difference(fortigate_expected_policy_ids) }}.
+      Run the guarded retired-policy cleanup first or inspect the firewall manually before reconciliation.
+      Expected policy IDs are {{ fortigate_expected_policy_ids }}.
+    success_msg: "FortiGate policy IDs are safe for two-policy reconciliation: {{ fortigate_current_policy_ids }}"
+  when: fortigate_validate_two_policy_baseline | bool
+
+- name: Ensure O1/P2b address objects exist
   fortinet.fortios.fortios_firewall_address:
     vdom: "{{ fortigate_vdom }}"
     access_token: "{{ fortios_access_token }}"
     state: present
     firewall_address:
-      name: "{{ fortigate_o1_azure_workload_address_name }}"
-      subnet: "{{ fortigate_o1_azure_workload_prefix }}"
-      comment: "{{ fortigate_o1_azure_workload_comment }}"
+      name: "{{ item.name }}"
+      subnet: "{{ item.subnet }}"
+      comment: "{{ item.comment }}"
+  loop: "{{ fortigate_o1_address_objects }}"
   no_log: "{{ fortigate_hide_sensitive_output }}"
 
-- name: Ensure O1 HQ lab address object exists
-  fortinet.fortios.fortios_firewall_address:
+- name: Ensure O1/P2b reference service groups exist
+  fortinet.fortios.fortios_firewall_service_group:
     vdom: "{{ fortigate_vdom }}"
     access_token: "{{ fortios_access_token }}"
     state: present
-    firewall_address:
-      name: "{{ fortigate_o1_hq_address_name }}"
-      subnet: "{{ fortigate_o1_hq_prefix }}"
-      comment: "{{ fortigate_o1_hq_comment }}"
+    firewall_service_group:
+      name: "{{ item.name }}"
+      member: "{{ item.member }}"
+      comment: "{{ item.comment }}"
+  loop: "{{ fortigate_o1_reference_service_groups }}"
+  when: fortigate_create_reference_service_groups | bool
   no_log: "{{ fortigate_hide_sensitive_output }}"
 
-- name: Ensure O1 return route to Azure workload spoke exists
-  fortinet.fortios.fortios_router_static:
-    vdom: "{{ fortigate_vdom }}"
-    access_token: "{{ fortios_access_token }}"
-    state: present
-    router_static:
-      seq_num: "{{ fortigate_o1_workload_return_route_seq }}"
-      dst: "{{ fortigate_o1_workload_return_route_dst }}"
-      gateway: "{{ fortigate_o1_workload_return_route_gateway }}"
-      device: "{{ fortigate_o1_workload_return_route_device }}"
-      comment: "{{ fortigate_o1_workload_return_route_comment }}"
-  no_log: "{{ fortigate_hide_sensitive_output }}"
-
-- name: Ensure O1 explicit HQ route via Azure hub/VPN path exists
-  fortinet.fortios.fortios_router_static:
-    vdom: "{{ fortigate_vdom }}"
-    access_token: "{{ fortios_access_token }}"
-    state: present
-    router_static:
-      seq_num: "{{ fortigate_o1_hq_route_seq }}"
-      dst: "{{ fortigate_o1_hq_route_dst }}"
-      gateway: "{{ fortigate_o1_hq_route_gateway }}"
-      device: "{{ fortigate_o1_hq_route_device }}"
-      comment: "{{ fortigate_o1_hq_route_comment }}"
-  no_log: "{{ fortigate_hide_sensitive_output }}"
-
-- name: Ensure O1 Azure workload to HQ ICMP SNAT policy exists
+- name: Reconcile policy 1 - Azure workload to HQ required services
   fortinet.fortios.fortios_firewall_policy:
     vdom: "{{ fortigate_vdom }}"
     access_token: "{{ fortios_access_token }}"
     state: present
-    firewall_policy:
-      policyid: "{{ fortigate_o1_policy_id }}"
-      name: "{{ fortigate_o1_policy_name }}"
-      status: "{{ fortigate_o1_policy_status }}"
-      srcintf:
-        - name: "{{ fortigate_o1_policy_src_interface }}"
-      dstintf:
-        - name: "{{ fortigate_o1_policy_dst_interface }}"
-      srcaddr:
-        - name: "{{ fortigate_o1_azure_workload_address_name }}"
-      dstaddr:
-        - name: "{{ fortigate_o1_hq_address_name }}"
-      action: "{{ fortigate_o1_policy_action }}"
-      schedule: "{{ fortigate_o1_policy_schedule }}"
-      service:
-        - name: "{{ fortigate_o1_policy_service }}"
-      logtraffic: "{{ fortigate_o1_policy_logtraffic }}"
-      nat: "{{ fortigate_o1_policy_nat }}"
-      comments: "{{ fortigate_o1_policy_comments }}"
+    firewall_policy: "{{ fortigate_o1_policy_azure_to_hq }}"
   no_log: "{{ fortigate_hide_sensitive_output }}"
 
-- name: Show O1 service-chain codification summary
+- name: Reconcile policy 11 - HQ to Azure workload web and ICMP
+  fortinet.fortios.fortios_firewall_policy:
+    vdom: "{{ fortigate_vdom }}"
+    access_token: "{{ fortios_access_token }}"
+    state: present
+    firewall_policy: "{{ fortigate_o1_policy_hq_to_azure }}"
+  no_log: "{{ fortigate_hide_sensitive_output }}"
+
+- name: Read FortiGate firewall policies after reconciliation
+  ansible.builtin.uri:
+    url: "https://{{ ansible_host }}/api/v2/cmdb/firewall/policy?vdom={{ fortigate_vdom }}"
+    method: GET
+    validate_certs: false
+    headers:
+      Authorization: "Bearer {{ fortios_access_token }}"
+    status_code: 200
+  register: fortigate_policy_after
+  no_log: "{{ fortigate_hide_sensitive_output }}"
+
+- name: Build reconciled FortiGate policy ID list
+  ansible.builtin.set_fact:
+    fortigate_reconciled_policy_ids: "{{ fortigate_policy_after.json.results | map(attribute='policyid') | map('int') | list | sort }}"
+
+- name: Assert FortiGate remains on the two-policy baseline
+  ansible.builtin.assert:
+    that:
+      - fortigate_reconciled_policy_ids == fortigate_expected_policy_ids
+    fail_msg: >-
+      FortiGate policy baseline mismatch after reconciliation.
+      Expected {{ fortigate_expected_policy_ids }}, got {{ fortigate_reconciled_policy_ids }}.
+    success_msg: "FortiGate remains on the expected two-policy baseline: {{ fortigate_reconciled_policy_ids }}"
+
+- name: Show FortiGate O1/P2b reconciliation summary
   ansible.builtin.debug:
     msg:
-      - "O1 FortiGate service-chain desired state is codified."
-      - "Direction: Azure workload 10.10.0.0/16 to HQ 192.168.1.0/24."
-      - "Policy: {{ fortigate_o1_policy_name }}."
-      - "Lab delta: SNAT is enabled for the first controlled validation."
-      - "This role does not configure HQ-initiated inspection or GatewaySubnet ingress steering."
+      - "FortiGate O1/P2b two-policy baseline reconciled."
+      - "Policy 1: {{ fortigate_o1_policy_azure_to_hq.name }} | {{ fortigate_o1_policy_azure_to_hq.srcintf[0].name }} -> {{ fortigate_o1_policy_azure_to_hq.dstintf[0].name }} | NAT={{ fortigate_o1_policy_azure_to_hq.nat }}"
+      - "Policy 11: {{ fortigate_o1_policy_hq_to_azure.name }} | {{ fortigate_o1_policy_hq_to_azure.srcintf[0].name }} -> {{ fortigate_o1_policy_hq_to_azure.dstintf[0].name }} | NAT={{ fortigate_o1_policy_hq_to_azure.nat }}"
+      - "AWS/O3b FortiGate policies are not created by this role. fortigate_create_aws_branch_policies={{ fortigate_create_aws_branch_policies }}"

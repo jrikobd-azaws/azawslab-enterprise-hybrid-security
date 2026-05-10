@@ -1,5 +1,5 @@
-﻿---
-- name: Codify Release 2 O1 FortiGate service-chain configuration
+---
+- name: Reconcile Release 2 O1/P2b FortiGate two-policy service-chain baseline
   hosts: fortigate
   gather_facts: false
 
@@ -11,7 +11,7 @@
       ansible.builtin.assert:
         that:
           - fortios_access_token | length > 0
-        fail_msg: "FORTIOS_ACCESS_TOKEN is not loaded. Run: source ~/.azawslab-secrets/fortigate-o1.env"
+        fail_msg: "FORTIOS_ACCESS_TOKEN is not loaded. Load the FortiGate API token into the runtime environment before running this playbook."
         success_msg: "FORTIOS_ACCESS_TOKEN is loaded for this Ansible run."
 
   roles:

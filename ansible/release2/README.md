@@ -179,3 +179,29 @@ Validation:
 - `apache2` is active.
 - Local Apache test returns `HTTP/1.1 200 OK`.
 - DC1 confirms `HQ-LINUX-VM01` under the Linux OU.
+
+## P5 FortiGate two-policy reconciliation
+
+The current O1/P2b FortiGate baseline is intentionally limited to two active firewall policies because the lab FortiGate license has a policy-entry limit.
+
+Final managed policy model:
+- Policy 1: `O1-AzureWorkload-to-HQ-Required-SNAT`
+  - Direction: `port2 -> port1`
+  - Services: `Windows AD`, `PING`, `NTP`
+  - NAT: enabled
+- Policy 11: `O1-HQ-to-AzureWorkload-Web-ICMP`
+  - Direction: `port1 -> port2`
+  - Services: `HTTP`, `HTTPS`, `PING`
+  - NAT: disabled
+
+Operational playbooks:
+- `playbooks/fortigate-readonly-api-check.yml`
+- `playbooks/fortigate-retired-policy-cleanup.yml`
+- `playbooks/fortigate-service-chain.yml`
+- `playbooks/fortigate-two-policy-refresh.yml`
+
+Design guardrails:
+- The service-chain role manages only policy 1 and policy 11.
+- Retired policy IDs 10, 12, 20, and 21 are removed only by the guarded cleanup playbook.
+- AWS/O3b FortiGate policies are not created until the AWS-Cisco/FortiGate route path is active and validated.
+- FortiGate API tokens are loaded at runtime and are not committed.
