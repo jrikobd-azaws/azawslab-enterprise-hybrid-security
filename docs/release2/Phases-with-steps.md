@@ -1255,6 +1255,51 @@ Keep Azure VPN Gateway, FortiGate, and related paid resources only while needed 
 
 ---
 
+
+# O3b/O3c ACTIVE ARCHITECTURE ALIGNMENT
+=======================================
+
+## Current Design Decision
+
+O3b and O3c use Azure VPN Gateway as the IPSec/BGP transit hub.
+
+FortiGate is not the active O3b IPSec/BGP peer. FortiGate remains the Azure-side inspection and service-chaining plane.
+
+```text
+                [Azure Hub VNet]
+                       |
+               [Azure VPN Gateway]
+                 ASN: 65515
+                       |
+          +------------+-------------+
+          |                          |
+      IPSec/BGP                  IPSec/BGP
+          |                          |
+          v                          v
+   [VyOS / HQ Lab]           [Cisco 8000V / AWS]
+     ASN: 65001                  ASN: 65002
+     192.168.1.0/24              172.16.0.0/16
+```
+
+## O3b Validation Target
+
+- Cisco Catalyst 8000V deployed in AWS.
+- AWS Marketplace BYOL subscription confirmed.
+- AWS route tables steer selected branch subnet traffic to Cisco ENI.
+- Cisco establishes IPSec/BGP with Azure VPN Gateway.
+- Azure VPN Gateway learns AWS branch prefixes.
+- Cisco learns intended Azure/HQ prefixes.
+- No Azure FortiGate BGP/IPSec dependency is introduced.
+
+## O3c Validation Target
+
+- Azure, HQ, and AWS end-to-end routes validated.
+- Transitive paths documented.
+- FortiGate inspection claimed only for flows with FortiGate policy counter or log proof.
+- No broad GatewaySubnet routing assumptions are introduced without specific validation.
+
+---
+
 # PHASE O3b: AWS CISCO BRANCH WITH SEGMENTED BGP
 ================================================
 
@@ -1673,5 +1718,6 @@ Evidence:
 - `docs/release2/evidence/O2/o2-arc-onboarding-identity-bootstrap.txt`
 - `docs/release2/evidence/O2/o2-mem1-arc-connect-console.txt`
 - `docs/release2/evidence/O2/o2-mem1-arc-azure-validation.txt`
+
 
 

@@ -714,3 +714,16 @@ Date: 2026-05-06 00:59:25 +01:00
 - [x] Mandatory governance tags present on Arc resource
 - [x] O2 evidence saved under `docs/release2/evidence/O2/`
 
+
+### O3b/O3c Architecture Gate
+
+- [x] Azure VPN Gateway is documented as the O3b/O3c IPSec/BGP transit hub
+- [x] FortiGate is documented as the Azure-side inspection/service-chaining plane
+- [x] Cisco 8000V is documented as the AWS branch router
+- [x] VyOS is documented as the HQ/on-prem edge
+- [x] Cisco Marketplace BYOL subscription confirmed
+- [ ] Terraform/Ansible implementation audited before Cisco enablement
+- [ ] Cisco deployment remains disabled until planned O3b implementation
+- [ ] O3c transitive routing is not claimed until Azure/HQ/AWS paths are validated
+- [ ] FortiGate inspection is not claimed for AWS flows until FortiGate counters/logs prove traversal
+
