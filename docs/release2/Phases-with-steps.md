@@ -566,8 +566,8 @@ Requirements:
 - [ ] `ansible-lint` passes
 - [ ] first run succeeds
 - [ ] second run is idempotent
-- [ ] domain join verified where applicable
-- [ ] IIS / application deployment verified where applicable
+- [x] domain join verified where applicable
+- [x] IIS / Apache application deployment verified where applicable
 
 ## Suggested Evidence
 - `docs/release2/evidence/P2b/ansible-lint.txt`
@@ -1592,3 +1592,27 @@ Open follow-up:
 
 Evidence:
 - docs/release2/evidence/P5-vpn/p5-fortigate-gateway-ingress-symmetry-validation.txt
+
+## Update - P2b Linux AD Join Closeout
+
+P2b now includes validated Linux AD join and Apache configuration for the HQ Linux host.
+
+Final implementation:
+- Control node: `vm-dev-mgmt-01`
+- Linux host: `hq-linux-vm01`
+- Linux IP: `192.168.1.30`
+- Domain: `hq.azawslab.co.uk`
+- Computer object: `CN=HQ-LINUX-VM01,OU=Linux,OU=AzawsLab,DC=hq,DC=azawslab,DC=co,DC=uk`
+- Linux SSH/sudo account: `hq-admin`
+- AD join account: `svc.ansible`
+- Delegated group: `azw-hq-ansible-operators`
+- Secret source: Key Vault runtime retrieval from `vm-dev-mgmt-01`
+- Validation: `realm list`, `sssd`, `apache2`, and HTTP `200 OK`
+
+Security notes:
+- `svc.ansible` is delegated only for Linux OU computer-join operations.
+- `svc.ansible` is not Domain Admin.
+- No plaintext secrets are committed.
+- No root login or passwordless sudo is used.
+- Linux static IP configuration is a prerequisite and must not be modified by the AD join automation.
+
