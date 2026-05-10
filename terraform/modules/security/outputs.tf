@@ -34,3 +34,13 @@ output "defender_security_contact_id" {
 output "defender_security_contact_email" {
   value = azurerm_security_center_contact.defender.email
 }
+
+output "key_vault_private_endpoint_id" {
+  description = "ID of the Key Vault Private Endpoint when enabled."
+  value       = try(azurerm_private_endpoint.key_vault[0].id, null)
+}
+
+output "key_vault_private_dns_zone_id" {
+  description = "ID of the Key Vault Private DNS zone when enabled."
+  value       = try(azurerm_private_dns_zone.key_vault[0].id, null)
+}
