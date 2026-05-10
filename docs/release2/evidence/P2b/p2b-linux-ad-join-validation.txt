@@ -1,0 +1,6 @@
+﻿Enable succeeded: 
+[stdout]
+
+[stderr]
+/var/lib/waagent/run-command/download/14/script.sh: 3: set: Illegal option -o pipefail
+

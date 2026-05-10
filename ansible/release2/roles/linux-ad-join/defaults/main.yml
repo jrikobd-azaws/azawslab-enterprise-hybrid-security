@@ -1,0 +1,15 @@
+﻿---
+linux_ad_join_domain: hq.azawslab.co.uk
+linux_ad_join_dc_fqdn: dc1.hq.azawslab.co.uk
+linux_ad_join_dc_ip: 192.168.1.10
+linux_ad_join_user: hq.admin
+linux_ad_join_password: "{{ lookup('env', 'HQ_DOMAIN_JOIN_PASSWORD') }}"
+
+# Keep false for first preflight run. Set true with -e linux_ad_join_apply=true after checks pass.
+linux_ad_join_apply: false
+
+# Keep false unless DNS resolution fails and a deliberate DNS change is approved.
+linux_ad_join_manage_dns: false
+
+# Optional. Leave empty unless a specific Linux OU is confirmed.
+linux_ad_join_computer_ou: ""
