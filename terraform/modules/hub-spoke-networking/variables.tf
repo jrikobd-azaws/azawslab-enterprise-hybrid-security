@@ -129,3 +129,33 @@ variable "o1_service_chain_next_hop_ip" {
   type        = string
   default     = "10.0.3.36"
 }
+
+variable "enable_p5_gateway_ingress_fortigate" {
+  description = "Controls whether GatewaySubnet ingress traffic to the workload subnet is steered through FortiGate port1 for symmetric HQ-to-Azure inspection."
+  type        = bool
+  default     = false
+}
+
+variable "p5_gateway_ingress_route_table_name" {
+  description = "Name of the GatewaySubnet route table used for FortiGate ingress symmetry."
+  type        = string
+  default     = "rt-dev-gateway-ingress-fgt-norwayeast"
+}
+
+variable "p5_gateway_ingress_route_name" {
+  description = "Name of the GatewaySubnet route steering workload subnet ingress traffic to FortiGate port1."
+  type        = string
+  default     = "route-snet-workload-via-fgt-port1"
+}
+
+variable "p5_gateway_ingress_workload_prefix" {
+  description = "Workload subnet prefix steered from GatewaySubnet to FortiGate port1."
+  type        = string
+  default     = "10.10.0.0/24"
+}
+
+variable "p5_gateway_ingress_fortigate_port1_ip" {
+  description = "FortiGate port1 IP used as the GatewaySubnet ingress next hop."
+  type        = string
+  default     = "10.0.3.4"
+}
