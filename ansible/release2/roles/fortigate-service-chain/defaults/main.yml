@@ -1,47 +1,101 @@
-﻿---
-# Release 2 O1 FortiGate service-chain validated configuration.
+---
+# Release 2 O1/P2b FortiGate two-policy service-chain baseline.
 #
-# Scope:
-#   Azure workload -> FortiGate -> Azure VPN Gateway -> VyOS/HQ
+# This role intentionally manages only the current validated FortiGate policy model:
 #
-# Out of scope:
-#   HQ/VyOS-initiated inspection toward Azure workloads.
-#   GatewaySubnet ingress steering.
-#   production no-NAT service chaining.
+# Policy 1:
+#   Azure workload -> HQ required services
+#   port2 -> port1
+#   Services: Windows AD, PING, NTP
+#   NAT: enable
+#
+# Policy 11:
+#   HQ -> Azure workload web/ICMP validation
+#   port1 -> port2
+#   Services: HTTP, HTTPS, PING
+#   NAT: disable
+#
+# Do not create policy 10, 12, 20, or 21 in this baseline.
+# AWS/O3b policies remain disabled/not created until the AWS route path is active.
 
 fortigate_vdom: root
-
-fortigate_o1_azure_workload_address_name: AZURE_WORKLOAD_10_10_0_0_16
-fortigate_o1_azure_workload_prefix: 10.10.0.0 255.255.0.0
-fortigate_o1_azure_workload_comment: Release 2 O1 Azure workload spoke prefix
-
-fortigate_o1_hq_address_name: HQ_LAB_192_168_1_0_24
-fortigate_o1_hq_prefix: 192.168.1.0 255.255.255.0
-fortigate_o1_hq_comment: Release 2 O1 HQ lab prefix behind VyOS
-
-fortigate_o1_workload_return_route_seq: 10
-fortigate_o1_workload_return_route_dst: 10.10.0.0 255.255.0.0
-fortigate_o1_workload_return_route_gateway: 10.0.3.33
-fortigate_o1_workload_return_route_device: port2
-fortigate_o1_workload_return_route_comment: Release 2 O1 return route to Azure workload spoke via trusted interface
-
-fortigate_o1_hq_route_seq: 11
-fortigate_o1_hq_route_dst: 192.168.1.0 255.255.255.0
-fortigate_o1_hq_route_gateway: 10.0.3.1
-fortigate_o1_hq_route_device: port1
-fortigate_o1_hq_route_comment: Release 2 O1 explicit HQ route via Azure hub/VPN Gateway path
-
-fortigate_o1_policy_id: 1
-fortigate_o1_policy_name: O1-AzureWorkload-to-HQ-ICMP-SNAT
-fortigate_o1_policy_src_interface: port2
-fortigate_o1_policy_dst_interface: port1
-fortigate_o1_policy_service: PING
-fortigate_o1_policy_schedule: always
-fortigate_o1_policy_action: accept
-fortigate_o1_policy_logtraffic: all
-fortigate_o1_policy_nat: enable
-fortigate_o1_policy_status: enable
-fortigate_o1_policy_comments: Release 2 O1 lab validation policy. SNAT enabled to avoid asymmetric return path during first service-chain test.
-
-# Hide FortiGate module arguments/results by default because tasks receive an API token.
 fortigate_hide_sensitive_output: true
+
+fortigate_validate_two_policy_baseline: true
+fortigate_expected_policy_ids:
+  - 1
+  - 11
+
+fortigate_o1_address_objects:
+  - name: AZURE_WORKLOAD_10_10_0_0_16
+    subnet: '10.10.0.0 255.255.0.0'
+    comment: Release 2 Azure workload spoke prefix
+  - name: HQ_LAB_192_168_1_0_24
+    subnet: '192.168.1.0 255.255.255.0'
+    comment: Release 2 HQ lab subnet behind VyOS through Azure VPN Gateway
+  - name: VM_DEV_CLIENT_10_10_0_4
+    subnet: '10.10.0.4 255.255.255.255'
+    comment: Release 2 domain-joined Azure Windows IIS workload
+
+fortigate_create_reference_service_groups: true
+
+fortigate_o1_reference_service_groups:
+  - name: O1_AZURE_TO_HQ_REQUIRED_SERVICES
+    member:
+      - name: Windows AD
+      - name: PING
+      - name: NTP
+    comment: Release 2 reference group for Azure workload to HQ required services
+  - name: O1_HQ_TO_AZURE_WEB_ICMP_SERVICES
+    member:
+      - name: HTTP
+      - name: HTTPS
+      - name: PING
+    comment: Release 2 reference group for HQ to Azure web and ICMP validation
+
+fortigate_o1_policy_azure_to_hq:
+  policyid: 1
+  name: O1-AzureWorkload-to-HQ-Required-SNAT
+  status: enable
+  srcintf:
+    - name: port2
+  dstintf:
+    - name: port1
+  srcaddr:
+    - name: AZURE_WORKLOAD_10_10_0_0_16
+  dstaddr:
+    - name: HQ_LAB_192_168_1_0_24
+  action: accept
+  schedule: always
+  service:
+    - name: Windows AD
+    - name: PING
+    - name: NTP
+  logtraffic: all
+  nat: enable
+  comments: Release 2 consolidated Azure-to-HQ policy. Uses built-in Windows AD, PING, and NTP. SNAT retained as lab symmetry delta.
+
+fortigate_o1_policy_hq_to_azure:
+  policyid: 11
+  name: O1-HQ-to-AzureWorkload-Web-ICMP
+  status: enable
+  srcintf:
+    - name: port1
+  dstintf:
+    - name: port2
+  srcaddr:
+    - name: HQ_LAB_192_168_1_0_24
+  dstaddr:
+    - name: VM_DEV_CLIENT_10_10_0_4
+  action: accept
+  schedule: always
+  service:
+    - name: HTTP
+    - name: HTTPS
+    - name: PING
+  logtraffic: all
+  nat: disable
+  comments: Release 2 consolidated HQ-to-Azure workload validation policy for IIS and ICMP.
+
+fortigate_create_aws_branch_policies: false
+fortigate_aws_branch_policy_status: disable

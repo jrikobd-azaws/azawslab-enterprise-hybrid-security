@@ -1,0 +1,100 @@
+﻿Enable succeeded: 
+[stdout]
+y baseline is only policy 1 and policy 11] *************
+ok: [vm-dev-fortigate-01] => changed=false 
+  msg: 'FortiGate policy baseline is clean: only policy 1 and policy 11 remain.'
+
+TASK [Cleanup summary] *********************************************************
+ok: [vm-dev-fortigate-01] => 
+  msg:
+  - Retired FortiGate policies removed where present.
+  - 'Remaining policy IDs: [1, 11]'
+  - 'Final baseline: policy 1 and policy 11 only.'
+
+PLAY RECAP *********************************************************************
+vm-dev-fortigate-01        : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+=== two-policy-reconciliation ===
+
+PLAY [Reconcile Release 2 O1/P2b FortiGate two-policy service-chain baseline] ***
+
+TASK [Assert FortiGate API token is available from environment] ****************
+ok: [vm-dev-fortigate-01] => changed=false 
+  msg: FORTIOS_ACCESS_TOKEN is loaded for this Ansible run.
+
+TASK [fortigate-service-chain : Read current FortiGate firewall policies before reconciliation] ***
+ok: [vm-dev-fortigate-01]
+
+TASK [fortigate-service-chain : Build current FortiGate policy ID list] ********
+ok: [vm-dev-fortigate-01]
+
+TASK [fortigate-service-chain : Assert FortiGate policy layout is safe for two-policy reconciliation] ***
+ok: [vm-dev-fortigate-01] => changed=false 
+  msg: 'FortiGate policy IDs are safe for two-policy reconciliation: [1, 11]'
+
+TASK [fortigate-service-chain : Ensure O1/P2b address objects exist] ***********
+ok: [vm-dev-fortigate-01] => (item=None)
+ok: [vm-dev-fortigate-01] => (item=None)
+ok: [vm-dev-fortigate-01] => (item=None)
+ok: [vm-dev-fortigate-01]
+
+TASK [fortigate-service-chain : Ensure O1/P2b reference service groups exist] ***
+ok: [vm-dev-fortigate-01] => (item=None)
+ok: [vm-dev-fortigate-01] => (item=None)
+ok: [vm-dev-fortigate-01]
+
+TASK [fortigate-service-chain : Reconcile policy 1 - Azure workload to HQ required services] ***
+ok: [vm-dev-fortigate-01]
+
+TASK [fortigate-service-chain : Reconcile policy 11 - HQ to Azure workload web and ICMP] ***
+ok: [vm-dev-fortigate-01]
+
+TASK [fortigate-service-chain : Read FortiGate firewall policies after reconciliation] ***
+ok: [vm-dev-fortigate-01]
+
+TASK [fortigate-service-chain : Build reconciled FortiGate policy ID list] *****
+ok: [vm-dev-fortigate-01]
+
+TASK [fortigate-service-chain : Assert FortiGate remains on the two-policy baseline] ***
+ok: [vm-dev-fortigate-01] => changed=false 
+  msg: 'FortiGate remains on the expected two-policy baseline: [1, 11]'
+
+TASK [fortigate-service-chain : Show FortiGate O1/P2b reconciliation summary] ***
+ok: [vm-dev-fortigate-01] => 
+  msg:
+  - FortiGate O1/P2b two-policy baseline reconciled.
+  - 'Policy 1: O1-AzureWorkload-to-HQ-Required-SNAT | port2 -> port1 | NAT=enable'
+  - 'Policy 11: O1-HQ-to-AzureWorkload-Web-ICMP | port1 -> port2 | NAT=disable'
+  - AWS/O3b FortiGate policies are not created by this role. fortigate_create_aws_branch_policies=False
+
+PLAY RECAP *********************************************************************
+vm-dev-fortigate-01        : ok=12   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+=== final-readonly-check ===
+
+PLAY [Read-only FortiGate API validation] **************************************
+
+TASK [Assert FortiGate API token is available from environment] ****************
+ok: [vm-dev-fortigate-01] => changed=false 
+  msg: FORTIOS_ACCESS_TOKEN is loaded for this Ansible run.
+
+TASK [Read FortiGate system status] ********************************************
+ok: [vm-dev-fortigate-01]
+
+TASK [Read FortiGate port1 interface] ******************************************
+ok: [vm-dev-fortigate-01]
+
+TASK [Read-only FortiGate API validation summary] ******************************
+ok: [vm-dev-fortigate-01] => 
+  msg:
+  - Read-only FortiGate API validation completed.
+  - No configuration changes were requested by this playbook.
+
+PLAY RECAP *********************************************************************
+vm-dev-fortigate-01        : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+[stderr]
+

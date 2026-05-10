@@ -1,0 +1,74 @@
+---
+- name: Remove retired FortiGate policies after two-policy baseline validation
+  hosts: fortigate
+  gather_facts: false
+
+  vars:
+    fortios_access_token: "{{ lookup('env', 'FORTIOS_ACCESS_TOKEN') }}"
+    fortigate_vdom: root
+    fortigate_retired_policy_ids:
+      - 10
+      - 12
+      - 20
+      - 21
+
+  tasks:
+    - name: Assert FortiGate API token is available from environment
+      ansible.builtin.assert:
+        that:
+          - fortios_access_token | length > 0
+        fail_msg: "FORTIOS_ACCESS_TOKEN is not loaded."
+        success_msg: "FORTIOS_ACCESS_TOKEN is loaded for this Ansible run."
+
+    - name: Read current FortiGate firewall policies before cleanup
+      ansible.builtin.uri:
+        url: "https://{{ ansible_host }}/api/v2/cmdb/firewall/policy?vdom={{ fortigate_vdom }}"
+        method: GET
+        validate_certs: false
+        headers:
+          Authorization: "Bearer {{ fortios_access_token }}"
+        status_code: 200
+      register: fortigate_policy_before
+      no_log: true
+
+    - name: Show policy IDs before cleanup
+      ansible.builtin.debug:
+        msg:
+          - "Policy IDs before cleanup: {{ fortigate_policy_before.json.results | map(attribute='policyid') | map('int') | list | sort }}"
+          - "Only retired policies {{ fortigate_retired_policy_ids }} are eligible for removal."
+
+    - name: Remove retired FortiGate policy IDs
+      fortinet.fortios.fortios_firewall_policy:
+        vdom: "{{ fortigate_vdom }}"
+        access_token: "{{ fortios_access_token }}"
+        state: absent
+        firewall_policy:
+          policyid: "{{ item }}"
+      loop: "{{ fortigate_retired_policy_ids }}"
+      no_log: true
+      failed_when: false
+
+    - name: Read current FortiGate firewall policies after cleanup
+      ansible.builtin.uri:
+        url: "https://{{ ansible_host }}/api/v2/cmdb/firewall/policy?vdom={{ fortigate_vdom }}"
+        method: GET
+        validate_certs: false
+        headers:
+          Authorization: "Bearer {{ fortios_access_token }}"
+        status_code: 200
+      register: fortigate_policy_after
+      no_log: true
+
+    - name: Assert final policy baseline is only policy 1 and policy 11
+      ansible.builtin.assert:
+        that:
+          - fortigate_policy_after.json.results | map(attribute='policyid') | map('int') | list | sort == [1, 11]
+        fail_msg: "FortiGate policy baseline is not clean after cleanup."
+        success_msg: "FortiGate policy baseline is clean: only policy 1 and policy 11 remain."
+
+    - name: Cleanup summary
+      ansible.builtin.debug:
+        msg:
+          - "Retired FortiGate policies removed where present."
+          - "Remaining policy IDs: {{ fortigate_policy_after.json.results | map(attribute='policyid') | map('int') | list | sort }}"
+          - "Final baseline: policy 1 and policy 11 only."
