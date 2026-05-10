@@ -73,10 +73,10 @@ jobs:
 
           case "${{ github.event.inputs.profile }}" in
             current-hybrid)
-              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=false'" >> "$GITHUB_OUTPUT"
+              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=false' -var='enable_p5_gateway_ingress_fortigate=true'" >> "$GITHUB_OUTPUT"
               ;;
             o1-service-chain)
-              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=true'" >> "$GITHUB_OUTPUT"
+              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=true' -var='enable_p5_gateway_ingress_fortigate=true'" >> "$GITHUB_OUTPUT"
               ;;
             *)
               echo "Unsupported profile: ${{ github.event.inputs.profile }}"
@@ -84,6 +84,59 @@ jobs:
               ;;
           esac
 
+
+      - name: Import existing GatewaySubnet FortiGate ingress UDR if needed
+        run: |
+          set -euo pipefail
+
+          SUBSCRIPTION_ID="$(az account show --query id -o tsv)"
+          CONNECTIVITY_RG="rg-connectivity-prod-norwayeast"
+          HUB_VNET="vnet-dev-norwayeast-hub"
+          ROUTE_TABLE_NAME="rt-dev-gateway-ingress-fgt-norwayeast"
+          ROUTE_NAME="route-snet-workload-via-fgt-port1"
+
+          ROUTE_TABLE_ID="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${CONNECTIVITY_RG}/providers/Microsoft.Network/routeTables/${ROUTE_TABLE_NAME}"
+          ROUTE_ID="${ROUTE_TABLE_ID}/routes/${ROUTE_NAME}"
+          GATEWAY_SUBNET_ID="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${CONNECTIVITY_RG}/providers/Microsoft.Network/virtualNetworks/${HUB_VNET}/subnets/GatewaySubnet"
+
+          RT_ADDR='module.hub_spoke_networking.azurerm_route_table.gateway_ingress_fgt[0]'
+          ROUTE_ADDR='module.hub_spoke_networking.azurerm_route.gateway_ingress_workload_via_fgt_port1[0]'
+          ASSOC_ADDR='module.hub_spoke_networking.azurerm_subnet_route_table_association.gateway_ingress_fgt[0]'
+
+          echo "Checking existing Azure route table..."
+          az network route-table show \
+            --ids "${ROUTE_TABLE_ID}" \
+            --query '{name:name,resourceGroup:resourceGroup,location:location}' \
+            --output table
+
+          echo "Checking existing Azure route..."
+          az network route-table route show \
+            --resource-group "${CONNECTIVITY_RG}" \
+            --route-table-name "${ROUTE_TABLE_NAME}" \
+            --name "${ROUTE_NAME}" \
+            --query '{name:name,addressPrefix:addressPrefix,nextHopType:nextHopType,nextHopIpAddress:nextHopIpAddress}' \
+            --output table
+
+          echo "Importing route table if not already in Terraform state..."
+          if terraform state show "${RT_ADDR}" >/dev/null 2>&1; then
+            echo "Already in state: ${RT_ADDR}"
+          else
+            terraform import ${{ steps.profile.outputs.flags }} "${RT_ADDR}" "${ROUTE_TABLE_ID}"
+          fi
+
+          echo "Importing route if not already in Terraform state..."
+          if terraform state show "${ROUTE_ADDR}" >/dev/null 2>&1; then
+            echo "Already in state: ${ROUTE_ADDR}"
+          else
+            terraform import ${{ steps.profile.outputs.flags }} "${ROUTE_ADDR}" "${ROUTE_ID}"
+          fi
+
+          echo "Importing GatewaySubnet route-table association if not already in Terraform state..."
+          if terraform state show "${ASSOC_ADDR}" >/dev/null 2>&1; then
+            echo "Already in state: ${ASSOC_ADDR}"
+          else
+            terraform import ${{ steps.profile.outputs.flags }} "${ASSOC_ADDR}" "${GATEWAY_SUBNET_ID}"
+          fi
       - name: Terraform plan - platform networking hybrid
         run: |
           set -euo pipefail
@@ -101,3 +154,4 @@ jobs:
         run: |
           echo "Apply skipped because confirm_apply was not true."
           echo "Review the Terraform plan output, then rerun with confirm_apply=true when ready."
+

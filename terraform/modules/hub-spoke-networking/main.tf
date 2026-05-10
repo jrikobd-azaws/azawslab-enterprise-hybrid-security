@@ -85,6 +85,37 @@ resource "azurerm_route" "o1_hq_via_fortigate" {
   ]
 }
 
+
+resource "azurerm_route_table" "gateway_ingress_fgt" {
+  count = var.enable_p5_gateway_ingress_fortigate ? 1 : 0
+
+  name                = var.p5_gateway_ingress_route_table_name
+  location            = azurerm_resource_group.connectivity.location
+  resource_group_name = azurerm_resource_group.connectivity.name
+  tags                = var.tags
+}
+
+resource "azurerm_route" "gateway_ingress_workload_via_fgt_port1" {
+  count = var.enable_p5_gateway_ingress_fortigate ? 1 : 0
+
+  name                   = var.p5_gateway_ingress_route_name
+  resource_group_name    = azurerm_resource_group.connectivity.name
+  route_table_name       = azurerm_route_table.gateway_ingress_fgt[0].name
+  address_prefix         = var.p5_gateway_ingress_workload_prefix
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = var.p5_gateway_ingress_fortigate_port1_ip
+}
+
+resource "azurerm_subnet_route_table_association" "gateway_ingress_fgt" {
+  count = var.enable_p5_gateway_ingress_fortigate ? 1 : 0
+
+  subnet_id      = azurerm_subnet.gateway.id
+  route_table_id = azurerm_route_table.gateway_ingress_fgt[0].id
+
+  depends_on = [
+    azurerm_route.gateway_ingress_workload_via_fgt_port1
+  ]
+}
 resource "azurerm_public_ip" "azure_firewall" {
   count = var.enable_azure_firewall ? 1 : 0
 
@@ -221,6 +252,7 @@ resource "azurerm_bastion_host" "this" {
     public_ip_address_id = azurerm_public_ip.bastion[0].id
   }
 }
+
 
 
 

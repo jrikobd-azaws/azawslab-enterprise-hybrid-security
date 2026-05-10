@@ -45,9 +45,15 @@ module "hub_spoke_networking" {
   o1_service_chain_route_name       = var.o1_service_chain_route_name
   o1_service_chain_hq_prefix        = var.o1_service_chain_hq_prefix
   o1_service_chain_next_hop_ip      = var.o1_service_chain_next_hop_ip
-  enable_bastion                    = false
-  bastion_host_name                 = "bas-dev-norwayeast-01"
-  bastion_public_ip_name            = "pip-bas-dev-norwayeast-01"
+
+  enable_p5_gateway_ingress_fortigate   = var.enable_p5_gateway_ingress_fortigate
+  p5_gateway_ingress_route_table_name   = var.p5_gateway_ingress_route_table_name
+  p5_gateway_ingress_route_name         = var.p5_gateway_ingress_route_name
+  p5_gateway_ingress_workload_prefix    = var.p5_gateway_ingress_workload_prefix
+  p5_gateway_ingress_fortigate_port1_ip = var.p5_gateway_ingress_fortigate_port1_ip
+  enable_bastion                        = false
+  bastion_host_name                     = "bas-dev-norwayeast-01"
+  bastion_public_ip_name                = "pip-bas-dev-norwayeast-01"
 
   enable_azure_firewall         = false
   azure_firewall_name           = "afw-dev-norwayeast-01"
@@ -57,6 +63,7 @@ module "hub_spoke_networking" {
 
   tags = local.common_tags
 }
+
 
 
 
