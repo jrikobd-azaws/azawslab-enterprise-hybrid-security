@@ -30,7 +30,7 @@ All resources follow a strict **naming convention** and are validated primarily 
 | **Observability & SIEM** | P7, P8, P9a | Defender for Cloud (CSPM), Microsoft Sentinel (analytic rules, incidents), Azure Monitor alerts |
 | **Disaster Recovery** | P9b | Recovery Services Vault with immutability, Multi-User Authorization (Resource Guard), optional ASR-aligned controls |
 | **Hybrid & Multi-Cloud** | O2, O3a, O3b, O3c | Azure Arc, Azure VPN Gateway to VyOS IPSec, FortiGate service-chaining/inspection, AWS Cisco NVA with segmented BGP, transitive routing validation |
-| **Zero Trust & VDI** | O4, O5 | Entra Global Secure Access (ZTNA / private access), AVD with FSLogix profile containers |
+| **Modern App Platform & Secure Workspace** | O4, O5 | Private AKS with dual-security routing, ACR, Docker/container tooling, AVD secure admin/dev workspace with FSLogix |
 
 ---
 
@@ -201,6 +201,7 @@ Candidate regions and SKUs were assessed against actual subscription-level deplo
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
+
 
 
 

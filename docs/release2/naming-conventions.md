@@ -597,3 +597,31 @@ Recommended O5 names:
 
 O5 naming should make the secure admin/dev workspace role clear and must remain aligned with the Release 2 naming standard.
 
+
+### O4 - Private AKS Modern App Platform Naming Addendum
+
+Recommended O4 names:
+- AKS cluster: `aks-dev-norwayeast-01`
+- AKS node subnet: `snet-aks-nodes-dev-norwayeast`
+- AKS route table: `rt-aks-egress-dev-norwayeast`
+- ACR: `acrdevazawsne01`
+- AKS managed identity: `id-aks-dev-norwayeast-01`
+- AKS node resource group: `rg-aksnodes-dev-norwayeast`
+- Kubernetes namespace: `prod-workload`
+- Evidence prefix: `o4-private-aks-`
+
+ACR names must be globally unique and use Azure-valid registry naming. Do not use hyphenated storage-style names for ACR.
+
+### O5 - Secure Admin and Dev Workspace Naming Addendum
+
+Recommended O5 names:
+- AVD host pool: `vdpool-dev-norwayeast`
+- AVD workspace: `vdws-dev-norwayeast`
+- AVD desktop application group: `vdag-dev-norwayeast`
+- AVD spoke VNet: `vnet-dev-norwayeast-spoke-avd`
+- AVD subnet: `snet-avd`
+- FSLogix storage account: `stdevavdfsne01`
+- FSLogix file share: `fslogix-profiles`
+- Azure Files private endpoint: `pe-stdevavdfsne01-file`
+- AVD route table: `rt-avd-to-hub-norwayeast`
+

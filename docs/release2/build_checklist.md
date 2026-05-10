@@ -755,3 +755,33 @@ Date: 2026-05-06 00:59:25 +01:00
 - [ ] AKS validation is conditional on AKS existence
 - [ ] O5 evidence path is confirmed before implementation
 
+
+### O4/O5 Serial Decision Checklist
+
+- [x] O4 is implemented before O5 for faster delivery
+- [x] Existing Azure-connected management host is the first AKS control point
+- [x] O5 AVD workspace is retained as a later secure admin/dev workspace
+- [x] GSA/ZTNA is deferred as a future access-modernization improvement
+- [ ] O4 private AKS implementation is audited before Terraform changes
+- [ ] O4 cost/teardown plan is confirmed before apply
+- [ ] O5 is not treated as a prerequisite for O4
+
+
+### O4 Private AKS Modern App Platform Checklist
+
+- [ ] O4 is treated as private AKS modern app platform, not Entra Global Secure Access
+- [ ] AKS node subnet `10.10.2.0/24` is confirmed not to overlap
+- [ ] AKS networking mode is selected after IP capacity check
+- [ ] Private AKS API design is confirmed
+- [ ] Public API access is disabled for the target design
+- [ ] Outbound type `userDefinedRouting` is planned
+- [ ] Azure Firewall egress requirements are documented
+- [ ] ACR name is Azure-valid and globally unique
+- [ ] ACR anonymous pull is disabled
+- [ ] AKS AcrPull role assignment is planned
+- [ ] Workload Identity and OIDC issuer are planned
+- [ ] Key Vault CSI Driver decision is documented
+- [ ] FortiGate AKS-to-HQ route/policy is not claimed until counters/logs prove traversal
+- [ ] No public LoadBalancer service is used for first validation
+- [ ] AKS/node pool teardown or scale-down plan is prepared
+
