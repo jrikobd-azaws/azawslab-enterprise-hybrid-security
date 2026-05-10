@@ -1,0 +1,30 @@
+﻿O2 Azure Arc onboarding identity bootstrap
+Generated UTC: 2026-05-10 20:27:02
+
+SubscriptionId: 8d99637c-13e7-417c-b334-b586d0ddc3d6
+TenantId: 78643a83-bcc9-4a3b-ab7e-eeede0b3384e
+Arc resource group: rg-dev-arc-norwayeast
+Location: norwayeast
+Service principal display name: sp-arc-onboarding
+Key Vault: kvdevazawsne01
+
+=== Create or confirm Arc resource group ===
+Resource group id: /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast
+Provisioning state: Succeeded
+
+=== Create Arc onboarding service principal ===
+Service principal created.
+Service principal appId: 113983f8-865e-44aa-8bc8-720c7e5f6767
+Service principal objectId: 29005897-5056-4876-9567-f2d815256886
+Service principal secret: stored in Key Vault; value not printed.
+
+=== Store onboarding values in Key Vault ===
+Stored secret: arc-onboarding-sp-secret
+Stored appId reference: arc-onboarding-sp-app-id
+
+=== Verify scoped role assignment ===
+PrincipalName                         RoleDefinitionName                  Scope
+------------------------------------  ----------------------------------  ----------------------------------------------------------------------------------------
+113983f8-865e-44aa-8bc8-720c7e5f6767  Azure Connected Machine Onboarding  /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-arc-norwayeast
+
+Result: O2 Arc onboarding identity bootstrap completed. No service principal secret value was printed.

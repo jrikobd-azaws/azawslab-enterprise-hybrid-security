@@ -700,3 +700,17 @@ Date: 2026-05-06 00:59:25 +01:00
 - [x] Evidence captured under `docs/release2/evidence/P5-vpn/`.
 - [ ] O2 / Azure Arc evidence is not present and remains open.
 
+
+### O2 Azure Arc Closeout
+
+- [x] MEM1 selected as first Arc target instead of DC1
+- [x] MEM1 network path validated through VyOS gateway `192.168.1.254`
+- [x] Azure endpoint TCP/443 preflight passed
+- [x] Scoped Arc onboarding service principal created
+- [x] Arc onboarding secret stored in Key Vault and not committed
+- [x] Required Arc resource providers registered
+- [x] MEM1 connected to Azure Arc
+- [x] Azure-side validation showed `Connected` and `Succeeded`
+- [x] Mandatory governance tags present on Arc resource
+- [x] O2 evidence saved under `docs/release2/evidence/O2/`
+
