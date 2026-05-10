@@ -1114,3 +1114,82 @@ AWS routing validation:
 
 Do not advertise the full `172.16.0.0/16` summary during the first O3b segmented validation, because that would hide the intended trusted-vs-DMZ route-control proof.
 
+
+---
+
+## O5 Architecture Alignment - Secure Admin and Dev Workspace
+
+O5 is aligned as a secure admin and development workspace using Azure Virtual Desktop and FSLogix.
+
+The objective is not only to provide a desktop experience. O5 provides a controlled, policy-aligned management entry point for Azure, hybrid, and future AKS/container administration without relying on unmanaged local developer machines.
+
+```text
+[Admin / Engineer Device]
+        |
+        | HTTPS / AVD broker
+        v
+[Azure Virtual Desktop Service]
+        |
+        v
+[AVD Session Host]
+  AVD Spoke: 10.2.0.0/16
+  Tools: Azure CLI, kubectl, Helm, Git, VS Code, Docker CLI
+        |
+        +-----------------------------+-----------------------------+
+        |                             |                             |
+        v                             v                             v
+[Azure Firewall]              [FortiGate NVA]              [Azure Files PE]
+Internet / SaaS / updates     HQ AD / DNS / hybrid paths   FSLogix profiles
+AVD control-plane egress      where service-chained         private SMB path
+```
+
+### Design Intent
+
+- AVD is the secure admin/dev workspace for platform operations.
+- AVD resides in the `10.2.0.0/16` optional/admin workspace spoke.
+- AVD egress for internet, tooling, Windows Update, Azure control plane, and AVD service dependencies should use Azure Firewall where that control is enabled.
+- AVD hybrid/private traffic to HQ AD, DNS, or other private systems should use the approved hybrid route and may be inspected by FortiGate where intentionally service-chained.
+- FSLogix profile containers should use Azure Files with a private endpoint rather than a public storage path.
+- Docker Desktop is optional. The baseline toolchain should use Docker CLI or container tooling unless Docker Desktop licensing and resource impact are accepted.
+- AKS validation is conditional. If AKS exists, validate `kubectl get nodes` from AVD. If AKS does not exist yet, validate only the admin/dev toolchain readiness.
+
+### Terraform Responsibility
+
+Terraform should own:
+- AVD host pool
+- AVD workspace
+- desktop application group
+- AVD spoke networking if not already present
+- AVD subnet and route-table association
+- Azure Files storage account for FSLogix
+- private endpoint for Azure Files
+- session host VM infrastructure
+- Key Vault references for bootstrap values where required
+
+### Ansible Responsibility
+
+Ansible should own:
+- AVD agent/bootstrap configuration where applicable
+- FSLogix registry configuration
+- baseline admin/dev tool installation
+- Azure CLI
+- kubectl
+- Helm
+- Git
+- VS Code
+- Docker CLI or approved container tooling
+
+### O5 Validation Gate
+
+O5 is complete only when:
+- AVD host pool, workspace, and desktop application group are deployed.
+- User assignment works.
+- Session host is reachable through AVD.
+- FSLogix profile container mounts through the intended Azure Files private endpoint path.
+- Profile persistence is validated across logoff/logon.
+- AVD internet/control-plane egress is validated through Azure Firewall where enabled.
+- AVD-to-HQ AD/DNS/private paths are validated through the approved hybrid route.
+- Admin/dev toolchain is validated.
+- If AKS exists, `kubectl get nodes` succeeds from AVD.
+- If AKS does not exist, AKS access is recorded as deferred and only toolchain readiness is validated.
+

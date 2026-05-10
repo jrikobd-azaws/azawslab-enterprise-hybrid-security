@@ -427,3 +427,34 @@ DMZ AWS subnet:
 
 This supports the enterprise security story: BGP is not simply turned on globally; branch prefixes are intentionally selected, validated, and documented.
 
+
+---
+
+## O5 Secure Admin and Dev Workspace Direction
+
+O5 extends the platform with a secure admin and development workspace using Azure Virtual Desktop and FSLogix.
+
+The AVD environment is intended to provide a controlled workspace for platform administration, hybrid administration, and future AKS/container workflows.
+
+```text
+[Admin / Engineer]
+      |
+      | AVD broker path
+      v
+[AVD Session Host]
+  optional/admin spoke: 10.2.0.0/16
+      |
+      +-- Azure Firewall:
+      |     internet, SaaS, updates, AVD control-plane egress
+      |
+      +-- FortiGate:
+      |     hybrid/private paths where service-chained and validated
+      |
+      +-- Azure Files Private Endpoint:
+            FSLogix profile containers
+```
+
+This keeps local developer machines out of the privileged management path and supports a more enterprise-aligned secure workspace model.
+
+O5 should not claim AKS operational validation unless AKS exists. Until then, O5 should validate the admin/dev toolchain readiness only.
+

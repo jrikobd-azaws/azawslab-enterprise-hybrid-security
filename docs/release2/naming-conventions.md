@@ -581,3 +581,19 @@ enable_o3b_aws_test_vms = true
 enable_o3b_aws_cisco    = true
 ```
 
+
+### O5 - Secure Admin and Dev Workspace Naming Addendum
+
+Recommended O5 names:
+- AVD host pool: `vdpool-dev-norwayeast`
+- AVD workspace: `vdws-dev-norwayeast`
+- AVD desktop application group: `vdag-dev-norwayeast`
+- AVD spoke VNet: `vnet-dev-norwayeast-spoke-avd`
+- AVD subnet: `snet-avd`
+- FSLogix storage account: `stdevavdfsne01`
+- FSLogix file share: `fslogix-profiles`
+- Azure Files private endpoint: `pe-stdevavdfsne01-file`
+- AVD route table: `rt-avd-to-hub-norwayeast`
+
+O5 naming should make the secure admin/dev workspace role clear and must remain aligned with the Release 2 naming standard.
+
