@@ -73,7 +73,7 @@ jobs:
 
           case "${{ github.event.inputs.profile }}" in
             current-hybrid)
-              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=false' -var='enable_p5_gateway_ingress_fortigate=true'" >> "$GITHUB_OUTPUT"
+              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=true' -var='enable_p5_gateway_ingress_fortigate=true'" >> "$GITHUB_OUTPUT"
               ;;
             o1-service-chain)
               echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=true' -var='enable_p5_gateway_ingress_fortigate=true'" >> "$GITHUB_OUTPUT"
@@ -154,4 +154,5 @@ jobs:
         run: |
           echo "Apply skipped because confirm_apply was not true."
           echo "Review the Terraform plan output, then rerun with confirm_apply=true when ready."
+
 
