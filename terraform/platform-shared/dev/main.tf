@@ -1,3 +1,14 @@
+
+data "azurerm_virtual_network" "workload_spoke" {
+  name                = "vnet-dev-norwayeast-spoke-workload"
+  resource_group_name = "rg-dev-workload-norwayeast"
+}
+
+data "azurerm_subnet" "management" {
+  name                 = "snet-mgmt"
+  virtual_network_name = data.azurerm_virtual_network.workload_spoke.name
+  resource_group_name  = data.azurerm_virtual_network.workload_spoke.resource_group_name
+}
 locals {
   common_tags = {
     Environment      = "Development"
@@ -29,6 +40,13 @@ module "security" {
 
   defender_for_servers_pricing_tier = "Standard"
   defender_for_servers_subplan      = "P1"
+
+  enable_key_vault_private_endpoint    = var.enable_key_vault_private_endpoint
+  key_vault_private_endpoint_name      = var.key_vault_private_endpoint_name
+  key_vault_private_dns_zone_name      = var.key_vault_private_dns_zone_name
+  key_vault_private_dns_link_name      = var.key_vault_private_dns_link_name
+  key_vault_private_endpoint_subnet_id = data.azurerm_subnet.management.id
+  key_vault_private_dns_vnet_id        = data.azurerm_virtual_network.workload_spoke.id
 }
 
 
@@ -70,6 +88,7 @@ module "monitoring" {
     Phase       = "P8"
   }
 }
+
 
 
 

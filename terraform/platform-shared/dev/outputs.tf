@@ -54,3 +54,13 @@ output "p9a_metric_alert_id" {
 output "p9a_metric_alert_target_vm_id" {
   value = module.monitoring.p9a_metric_alert_target_vm_id
 }
+
+output "p2b_key_vault_private_endpoint_id" {
+  description = "ID of the Key Vault Private Endpoint when enabled."
+  value       = module.security.key_vault_private_endpoint_id
+}
+
+output "p2b_key_vault_private_dns_zone_id" {
+  description = "ID of the Key Vault Private DNS zone when enabled."
+  value       = module.security.key_vault_private_dns_zone_id
+}
