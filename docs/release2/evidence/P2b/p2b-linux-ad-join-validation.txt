@@ -1,6 +1,24 @@
 ﻿Enable succeeded: 
 [stdout]
+Runtime Linux and domain-join secrets loaded from Key Vault using vm-dev-mgmt-01 managed identity.
+Secret values will not be printed.
 
 [stderr]
-/var/lib/waagent/run-command/download/14/script.sh: 3: set: Illegal option -o pipefail
+ssh: connect to host 192.168.1.30 port 22: Connection timed out
 
+=== DC1 computer object validation ===
+Command:
+Get-ADComputer -Identity 'HQ-LINUX-VM01' -Properties DistinguishedName,DNSHostName,Enabled |
+    Select-Object Name,DNSHostName,Enabled,DistinguishedName
+
+Result:
+Name:              HQ-LINUX-VM01
+DNSHostName:       hq-linux-vm01
+Enabled:           True
+DistinguishedName: CN=HQ-LINUX-VM01,OU=Linux,OU=AzawsLab,DC=hq,DC=azawslab,DC=co,DC=uk
+
+=== Delegation summary ===
+svc.ansible is a member of:
+CN=azw-hq-ansible-operators,OU=Groups,OU=AzawsLab,DC=hq,DC=azawslab,DC=co,DC=uk
+
+The group has delegated Linux OU computer-join rights. svc.ansible was not made Domain Admin.
