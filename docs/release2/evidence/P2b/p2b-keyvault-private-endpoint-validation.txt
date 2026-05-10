@@ -1,0 +1,27 @@
+﻿Enable succeeded: 
+[stdout]
+=== host ===
+vm-dev-mgmt-01
+Sun May 10 11:30:38 UTC 2026
+
+=== DNS resolution ===
+10.10.1.5       kvdevazawsne01.privatelink.vaultcore.azure.net kvdevazawsne01.vault.azure.net
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+kvdevazawsne01.vault.azure.net	canonical name = kvdevazawsne01.privatelink.vaultcore.azure.net.
+Name:	kvdevazawsne01.privatelink.vaultcore.azure.net
+Address: 10.10.1.5
+
+
+=== managed identity login ===
+managed identity login succeeded
+
+=== Key Vault public network access status ===
+
+[stderr]
+ERROR: (SubscriptionNotFound) The subscription '78643a83-bcc9-4a3b-ab7e-eeede0b3384e' could not be found.
+Code: SubscriptionNotFound
+Message: The subscription '78643a83-bcc9-4a3b-ab7e-eeede0b3384e' could not be found.
+
