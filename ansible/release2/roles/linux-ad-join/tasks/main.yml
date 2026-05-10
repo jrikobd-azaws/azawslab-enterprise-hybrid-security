@@ -1,0 +1,180 @@
+﻿---
+- name: Assert domain join password is available from Key Vault-backed runtime environment
+  ansible.builtin.assert:
+    that:
+      - linux_ad_join_password | length > 0
+    fail_msg: "HQ_DOMAIN_JOIN_PASSWORD is not loaded. Run through scripts/run-linux-with-keyvault-secrets.sh."
+    success_msg: "Domain join password is loaded from Key Vault-backed runtime environment."
+
+- name: Show Linux AD join target summary
+  ansible.builtin.debug:
+    msg:
+      - "Target host: {{ inventory_hostname }}"
+      - "Target IP: {{ ansible_host | default('not set') }}"
+      - "Domain: {{ linux_ad_join_domain }}"
+      - "Domain controller: {{ linux_ad_join_dc_fqdn }} / {{ linux_ad_join_dc_ip }}"
+      - "Join user: {{ linux_ad_join_user }}"
+      - "Apply join: {{ linux_ad_join_apply }}"
+      - "Manage DNS: {{ linux_ad_join_manage_dns }}"
+
+- name: Show Linux OS summary
+  ansible.builtin.debug:
+    msg:
+      - "Distribution: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+      - "OS family: {{ ansible_os_family }}"
+      - "Kernel: {{ ansible_kernel }}"
+
+- name: Install Linux AD join packages on Debian or Ubuntu
+  ansible.builtin.apt:
+    name:
+      - realmd
+      - sssd
+      - sssd-tools
+      - libnss-sss
+      - libpam-sss
+      - adcli
+      - samba-common-bin
+      - krb5-user
+      - packagekit
+      - python3-pexpect
+    state: present
+    update_cache: true
+  when: ansible_os_family == 'Debian'
+  become: true
+
+- name: Read current hostname
+  ansible.builtin.command: hostnamectl
+  register: linux_hostnamectl
+  changed_when: false
+
+- name: Show hostname state
+  ansible.builtin.debug:
+    var: linux_hostnamectl.stdout_lines
+
+- name: Validate DNS resolution for HQ domain and DC
+  ansible.builtin.shell: |
+    set -e
+    getent hosts {{ linux_ad_join_domain }}
+    getent hosts {{ linux_ad_join_dc_fqdn }}
+  args:
+    executable: /bin/bash
+  register: linux_dns_validation
+  changed_when: false
+
+- name: Validate TCP reachability to DC1 required ports
+  ansible.builtin.shell: |
+    set -e
+    FAILED=""
+    for PORT in 53 88 135 389 445 464 3268 3269; do
+      if timeout 5 bash -c "</dev/tcp/{{ linux_ad_join_dc_ip }}/${PORT}" 2>/dev/null; then
+        echo "PASS tcp/${PORT}"
+      else
+        echo "FAIL tcp/${PORT}"
+        FAILED="${FAILED} ${PORT}"
+      fi
+    done
+
+    if [ -n "$FAILED" ]; then
+      echo "Failed ports:${FAILED}"
+      exit 1
+    fi
+  args:
+    executable: /bin/bash
+  register: linux_dc_port_validation
+  changed_when: false
+
+- name: Discover HQ AD realm
+  ansible.builtin.command:
+    cmd: realm discover {{ linux_ad_join_domain }}
+  register: linux_realm_discover
+  changed_when: false
+
+- name: Check current realm membership
+  ansible.builtin.shell: |
+    set -e
+    if realm list | grep -qi '^{{ linux_ad_join_domain }}'; then
+      echo "JOINED"
+    else
+      echo "NOT_JOINED"
+      exit 1
+    fi
+  args:
+    executable: /bin/bash
+  register: linux_realm_membership
+  changed_when: false
+  failed_when: false
+
+- name: Show preflight summary
+  ansible.builtin.debug:
+    msg:
+      - "DNS validation succeeded."
+      - "DC TCP port validation succeeded."
+      - "Realm discover succeeded."
+      - "Current membership: {{ 'joined' if linux_realm_membership.rc == 0 else 'not joined' }}"
+
+- name: Stop after preflight when linux_ad_join_apply is false
+  ansible.builtin.debug:
+    msg:
+      - "Preflight completed. Domain join not applied because linux_ad_join_apply=false."
+      - "Rerun with -e linux_ad_join_apply=true to join the Linux host."
+  when: not linux_ad_join_apply | bool
+
+- name: Build realm join command
+  ansible.builtin.set_fact:
+    linux_realm_join_command: >-
+      realm join
+      --user={{ linux_ad_join_user }}
+      {% if linux_ad_join_computer_ou | length > 0 %}--computer-ou="{{ linux_ad_join_computer_ou }}"{% endif %}
+      {{ linux_ad_join_domain }}
+  when:
+    - linux_ad_join_apply | bool
+    - linux_realm_membership.rc != 0
+
+- name: Join Linux target to HQ domain
+  ansible.builtin.command:
+    cmd: "{{ linux_realm_join_command }}"
+    stdin: "{{ linux_ad_join_password }}"
+  register: linux_realm_join_result
+  no_log: true
+  changed_when: true
+  when:
+    - linux_ad_join_apply | bool
+    - linux_realm_membership.rc != 0
+  become: true
+
+- name: Enable automatic home directory creation on Debian or Ubuntu
+  ansible.builtin.command:
+    cmd: pam-auth-update --enable mkhomedir --force
+  register: linux_mkhomedir_result
+  changed_when: "'mkhomedir' in linux_mkhomedir_result.stdout or linux_mkhomedir_result.rc == 0"
+  when:
+    - linux_ad_join_apply | bool
+    - ansible_os_family == 'Debian'
+  become: true
+
+- name: Validate realm membership after join
+  ansible.builtin.command:
+    cmd: realm list
+  register: linux_realm_post_validation
+  changed_when: false
+  when: linux_ad_join_apply | bool
+
+- name: Validate domain identity lookup
+  ansible.builtin.shell: |
+    set -e
+    id '{{ linux_ad_join_user }}@{{ linux_ad_join_domain }}' || true
+    getent passwd '{{ linux_ad_join_user }}@{{ linux_ad_join_domain }}' || true
+  args:
+    executable: /bin/bash
+  register: linux_identity_lookup
+  changed_when: false
+  when: linux_ad_join_apply | bool
+
+- name: Show Linux AD join validation summary
+  ansible.builtin.debug:
+    msg:
+      - "Linux AD join workflow completed."
+      - "Domain: {{ linux_ad_join_domain }}"
+      - "Realm membership output captured by realm list."
+      - "Secret values were not printed."
+  when: linux_ad_join_apply | bool

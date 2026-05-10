@@ -27,3 +27,15 @@ ansible_httpapi_port=443
 #   FORTIOS_ACCESS_TOKEN='<token value>'
 #
 # Do not place fortios_access_token or ansible_httpapi_token in committed inventory.
+
+[linux_hq]
+linux-hq-01 ansible_host=192.168.1.30
+
+[linux_hq:vars]
+ansible_connection=ssh
+ansible_user=hq.admin
+ansible_password="{{ lookup('env', 'LINUX_HQ_ADMIN_PASSWORD') }}"
+ansible_become=true
+ansible_become_method=sudo
+ansible_become_password="{{ lookup('env', 'LINUX_HQ_ADMIN_PASSWORD') }}"
+ansible_python_interpreter=auto_silent
