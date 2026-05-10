@@ -1839,3 +1839,127 @@ Conditional:
 
 ---
 
+
+---
+
+## Current O4/O5 Execution Order
+
+The active execution order is:
+
+```text
+O3b:
+  AWS Cisco 8000V to Azure VPN Gateway IPSec/BGP.
+
+O3c:
+  Azure, HQ, and AWS transitive routing validation.
+
+O4:
+  Private AKS modern application platform using Docker/container tooling and dual-security routing.
+
+O5:
+  AVD + FSLogix secure admin/dev workspace for polished operator access after the platform exists.
+```
+
+O4 is implemented before O5 because the existing Azure-connected management host can act as the first private control point for `az`, `kubectl`, `helm`, Docker CLI, and Ansible. O5 later improves the operator experience by replacing unmanaged local/admin access with a controlled AVD workspace.
+
+Entra Global Secure Access / ZTNA is deferred as a future access-modernization enhancement and is not the active O4 implementation scope.
+
+
+# O4 ACTIVE ARCHITECTURE ALIGNMENT
+==================================
+
+## Phase O4: Modern App Platform - Private AKS and Dual-Security
+
+O4 replaces the previous Entra Global Secure Access scope with a private AKS-based modern application platform.
+
+```text
+[Management Host / Later AVD Admin Workspace]
+        |
+        v
+[Private AKS Cluster]
+  subnet: snet-aks-nodes-dev-norwayeast
+  prefix: 10.10.2.0/24
+        |
+        +-----------------------------+
+        |                             |
+        v                             v
+[Azure Firewall]              [FortiGate NVA]
+Cloud egress / MCR / ACR      HQ / hybrid private paths
+Docker / package feeds        where service-chained
+```
+
+## Key Configuration Snapshot
+
+- AKS cluster: private
+- AKS API: private endpoint only
+- Node subnet: `snet-aks-nodes-dev-norwayeast`
+- Node subnet prefix: `10.10.2.0/24`
+- Network plugin: Azure CNI or Azure CNI Overlay after final IP capacity check
+- Outbound type: `userDefinedRouting`
+- ACR: `acrdevazawsne01`
+- Anonymous pull: disabled
+- Workload Identity: enabled
+- OIDC issuer: enabled
+- Secrets: Key Vault Secrets Store CSI Driver where included
+- Public Kubernetes LoadBalancer: not used for first validation
+
+## Route Intent
+
+```text
+0.0.0.0/0
+  -> Azure Firewall private IP
+  -> cloud-native egress and platform dependencies
+
+192.168.1.0/24
+  -> FortiGate trusted interface 10.0.3.36
+  -> HQ/private path only where service-chained and validated
+```
+
+## Implementation Split
+
+Terraform:
+- AKS infrastructure
+- ACR
+- node subnet and UDR
+- identity and role assignments
+- private endpoint/DNS dependencies
+- Azure Firewall rules where enabled
+
+Ansible:
+- management host tooling
+- Docker CLI/container tooling
+- kubectl
+- Helm
+- Azure CLI validation
+- namespace bootstrap
+- Helm deployment of sample app
+- validation commands
+
+## Minimum Validation
+
+- [ ] private AKS cluster exists
+- [ ] public API access is not available
+- [ ] management host can reach the private API
+- [ ] AKS egress follows the UDR path through Azure Firewall where enabled
+- [ ] AKS can pull from ACR using managed identity
+- [ ] sample app deploys
+- [ ] internal app endpoint is reachable privately
+- [ ] FortiGate inspection is claimed only where policy counters/logs prove AKS-to-HQ traversal
+- [ ] teardown or scale-down decision recorded
+
+## Suggested Evidence
+
+- `docs/release2/evidence/O4/o4-private-aks-plan.txt`
+- `docs/release2/evidence/O4/o4-private-aks-apply.txt`
+- `docs/release2/evidence/O4/o4-private-api-validation.txt`
+- `docs/release2/evidence/O4/o4-acr-pull-validation.txt`
+- `docs/release2/evidence/O4/o4-egress-route-validation.txt`
+- `docs/release2/evidence/O4/o4-sample-app-validation.txt`
+- `docs/release2/evidence/O4/o4-finops-teardown-decision.txt`
+
+## Future Access Modernization
+
+Entra Global Secure Access / ZTNA is deferred as a future enhancement and is not the active O4 implementation scope.
+
+---
+

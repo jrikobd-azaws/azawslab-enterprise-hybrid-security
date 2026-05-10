@@ -1143,3 +1143,40 @@ Required validation:
 
 Do not mark O5 complete based only on AVD host pool creation. O5 is complete only when workspace access, profile persistence, routing, and tooling validation are proven.
 
+
+### O4/O5 Serial Alignment
+
+The active serial order is:
+
+```text
+O4 first:
+  Private AKS modern app platform using existing management host as the first private control point.
+
+O5 later:
+  AVD + FSLogix secure admin/dev workspace for a polished operator experience.
+```
+
+Rationale:
+- O4 can be implemented using the existing Azure-connected management host.
+- O5 adds useful operator experience but is not required before private AKS.
+- Entra Global Secure Access / ZTNA is deferred as a future access-modernization enhancement.
+
+
+### O4 Modern App Platform Alignment
+
+O4 is now scoped as a private AKS modern application platform.
+
+Design:
+- private AKS cluster
+- Azure CNI or Azure CNI Overlay after final IP capacity check
+- AKS subnet `10.10.2.0/24`
+- outbound type `userDefinedRouting`
+- Azure Firewall for cloud-native egress
+- FortiGate for hybrid/private path inspection where intentionally service-chained
+- ACR with anonymous pull disabled
+- managed identity / AcrPull integration
+- Workload Identity and OIDC issuer enabled
+- Key Vault Secrets Store CSI Driver where included
+
+O4 must not be marked complete until private API access, image pull, internal app validation, routing, evidence, and teardown/cost decision are complete.
+

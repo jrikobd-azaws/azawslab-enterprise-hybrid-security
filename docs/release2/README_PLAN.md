@@ -1193,3 +1193,176 @@ O5 is complete only when:
 - If AKS exists, `kubectl get nodes` succeeds from AVD.
 - If AKS does not exist, AKS access is recorded as deferred and only toolchain readiness is validated.
 
+
+---
+
+## Current O4/O5 Execution Order
+
+The active execution order is:
+
+```text
+O3b:
+  AWS Cisco 8000V to Azure VPN Gateway IPSec/BGP.
+
+O3c:
+  Azure, HQ, and AWS transitive routing validation.
+
+O4:
+  Private AKS modern application platform using Docker/container tooling and dual-security routing.
+
+O5:
+  AVD + FSLogix secure admin/dev workspace for polished operator access after the platform exists.
+```
+
+O4 is implemented before O5 because the existing Azure-connected management host can act as the first private control point for `az`, `kubectl`, `helm`, Docker CLI, and Ansible. O5 later improves the operator experience by replacing unmanaged local/admin access with a controlled AVD workspace.
+
+Entra Global Secure Access / ZTNA is deferred as a future access-modernization enhancement and is not the active O4 implementation scope.
+
+
+---
+
+## O4 Architecture Alignment - Modern App Platform with Private AKS and Dual-Security
+
+O4 is re-scoped from Entra Global Secure Access to a modern private application platform based on Azure Kubernetes Service, Azure Container Registry, Docker/container tooling, and the existing dual-security network model.
+
+### Objective
+
+Transition the Release 2 workload pattern from traditional VM-only hosting toward a private container platform.
+
+The O4 target is a private AKS cluster that is invisible to the public internet and uses the right security control for the destination:
+
+```text
+Internet / cloud-native egress:
+  Azure Firewall
+
+Hybrid / HQ private traffic:
+  FortiGate NVA where intentionally service-chained
+
+Kubernetes platform:
+  Private AKS cluster with Azure CNI or Azure CNI Overlay, userDefinedRouting, Workload Identity, and OIDC issuer
+
+Container supply chain:
+  Azure Container Registry with anonymous pull disabled and AcrPull granted to the AKS identity
+```
+
+### Target Architecture
+
+```text
+[Management Host / Later AVD Admin Workspace]
+        |
+        | private admin path
+        v
+[Private AKS API]
+        |
+        v
+[AKS Node Subnet]
+  snet-aks-nodes-dev-norwayeast
+  10.10.2.0/24
+        |
+        +-------------------------------+
+        |                               |
+        v                               v
+[Azure Firewall]                 [FortiGate NVA]
+Internet / MCR / ACR / updates   HQ AD / DNS / hybrid paths
+Docker / package egress          192.168.1.0/24 where service-chained
+```
+
+### Networking
+
+O4 adds a dedicated AKS node subnet to the existing Azure workload spoke:
+
+```text
+VNet:
+  vnet-dev-norwayeast-spoke-workload
+  10.10.0.0/16
+
+AKS node subnet:
+  snet-aks-nodes-dev-norwayeast
+  10.10.2.0/24
+```
+
+The AKS cluster should use:
+- private cluster mode
+- Azure CNI or Azure CNI Overlay after final IP capacity check
+- `outbound_type = userDefinedRouting`
+- no public API endpoint
+- no public node IPs
+- no public LoadBalancer service for first validation
+
+### Route Intent
+
+A dedicated AKS route table should be used for explicit traffic steering:
+
+```text
+Route table:
+  rt-aks-egress-dev-norwayeast
+
+Routes:
+  0.0.0.0/0       -> Azure Firewall private IP
+  192.168.1.0/24  -> FortiGate trusted interface 10.0.3.36, only where service-chain validation is intended
+```
+
+Do not claim FortiGate inspection until FortiGate policy counters or logs prove AKS/HQ traffic traversal.
+
+### Terraform Responsibility
+
+Terraform should own:
+- AKS cluster
+- AKS node subnet and route-table association
+- ACR
+- AcrPull role assignment for the AKS identity
+- AKS managed identity / Workload Identity / OIDC issuer settings
+- Key Vault Secrets Store CSI Driver add-on where included
+- Azure Firewall application/network rules for AKS egress where Azure Firewall is enabled
+- optional internal load balancer service support
+- enable flags and teardown-safe defaults
+
+### Ansible Responsibility
+
+Ansible should own management-host platform bootstrap:
+- Docker CLI or approved container tooling
+- kubectl
+- Helm
+- Azure CLI validation
+- kubeconfig retrieval through managed identity where possible
+- namespace bootstrap such as `prod-workload`
+- Helm deployment of the sample private application
+- validation commands from the management host first, and later from AVD when O5 exists
+
+### Security and Identity
+
+O4 should use:
+- AKS managed identities
+- OIDC issuer and Workload Identity
+- Key Vault Secrets Store CSI Driver for controlled secret access
+- ACR anonymous pull disabled
+- no public Kubernetes API
+- no public service LoadBalancer for first validation
+- optional Azure Policy for Kubernetes to restrict public services later
+
+### Validation Gate
+
+O4 is complete only when:
+- private AKS is deployed
+- AKS API is reachable only through the approved private management path
+- node subnet route table shows expected UDRs
+- AKS outbound egress works through Azure Firewall where enabled
+- AKS can pull images from ACR using managed identity
+- sample app deploys successfully
+- internal service endpoint is reachable from the management host
+- FortiGate inspection is proven only if AKS-to-HQ traffic is intentionally service-chained and policy counters/logs confirm traversal
+- evidence is saved under `docs/release2/evidence/O4/`
+
+### FinOps
+
+AKS and Azure Firewall can generate significant cost.
+
+The validation window should be planned. After evidence is captured:
+- destroy or scale down AKS/node pools if no longer needed
+- disable Azure Firewall if not required for the next validation
+- keep only low-cost code and evidence unless the next phase depends on active resources
+
+### Future Access Modernization
+
+Entra Global Secure Access / ZTNA can be revisited later as an access-modernization improvement after private AKS, AWS transit, and the AVD workspace phases are stable.
+

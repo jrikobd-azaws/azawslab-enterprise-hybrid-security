@@ -458,3 +458,32 @@ This keeps local developer machines out of the privileged management path and su
 
 O5 should not claim AKS operational validation unless AKS exists. Until then, O5 should validate the admin/dev toolchain readiness only.
 
+
+---
+
+## O4/O5 Modern Platform Direction
+
+The current Release 2 execution order places O4 before O5.
+
+```text
+O4:
+  Private AKS, ACR, Docker/container tooling, and dual-security routing.
+
+O5:
+  AVD + FSLogix secure admin/dev workspace after the application platform exists.
+```
+
+O4 uses the existing Azure-connected management host as the first private control point for AKS and Docker/container tooling. O5 later improves the operating model by moving administrator and developer workflows into a controlled AVD workspace.
+
+The dual-security model remains:
+
+```text
+Cloud-native egress:
+  AKS / AVD -> Azure Firewall -> internet, Microsoft Container Registry, ACR, package feeds
+
+Hybrid private paths:
+  AKS / AVD -> FortiGate -> HQ / private systems, only where intentionally service-chained
+```
+
+Entra Global Secure Access / ZTNA is deferred as a future access-modernization enhancement after AWS transit, private AKS, and the AVD workspace are stable.
+
