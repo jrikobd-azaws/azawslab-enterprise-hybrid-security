@@ -71,5 +71,18 @@ Use the control docs at docs/release2/ root for:
 
 Use docs/release2/evidence/ for CLI-first proof and validation output.
 
+## P5/O1/O3a Current Status Update
 
+P5/O1/O3a is closed for the current hybrid inspection scope.
+
+Completed:
+- P5 hub-spoke networking foundation.
+- O3a Azure VPN Gateway to VyOS IPSec path.
+- O1 FortiGate service chaining for Azure workload to HQ.
+- HQ/DC1-to-Azure workload symmetry through FortiGate.
+- FortiGate two-policy baseline for current O1/P2b scope.
+
+Still open:
+- O2 / Azure Arc, because no O2 evidence exists.
+- O3b AWS branch route inspection, because AWS-Cisco/FortiGate routing is not active yet.
 

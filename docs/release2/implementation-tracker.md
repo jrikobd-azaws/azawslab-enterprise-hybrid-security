@@ -571,7 +571,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 ## 8. Optional Advanced Phases
 
 ### O1 – FortiGate NVA Dual-Firewall Pattern [E][O]
-- [ ] FortiGate deployed
+- [x] FortiGate deployed
 - [ ] East-West / hybrid UDRs configured
 - [ ] traffic separation from Azure Firewall validated
 - [ ] validation evidence captured
@@ -583,7 +583,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - [ ] tags/policy/management visibility confirmed
 
 ### O3a – Azure VPN Gateway to VyOS Hybrid Connectivity [E][O]
-- [ ] VyOS prepared locally
+- [x] VyOS prepared locally
 - [ ] IPSec tunnel established
 - [ ] BGP peering established
 - [ ] route learning verified
@@ -690,9 +690,9 @@ Use this section during execution.
 ### Optional Completion Gate
 - [x] P4 complete if included
 - [x] P6 complete if included
-- [ ] O1 complete if included
-- [ ] O2 complete if included
-- [ ] O3a complete if included
+- [x] O1 complete if included
+- [ ] O2 complete if included - no Azure Arc/O2 evidence captured yet
+- [x] O3a complete if included
 - [ ] O3b complete if included
 - [ ] O3c complete if included
 - [ ] O4 complete if included
@@ -1006,11 +1006,11 @@ Completed:
 - Azure-to-HQ policy handles Windows AD, PING, and NTP.
 - HQ-to-Azure policy handles HTTP, HTTPS, and PING.
 - Root cause of DC1-to-workload failure was identified as asymmetric routing.
-- GatewaySubnet UDR was manually validated to steer 10.10.0.0/24 ingress through FortiGate port1.
+- GatewaySubnet UDR was manually validated to steer 10.10.0.0/24 ingress through FortiGate port1, then reconciled into terraform/platform-networking/dev and applied through the normal GitHub Actions Terraform workflow.
 
 Open follow-up:
-- Reconcile the GatewaySubnet route table and route into terraform/platform-networking/dev.
-- Do not treat P5 as fully IaC-complete until the manual route is codified and applied through the normal workflow.
+- GatewaySubnet route table and route reconciled into terraform/platform-networking/dev.
+- P5/O1/O3a hybrid service-chain path is validated and IaC-aligned for the current O1/P2b scope.
 
 Evidence:
 - docs/release2/evidence/P5-vpn/p5-fortigate-gateway-ingress-symmetry-validation.txt
@@ -1038,4 +1038,25 @@ Implemented final state:
 Evidence:
 - `docs/release2/evidence/P2b/p2b-linux-ad-join-validation.txt`
 - `docs/release2/evidence/P2b/p2b-dc1-delegate-linux-ou-computer-join-rights.ps1`
+
+## Update - P5/O1/O3a Hybrid Inspection Closeout
+
+P5/O1/O3a status has been aligned with the final validated hybrid inspection state.
+
+Closed scope:
+- P5 hub-spoke networking foundation remains complete.
+- O3a Azure VPN Gateway to VyOS IPSec connectivity is complete.
+- O1 FortiGate service chaining is complete for the current Azure workload and HQ scope.
+- HQ/DC1-to-Azure workload symmetry was corrected using a targeted GatewaySubnet UDR for `10.10.0.0/24` via FortiGate port1 `10.0.3.4`.
+- FortiGate policy baseline is consolidated into two directional policies.
+- GatewaySubnet UDR was manually validated, then reconciled into Terraform and applied through the normal GitHub Actions workflow.
+
+O2 / Azure Arc remains open because no O2/Arc evidence exists in the repository.
+
+Evidence:
+- `docs/release2/evidence/P5-vpn/p5-o1-o3a-closeout-summary.md`
+- `docs/release2/evidence/P5-vpn/p5-o3a-fortigate-stage1-validation.txt`
+- `docs/release2/evidence/P5-vpn/p5-o3a-azure-vpngw-vyos-data-plane-validation.txt`
+- `docs/release2/evidence/P5-vpn/firewall-policy-current-post-gateway-udr.json`
+- `docs/release2/evidence/P5-vpn/p5-fortigate-gateway-ingress-symmetry-validation.txt`
 
