@@ -727,3 +727,16 @@ Date: 2026-05-06 00:59:25 +01:00
 - [ ] O3c transitive routing is not claimed until Azure/HQ/AWS paths are validated
 - [ ] FortiGate inspection is not claimed for AWS flows until FortiGate counters/logs prove traversal
 
+
+### O3b Selective BGP Checklist
+
+- [ ] Cisco 8000V deployment plan keeps segmentation visible
+- [ ] Trusted subnet `172.16.1.0/24` is the first advertised AWS branch prefix
+- [ ] DMZ subnet `172.16.2.0/24` is intentionally not advertised during first validation
+- [ ] Full VPC summary `172.16.0.0/16` is not used for first segmented proof
+- [ ] Trusted AWS Linux VM proves positive private route behavior
+- [ ] DMZ AWS Linux VM proves negative / non-propagated route behavior
+- [ ] Azure VPN Gateway route learning confirms trusted prefix only
+- [ ] Evidence captures both positive and negative validation
+- [ ] O3b is not marked complete until selective BGP behavior is proven
+

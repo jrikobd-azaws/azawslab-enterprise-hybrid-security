@@ -97,7 +97,7 @@ Enterprise target:
 - No direct public SSH to trusted or DMZ workloads.
 - Admin access should use VPN, ZTNA, Bastion, or SSM Session Manager.
 - Private instances should use NAT Gateway, firewall, or controlled egress path for updates.
-- Cisco 8000V will become the branch edge during later O3b/Cisco validation.
+- Cisco 8000V will become the branch edge during later O3b/Cisco validation, with selective BGP advertisement used to prove trusted-vs-DMZ route-control behavior.
 
 Lab implementation:
 
@@ -173,4 +173,54 @@ O3b should not claim:
 - full Azure/HQ/AWS transitive routing before O3c
 - FortiGate inspection for AWS flows without FortiGate counters or logs
 - Cisco configuration success without management and routing validation
+
+
+---
+
+## O3b Selective BGP Validation Requirement
+
+O3b must prove segmented BGP behavior, not just basic route propagation.
+
+The AWS branch currently has separate trusted and DMZ subnets:
+
+```text
+AWS Branch VPC: 172.16.0.0/16
+
+Trusted subnet:
+  172.16.1.0/24
+  ec2-dev-aws-trusted-01
+
+DMZ subnet:
+  172.16.2.0/24
+  ec2-dev-aws-dmz-01
+```
+
+The intended O3b validation is selective route propagation:
+
+```text
+Advertised over BGP:
+  172.16.1.0/24 trusted subnet
+
+Not advertised over BGP:
+  172.16.2.0/24 DMZ subnet
+```
+
+This proves that the Cisco 8000V branch edge can advertise approved private branch prefixes while withholding less-trusted segments from hybrid private routing.
+
+Validation intent:
+
+```text
+Positive validation:
+  Azure/HQ learns or can reach the trusted AWS prefix only where expected.
+
+Negative validation:
+  Azure/HQ does not learn or reach the DMZ prefix through private BGP propagation.
+
+AWS routing validation:
+  Trusted subnet route table steers selected hybrid prefixes to Cisco.
+  DMZ subnet route table does not receive the same private hybrid route by default.
+```
+
+Do not advertise the full `172.16.0.0/16` summary during the first O3b segmented validation, because that would hide the intended trusted-vs-DMZ route-control proof.
+
 

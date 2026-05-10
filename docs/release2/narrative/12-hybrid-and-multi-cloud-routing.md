@@ -398,3 +398,32 @@ O3b validates the Cisco 8000V to Azure VPN Gateway IPSec/BGP path. O3c validates
 
 FortiGate remains available for service-chained inspection. However, inspection is only claimed for traffic flows where FortiGate policy counters or logs prove traversal.
 
+
+---
+
+## O3b Segmented BGP Route-Control Requirement
+
+The O3b AWS branch validation must show route-control discipline.
+
+The first Cisco 8000V BGP validation should not advertise the entire AWS VPC summary. Instead, it should advertise only the approved trusted branch prefix:
+
+```text
+Advertise:
+  172.16.1.0/24
+
+Do not advertise:
+  172.16.2.0/24
+```
+
+This produces two useful validation outcomes:
+
+```text
+Trusted AWS subnet:
+  participates in private hybrid routing.
+
+DMZ AWS subnet:
+  remains excluded from private hybrid route propagation until explicitly approved.
+```
+
+This supports the enterprise security story: BGP is not simply turned on globally; branch prefixes are intentionally selected, validated, and documented.
+

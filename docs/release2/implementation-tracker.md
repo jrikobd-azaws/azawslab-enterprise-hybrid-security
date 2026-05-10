@@ -1110,3 +1110,18 @@ Cisco 8000V:
 
 O3b validates Cisco 8000V in AWS peering with Azure VPN Gateway using IPSec/BGP. O3c validates transitive routing between Azure, HQ, and AWS. FortiGate inspection is only claimed where FortiGate policy counters or logs prove traversal.
 
+
+### O3b Selective BGP Validation Requirement
+
+O3b must validate segmented BGP route control.
+
+Required O3b behavior:
+- Cisco 8000V advertises `172.16.1.0/24` trusted subnet.
+- Cisco 8000V does not advertise `172.16.2.0/24` DMZ subnet.
+- Azure VPN Gateway learns the trusted AWS prefix through BGP.
+- Azure VPN Gateway does not learn the DMZ prefix during the first segmented validation.
+- Trusted Linux VM validates the positive route path.
+- DMZ Linux VM validates the intentionally non-propagated route path.
+
+Do not mark O3b complete if only full VPC summary propagation is tested.
+
