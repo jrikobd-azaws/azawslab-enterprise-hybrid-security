@@ -1241,7 +1241,7 @@ Do not claim FortiGate inspection until FortiGate counters or logs prove traffic
 - [x] workload route to `192.168.1.0/24` propagated through hub gateway transit
 - [x] workload VM reaches VyOS LAN gateway
 - [x] VyOS reaches Azure FortiGate hub interface
-- [ ] FortiGate service-chain inspection validated in O1
+- [x] FortiGate service-chain inspection validated in O1
 
 ## Suggested Evidence
 - `docs/release2/evidence/O3a/ipsec-status.txt`
@@ -1587,8 +1587,8 @@ Completed:
 - GatewaySubnet UDR was manually validated to steer 10.10.0.0/24 ingress through FortiGate port1.
 
 Open follow-up:
-- Reconcile the GatewaySubnet route table and route into terraform/platform-networking/dev.
-- Do not treat P5 as fully IaC-complete until the manual route is codified and applied through the normal workflow.
+- GatewaySubnet route table and route reconciled into terraform/platform-networking/dev.
+- P5/O1/O3a hybrid service-chain path is validated and IaC-aligned for the current O1/P2b scope.
 
 Evidence:
 - docs/release2/evidence/P5-vpn/p5-fortigate-gateway-ingress-symmetry-validation.txt
@@ -1615,4 +1615,24 @@ Security notes:
 - No plaintext secrets are committed.
 - No root login or passwordless sudo is used.
 - Linux static IP configuration is a prerequisite and must not be modified by the AD join automation.
+
+## Update - P5/O1/O3a Closeout
+
+P5/O1/O3a is closed for the current hybrid inspection scope.
+
+Final state:
+- Azure VPN Gateway terminates the AES256/SHA256/DHGroup14/PFS14 IPSec tunnel to VyOS.
+- FortiGate remains the hybrid/east-west inspection NVA.
+- Azure Firewall remains the public internet/Azure public-control-plane egress service.
+- FortiGate policy baseline is consolidated into two directional policies:
+  - Azure workload to HQ required services with SNAT.
+  - HQ to Azure workload HTTP/HTTPS/ICMP without NAT.
+- GatewaySubnet ingress steering for `10.10.0.0/24` was validated and reconciled into Terraform.
+- O2 / Azure Arc remains open because no Arc evidence exists.
+
+Evidence:
+- `docs/release2/evidence/P5-vpn/p5-o1-o3a-closeout-summary.md`
+- `docs/release2/evidence/P5-vpn/p5-o3a-azure-vpngw-vyos-data-plane-validation.txt`
+- `docs/release2/evidence/P5-vpn/firewall-policy-current-post-gateway-udr.json`
+- `docs/release2/evidence/P5-vpn/p5-fortigate-gateway-ingress-symmetry-validation.txt`
 

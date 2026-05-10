@@ -79,7 +79,7 @@ Complete this before active build execution.
 - [ ] `build_checklist.md` reflects the current build approach
 
 ### 4.2 Terminology Alignment
-- [ ] O3a uses **VyOS**, not RRAS
+- [x] O3a uses **VyOS**, not RRAS
 - [ ] O3c transit-routing wording matches the current hybrid design
 - [ ] file names referenced in docs match actual repo file names
 - [ ] evidence path is consistently `docs/release2/evidence/`
@@ -400,9 +400,9 @@ Use this when you need a simple execution memory aid.
 ### Stage D – Execute Optional Phases Only If Ready
 - [x] P4
 - [ ] P6
-- [ ] O1
+- [x] O1
 - [ ] O2
-- [ ] O3a
+- [x] O3a
 - [ ] O3b
 - [ ] O3c
 - [ ] O4
@@ -652,8 +652,8 @@ Date: 2026-05-06 00:59:25 +01:00
 - [x] VyOS tcpdump confirmed ICMP request/reply on `vti1`.
 - [x] FortiGate sniffer confirmed four-leg request/reply traversal.
 - [x] SNAT documented as a lab delta.
-- [ ] HQ-initiated inspection toward Azure workloads intentionally deferred.
-- [ ] GatewaySubnet route changes intentionally deferred.
+- [x] HQ-initiated inspection toward Azure workload validated for the current O1/P2b scope.
+- [x] GatewaySubnet route change validated and reconciled into Terraform for the current O1/P2b scope.
 
 
 ---
@@ -669,7 +669,7 @@ Date: 2026-05-06 00:59:25 +01:00
 - [x] FortiGate policy baseline consolidated into directional policies.
 - [x] HQ-to-Azure asymmetric routing root cause identified.
 - [x] GatewaySubnet UDR validation fixed DC1-to-workload path.
-- [ ] Codify GatewaySubnet UDR in terraform/platform-networking/dev.
+- [x] Codify GatewaySubnet UDR in terraform/platform-networking/dev.
 - [ ] Replace temporary/manual route validation with GitHub Actions-applied Terraform state.
 
 ## P2b Linux AD Join Closeout
@@ -686,4 +686,17 @@ Date: 2026-05-06 00:59:25 +01:00
 - [x] `apache2` active.
 - [x] Apache local validation returned `HTTP/1.1 200 OK`.
 - [x] Evidence captured under `docs/release2/evidence/P2b/`.
+
+## P5/O1/O3a Closeout Checkpoint
+
+- [x] FortiGate Stage 1 deployment validated.
+- [x] FortiGate interface mapping confirmed: port1 `10.0.3.4`, port2 `10.0.3.36`.
+- [x] Azure VPN Gateway to VyOS IPSec tunnel validated.
+- [x] AES256/SHA256/DHGroup14/PFS14 path confirmed.
+- [x] Azure workload to VyOS data-plane validation completed.
+- [x] FortiGate policy baseline consolidated into two directional policies.
+- [x] GatewaySubnet symmetry correction validated.
+- [x] GatewaySubnet UDR reconciled into Terraform for current O1/P2b scope.
+- [x] Evidence captured under `docs/release2/evidence/P5-vpn/`.
+- [ ] O2 / Azure Arc evidence is not present and remains open.
 

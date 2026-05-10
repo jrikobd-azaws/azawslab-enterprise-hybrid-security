@@ -147,7 +147,7 @@ This milestone demonstrates a realistic enterprise architecture pattern: native 
 
 ## Next Phase Gate: FortiGate Service Chaining / Inspection
 
-The next implementation target is controlled FortiGate service chaining for selected Azure workload to HQ traffic.
+Controlled FortiGate service chaining for selected Azure workload to HQ traffic has been validated for the current O1/P2b scope.
 
 This must not be treated as only an Azure UDR change. The FortiGate must be able to route, permit, log, and count the traffic before Azure workload traffic is steered to it.
 
@@ -180,7 +180,7 @@ Required validation before claiming inspection:
 - Azure VPN connection remains connected and counters increase
 - FortiGate policy counters or logs prove traffic traversal
 
-Do not modify GatewaySubnet routes unless separately researched and justified.
+GatewaySubnet route changes require explicit justification. For this lab, the `10.10.0.0/24` ingress route was researched, validated, and codified to correct asymmetric HQ-to-Azure workload routing.
 
 
 ---
@@ -255,7 +255,7 @@ O1 validated the first controlled FortiGate NVA service-chain path for Azure wor
 Azure workload -> HQ/VyOS
 ```
 
-HQ/VyOS-initiated inspection toward Azure workloads remains a later design decision.
+HQ/DC1-initiated inspection toward the Azure workload was later validated for the current O1/P2b scope using a targeted GatewaySubnet UDR and FortiGate policy 11.
 
 ### Final Validated Path
 
@@ -332,16 +332,40 @@ SNAT was enabled on the first validation policy to avoid asymmetric return routi
 A production design should separately evaluate:
 - whether SNAT should remain
 - whether symmetric routing without NAT is required
-- whether VPN Gateway ingress traffic should be steered through FortiGate
-- whether GatewaySubnet route-table association is appropriate and supportable for the chosen Azure design
+- VPN Gateway ingress traffic for the Azure workload /24 was steered through FortiGate for the current O1/P2b scope
+- GatewaySubnet route-table association was validated and reconciled into Terraform for the current lab design
 
 ### Final O1 Status
 
-O1 is validated for Azure workload to HQ service chaining through FortiGate NVA.
+O1 is validated for Azure workload to HQ service chaining and HQ/DC1-to-Azure workload symmetry through FortiGate NVA for the current O1/P2b scope.
 
 Not yet validated:
 - HQ-initiated traffic to Azure workloads through FortiGate
 - bidirectional inspection
 - GatewaySubnet ingress steering
 - production no-NAT service-chain design
+
+## P5/O1/O3a Closeout: Symmetric Hybrid Inspection Path
+
+The later P5/O1 validation completed the reverse HQ/DC1-to-Azure workload path.
+
+Final validated path:
+
+```text
+DC1 / 192.168.1.10
+  -> Azure VPN Gateway / GatewaySubnet
+  -> GatewaySubnet UDR: 10.10.0.0/24 -> FortiGate port1 / 10.0.3.4
+  -> FortiGate policy 11
+  -> FortiGate port2 / 10.0.3.36
+  -> vm-dev-client-01 / 10.10.0.4
+  -> FortiGate return path
+  -> Azure VPN Gateway
+  -> DC1
+```
+
+The current FortiGate policy model remains deliberately small because of the lab license policy-entry limit:
+- Policy 1: Azure workload to HQ required services with SNAT.
+- Policy 11: HQ to Azure workload HTTP/HTTPS/ICMP without NAT.
+
+AWS/O3b inspection policies remain disabled until the AWS-Cisco route path is active and validated.
 

@@ -40,4 +40,5 @@ DC1
   -> DC1
 ```
 
-This route was validated manually and must be reconciled into Terraform before P5 is considered fully IaC-complete.
+This route was validated manually first, then reconciled into `terraform/platform-networking/dev` and applied through the normal Terraform workflow. P5/O1/O3a is IaC-aligned for the current O1/P2b scope.
+
