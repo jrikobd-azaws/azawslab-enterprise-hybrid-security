@@ -1,0 +1,104 @@
+﻿---
+- name: P2b Linux AD join using Key Vault runtime secrets
+  hosts: linux_hq
+  gather_facts: false
+  become: false
+
+  vars:
+    linux_admin_password: "{{ lookup('env', 'LINUX_HQ_ADMIN_PASSWORD') }}"
+    domain_join_password: "{{ lookup('env', 'HQ_DOMAIN_JOIN_PASSWORD') }}"
+    domain_name: hq.azawslab.co.uk
+    domain_realm: HQ.AZAWSLAB.CO.UK
+    join_user_sam: svc.ansible
+    linux_computer_ou: "OU=Linux,OU=AzawsLab,DC=hq,DC=azawslab,DC=co,DC=uk"
+
+  tasks:
+    - name: Assert Key Vault-backed runtime secrets are loaded
+      ansible.builtin.assert:
+        that:
+          - linux_admin_password | length > 0
+          - domain_join_password | length > 0
+        fail_msg: "Required runtime secrets are not loaded."
+        success_msg: "Required runtime secrets are loaded. Values are not printed."
+
+    - name: Check current realm membership
+      ansible.builtin.command: realm list
+      register: realm_before
+      changed_when: false
+      failed_when: false
+
+    - name: Show current realm state
+      ansible.builtin.debug:
+        var: realm_before.stdout_lines
+
+    - name: Kerberos authentication test for svc.ansible
+      ansible.builtin.expect:
+        command: "kinit {{ join_user_sam }}@{{ domain_realm }}"
+        responses:
+          "Password for .*:": "{{ domain_join_password }}"
+        timeout: 60
+      no_log: true
+      when: domain_name not in realm_before.stdout
+
+    - name: Destroy temporary Kerberos ticket after authentication test
+      ansible.builtin.command: kdestroy
+      changed_when: false
+      failed_when: false
+      when: domain_name not in realm_before.stdout
+
+    - name: Join Linux host to Active Directory using explicit passworded sudo
+      ansible.builtin.expect:
+        command: >-
+          sudo -S -p 'AZAWSLAB_SUDO_PASSWORD:'
+          realm join
+          --verbose
+          --user={{ join_user_sam }}
+          --computer-ou={{ linux_computer_ou | quote }}
+          {{ domain_name }}
+        responses:
+          "AZAWSLAB_SUDO_PASSWORD:": "{{ linux_admin_password }}"
+          "Password for .*:": "{{ domain_join_password }}"
+        timeout: 300
+      no_log: true
+      when: domain_name not in realm_before.stdout
+
+    - name: Enable automatic home directory creation
+      ansible.builtin.expect:
+        command: "sudo -S -p 'AZAWSLAB_SUDO_PASSWORD:' pam-auth-update --enable mkhomedir --force"
+        responses:
+          "AZAWSLAB_SUDO_PASSWORD:": "{{ linux_admin_password }}"
+        timeout: 120
+      no_log: true
+
+    - name: Validate realm membership
+      ansible.builtin.command: realm list
+      register: realm_after
+      changed_when: false
+
+    - name: Validate SSSD service
+      ansible.builtin.command: systemctl is-active sssd
+      register: sssd_status
+      changed_when: false
+      failed_when: false
+
+    - name: Validate Apache service
+      ansible.builtin.command: systemctl is-active apache2
+      register: apache_status
+      changed_when: false
+      failed_when: false
+
+    - name: Validate local Apache response
+      ansible.builtin.command: curl -I http://127.0.0.1/
+      register: apache_curl
+      changed_when: false
+      failed_when: false
+
+    - name: Final validation summary
+      ansible.builtin.debug:
+        msg:
+          - "Realm contains hq.azawslab.co.uk: {{ domain_name in realm_after.stdout }}"
+          - "SSSD status: {{ sssd_status.stdout | default('unknown') }}"
+          - "Apache status: {{ apache_status.stdout | default('unknown') }}"
+          - "Apache HTTP status line: {{ apache_curl.stdout_lines[0] | default('not returned') }}"
+          - "Domain join user used: {{ join_user_sam }}"
+          - "Computer OU: {{ linux_computer_ou }}"

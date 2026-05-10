@@ -114,3 +114,68 @@ ansible/release2/playbooks/fortigate-service-chain.yml
 ```
 
 Both playbooks expect the FortiGate token to be loaded from the runtime environment as `FORTIOS_ACCESS_TOKEN`.
+
+## P2b Windows Common Baseline Validation
+
+The Release 2 Windows common baseline has been validated from the Azure-connected management host.
+
+```text
+vm-dev-mgmt-01 / 10.10.1.4
+  -> private WinRM TCP/5985
+  -> vm-dev-client-01 / 10.10.0.4
+```
+
+Validated result:
+
+```text
+First run:  ok=6 changed=1 unreachable=0 failed=0
+Second run: ok=6 changed=0 unreachable=0 failed=0
+```
+
+The common role currently validates WinRM connectivity, ensures `C:\Temp` exists, creates the baseline marker file, and ensures the `RemoteRegistry` service is running with manual startup.
+
+Evidence:
+
+```text
+docs/release2/evidence/P2b/p2b-ansible-common-role-idempotency-validation.txt
+docs/release2/evidence/P2b/p2b-ansible-windows-common-execution-log.md
+```
+
+Deferred roles:
+
+```text
+ad-join   - deferred until DC/DNS/domain readiness is confirmed
+webserver - deferred until IIS/application scope is confirmed
+```
+
+Do not commit runtime inventory files containing real Windows credentials.
+
+## P2b Linux AD join pattern
+
+The HQ Linux host is joined to Active Directory from `vm-dev-mgmt-01`, using the management VM as the Ansible control node.
+
+Final design:
+- Linux host: `hq-linux-vm01`
+- Linux IP: `192.168.1.30`
+- Linux SSH/sudo user: `hq-admin`
+- Linux SSH/sudo secret: `hq-linux-admin-password`
+- AD join service account: `svc.ansible`
+- AD join secret: `hq-svc-ansible-password`
+- Target OU: `OU=Linux,OU=AzawsLab,DC=hq,DC=azawslab,DC=co,DC=uk`
+- Service-account group: `azw-hq-ansible-operators`
+- Delegation scope: Linux OU computer join rights only
+
+Security notes:
+- Secrets are retrieved at runtime from Key Vault using the `vm-dev-mgmt-01` managed identity.
+- Secrets are not stored in inventory or committed files.
+- The Linux join path does not use root login.
+- The Linux join path does not use passwordless sudo.
+- Native Ansible `become` was not used for the join because sudo prompt handling was unreliable for this Ubuntu host. The final playbook uses an explicit passworded `sudo -S` / `expect` pattern with Key Vault runtime secrets.
+- The Linux AD join automation must not modify the host static IP configuration. Static IP, gateway, and DNS are prerequisites and should only be validated by the join workflow.
+
+Validation:
+- `realm list` shows `hq.azawslab.co.uk`.
+- `sssd` is active.
+- `apache2` is active.
+- Local Apache test returns `HTTP/1.1 200 OK`.
+- DC1 confirms `HQ-LINUX-VM01` under the Linux OU.

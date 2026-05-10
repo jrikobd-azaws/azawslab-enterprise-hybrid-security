@@ -1,11 +1,11 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 export PATH="$HOME/.local/bin:$PATH"
 
 KV_NAME="${KV_NAME:-kvdevazawsne01}"
 LINUX_HQ_ADMIN_SECRET_NAME="${LINUX_HQ_ADMIN_SECRET_NAME:-hq-linux-admin-password}"
-HQ_DOMAIN_JOIN_SECRET_NAME="${HQ_DOMAIN_JOIN_SECRET_NAME:-hq-domain-join-password}"
+HQ_DOMAIN_JOIN_SECRET_NAME="${HQ_DOMAIN_JOIN_SECRET_NAME:-hq-svc-ansible-password}"
 
 # Force this run to use the VM managed identity, not cached user credentials.
 az account clear
@@ -55,3 +55,4 @@ else
     -i "$HOME/release2-ansible/inventory/dev/hosts.ini" \
     "$HOME/release2-ansible/playbooks/linux-domain-join-hq.yml"
 fi
+
