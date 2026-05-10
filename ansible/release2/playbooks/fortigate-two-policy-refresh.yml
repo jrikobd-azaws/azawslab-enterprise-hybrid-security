@@ -1,0 +1,102 @@
+---
+- name: Refresh FortiGate to clean two-policy O1/P2b baseline
+  hosts: fortigate
+  gather_facts: false
+
+  vars:
+    fortios_access_token: "{{ lookup('env', 'FORTIOS_ACCESS_TOKEN') }}"
+    fortigate_vdom: root
+
+  tasks:
+    - name: Ensure Azure workload prefix address object exists
+      fortinet.fortios.fortios_firewall_address:
+        vdom: "{{ fortigate_vdom }}"
+        access_token: "{{ fortios_access_token }}"
+        state: present
+        firewall_address:
+          name: AZURE_WORKLOAD_10_10_0_0_16
+          subnet: "10.10.0.0 255.255.0.0"
+          comment: Release 2 Azure workload prefix
+
+    - name: Ensure Azure IIS workload address object exists
+      fortinet.fortios.fortios_firewall_address:
+        vdom: "{{ fortigate_vdom }}"
+        access_token: "{{ fortios_access_token }}"
+        state: present
+        firewall_address:
+          name: VM_DEV_CLIENT_10_10_0_4
+          subnet: "10.10.0.4 255.255.255.255"
+          comment: Release 2 domain-joined IIS workload
+
+    - name: Ensure HQ lab address object exists
+      fortinet.fortios.fortios_firewall_address:
+        vdom: "{{ fortigate_vdom }}"
+        access_token: "{{ fortios_access_token }}"
+        state: present
+        firewall_address:
+          name: HQ_LAB_192_168_1_0_24
+          subnet: "192.168.1.0 255.255.255.0"
+          comment: Release 2 HQ lab subnet
+
+    - name: Consolidate Azure to HQ services into policy 1
+      fortinet.fortios.fortios_firewall_policy:
+        vdom: "{{ fortigate_vdom }}"
+        access_token: "{{ fortios_access_token }}"
+        state: present
+        firewall_policy:
+          policyid: 1
+          name: O1-AzureWorkload-to-HQ-Required-SNAT
+          status: enable
+          srcintf:
+            - name: port2
+          dstintf:
+            - name: port1
+          srcaddr:
+            - name: AZURE_WORKLOAD_10_10_0_0_16
+          dstaddr:
+            - name: HQ_LAB_192_168_1_0_24
+          action: accept
+          schedule: always
+          service:
+            - name: Windows AD
+            - name: PING
+            - name: NTP
+          logtraffic: all
+          nat: enable
+          comments: Release 2 consolidated Azure-to-HQ policy. Uses built-in Windows AD, PING, and NTP. SNAT retained as lab symmetry delta.
+
+    - name: Consolidate HQ to Azure web and ICMP services into policy 11
+      fortinet.fortios.fortios_firewall_policy:
+        vdom: "{{ fortigate_vdom }}"
+        access_token: "{{ fortios_access_token }}"
+        state: present
+        firewall_policy:
+          policyid: 11
+          name: O1-HQ-to-AzureWorkload-Web-ICMP
+          status: enable
+          srcintf:
+            - name: port1
+          dstintf:
+            - name: port2
+          srcaddr:
+            - name: HQ_LAB_192_168_1_0_24
+          dstaddr:
+            - name: VM_DEV_CLIENT_10_10_0_4
+          action: accept
+          schedule: always
+          service:
+            - name: HTTP
+            - name: HTTPS
+            - name: PING
+          logtraffic: all
+          nat: disable
+          comments: Release 2 consolidated HQ-to-Azure workload validation policy for IIS and ICMP.
+
+    - name: Delete retired standalone AD join policy 10
+      fortinet.fortios.fortios_firewall_policy:
+        vdom: "{{ fortigate_vdom }}"
+        access_token: "{{ fortios_access_token }}"
+        state: absent
+        firewall_policy:
+          policyid: 10
+      ignore_errors: true

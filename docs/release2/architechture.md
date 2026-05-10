@@ -340,3 +340,51 @@ This does not erase earlier design exploration; it records the final implemented
 - `aws-branch-dev.tfstate`
 
 **Consequence:** GitHub Actions workflows and control docs must be updated before AWS branch Terraform is implemented. No AWS infrastructure should be deployed until AWS account readiness, budget controls, authentication model, and teardown plan are documented.
+
+---
+
+## ADR - GatewaySubnet Ingress Steering for FortiGate Symmetry
+
+**Decision:** HQ-to-Azure workload traffic for the workload subnet must be steered through FortiGate before reaching vm-dev-client-01.
+
+**Context:** DC1 could reach vm-dev-mgmt-01 but initially could not reach vm-dev-client-01. FortiGate sniffer showed only echo replies from vm-dev-client-01 entering FortiGate port2, proving FortiGate was seeing return traffic but not the original HQ-initiated request.
+
+**Root cause:** Asymmetric routing. The workload subnet had a UDR for 192.168.1.0/24 toward FortiGate port2, but GatewaySubnet did not have a corresponding ingress route for 10.10.0.0/24 toward FortiGate port1.
+
+```text
+Broken path before fix:
+
+DC1 / 192.168.1.10
+  -> Azure VPN Gateway
+  -> vm-dev-client-01 / 10.10.0.4
+  -> FortiGate port2 / 10.0.3.36
+  -> timeout
+```
+
+**Validated fix:** Attach a GatewaySubnet route table with a targeted route:
+
+```text
+10.10.0.0/24 -> VirtualAppliance 10.0.3.4
+```
+
+**Final traffic model:**
+
+```text
+HQ -> Azure workload:
+
+DC1 / 192.168.1.10
+  -> Azure VPN Gateway / GatewaySubnet
+  -> UDR 10.10.0.0/24 -> FortiGate port1 / 10.0.3.4
+  -> FortiGate policy port1 -> port2
+  -> vm-dev-client-01 / 10.10.0.4
+
+Azure workload -> HQ:
+
+vm-dev-client-01 / 10.10.0.4
+  -> workload subnet UDR 192.168.1.0/24 -> FortiGate port2 / 10.0.3.36
+  -> FortiGate policy port2 -> port1
+  -> Azure VPN Gateway
+  -> DC1 / 192.168.1.10
+```
+
+**Consequence:** The manual GatewaySubnet UDR validation must be codified in terraform/platform-networking/dev to remove drift and keep the route-security model auditable.
