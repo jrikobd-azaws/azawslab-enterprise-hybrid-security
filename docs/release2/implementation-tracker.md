@@ -978,3 +978,39 @@ Evidence confirms:
 
 This does not yet claim HQ-initiated inspection toward Azure workloads. That remains a later routing and enterprise-design decision.
 
+
+---
+
+## Update - P2b Ansible AD Join, IIS, and Key Vault Runtime Secrets
+
+Status: Completed for current Windows workload scope.
+
+Completed:
+- vm-dev-mgmt-01 is the private Ansible control node.
+- Ansible connects to vm-dev-client-01 over private WinRM.
+- Windows local admin password is sourced from Key Vault at runtime using the management VM managed identity.
+- Domain join password is sourced from Key Vault at runtime using the management VM managed identity.
+- vm-dev-client-01 is joined to hq.azawslab.co.uk.
+- Computer object is placed in OU=Workstations,OU=AzawsLab,DC=hq,DC=azawslab,DC=co,DC=uk.
+- IIS is installed by Ansible and serves the Release 2 validation page.
+
+Evidence:
+- docs/release2/evidence/P2b/p2b-ansible-keyvault-ad-iis-validation.txt
+
+## Update - P5 FortiGate HQ-to-Azure Symmetry Validation
+
+Status: Validated manually; Terraform reconciliation required.
+
+Completed:
+- FortiGate policies were consolidated into a clean two-policy baseline.
+- Azure-to-HQ policy handles Windows AD, PING, and NTP.
+- HQ-to-Azure policy handles HTTP, HTTPS, and PING.
+- Root cause of DC1-to-workload failure was identified as asymmetric routing.
+- GatewaySubnet UDR was manually validated to steer 10.10.0.0/24 ingress through FortiGate port1.
+
+Open follow-up:
+- Reconcile the GatewaySubnet route table and route into terraform/platform-networking/dev.
+- Do not treat P5 as fully IaC-complete until the manual route is codified and applied through the normal workflow.
+
+Evidence:
+- docs/release2/evidence/P5-vpn/p5-fortigate-gateway-ingress-symmetry-validation.txt

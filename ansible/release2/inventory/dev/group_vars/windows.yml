@@ -1,0 +1,6 @@
+---
+# Windows local admin password is loaded at runtime from Azure Key Vault
+# by scripts/run-with-keyvault-secrets.sh.
+# Do not place plaintext passwords in inventory files.
+
+ansible_password: "{{ lookup('env', 'WINDOWS_LOCAL_ADMIN_PASSWORD') }}"

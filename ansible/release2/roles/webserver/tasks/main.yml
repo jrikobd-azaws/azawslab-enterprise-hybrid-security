@@ -1,7 +1,93 @@
-﻿---
-- name: Webserver role intentionally deferred
+---
+- name: Install IIS Web Server role
+  ansible.windows.win_feature:
+    name: Web-Server
+    state: present
+    include_management_tools: true
+  register: iis_feature
+
+- name: Ensure IIS service is automatic and running
+  ansible.windows.win_service:
+    name: W3SVC
+    start_mode: auto
+    state: started
+
+- name: Ensure IIS web root exists
+  ansible.windows.win_file:
+    path: C:\inetpub\wwwroot
+    state: directory
+
+- name: Deploy Release 2 IIS validation page
+  ansible.windows.win_copy:
+    dest: C:\inetpub\wwwroot\index.html
+    content: |
+      <!doctype html>
+      <html>
+      <head>
+        <title>AzawsLab Release 2</title>
+      </head>
+      <body>
+        <h1>AzawsLab Release 2 IIS validation</h1>
+        <p>Managed by Ansible webserver role.</p>
+        <p>Host: vmdevclient01</p>
+        <p>Domain: hq.azawslab.co.uk</p>
+      </body>
+      </html>
+
+- name: Allow private HTTP from Ansible management host
+  community.windows.win_firewall_rule:
+    name: AZAWSLAB-Allow-HTTP-From-Mgmt
+    display_name: AZAWSLAB Allow HTTP from management host
+    description: Release 2 private IIS validation from vm-dev-mgmt-01.
+    direction: in
+    action: allow
+    protocol: tcp
+    localport: 80
+    remoteip: 10.10.1.4
+    profiles:
+      - domain
+      - private
+      - public
+    enabled: true
+    state: present
+
+- name: Allow private HTTP from HQ lab subnet
+  community.windows.win_firewall_rule:
+    name: AZAWSLAB-Allow-HTTP-From-HQ
+    display_name: AZAWSLAB Allow HTTP from HQ lab subnet
+    description: Release 2 HQ to Azure IIS validation path.
+    direction: in
+    action: allow
+    protocol: tcp
+    localport: 80
+    remoteip: 192.168.1.0/24
+    profiles:
+      - domain
+      - private
+      - public
+    enabled: true
+    state: present
+
+- name: Validate IIS locally on Windows target
+  ansible.windows.win_shell: |
+    $Response = Invoke-WebRequest -UseBasicParsing -Uri 'http://localhost/' -TimeoutSec 10
+    $Response.StatusCode
+    $Response.Content
+
+    if ($Response.StatusCode -ne 200) {
+        throw "IIS local validation failed with status code $($Response.StatusCode)"
+    }
+
+    if ($Response.Content -notmatch 'AzawsLab Release 2 IIS validation') {
+        throw "IIS validation page content was not found."
+    }
+  register: iis_local_validation
+  changed_when: false
+
+- name: Show IIS validation summary
   ansible.builtin.debug:
     msg:
-      - 'Release 2 webserver role is intentionally deferred.'
-      - 'Do not configure IIS or Linux web services until the target host role and application validation scope are confirmed.'
-      - 'This placeholder preserves the P2b role scaffold without claiming webserver implementation.'
+      - "IIS webserver role completed."
+      - "W3SVC is running."
+      - "Release 2 validation page deployed to C:\\inetpub\\wwwroot\\index.html."
+      - "HTTP/80 is allowed from vm-dev-mgmt-01 and HQ lab subnet."

@@ -1,0 +1,49 @@
+﻿P2b Ansible Key Vault, AD Join, and IIS Validation
+
+Purpose:
+Validate private Ansible configuration management for vm-dev-client-01 using vm-dev-mgmt-01 as the Azure-connected control node.
+
+Control node:
+vm-dev-mgmt-01
+Private IP: 10.10.1.4
+
+Target:
+vm-dev-client-01
+Private IP: 10.10.0.4
+Hostname: vmdevclient01
+
+Secret handling:
+- Windows local admin password is stored in Key Vault secret: local-admin-password
+- Domain join password is stored in Key Vault secret: hq-domain-join-password
+- vm-dev-mgmt-01 uses managed identity to read Key Vault secrets at runtime.
+- Secrets are injected into Ansible runtime environment variables only.
+- Plaintext passwords are not stored in committed inventory.
+
+Key Vault-backed Ansible flow:
+vm-dev-mgmt-01 managed identity
+  -> Key Vault kvdevazawsne01
+  -> local-admin-password
+  -> hq-domain-join-password
+  -> Ansible runtime memory
+  -> WinRM and domain join
+
+AD join result:
+- Domain: hq.azawslab.co.uk
+- DC: DC1 / 192.168.1.10
+- DNS server on Windows target: 192.168.1.10
+- Computer object:
+  CN=vmdevclient01,OU=Workstations,OU=AzawsLab,DC=hq,DC=azawslab,DC=co,DC=uk
+- CsPartOfDomain: True
+
+IIS result:
+- IIS installed using Ansible webserver role.
+- W3SVC running.
+- Release 2 validation page deployed to:
+  C:\inetpub\wwwroot\index.html
+- Management validation succeeded:
+  vm-dev-mgmt-01 -> http://10.10.0.4
+  HTTP/1.1 200 OK
+  Server: Microsoft-IIS/10.0
+
+Conclusion:
+P2b private Ansible management path is operational. The workload VM is domain joined to hq.azawslab.co.uk and IIS is deployed and reachable from the Azure management host over the private network.

@@ -655,3 +655,19 @@ Date: 2026-05-06 00:59:25 +01:00
 - [ ] HQ-initiated inspection toward Azure workloads intentionally deferred.
 - [ ] GatewaySubnet route changes intentionally deferred.
 
+
+---
+
+## P2b / P5 Validation Checklist Addendum
+
+- [x] Ansible control node uses Key Vault-backed runtime secret retrieval.
+- [x] Plaintext Windows and domain join passwords removed from committed inventory pattern.
+- [x] vm-dev-client-01 joined to hq.azawslab.co.uk.
+- [x] AD computer object confirmed in Workstations OU.
+- [x] IIS installed by Ansible webserver role.
+- [x] IIS private HTTP validation from vm-dev-mgmt-01 succeeded.
+- [x] FortiGate policy baseline consolidated into directional policies.
+- [x] HQ-to-Azure asymmetric routing root cause identified.
+- [x] GatewaySubnet UDR validation fixed DC1-to-workload path.
+- [ ] Codify GatewaySubnet UDR in terraform/platform-networking/dev.
+- [ ] Replace temporary/manual route validation with GitHub Actions-applied Terraform state.

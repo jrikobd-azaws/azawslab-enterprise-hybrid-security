@@ -1,0 +1,54 @@
+---
+- name: Validate domain, DC reachability, IIS, and firewall state
+  hosts: windows
+  gather_facts: false
+
+  tasks:
+    - name: Validate Windows domain and DC reachability
+      ansible.windows.win_shell: |
+        $DcIp = '192.168.1.10'
+        $Domain = 'hq.azawslab.co.uk'
+        $DcFqdn = 'dc1.hq.azawslab.co.uk'
+
+        Write-Output '===== Domain state ====='
+        Get-ComputerInfo |
+          Select-Object CsName, CsDomain, CsPartOfDomain |
+          Format-Table -AutoSize
+
+        Write-Output '===== DC locator ====='
+        nltest /dsgetdc:$Domain
+
+        Write-Output '===== DNS to DC ====='
+        Resolve-DnsName -Name $Domain -Server $DcIp -ErrorAction Stop |
+          Select-Object Name, Type, IPAddress |
+          Format-Table -AutoSize
+
+        Resolve-DnsName -Name $DcFqdn -Server $DcIp -ErrorAction Stop |
+          Select-Object Name, Type, IPAddress |
+          Format-Table -AutoSize
+
+        Write-Output '===== TCP to DC ====='
+        $Results = foreach ($Port in @(53,88,135,389,445,464,3268,3269)) {
+          $Result = Test-NetConnection -ComputerName $DcIp -Port $Port -WarningAction SilentlyContinue
+          [pscustomobject]@{
+            Target = $DcIp
+            Port = $Port
+            Success = $Result.TcpTestSucceeded
+          }
+        }
+
+        $Results | Format-Table -AutoSize
+
+        Write-Output '===== IIS local test ====='
+        Invoke-WebRequest -UseBasicParsing -Uri 'http://localhost/' -TimeoutSec 10 |
+          Select-Object StatusCode, Content |
+          Format-List
+
+        Write-Output '===== IIS listener ====='
+        netstat -ano | findstr ':80'
+
+        Write-Output '===== AZAWSLAB firewall rules ====='
+        Get-NetFirewallRule -Name 'AZAWSLAB-*' -ErrorAction SilentlyContinue |
+          Select-Object Name, DisplayName, Enabled, Direction, Action, Profile |
+          Format-Table -AutoSize
+      changed_when: false

@@ -1,6 +1,8 @@
-﻿---
-- name: P2b Windows baseline and role orchestration
+---
+- name: P2b Windows baseline, AD join, and IIS orchestration
   hosts: windows
   gather_facts: false
   roles:
     - common
+    - ad-join
+    - webserver

@@ -1,0 +1,63 @@
+﻿P5 FortiGate GatewaySubnet Ingress Symmetry Validation
+
+Purpose:
+Document the root cause and fix for HQ/DC1 initiated traffic to Azure workload vm-dev-client-01.
+
+Problem:
+DC1 could reach vm-dev-mgmt-01 at 10.10.1.4, but could not reach vm-dev-client-01 at 10.10.0.4 over ICMP or HTTP.
+
+Root cause:
+Asymmetric routing.
+
+Before fix:
+DC1 / 192.168.1.10
+  -> Azure VPN Gateway
+  -> vm-dev-client-01 / 10.10.0.4
+  -> FortiGate port2 / 10.0.3.36
+  -> timeout
+
+FortiGate sniffer showed:
+port2 in 10.10.0.4 -> 192.168.1.10 icmp echo reply
+
+This proved the Windows VM was replying, but FortiGate had not seen the original request.
+
+Why management VM worked:
+vm-dev-mgmt-01 used the VirtualNetworkGateway route for 192.168.1.0/24, so request and reply were symmetric through the VPN Gateway.
+
+Why workload VM failed:
+vm-dev-client-01 had a workload subnet UDR sending 192.168.1.0/24 to FortiGate port2, but GatewaySubnet did not have a matching ingress route sending HQ-to-workload traffic to FortiGate port1 first.
+
+Fix applied for validation:
+GatewaySubnet route table:
+  route: 10.10.0.0/24
+  next hop type: VirtualAppliance
+  next hop IP: 10.0.3.4
+
+Final validated path:
+DC1 / 192.168.1.10
+  -> Azure VPN Gateway / GatewaySubnet
+  -> GatewaySubnet UDR: 10.10.0.0/24 -> 10.0.3.4
+  -> FortiGate port1
+  -> FortiGate policy O1-HQ-to-AzureWorkload-Web-ICMP
+  -> FortiGate port2
+  -> vm-dev-client-01 / 10.10.0.4
+  -> FortiGate port2
+  -> FortiGate port1
+  -> VPN Gateway
+  -> DC1
+
+Clean FortiGate policy model:
+Policy 1:
+  Azure workload -> HQ
+  port2 -> port1
+  Services: Windows AD, PING, NTP
+  NAT: enable
+
+Policy 11:
+  HQ -> Azure workload
+  port1 -> port2
+  Services: HTTP, HTTPS, PING
+  NAT: disable
+
+Important follow-up:
+The GatewaySubnet UDR was validated manually with az CLI and must be reconciled into terraform/platform-networking/dev before P5 is considered fully IaC-complete.
