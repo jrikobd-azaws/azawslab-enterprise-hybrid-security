@@ -1089,3 +1089,24 @@ Evidence:
 - `docs/release2/evidence/O2/o2-mem1-arc-azure-validation.txt`
 
 
+
+### O3b/O3c Architecture Alignment Note
+
+O3b and O3c follow the validated P5/O1/O3a design.
+
+```text
+Azure VPN Gateway:
+  IPSec/BGP transit hub for external peers.
+
+FortiGate:
+  Azure-side inspection and service-chaining plane.
+
+VyOS:
+  HQ/on-prem edge.
+
+Cisco 8000V:
+  AWS branch/customer router.
+```
+
+O3b validates Cisco 8000V in AWS peering with Azure VPN Gateway using IPSec/BGP. O3c validates transitive routing between Azure, HQ, and AWS. FortiGate inspection is only claimed where FortiGate policy counters or logs prove traversal.
+

@@ -119,3 +119,58 @@ Validated:
 - Amazon Linux 2023 OS confirmation.
 - Internet egress from both VMs.
 - Cisco-disabled Terraform state.
+
+---
+
+## O3b Next Architecture Direction - Cisco to Azure VPN Gateway
+
+The current AWS branch foundation remains valid: AWS VPC, subnets, test instances, GitHub OIDC, and S3-backed Terraform state are already established. Cisco 8000V was intentionally disabled during the foundation step.
+
+The next O3b implementation target is to introduce Cisco Catalyst 8000V as the AWS branch edge router and connect it to Azure VPN Gateway using IPSec/BGP.
+
+```text
+[AWS Branch VPC]
+  172.16.0.0/16
+      |
+      v
+[Cisco Catalyst 8000V]
+  ASN: 65002
+      |
+      | IPSec/BGP
+      v
+[Azure VPN Gateway]
+  ASN: 65515
+      |
+      +-- existing IPSec path to VyOS / HQ
+      +-- route propagation to Azure hub/spoke paths
+```
+
+FortiGate is not the AWS IPSec/BGP peer. FortiGate remains the Azure-side inspection and service-chaining plane. Any AWS-to-Azure or AWS-to-HQ inspection claim must be proven later with FortiGate policy counters or logs.
+
+### Marketplace Readiness
+
+Cisco Catalyst 8000V Marketplace BYOL subscription has been confirmed before Terraform enablement.
+
+Recorded Marketplace details:
+- Product: Cisco Catalyst 8000V for SD-WAN & Routing Deployed on AWS
+- Product ID: `42cb6e93-8d9d-490b-a73c-e3e56077ffd1`
+- Offer ID: `3ycwqehancx46bkpb3xkifiz5`
+- Agreement ID: `agmt-19mxi27m9lp1apyzpi0ylhyqq`
+- Pricing model: Bring your own license (BYOL)
+- Service start: May 10, 2026 22:33 UTC
+
+### O3b Implementation Boundary
+
+O3b should validate:
+- Cisco 8000V deployment through Terraform.
+- AWS route tables steering selected branch subnet traffic to Cisco ENI.
+- Cisco-to-Azure VPN Gateway IPSec tunnel.
+- Cisco-to-Azure VPN Gateway BGP session.
+- Azure learns AWS branch prefixes.
+- Cisco learns intended Azure/HQ prefixes.
+
+O3b should not claim:
+- full Azure/HQ/AWS transitive routing before O3c
+- FortiGate inspection for AWS flows without FortiGate counters or logs
+- Cisco configuration success without management and routing validation
+

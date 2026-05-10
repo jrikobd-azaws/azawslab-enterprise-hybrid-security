@@ -1001,3 +1001,67 @@ Out of current O1 scope:
 - GatewaySubnet route changes.
 - Bidirectional NVA inspection design.
 
+
+---
+
+## Current O3b/O3c Architecture Alignment - Azure VPN Gateway Transit Hub
+
+The active O3b/O3c design follows the validated P5/O1/O3a architecture.
+
+```text
+Azure VPN Gateway:
+  IPSec and BGP transit hub for external site-to-site peers.
+
+FortiGate:
+  Azure-side inspection and service-chaining plane.
+
+VyOS:
+  HQ / on-prem edge.
+
+Cisco Catalyst 8000V:
+  AWS branch/customer edge router.
+```
+
+The Azure FortiGate NVA is not the active IPSec/BGP tunnel termination point for O3b. FortiGate remains the inspection plane. This follows the earlier P5/O3a design decision to decouple IPSec termination from NVA inspection after the FortiGate BYOL evaluation license exposed only DES-class IPSec proposals.
+
+### Target O3b Topology
+
+```text
+                [Azure Hub VNet]
+                       |
+               [Azure VPN Gateway]
+                 ASN: 65515
+                       |
+          +------------+-------------+
+          |                          |
+      IPSec/BGP                  IPSec/BGP
+          |                          |
+          v                          v
+   [VyOS / HQ Lab]           [Cisco 8000V / AWS]
+     ASN: 65001                  ASN: 65002
+     192.168.1.0/24              172.16.0.0/16
+```
+
+### O3b Scope
+
+O3b should prove the AWS branch routing foundation:
+
+- Cisco Catalyst 8000V BYOL Marketplace subscription is active.
+- Cisco 8000V is deployed in AWS through Terraform.
+- AWS route tables steer selected branch subnet traffic to the Cisco ENI.
+- Cisco establishes IPSec/BGP with Azure VPN Gateway.
+- Azure learns AWS branch prefixes through the VPN Gateway.
+- Cisco learns intended Azure/HQ prefixes through BGP.
+- Cisco remains controlled by explicit enable flags and cost/teardown notes.
+
+### O3c Scope
+
+O3c should prove global/transitive routing after O3b is stable:
+
+- Azure workload to AWS branch routing.
+- HQ/VyOS to AWS branch routing.
+- AWS branch to Azure/HQ routing.
+- FortiGate inspection only where intentionally service-chained and proven with policy counters or logs.
+
+Do not claim FortiGate inspection for AWS/HQ/Azure flows until FortiGate counters or logs prove traversal.
+

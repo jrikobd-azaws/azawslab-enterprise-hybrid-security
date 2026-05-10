@@ -369,3 +369,32 @@ The current FortiGate policy model remains deliberately small because of the lab
 
 AWS/O3b inspection policies remain disabled until the AWS-Cisco route path is active and validated.
 
+
+---
+
+## O3b/O3c Global Transit Direction - Azure VPN Gateway Hub
+
+The validated P5/O1/O3a design remains the foundation for O3b and O3c.
+
+Azure VPN Gateway is the external IPSec/BGP hub. FortiGate is the Azure-side inspection and service-chaining plane. VyOS remains the HQ/on-prem edge. Cisco Catalyst 8000V becomes the AWS branch edge.
+
+```text
+                         Azure Hub
+                            |
+                    [Azure VPN Gateway]
+                       ASN: 65515
+                            |
+              +-------------+-------------+
+              |                           |
+          IPSec/BGP                   IPSec/BGP
+              |                           |
+              v                           v
+       [VyOS / HQ Lab]            [Cisco 8000V / AWS]
+          ASN: 65001                  ASN: 65002
+          192.168.1.0/24              172.16.0.0/16
+```
+
+O3b validates the Cisco 8000V to Azure VPN Gateway IPSec/BGP path. O3c validates transitive routing between Azure, HQ, and AWS.
+
+FortiGate remains available for service-chained inspection. However, inspection is only claimed for traffic flows where FortiGate policy counters or logs prove traversal.
+
