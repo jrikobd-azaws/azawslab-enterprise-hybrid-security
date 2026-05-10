@@ -205,7 +205,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P0    | Foundation & OIDC Backend                      | Prep       | 1h        | [x]    | `docs/release2/evidence/P0/`  | OIDC workflow succeeds; backend init succeeds                        | Persistent                                                     |
 | P1    | Landing Zone & Management Groups               | P0         | 30m       | [x]    | `docs/release2/evidence/P1/`  | MG hierarchy exists; policy assignments visible                      | Persistent                                                     |
 | P2a   | Terraform Reusable Modules                     | P1         | 1h        | [x]    | `docs/release2/evidence/P2a/` | `terraform validate` and `plan` succeed; no public IP on workload VM | Persistent                                                     |
-| P2b   | Ansible Configuration Management               | P2a        | 45m       | [~]    | `docs/release2/evidence/P2b/` | management host path works; WinRM path validated; common role succeeds; rerun shows idempotency; AD join deferred until HQ AD and hybrid connectivity are ready | Management host ephemeral; deallocate when not actively needed |
+| P2b   | Ansible Configuration Management               | P2a        | 45m       | [x]    | `docs/release2/evidence/P2b/` | management host path works; WinRM path validated; common role succeeds; rerun shows idempotency; AD join deferred until HQ AD and hybrid connectivity are ready | Management host ephemeral; deallocate when not actively needed |
 | P2c   | CI/CD Pipeline                                 | P0, P2a    | 45m       | [ ]    | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds             | Persistent                                                     |
 | P3    | Enterprise Governance & Guardrails             | P1         | 30m       | [x]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                    | Persistent                                                     |
 | P4    | Azure Lighthouse                               | P0         | 30m       | [x]    | `docs/release2/evidence/P4/`  | delegated Reader visibility works cross-tenant                       | Persistent until later teardown decision                       |
@@ -314,8 +314,8 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - [ ] `ansible-lint` succeeds
 - [x] first playbook run succeeds
 - [x] second run shows idempotent behavior
-- [ ] domain join verified where applicable (deferred until HQ AD and hybrid connectivity are ready)
-- [ ] IIS/content validation completed where applicable
+- [x] domain join verified where applicable: Windows workload and HQ Linux host completed
+- [x] IIS/Apache content validation completed where applicable
 
 **Evidence**
 - [ ] `ansible-lint.txt`
@@ -677,7 +677,7 @@ Use this section during execution.
 - [ ] P0 complete
 - [ ] P1 complete
 - [ ] P2a complete
-- [ ] P2b complete
+- [x] P2b complete
 - [ ] P2c complete
 - [ ] P3 complete
 - [x] P5 complete
@@ -1014,3 +1014,28 @@ Open follow-up:
 
 Evidence:
 - docs/release2/evidence/P5-vpn/p5-fortigate-gateway-ingress-symmetry-validation.txt
+
+## Update - P2b Linux AD Join, Apache, and Delegated Service Account
+
+Final P2b Linux configuration management validation is complete.
+
+Implemented final state:
+- `vm-dev-mgmt-01` remains the private Ansible control node.
+- `hq-linux-vm01` at `192.168.1.30` is joined to `hq.azawslab.co.uk`.
+- DC1 confirms the computer object:
+  `CN=HQ-LINUX-VM01,OU=Linux,OU=AzawsLab,DC=hq,DC=azawslab,DC=co,DC=uk`
+- Linux AD join uses `svc.ansible` as the delegated domain-join account.
+- `svc.ansible` is a member of `azw-hq-ansible-operators`.
+- `azw-hq-ansible-operators` has Linux OU-scoped computer-join delegation.
+- Linux SSH/sudo access uses local account `hq-admin`.
+- Runtime secrets are retrieved from Key Vault by `vm-dev-mgmt-01` managed identity.
+- No plaintext secrets are stored in inventory.
+- No root login was used.
+- No passwordless sudo was used.
+- `sssd` is active.
+- `apache2` is active and returns `HTTP/1.1 200 OK`.
+
+Evidence:
+- `docs/release2/evidence/P2b/p2b-linux-ad-join-validation.txt`
+- `docs/release2/evidence/P2b/p2b-dc1-delegate-linux-ou-computer-join-rights.ps1`
+

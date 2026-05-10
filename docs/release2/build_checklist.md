@@ -387,7 +387,7 @@ Use this when you need a simple execution memory aid.
 - [ ] P0
 - [ ] P1
 - [ ] P2a
-- [ ] P2b
+- [x] P2b
 - [ ] P2c
 - [ ] P3
 - [x] P5
@@ -671,3 +671,19 @@ Date: 2026-05-06 00:59:25 +01:00
 - [x] GatewaySubnet UDR validation fixed DC1-to-workload path.
 - [ ] Codify GatewaySubnet UDR in terraform/platform-networking/dev.
 - [ ] Replace temporary/manual route validation with GitHub Actions-applied Terraform state.
+
+## P2b Linux AD Join Closeout
+
+- [x] HQ Linux host `hq-linux-vm01` joined to `hq.azawslab.co.uk`.
+- [x] DC1 computer object confirmed under `OU=Linux,OU=AzawsLab,DC=hq,DC=azawslab,DC=co,DC=uk`.
+- [x] Linux join used delegated account `svc.ansible`.
+- [x] `svc.ansible` delegated through `azw-hq-ansible-operators` with Linux OU-scoped computer-join rights.
+- [x] Runtime secrets sourced from Key Vault using `vm-dev-mgmt-01` managed identity.
+- [x] No plaintext secrets stored in inventory.
+- [x] No root login used.
+- [x] No passwordless sudo used.
+- [x] `sssd` active.
+- [x] `apache2` active.
+- [x] Apache local validation returned `HTTP/1.1 200 OK`.
+- [x] Evidence captured under `docs/release2/evidence/P2b/`.
+
