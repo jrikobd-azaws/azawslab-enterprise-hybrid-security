@@ -1770,3 +1770,72 @@ AWS routing validation:
 
 Do not advertise the full `172.16.0.0/16` summary during the first O3b segmented validation, because that would hide the intended trusted-vs-DMZ route-control proof.
 
+
+# O5 ACTIVE ARCHITECTURE ALIGNMENT
+==================================
+
+## Phase O5: Secure Admin and Dev Workspace using AVD and FSLogix
+
+O5 delivers a secure admin and development workspace using Azure Virtual Desktop and FSLogix.
+
+The AVD workspace is a controlled management entry point for Release 2 operations, including Azure platform administration, hybrid administration, and future AKS/container tooling.
+
+```text
+[User / Admin Device]
+        |
+        | AVD HTTPS broker path
+        v
+[AVD Session Host]
+  AVD spoke: 10.2.0.0/16
+        |
+        +-----------------------------+
+        |                             |
+        v                             v
+[Azure Firewall]              [FortiGate NVA]
+Egress / updates / SaaS       Hybrid/private inspection
+AVD control plane             HQ AD/DNS paths
+        |
+        v
+[Azure Files Private Endpoint]
+FSLogix profile containers
+```
+
+## Implementation Split
+
+Terraform owns:
+- AVD host pool
+- AVD workspace
+- desktop application group
+- AVD subnet / route table association
+- Azure Files storage account for FSLogix
+- Azure Files private endpoint
+- session host VM infrastructure
+
+Ansible owns:
+- AVD session host bootstrap
+- FSLogix configuration
+- admin/dev tooling
+- Azure CLI
+- kubectl
+- Helm
+- Git
+- VS Code
+- Docker CLI or approved container tooling
+
+## Validation
+
+Required:
+- AVD sign-in succeeds.
+- FSLogix profile persists across logoff/logon.
+- Azure Files profile path uses the intended private endpoint path.
+- AVD egress follows Azure Firewall where enabled.
+- AVD-to-HQ private path follows the approved hybrid route.
+- FortiGate inspection is claimed only where counters/logs prove traversal.
+- Admin/dev tooling validates successfully.
+
+Conditional:
+- If AKS exists, validate `kubectl get nodes`.
+- If AKS is not yet deployed, record AKS validation as deferred and validate toolchain readiness only.
+
+---
+

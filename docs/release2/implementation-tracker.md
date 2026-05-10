@@ -1125,3 +1125,21 @@ Required O3b behavior:
 
 Do not mark O3b complete if only full VPC summary propagation is tested.
 
+
+### O5 Secure Admin and Dev Workspace Alignment
+
+O5 is aligned as a secure admin and development workspace using Azure Virtual Desktop and FSLogix.
+
+Required validation:
+- AVD host pool, workspace, and desktop application group deployed.
+- Session host access works through AVD.
+- FSLogix profile container mounts through Azure Files private endpoint path.
+- Profile persistence validates across logoff/logon.
+- AVD egress follows Azure Firewall where enabled.
+- AVD-to-HQ private path follows approved hybrid routing.
+- FortiGate inspection is claimed only where counters/logs prove traversal.
+- Admin/dev toolchain validates: Azure CLI, kubectl, Helm, Git, VS Code, Docker CLI or approved container tooling.
+- AKS validation is conditional on AKS existence.
+
+Do not mark O5 complete based only on AVD host pool creation. O5 is complete only when workspace access, profile persistence, routing, and tooling validation are proven.
+

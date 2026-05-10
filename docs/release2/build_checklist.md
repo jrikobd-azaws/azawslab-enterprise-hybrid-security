@@ -740,3 +740,18 @@ Date: 2026-05-06 00:59:25 +01:00
 - [ ] Evidence captures both positive and negative validation
 - [ ] O3b is not marked complete until selective BGP behavior is proven
 
+
+### O5 Secure Admin and Dev Workspace Checklist
+
+- [ ] O5 is treated as secure admin/dev workspace, not only desktop delivery
+- [ ] AVD spoke design is confirmed
+- [ ] AVD subnet route-table behavior is understood
+- [ ] Azure Firewall egress path is defined for AVD where enabled
+- [ ] FortiGate hybrid/private inspection path is defined only where intentionally service-chained
+- [ ] Azure Files private endpoint design is confirmed for FSLogix
+- [ ] FSLogix profile persistence validation plan is documented
+- [ ] Admin/dev toolchain list is confirmed
+- [ ] Docker Desktop is treated as optional, not mandatory
+- [ ] AKS validation is conditional on AKS existence
+- [ ] O5 evidence path is confirmed before implementation
+
