@@ -15,6 +15,12 @@ variable "enable_o3a_azure_vpngw_vyos" {
   description = "Enable Azure VPN Gateway to VyOS IPSec fallback connectivity."
 }
 
+variable "enable_o3b_aws_cisco_vpn" {
+  type        = bool
+  default     = false
+  description = "Enable O3b Azure VPN Gateway IPSec/BGP connection to AWS Cisco 8000V."
+}
+
 variable "o3a_azure_vpngw_sku" {
   type        = string
   default     = "VpnGw1AZ"
@@ -51,6 +57,18 @@ data "azurerm_key_vault_secret" "o3a_vyos_ipsec_psk" {
   key_vault_id = data.azurerm_key_vault.o3a_shared[0].id
 }
 
+data "azurerm_key_vault" "o3b_shared" {
+  count               = var.enable_o3b_aws_cisco_vpn ? 1 : 0
+  name                = var.p5_key_vault_name
+  resource_group_name = var.p5_key_vault_resource_group_name
+}
+
+data "azurerm_key_vault_secret" "o3b_aws_cisco_ipsec_psk" {
+  count        = var.enable_o3b_aws_cisco_vpn ? 1 : 0
+  name         = "o3b-aws-cisco-ipsec-psk"
+  key_vault_id = data.azurerm_key_vault.o3b_shared[0].id
+}
+
 data "azurerm_subnet" "o3a_gateway_subnet" {
   count                = var.enable_o3a_azure_vpngw_vyos ? 1 : 0
   name                 = "GatewaySubnet"
@@ -66,6 +84,14 @@ locals {
     Component = "AzureVPNGateway-VyOS-IPSec"
     Phase     = "O3a"
     LabDelta  = "FortiGateTrialCryptoFallback"
+  })
+}
+
+locals {
+  o3b_aws_cisco_vpn_tags = merge(var.p5_fortigate_tags, {
+    Component = "AzureVPNGateway-AWSCisco-IPSecBGP"
+    Phase     = "O3b"
+    LabDelta  = "AWSCiscoBranchSegmentedBGP"
   })
 }
 
@@ -88,10 +114,15 @@ resource "azurerm_virtual_network_gateway" "o3a_vpngw" {
 
   type     = "Vpn"
   vpn_type = "RouteBased"
-  sku      = var.o3a_azure_vpngw_sku
+
+
+  bgp_settings {
+    asn = 65515
+  }
+  sku = var.o3a_azure_vpngw_sku
 
   active_active = false
-  bgp_enabled   = false
+  bgp_enabled   = true
 
   ip_configuration {
     name                          = "vnetGatewayConfig"
@@ -112,6 +143,12 @@ resource "azurerm_local_network_gateway" "o3a_vyos" {
   gateway_fqdn  = local.o3a_vyos_peer_fqdn
   address_space = [var.o3a_hq_lab_prefix]
 
+
+
+  bgp_settings {
+    asn                 = 65001
+    bgp_peering_address = "169.254.100.2"
+  }
   tags = local.o3a_vpngw_tags
 }
 
@@ -127,6 +164,8 @@ resource "azurerm_virtual_network_gateway_connection" "o3a_vpngw_to_vyos" {
   shared_key                 = local.o3a_vyos_ipsec_psk
   connection_protocol        = "IKEv2"
 
+
+  bgp_enabled                        = true
   use_policy_based_traffic_selectors = false
 
   ipsec_policy {
@@ -155,5 +194,63 @@ resource "azurerm_virtual_network_gateway_connection" "o3a_vpngw_to_vyos" {
   tags = local.o3a_vpngw_tags
 }
 
+resource "azurerm_local_network_gateway" "o3b_aws_cisco" {
+  count               = var.enable_o3b_aws_cisco_vpn ? 1 : 0
+  name                = "lngw-dev-aws-cisco-norwayeast-01"
+  location            = var.p5_hub_location
+  resource_group_name = data.azurerm_resource_group.p5_connectivity.name
 
+  gateway_address = "52.215.187.117"
 
+  address_space = [
+    "169.254.101.2/32"
+  ]
+
+  bgp_settings {
+    asn                 = 65002
+    bgp_peering_address = "169.254.101.2"
+  }
+
+  tags = local.o3b_aws_cisco_vpn_tags
+}
+
+resource "azurerm_virtual_network_gateway_connection" "o3b_vpngw_to_aws_cisco" {
+  count               = var.enable_o3b_aws_cisco_vpn ? 1 : 0
+  name                = "vcn-dev-vpngw-to-aws-cisco"
+  location            = var.p5_hub_location
+  resource_group_name = data.azurerm_resource_group.p5_connectivity.name
+
+  type                       = "IPsec"
+  virtual_network_gateway_id = azurerm_virtual_network_gateway.o3a_vpngw[0].id
+  local_network_gateway_id   = azurerm_local_network_gateway.o3b_aws_cisco[0].id
+
+  shared_key = data.azurerm_key_vault_secret.o3b_aws_cisco_ipsec_psk[0].value
+
+  connection_protocol                = "IKEv2"
+  bgp_enabled                        = true
+  use_policy_based_traffic_selectors = false
+
+  ipsec_policy {
+    dh_group         = "DHGroup14"
+    ike_encryption   = "AES256"
+    ike_integrity    = "SHA256"
+    ipsec_encryption = "AES256"
+    ipsec_integrity  = "SHA256"
+    pfs_group        = "PFS14"
+    sa_lifetime      = 3600
+  }
+
+  lifecycle {
+    precondition {
+      condition     = data.azurerm_key_vault_secret.o3b_aws_cisco_ipsec_psk[0].value != null && length(data.azurerm_key_vault_secret.o3b_aws_cisco_ipsec_psk[0].value) >= 16
+      error_message = "AWS Cisco IPSec PSK must be supplied from Key Vault and must be at least 16 characters."
+    }
+  }
+
+  tags = local.o3b_aws_cisco_vpn_tags
+
+  depends_on = [
+    azurerm_virtual_network_gateway.o3a_vpngw,
+    azurerm_local_network_gateway.o3b_aws_cisco
+  ]
+}

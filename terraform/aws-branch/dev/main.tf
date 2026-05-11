@@ -33,7 +33,7 @@ module "aws_branch" {
   advertise_trusted_prefix    = var.advertise_trusted_prefix
   advertise_dmz_prefix        = var.advertise_dmz_prefix
 
-  cisco_name                       = "cisco-dev-branch-01"
+  cisco_name                       = "cisco-dev-aws-branch-01"
   cisco_instance_type              = var.cisco_instance_type
   cisco_ami_ssm_parameter_name     = var.cisco_ami_ssm_parameter_name
   cisco_mgmt_sg_name               = var.cisco_mgmt_sg_name
