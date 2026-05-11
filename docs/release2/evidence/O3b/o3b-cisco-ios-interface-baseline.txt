@@ -1,0 +1,46 @@
+﻿O3b Cisco 8000V IOS XE Interface Baseline Validation
+
+Scope:
+Validate Cisco Catalyst 8000V first boot, SSH management access, IOS version, and AWS ENI-to-interface baseline.
+
+This evidence does not claim IPSec, BGP, Azure route learning, or cross-cloud data-plane connectivity.
+
+Cisco platform:
+- Cisco Catalyst 8000V
+- IOS XE version: 17.12.07b
+- Operating mode: Autonomous
+- Hostname: cisco-dev-branch-01
+- Throughput level shown by IOS: 20000 kbps
+- Interfaces detected: 3 Gigabit Ethernet interfaces
+
+SSH management:
+- Management public IP: 54.229.23.76
+- SSH login succeeded with EC2 key pair.
+- Local OpenSSH required explicit ssh-rsa compatibility options for this Marketplace image:
+  -o PubkeyAcceptedAlgorithms=+ssh-rsa
+  -o HostKeyAlgorithms=+ssh-rsa
+
+Interface mapping:
+- GigabitEthernet1 / AWS management subnet
+  IP: 172.16.0.142
+  Status: up/up
+  Default route via: 172.16.0.1
+
+- GigabitEthernet2 / AWS untrusted subnet / future IPSec outside
+  IP: 172.16.254.121
+  Status: up/up
+
+- GigabitEthernet3 / AWS trusted subnet / branch LAN side
+  IP: 172.16.1.56
+  Status: up/up
+
+Connected routes validated:
+- 172.16.0.0/24 directly connected via GigabitEthernet1
+- 172.16.1.0/24 directly connected via GigabitEthernet3
+- 172.16.254.0/24 directly connected via GigabitEthernet2
+
+Design note:
+The AWS DMZ subnet 172.16.2.0/24 exists but is intentionally not attached to Cisco in the first O3b validation. It remains the negative-control subnet and must not be advertised over BGP during the first selective route propagation proof.
+
+Result:
+Cisco 8000V first boot, SSH management, interface mapping, and IOS baseline are validated. IPSec/BGP remains pending.

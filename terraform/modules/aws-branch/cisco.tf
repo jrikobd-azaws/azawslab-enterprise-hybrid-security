@@ -215,18 +215,4 @@ resource "aws_instance" "cisco" {
   }
 }
 
-resource "aws_route" "trusted_to_azure_workload_via_cisco" {
-  count = local.cisco_enabled ? 1 : 0
 
-  route_table_id         = aws_route_table.trusted[0].id
-  destination_cidr_block = var.aws_branch_azure_workload_prefix
-  network_interface_id   = aws_network_interface.cisco_trusted[0].id
-}
-
-resource "aws_route" "trusted_to_hq_via_cisco" {
-  count = local.cisco_enabled ? 1 : 0
-
-  route_table_id         = aws_route_table.trusted[0].id
-  destination_cidr_block = var.aws_branch_hq_prefix
-  network_interface_id   = aws_network_interface.cisco_trusted[0].id
-}
