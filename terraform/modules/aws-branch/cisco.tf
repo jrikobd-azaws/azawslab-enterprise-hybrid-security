@@ -19,6 +19,14 @@ resource "aws_security_group" "cisco_mgmt" {
     cidr_blocks = concat([var.ssh_source_cidr], var.additional_ssh_source_cidrs)
   }
 
+  ingress {
+    description = "HTTPS RESTCONF management from approved sources"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = concat([var.ssh_source_cidr], var.additional_ssh_source_cidrs)
+  }
+
   egress {
     description = "Allow outbound management updates and validation traffic"
     from_port   = 0
