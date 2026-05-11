@@ -33,13 +33,21 @@ module "aws_branch" {
   advertise_trusted_prefix    = var.advertise_trusted_prefix
   advertise_dmz_prefix        = var.advertise_dmz_prefix
 
-  cisco_name      = "cisco-dev-branch-01"
-  trusted_vm_name = "ec2-dev-aws-trusted-01"
-  dmz_vm_name     = "ec2-dev-aws-dmz-01"
-  test_sg_name    = "azawslab-dev-aws-test-sg"
+  cisco_name                       = "cisco-dev-branch-01"
+  cisco_instance_type              = var.cisco_instance_type
+  cisco_ami_ssm_parameter_name     = var.cisco_ami_ssm_parameter_name
+  cisco_mgmt_sg_name               = var.cisco_mgmt_sg_name
+  cisco_untrusted_sg_name          = var.cisco_untrusted_sg_name
+  cisco_trusted_sg_name            = var.cisco_trusted_sg_name
+  aws_branch_azure_workload_prefix = var.aws_branch_azure_workload_prefix
+  aws_branch_hq_prefix             = var.aws_branch_hq_prefix
+  trusted_vm_name                  = "ec2-dev-aws-trusted-01"
+  dmz_vm_name                      = "ec2-dev-aws-dmz-01"
+  test_sg_name                     = "azawslab-dev-aws-test-sg"
 
   common_tags = local.common_tags
 }
+
 
 
 

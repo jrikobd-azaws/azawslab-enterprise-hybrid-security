@@ -15,6 +15,14 @@ on:
         options:
           - "false"
           - "true"
+      enable_o3b_aws_cisco:
+        description: "Deploy Cisco Catalyst 8000V AWS branch appliance"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
       confirm_apply:
         description: "Set to true to apply the reviewed Terraform plan"
         required: true
@@ -68,6 +76,7 @@ jobs:
             -var-file=o3b-dev.tfvars \
             -var="ssh_source_cidr=${{ github.event.inputs.ssh_source_cidr }}" \
             -var="enable_o3b_ssm_parameters=${{ github.event.inputs.enable_o3b_ssm_parameters }}" \
+            -var="enable_o3b_aws_cisco=${{ github.event.inputs.enable_o3b_aws_cisco }}" \
             -out=tfplan
 
       - name: Terraform apply
