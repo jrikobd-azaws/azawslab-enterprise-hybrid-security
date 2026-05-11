@@ -14,3 +14,13 @@ cisco_ami_ssm_parameter_name = "/aws/service/marketplace/prod-rhyp4n745z2jk/17.1
 additional_ssh_source_cidrs = [
   "4.235.98.212/32"
 ]
+# O3b management host AWS runtime access:
+# vm-dev-mgmt-01 uses IAM Roles Anywhere to retrieve only approved SSM SecureString parameters.
+enable_o3b_mgmt_rolesanywhere = true
+
+o3b_rolesanywhere_ca_certificate_path = "certs/o3b-mgmt-ca.crt"
+
+o3b_mgmt_ssm_parameter_arns = [
+  "arn:aws:ssm:eu-west-1:275544662748:parameter/azawslab/release2/o3b/cisco-restconf-password",
+  "arn:aws:ssm:eu-west-1:275544662748:parameter/azawslab/release2/o3b/vpn-psk"
+]
