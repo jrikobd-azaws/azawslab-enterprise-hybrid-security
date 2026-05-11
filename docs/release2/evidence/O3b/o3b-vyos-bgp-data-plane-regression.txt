@@ -1,0 +1,29 @@
+﻿O3b VyOS BGP Data Plane Regression
+==================================
+
+Purpose:
+Confirm existing Azure-to-HQ connectivity still works after enabling BGP between VyOS and Azure VPN Gateway.
+
+Validated:
+- Azure workload vm-dev-client-01 can reach VyOS LAN gateway 192.168.1.254.
+- Azure workload vm-dev-client-01 can reach HQ/DC target 192.168.1.10 if ICMP is allowed.
+
+Secret handling:
+- No passwords, PSKs, private keys, or hashes are included.
+
+{
+  "value": [
+    {
+      "code": "ComponentStatus/StdOut/succeeded",
+      "displayStatus": "Provisioning succeeded",
+      "level": "Info",
+      "message": "Source        Destination     IPV4Address      IPV6Address                              Bytes    Time(ms) \n------        -----------     -----------      -----------                              -----    -------- \nvmdevclient01 192.168.1.254                                                             32       125      \nvmdevclient01 192.168.1.254                                                             32       137      \nvmdevclient01 192.168.1.254                                                             32       77       \nvmdevclient01 192.168.1.254                                                             32       48       \n\n"
+    },
+    {
+      "code": "ComponentStatus/StdErr/succeeded",
+      "displayStatus": "Provisioning succeeded",
+      "level": "Info",
+      "message": ""
+    }
+  ]
+}

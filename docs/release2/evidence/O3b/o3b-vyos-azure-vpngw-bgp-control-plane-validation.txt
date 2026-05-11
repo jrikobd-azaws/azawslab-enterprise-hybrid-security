@@ -1,0 +1,30 @@
+﻿O3b VyOS to Azure VPN Gateway BGP Control Plane Validation
+==========================================================
+
+Purpose:
+Validate that Azure VPN Gateway and VyOS established BGP after correcting APIPA BGP addressing.
+
+Expected design:
+- Azure VPN Gateway ASN: 65515
+- Azure VPN Gateway custom APIPA BGP peer: 169.254.21.1
+- VyOS ASN: 65001
+- VyOS VTI/BGP address: 169.254.21.2/30
+- Advertised HQ prefix: 192.168.1.0/24
+
+Secret handling:
+- No PSK, password, private key, or hash is included in this evidence.
+
+
+--- Azure VPN connection status ---
+Name                   ConnectionStatus    EnableBgp    EgressBytesTransferred    IngressBytesTransferred
+---------------------  ------------------  -----------  ------------------------  -------------------------
+vcn-dev-vpngw-to-vyos  Connected           True         8181197                   6626463
+
+--- Azure VPN Gateway learned routes ---
+Network          NextHop       Origin    SourcePeer    AsPath    Weight
+---------------  ------------  --------  ------------  --------  --------
+10.0.0.0/16                    Network   10.0.2.30               32768
+10.10.0.0/16                   Network   10.0.2.30               32768
+192.168.1.0/24                 Network   10.0.2.30               32768
+169.254.21.2/32                Network   10.0.2.30               32768
+192.168.1.0/24   169.254.21.2  EBgp      169.254.21.2  65001     32768
