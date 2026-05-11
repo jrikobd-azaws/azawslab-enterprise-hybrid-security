@@ -8,10 +8,11 @@ module "aws_branch" {
   enable_o3b_ssm_parameters = var.enable_o3b_ssm_parameters
   o3b_ssm_parameter_prefix  = var.o3b_ssm_parameter_prefix
 
-  aws_region            = var.aws_region
-  ssh_source_cidr       = var.ssh_source_cidr
-  key_pair_name         = var.key_pair_name
-  test_vm_instance_type = var.test_vm_instance_type
+  aws_region                  = var.aws_region
+  ssh_source_cidr             = var.ssh_source_cidr
+  additional_ssh_source_cidrs = var.additional_ssh_source_cidrs
+  key_pair_name               = var.key_pair_name
+  test_vm_instance_type       = var.test_vm_instance_type
 
   vpc_name              = "vpc-dev-aws-branch"
   vpc_cidr              = "172.16.0.0/16"

@@ -16,7 +16,7 @@ resource "aws_security_group" "cisco_mgmt" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.ssh_source_cidr]
+    cidr_blocks = concat([var.ssh_source_cidr], var.additional_ssh_source_cidrs)
   }
 
   egress {
@@ -61,7 +61,7 @@ resource "aws_security_group" "cisco_untrusted" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = [var.ssh_source_cidr]
+    cidr_blocks = concat([var.ssh_source_cidr], var.additional_ssh_source_cidrs)
   }
 
   egress {

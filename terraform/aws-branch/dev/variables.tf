@@ -39,3 +39,8 @@ variable "test_vm_instance_type" {
   type        = string
   default     = "t3.micro"
 }
+variable "additional_ssh_source_cidrs" {
+  description = "Additional source CIDRs allowed to SSH to the AWS Cisco 8000V management interface, such as the Azure management/Ansible host."
+  type        = list(string)
+  default     = []
+}
