@@ -32,3 +32,8 @@ variable "aws_branch_hq_prefix" {
   description = "HQ/on-prem prefix routed from the AWS trusted subnet toward Cisco during O3b/O3c validation."
   type        = string
 }
+variable "additional_ssh_source_cidrs" {
+  description = "Additional source CIDRs allowed to SSH to the Cisco 8000V management interface."
+  type        = list(string)
+  default     = []
+}
