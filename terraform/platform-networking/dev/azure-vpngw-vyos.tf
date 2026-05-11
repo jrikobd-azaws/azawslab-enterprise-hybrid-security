@@ -118,6 +118,11 @@ resource "azurerm_virtual_network_gateway" "o3a_vpngw" {
 
   bgp_settings {
     asn = 65515
+
+    peering_addresses {
+      ip_configuration_name = "vnetGatewayConfig"
+      apipa_addresses       = ["169.254.21.1"]
+    }
   }
   sku = var.o3a_azure_vpngw_sku
 
@@ -147,7 +152,7 @@ resource "azurerm_local_network_gateway" "o3a_vyos" {
 
   bgp_settings {
     asn                 = 65001
-    bgp_peering_address = "169.254.100.2"
+    bgp_peering_address = "169.254.21.2"
   }
   tags = local.o3a_vpngw_tags
 }
