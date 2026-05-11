@@ -1,0 +1,619 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["advertise-dmz-prefix"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: advertise-dmz-prefix"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/advertise-dmz-prefix"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-advertise-dmz-prefix"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-advertise-dmz-prefix"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["advertise-trusted-prefix"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: advertise-trusted-prefix"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/advertise-trusted-prefix"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-advertise-trusted-prefix"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-advertise-trusted-prefix"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["advertised-prefix-dmz"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: advertised-prefix-dmz"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/advertised-prefix-dmz"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-advertised-prefix-dmz"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-advertised-prefix-dmz"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["advertised-prefix-trusted"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: advertised-prefix-trusted"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/advertised-prefix-trusted"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-advertised-prefix-trusted"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-advertised-prefix-trusted"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["aws-region"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: aws-region"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/aws-region"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-aws-region"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-aws-region"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["azure-vpn-gateway-asn"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: azure-vpn-gateway-asn"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/azure-vpn-gateway-asn"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-azure-vpn-gateway-asn"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-azure-vpn-gateway-asn"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["azure-vpn-gateway-public-ip"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: azure-vpn-gateway-public-ip"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/azure-vpn-gateway-public-ip"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-azure-vpn-gateway-public-ip"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-azure-vpn-gateway-public-ip"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["cisco-bgp-asn"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: cisco-bgp-asn"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/cisco-bgp-asn"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-cisco-bgp-asn"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-cisco-bgp-asn"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["dmz-subnet-cidr"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: dmz-subnet-cidr"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/dmz-subnet-cidr"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-dmz-subnet-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-dmz-subnet-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["hq-vyos-bgp-asn"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: hq-vyos-bgp-asn"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/hq-vyos-bgp-asn"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-hq-vyos-bgp-asn"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-hq-vyos-bgp-asn"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["management-source-cidr"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: management-source-cidr"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/management-source-cidr"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-management-source-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-management-source-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["trusted-subnet-cidr"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: trusted-subnet-cidr"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/trusted-subnet-cidr"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-trusted-subnet-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-trusted-subnet-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["untrusted-subnet-cidr"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: untrusted-subnet-cidr"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/untrusted-subnet-cidr"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-untrusted-subnet-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-untrusted-subnet-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+  # module.aws_branch.aws_ssm_parameter.o3b_non_secret["vpc-cidr"] will be created
+  + resource "aws_ssm_parameter" "o3b_non_secret" {
+      + arn            = (known after apply)
+      + data_type      = (known after apply)
+      + description    = "Azawslab Release 2 O3b non-secret metadata: vpc-cidr"
+      + has_value_wo   = (known after apply)
+      + id             = (known after apply)
+      + insecure_value = (known after apply)
+      + key_id         = (known after apply)
+      + name           = "/azawslab/release2/o3b/vpc-cidr"
+      + overwrite      = true
+      + tags           = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-vpc-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tags_all       = {
+          + "CostCenter"         = "Lab-123"
+          + "DataClassification" = "NonSecret"
+          + "DeploymentMethod"   = "Terraform"
+          + "Environment"        = "Development"
+          + "ManagedBy"          = "Terraform"
+          + "Name"               = "ssm-o3b-vpc-cidr"
+          + "Owner"              = "HASHIBUR RAHMAN"
+          + "Phase"              = "O3b"
+          + "Project"            = "Azawslab-Release2"
+          + "Service"            = "AWS-Branch"
+        }
+      + tier           = (known after apply)
+      + type           = "String"
+      + value          = (sensitive value)
+      + value_wo       = (write-only attribute)
+      + version        = (known after apply)
+    }
+
+Plan: 14 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + o3b_secure_parameter_names         = [
+      + "/azawslab/release2/o3b/cisco-admin-password",
+      + "/azawslab/release2/o3b/vpn-psk",
+      + "/azawslab/release2/o3b/bootstrap-secret",
+    ]
+  + o3b_ssm_non_secret_parameter_names = [
+      + "/azawslab/release2/o3b/advertise-dmz-prefix",
+      + "/azawslab/release2/o3b/advertise-trusted-prefix",
+      + "/azawslab/release2/o3b/advertised-prefix-dmz",
+      + "/azawslab/release2/o3b/advertised-prefix-trusted",
+      + "/azawslab/release2/o3b/aws-region",
+      + "/azawslab/release2/o3b/azure-vpn-gateway-asn",
+      + "/azawslab/release2/o3b/azure-vpn-gateway-public-ip",
+      + "/azawslab/release2/o3b/cisco-bgp-asn",
+      + "/azawslab/release2/o3b/dmz-subnet-cidr",
+      + "/azawslab/release2/o3b/hq-vyos-bgp-asn",
+      + "/azawslab/release2/o3b/management-source-cidr",
+      + "/azawslab/release2/o3b/trusted-subnet-cidr",
+      + "/azawslab/release2/o3b/untrusted-subnet-cidr",
+      + "/azawslab/release2/o3b/vpc-cidr",
+    ]
