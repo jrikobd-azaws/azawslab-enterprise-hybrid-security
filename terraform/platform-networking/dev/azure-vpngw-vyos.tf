@@ -208,12 +208,12 @@ resource "azurerm_local_network_gateway" "o3b_aws_cisco" {
   gateway_address = "52.215.187.117"
 
   address_space = [
-    "169.254.101.2/32"
+    "172.16.255.1/32"
   ]
 
   bgp_settings {
     asn                 = 65002
-    bgp_peering_address = "169.254.101.2"
+    bgp_peering_address = "172.16.255.1"
   }
 
   tags = local.o3b_aws_cisco_vpn_tags
