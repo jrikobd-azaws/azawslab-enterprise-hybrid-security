@@ -1,0 +1,71 @@
+O3b VyOS BGP Established Final Validation
+========================================
+
+Purpose:
+Validate that VyOS BGP to Azure VPN Gateway is established after correcting Azure/VyOS APIPA BGP addressing.
+
+Expected design:
+- Azure VPN Gateway ASN: 65515
+- Azure VPN Gateway APIPA BGP peer: 169.254.21.1
+- VyOS ASN: 65001
+- VyOS vti1/BGP address: 169.254.21.2/30
+- Advertised HQ prefix: 192.168.1.0/24
+
+Secret handling:
+- VyOS automation password was retrieved from Azure Key Vault at runtime.
+- No PSK, password, private key, or hash is included in this evidence.
+
+--- show bgp summary ---
+vyos01 | SUCCESS => {
+    "changed": false,
+    "stdout": [
+        "IPv4 Unicast Summary:\nBGP router identifier 192.168.1.254, local AS number 65001 VRF default vrf-id 0\nBGP table version 7\nRIB entries 5, using 640 bytes of memory\nPeers 1, using 24 KiB of memory\n\nNeighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc\n169.254.21.1    4      65515        12        17        7    0    0 00:06:37            2        3 N/A\n\nTotal number of neighbors 1"
+    ],
+    "stdout_lines": [
+        [
+            "IPv4 Unicast Summary:",
+            "BGP router identifier 192.168.1.254, local AS number 65001 VRF default vrf-id 0",
+            "BGP table version 7",
+            "RIB entries 5, using 640 bytes of memory",
+            "Peers 1, using 24 KiB of memory",
+            "",
+            "Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc",
+            "169.254.21.1    4      65515        12        17        7    0    0 00:06:37            2        3 N/A",
+            "",
+            "Total number of neighbors 1"
+        ]
+    ]
+}
+
+--- VTI configuration ---
+vyos01 | SUCCESS => {
+    "changed": false,
+    "stdout": [
+        "set interfaces vti vti1 address '169.254.21.2/30'\nset interfaces vti vti1 description 'Azure VPN Gateway IPSec fallback'\nset interfaces vti vti1 ip adjust-mss '1350'"
+    ],
+    "stdout_lines": [
+        [
+            "set interfaces vti vti1 address '169.254.21.2/30'",
+            "set interfaces vti vti1 description 'Azure VPN Gateway IPSec fallback'",
+            "set interfaces vti vti1 ip adjust-mss '1350'"
+        ]
+    ]
+}
+
+--- BGP configuration ---
+vyos01 | SUCCESS => {
+    "changed": false,
+    "stdout": [
+        "set protocols bgp address-family ipv4-unicast network 192.168.1.0/24\nset protocols bgp neighbor 169.254.21.1 address-family ipv4-unicast\nset protocols bgp neighbor 169.254.21.1 remote-as '65515'\nset protocols bgp neighbor 169.254.21.1 update-source 'vti1'\nset protocols bgp parameters router-id '192.168.1.254'\nset protocols bgp system-as '65001'"
+    ],
+    "stdout_lines": [
+        [
+            "set protocols bgp address-family ipv4-unicast network 192.168.1.0/24",
+            "set protocols bgp neighbor 169.254.21.1 address-family ipv4-unicast",
+            "set protocols bgp neighbor 169.254.21.1 remote-as '65515'",
+            "set protocols bgp neighbor 169.254.21.1 update-source 'vti1'",
+            "set protocols bgp parameters router-id '192.168.1.254'",
+            "set protocols bgp system-as '65001'"
+        ]
+    ]
+}
