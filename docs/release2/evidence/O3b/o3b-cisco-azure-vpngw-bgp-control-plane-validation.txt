@@ -1,0 +1,33 @@
+﻿O3b Cisco to Azure VPN Gateway BGP Control Plane Validation
+===========================================================
+
+Purpose:
+Validate that Cisco Catalyst 8000V in AWS establishes IPSec/BGP with Azure VPN Gateway and advertises only the trusted AWS branch prefix.
+
+Expected design:
+- Azure VPN Gateway ASN: 65515
+- Cisco ASN: 65002
+- Cisco BGP source: Loopback100 / 172.16.255.1
+- Cisco VTI: Tunnel100 / 169.254.101.2/30
+- Advertised prefix: 172.16.1.0/24
+- Withheld prefixes: 172.16.2.0/24 and 172.16.0.0/16
+
+Secret handling:
+- No PSK, password, private key, or hash is included in this evidence.
+
+
+--- Azure VPN connection status ---
+Name                        ConnectionStatus    EnableBgp    EgressBytesTransferred    IngressBytesTransferred
+--------------------------  ------------------  -----------  ------------------------  -------------------------
+vcn-dev-vpngw-to-aws-cisco  Connected           True         697                       1139
+
+--- Azure VPN Gateway learned routes ---
+Network          NextHop       Origin    SourcePeer    AsPath    Weight
+---------------  ------------  --------  ------------  --------  --------
+10.0.0.0/16                    Network   10.0.2.30               32768
+10.10.0.0/16                   Network   10.0.2.30               32768
+172.16.255.1/32                Network   10.0.2.30               32768
+192.168.1.0/24                 Network   10.0.2.30               32768
+169.254.21.2/32                Network   10.0.2.30               32768
+172.16.1.0/24    172.16.255.1  EBgp      172.16.255.1  65002     32768
+192.168.1.0/24   169.254.21.2  EBgp      169.254.21.2  65001     32768

@@ -1,0 +1,168 @@
+
+
+cisco-dev-aws-branch-01#terminal length 0
+cisco-dev-aws-branch-01#show ip interface brief | include GigabitEthernet|Loo$erface brief | include GigabitEthernet|Loop         back|Tunnf | include GigabitEthernet|Loopback|Tunne         l
+GigabitEthernet1       172.16.0.142    YES DHCP   up                    up      
+GigabitEthernet2       172.16.254.121  YES NVRAM  up                    up      
+GigabitEthernet3       172.16.1.56     YES NVRAM  up                    up      
+Loopback100            172.16.255.1    YES NVRAM  up                    up      
+Tunnel100              169.254.101.2   YES NVRAM  up                    up      
+cisco-dev-aws-branch-01#show running-config interface Tunnel100
+Building configuration...
+
+Current configuration : 291 bytes
+!
+interface Tunnel100
+ description O3b-Azure-VPNGW-route-based-IPSec-VTI
+ ip address 169.254.101.2 255.255.255.252
+ ip tcp adjust-mss 1350
+ tunnel source GigabitEthernet2
+ tunnel mode ipsec ipv4
+ tunnel destination 20.100.50.9
+ tunnel protection ipsec profile AZURE-VPNGW-IPSEC-PROFILE
+end
+
+cisco-dev-aws-branch-01#show running-config interface Loopback100
+Building configuration...
+
+Current configuration : 110 bytes
+!
+interface Loopback100
+ description O3b-Azure-VPNGW-BGP-source
+ ip address 172.16.255.1 255.255.255.255
+end
+
+cisco-dev-aws-branch-01#show running-config | section router bgp
+router bgp 65002
+ bgp log-neighbor-changes
+ neighbor 10.0.2.30 remote-as 65515
+ neighbor 10.0.2.30 ebgp-multihop 5
+ neighbor 10.0.2.30 update-source Loopback100
+ !
+ address-family ipv4
+  network 172.16.1.0 mask 255.255.255.0
+  neighbor 10.0.2.30 activate
+  neighbor 10.0.2.30 route-map O3B-AZURE-OUT out
+ exit-address-family
+cisco-dev-aws-branch-01#show ip bgp summary
+BGP router identifier 172.16.255.1, local AS number 65002
+BGP table version is 5, main routing table version 5
+4 network entries using 992 bytes of memory
+4 path entries using 544 bytes of memory
+2/2 BGP path/bestpath attribute entries using 592 bytes of memory
+1 BGP AS-PATH entries using 24 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 2152 total bytes of memory
+BGP activity 4/0 prefixes, 4/0 paths, scan interval 60 secs
+4 networks peaked at 20:08:51 May 11 2026 UTC (00:03:59.660 ago)
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.0.2.30       4        65515       7       8        5    0    0 00:03:59        3
+cisco-dev-aws-branch-01#show ip bgp neighbors 10.0.2.30 advertised-routes
+BGP table version is 5, local router ID is 172.16.255.1
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal, 
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter, 
+              x best-external, a additional-path, c RIB-compressed, 
+              t secondary path, L long-lived-stale,
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>   172.16.1.0/24    0.0.0.0                  0         32768 i
+
+Total number of prefixes 1 
+cisco-dev-aws-branch-01#show ip route bgp
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, m - OMP
+       n - NAT, Ni - NAT inside, No - NAT outside, Nd - NAT DIA
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       H - NHRP, G - NHRP registered, g - NHRP registration summary
+       o - ODR, P - periodic downloaded static route, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+       & - replicated local route overrides by connected
+
+Gateway of last resort is 172.16.0.1 to network 0.0.0.0
+
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+B        10.0.0.0/16 [20/0] via 10.0.2.30, 00:03:04
+B        10.10.0.0/16 [20/0] via 10.0.2.30, 00:03:04
+B     192.168.1.0/24 [20/0] via 10.0.2.30, 00:03:04
+cisco-dev-aws-branch-01#show crypto ikev2 sa
+ IPv4 Crypto IKEv2  SA 
+
+Tunnel-id Local                 Remote                fvrf/ivrf            Status 
+1         172.16.254.121/4500   20.100.50.9/4500      none/none            READY  
+      Encr: AES-CBC, keysize: 256, PRF: SHA256, Hash: SHA256, DH Grp:14, Auth sign: PSK, Auth verify: PSK
+      Life/Active Time: 86400/241 sec
+      CE id: 1001, Session-id: 1
+      Local spi: 66E2FB37A17E11C9       Remote spi: 21CF7829BC3942D3
+
+ IPv6 Crypto IKEv2  SA 
+
+cisco-dev-aws-branch-01#show crypto ipsec sa
+
+interface: Tunnel100
+    Crypto map tag: Tunnel100-head-0, local addr 172.16.254.121
+
+   protected vrf: (none)
+   local  ident (addr/mask/prot/port): (0.0.0.0/0.0.0.0/0/0)
+   remote ident (addr/mask/prot/port): (0.0.0.0/0.0.0.0/0/0)
+   current_peer 20.100.50.9 port 4500
+     PERMIT, flags={origin_is_acl,}
+    #pkts encaps: 20, #pkts encrypt: 20, #pkts digest: 20
+    #pkts decaps: 15, #pkts decrypt: 15, #pkts verify: 15
+    #pkts compressed: 0, #pkts decompressed: 0
+    #pkts not compressed: 0, #pkts compr. failed: 0
+    #pkts not decompressed: 0, #pkts decompress failed: 0
+    #send errors 0, #recv errors 0
+
+     local crypto endpt.: 172.16.254.121, remote crypto endpt.: 20.100.50.9
+     plaintext mtu 1422, path mtu 1500, ip mtu 1500, ip mtu idb GigabitEthernet2
+     current outbound spi: 0x1E05DEEA(503701226)
+     PFS (Y/N): N, DH group: none
+
+     inbound esp sas:
+      spi: 0xA83E3BDC(2822650844)
+        transform: esp-256-aes esp-sha256-hmac ,
+        in use settings ={Tunnel UDP-Encaps, }
+        conn id: 2002, flow_id: CSR:2, sibling_flags FFFFFFFF80004048, crypto map: Tunnel100-head-0, initiator : True
+         sa timing: remaining key lifetime (k/sec): (4607998/3358)
+        IV size: 16 bytes
+        replay detection support: Y
+        Status: ACTIVE(ACTIVE)
+
+     inbound ah sas:
+
+     inbound pcp sas:
+
+     outbound esp sas:
+      spi: 0x1E05DEEA(503701226)
+        transform: esp-256-aes esp-sha256-hmac ,
+        in use settings ={Tunnel UDP-Encaps, }
+        conn id: 2001, flow_id: CSR:1, sibling_flags FFFFFFFF80004048, crypto map: Tunnel100-head-0, initiator : True
+         sa timing: remaining key lifetime (k/sec): (4607998/3358)
+        IV size: 16 bytes
+        replay detection support: Y
+        Status: ACTIVE(ACTIVE)
+
+     outbound ah sas:
+
+     outbound pcp sas:
+cisco-dev-aws-branch-01#show crypto session
+Crypto session current status
+
+Interface: Tunnel100
+Profile: AZURE-VPNGW-IKEV2-PROFILE
+Session status: UP-ACTIVE     
+Peer: 20.100.50.9 port 4500 
+  Session ID: 1  
+  IKEv2 SA: local 172.16.254.121/4500 remote 20.100.50.9/4500 Active 
+  IPSEC FLOW: permit ip   0.0.0.0/0.0.0.0 0.0.0.0/0.0.0.0 
+        Active SAs: 2, origin: crypto map
+
+cisco-dev-aws-branch-01#exit
