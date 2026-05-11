@@ -7,6 +7,22 @@ on:
         description: "Temporary SSH source CIDR for O3b validation, for example x.x.x.x/32"
         required: true
         type: string
+      enable_o3b_ssm_parameters:
+        description: "Create or update non-secret O3b SSM parameters"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+      confirm_apply:
+        description: "Set to true to apply the reviewed Terraform plan"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
 
 permissions:
   id-token: write
@@ -20,32 +36,26 @@ jobs:
 
     defaults:
       run:
-        shell: bash
         working-directory: terraform/aws-branch/dev
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.15.0
-
-      - name: Configure AWS credentials with OIDC
+      - name: Configure AWS credentials from GitHub OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: eu-west-1
 
-      - name: Verify AWS identity
-        run: aws sts get-caller-identity
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
       - name: Terraform fmt check
         run: terraform fmt -check -recursive
 
       - name: Terraform init
-        run: terraform init
+        run: terraform init -input=false
 
       - name: Terraform validate
         run: terraform validate
@@ -56,8 +66,14 @@ jobs:
             -no-color \
             -input=false \
             -var-file=o3b-dev.tfvars \
-            -var="ssh_source_cidr=${{ vars.O3B_SSH_SOURCE_CIDR }}" \
+            -var="ssh_source_cidr=${{ github.event.inputs.ssh_source_cidr }}" \
+            -var="enable_o3b_ssm_parameters=${{ github.event.inputs.enable_o3b_ssm_parameters }}" \
             -out=tfplan
 
       - name: Terraform apply
+        if: ${{ github.event.inputs.confirm_apply == 'true' }}
         run: terraform apply -input=false -auto-approve tfplan
+
+      - name: Apply skipped
+        if: ${{ github.event.inputs.confirm_apply != 'true' }}
+        run: echo "Terraform apply skipped because confirm_apply was not true."

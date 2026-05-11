@@ -1,4 +1,4 @@
-﻿output "aws_branch_enabled" {
+output "aws_branch_enabled" {
   description = "Whether the AWS branch foundation is enabled."
   value       = var.enable_o3b_aws_branch
 }

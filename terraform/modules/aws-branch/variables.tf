@@ -1,4 +1,4 @@
-﻿variable "enable_o3b_aws_branch" {
+variable "enable_o3b_aws_branch" {
   description = "Controls whether the O3b AWS branch foundation is deployed."
   type        = bool
 }

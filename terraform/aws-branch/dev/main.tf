@@ -5,6 +5,9 @@ module "aws_branch" {
   enable_o3b_aws_test_vms = var.enable_o3b_aws_test_vms
   enable_o3b_aws_cisco    = var.enable_o3b_aws_cisco
 
+  enable_o3b_ssm_parameters = var.enable_o3b_ssm_parameters
+  o3b_ssm_parameter_prefix  = var.o3b_ssm_parameter_prefix
+
   aws_region            = var.aws_region
   ssh_source_cidr       = var.ssh_source_cidr
   key_pair_name         = var.key_pair_name
@@ -21,6 +24,15 @@ module "aws_branch" {
   untrusted_subnet_name = "subnet-dev-aws-untrusted"
   untrusted_subnet_cidr = "172.16.254.0/24"
 
+  azure_vpn_gateway_public_ip = var.azure_vpn_gateway_public_ip
+  azure_vpn_gateway_asn       = var.azure_vpn_gateway_asn
+  hq_vyos_bgp_asn             = var.hq_vyos_bgp_asn
+  cisco_bgp_asn               = var.cisco_bgp_asn
+  advertised_prefix_trusted   = var.advertised_prefix_trusted
+  advertised_prefix_dmz       = var.advertised_prefix_dmz
+  advertise_trusted_prefix    = var.advertise_trusted_prefix
+  advertise_dmz_prefix        = var.advertise_dmz_prefix
+
   cisco_name      = "cisco-dev-branch-01"
   trusted_vm_name = "ec2-dev-aws-trusted-01"
   dmz_vm_name     = "ec2-dev-aws-dmz-01"
@@ -28,5 +40,6 @@ module "aws_branch" {
 
   common_tags = local.common_tags
 }
+
 
 
