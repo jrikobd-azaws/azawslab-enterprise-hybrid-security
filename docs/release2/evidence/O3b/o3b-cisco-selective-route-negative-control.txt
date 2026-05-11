@@ -1,0 +1,19 @@
+﻿O3b Cisco Selective Route Advertisement Negative Control
+=======================================================
+
+Purpose:
+Validate that Cisco advertises only the AWS trusted prefix and does not advertise the AWS DMZ prefix or full VPC summary.
+
+Expected:
+- Learned: 172.16.1.0/24 from Cisco ASN 65002.
+- Not learned: 172.16.2.0/24.
+- Not learned: 172.16.0.0/16.
+
+
+--- Learned route check ---
+
+
+--- Assertion ---
+FAIL: Azure did not learn trusted AWS prefix 172.16.1.0/24.
+PASS: Azure did not learn DMZ prefix 172.16.2.0/24.
+PASS: Azure did not learn full AWS VPC summary 172.16.0.0/16.
