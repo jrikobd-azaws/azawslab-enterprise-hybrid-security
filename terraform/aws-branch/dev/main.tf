@@ -11,8 +11,15 @@ module "aws_branch" {
   aws_region                  = var.aws_region
   ssh_source_cidr             = var.ssh_source_cidr
   additional_ssh_source_cidrs = var.additional_ssh_source_cidrs
-  key_pair_name               = var.key_pair_name
-  test_vm_instance_type       = var.test_vm_instance_type
+
+  enable_o3b_mgmt_rolesanywhere            = var.enable_o3b_mgmt_rolesanywhere
+  o3b_rolesanywhere_ca_certificate_pem     = var.enable_o3b_mgmt_rolesanywhere ? file(var.o3b_rolesanywhere_ca_certificate_path) : null
+  o3b_mgmt_rolesanywhere_trust_anchor_name = var.o3b_mgmt_rolesanywhere_trust_anchor_name
+  o3b_mgmt_rolesanywhere_profile_name      = var.o3b_mgmt_rolesanywhere_profile_name
+  o3b_mgmt_ssm_reader_role_name            = var.o3b_mgmt_ssm_reader_role_name
+  o3b_mgmt_ssm_parameter_arns              = var.o3b_mgmt_ssm_parameter_arns
+  key_pair_name                            = var.key_pair_name
+  test_vm_instance_type                    = var.test_vm_instance_type
 
   vpc_name              = "vpc-dev-aws-branch"
   vpc_cidr              = "172.16.0.0/16"
