@@ -139,11 +139,29 @@ resource "aws_route_table" "trusted" {
   count = local.branch_enabled ? 1 : 0
 
   vpc_id = aws_vpc.this[0].id
-
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.this[0].id
   }
+
+  dynamic "route" {
+    for_each = local.cisco_enabled ? {
+      azure_workload = {
+        cidr_block           = var.aws_branch_azure_workload_prefix
+        network_interface_id = aws_network_interface.cisco_trusted[0].id
+      }
+      hq = {
+        cidr_block           = var.aws_branch_hq_prefix
+        network_interface_id = aws_network_interface.cisco_trusted[0].id
+      }
+    } : {}
+
+    content {
+      cidr_block           = route.value.cidr_block
+      network_interface_id = route.value.network_interface_id
+    }
+  }
+
 
   tags = merge(var.common_tags, {
     Name = "rt-dev-aws-trusted"
@@ -281,4 +299,5 @@ resource "aws_instance" "dmz" {
     ignore_changes = [ami]
   }
 }
+
 

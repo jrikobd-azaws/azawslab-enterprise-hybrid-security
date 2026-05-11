@@ -1,0 +1,124 @@
+﻿O3b Cisco 8000V AWS Infrastructure Validation
+Generated UTC: 2026-05-11 10:48:36
+
+Scope: validate Cisco 8000V AWS-side Terraform deployment and routing foundation.
+This evidence proves EC2, ENI, EIP, security group, and route-table foundation only.
+It does not claim IPSec, BGP, Azure route learning, or cross-cloud data-plane connectivity.
+
+Terraform outputs:
+Cisco instance ID: i-06efc6983b3e3ff94
+Cisco mgmt public IP: 54.229.23.76
+Cisco mgmt private IP: 172.16.0.142
+Cisco untrusted public IP: 52.215.187.117
+Cisco untrusted private IP: 172.16.254.121
+Cisco trusted private IP: 172.16.1.56
+Cisco AMI: ami-07b40d2129b26d65e
+
+=== AWS identity ===
+{
+    "UserId": "AIDAUAJ554LOLSCWT5GCV",
+    "Account": "275544662748",
+    "Arn": "arn:aws:iam::275544662748:user/azawslab-admin"
+}
+
+=== Cisco EC2 instance ===
+-----------------------------------------------
+|              DescribeInstances              |
++---------------+-----------------------------+
+|  ImageId      |  ami-07b40d2129b26d65e      |
+|  InstanceId   |  i-06efc6983b3e3ff94        |
+|  InstanceType |  t3.medium                  |
+|  PrivateIp    |  172.16.0.142               |
+|  PublicIp     |  54.229.23.76               |
+|  State        |  running                    |
+|  SubnetId     |  subnet-0f78423bf8c0ed5c8   |
+|  VpcId        |  vpc-07abca4bb2f2bd030      |
++---------------+-----------------------------+
+||                   Tags                    ||
+|+-------------------+-----------------------+|
+||        Key        |         Value         ||
+|+-------------------+-----------------------+|
+||  Name             |  cisco-dev-branch-01  ||
+||  Service          |  AWS-Branch           ||
+||  Role             |  Cisco8000V           ||
+||  DeploymentMethod |  Terraform            ||
+||  Owner            |  HASHIBUR RAHMAN      ||
+||  CostCenter       |  Lab-123              ||
+||  Segment          |  BranchEdge           ||
+||  Phase            |  O3b                  ||
+||  Environment      |  Development          ||
+||  Project          |  Azawslab-Release2    ||
+|+-------------------+-----------------------+|
+
+=== Cisco ENIs and source/destination check ===
+-------------------------------------------------------
+|              DescribeNetworkInterfaces              |
++------------------------+----------------------------+
+|  AttachmentDeviceIndex |  2                         |
+|  NetworkInterfaceId    |  eni-0386743a56bc342ec     |
+|  PrivateIp             |  172.16.1.56               |
+|  SourceDestCheck       |  False                     |
+|  Status                |  in-use                    |
+|  SubnetId              |  subnet-0111579149c631cc7  |
++------------------------+----------------------------+
+||                      Groups                       ||
+|+---------------------------------------------------+|
+||  azawslab-dev-aws-cisco-trusted-sg                ||
+|+---------------------------------------------------+|
+|              DescribeNetworkInterfaces              |
++------------------------+----------------------------+
+|  AttachmentDeviceIndex |  1                         |
+|  NetworkInterfaceId    |  eni-0a47a0498a19fd300     |
+|  PrivateIp             |  172.16.254.121            |
+|  SourceDestCheck       |  False                     |
+|  Status                |  in-use                    |
+|  SubnetId              |  subnet-04f57edb30c678375  |
++------------------------+----------------------------+
+||                      Groups                       ||
+|+---------------------------------------------------+|
+||  azawslab-dev-aws-cisco-untrusted-sg              ||
+|+---------------------------------------------------+|
+|              DescribeNetworkInterfaces              |
++------------------------+----------------------------+
+|  AttachmentDeviceIndex |  0                         |
+|  NetworkInterfaceId    |  eni-008b801902af5cf79     |
+|  PrivateIp             |  172.16.0.142              |
+|  SourceDestCheck       |  False                     |
+|  Status                |  in-use                    |
+|  SubnetId              |  subnet-0f78423bf8c0ed5c8  |
++------------------------+----------------------------+
+||                      Groups                       ||
+|+---------------------------------------------------+|
+||  azawslab-dev-aws-cisco-mgmt-sg                   ||
+|+---------------------------------------------------+|
+
+=== Cisco EIP associations ===
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|                                                                        DescribeAddresses                                                                       |
++----------------------------+-----------------------------+------------------------------------+------------------------+--------------------+------------------+
+|        AllocationId        |        AssociationId        |               Name                 |  NetworkInterfaceId    | PrivateIpAddress   |    PublicIp      |
++----------------------------+-----------------------------+------------------------------------+------------------------+--------------------+------------------+
+|  eipalloc-07210719c095081a4|  eipassoc-0745fdb96c8a0175f |  eip-cisco-dev-branch-01-untrusted |  eni-0a47a0498a19fd300 |  172.16.254.121    |  52.215.187.117  |
+|  eipalloc-089edb3df5ef0d9b6|  eipassoc-073df733dc67069d4 |  eip-cisco-dev-branch-01-mgmt      |  eni-008b801902af5cf79 |  172.16.0.142      |  54.229.23.76    |
++----------------------------+-----------------------------+------------------------------------+------------------------+--------------------+------------------+
+
+=== Trusted route table private routes ===
+[
+    {
+        "RouteTableId": "rtb-0417d9ba3b2f02afe",
+        "Name": "rt-dev-aws-trusted",
+        "Routes": []
+    }
+]
+
+=== DMZ route table private routes should be absent ===
+[
+    {
+        "RouteTableId": "rtb-0aefd38e03f567be4",
+        "Name": "rt-dev-aws-dmz",
+        "PrivateHybridRoutes": []
+    }
+]
+
+=== Result marker ===
+Cisco 8000V AWS infrastructure foundation is deployed. IPSec/BGP and selective route advertisement remain pending.
