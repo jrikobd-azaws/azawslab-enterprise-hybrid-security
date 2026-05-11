@@ -258,6 +258,9 @@ resource "aws_instance" "trusted" {
     Name    = var.trusted_vm_name
     Segment = "Trusted"
   })
+  lifecycle {
+    ignore_changes = [ami]
+  }
 }
 
 resource "aws_instance" "dmz" {
@@ -274,4 +277,8 @@ resource "aws_instance" "dmz" {
     Name    = var.dmz_vm_name
     Segment = "DMZ"
   })
+  lifecycle {
+    ignore_changes = [ami]
+  }
 }
+
