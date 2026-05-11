@@ -1,9 +1,13 @@
 ﻿O3b Cisco 8000V AWS Infrastructure Validation
-Generated UTC: 2026-05-11 10:48:36
+Generated UTC: 2026-05-11 11:01:23
 
 Scope: validate Cisco 8000V AWS-side Terraform deployment and routing foundation.
-This evidence proves EC2, ENI, EIP, security group, and route-table foundation only.
+This evidence proves EC2, ENI, EIP, security group, route-table, and first-boot interface foundation only.
 It does not claim IPSec, BGP, Azure route learning, or cross-cloud data-plane connectivity.
+
+Terraform apply result:
+Cisco infrastructure deployed through GitHub Actions.
+Final route ownership reconciliation completed with 0 added, 1 changed, 0 destroyed.
 
 Terraform outputs:
 Cisco instance ID: i-06efc6983b3e3ff94
@@ -13,6 +17,10 @@ Cisco untrusted public IP: 52.215.187.117
 Cisco untrusted private IP: 172.16.254.121
 Cisco trusted private IP: 172.16.1.56
 Cisco AMI: ami-07b40d2129b26d65e
+
+Expected routing result:
+Trusted subnet has Azure/HQ private routes via Cisco trusted ENI.
+DMZ subnet intentionally has no Azure/HQ private routes.
 
 === AWS identity ===
 {
@@ -107,7 +115,24 @@ Cisco AMI: ami-07b40d2129b26d65e
     {
         "RouteTableId": "rtb-0417d9ba3b2f02afe",
         "Name": "rt-dev-aws-trusted",
-        "Routes": []
+        "Routes": [
+            {
+                "DestinationCidrBlock": "192.168.1.0/24",
+                "InstanceId": "i-06efc6983b3e3ff94",
+                "InstanceOwnerId": "275544662748",
+                "NetworkInterfaceId": "eni-0386743a56bc342ec",
+                "Origin": "CreateRoute",
+                "State": "active"
+            },
+            {
+                "DestinationCidrBlock": "10.10.0.0/16",
+                "InstanceId": "i-06efc6983b3e3ff94",
+                "InstanceOwnerId": "275544662748",
+                "NetworkInterfaceId": "eni-0386743a56bc342ec",
+                "Origin": "CreateRoute",
+                "State": "active"
+            }
+        ]
     }
 ]
 
@@ -121,4 +146,4 @@ Cisco AMI: ami-07b40d2129b26d65e
 ]
 
 === Result marker ===
-Cisco 8000V AWS infrastructure foundation is deployed. IPSec/BGP and selective route advertisement remain pending.
+Cisco 8000V AWS infrastructure foundation is deployed and route-table foundation is aligned. IPSec/BGP and selective route advertisement remain pending.
