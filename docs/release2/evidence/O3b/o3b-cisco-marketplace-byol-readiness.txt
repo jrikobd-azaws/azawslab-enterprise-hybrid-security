@@ -1,0 +1,49 @@
+﻿O3b Cisco Catalyst 8000V AWS Marketplace BYOL Readiness
+
+Purpose:
+Confirm Cisco Catalyst 8000V Marketplace agreement is active before Terraform-based Cisco deployment.
+
+Validation source:
+AWS Marketplace subscription agreement page.
+
+Product:
+Cisco Catalyst 8000V for SD-WAN & Routing
+
+Delivery method:
+Amazon Machine Image
+
+Product ID:
+42cb6e93-8d9d-490b-a73c-e3e56077ffd1
+
+Agreement ID:
+agmt-19mxi27m9lp1apyzpi0ylhyqq
+
+Offer ID:
+3ycwqehancx46bkpb3xkifiz5
+
+Seller:
+Cisco Systems, Inc.
+
+Agreement status:
+Active
+
+Access level:
+Agreement
+
+License model:
+Bring your own license (BYOL)
+
+Service start:
+May 10, 2026, 23:33 UTC+01:00
+May 10, 2026, 22:33 UTC
+
+Implementation note:
+Marketplace subscription is confirmed. Cisco must not be launched manually from the AWS console. Cisco 8000V deployment remains Terraform-controlled through the O3b AWS branch root.
+
+Current Terraform state note:
+The AWS SSM foundation apply completed successfully with 14 resources added, 0 changed, and 0 destroyed.
+Cisco remains disabled at this point:
+aws_cisco_enabled = false
+
+Next step:
+Implement Cisco 8000V Terraform resources after AMI/product lookup, ENI design, route-table ownership, management access, and bootstrap/secret model are confirmed.

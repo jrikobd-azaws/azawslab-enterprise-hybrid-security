@@ -1,0 +1,41 @@
+﻿O3b AWS SSM Parameter Foundation Validation
+Generated UTC: 2026-05-11 00:34:30
+
+Scope: validate Terraform-managed non-secret O3b SSM parameters.
+Secret values are not stored by Terraform and are not decrypted in this evidence.
+
+Expected result: 14 non-secret String parameters exist under /azawslab/release2/o3b.
+
+=== AWS identity used for validation ===
+{
+    "UserId": "AIDAUAJ554LOLSCWT5GCV",
+    "Account": "275544662748",
+    "Arn": "arn:aws:iam::275544662748:user/azawslab-admin"
+}
+
+=== Non-secret SSM parameters ===
+------------------------------------------------------------------------------------------------
+|                                      GetParametersByPath                                     |
++-----------------------------------------------------+---------+------------------+-----------+
+|                        Name                         |  Type   |      Value       |  Version  |
++-----------------------------------------------------+---------+------------------+-----------+
+|  /azawslab/release2/o3b/advertise-dmz-prefix        |  String |  false           |  1        |
+|  /azawslab/release2/o3b/advertise-trusted-prefix    |  String |  true            |  1        |
+|  /azawslab/release2/o3b/advertised-prefix-dmz       |  String |  172.16.2.0/24   |  1        |
+|  /azawslab/release2/o3b/advertised-prefix-trusted   |  String |  172.16.1.0/24   |  1        |
+|  /azawslab/release2/o3b/azure-vpn-gateway-asn       |  String |  65515           |  1        |
+|  /azawslab/release2/o3b/azure-vpn-gateway-public-ip |  String |  20.100.50.9     |  1        |
+|  /azawslab/release2/o3b/cisco-bgp-asn               |  String |  65002           |  1        |
+|  /azawslab/release2/o3b/hq-vyos-bgp-asn             |  String |  65001           |  1        |
+|  /azawslab/release2/o3b/management-source-cidr      |  String |  77.99.208.6/32  |  1        |
+|  /azawslab/release2/o3b/vpc-cidr                    |  String |  172.16.0.0/16   |  1        |
+|  /azawslab/release2/o3b/aws-region                  |  String |  eu-west-1       |  1        |
+|  /azawslab/release2/o3b/dmz-subnet-cidr             |  String |  172.16.2.0/24   |  1        |
+|  /azawslab/release2/o3b/trusted-subnet-cidr         |  String |  172.16.1.0/24   |  1        |
+|  /azawslab/release2/o3b/untrusted-subnet-cidr       |  String |  172.16.254.0/24 |  1        |
++-----------------------------------------------------+---------+------------------+-----------+
+
+=== Reserved SecureString parameter names, values not managed by Terraform ===
+/azawslab/release2/o3b/cisco-admin-password
+/azawslab/release2/o3b/vpn-psk
+/azawslab/release2/o3b/bootstrap-secret

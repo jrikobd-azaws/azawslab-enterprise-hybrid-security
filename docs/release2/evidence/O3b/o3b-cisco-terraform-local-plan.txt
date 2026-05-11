@@ -1,0 +1,634 @@
+﻿
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.aws_branch.aws_eip.cisco_mgmt[0] will be created
+  + resource "aws_eip" "cisco_mgmt" {
+      + allocation_id        = (known after apply)
+      + arn                  = (known after apply)
+      + association_id       = (known after apply)
+      + carrier_ip           = (known after apply)
+      + customer_owned_ip    = (known after apply)
+      + domain               = "vpc"
+      + id                   = (known after apply)
+      + instance             = (known after apply)
+      + ipam_pool_id         = (known after apply)
+      + network_border_group = (known after apply)
+      + network_interface    = (known after apply)
+      + private_dns          = (known after apply)
+      + private_ip           = (known after apply)
+      + ptr_record           = (known after apply)
+      + public_dns           = (known after apply)
+      + public_ip            = (known after apply)
+      + public_ipv4_pool     = (known after apply)
+      + tags                 = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eip-cisco-dev-branch-01-mgmt"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoMgmt"
+          + "Service"          = "AWS-Branch"
+        }
+      + tags_all             = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eip-cisco-dev-branch-01-mgmt"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoMgmt"
+          + "Service"          = "AWS-Branch"
+        }
+      + vpc                  = (known after apply)
+    }
+
+  # module.aws_branch.aws_eip.cisco_untrusted[0] will be created
+  + resource "aws_eip" "cisco_untrusted" {
+      + allocation_id        = (known after apply)
+      + arn                  = (known after apply)
+      + association_id       = (known after apply)
+      + carrier_ip           = (known after apply)
+      + customer_owned_ip    = (known after apply)
+      + domain               = "vpc"
+      + id                   = (known after apply)
+      + instance             = (known after apply)
+      + ipam_pool_id         = (known after apply)
+      + network_border_group = (known after apply)
+      + network_interface    = (known after apply)
+      + private_dns          = (known after apply)
+      + private_ip           = (known after apply)
+      + ptr_record           = (known after apply)
+      + public_dns           = (known after apply)
+      + public_ip            = (known after apply)
+      + public_ipv4_pool     = (known after apply)
+      + tags                 = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eip-cisco-dev-branch-01-untrusted"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoUntrusted"
+          + "Service"          = "AWS-Branch"
+        }
+      + tags_all             = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eip-cisco-dev-branch-01-untrusted"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoUntrusted"
+          + "Service"          = "AWS-Branch"
+        }
+      + vpc                  = (known after apply)
+    }
+
+  # module.aws_branch.aws_eip_association.cisco_mgmt[0] will be created
+  + resource "aws_eip_association" "cisco_mgmt" {
+      + allocation_id        = (known after apply)
+      + id                   = (known after apply)
+      + instance_id          = (known after apply)
+      + network_interface_id = (known after apply)
+      + private_ip_address   = (known after apply)
+      + public_ip            = (known after apply)
+    }
+
+  # module.aws_branch.aws_eip_association.cisco_untrusted[0] will be created
+  + resource "aws_eip_association" "cisco_untrusted" {
+      + allocation_id        = (known after apply)
+      + id                   = (known after apply)
+      + instance_id          = (known after apply)
+      + network_interface_id = (known after apply)
+      + private_ip_address   = (known after apply)
+      + public_ip            = (known after apply)
+    }
+
+  # module.aws_branch.aws_instance.cisco[0] will be created
+  + resource "aws_instance" "cisco" {
+      + ami                                  = (sensitive value)
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = (known after apply)
+      + availability_zone                    = (known after apply)
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + enable_primary_ipv6                  = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      + iam_instance_profile                 = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t3.medium"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = "kp-dev-aws-branch"
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + spot_instance_request_id             = (known after apply)
+      + subnet_id                            = (known after apply)
+      + tags                                 = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "cisco-dev-branch-01"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "Cisco8000V"
+          + "Segment"          = "BranchEdge"
+          + "Service"          = "AWS-Branch"
+        }
+      + tags_all                             = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "cisco-dev-branch-01"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "Cisco8000V"
+          + "Segment"          = "BranchEdge"
+          + "Service"          = "AWS-Branch"
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = (known after apply)
+
+      + capacity_reservation_specification (known after apply)
+
+      + cpu_options (known after apply)
+
+      + ebs_block_device (known after apply)
+
+      + enclave_options (known after apply)
+
+      + ephemeral_block_device (known after apply)
+
+      + instance_market_options (known after apply)
+
+      + maintenance_options (known after apply)
+
+      + metadata_options (known after apply)
+
+      + network_interface {
+          + delete_on_termination = false
+          + device_index          = 0
+          + network_card_index    = 0
+          + network_interface_id  = (known after apply)
+        }
+      + network_interface {
+          + delete_on_termination = false
+          + device_index          = 1
+          + network_card_index    = 0
+          + network_interface_id  = (known after apply)
+        }
+      + network_interface {
+          + delete_on_termination = false
+          + device_index          = 2
+          + network_card_index    = 0
+          + network_interface_id  = (known after apply)
+        }
+
+      + private_dns_name_options (known after apply)
+
+      + root_block_device (known after apply)
+    }
+
+  # module.aws_branch.aws_network_interface.cisco_mgmt[0] will be created
+  + resource "aws_network_interface" "cisco_mgmt" {
+      + arn                       = (known after apply)
+      + enable_primary_ipv6       = (known after apply)
+      + id                        = (known after apply)
+      + interface_type            = (known after apply)
+      + ipv4_prefix_count         = (known after apply)
+      + ipv4_prefixes             = (known after apply)
+      + ipv6_address_count        = (known after apply)
+      + ipv6_address_list         = (known after apply)
+      + ipv6_address_list_enabled = false
+      + ipv6_addresses            = (known after apply)
+      + ipv6_prefix_count         = (known after apply)
+      + ipv6_prefixes             = (known after apply)
+      + mac_address               = (known after apply)
+      + outpost_arn               = (known after apply)
+      + owner_id                  = (known after apply)
+      + private_dns_name          = (known after apply)
+      + private_ip                = (known after apply)
+      + private_ip_list           = (known after apply)
+      + private_ip_list_enabled   = false
+      + private_ips               = (known after apply)
+      + private_ips_count         = (known after apply)
+      + security_groups           = (known after apply)
+      + source_dest_check         = false
+      + subnet_id                 = "subnet-0f78423bf8c0ed5c8"
+      + tags                      = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eni-cisco-dev-branch-01-mgmt"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoMgmt"
+          + "Service"          = "AWS-Branch"
+        }
+      + tags_all                  = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eni-cisco-dev-branch-01-mgmt"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoMgmt"
+          + "Service"          = "AWS-Branch"
+        }
+
+      + attachment (known after apply)
+    }
+
+  # module.aws_branch.aws_network_interface.cisco_trusted[0] will be created
+  + resource "aws_network_interface" "cisco_trusted" {
+      + arn                       = (known after apply)
+      + enable_primary_ipv6       = (known after apply)
+      + id                        = (known after apply)
+      + interface_type            = (known after apply)
+      + ipv4_prefix_count         = (known after apply)
+      + ipv4_prefixes             = (known after apply)
+      + ipv6_address_count        = (known after apply)
+      + ipv6_address_list         = (known after apply)
+      + ipv6_address_list_enabled = false
+      + ipv6_addresses            = (known after apply)
+      + ipv6_prefix_count         = (known after apply)
+      + ipv6_prefixes             = (known after apply)
+      + mac_address               = (known after apply)
+      + outpost_arn               = (known after apply)
+      + owner_id                  = (known after apply)
+      + private_dns_name          = (known after apply)
+      + private_ip                = (known after apply)
+      + private_ip_list           = (known after apply)
+      + private_ip_list_enabled   = false
+      + private_ips               = (known after apply)
+      + private_ips_count         = (known after apply)
+      + security_groups           = (known after apply)
+      + source_dest_check         = false
+      + subnet_id                 = "subnet-0111579149c631cc7"
+      + tags                      = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eni-cisco-dev-branch-01-trusted"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoTrusted"
+          + "Service"          = "AWS-Branch"
+        }
+      + tags_all                  = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eni-cisco-dev-branch-01-trusted"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoTrusted"
+          + "Service"          = "AWS-Branch"
+        }
+
+      + attachment (known after apply)
+    }
+
+  # module.aws_branch.aws_network_interface.cisco_untrusted[0] will be created
+  + resource "aws_network_interface" "cisco_untrusted" {
+      + arn                       = (known after apply)
+      + enable_primary_ipv6       = (known after apply)
+      + id                        = (known after apply)
+      + interface_type            = (known after apply)
+      + ipv4_prefix_count         = (known after apply)
+      + ipv4_prefixes             = (known after apply)
+      + ipv6_address_count        = (known after apply)
+      + ipv6_address_list         = (known after apply)
+      + ipv6_address_list_enabled = false
+      + ipv6_addresses            = (known after apply)
+      + ipv6_prefix_count         = (known after apply)
+      + ipv6_prefixes             = (known after apply)
+      + mac_address               = (known after apply)
+      + outpost_arn               = (known after apply)
+      + owner_id                  = (known after apply)
+      + private_dns_name          = (known after apply)
+      + private_ip                = (known after apply)
+      + private_ip_list           = (known after apply)
+      + private_ip_list_enabled   = false
+      + private_ips               = (known after apply)
+      + private_ips_count         = (known after apply)
+      + security_groups           = (known after apply)
+      + source_dest_check         = false
+      + subnet_id                 = "subnet-04f57edb30c678375"
+      + tags                      = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eni-cisco-dev-branch-01-untrusted"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoUntrusted"
+          + "Service"          = "AWS-Branch"
+        }
+      + tags_all                  = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "eni-cisco-dev-branch-01-untrusted"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoUntrusted"
+          + "Service"          = "AWS-Branch"
+        }
+
+      + attachment (known after apply)
+    }
+
+  # module.aws_branch.aws_route.trusted_to_azure_workload_via_cisco[0] will be created
+  + resource "aws_route" "trusted_to_azure_workload_via_cisco" {
+      + destination_cidr_block = "10.10.0.0/16"
+      + id                     = (known after apply)
+      + instance_id            = (known after apply)
+      + instance_owner_id      = (known after apply)
+      + network_interface_id   = (known after apply)
+      + origin                 = (known after apply)
+      + route_table_id         = "rtb-0417d9ba3b2f02afe"
+      + state                  = (known after apply)
+    }
+
+  # module.aws_branch.aws_route.trusted_to_hq_via_cisco[0] will be created
+  + resource "aws_route" "trusted_to_hq_via_cisco" {
+      + destination_cidr_block = "192.168.1.0/24"
+      + id                     = (known after apply)
+      + instance_id            = (known after apply)
+      + instance_owner_id      = (known after apply)
+      + network_interface_id   = (known after apply)
+      + origin                 = (known after apply)
+      + route_table_id         = "rtb-0417d9ba3b2f02afe"
+      + state                  = (known after apply)
+    }
+
+  # module.aws_branch.aws_security_group.cisco_mgmt[0] will be created
+  + resource "aws_security_group" "cisco_mgmt" {
+      + arn                    = (known after apply)
+      + description            = "O3b Cisco Catalyst 8000V management security group"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = "Allow outbound management updates and validation traffic"
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "77.99.208.6/32",
+                ]
+              + description      = "SSH management from approved validation source"
+              + from_port        = 22
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 22
+            },
+        ]
+      + name                   = "azawslab-dev-aws-cisco-mgmt-sg"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "azawslab-dev-aws-cisco-mgmt-sg"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoMgmt"
+          + "Service"          = "AWS-Branch"
+        }
+      + tags_all               = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "azawslab-dev-aws-cisco-mgmt-sg"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoMgmt"
+          + "Service"          = "AWS-Branch"
+        }
+      + vpc_id                 = "vpc-07abca4bb2f2bd030"
+    }
+
+  # module.aws_branch.aws_security_group.cisco_trusted[0] will be created
+  + resource "aws_security_group" "cisco_trusted" {
+      + arn                    = (known after apply)
+      + description            = "O3b Cisco Catalyst 8000V trusted/private security group"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "172.16.0.0/16",
+                  + "10.10.0.0/16",
+                  + "192.168.1.0/24",
+                ]
+              + description      = "Allow trusted/private routed traffic"
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "172.16.0.0/16",
+                ]
+              + description      = "Allow VPC private traffic to Cisco trusted interface"
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + name                   = "azawslab-dev-aws-cisco-trusted-sg"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "azawslab-dev-aws-cisco-trusted-sg"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoTrusted"
+          + "Service"          = "AWS-Branch"
+        }
+      + tags_all               = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "azawslab-dev-aws-cisco-trusted-sg"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoTrusted"
+          + "Service"          = "AWS-Branch"
+        }
+      + vpc_id                 = "vpc-07abca4bb2f2bd030"
+    }
+
+  # module.aws_branch.aws_security_group.cisco_untrusted[0] will be created
+  + resource "aws_security_group" "cisco_untrusted" {
+      + arn                    = (known after apply)
+      + description            = "O3b Cisco Catalyst 8000V untrusted VPN security group"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = "Allow outbound VPN and internet traffic"
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "20.100.50.9/32",
+                ]
+              + description      = "IKE from Azure VPN Gateway"
+              + from_port        = 500
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "udp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 500
+            },
+          + {
+              + cidr_blocks      = [
+                  + "20.100.50.9/32",
+                ]
+              + description      = "IPSec NAT-T from Azure VPN Gateway"
+              + from_port        = 4500
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "udp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 4500
+            },
+          + {
+              + cidr_blocks      = [
+                  + "77.99.208.6/32",
+                ]
+              + description      = "Validation ICMP from approved source"
+              + from_port        = -1
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "icmp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = -1
+            },
+        ]
+      + name                   = "azawslab-dev-aws-cisco-untrusted-sg"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "azawslab-dev-aws-cisco-untrusted-sg"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoUntrusted"
+          + "Service"          = "AWS-Branch"
+        }
+      + tags_all               = {
+          + "CostCenter"       = "Lab-123"
+          + "DeploymentMethod" = "Terraform"
+          + "Environment"      = "Development"
+          + "Name"             = "azawslab-dev-aws-cisco-untrusted-sg"
+          + "Owner"            = "HASHIBUR RAHMAN"
+          + "Phase"            = "O3b"
+          + "Project"          = "Azawslab-Release2"
+          + "Role"             = "CiscoUntrusted"
+          + "Service"          = "AWS-Branch"
+        }
+      + vpc_id                 = "vpc-07abca4bb2f2bd030"
+    }
+
+Plan: 13 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  ~ aws_cisco_enabled                  = false -> true
+  + cisco_ami_id                       = "ami-07b40d2129b26d65e"
+  + cisco_instance_id                  = (known after apply)
+  + cisco_mgmt_private_ip              = (known after apply)
+  + cisco_mgmt_public_ip               = (known after apply)
+  + cisco_trusted_private_ip           = (known after apply)
+  + cisco_untrusted_private_ip         = (known after apply)
+  + cisco_untrusted_public_ip          = (known after apply)
