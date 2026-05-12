@@ -1,4 +1,4 @@
-﻿variable "vm_name" {
+variable "vm_name" {
   type = string
 }
 
