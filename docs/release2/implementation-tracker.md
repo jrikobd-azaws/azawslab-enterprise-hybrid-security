@@ -1,4 +1,4 @@
-﻿# Implementation Tracker – Release 2 (Azure Platform Engineering & Security)
+# Implementation Tracker – Release 2 (Azure Platform Engineering & Security)
 
 **Last Updated:** [02-May-2026]  
 **Owner:** HASHIBUR RAHMAN  
@@ -1180,3 +1180,42 @@ Design:
 
 O4 must not be marked complete until private API access, image pull, internal app validation, routing, evidence, and teardown/cost decision are complete.
 
+### O3c closeout - segmented private multi-cloud routing validated
+
+O3c validation is complete.
+
+Validated behavior:
+
+    HQ / VyOS -> AWS trusted private VM:
+      pass
+
+    HQ / VyOS -> AWS DMZ private VM:
+      expected failure
+
+    Azure management VM -> AWS trusted private VM:
+      pass
+
+    Azure management VM -> AWS DMZ private VM:
+      expected failure
+
+Route-control outcome:
+
+    Advertised AWS private prefix:
+      172.16.1.0/24
+
+    Withheld AWS private prefixes:
+      172.16.2.0/24
+      172.16.0.0/16
+
+Evidence:
+
+    docs/release2/evidence/O3c/o3c-closeout-summary.md
+    docs/release2/evidence/O3c/o3c-hq-azure-to-aws-trusted-dmz-private-validation.txt
+    docs/release2/evidence/O3c/o3c-aws-post-apply-sg-route-ssm-validation.txt
+    docs/release2/evidence/O3c/o3c-aws-post-apply-current-profile-plan.txt
+    docs/release2/evidence/O3c/o3c-post-merge-aws-current-profile-plan.txt
+    docs/release2/evidence/O3c/o3c-post-merge-platform-networking-current-hybrid-plan.txt
+
+Non-claim:
+
+    FortiGate AWS inspection is not claimed until FortiGate route path, policy counters, or logs prove traversal.
