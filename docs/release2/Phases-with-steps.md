@@ -62,7 +62,7 @@ Because Azure SKU availability and restrictions vary over time by subscription, 
 ### Identity / Namespace Snapshot
 - **Entra tenant namespace:** `entra.azawslab.co.uk`
 - **HQ AD domain:** `hq.azawslab.co.uk`
-- **Branch namespace:** `br1.azawslab.co.uk`
+- **Branch namespace:** `br.azawslab.co.uk`
 
 ### Text Diagram
 ```text
@@ -2039,3 +2039,74 @@ A2 minimum design decisions:
 - Evidence: `docs/release2/evidence/A2-awx-control-plane/`.
 
 A2 does not replace O4. A2 prepares the automation control plane for O4 and O5.
+
+---
+
+# A2/O4/O5 INTEGRATED IMPLEMENTATION PATH
+=========================================
+
+## Correct Order
+
+```text
+1. A2 AWX Automation Control Plane
+2. O4 Private AKS Modern Application Platform
+3. O5 AVD + FSLogix Secure Admin/Dev Workspace
+```
+
+## Why This Order
+
+A2 creates the controlled automation plane.
+
+O4 uses that automation plane for private AKS operations and validation.
+
+O5 provides the secure admin/dev workspace for operators and platform engineers.
+
+## A2 Job Tiers
+
+```text
+Tier 1:
+  read-only validation
+
+Tier 2:
+  sanitized backup
+
+Tier 3:
+  preflight/dry-run
+
+Tier 4:
+  approved write/change
+
+Tier 5:
+  rollback/emergency
+```
+
+## O4 Platform Scope
+
+```text
+Private AKS
+ACR
+Workload Identity
+Key Vault CSI
+Internal ingress
+NGINX or .NET sample app
+Azure Firewall egress
+FortiGate hybrid/private inspection only where proven
+```
+
+## O5 Workspace Scope
+
+```text
+Single-user AVD admin/dev workspace
+FSLogix
+Azure Files private endpoint
+PowerShell 7
+Azure CLI
+AWS CLI
+Terraform
+Git
+VS Code
+kubectl
+Helm
+Docker CLI or approved container tooling
+Ansible/Python support tools
+```

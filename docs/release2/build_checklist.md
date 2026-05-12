@@ -817,3 +817,50 @@ Date: 2026-05-06 00:59:25 +01:00
 - [ ] O5 support job templates planned
 - [ ] Evidence path confirmed as `docs/release2/evidence/A2-awx-control-plane/`
 - [ ] Cost and teardown/retain decision documented
+
+---
+
+## A2/O4/O5 Integrated Design Checklist
+
+### Domain Alignment
+
+- [x] HQ/on-prem domain confirmed as `hq.azawslab.co.uk`
+- [x] Entra domain confirmed as `entra.azawslab.co.uk`
+- [x] AWS branch domain confirmed as `br.azawslab.co.uk`
+
+### A2 AWX
+
+- [ ] AWX host name confirmed as `vm-dev-awx-01`
+- [ ] Bootstrap admin confirmed as `awx-admin`
+- [ ] Entra groups documented
+- [ ] GitHub project sync design documented
+- [ ] Key Vault runtime secret design documented
+- [ ] AWS SSM runtime secret design documented
+- [ ] Tier 1 read-only validation jobs planned
+- [ ] Tier 2 sanitized backup jobs planned
+- [ ] Tier 3 preflight/dry-run jobs planned
+- [ ] Tier 4 approved write/change workflow planned
+- [ ] Tier 5 rollback/emergency workflow planned
+- [ ] First VyOS write/rollback validation planned
+- [ ] Separate FortiGate write token planned
+- [ ] Cisco write guardrail documented
+
+### O4 Private AKS
+
+- [ ] Private AKS target documented
+- [ ] ACR included
+- [ ] Workload Identity included
+- [ ] Key Vault CSI Driver included
+- [ ] Internal ingress selected
+- [ ] NGINX or .NET sample app selected
+- [ ] Azure Firewall egress model documented
+- [ ] FortiGate inspection non-claim documented unless evidence proves traversal
+
+### O5 AVD
+
+- [ ] Single-user admin/dev workspace selected
+- [ ] FSLogix included
+- [ ] Azure Files private endpoint planned
+- [ ] Admin/dev toolchain documented
+- [ ] AWX access validation planned
+- [ ] AKS tooling validation planned

@@ -1277,3 +1277,77 @@ Minimum validation:
 - [ ] A1 job template created or planned.
 - [ ] O4 support job templates planned.
 - [ ] Evidence saved under `docs/release2/evidence/A2-awx-control-plane/`.
+
+---
+
+## A2/O4/O5 Integrated Design Tracker
+
+### A2 - AWX Automation Control Plane
+
+Status: Planned next.
+
+Scope:
+
+- [ ] Deploy or prepare AWX host `vm-dev-awx-01`
+- [ ] Configure bootstrap admin `awx-admin`
+- [ ] Integrate Entra/Azure AD login
+- [ ] Configure AWX RBAC groups
+- [ ] Configure GitHub project sync
+- [ ] Configure Azure Key Vault runtime secret model
+- [ ] Configure AWS SSM runtime secret model
+- [ ] Create Tier 1 read-only validation templates
+- [ ] Create Tier 2 sanitized backup templates
+- [ ] Create Tier 3 preflight/dry-run templates
+- [ ] Create Tier 4 approved write/change workflow
+- [ ] Create Tier 5 rollback/emergency workflow
+- [ ] Validate first low-risk write and rollback on VyOS
+- [ ] Validate separate FortiGate write token before FortiGate write workflow
+- [ ] Keep Cisco broad write disabled until transport is enterprise-stable
+
+Evidence path:
+
+```text
+docs/release2/evidence/A2-awx-control-plane/
+```
+
+### O4 - Private AKS Modern Application Platform
+
+Status: Planned after A2 design.
+
+Scope:
+
+- [ ] Private AKS cluster
+- [ ] ACR integration
+- [ ] Workload Identity
+- [ ] OIDC issuer
+- [ ] Key Vault CSI Driver
+- [ ] Internal NGINX ingress or internal AGIC decision
+- [ ] NGINX or .NET sample app
+- [ ] Azure Firewall egress validation
+- [ ] FortiGate hybrid/private inspection only where proven by route/policy/log evidence
+
+Evidence path:
+
+```text
+docs/release2/evidence/O4-private-aks-platform/
+```
+
+### O5 - AVD + FSLogix Secure Admin/Dev Workspace
+
+Status: Planned after O4 design.
+
+Scope:
+
+- [ ] Single-user admin/dev AVD workspace
+- [ ] FSLogix profile container
+- [ ] Azure Files private endpoint
+- [ ] Secure admin/dev toolchain
+- [ ] AKS validation tooling
+- [ ] AWX access validation
+- [ ] GitHub/Terraform/Ansible/cloud CLI tooling validation
+
+Evidence path:
+
+```text
+docs/release2/evidence/O5-avd-fslogix-workspace/
+```
