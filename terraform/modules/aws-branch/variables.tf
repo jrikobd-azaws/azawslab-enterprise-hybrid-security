@@ -107,3 +107,15 @@ variable "common_tags" {
   description = "Common AWS tags."
   type        = map(string)
 }
+
+variable "trusted_private_ssh_source_cidrs" {
+  description = "Private source CIDRs allowed to SSH to the trusted AWS test VM for O3c validation."
+  type        = list(string)
+  default     = []
+}
+
+variable "trusted_private_validation_sg_name" {
+  description = "Security group name for O3c trusted AWS private validation ingress."
+  type        = string
+  default     = "aws-trusted-private-validation-dev"
+}

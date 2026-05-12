@@ -262,13 +262,60 @@ resource "aws_security_group" "test" {
   })
 }
 
+resource "aws_security_group" "trusted_private_validation" {
+  count = local.test_vms_enabled ? 1 : 0
+
+  name        = var.trusted_private_validation_sg_name
+  description = "O3c trusted AWS test VM private validation security group"
+  vpc_id      = aws_vpc.this[0].id
+
+  ingress {
+    description = "O3c ICMP validation from Azure workload and HQ private prefixes"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = [
+      var.aws_branch_azure_workload_prefix,
+      var.aws_branch_hq_prefix
+    ]
+  }
+
+  ingress {
+    description = "O3c SSH validation from approved private management sources"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = var.trusted_private_ssh_source_cidrs
+  }
+
+  egress {
+    description = "Allow trusted private validation responses"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [
+      var.vpc_cidr,
+      var.aws_branch_azure_workload_prefix,
+      var.aws_branch_hq_prefix
+    ]
+  }
+
+  tags = merge(var.common_tags, {
+    Name      = var.trusted_private_validation_sg_name
+    Role      = "TrustedPrivateValidation"
+    Component = "O3c-TrustedPrivateValidation"
+  })
+}
 resource "aws_instance" "trusted" {
   count = local.test_vms_enabled ? 1 : 0
 
-  ami                         = data.aws_ami.amazon_linux_2023.id
-  instance_type               = var.test_vm_instance_type
-  subnet_id                   = aws_subnet.trusted[0].id
-  vpc_security_group_ids      = [aws_security_group.test[0].id]
+  ami           = data.aws_ami.amazon_linux_2023.id
+  instance_type = var.test_vm_instance_type
+  subnet_id     = aws_subnet.trusted[0].id
+  vpc_security_group_ids = [
+    aws_security_group.test[0].id,
+    aws_security_group.trusted_private_validation[0].id
+  ]
   key_name                    = var.key_pair_name
   associate_public_ip_address = true
 

@@ -49,6 +49,7 @@ module "aws_branch" {
   cisco_trusted_sg_name            = var.cisco_trusted_sg_name
   aws_branch_azure_workload_prefix = var.aws_branch_azure_workload_prefix
   aws_branch_hq_prefix             = var.aws_branch_hq_prefix
+  trusted_private_ssh_source_cidrs = var.trusted_private_ssh_source_cidrs
   trusted_vm_name                  = "ec2-dev-aws-trusted-01"
   dmz_vm_name                      = "ec2-dev-aws-dmz-01"
   test_sg_name                     = "azawslab-dev-aws-test-sg"
