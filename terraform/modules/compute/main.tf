@@ -1,4 +1,4 @@
-﻿locals {
+locals {
   effective_computer_name = var.computer_name != null ? var.computer_name : substr(replace(var.vm_name, "-", ""), 0, 15)
 }
 
@@ -16,13 +16,13 @@ resource "azurerm_network_interface" "vm" {
 }
 
 resource "azurerm_windows_virtual_machine" "vm" {
-  name                 = var.vm_name
-  resource_group_name  = var.resource_group_name
-  location             = var.location
-  size                 = "Standard_B2als_v2"
-  admin_username       = var.admin_username
-  admin_password       = var.admin_password
-  computer_name        = local.effective_computer_name
+  name                = var.vm_name
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  size                = "Standard_B2als_v2"
+  admin_username      = var.admin_username
+  admin_password      = var.admin_password
+  computer_name       = local.effective_computer_name
   network_interface_ids = [
     azurerm_network_interface.vm.id
   ]
