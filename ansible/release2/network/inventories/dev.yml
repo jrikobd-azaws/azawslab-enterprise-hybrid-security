@@ -1,0 +1,26 @@
+---
+all:
+  children:
+    fortigate_firewalls:
+      hosts:
+        fortigate_azure:
+          ansible_host: 10.0.3.4
+          fortigate_name: vm-dev-fgt-01
+          fortigate_vdom: root
+
+    vyos_routers:
+      hosts:
+        vyos01:
+          ansible_host: 192.168.1.254
+          ansible_user: o3b-vyos-ansible
+          ansible_network_os: vyos.vyos.vyos
+          ansible_connection: ansible.netcommon.network_cli
+          ansible_password: "{{ lookup('env', 'O3B_VYOS_ANSIBLE_PASSWORD') }}"
+
+    cisco_routers:
+      hosts:
+        cisco_aws_branch_01:
+          ansible_host: 54.229.23.76
+          cisco_restconf_user: o3b-api
+          cisco_cli_user: ec2-user
+          cisco_bgp_peer: 169.254.21.1

@@ -1,0 +1,12 @@
+---
+cisco_restconf_password_env_name: O3B_CISCO_RESTCONF_PASSWORD
+cisco_restconf_scheme: https
+cisco_restconf_port: 443
+cisco_restconf_interfaces_endpoint: /restconf/data/ietf-interfaces:interfaces
+
+cisco_ssh_key_path: "{{ lookup('env', 'O3B_CISCO_SSH_KEY_PATH') | default('/home/azureuser/.ssh/kp-dev-aws-branch.pem', true) }}"
+cisco_ssh_common_args: "-o IdentitiesOnly=yes -o PubkeyAcceptedAlgorithms=+ssh-rsa -o HostKeyAlgorithms=+ssh-rsa"
+
+cisco_expected_advertised_prefix: 172.16.1.0/24
+cisco_blocked_dmz_prefix: 172.16.2.0/24
+cisco_blocked_vpc_prefix: 172.16.0.0/16

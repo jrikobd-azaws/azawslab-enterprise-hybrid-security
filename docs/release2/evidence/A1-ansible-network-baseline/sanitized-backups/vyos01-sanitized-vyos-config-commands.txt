@@ -1,0 +1,117 @@
+A1 VyOS Sanitized Configuration Backup
+======================================
+
+Device:
+- Inventory name: vyos01
+- Management IP: 192.168.1.254
+
+Secret handling:
+- Password source: Azure Key Vault secret o3b-vyos-ansible-password
+- Raw output is sanitized before writing.
+- Review this sanitized file before committing any excerpts.
+
+--- sanitized show configuration commands ---
+set interfaces ethernet eth0 address 'dhcp'
+set interfaces ethernet eth0 description 'WAN-HtoerV-DefaultSwitch'
+set interfaces ethernet eth0 hw-id '00:15:5d:00:3e:1e'
+set interfaces ethernet eth0 offload gro
+set interfaces ethernet eth0 offload gso
+set interfaces ethernet eth0 offload sg
+set interfaces ethernet eth0 offload tso
+set interfaces ethernet eth1 address '192.168.1.254/24'
+set interfaces ethernet eth1 description 'LAN-AZAWSLAB-Internal'
+set interfaces ethernet eth1 hw-id '00:15:5d:00:3e:1f'
+set interfaces ethernet eth1 offload gro
+set interfaces ethernet eth1 offload gso
+set interfaces ethernet eth1 offload sg
+set interfaces ethernet eth1 offload tso
+set interfaces loopback lo
+set interfaces vti vti1 address '169.254.21.2/30'
+set interfaces vti vti1 description 'Azure VPN Gateway IPSec fallback'
+set interfaces vti vti1 ip adjust-mss '1350'
+set protocols bgp address-family ipv4-unicast network 192.168.1.0/24
+set protocols bgp neighbor 169.254.21.1 address-family ipv4-unicast
+set protocols bgp neighbor 169.254.21.1 remote-as '65515'
+set protocols bgp neighbor 169.254.21.1 update-source 'vti1'
+set protocols bgp parameters router-id '192.168.1.254'
+set protocols bgp system-as '65001'
+set protocols static route 10.0.0.0/16 interface vti1
+set protocols static route 10.0.3.0/27 interface vti1
+set protocols static route 10.0.3.32/27 interface vti1
+set protocols static route 10.10.0.0/16 interface vti1
+set service dns dynamic name DYNU address web url 'http://checkip.dyndns.org'
+set service dns dynamic name DYNU host-name 'azawslab.ddnsfree.com'
+set service dns dynamic name DYNU ip-version 'ipv4'
+REDACTED: password line removed
+set service dns dynamic name DYNU protocol 'dyndns2'
+set service dns dynamic name DYNU server 'api.dynu.com'
+set service dns dynamic name DYNU username 'ukhashib'
+set service ntp allow-client address '127.0.0.0/8'
+set service ntp allow-client address '169.254.0.0/16'
+set service ntp allow-client address '10.0.0.0/8'
+set service ntp allow-client address '172.16.0.0/12'
+set service ntp allow-client address '192.168.0.0/16'
+set service ntp allow-client address '::1/128'
+set service ntp allow-client address 'fe80::/10'
+set service ntp allow-client address 'fc00::/7'
+set service ntp server time1.vyos.net
+set service ntp server time2.vyos.net
+set service ntp server time3.vyos.net
+set service ssh
+set system config-management commit-revisions '100'
+set system console device ttyS0 speed '115200'
+set system domain-name 'hq.azawslab.co.uk'
+set system host-name 'vyos01'
+REDACTED: password line removed
+set system login user o3b-vyos-ansible full-name 'Release 2 O3b Ansible Automation'
+REDACTED: password line removed
+REDACTED: password line removed
+set system name-server '8.8.8.8'
+set system name-server '1.1.1.1'
+set system option reboot-on-upgrade-failure '5'
+set system syslog local facility all level 'info'
+set system syslog local facility local7 level 'debug'
+set vpn ipsec authentication psk azure-vpngw id '77.99.208.6'
+set vpn ipsec authentication psk azure-vpngw id '20.100.50.9'
+REDACTED: secret line removed
+set vpn ipsec esp-group AZURE-VPNGW lifetime '3600'
+set vpn ipsec esp-group AZURE-VPNGW mode 'tunnel'
+set vpn ipsec esp-group AZURE-VPNGW pfs 'dh-group14'
+set vpn ipsec esp-group AZURE-VPNGW proposal 1 encryption 'aes256'
+set vpn ipsec esp-group AZURE-VPNGW proposal 1 hash 'sha256'
+set vpn ipsec esp-group FGT-AZURE lifetime '3600'
+set vpn ipsec esp-group FGT-AZURE mode 'tunnel'
+set vpn ipsec esp-group FGT-AZURE pfs 'dh-group14'
+set vpn ipsec esp-group FGT-AZURE proposal 1 encryption 'aes256'
+set vpn ipsec esp-group FGT-AZURE proposal 1 hash 'sha256'
+set vpn ipsec ike-group AZURE-VPNGW dead-peer-detection action 'restart'
+set vpn ipsec ike-group AZURE-VPNGW dead-peer-detection interval '15'
+set vpn ipsec ike-group AZURE-VPNGW dead-peer-detection timeout '30'
+set vpn ipsec ike-group AZURE-VPNGW key-exchange 'ikev2'
+set vpn ipsec ike-group AZURE-VPNGW lifetime '28800'
+set vpn ipsec ike-group AZURE-VPNGW proposal 1 dh-group '14'
+set vpn ipsec ike-group AZURE-VPNGW proposal 1 encryption 'aes256'
+set vpn ipsec ike-group AZURE-VPNGW proposal 1 hash 'sha256'
+set vpn ipsec ike-group FGT-AZURE dead-peer-detection action 'restart'
+set vpn ipsec ike-group FGT-AZURE dead-peer-detection interval '15'
+set vpn ipsec ike-group FGT-AZURE dead-peer-detection timeout '30'
+set vpn ipsec ike-group FGT-AZURE key-exchange 'ikev2'
+set vpn ipsec ike-group FGT-AZURE lifetime '28800'
+set vpn ipsec ike-group FGT-AZURE proposal 1 dh-group '14'
+set vpn ipsec ike-group FGT-AZURE proposal 1 encryption 'aes256'
+set vpn ipsec ike-group FGT-AZURE proposal 1 hash 'sha256'
+set vpn ipsec interface 'eth0'
+set vpn ipsec options disable-route-autoinstall
+set vpn ipsec site-to-site peer AZURE_VPNGW authentication local-id '77.99.208.6'
+REDACTED: secret line removed
+set vpn ipsec site-to-site peer AZURE_VPNGW authentication remote-id '20.100.50.9'
+set vpn ipsec site-to-site peer AZURE_VPNGW connection-type 'initiate'
+set vpn ipsec site-to-site peer AZURE_VPNGW description 'Azure VPN Gateway O3a fallback tunnel'
+set vpn ipsec site-to-site peer AZURE_VPNGW dhcp-interface 'eth0'
+set vpn ipsec site-to-site peer AZURE_VPNGW ike-group 'AZURE-VPNGW'
+set vpn ipsec site-to-site peer AZURE_VPNGW ikev2-reauth 'inherit'
+set vpn ipsec site-to-site peer AZURE_VPNGW remote-address '20.100.50.9'
+set vpn ipsec site-to-site peer AZURE_VPNGW vti bind 'vti1'
+set vpn ipsec site-to-site peer AZURE_VPNGW vti esp-group 'AZURE-VPNGW'
+set vpn ipsec site-to-site peer AZURE_VPNGW vti traffic-selector local prefix '0.0.0.0/0'
+set vpn ipsec site-to-site peer AZURE_VPNGW vti traffic-selector remote prefix '0.0.0.0/0'

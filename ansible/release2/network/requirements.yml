@@ -1,0 +1,6 @@
+---
+collections:
+  - name: ansible.netcommon
+  - name: vyos.vyos
+  - name: cisco.ios
+  - name: fortinet.fortios

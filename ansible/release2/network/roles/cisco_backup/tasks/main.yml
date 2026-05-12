@@ -1,0 +1,50 @@
+---
+- name: Capture Cisco running configuration through controlled OpenSSH fallback
+  ansible.builtin.shell: |
+    ssh -i "{{ cisco_ssh_key_path }}" \
+      {{ cisco_ssh_common_args }} \
+      "{{ cisco_cli_user }}@{{ ansible_host }}" <<'EOS'
+    terminal length 0
+    show running-config
+    exit
+    EOS
+  args:
+    executable: /bin/bash
+  delegate_to: localhost
+  register: cisco_running_config
+  changed_when: false
+
+- name: Save sanitized Cisco running configuration backup
+  ansible.builtin.copy:
+    dest: "{{ a1_backup_dir }}/{{ inventory_hostname }}-sanitized-cisco-running-config.txt"
+    mode: '0600'
+    content: |
+      A1 Cisco Sanitized Running Configuration Backup
+      ===============================================
+
+      Device:
+      - Inventory name: {{ inventory_hostname }}
+      - Management IP: {{ ansible_host }}
+
+      Transport decision:
+      - RESTCONF is preferred for API validation.
+      - OpenSSH is used as a controlled fallback for full CLI running-config capture because native Ansible network_cli is not reliable against the current IOS-XE ssh-rsa key path.
+
+      Secret handling:
+      - SSH private key remains on vm-dev-mgmt-01.
+      - Raw output is sanitized before writing.
+      - Review this sanitized file before committing any excerpts.
+
+      --- sanitized show running-config ---
+      {{
+        cisco_running_config.stdout
+        | regex_replace('(?im)^username .*$','REDACTED: username line removed')
+        | regex_replace('(?im)^.* password .*$','REDACTED: password line removed')
+        | regex_replace('(?im)^.* secret .*$','REDACTED: secret line removed')
+        | regex_replace('(?im)^.*pre-shared.*$','REDACTED: pre-shared key line removed')
+        | regex_replace('(?im)^.*keyring.*$','REDACTED: keyring line removed')
+        | regex_replace('(?im)^.*private-key.*$','REDACTED: private key line removed')
+        | regex_replace('(?im)^crypto pki certificate chain.*$','REDACTED: certificate chain header removed')
+      }}
+  delegate_to: localhost
+  changed_when: false

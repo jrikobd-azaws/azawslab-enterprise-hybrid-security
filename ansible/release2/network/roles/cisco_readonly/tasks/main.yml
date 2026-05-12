@@ -1,0 +1,79 @@
+---
+- name: Assert Cisco RESTCONF password is loaded from AWS SSM runtime environment
+  ansible.builtin.assert:
+    that:
+      - lookup('env', cisco_restconf_password_env_name) | length > 0
+    fail_msg: "O3B_CISCO_RESTCONF_PASSWORD is not loaded. Source scripts/load-runtime-secrets.sh first."
+
+- name: Read Cisco interfaces through RESTCONF
+  ansible.builtin.uri:
+    url: "{{ cisco_restconf_scheme }}://{{ ansible_host }}:{{ cisco_restconf_port }}{{ cisco_restconf_interfaces_endpoint }}"
+    method: GET
+    url_username: "{{ cisco_restconf_user }}"
+    url_password: "{{ lookup('env', cisco_restconf_password_env_name) }}"
+    force_basic_auth: true
+    validate_certs: false
+    headers:
+      Accept: application/yang-data+json
+    return_content: true
+    status_code:
+      - 200
+  register: cisco_restconf_interfaces
+  changed_when: false
+  no_log: true
+
+- name: Read Cisco BGP and route state through controlled OpenSSH fallback
+  ansible.builtin.shell: |
+    ssh -i "{{ cisco_ssh_key_path }}" \
+      {{ cisco_ssh_common_args }} \
+      "{{ cisco_cli_user }}@{{ ansible_host }}" <<'EOS'
+    terminal length 0
+    show ip interface brief | include GigabitEthernet|Loopback|Tunnel
+    show ip bgp summary
+    show ip bgp neighbors {{ cisco_bgp_peer }} advertised-routes
+    show ip route bgp
+    exit
+    EOS
+  args:
+    executable: /bin/bash
+  delegate_to: localhost
+  register: cisco_cli_readonly
+  changed_when: false
+
+- name: Save Cisco read-only validation evidence
+  ansible.builtin.copy:
+    dest: "{{ a1_evidence_dir }}/a1-cisco-readonly-validation.txt"
+    mode: '0600'
+    content: |
+      A1 Cisco 8000V Read-Only Validation
+      ===================================
+
+      Purpose:
+      Validate Cisco RESTCONF API access and CLI BGP/route state from vm-dev-mgmt-01.
+
+      Device:
+      - Inventory name: {{ inventory_hostname }}
+      - Management IP: {{ ansible_host }}
+      - RESTCONF user: {{ cisco_restconf_user }}
+      - CLI fallback user: {{ cisco_cli_user }}
+      - Expected advertised prefix: {{ cisco_expected_advertised_prefix }}
+      - Expected blocked DMZ prefix: {{ cisco_blocked_dmz_prefix }}
+      - Expected blocked VPC prefix: {{ cisco_blocked_vpc_prefix }}
+
+      Transport:
+      - RESTCONF over HTTPS is preferred for API validation.
+      - OpenSSH fallback is used for CLI-only BGP/routing output because native network_cli had ssh-rsa compatibility issues with this IOS-XE instance.
+
+      Secret handling:
+      - RESTCONF password source: AWS SSM /azawslab/release2/o3b/cisco-restconf-password
+      - Runtime variable: O3B_CISCO_RESTCONF_PASSWORD
+      - SSH private key remains local on vm-dev-mgmt-01.
+      - No password, token, PSK, or private key is written to this file.
+
+      --- RESTCONF interfaces payload ---
+      {{ cisco_restconf_interfaces.json | to_nice_json }}
+
+      --- OpenSSH fallback BGP/routing output ---
+      {{ cisco_cli_readonly.stdout }}
+  delegate_to: localhost
+  changed_when: false

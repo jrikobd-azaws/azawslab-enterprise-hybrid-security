@@ -1,0 +1,4 @@
+---
+vyos_password_env_name: O3B_VYOS_ANSIBLE_PASSWORD
+vyos_expected_hq_prefix: 192.168.1.0/24
+vyos_expected_bgp_peer: 169.254.21.1
