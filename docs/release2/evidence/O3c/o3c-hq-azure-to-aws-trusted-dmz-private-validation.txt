@@ -1,0 +1,128 @@
+O3c private data-plane validation - Azure/HQ to AWS trusted and DMZ
+===================================================================
+
+Purpose
+-------
+
+Validate O3c segmented private routing across:
+
+- HQ / VyOS
+- Azure VPN Gateway BGP transit
+- AWS Cisco 8000V
+- AWS trusted subnet
+- AWS DMZ subnet negative control
+
+Expected result:
+
+- AWS trusted private VM is reachable.
+- AWS DMZ private VM is not reachable.
+- This validates segmented route propagation and security group behavior.
+- This does not claim FortiGate inspection for AWS flows.
+
+Known endpoints
+---------------
+
+HQ / VyOS source:
+  192.168.1.254
+
+Azure management VM:
+  vm-dev-mgmt-01
+  10.10.1.4
+
+AWS trusted test VM:
+  172.16.1.22
+
+AWS DMZ test VM:
+  172.16.2.88
+
+Validation 1 - HQ / VyOS to AWS trusted
+---------------------------------------
+
+Command:
+
+  ping 172.16.1.22 source-address 192.168.1.254
+
+Result:
+
+  PING 172.16.1.22 (172.16.1.22) from 192.168.1.254 : 56(84) bytes of data.
+  64 bytes from 172.16.1.22: icmp_seq=1 ttl=126 time=84.8 ms
+  64 bytes from 172.16.1.22: icmp_seq=2 ttl=126 time=86.1 ms
+  64 bytes from 172.16.1.22: icmp_seq=3 ttl=126 time=83.9 ms
+
+  --- 172.16.1.22 ping statistics ---
+  3 packets transmitted, 3 received, 0% packet loss
+
+Outcome:
+
+  PASS - HQ / VyOS can reach AWS trusted private VM.
+
+Validation 2 - HQ / VyOS to AWS DMZ negative control
+----------------------------------------------------
+
+Command:
+
+  ping 172.16.2.88 source-address 192.168.1.254
+
+Result:
+
+  PING 172.16.2.88 (172.16.2.88) from 192.168.1.254 : 56(84) bytes of data.
+
+  --- 172.16.2.88 ping statistics ---
+  5 packets transmitted, 0 received, 100% packet loss
+
+Outcome:
+
+  PASS - HQ / VyOS cannot reach AWS DMZ private VM.
+
+Validation 3 - Azure management VM to AWS trusted
+-------------------------------------------------
+
+Command:
+
+  ping 172.16.1.22
+
+Result:
+
+  PING 172.16.1.22 (172.16.1.22) 56(84) bytes of data.
+  64 bytes from 172.16.1.22: icmp_seq=1 ttl=126 time=33.5 ms
+  64 bytes from 172.16.1.22: icmp_seq=2 ttl=126 time=32.9 ms
+
+  --- 172.16.1.22 ping statistics ---
+  2 packets transmitted, 2 received, 0% packet loss
+
+Outcome:
+
+  PASS - Azure management VM can reach AWS trusted private VM.
+
+Validation 4 - Azure management VM to AWS DMZ negative control
+--------------------------------------------------------------
+
+Command:
+
+  ping 172.16.2.88
+
+Result:
+
+  PING 172.16.2.88 (172.16.2.88) 56(84) bytes of data.
+
+  --- 172.16.2.88 ping statistics ---
+  2 packets transmitted, 0 received, 100% packet loss
+
+Outcome:
+
+  PASS - Azure management VM cannot reach AWS DMZ private VM.
+
+Conclusion
+----------
+
+O3c private route segmentation is validated:
+
+- Trusted AWS prefix is reachable over private hybrid/multi-cloud routing.
+- DMZ AWS subnet remains unreachable as a negative control.
+- Cisco advertises only the approved trusted AWS branch prefix.
+- Full VPC and DMZ advertisement are not used for this proof.
+
+Non-claim
+---------
+
+This evidence does not claim FortiGate inspection for AWS flows. FortiGate inspection can only be claimed after FortiGate route path, policy counters, or logs prove traversal.
