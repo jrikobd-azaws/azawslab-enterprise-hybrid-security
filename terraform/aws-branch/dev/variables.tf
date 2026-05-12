@@ -79,3 +79,9 @@ variable "o3b_mgmt_ssm_parameter_arns" {
   type        = list(string)
   default     = []
 }
+
+variable "trusted_private_ssh_source_cidrs" {
+  description = "Private source CIDRs allowed to SSH to the trusted AWS test VM for O3c validation."
+  type        = list(string)
+  default     = []
+}

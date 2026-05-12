@@ -24,3 +24,11 @@ o3b_mgmt_ssm_parameter_arns = [
   "arn:aws:ssm:eu-west-1:275544662748:parameter/azawslab/release2/o3b/cisco-restconf-password",
   "arn:aws:ssm:eu-west-1:275544662748:parameter/azawslab/release2/o3b/vpn-psk"
 ]
+
+# O3c private validation:
+# - Allows SSH to the trusted AWS test VM only from the Azure management host private IP.
+# - This is intentionally not applied to the DMZ test VM.
+# - Matching non-secret metadata is published to AWS SSM for audit/runtime reference.
+trusted_private_ssh_source_cidrs = [
+  "10.10.1.4/32"
+]
