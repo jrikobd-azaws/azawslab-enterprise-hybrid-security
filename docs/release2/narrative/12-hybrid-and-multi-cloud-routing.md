@@ -1,4 +1,4 @@
-﻿# 12-hybrid-and-multi-cloud-routing
+# 12-hybrid-and-multi-cloud-routing
 
 ## 1. Objective
 
@@ -487,3 +487,40 @@ Hybrid private paths:
 
 Entra Global Secure Access / ZTNA is deferred as a future access-modernization enhancement after AWS transit, private AKS, and the AVD workspace are stable.
 
+---
+
+## O3c Closeout - Segmented Multi-Cloud Private Routing Validated
+
+O3c validates end-to-end private routing across HQ, Azure, and AWS while preserving segmented route control.
+
+The active transit design is:
+
+    HQ / VyOS
+      192.168.1.0/24
+      ASN 65001
+            |
+            | IPSec / BGP
+            v
+    Azure VPN Gateway
+      ASN 65515
+            |
+            | IPSec / BGP
+            v
+    AWS Cisco 8000V
+      ASN 65002
+            |
+            +--> AWS trusted subnet 172.16.1.0/24
+            |
+            +--> AWS DMZ subnet 172.16.2.0/24 withheld from first private validation
+
+The O3c validation proved:
+
+- HQ / VyOS can reach the AWS trusted private VM.
+- Azure management can reach the AWS trusted private VM.
+- HQ / VyOS cannot reach the AWS DMZ private VM.
+- Azure management cannot reach the AWS DMZ private VM.
+- The AWS trusted route table steers Azure/HQ private prefixes to the Cisco trusted ENI.
+- The AWS DMZ route table remains isolated from the Azure/HQ private route path.
+- O3c metadata is published to AWS SSM for operational handover and audit clarity.
+
+This is a route-control and segmentation proof. It does not claim FortiGate inspection for AWS flows. FortiGate inspection requires separate evidence from FortiGate route path, policy counters, or logs.
