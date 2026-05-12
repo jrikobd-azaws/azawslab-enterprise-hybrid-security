@@ -1,9 +1,9 @@
-﻿# Build Checklist – Release 2
+# Build Checklist â€“ Release 2
 
-**Version:** 1.0  
-**Last Updated:** [02-May-2026]  
-**Primary Source of Truth:** `README_PLAN.md`  
-**Supports:** `implementation-tracker.md`, `Phases-with-steps.md`, `naming-conventions.md`  
+**Version:** 1.0
+**Last Updated:** [02-May-2026]
+**Primary Source of Truth:** `README_PLAN.md`
+**Supports:** `implementation-tracker.md`, `Phases-with-steps.md`, `naming-conventions.md`
 **Purpose:** Practical hands-on execution checklist for building Release 2 in an organized, low-drift, evidence-first way.
 
 ---
@@ -21,7 +21,7 @@ Use it:
 - before ending the day
 - before tearing down ephemeral resources
 
-This file is **not** the project status tracker.  
+This file is **not** the project status tracker.
 That role belongs to `implementation-tracker.md`.
 
 ### File Role Split
@@ -39,7 +39,7 @@ That role belongs to `implementation-tracker.md`.
 - [ ] Do not start infrastructure build work until docs are aligned
 - [ ] Do not create resources with ad hoc names
 - [ ] Do not skip validation just because deployment succeeded
-- [ ] Do not skip evidence capture until “later”
+- [ ] Do not skip evidence capture until â€œlaterâ€
 - [ ] Do not leave expensive ephemeral resources running unnecessarily
 - [ ] Do not reintroduce RRAS terminology or config assumptions into Release 2
 - [ ] Treat Release 2 as CLI-first: capture text evidence first, screenshots second
@@ -168,8 +168,8 @@ Use this section every time before beginning a new phase.
 
 ### Phase Intent Check
 - [ ] I can explain what this phase is supposed to prove
-- [ ] I know what “done” means for this phase
-- [ ] I am not starting the phase just because it “looks next” without readiness
+- [ ] I know what â€œdoneâ€ means for this phase
+- [ ] I am not starting the phase just because it â€œlooks nextâ€ without readiness
 
 ---
 
@@ -218,7 +218,7 @@ Use this before running playbooks.
 - [ ] no secrets are exposed in plaintext files unnecessarily
 - [ ] expected host roles are understood
 - [ ] `ansible-lint` has been run
-- [ ] I know what “successful rerun” should look like for idempotency
+- [ ] I know what â€œsuccessful rerunâ€ should look like for idempotency
 
 ---
 
@@ -359,7 +359,7 @@ Use this while you are still working mainly through GitHub Desktop.
 - [ ] using inconsistent naming
 - [ ] forgetting tags
 - [ ] reintroducing stale RRAS wording
-- [ ] treating “deployment succeeded” as “phase completed”
+- [ ] treating â€œdeployment succeededâ€ as â€œphase completedâ€
 - [ ] making too many file changes at once without controlled commits
 
 ---
@@ -368,7 +368,7 @@ Use this while you are still working mainly through GitHub Desktop.
 
 Use this when you need a simple execution memory aid.
 
-### Stage A – Control the Docs
+### Stage A â€“ Control the Docs
 - [ ] align `README_PLAN.md`
 - [ ] align `implementation-tracker.md`
 - [ ] align `Phases-with-steps.md`
@@ -376,14 +376,14 @@ Use this when you need a simple execution memory aid.
 - [ ] align `README.md`
 - [ ] align `build_checklist.md`
 
-### Stage B – Prepare the Build Environment
+### Stage B â€“ Prepare the Build Environment
 - [ ] Azure readiness
 - [ ] repo readiness
 - [ ] VS Code / Codespaces readiness
 - [ ] GitHub environment readiness
 - [ ] on-prem / AWS optional readiness
 
-### Stage C – Execute Core Phases
+### Stage C â€“ Execute Core Phases
 - [ ] P0
 - [ ] P1
 - [ ] P2a
@@ -397,7 +397,7 @@ Use this when you need a simple execution memory aid.
 - [ ] P9b
 - [ ] P9c
 
-### Stage D – Execute Optional Phases Only If Ready
+### Stage D â€“ Execute Optional Phases Only If Ready
 - [x] P4
 - [ ] P6
 - [x] O1
@@ -427,7 +427,7 @@ Use this when you need a simple execution memory aid.
 - [x] evidence saved under `docs/release2/evidence/P4/`
 - [x] Lighthouse delegation intentionally retained for portfolio demonstration until later teardown decision
 
-### Stage E – Final Review
+### Stage E â€“ Final Review
 - [ ] evidence complete
 - [ ] costly resources reviewed
 - [ ] tracker honest and updated
@@ -459,7 +459,7 @@ Use this when you need a simple execution memory aid.
 
 ## 19. Personal Session Notes
 
-### Today’s Target
+### Todayâ€™s Target
 - [ ] ___________________________________________
 
 ### Blockers
@@ -496,7 +496,7 @@ Use as a short-lived execution environment for:
 - any short command-driven session where the remote Linux environment is more convenient
 
 ### Working rule
-The workspace is **not** the primary all-day editor for Release 2.  
+The workspace is **not** the primary all-day editor for Release 2.
 Use it as a targeted execution environment, then stop or delete it after the session if appropriate.
 
 ### Cost-control rule
@@ -543,7 +543,8 @@ Evidence:
 - [ ] d-join execution deferred until HQ AD and hybrid connectivity are ready
 
 ## Backend alignment note
-- [x] Active Terraform backend aligned to g-dev-terraformstate-norwayeast
+- [x] Active Terraform backend aligned to
+g-dev-terraformstate-norwayeast
 - [x] Active storage account aligned to stdevtfstatene01
 - [ ] Old backend retained temporarily as rollback safety until final retirement
 
@@ -785,3 +786,34 @@ Date: 2026-05-06 00:59:25 +01:00
 - [ ] No public LoadBalancer service is used for first validation
 - [ ] AKS/node pool teardown or scale-down plan is prepared
 
+---
+
+## A1/A2 Automation Control Plane Checklist
+
+### A1 Ansible Network/Security Baseline
+
+- [x] FortiGate read-only API validation completed
+- [x] FortiGate least-privilege sanitized API snapshot completed
+- [x] VyOS read-only validation completed
+- [x] VyOS sanitized backup completed
+- [x] Cisco RESTCONF read-only validation completed
+- [x] Cisco controlled OpenSSH fallback evidence completed
+- [x] Runtime secrets sourced from Azure Key Vault and AWS SSM
+- [x] Idempotency/no-device-change proof completed
+- [x] Evidence committed under `docs/release2/evidence/A1-ansible-network-baseline/`
+
+### A2 AWX Automation Control Plane Readiness
+
+- [ ] A2 architecture decision recorded before Terraform changes
+- [ ] AWX deployment model selected
+- [ ] Azure-managed host or approved container host design confirmed
+- [ ] Entra/Azure AD login approach selected
+- [ ] AWX RBAC model documented
+- [ ] GitHub project sync design confirmed
+- [ ] Key Vault runtime secret model confirmed
+- [ ] AWS SSM runtime secret model confirmed
+- [ ] A1 job templates planned
+- [ ] O4 support job templates planned
+- [ ] O5 support job templates planned
+- [ ] Evidence path confirmed as `docs/release2/evidence/A2-awx-control-plane/`
+- [ ] Cost and teardown/retain decision documented
