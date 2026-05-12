@@ -1,9 +1,9 @@
-﻿# Release 2 – Azure Platform Engineering & Security
+# Release 2 â€“ Azure Platform Engineering & Security
 
-> **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**  
-> Status: **In progress** – see [implementation tracker](./implementation-tracker.md)
+> **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**
+> Status: **In progress** â€“ see [implementation tracker](./implementation-tracker.md)
 
-> Current implemented milestone: **O1 FortiGate Azure-to-HQ service-chain validation completed**, with FortiGate policy/SNAT proof, Azure workload UDR to the NVA, and Azure VPN Gateway to VyOS retained as the IPSec termination path.
+> Current implemented milestone: **A1 Ansible Network/Security Automation Baseline completed**, with FortiGate, VyOS, and Cisco read-only validation, sanitized backup evidence, runtime secrets from Azure Key Vault and AWS SSM, and post-merge Terraform no-drift checks completed.
 
 ## Overview
 
@@ -20,11 +20,12 @@ All resources follow a strict **naming convention** and are validated primarily 
 
 ---
 
-## Key Deliverables (Phases P0–P9c, O1–O5)
+## Key Deliverables (Phases P0â€“P9c, O1â€“O5)
 
 | Category | Phases | What is built |
 |----------|--------|----------------|
 | **Foundation** | P0, P1, P2a, P2b, P2c | OIDC bootstrap, Terraform backend, management groups, policy guardrails, reusable Terraform modules, Ansible roles, CI/CD pipelines |
+| **Automation Control Plane** | A1, A2 | A1 Ansible network/security automation baseline; A2 AWX with Entra login, RBAC, GitHub sync, Key Vault, and AWS SSM integration |
 | **Network & Security** | P5, P6, O1 | Hub-spoke VNets, Azure Firewall, dual-firewall with FortiGate NVA (optional), forced tunneling, UDRs |
 | **Governance & MSP** | P3, P4 | Policy-as-code (allowed regions, VM SKUs, mandatory tags), least-privilege RBAC, Azure Lighthouse cross-tenant delegation |
 | **Observability & SIEM** | P7, P8, P9a | Defender for Cloud (CSPM), Microsoft Sentinel (analytic rules, incidents), Azure Monitor alerts |
@@ -90,7 +91,7 @@ This separation reflects a realistic greenfield cloud initiative where a new Azu
 
 ## Tenant and Subscription Setup Rationale
 
-To build a fully functional Azure Virtual Desktop (AVD) lab without upfront cost, I first created an Azure Free Trial subscription using my personal Microsoft Account (MSA), which provided the $200 Azure credit that Microsoft does not offer directly to newly created work/school tenants. Since Microsoft 365 E5 trials are only available to organizational tenants, I then created a new Microsoft Entra ID (work) tenant and activated the Microsoft 365 E5 trial there to unlock AVD‑required services such as Windows Enterprise, Entra ID P2, Intune, and Defender. Because Azure credits cannot be issued directly to a new work tenant, I transferred the Azure subscription (and its remaining $200 credit) from the personal MSA directory into the new organizational tenant. This unified all compute, identity, and licensing under a single enterprise tenant, enabling a clean, production‑style environment for deploying and testing Azure Virtual Desktop.
+To build a fully functional Azure Virtual Desktop (AVD) lab without upfront cost, I first created an Azure Free Trial subscription using my personal Microsoft Account (MSA), which provided the $200 Azure credit that Microsoft does not offer directly to newly created work/school tenants. Since Microsoft 365 E5 trials are only available to organizational tenants, I then created a new Microsoft Entra ID (work) tenant and activated the Microsoft 365 E5 trial there to unlock AVDâ€‘required services such as Windows Enterprise, Entra ID P2, Intune, and Defender. Because Azure credits cannot be issued directly to a new work tenant, I transferred the Azure subscription (and its remaining $200 credit) from the personal MSA directory into the new organizational tenant. This unified all compute, identity, and licensing under a single enterprise tenant, enabling a clean, productionâ€‘style environment for deploying and testing Azure Virtual Desktop.
 
 ## Domain Namespaces
 
@@ -176,11 +177,11 @@ For the most controlled implementation flow:
 
 ## Environment Readiness Status
 
-- **Project Status:** Deployment ready  
-- **Identity:** Primary lab admin account:** `admin-lab@entra.azawslab.co.uk`  
-- **Break-glass global account:** `hashib@entra.azawslab.co.uk`  
-- **Funding:** Azure `$200` credit successfully moved  
-- **Licensing:** Microsoft 365 E5 is active and assigned  
+- **Project Status:** Deployment ready
+- **Identity:** Primary lab admin account:** `admin-lab@entra.azawslab.co.uk`
+- **Break-glass global account:** `hashib@entra.azawslab.co.uk`
+- **Funding:** Azure `$200` credit successfully moved
+- **Licensing:** Microsoft 365 E5 is active and assigned
 - **Namespace:** `entra.azawslab.co.uk` is the verified tenant boundary
 
 ---
@@ -201,17 +202,3 @@ Candidate regions and SKUs were assessed against actual subscription-level deplo
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
-
-
-
-
-
-
-
-
-
-
-
-
-
-

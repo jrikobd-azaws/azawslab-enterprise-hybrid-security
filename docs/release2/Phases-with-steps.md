@@ -1,8 +1,8 @@
-﻿# Phase-by-Phase Implementation Guide - Release 2
+# Phase-by-Phase Implementation Guide - Release 2
 
-**Version:** 4.0  
-**Aligns with:** `README_PLAN.md`, `implementation-tracker.md`, and `naming-conventions.md`  
-**Purpose:** Operator-focused execution guide for Release 2 with key configuration snapshots, execution order, validation gates, evidence expectations, and teardown reminders.  
+**Version:** 4.0
+**Aligns with:** `README_PLAN.md`, `implementation-tracker.md`, and `naming-conventions.md`
+**Purpose:** Operator-focused execution guide for Release 2 with key configuration snapshots, execution order, validation gates, evidence expectations, and teardown reminders.
 **Primary Rule:** If this guide conflicts with `README_PLAN.md`, follow `README_PLAN.md` and then update this file.
 
 ---
@@ -18,7 +18,7 @@ Use it to:
 - validate outcomes and capture evidence
 - remember teardown requirements for ephemeral resources
 
-This file is practical and execution-focused.  
+This file is practical and execution-focused.
 `README_PLAN.md` remains the architectural source of truth.
 
 ---
@@ -35,7 +35,7 @@ This file is practical and execution-focused.
 - **FinOps rule:** expensive optional phases should be destroyed after validation unless needed by the next phase
 
 ### Implementation alignment note
-Region and VM size were treated as a subscription-and-region validation task rather than a static assumption.  
+Region and VM size were treated as a subscription-and-region validation task rather than a static assumption.
 Because Azure SKU availability and restrictions vary over time by subscription, region, and capacity, deployable options were validated first and the Terraform implementation was then aligned to the confirmed target:
 
 - Region: `norwayeast`
@@ -117,7 +117,9 @@ Complete these before Phase P0:
 - `O3a` Azure VPN Gateway to VyOS IPSec with FortiGate service chaining / inspection
 - `O3b` AWS Cisco branch with segmented BGP
 - `O3c` global transit / transitive routing validation
-- `O4` Entra Global Secure Access
+- `A1` Ansible network/security automation baseline
+- `A2` AWX automation control plane
+- `O4` Private AKS modern application platform with dual-security routing
 - `O5` Azure Virtual Desktop + FSLogix
 
 ---
@@ -1544,7 +1546,7 @@ docs/
 
 ---
 
-## O1 Closeout Addendum – FortiGate Azure-to-HQ Service Chaining
+## O1 Closeout Addendum â€“ FortiGate Azure-to-HQ Service Chaining
 
 O1 has validated controlled Azure workload to HQ service chaining through the FortiGate NVA.
 
@@ -1963,3 +1965,77 @@ Entra Global Secure Access / ZTNA is deferred as a future enhancement and is not
 
 ---
 
+---
+
+# A1/A2 AUTOMATION CONTROL PLANE ALIGNMENT
+==========================================
+
+## A1: Ansible Network/Security Automation Baseline
+
+A1 is complete.
+
+A1 created the validated source-of-truth Ansible network/security baseline:
+
+```text
+ansible/release2/network/
+```
+
+Validated platforms:
+
+```text
+FortiGate:
+  REST API over HTTPS 443
+  Azure Key Vault token
+  least-privilege read-only API snapshot
+
+VyOS:
+  network_cli over SSH 22
+  Azure Key Vault password
+  read-only validation and sanitized backup
+
+Cisco 8000V:
+  RESTCONF over HTTPS 443
+  AWS SSM password
+  OpenSSH fallback for CLI-only BGP/config evidence
+```
+
+Evidence path:
+
+```text
+docs/release2/evidence/A1-ansible-network-baseline/
+```
+
+## A2: AWX Automation Control Plane
+
+A2 is the next recommended implementation before O4.
+
+A2 goal:
+
+```text
+[Operator]
+    |
+    v
+[AWX on Azure-managed host]
+    |
+    +-- Entra/Azure AD login
+    +-- AWX RBAC
+    +-- GitHub project sync
+    +-- Azure Key Vault runtime secrets
+    +-- AWS SSM runtime secrets
+    |
+    +-- A1 validation jobs
+    +-- O4 AKS support jobs
+    +-- O5 admin/dev workspace support jobs
+```
+
+A2 minimum design decisions:
+
+- AWX deployment model: VM-hosted AWX or approved container-hosted AWX.
+- Management access path: private or approved restricted admin path.
+- Identity: Entra/Azure AD login model.
+- RBAC: operator/admin split.
+- Secrets: Key Vault and AWS SSM runtime retrieval; no plaintext secrets in Git.
+- Source control: GitHub project sync from this repository.
+- Evidence: `docs/release2/evidence/A2-awx-control-plane/`.
+
+A2 does not replace O4. A2 prepares the automation control plane for O4 and O5.
