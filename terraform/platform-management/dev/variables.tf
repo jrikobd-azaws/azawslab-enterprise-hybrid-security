@@ -17,11 +17,11 @@ variable "awx_vm_name" {
 variable "awx_vm_size" {
   description = "Azure VM SKU for the A2 AWX VM. Must remain within approved policy."
   type        = string
-  default     = "Standard_B2als_v2"
+  default     = "Standard_B2s"
 
   validation {
-    condition     = var.awx_vm_size == "Standard_B2als_v2"
-    error_message = "A2 AWX VM size must remain Standard_B2als_v2 unless policy and cost guardrails are revalidated."
+    condition     = contains(["Standard_B2s"], var.awx_vm_size)
+    error_message = "A2 AWX VM size must remain Standard_B2s unless policy and cost guardrails are revalidated."
   }
 }
 

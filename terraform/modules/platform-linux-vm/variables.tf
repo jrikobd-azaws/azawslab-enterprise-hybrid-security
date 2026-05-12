@@ -74,7 +74,7 @@ variable "public_ip_sku" {
 variable "vm_size" {
   description = "Azure VM SKU."
   type        = string
-  default     = "Standard_B2als_v2"
+  default     = "Standard_B2s"
 }
 
 variable "admin_username" {
