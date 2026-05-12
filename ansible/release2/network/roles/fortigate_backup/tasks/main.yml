@@ -1,0 +1,135 @@
+---
+- name: Assert FortiGate API token is loaded from Azure Key Vault runtime environment
+  ansible.builtin.assert:
+    that:
+      - lookup('env', fortigate_token_env_name) | length > 0
+    fail_msg: "FORTIOS_ACCESS_TOKEN is not loaded. Source scripts/load-runtime-secrets.sh first."
+
+- name: Read FortiGate system status for sanitized backup snapshot
+  ansible.builtin.uri:
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_status_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
+    method: GET
+    validate_certs: "{{ fortigate_validate_certs }}"
+    headers:
+      Accept: application/json
+    return_content: true
+    status_code:
+      - 200
+  register: fortigate_backup_status
+  changed_when: false
+  no_log: true
+
+- name: Read FortiGate interfaces for sanitized backup snapshot
+  ansible.builtin.uri:
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_interface_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
+    method: GET
+    validate_certs: "{{ fortigate_validate_certs }}"
+    headers:
+      Accept: application/json
+    return_content: true
+    status_code:
+      - 200
+  register: fortigate_backup_interfaces
+  changed_when: false
+  no_log: true
+
+- name: Read FortiGate firewall policies for sanitized backup snapshot
+  ansible.builtin.uri:
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_policy_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
+    method: GET
+    validate_certs: "{{ fortigate_validate_certs }}"
+    headers:
+      Accept: application/json
+    return_content: true
+    status_code:
+      - 200
+  register: fortigate_backup_policies
+  changed_when: false
+  no_log: true
+
+- name: Read FortiGate static routes for sanitized backup snapshot
+  ansible.builtin.uri:
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_static_route_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
+    method: GET
+    validate_certs: "{{ fortigate_validate_certs }}"
+    headers:
+      Accept: application/json
+    return_content: true
+    status_code:
+      - 200
+  register: fortigate_backup_routes
+  changed_when: false
+  no_log: true
+
+- name: Save sanitized FortiGate read-only API backup snapshot
+  ansible.builtin.copy:
+    dest: "{{ a1_backup_dir }}/{{ inventory_hostname }}-sanitized-fortigate-api-snapshot.txt"
+    mode: '0600'
+    content: |
+      A1 FortiGate Sanitized Read-Only API Backup Snapshot
+      ====================================================
+
+      Device:
+      - Inventory name: {{ inventory_hostname }}
+      - Management IP: {{ ansible_host }}
+      - Expected hostname: {{ fortigate_name | default('not specified') }}
+      - VDOM: {{ fortigate_vdom | default('root') }}
+
+      Backup model:
+      - This is a least-privilege read-only API snapshot.
+      - It intentionally does not use the full FortiGate raw configuration backup endpoint.
+      - Full raw FortiGate backup requires broader permissions and should use a separate controlled backup token if needed.
+
+      Secret handling:
+      - API user: ansible-o1-svc
+      - Token source: Azure Key Vault secret p5-fortigate-api-token
+      - Runtime variable: FORTIOS_ACCESS_TOKEN
+      - Token value is not written to this file.
+
+      Captured read-only API scopes:
+      - System status
+      - Interfaces
+      - Firewall policies
+      - Static routes
+
+      --- system status ---
+      {{
+        fortigate_backup_status.json
+        | to_nice_json
+        | regex_replace('(?im)^.*passwd.*$', 'REDACTED: password line removed')
+        | regex_replace('(?im)^.*password.*$', 'REDACTED: password line removed')
+        | regex_replace('(?im)^.*secret.*$', 'REDACTED: secret line removed')
+        | regex_replace('(?im)^.*token.*$', 'REDACTED: token line removed')
+      }}
+
+      --- interfaces ---
+      {{
+        fortigate_backup_interfaces.json
+        | to_nice_json
+        | regex_replace('(?im)^.*passwd.*$', 'REDACTED: password line removed')
+        | regex_replace('(?im)^.*password.*$', 'REDACTED: password line removed')
+        | regex_replace('(?im)^.*secret.*$', 'REDACTED: secret line removed')
+        | regex_replace('(?im)^.*token.*$', 'REDACTED: token line removed')
+      }}
+
+      --- firewall policies ---
+      {{
+        fortigate_backup_policies.json
+        | to_nice_json
+        | regex_replace('(?im)^.*passwd.*$', 'REDACTED: password line removed')
+        | regex_replace('(?im)^.*password.*$', 'REDACTED: password line removed')
+        | regex_replace('(?im)^.*secret.*$', 'REDACTED: secret line removed')
+        | regex_replace('(?im)^.*token.*$', 'REDACTED: token line removed')
+      }}
+
+      --- static routes ---
+      {{
+        fortigate_backup_routes.json
+        | to_nice_json
+        | regex_replace('(?im)^.*passwd.*$', 'REDACTED: password line removed')
+        | regex_replace('(?im)^.*password.*$', 'REDACTED: password line removed')
+        | regex_replace('(?im)^.*secret.*$', 'REDACTED: secret line removed')
+        | regex_replace('(?im)^.*token.*$', 'REDACTED: token line removed')
+      }}
+  delegate_to: localhost
+  changed_when: false

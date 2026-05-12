@@ -1,0 +1,86 @@
+A1 VyOS Read-Only Validation
+============================
+
+Purpose:
+Validate VyOS routing, interface, and BGP state from vm-dev-mgmt-01.
+
+Device:
+- Inventory name: vyos01
+- Management IP: 192.168.1.254
+- Expected HQ prefix: 192.168.1.0/24
+
+Secret handling:
+- Password source: Azure Key Vault secret o3b-vyos-ansible-password
+- Runtime variable: O3B_VYOS_ANSIBLE_PASSWORD
+- Password value is not written to this file.
+
+--- show version ---
+Version:          VyOS 2026.03
+Release train:    circinus
+Release flavor:   generic
+
+Built by:         autobuild@vyos.net
+Built on:         Wed 18 Mar 2026 20:03 UTC
+Build UUID:       3969e1c7-a4bb-459a-ac7f-54749c153d21
+Build commit ID:  1cac4fd63750b0
+
+Architecture:     x86_64
+Boot via:         installed image
+System type:      Microsoft Hyper-V guest
+
+Hardware vendor:  Microsoft Corporation
+Hardware model:   Virtual Machine
+Hardware S/N:     4665-1228-4055-7763-5570-0781-45
+Hardware UUID:    030df350-6922-47ba-b007-00424cdebb47
+
+Copyright:        VyOS maintainers and contributors
+
+--- show interfaces ---
+Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
+Interface    IP Address         MAC                VRF        MTU  S/L    Description
+-----------  -----------------  -----------------  -------  -----  -----  --------------------------------
+eth0         172.17.147.240/20  00:15:5d:00:3e:1e  default   1500  u/u    WAN-HtoerV-DefaultSwitch
+eth1         192.168.1.254/24   00:15:5d:00:3e:1f  default   1500  u/u    LAN-AZAWSLAB-Internal
+lo           127.0.0.1/8        00:00:00:00:00:00  default  65536  u/u
+             ::1/128
+vti1         169.254.21.2/30    n/a                default   1500  u/u    Azure VPN Gateway IPSec fallback
+
+--- show bgp summary ---
+IPv4 Unicast Summary:
+BGP router identifier 192.168.1.254, local AS number 65001 VRF default vrf-id 0
+BGP table version 28
+RIB entries 7, using 896 bytes of memory
+Peers 1, using 24 KiB of memory
+
+Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
+169.254.21.1    4      65515       291       295       28    0    0 00:10:27            3        4 N/A
+
+Total number of neighbors 1
+
+--- show ip route bgp ---
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       > - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+IPv4 unicast VRF default:
+B   10.0.0.0/16 [20/0] via 169.254.21.1, vti1, weight 1, 00:10:28
+B   10.10.0.0/16 [20/0] via 169.254.21.1, vti1, weight 1, 00:10:28
+B>* 172.16.1.0/24 [20/0] via 169.254.21.1, vti1, weight 1, 00:10:28
+
+--- sanitized routing/BGP config extract ---
+set interfaces vti vti1 address '169.254.21.2/30'
+set interfaces vti vti1 description 'Azure VPN Gateway IPSec fallback'
+set interfaces vti vti1 ip adjust-mss '1350'
+set protocols bgp address-family ipv4-unicast network 192.168.1.0/24
+set protocols bgp neighbor 169.254.21.1 address-family ipv4-unicast
+set protocols bgp neighbor 169.254.21.1 remote-as '65515'
+set protocols bgp neighbor 169.254.21.1 update-source 'vti1'
+set protocols bgp parameters router-id '192.168.1.254'
+set protocols bgp system-as '65001'
+set protocols static route 10.0.0.0/16 interface vti1
+set protocols static route 10.0.3.0/27 interface vti1
+set protocols static route 10.0.3.32/27 interface vti1
+set protocols static route 10.10.0.0/16 interface vti1

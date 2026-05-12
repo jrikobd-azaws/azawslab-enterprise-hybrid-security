@@ -1,0 +1,164 @@
+A1 Cisco 8000V Read-Only Validation
+===================================
+
+Purpose:
+Validate Cisco RESTCONF API access and CLI BGP/route state from vm-dev-mgmt-01.
+
+Device:
+- Inventory name: cisco_aws_branch_01
+- Management IP: 54.229.23.76
+- RESTCONF user: o3b-api
+- CLI fallback user: ec2-user
+- Expected advertised prefix: 172.16.1.0/24
+- Expected blocked DMZ prefix: 172.16.2.0/24
+- Expected blocked VPC prefix: 172.16.0.0/16
+
+Transport:
+- RESTCONF over HTTPS is preferred for API validation.
+- OpenSSH fallback is used for CLI-only BGP/routing output because native network_cli had ssh-rsa compatibility issues with this IOS-XE instance.
+
+Secret handling:
+- RESTCONF password source: AWS SSM /azawslab/release2/o3b/cisco-restconf-password
+- Runtime variable: O3B_CISCO_RESTCONF_PASSWORD
+- SSH private key remains local on vm-dev-mgmt-01.
+- No password, token, PSK, or private key is written to this file.
+
+--- RESTCONF interfaces payload ---
+{
+    "ietf-interfaces:interfaces": {
+        "interface": [
+            {
+                "description": "AWS-MGMT-172.16.0.0-24",
+                "enabled": true,
+                "ietf-ip:ipv4": {},
+                "ietf-ip:ipv6": {},
+                "name": "GigabitEthernet1",
+                "type": "iana-if-type:ethernetCsmacd"
+            },
+            {
+                "description": "AWS-UNTRUSTED-172.16.254.0-24-FUTURE-IPSEC",
+                "enabled": true,
+                "ietf-ip:ipv4": {
+                    "address": [
+                        {
+                            "ip": "172.16.254.121",
+                            "netmask": "255.255.255.0"
+                        }
+                    ]
+                },
+                "ietf-ip:ipv6": {},
+                "name": "GigabitEthernet2",
+                "type": "iana-if-type:ethernetCsmacd"
+            },
+            {
+                "description": "AWS-TRUSTED-172.16.1.0-24",
+                "enabled": true,
+                "ietf-ip:ipv4": {
+                    "address": [
+                        {
+                            "ip": "172.16.1.56",
+                            "netmask": "255.255.255.0"
+                        }
+                    ]
+                },
+                "ietf-ip:ipv6": {},
+                "name": "GigabitEthernet3",
+                "type": "iana-if-type:ethernetCsmacd"
+            },
+            {
+                "description": "O3b-Azure-VPNGW-BGP-source",
+                "enabled": true,
+                "ietf-ip:ipv4": {
+                    "address": [
+                        {
+                            "ip": "172.16.255.1",
+                            "netmask": "255.255.255.255"
+                        }
+                    ]
+                },
+                "ietf-ip:ipv6": {},
+                "name": "Loopback100",
+                "type": "iana-if-type:softwareLoopback"
+            },
+            {
+                "description": "O3b-Azure-VPNGW-route-based-IPSec-VTI",
+                "enabled": true,
+                "ietf-ip:ipv4": {
+                    "address": [
+                        {
+                            "ip": "169.254.101.2",
+                            "netmask": "255.255.255.252"
+                        }
+                    ]
+                },
+                "ietf-ip:ipv6": {},
+                "name": "Tunnel100",
+                "type": "iana-if-type:tunnel"
+            },
+            {
+                "enabled": true,
+                "ietf-ip:ipv4": {
+                    "address": [
+                        {
+                            "ip": "192.168.35.101",
+                            "netmask": "255.255.255.0"
+                        }
+                    ]
+                },
+                "ietf-ip:ipv6": {},
+                "name": "VirtualPortGroup0",
+                "type": "iana-if-type:propVirtual"
+            }
+        ]
+    }
+}
+
+--- OpenSSH fallback BGP/routing output ---
+
+
+
+cisco-dev-aws-branch-01#terminal length 0
+cisco-dev-aws-branch-01#show ip interface brief | include GigabitEthernet|Loo$erface brief | include GigabitEthernet|Loop         back|Tunnf | include GigabitEthernet|Loopback|Tunne         l
+GigabitEthernet1       172.16.0.142    YES DHCP   up                    up      
+GigabitEthernet2       172.16.254.121  YES NVRAM  up                    up      
+GigabitEthernet3       172.16.1.56     YES NVRAM  up                    up      
+Loopback100            172.16.255.1    YES NVRAM  up                    up      
+Tunnel100              169.254.101.2   YES NVRAM  up                    up      
+cisco-dev-aws-branch-01#show ip bgp summary
+BGP router identifier 172.16.255.1, local AS number 65002
+BGP table version is 21, main routing table version 21
+4 network entries using 992 bytes of memory
+4 path entries using 544 bytes of memory
+2/2 BGP path/bestpath attribute entries using 592 bytes of memory
+1 BGP AS-PATH entries using 24 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 2152 total bytes of memory
+BGP activity 12/8 prefixes, 12/8 paths, scan interval 60 secs
+4 networks peaked at 20:08:51 May 11 2026 UTC (21:44:23.676 ago)
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.0.2.30       4        65515    1497    1435       21    0    0 21:44:23        3
+cisco-dev-aws-branch-01#show ip bgp neighbors 169.254.21.1 advertised-routes
+% No such neighbor or address family
+cisco-dev-aws-branch-01#show ip route bgp
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, m - OMP
+       n - NAT, Ni - NAT inside, No - NAT outside, Nd - NAT DIA
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       H - NHRP, G - NHRP registered, g - NHRP registration summary
+       o - ODR, P - periodic downloaded static route, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+       & - replicated local route overrides by connected
+
+Gateway of last resort is 172.16.0.1 to network 0.0.0.0
+
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+B        10.0.0.0/16 [20/0] via 10.0.2.30, 21:43:28
+B        10.10.0.0/16 [20/0] via 10.0.2.30, 21:43:28
+B     192.168.1.0/24 [20/0] via 10.0.2.30, 00:10:37
+cisco-dev-aws-branch-01#exit

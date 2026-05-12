@@ -1,0 +1,55 @@
+---
+- name: Assert VyOS password is loaded from Azure Key Vault runtime environment
+  ansible.builtin.assert:
+    that:
+      - lookup('env', vyos_password_env_name) | length > 0
+    fail_msg: "O3B_VYOS_ANSIBLE_PASSWORD is not loaded. Source scripts/load-runtime-secrets.sh first."
+
+- name: Read VyOS operational state
+  vyos.vyos.vyos_command:
+    commands:
+      - show version
+      - show interfaces
+      - show bgp summary
+      - show ip route bgp
+      - show configuration commands | match "^set protocols bgp|^set interfaces vti|^set protocols static"
+  register: vyos_readonly
+  changed_when: false
+
+- name: Save VyOS read-only validation evidence
+  ansible.builtin.copy:
+    dest: "{{ a1_evidence_dir }}/a1-vyos-readonly-validation.txt"
+    mode: '0600'
+    content: |
+      A1 VyOS Read-Only Validation
+      ============================
+
+      Purpose:
+      Validate VyOS routing, interface, and BGP state from vm-dev-mgmt-01.
+
+      Device:
+      - Inventory name: {{ inventory_hostname }}
+      - Management IP: {{ ansible_host }}
+      - Expected HQ prefix: {{ vyos_expected_hq_prefix }}
+
+      Secret handling:
+      - Password source: Azure Key Vault secret o3b-vyos-ansible-password
+      - Runtime variable: O3B_VYOS_ANSIBLE_PASSWORD
+      - Password value is not written to this file.
+
+      --- show version ---
+      {{ vyos_readonly.stdout[0] }}
+
+      --- show interfaces ---
+      {{ vyos_readonly.stdout[1] }}
+
+      --- show bgp summary ---
+      {{ vyos_readonly.stdout[2] }}
+
+      --- show ip route bgp ---
+      {{ vyos_readonly.stdout[3] }}
+
+      --- sanitized routing/BGP config extract ---
+      {{ vyos_readonly.stdout[4] }}
+  delegate_to: localhost
+  changed_when: false

@@ -1,0 +1,20 @@
+---
+- name: A1 FortiGate read-only validation
+  hosts: fortigate_firewalls
+  gather_facts: false
+  connection: local
+  roles:
+    - fortigate_readonly
+
+- name: A1 VyOS read-only validation
+  hosts: vyos_routers
+  gather_facts: false
+  roles:
+    - vyos_readonly
+
+- name: A1 Cisco read-only validation
+  hosts: cisco_routers
+  gather_facts: false
+  connection: local
+  roles:
+    - cisco_readonly

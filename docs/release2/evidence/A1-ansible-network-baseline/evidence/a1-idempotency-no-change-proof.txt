@@ -1,0 +1,21 @@
+A1 Idempotency / No-Device-Change Proof
+=======================================
+
+Scope:
+- FortiGate read-only role uses HTTP GET requests only.
+- VyOS read-only role uses show commands only.
+- Cisco read-only role uses RESTCONF GET and OpenSSH show commands only.
+- Sanitized backup roles capture configuration and write sanitized local files only.
+- No A1 playbook changes FortiGate, VyOS, or Cisco device configuration.
+
+Expected Ansible behavior:
+- Read-only validation tasks use changed_when: false.
+- Backup capture tasks use changed_when: false.
+- Local evidence/backup writes are intentionally marked changed_when: false for idempotency reporting.
+- Any future configuration role must be separate from this baseline and must support explicit review/check mode where possible.
+
+Secret handling:
+- FortiGate token is loaded from Azure Key Vault at runtime.
+- VyOS password is loaded from Azure Key Vault at runtime.
+- Cisco RESTCONF password is loaded from AWS SSM at runtime.
+- Runtime environment variables are unset after wrapper script execution.

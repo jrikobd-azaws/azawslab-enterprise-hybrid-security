@@ -1,0 +1,42 @@
+---
+- name: Assert VyOS password is loaded from Azure Key Vault runtime environment
+  ansible.builtin.assert:
+    that:
+      - lookup('env', vyos_password_env_name) | length > 0
+    fail_msg: "O3B_VYOS_ANSIBLE_PASSWORD is not loaded. Source scripts/load-runtime-secrets.sh first."
+
+- name: Capture VyOS configuration commands
+  vyos.vyos.vyos_command:
+    commands:
+      - show configuration commands
+  register: vyos_config
+  changed_when: false
+
+- name: Save sanitized VyOS configuration backup
+  ansible.builtin.copy:
+    dest: "{{ a1_backup_dir }}/{{ inventory_hostname }}-sanitized-vyos-config-commands.txt"
+    mode: '0600'
+    content: |
+      A1 VyOS Sanitized Configuration Backup
+      ======================================
+
+      Device:
+      - Inventory name: {{ inventory_hostname }}
+      - Management IP: {{ ansible_host }}
+
+      Secret handling:
+      - Password source: Azure Key Vault secret o3b-vyos-ansible-password
+      - Raw output is sanitized before writing.
+      - Review this sanitized file before committing any excerpts.
+
+      --- sanitized show configuration commands ---
+      {{
+        vyos_config.stdout[0]
+        | regex_replace('(?im)^.*password.*$', 'REDACTED: password line removed')
+        | regex_replace('(?im)^.*secret.*$', 'REDACTED: secret line removed')
+        | regex_replace('(?im)^.*pre-shared.*$', 'REDACTED: pre-shared key line removed')
+        | regex_replace('(?im)^.*private-key.*$', 'REDACTED: private key line removed')
+        | regex_replace('(?im)^.*encrypted-password.*$', 'REDACTED: encrypted password line removed')
+      }}
+  delegate_to: localhost
+  changed_when: false

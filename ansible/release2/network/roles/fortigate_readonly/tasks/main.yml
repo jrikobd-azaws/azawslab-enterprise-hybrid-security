@@ -1,0 +1,90 @@
+---
+- name: Assert FortiGate API token is loaded from Azure Key Vault runtime environment
+  ansible.builtin.assert:
+    that:
+      - lookup('env', fortigate_token_env_name) | length > 0
+    fail_msg: "FORTIOS_ACCESS_TOKEN is not loaded. Source scripts/load-runtime-secrets.sh first."
+
+- name: Read FortiGate system status using bearer token
+  ansible.builtin.uri:
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_status_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
+    method: GET
+    validate_certs: "{{ fortigate_validate_certs }}"
+    headers:
+      Authorization: "Bearer {{ lookup('env', fortigate_token_env_name) }}"
+      Accept: application/json
+    return_content: true
+    status_code:
+      - 200
+  register: fortigate_system_status
+  changed_when: false
+  no_log: true
+
+- name: Read FortiGate firewall policies
+  ansible.builtin.uri:
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_policy_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
+    method: GET
+    validate_certs: "{{ fortigate_validate_certs }}"
+    headers:
+      Authorization: "Bearer {{ lookup('env', fortigate_token_env_name) }}"
+      Accept: application/json
+    return_content: true
+    status_code:
+      - 200
+  register: fortigate_firewall_policies
+  changed_when: false
+  no_log: true
+
+- name: Read FortiGate static routes
+  ansible.builtin.uri:
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_static_route_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
+    method: GET
+    validate_certs: "{{ fortigate_validate_certs }}"
+    headers:
+      Authorization: "Bearer {{ lookup('env', fortigate_token_env_name) }}"
+      Accept: application/json
+    return_content: true
+    status_code:
+      - 200
+  register: fortigate_static_routes
+  changed_when: false
+  no_log: true
+
+- name: Save FortiGate read-only validation evidence
+  ansible.builtin.copy:
+    dest: "{{ a1_evidence_dir }}/a1-fortigate-readonly-validation.txt"
+    mode: '0600'
+    content: |
+      A1 FortiGate Read-Only Validation
+      =================================
+
+      Purpose:
+      Validate FortiGate API access, policy visibility, and route visibility from vm-dev-mgmt-01.
+
+      Device:
+      - Inventory name: {{ inventory_hostname }}
+      - Management IP: {{ ansible_host }}
+      - Expected hostname: {{ fortigate_name | default('not specified') }}
+      - VDOM: {{ fortigate_vdom | default('root') }}
+
+      Secret handling:
+      - API user: ansible-o1-svc
+      - Token source: Azure Key Vault secret p5-fortigate-api-token
+      - Runtime variable: FORTIOS_ACCESS_TOKEN
+      - Token value is not written to this file.
+
+      Result:
+      - System status HTTP status: {{ fortigate_system_status.status }}
+      - Firewall policy API HTTP status: {{ fortigate_firewall_policies.status }}
+      - Static route API HTTP status: {{ fortigate_static_routes.status }}
+
+      --- system status sanitized summary ---
+      {{ fortigate_system_status.json | to_nice_json }}
+
+      --- firewall policy payload sanitized by API scope ---
+      {{ fortigate_firewall_policies.json | to_nice_json }}
+
+      --- static route payload sanitized by API scope ---
+      {{ fortigate_static_routes.json | to_nice_json }}
+  delegate_to: localhost
+  changed_when: false

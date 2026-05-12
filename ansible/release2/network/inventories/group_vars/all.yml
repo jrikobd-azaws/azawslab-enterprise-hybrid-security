@@ -1,0 +1,8 @@
+---
+a1_evidence_dir: "{{ lookup('env', 'HOME') }}/azawslab-o3b-ansible/evidence/a1-ansible-network-baseline"
+a1_backup_dir: "{{ lookup('env', 'HOME') }}/azawslab-o3b-ansible/backups/sanitized"
+
+a1_no_secret_notice: >-
+  Secrets are loaded from Azure Key Vault or AWS SSM at runtime into environment
+  variables only. Secret values, private keys, PSKs, and raw running-config
+  backups must not be committed to Git.

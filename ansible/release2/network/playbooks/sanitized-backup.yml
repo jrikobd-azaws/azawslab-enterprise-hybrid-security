@@ -1,0 +1,20 @@
+---
+- name: A1 FortiGate sanitized backup
+  hosts: fortigate_firewalls
+  gather_facts: false
+  connection: local
+  roles:
+    - fortigate_backup
+
+- name: A1 VyOS sanitized backup
+  hosts: vyos_routers
+  gather_facts: false
+  roles:
+    - vyos_backup
+
+- name: A1 Cisco sanitized backup
+  hosts: cisco_routers
+  gather_facts: false
+  connection: local
+  roles:
+    - cisco_backup
