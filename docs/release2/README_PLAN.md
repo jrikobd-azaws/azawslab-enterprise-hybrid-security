@@ -1481,3 +1481,276 @@ A2 is an automation control-plane enabler for O4 and O5.
 O4 remains the private AKS modern application platform using Docker/container tooling and dual-security routing.
 
 O5 remains the AVD + FSLogix secure admin/dev workspace.
+
+---
+
+## A2/O4/O5 Integrated Platform Design
+
+### Domain Alignment
+
+```text
+On-prem / Hyper-V / HQ AD:
+  hq.azawslab.co.uk
+
+Azure / Entra:
+  entra.azawslab.co.uk
+
+AWS branch:
+  br.azawslab.co.uk
+```
+
+### Integrated Sequence
+
+```text
+A2:
+  AWX automation control plane
+
+O4:
+  Private AKS modern application platform
+
+O5:
+  Single-user AVD secure admin/dev workspace with FSLogix
+```
+
+A2, O4, and O5 are designed together because they share the same operator, tooling, identity, secret, and validation model.
+
+### A2 - AWX Automation Control Plane
+
+A2 implements AWX as the enterprise automation control plane for Release 2.
+
+Target host:
+
+```text
+vm-dev-awx-01
+```
+
+Bootstrap admin:
+
+```text
+awx-admin
+```
+
+Recommended Entra groups:
+
+```text
+azw-awx-admins
+azw-awx-operators
+azw-awx-change-approvers
+azw-awx-emergency-admins
+```
+
+A2 must include all automation tiers in one implementation package:
+
+```text
+Tier 1 - Read-only validation
+  Operator-run validation jobs.
+  Expected changed=0.
+
+Tier 2 - Sanitized backup
+  Operator/senior-operator jobs.
+  No device configuration changes.
+  Produces sanitized evidence.
+
+Tier 3 - Preflight / dry-run
+  Senior operator/admin.
+  Shows intended changes where supported.
+
+Tier 4 - Approved write/change
+  Admin or approved operator only.
+  Requires backup, approval, apply, post-check, and evidence.
+
+Tier 5 - Rollback/emergency
+  Admin only.
+  Requires strong evidence.
+  Requires explicit rollback reason.
+  Captures before/after state.
+```
+
+A2 workflow model:
+
+```text
+AWX Controlled Change Workflow
+
+1. Precheck validation
+   |
+   v
+2. Sanitized pre-change backup
+   |
+   v
+3. Manual approval
+   |
+   v
+4. Apply approved change
+   |
+   v
+5. Post-change validation
+   |
+   v
+6. Evidence capture
+   |
+   v
+7. Optional rollback/emergency workflow
+      |
+      +--> rollback approval
+      +--> rollback execution
+      +--> post-rollback validation
+      +--> rollback evidence
+```
+
+Secret model:
+
+```text
+Azure Key Vault:
+  p5-fortigate-api-token
+  p5-fortigate-api-token-config
+  o3b-vyos-ansible-password
+  a2-awx-admin-password
+  a2-awx-secret-key
+  a2-awx-postgres-password
+
+AWS SSM:
+  /azawslab/release2/o3b/cisco-restconf-password
+```
+
+FortiGate token split:
+
+```text
+Read token:
+  user: ansible-o1-svc
+  secret: p5-fortigate-api-token
+  purpose: read-only validation and snapshot
+
+Write token:
+  user: ansible-a2-config-svc
+  secret: p5-fortigate-api-token-config
+  purpose: approved AWX write/change workflows only
+```
+
+### O4 - Private AKS Modern Application Platform
+
+O4 builds the private modern application platform.
+
+Target:
+
+```text
+Private AKS cluster
+  + ACR
+  + Workload Identity
+  + OIDC issuer
+  + Key Vault CSI Driver
+  + internal/private ingress
+  + sample NGINX or .NET container app
+```
+
+Recommended Entra groups:
+
+```text
+azw-aks-platform-admins
+azw-aks-app-operators
+azw-aks-readers
+```
+
+Routing model:
+
+```text
+Cloud-native egress:
+  Azure Firewall
+
+Hybrid/private inspection:
+  FortiGate only where the route path, policy counters, or logs prove traversal
+```
+
+Ingress model:
+
+```text
+First implementation:
+  internal NGINX ingress
+
+Optional later enhancement:
+  internal AGIC / Application Gateway
+```
+
+O4 must not claim public exposure. First validation remains private.
+
+### O5 - AVD + FSLogix Secure Admin/Dev Workspace
+
+O5 provides the secure engineering workspace for platform/admin operations.
+
+Recommended model:
+
+```text
+Single-user admin/dev workspace
+  not pooled multi-user
+```
+
+Recommended Entra groups:
+
+```text
+azw-avd-admins
+azw-avd-users
+azw-avd-platform-engineers
+```
+
+O5 tooling baseline:
+
+```text
+Core:
+  PowerShell 7
+  Azure CLI
+  Git
+  VS Code
+  Windows Terminal
+
+Terraform / IaC:
+  Terraform
+  tflint where useful
+  Checkov or tfsec if included later
+
+Containers / AKS:
+  Docker CLI or approved container tooling
+  kubectl
+  Helm
+  kubelogin
+
+Automation:
+  Python 3
+  Ansible if required
+  jq/yq equivalents
+  curl
+  OpenSSH client
+
+AWS / hybrid support:
+  AWS CLI
+  Roles Anywhere helper if needed
+  FortiGate/VyOS/Cisco validation helpers
+```
+
+O5 relationship to A2 and O4:
+
+```text
+[Engineer]
+    |
+    v
+[O5 AVD single-user admin/dev workspace]
+    |
+    +-- Azure CLI / Terraform / kubectl / Helm / Git / VS Code / Docker CLI
+    |
+    v
+[A2 AWX vm-dev-awx-01]
+    |
+    +-- GitHub project sync
+    +-- Key Vault secrets
+    +-- AWS SSM secrets
+    +-- A1/A2/O4/O5 job workflows
+    |
+    v
+[O4 Private AKS Platform]
+```
+
+### Implementation Rule
+
+A2/O4/O5 implementation must not start until this integrated design is committed and reviewed.
+
+Terraform changes must explain root/module/variable/wiring with a text diagram before code.
+
+Ansible/AWX changes must explain inventory/group_vars/playbook/role/runtime-secret/job-template flow before code.

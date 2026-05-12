@@ -1,9 +1,9 @@
-﻿# Release 2 Naming Conventions
+# Release 2 Naming Conventions
 
-**Version:** 5.0  
-**Last Updated:** [Current Date]  
-**Aligns with:** `README_PLAN.md`  
-**Applies to:** All Release 2 phases (`P0â€“P9c`, `O1â€“O5`)  
+**Version:** 5.0
+**Last Updated:** [Current Date]
+**Aligns with:** `README_PLAN.md`
+**Applies to:** All Release 2 phases (`P0â€“P9c`, `O1â€“O5`)
 **Related Docs:** [Architecture Decision Records](./architechture.md), [Master Plan](./README_PLAN.md), [Implementation Tracker](./implementation-tracker.md), [Phase Guide](./Phases-with-steps.md)
 
 ---
@@ -625,3 +625,65 @@ Recommended O5 names:
 - Azure Files private endpoint: `pe-stdevavdfsne01-file`
 - AVD route table: `rt-avd-to-hub-norwayeast`
 
+---
+
+## Release 2 A2/O4/O5 Naming Addendum
+
+### Domains
+
+```text
+HQ / on-prem:
+  hq.azawslab.co.uk
+
+Azure / Entra:
+  entra.azawslab.co.uk
+
+AWS branch:
+  br.azawslab.co.uk
+```
+
+### A2 AWX
+
+```text
+VM:
+  vm-dev-awx-01
+
+Bootstrap admin:
+  awx-admin
+
+Entra groups:
+  azw-awx-admins
+  azw-awx-operators
+  azw-awx-change-approvers
+  azw-awx-emergency-admins
+```
+
+### O4 AKS
+
+```text
+Entra groups:
+  azw-aks-platform-admins
+  azw-aks-app-operators
+  azw-aks-readers
+```
+
+### O5 AVD
+
+```text
+Entra groups:
+  azw-avd-admins
+  azw-avd-users
+  azw-avd-platform-engineers
+```
+
+### FortiGate API Tokens
+
+```text
+Read-only:
+  user: ansible-o1-svc
+  Key Vault secret: p5-fortigate-api-token
+
+Approved write:
+  user: ansible-a2-config-svc
+  Key Vault secret: p5-fortigate-api-token-config
+```
