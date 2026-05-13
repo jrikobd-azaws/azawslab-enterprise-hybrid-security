@@ -1,7 +1,14 @@
 ---
 - name: Resolve FortiGate API token from variable or environment fallback
   ansible.builtin.set_fact:
-    fortigate_effective_api_token: "{{ fortigate_api_token | default(lookup('ansible.builtin.env', fortigate_token_env_name | default('')), true) }}"
+    fortigate_effective_api_token: >-
+      {{
+        fortigate_api_token
+        | default(
+            lookup('ansible.builtin.env', fortigate_token_env_name | default('__A2_UNSET_FORTIGATE_TOKEN__')),
+            true
+          )
+      }}
   no_log: true
 - name: Assert FortiGate API token is loaded from Azure Key Vault runtime environment
   ansible.builtin.assert:
