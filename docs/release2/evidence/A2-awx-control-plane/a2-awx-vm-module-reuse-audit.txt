@@ -1,0 +1,324 @@
+A2 AWX VM Module Reuse Audit
+=============================
+
+Purpose:
+Review whether vm-dev-awx-01 can reuse the existing VM/compute module and platform-management pattern before Terraform code is changed.
+
+Required AWX alignment:
+- Ubuntu OS, same as management-host pattern where possible
+- Same approved VM SKU policy, expected Standard_B2als_v2 unless current management host proves otherwise
+- Same mandatory tag model
+- Same management network/subnet pattern as vm-dev-mgmt-01
+- No accidental public exposure
+- Root/state: terraform/platform-management/dev / platform-management-dev.tfstate
+
+## Git status
+?? .tmp/
+?? ansible/release2/playbooks/windows-allow-hq-icmp.yml
+?? ansible/release2/playbooks/windows-iis-firewall-fix.yml
+?? bedrock-payload.json
+?? docs/release2/evidence/A1-ansible-network-baseline/post-merge/
+?? docs/release2/evidence/A2-awx-control-plane/
+?? docs/release2/evidence/O2/o2-mem1-arc-azure-validation-raw.json
+?? docs/release2/evidence/O2/o2-mem1-arc-connect-remoted.txt
+?? docs/release2/evidence/O2/o2-mem1-arc-connect.txt
+?? docs/release2/evidence/O2/o2-mem1-secure-psremoting-enable.txt
+?? docs/release2/evidence/O3b/o3b-aws-cisco-name-tag-validation.txt
+?? docs/release2/evidence/O3b/o3b-aws-route-table-segmentation-validation.txt
+?? docs/release2/evidence/O3b/o3b-azure-vpngw-bgp-transit-preflight-validation.txt
+?? docs/release2/evidence/O3b/o3b-cisco-ansible-network-cli-transport-delta.txt
+?? docs/release2/evidence/O3b/o3b-cisco-ansible-openssh-readonly-validation.txt
+?? docs/release2/evidence/O3b/o3b-management-host-network-reachability.txt
+?? docs/release2/evidence/O3c/o3c-aws-route-table-segmentation-post-sg-validation.txt
+?? docs/release2/evidence/O3c/o3c-aws-trusted-private-sg-ssm-validation.txt
+?? docs/release2/evidence/P2b/p2b-ansible-common-role-idempotency-validation.txt
+?? docs/release2/evidence/P2b/p2b-linux-hostname-web-precheck.txt
+?? terraform/aws-branch/dev/o3b-cisco-dual-mgmt-source-preflight.txt
+?? terraform/aws-branch/dev/o3b-cisco-name-preflight.txt
+?? terraform/aws-branch/dev/o3b-cisco-restconf-https-sg-preflight.txt
+?? terraform/aws-branch/dev/o3b-rolesanywhere-ssm-reader-preflight.txt
+?? terraform/aws-branch/dev/o3c-trusted-private-validation-sg-preflight.txt
+?? terraform/platform-networking/dev/o3b-bgp-platform-preflight.txt
+?? terraform/platform-networking/dev/o3b-cisco-bgp-loopback-preflight.txt
+?? terraform/platform-networking/dev/o3b-vyos-apipa-bgp-preflight.txt
+
+## Terraform module tree
+terraform\modules\aws-branch\cisco.tf (5840 bytes)
+terraform\modules\aws-branch\cisco-outputs.tf (1242 bytes)
+terraform\modules\aws-branch\cisco-variables.tf (1276 bytes)
+terraform\modules\aws-branch\main.tf (8991 bytes)
+terraform\modules\aws-branch\outputs.tf (999 bytes)
+terraform\modules\aws-branch\rolesanywhere.tf (2546 bytes)
+terraform\modules\aws-branch\rolesanywhere-outputs.tf (600 bytes)
+terraform\modules\aws-branch\rolesanywhere-variables.tf (1231 bytes)
+terraform\modules\aws-branch\ssm-outputs.tf (447 bytes)
+terraform\modules\aws-branch\ssm-parameters.tf (2290 bytes)
+terraform\modules\aws-branch\ssm-variables.tf (1566 bytes)
+terraform\modules\aws-branch\variables.tf (2903 bytes)
+terraform\modules\compute\main.tf (1291 bytes)
+terraform\modules\compute\variables.tf (432 bytes)
+terraform\modules\hub-spoke-networking\main.tf (8449 bytes)
+terraform\modules\hub-spoke-networking\outputs.tf (1650 bytes)
+terraform\modules\hub-spoke-networking\variables.tf (4350 bytes)
+terraform\modules\monitoring\main.tf (3681 bytes)
+terraform\modules\monitoring\outputs.tf (903 bytes)
+terraform\modules\monitoring\variables.tf (2558 bytes)
+terraform\modules\networking\main.tf (2202 bytes)
+terraform\modules\networking\main.tf.p2b-pre-mgmt-backup (712 bytes)
+terraform\modules\networking\outputs.tf (372 bytes)
+terraform\modules\networking\variables.tf (510 bytes)
+terraform\modules\security\main.tf (4440 bytes)
+terraform\modules\security\outputs.tf (1364 bytes)
+terraform\modules\security\variables.tf (2335 bytes)
+
+## Platform-management root tree
+terraform\platform-management\dev\.terraform.lock.hcl (1207 bytes)
+terraform\platform-management\dev\.terraform\providers\registry.terraform.io\hashicorp\azurerm\4.71.0\windows_amd64\LICENSE.txt (16761 bytes)
+terraform\platform-management\dev\.terraform\providers\registry.terraform.io\hashicorp\azurerm\4.71.0\windows_amd64\terraform-provider-azurerm_v4.71.0_x5.exe (244671112 bytes)
+terraform\platform-management\dev\.terraform\terraform.tfstate (1177 bytes)
+terraform\platform-management\dev\main.tf (2375 bytes)
+terraform\platform-management\dev\outputs.tf (379 bytes)
+terraform\platform-management\dev\providers.tf (449 bytes)
+terraform\platform-management\dev\README.txt (997 bytes)
+terraform\platform-management\dev\variables.tf (141 bytes)
+
+## Compute/module variable markers
+
+----- terraform\modules\aws-branch\cisco.tf -----
+L38:   tags = merge(var.common_tags, {
+L83:   tags = merge(var.common_tags, {
+L112:   tags = merge(var.common_tags, {
+L121:   subnet_id         = aws_subnet.mgmt[0].id
+L125:   tags = merge(var.common_tags, {
+L134:   subnet_id         = aws_subnet.untrusted[0].id
+L138:   tags = merge(var.common_tags, {
+L147:   subnet_id         = aws_subnet.trusted[0].id
+L151:   tags = merge(var.common_tags, {
+L162:   tags = merge(var.common_tags, {
+L173:   tags = merge(var.common_tags, {
+L215:   tags = merge(var.common_tags, {
+
+----- terraform\modules\aws-branch\main.tf -----
+L7:   owners      = ["amazon"]
+L56:   tags = merge(var.common_tags, {
+L66:   tags = merge(var.common_tags, {
+L79:   tags = merge(var.common_tags, {
+L92:   tags = merge(var.common_tags, {
+L105:   tags = merge(var.common_tags, {
+L118:   tags = merge(var.common_tags, {
+L133:   tags = merge(var.common_tags, {
+L166:   tags = merge(var.common_tags, {
+L181:   tags = merge(var.common_tags, {
+L196:   tags = merge(var.common_tags, {
+L204:   subnet_id      = aws_subnet.mgmt[0].id
+L211:   subnet_id      = aws_subnet.trusted[0].id
+L218:   subnet_id      = aws_subnet.dmz[0].id
+L225:   subnet_id      = aws_subnet.untrusted[0].id
+L260:   tags = merge(var.common_tags, {
+L303:   tags = merge(var.common_tags, {
+L314:   subnet_id     = aws_subnet.trusted[0].id
+L322:   tags = merge(var.common_tags, {
+L336:   subnet_id                   = aws_subnet.dmz[0].id
+L341:   tags = merge(var.common_tags, {
+
+----- terraform\modules\aws-branch\rolesanywhere.tf -----
+L15:   tags = merge(var.common_tags, {
+L39:           "sts:TagSession",
+L40:           "sts:SetSourceIdentity"
+L51:   tags = merge(var.common_tags, {
+L89:   tags = merge(var.common_tags, {
+
+----- terraform\modules\aws-branch\rolesanywhere-variables.tf -----
+L27:   description = "IAM role name assumed by vm-dev-mgmt-01 through IAM Roles Anywhere."
+
+----- terraform\modules\aws-branch\ssm-parameters.tf -----
+L41:   tags = merge(var.common_tags, {
+
+----- terraform\modules\aws-branch\variables.tf -----
+L32:   description = "Canonical AWS branch VPC name."
+L106: variable "common_tags" {
+L107:   description = "Common AWS tags."
+
+----- terraform\modules\compute\main.tf -----
+L5: resource "azurerm_network_interface" "vm" {
+L9:   tags                = var.tags
+L13:     subnet_id                     = var.subnet_id
+L22:   size                 = "Standard_B2als_v2"
+L23:   admin_username       = var.admin_username
+L26:   network_interface_ids = [
+L27:     azurerm_network_interface.vm.id
+L35:   source_image_reference {
+L42:   tags = var.tags
+
+----- terraform\modules\compute\variables.tf -----
+L13: variable "subnet_id" {
+L17: variable "admin_username" {
+L25: variable "tags" {
+
+----- terraform\modules\hub-spoke-networking\main.tf -----
+L4:   tags     = var.tags
+L12:   tags                = var.tags
+L66:   tags                = var.tags
+L70:   subnet_id      = var.workload_subnet_id
+L95:   tags                = var.tags
+L112:   subnet_id      = azurerm_subnet.gateway.id
+L127:   tags                = var.tags
+L137:   tags                = var.tags
+L149:   tags                = var.tags
+L153:     subnet_id            = azurerm_subnet.firewall.id
+L237:   tags                = var.tags
+L247:   tags                = var.tags
+L251:     subnet_id            = azurerm_subnet.bastion.id
+
+----- terraform\modules\hub-spoke-networking\outputs.tf -----
+L13: output "bastion_subnet_id" {
+L17: output "firewall_subnet_id" {
+L21: output "gateway_subnet_id" {
+
+----- terraform\modules\hub-spoke-networking\variables.tf -----
+L41: variable "workload_subnet_id" {
+L57: variable "tags" {
+
+----- terraform\modules\monitoring\main.tf -----
+L8:   tags     = var.tags
+L19:   tags                = var.tags
+L93:   tags                = var.tags
+L113:   tags                = var.tags
+
+----- terraform\modules\monitoring\variables.tf -----
+L46: variable "tags" {
+L47:   description = "Tags applied to monitoring resources."
+
+----- terraform\modules\networking\main.tf -----
+L4:   tags     = var.tags
+L12:   tags                = var.tags
+L21:   tags                = var.tags
+L55:   subnet_id                 = azurerm_subnet.management[0].id
+
+----- terraform\modules\networking\outputs.tf -----
+L5: output "workload_subnet_id" {
+L13: output "management_subnet_id" {
+
+----- terraform\modules\networking\variables.tf -----
+L35: variable "tags" {
+
+----- terraform\modules\security\main.tf -----
+L11:   tags = {
+L12:     Environment      = "Development"
+L13:     Project          = "Azawslab-Release2"
+L14:     Owner            = "admin-lab"
+L15:     CostCenter       = "Lab-123"
+L27:   tags = {
+L28:     Environment      = "Development"
+L29:     Project          = "Azawslab-Release2"
+L30:     Owner            = "admin-lab"
+L31:     CostCenter       = "Lab-123"
+L81:   tags = {
+L82:     Environment      = "Development"
+L83:     Project          = "Azawslab-Release2"
+L84:     Owner            = "admin-lab"
+L85:     CostCenter       = "Lab-123"
+L101:   tags = {
+L102:     Environment      = "Development"
+L103:     Project          = "Azawslab-Release2"
+L104:     Owner            = "admin-lab"
+L105:     CostCenter       = "Lab-123"
+L118:   subnet_id           = var.key_vault_private_endpoint_subnet_id
+L132:   tags = {
+L133:     Environment      = "Development"
+L134:     Project          = "Azawslab-Release2"
+L135:     Owner            = "admin-lab"
+L136:     CostCenter       = "Lab-123"
+
+----- terraform\modules\security\variables.tf -----
+L63: variable "key_vault_private_endpoint_subnet_id" {
+
+----- terraform\platform-management\dev\main.tf -----
+L2:   name                 = "snet-mgmt"
+L8:   common_tags = {
+L9:     Environment      = "Development"
+L10:     Project          = "Azawslab-Release2"
+L11:     Owner            = "HASHIBUR RAHMAN"
+L12:     CostCenter       = "Lab-123"
+L21:   tags = local.common_tags
+L25:   name                = "pip-vm-dev-mgmt-01-norwayeast-01"
+L31:   tags = local.common_tags
+L34: resource "azurerm_network_interface" "management" {
+L35:   name                = "nic-vm-dev-mgmt-01-01"
+L41:     subnet_id                     = data.azurerm_subnet.management.id
+L46:   tags = local.common_tags
+L49: resource "azurerm_linux_virtual_machine" "management" {
+L50:   name                            = "vm-dev-mgmt-01"
+L53:   size                            = "Standard_B2als_v2"
+L54:   admin_username                  = "azureuser"
+L55:   disable_password_authentication = true
+L57:   network_interface_ids = [
+L58:     azurerm_network_interface.management.id
+L71:   source_image_reference {
+L72:     publisher = "Canonical"
+L73:     offer     = "0001-com-ubuntu-server-jammy"
+L78:   tags = local.common_tags
+
+----- terraform\platform-management\dev\outputs.tf -----
+L6:   value = azurerm_linux_virtual_machine.management.name
+L10:   value = azurerm_network_interface.management.private_ip_address
+
+----- terraform\workloads\dev\main.tf -----
+L21:   management_subnet_name     = "snet-mgmt"
+L24:   tags = {
+L25:     Environment      = "Development"
+L26:     Project          = "Azawslab-Release2"
+L27:     Owner            = "HASHIBUR RAHMAN"
+L28:     CostCenter       = "Lab-123"
+L39:   subnet_id           = module.networking.workload_subnet_id
+L40:   admin_username      = "azureuser"
+L43:   tags = {
+L44:     Environment      = "Development"
+L45:     Project          = "Azawslab-Release2"
+L46:     Owner            = "HASHIBUR RAHMAN"
+L47:     CostCenter       = "Lab-123"
+
+## Workflow markers
+.github\workflows\release2-aws-branch-apply.yml:L1: name: Release 2 AWS Branch Terraform Apply
+.github\workflows\release2-aws-branch-apply.yml:L26:       confirm_apply:
+.github\workflows\release2-aws-branch-apply.yml:L27:         description: "Set to true to apply the reviewed Terraform plan"
+.github\workflows\release2-aws-branch-apply.yml:L41:     name: Terraform apply (aws-branch-dev)
+.github\workflows\release2-aws-branch-apply.yml:L71:       - name: Terraform plan
+.github\workflows\release2-aws-branch-apply.yml:L73:           terraform plan \
+.github\workflows\release2-aws-branch-apply.yml:L82:       - name: Terraform apply
+.github\workflows\release2-aws-branch-apply.yml:L83:         if: ${{ github.event.inputs.confirm_apply == 'true' }}
+.github\workflows\release2-aws-branch-apply.yml:L84:         run: terraform apply -input=false -auto-approve tfplan
+.github\workflows\release2-aws-branch-apply.yml:L87:         if: ${{ github.event.inputs.confirm_apply != 'true' }}
+.github\workflows\release2-aws-branch-apply.yml:L88:         run: echo "Terraform apply skipped because confirm_apply was not true."
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L14:       confirm_apply:
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L15:         description: "Set to true to apply the reviewed Terraform plan"
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L140:       - name: Terraform plan - platform networking hybrid
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L144:           terraform plan \
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L148:       - name: Terraform apply - platform networking hybrid
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L149:         if: ${{ github.event.inputs.confirm_apply == 'true' }}
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L150:         run: terraform apply -auto-approve tfplan
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L153:         if: ${{ github.event.inputs.confirm_apply != 'true' }}
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L155:           echo "Apply skipped because confirm_apply was not true."
+.github\workflows\release2-platform-networking-hybrid-apply.yml:L156:           echo "Review the Terraform plan output, then rerun with confirm_apply=true when ready."
+.github\workflows\release2-platform-shared-apply.yml:L13:       confirm_apply:
+.github\workflows\release2-platform-shared-apply.yml:L14:         description: "Set to true to apply the reviewed Terraform plan"
+.github\workflows\release2-platform-shared-apply.yml:L83:       - name: Terraform plan - platform shared
+.github\workflows\release2-platform-shared-apply.yml:L87:           terraform plan \
+.github\workflows\release2-platform-shared-apply.yml:L91:       - name: Terraform apply - platform shared
+.github\workflows\release2-platform-shared-apply.yml:L92:         if: ${{ github.event.inputs.confirm_apply == 'true' }}
+.github\workflows\release2-platform-shared-apply.yml:L93:         run: terraform apply -auto-approve tfplan
+.github\workflows\release2-platform-shared-apply.yml:L96:         if: ${{ github.event.inputs.confirm_apply != 'true' }}
+.github\workflows\release2-platform-shared-apply.yml:L98:           echo "Apply skipped because confirm_apply was not true."
+.github\workflows\release2-platform-shared-apply.yml:L99:           echo "Review the Terraform plan output, then rerun with confirm_apply=true when ready."
+.github\workflows\release2-terraform-apply.yml:L1: name: Release 2 Terraform Apply
+.github\workflows\release2-terraform-apply.yml:L12:     name: Terraform apply (${{ matrix.root_name }})
+.github\workflows\release2-terraform-apply.yml:L27:           - root_name: platform-management-dev
+.github\workflows\release2-terraform-apply.yml:L28:             working_directory: terraform/platform-management/dev
+.github\workflows\release2-terraform-apply.yml:L63:       - name: Terraform plan
+.github\workflows\release2-terraform-apply.yml:L64:         run: terraform plan -no-color -input=false -out=tfplan
+.github\workflows\release2-terraform-apply.yml:L66:       - name: Terraform apply
+.github\workflows\release2-terraform-apply.yml:L67:         run: terraform apply -input=false -auto-approve tfplan
+.github\workflows\release2-terraform-ci.yml:L35:           - root_name: platform-management-dev
+.github\workflows\release2-terraform-ci.yml:L36:             working_directory: terraform/platform-management/dev
+.github\workflows\release2-terraform-ci.yml:L85:       - name: Terraform plan
+.github\workflows\release2-terraform-ci.yml:L86:         run: terraform plan -no-color -input=false

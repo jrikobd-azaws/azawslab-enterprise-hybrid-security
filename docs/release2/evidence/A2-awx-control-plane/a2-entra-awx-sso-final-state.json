@@ -1,0 +1,541 @@
+﻿{
+    "captured_utc":  "2026-05-13T15:17:26Z",
+    "sso_app":  {
+                    "@odata.context":  "https://graph.microsoft.com/v1.0/$metadata#applications/$entity",
+                    "addIns":  [
+
+                               ],
+                    "api":  {
+                                "acceptMappedClaims":  null,
+                                "knownClientApplications":  [
+
+                                                            ],
+                                "oauth2PermissionScopes":  [
+
+                                                           ],
+                                "preAuthorizedApplications":  [
+
+                                                              ],
+                                "requestedAccessTokenVersion":  null
+                            },
+                    "appId":  "243989ca-5c11-44ca-a6da-9ce1dd9b659b",
+                    "appRoles":  [
+
+                                 ],
+                    "applicationTemplateId":  null,
+                    "certification":  null,
+                    "createdByAppId":  "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+                    "createdDateTime":  "2026-05-13T13:54:54Z",
+                    "defaultRedirectUri":  null,
+                    "deletedDateTime":  null,
+                    "description":  null,
+                    "disabledByMicrosoftStatus":  null,
+                    "displayName":  "app-a2-awx-sso",
+                    "groupMembershipClaims":  null,
+                    "id":  "bfecf03f-f863-4947-be91-18ffc03e0e57",
+                    "identifierUris":  [
+
+                                       ],
+                    "info":  {
+                                 "logoUrl":  null,
+                                 "marketingUrl":  null,
+                                 "privacyStatementUrl":  null,
+                                 "supportUrl":  null,
+                                 "termsOfServiceUrl":  null
+                             },
+                    "isDeviceOnlyAuthSupported":  null,
+                    "isDisabled":  null,
+                    "isFallbackPublicClient":  null,
+                    "keyCredentials":  [
+
+                                       ],
+                    "nativeAuthenticationApisEnabled":  null,
+                    "notes":  null,
+                    "optionalClaims":  null,
+                    "parentalControlSettings":  {
+                                                    "countriesBlockedForMinors":  [
+
+                                                                                  ],
+                                                    "legalAgeGroupRule":  "Allow"
+                                                },
+                    "passwordCredentials":  [
+                                                {
+                                                    "customKeyIdentifier":  null,
+                                                    "displayName":  "a2-awx-sso-client-secret",
+                                                    "endDateTime":  "2027-05-13T13:55:13Z",
+                                                    "hint":  "w~P",
+                                                    "keyId":  "e84d3edd-b055-4a65-8e49-51a2e62e2c4b",
+                                                    "secretText":  null,
+                                                    "startDateTime":  "2026-05-13T13:55:13Z"
+                                                }
+                                            ],
+                    "publicClient":  {
+                                         "redirectUris":  [
+
+                                                          ]
+                                     },
+                    "publisherDomain":  "entra.azawslab.co.uk",
+                    "requestSignatureVerification":  null,
+                    "requiredResourceAccess":  [
+                                                   {
+                                                       "resourceAccess":  [
+                                                                              {
+                                                                                  "id":  "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+                                                                                  "type":  "Scope"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+                                                                                  "type":  "Scope"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+                                                                                  "type":  "Scope"
+                                                                              }
+                                                                          ],
+                                                       "resourceAppId":  "00000003-0000-0000-c000-000000000000"
+                                                   },
+                                                   {
+                                                       "resourceAccess":  [
+                                                                              {
+                                                                                  "id":  "311a71cc-e848-46a1-bdf8-97ff7156d8e6",
+                                                                                  "type":  "Scope"
+                                                                              }
+                                                                          ],
+                                                       "resourceAppId":  "00000002-0000-0000-c000-000000000000"
+                                                   }
+                                               ],
+                    "samlMetadataUrl":  null,
+                    "serviceManagementReference":  null,
+                    "servicePrincipalLockConfiguration":  null,
+                    "signInAudience":  "AzureADMyOrg",
+                    "spa":  {
+                                "redirectUris":  [
+
+                                                 ]
+                            },
+                    "tags":  [
+
+                             ],
+                    "tokenEncryptionKeyId":  null,
+                    "uniqueName":  null,
+                    "verifiedPublisher":  {
+                                              "addedDateTime":  null,
+                                              "displayName":  null,
+                                              "verifiedPublisherId":  null
+                                          },
+                    "web":  {
+                                "homePageUrl":  null,
+                                "implicitGrantSettings":  {
+                                                              "enableAccessTokenIssuance":  false,
+                                                              "enableIdTokenIssuance":  false
+                                                          },
+                                "logoutUrl":  null,
+                                "redirectUriSettings":  [
+                                                            {
+                                                                "index":  null,
+                                                                "uri":  "http://127.0.0.1:8080/sso/complete/azuread-oauth2/"
+                                                            }
+                                                        ],
+                                "redirectUris":  [
+                                                     "http://127.0.0.1:8080/sso/complete/azuread-oauth2/"
+                                                 ]
+                            }
+                },
+    "sso_service_principal":  {
+                                  "@odata.context":  "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+                                  "accountEnabled":  true,
+                                  "addIns":  [
+
+                                             ],
+                                  "alternativeNames":  [
+
+                                                       ],
+                                  "appDescription":  null,
+                                  "appDisplayName":  "app-a2-awx-sso",
+                                  "appId":  "243989ca-5c11-44ca-a6da-9ce1dd9b659b",
+                                  "appOwnerOrganizationId":  "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+                                  "appRoleAssignmentRequired":  true,
+                                  "appRoles":  [
+
+                                               ],
+                                  "applicationTemplateId":  null,
+                                  "createdByAppId":  "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+                                  "createdDateTime":  "2026-05-13T13:55:04Z",
+                                  "deletedDateTime":  null,
+                                  "description":  null,
+                                  "disabledByMicrosoftStatus":  null,
+                                  "displayName":  "app-a2-awx-sso",
+                                  "homepage":  null,
+                                  "id":  "5235ec6a-c47b-48ca-b7ec-6fc133a1992b",
+                                  "info":  {
+                                               "logoUrl":  null,
+                                               "marketingUrl":  null,
+                                               "privacyStatementUrl":  null,
+                                               "supportUrl":  null,
+                                               "termsOfServiceUrl":  null
+                                           },
+                                  "isDisabled":  null,
+                                  "keyCredentials":  [
+
+                                                     ],
+                                  "loginUrl":  null,
+                                  "logoutUrl":  null,
+                                  "notes":  null,
+                                  "notificationEmailAddresses":  [
+
+                                                                 ],
+                                  "oauth2PermissionScopes":  [
+
+                                                             ],
+                                  "passwordCredentials":  [
+
+                                                          ],
+                                  "preferredSingleSignOnMode":  null,
+                                  "preferredTokenSigningKeyThumbprint":  null,
+                                  "replyUrls":  [
+                                                    "http://127.0.0.1:8080/sso/complete/azuread-oauth2/"
+                                                ],
+                                  "resourceSpecificApplicationPermissions":  [
+
+                                                                             ],
+                                  "samlSingleSignOnSettings":  null,
+                                  "servicePrincipalNames":  [
+                                                                "243989ca-5c11-44ca-a6da-9ce1dd9b659b"
+                                                            ],
+                                  "servicePrincipalType":  "Application",
+                                  "signInAudience":  "AzureADMyOrg",
+                                  "tags":  [
+
+                                           ],
+                                  "tokenEncryptionKeyId":  null,
+                                  "verifiedPublisher":  {
+                                                            "addedDateTime":  null,
+                                                            "displayName":  null,
+                                                            "verifiedPublisherId":  null
+                                                        }
+                              },
+    "awx_admin_user":  {
+                           "@odata.context":  "https://graph.microsoft.com/v1.0/$metadata#users/$entity",
+                           "businessPhones":  [
+
+                                              ],
+                           "displayName":  "AWX Admin",
+                           "givenName":  null,
+                           "id":  "30789c59-0258-48c2-ab13-c05397842390",
+                           "jobTitle":  null,
+                           "mail":  null,
+                           "mobilePhone":  null,
+                           "officeLocation":  null,
+                           "preferredLanguage":  null,
+                           "surname":  null,
+                           "userPrincipalName":  "awx-admin@entra.azawslab.co.uk"
+                       },
+    "awx_groups":  [
+                       {
+                           "@odata.context":  "https://graph.microsoft.com/v1.0/$metadata#groups/$entity",
+                           "classification":  null,
+                           "createdDateTime":  "2026-05-13T13:38:02Z",
+                           "creationOptions":  [
+
+                                               ],
+                           "deletedDateTime":  null,
+                           "description":  "Release 2 A2 AWX administrators for AWX admin and automation control-plane administration.",
+                           "displayName":  "azw-awx-admins",
+                           "expirationDateTime":  null,
+                           "groupTypes":  [
+
+                                          ],
+                           "id":  "cb32c451-e8fa-4e51-9102-7c028793fc01",
+                           "infoCatalogs":  [
+
+                                            ],
+                           "isAssignableToRole":  null,
+                           "mail":  null,
+                           "mailEnabled":  false,
+                           "mailNickname":  "azw-awx-admins",
+                           "membershipRule":  null,
+                           "membershipRuleProcessingState":  null,
+                           "onPremisesDomainName":  null,
+                           "onPremisesLastSyncDateTime":  null,
+                           "onPremisesNetBiosName":  null,
+                           "onPremisesProvisioningErrors":  [
+
+                                                            ],
+                           "onPremisesSamAccountName":  null,
+                           "onPremisesSecurityIdentifier":  null,
+                           "onPremisesSyncEnabled":  null,
+                           "preferredDataLocation":  null,
+                           "preferredLanguage":  null,
+                           "proxyAddresses":  [
+
+                                              ],
+                           "renewedDateTime":  "2026-05-13T13:38:02Z",
+                           "resourceBehaviorOptions":  [
+
+                                                       ],
+                           "resourceProvisioningOptions":  [
+
+                                                           ],
+                           "securityEnabled":  true,
+                           "securityIdentifier":  "S-1-12-1-3409101905-1313990906-41681553-33330055",
+                           "serviceProvisioningErrors":  [
+
+                                                         ],
+                           "theme":  null,
+                           "uniqueName":  null,
+                           "visibility":  null
+                       },
+                       {
+                           "@odata.context":  "https://graph.microsoft.com/v1.0/$metadata#groups/$entity",
+                           "classification":  null,
+                           "createdDateTime":  "2026-05-13T13:38:08Z",
+                           "creationOptions":  [
+
+                                               ],
+                           "deletedDateTime":  null,
+                           "description":  "Release 2 A2 AWX operators for Tier 1 read-only and Tier 2 sanitized backup execution.",
+                           "displayName":  "azw-awx-operators",
+                           "expirationDateTime":  null,
+                           "groupTypes":  [
+
+                                          ],
+                           "id":  "a8312e0a-3344-40af-ad96-a489affaca33",
+                           "infoCatalogs":  [
+
+                                            ],
+                           "isAssignableToRole":  null,
+                           "mail":  null,
+                           "mailEnabled":  false,
+                           "mailNickname":  "azw-awx-operators",
+                           "membershipRule":  null,
+                           "membershipRuleProcessingState":  null,
+                           "onPremisesDomainName":  null,
+                           "onPremisesLastSyncDateTime":  null,
+                           "onPremisesNetBiosName":  null,
+                           "onPremisesProvisioningErrors":  [
+
+                                                            ],
+                           "onPremisesSamAccountName":  null,
+                           "onPremisesSecurityIdentifier":  null,
+                           "onPremisesSyncEnabled":  null,
+                           "preferredDataLocation":  null,
+                           "preferredLanguage":  null,
+                           "proxyAddresses":  [
+
+                                              ],
+                           "renewedDateTime":  "2026-05-13T13:38:08Z",
+                           "resourceBehaviorOptions":  [
+
+                                                       ],
+                           "resourceProvisioningOptions":  [
+
+                                                           ],
+                           "securityEnabled":  true,
+                           "securityIdentifier":  "S-1-12-1-2821795338-1085223748-2309265069-868940463",
+                           "serviceProvisioningErrors":  [
+
+                                                         ],
+                           "theme":  null,
+                           "uniqueName":  null,
+                           "visibility":  null
+                       },
+                       {
+                           "@odata.context":  "https://graph.microsoft.com/v1.0/$metadata#groups/$entity",
+                           "classification":  null,
+                           "createdDateTime":  "2026-05-13T13:38:17Z",
+                           "creationOptions":  [
+
+                                               ],
+                           "deletedDateTime":  null,
+                           "description":  "Release 2 A2 AWX change approvers for Tier 3 preflight and Tier 4 approved change execution.",
+                           "displayName":  "azw-awx-change-approvers",
+                           "expirationDateTime":  null,
+                           "groupTypes":  [
+
+                                          ],
+                           "id":  "0c1993af-1970-4f97-b259-57c7ffb5d881",
+                           "infoCatalogs":  [
+
+                                            ],
+                           "isAssignableToRole":  null,
+                           "mail":  null,
+                           "mailEnabled":  false,
+                           "mailNickname":  "azw-awx-change-approvers",
+                           "membershipRule":  null,
+                           "membershipRuleProcessingState":  null,
+                           "onPremisesDomainName":  null,
+                           "onPremisesLastSyncDateTime":  null,
+                           "onPremisesNetBiosName":  null,
+                           "onPremisesProvisioningErrors":  [
+
+                                                            ],
+                           "onPremisesSamAccountName":  null,
+                           "onPremisesSecurityIdentifier":  null,
+                           "onPremisesSyncEnabled":  null,
+                           "preferredDataLocation":  null,
+                           "preferredLanguage":  null,
+                           "proxyAddresses":  [
+
+                                              ],
+                           "renewedDateTime":  "2026-05-13T13:38:17Z",
+                           "resourceBehaviorOptions":  [
+
+                                                       ],
+                           "resourceProvisioningOptions":  [
+
+                                                           ],
+                           "securityEnabled":  true,
+                           "securityIdentifier":  "S-1-12-1-203002799-1335302512-3344390578-2178463231",
+                           "serviceProvisioningErrors":  [
+
+                                                         ],
+                           "theme":  null,
+                           "uniqueName":  null,
+                           "visibility":  null
+                       },
+                       {
+                           "@odata.context":  "https://graph.microsoft.com/v1.0/$metadata#groups/$entity",
+                           "classification":  null,
+                           "createdDateTime":  "2026-05-13T13:38:25Z",
+                           "creationOptions":  [
+
+                                               ],
+                           "deletedDateTime":  null,
+                           "description":  "Release 2 A2 AWX emergency administrators for Tier 5 rollback and emergency workflows.",
+                           "displayName":  "azw-awx-emergency-admins",
+                           "expirationDateTime":  null,
+                           "groupTypes":  [
+
+                                          ],
+                           "id":  "36eb60c9-f642-41e8-b032-6dc38e19b5b1",
+                           "infoCatalogs":  [
+
+                                            ],
+                           "isAssignableToRole":  null,
+                           "mail":  null,
+                           "mailEnabled":  false,
+                           "mailNickname":  "azw-awx-emergency-admins",
+                           "membershipRule":  null,
+                           "membershipRuleProcessingState":  null,
+                           "onPremisesDomainName":  null,
+                           "onPremisesLastSyncDateTime":  null,
+                           "onPremisesNetBiosName":  null,
+                           "onPremisesProvisioningErrors":  [
+
+                                                            ],
+                           "onPremisesSamAccountName":  null,
+                           "onPremisesSecurityIdentifier":  null,
+                           "onPremisesSyncEnabled":  null,
+                           "preferredDataLocation":  null,
+                           "preferredLanguage":  null,
+                           "proxyAddresses":  [
+
+                                              ],
+                           "renewedDateTime":  "2026-05-13T13:38:25Z",
+                           "resourceBehaviorOptions":  [
+
+                                                       ],
+                           "resourceProvisioningOptions":  [
+
+                                                           ],
+                           "securityEnabled":  true,
+                           "securityIdentifier":  "S-1-12-1-921395401-1105786434-3278713520-2981435790",
+                           "serviceProvisioningErrors":  [
+
+                                                         ],
+                           "theme":  null,
+                           "uniqueName":  null,
+                           "visibility":  null
+                       }
+                   ],
+    "app_permissions":  {
+                            "value":  [
+                                          {
+                                              "resourceAccess":  [
+                                                                     {
+                                                                         "id":  "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+                                                                         "type":  "Scope"
+                                                                     },
+                                                                     {
+                                                                         "id":  "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+                                                                         "type":  "Scope"
+                                                                     },
+                                                                     {
+                                                                         "id":  "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+                                                                         "type":  "Scope"
+                                                                     }
+                                                                 ],
+                                              "resourceAppId":  "00000003-0000-0000-c000-000000000000"
+                                          },
+                                          {
+                                              "resourceAccess":  [
+                                                                     {
+                                                                         "id":  "311a71cc-e848-46a1-bdf8-97ff7156d8e6",
+                                                                         "type":  "Scope"
+                                                                     }
+                                                                 ],
+                                              "resourceAppId":  "00000002-0000-0000-c000-000000000000"
+                                          }
+                                      ],
+                            "Count":  2
+                        },
+    "enterprise_app_assignments":  {
+                                       "@odata.context":  "https://graph.microsoft.com/v1.0/$metadata#appRoleAssignments",
+                                       "value":  [
+                                                     {
+                                                         "appRoleId":  "00000000-0000-0000-0000-000000000000",
+                                                         "createdDateTime":  "2026-05-13T14:17:48.0281496Z",
+                                                         "deletedDateTime":  null,
+                                                         "id":  "9gWAaxK70UWK0jqKroxajdKjJsFRWMVAjM-nbXTHKgI",
+                                                         "principalDisplayName":  "Admin for Lab",
+                                                         "principalId":  "6b8005f6-bb12-45d1-8ad2-3a8aae8c5a8d",
+                                                         "principalType":  "User",
+                                                         "resourceDisplayName":  "app-a2-awx-sso",
+                                                         "resourceId":  "5235ec6a-c47b-48ca-b7ec-6fc133a1992b"
+                                                     },
+                                                     {
+                                                         "appRoleId":  "00000000-0000-0000-0000-000000000000",
+                                                         "createdDateTime":  "2026-05-13T14:27:10.0369909Z",
+                                                         "deletedDateTime":  null,
+                                                         "id":  "UcQyy_roUU6RAnwCh5P8ATP_Sr6ofLdOlTTM5f0N2qg",
+                                                         "principalDisplayName":  "azw-awx-admins",
+                                                         "principalId":  "cb32c451-e8fa-4e51-9102-7c028793fc01",
+                                                         "principalType":  "Group",
+                                                         "resourceDisplayName":  "app-a2-awx-sso",
+                                                         "resourceId":  "5235ec6a-c47b-48ca-b7ec-6fc133a1992b"
+                                                     },
+                                                     {
+                                                         "appRoleId":  "00000000-0000-0000-0000-000000000000",
+                                                         "createdDateTime":  "2026-05-13T14:27:15.9241414Z",
+                                                         "deletedDateTime":  null,
+                                                         "id":  "WZx4MFgCwkirE8BTl4QjkJ77o-Z7bYtLqP-vLEMtDPw",
+                                                         "principalDisplayName":  "AWX Admin",
+                                                         "principalId":  "30789c59-0258-48c2-ab13-c05397842390",
+                                                         "principalType":  "User",
+                                                         "resourceDisplayName":  "app-a2-awx-sso",
+                                                         "resourceId":  "5235ec6a-c47b-48ca-b7ec-6fc133a1992b"
+                                                     }
+                                                 ]
+                                   },
+    "oauth2_permission_grants":  {
+                                     "@odata.context":  "https://graph.microsoft.com/v1.0/$metadata#oauth2PermissionGrants",
+                                     "value":  [
+                                                   {
+                                                       "clientId":  "5235ec6a-c47b-48ca-b7ec-6fc133a1992b",
+                                                       "consentType":  "AllPrincipals",
+                                                       "id":  "auw1UnvEyki37G_BM6GZKwygWl-odlREiJF-Egil4-0",
+                                                       "principalId":  null,
+                                                       "resourceId":  "5f5aa00c-76a8-4454-8891-7e1208a5e3ed",
+                                                       "scope":  "User.Read"
+                                                   },
+                                                   {
+                                                       "clientId":  "5235ec6a-c47b-48ca-b7ec-6fc133a1992b",
+                                                       "consentType":  "AllPrincipals",
+                                                       "id":  "auw1UnvEyki37G_BM6GZK8_QqKh8ak9GroxPO6ZmNPc",
+                                                       "principalId":  null,
+                                                       "resourceId":  "a8a8d0cf-6a7c-464f-ae8c-4f3ba66634f7",
+                                                       "scope":  "User.Read"
+                                                   }
+                                               ]
+                                 }
+}
