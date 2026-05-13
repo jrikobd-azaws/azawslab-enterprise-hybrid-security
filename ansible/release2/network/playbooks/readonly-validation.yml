@@ -1,6 +1,6 @@
 ---
 - name: A1 FortiGate read-only validation
-  hosts: fortigate_firewalls
+  hosts: fortigate_nva
   gather_facts: false
   connection: local
   roles:
