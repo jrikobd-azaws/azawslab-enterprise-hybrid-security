@@ -1,28 +1,17 @@
 ---
-- name: Resolve FortiGate API token from variable or environment fallback
-  ansible.builtin.set_fact:
-    fortigate_effective_api_token: >-
-      {{
-        fortigate_api_token
-        | default(
-            lookup('ansible.builtin.env', fortigate_token_env_name | default('__A2_UNSET_FORTIGATE_TOKEN__')),
-            true
-          )
-      }}
-  no_log: true
 - name: Assert FortiGate API token is loaded from Azure Key Vault runtime environment
   ansible.builtin.assert:
     that:
-      - fortigate_effective_api_token | length > 0
+      - lookup('env', fortigate_token_env_name) | length > 0
     fail_msg: "FORTIOS_ACCESS_TOKEN is not loaded. Source scripts/load-runtime-secrets.sh first."
 
 - name: Read FortiGate system status using bearer token
   ansible.builtin.uri:
-    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_status_endpoint }}?access_token={{ fortigate_effective_api_token | urlencode }}"
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_status_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
     method: GET
     validate_certs: "{{ fortigate_validate_certs }}"
     headers:
-      Authorization: "Bearer {{ fortigate_effective_api_token }}"
+      Authorization: "Bearer {{ lookup('env', fortigate_token_env_name) }}"
       Accept: application/json
     return_content: true
     status_code:
@@ -33,11 +22,11 @@
 
 - name: Read FortiGate firewall policies
   ansible.builtin.uri:
-    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_policy_endpoint }}?access_token={{ fortigate_effective_api_token | urlencode }}"
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_policy_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
     method: GET
     validate_certs: "{{ fortigate_validate_certs }}"
     headers:
-      Authorization: "Bearer {{ fortigate_effective_api_token }}"
+      Authorization: "Bearer {{ lookup('env', fortigate_token_env_name) }}"
       Accept: application/json
     return_content: true
     status_code:
@@ -48,11 +37,11 @@
 
 - name: Read FortiGate static routes
   ansible.builtin.uri:
-    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_static_route_endpoint }}?access_token={{ fortigate_effective_api_token | urlencode }}"
+    url: "{{ fortigate_api_scheme }}://{{ ansible_host }}:{{ fortigate_api_port }}{{ fortigate_static_route_endpoint }}?access_token={{ lookup('env', fortigate_token_env_name) | urlencode }}"
     method: GET
     validate_certs: "{{ fortigate_validate_certs }}"
     headers:
-      Authorization: "Bearer {{ fortigate_effective_api_token }}"
+      Authorization: "Bearer {{ lookup('env', fortigate_token_env_name) }}"
       Accept: application/json
     return_content: true
     status_code:
