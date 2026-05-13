@@ -1,3 +1,8 @@
+variable "enable_azure_firewall" {
+  description = "Controls whether Azure Firewall is enabled for O4 private AKS and cloud egress validation."
+  type        = bool
+  default     = false
+}
 variable "enable_o1_fortigate_service_chain" {
   description = "Controls whether O1 service-chain UDR is enabled for workload-to-HQ traffic via FortiGate."
   type        = bool

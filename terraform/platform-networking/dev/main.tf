@@ -55,7 +55,7 @@ module "hub_spoke_networking" {
   bastion_host_name                     = "bas-dev-norwayeast-01"
   bastion_public_ip_name                = "pip-bas-dev-norwayeast-01"
 
-  enable_azure_firewall         = false
+  enable_azure_firewall         = var.enable_azure_firewall
   azure_firewall_name           = "afw-dev-norwayeast-01"
   azure_firewall_public_ip_name = "pip-azfw-norwayeast-01"
   azure_firewall_policy_name    = "afwp-dev-norwayeast"
