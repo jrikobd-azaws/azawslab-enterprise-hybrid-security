@@ -128,6 +128,7 @@ resource "azurerm_monitor_data_collection_rule" "prometheus" {
   data_collection_endpoint_id = azurerm_monitor_data_collection_endpoint.prometheus[0].id
   kind                        = "Linux"
   description                 = "DCR for O4 AKS Azure Monitor managed Prometheus."
+  tags                        = var.common_tags
 
   destinations {
     monitor_account {
