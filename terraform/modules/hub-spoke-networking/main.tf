@@ -149,10 +149,8 @@ resource "azurerm_firewall" "this" {
   resource_group_name = azurerm_resource_group.connectivity.name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
-
-  dns_proxy_enabled  = true
-  firewall_policy_id = azurerm_firewall_policy.this[0].id
-  tags               = var.tags
+  firewall_policy_id  = azurerm_firewall_policy.this[0].id
+  tags                = var.tags
 
   ip_configuration {
     name                 = "configuration"
