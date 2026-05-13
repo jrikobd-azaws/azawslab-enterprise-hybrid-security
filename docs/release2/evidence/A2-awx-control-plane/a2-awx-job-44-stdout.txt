@@ -1,0 +1,86 @@
+Identity added: /runner/artifacts/44/ssh_key_data (a2-awx-dispatch-to-vm-dev-mgmt-01)
+Using /runner/project/ansible.cfg as config file
+
+PLAY [A2 dispatch approved VyOS marker write on management Ansible host] *******
+
+TASK [Assert Tier 4 launch approval variables are present] *********************
+ok: [vm_dev_mgmt_01] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [Run A2 VyOS marker write wrapper from management host] *******************
+[WARNING]: Platform linux on host vm_dev_mgmt_01 is using the discovered Python
+interpreter at /usr/bin/python3.10, but future installation of another Python
+interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [vm_dev_mgmt_01] => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3.10"}, "changed": false, "cmd": "set -euo pipefail\\nexport PATH=\\"$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH\\"\\ncd \\"/home/azureuser/azawslab-o3b-ansible\\"\\nA1_AWS_PROFILE=\\"o3b-mgmt-rolesanywhere\\" A1_AWS_REGION=\\"eu-west-1\\" A2_CHANGE_APPROVED=\\"true\\" A2_CHANGE_TICKET=\\"A2MARKER-20260513134531\\" A2_CHANGE_REASON=\\"A2 Tier 4 low-risk reversible VyOS marker validation\\" network/scripts/run-vyos-marker-write.sh\\n", "delta": "0:00:21.033474", "end": "2026-05-13 13:46:07.061957", "msg": "", "rc": 0, "start": "2026-05-13 13:45:46.028483", "stderr": "Loading FortiGate API token from Azure Key Vault: kvdevazawsne01/p5-fortigate-api-token\\nLoading VyOS Ansible password from Azure Key Vault: kvdevazawsne01/o3b-vyos-ansible-password\\nUsing AWS profile for SSM: o3b-mgmt-rolesanywhere\\nValidating AWS identity before Cisco SSM read.\\nLoading Cisco RESTCONF password from AWS SSM: /azawslab/release2/o3b/cisco-restconf-password\\nA1 runtime secrets loaded into environment variables only.\\n[WARNING]: To ensure idempotency and correct diff the input configuration lines\\nshould be similar to how they appear if present in the running configuration on\\ndevice", "stderr_lines": ["Loading FortiGate API token from Azure Key Vault: kvdevazawsne01/p5-fortigate-api-token", "Loading VyOS Ansible password from Azure Key Vault: kvdevazawsne01/o3b-vyos-ansible-password", "Using AWS profile for SSM: o3b-mgmt-rolesanywhere", "Validating AWS identity before Cisco SSM read.", "Loading Cisco RESTCONF password from AWS SSM: /azawslab/release2/o3b/cisco-restconf-password", "A1 runtime secrets loaded into environment variables only.", "[WARNING]: To ensure idempotency and correct diff the input configuration lines", "should be similar to how they appear if present in the running configuration on", "device"], "stdout": "\\nPLAY [A1 FortiGate sanitized backup] *******************************************\\nskipping: no hosts matched\\n\\nPLAY [A1 VyOS sanitized backup] ************************************************\\n\\nTASK [vyos_backup : Assert VyOS password is loaded from Azure Key Vault runtime environment] ***\\nok: [vyos01] => changed=false \\n  msg: All assertions passed\\n\\nTASK [vyos_backup : Capture VyOS configuration commands] ***********************\\nok: [vyos01]\\n\\nTASK [vyos_backup : Save sanitized VyOS configuration backup] ******************\\nok: [vyos01 -> localhost]\\n\\nPLAY [A1 Cisco sanitized backup] ***********************************************\\nskipping: no hosts matched\\n\\nPLAY RECAP *********************************************************************\\nvyos01                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   \\n\\n\\nPLAY [A2 approved low-risk VyOS marker write] **********************************\\n\\nTASK [Assert Tier 4 approval inputs are present] *******************************\\nok: [vyos01] => changed=false \\n  msg: All assertions passed\\n\\nTASK [Read current VyOS login banner marker state before write] ****************\\nok: [vyos01]\\n\\nTASK [Protect any existing non-A2 pre-login banner] ****************************\\nok: [vyos01] => changed=false \\n  msg: All assertions passed\\n\\nTASK [Apply low-risk A2 VyOS marker] *******************************************\\nchanged: [vyos01]\\n\\nTASK [Read VyOS marker after write] ********************************************\\nok: [vyos01]\\n\\nTASK [Assert A2 VyOS marker is present after write] ****************************\\nok: [vyos01] => changed=false \\n  msg: A2 VyOS marker write validated.\\n\\nTASK [Save sanitized A2 VyOS marker write evidence on management host] *********\\nok: [vyos01 -> localhost]\\n\\nPLAY RECAP *********************************************************************\\nvyos01                     : ok=7    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   \\n\\nA2 VyOS marker write complete. Runtime secrets unset.", "stdout_lines": ["", "PLAY [A1 FortiGate sanitized backup] *******************************************", "skipping: no hosts matched", "", "PLAY [A1 VyOS sanitized backup] ************************************************", "", "TASK [vyos_backup : Assert VyOS password is loaded from Azure Key Vault runtime environment] ***", "ok: [vyos01] => changed=false ", "  msg: All assertions passed", "", "TASK [vyos_backup : Capture VyOS configuration commands] ***********************", "ok: [vyos01]", "", "TASK [vyos_backup : Save sanitized VyOS configuration backup] ******************", "ok: [vyos01 -> localhost]", "", "PLAY [A1 Cisco sanitized backup] ***********************************************", "skipping: no hosts matched", "", "PLAY RECAP *********************************************************************", "vyos01                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ", "", "", "PLAY [A2 approved low-risk VyOS marker write] **********************************", "", "TASK [Assert Tier 4 approval inputs are present] *******************************", "ok: [vyos01] => changed=false ", "  msg: All assertions passed", "", "TASK [Read current VyOS login banner marker state before write] ****************", "ok: [vyos01]", "", "TASK [Protect any existing non-A2 pre-login banner] ****************************", "ok: [vyos01] => changed=false ", "  msg: All assertions passed", "", "TASK [Apply low-risk A2 VyOS marker] *******************************************", "changed: [vyos01]", "", "TASK [Read VyOS marker after write] ********************************************", "ok: [vyos01]", "", "TASK [Assert A2 VyOS marker is present after write] ****************************", "ok: [vyos01] => changed=false ", "  msg: A2 VyOS marker write validated.", "", "TASK [Save sanitized A2 VyOS marker write evidence on management host] *********", "ok: [vyos01 -> localhost]", "", "PLAY RECAP *********************************************************************", "vyos01                     : ok=7    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ", "", "A2 VyOS marker write complete. Runtime secrets unset."]}
+
+TASK [Assert A2 VyOS marker write completed successfully] **********************
+ok: [vm_dev_mgmt_01] => {
+    "changed": false,
+    "msg": "A2 VyOS marker write completed successfully from the management host."
+}
+
+TASK [Show A2 VyOS marker write output] ****************************************
+ok: [vm_dev_mgmt_01] => {
+    "a2_vyos_marker_write_dispatch.stdout_lines": [
+        "",
+        "PLAY [A1 FortiGate sanitized backup] *******************************************",
+        "skipping: no hosts matched",
+        "",
+        "PLAY [A1 VyOS sanitized backup] ************************************************",
+        "",
+        "TASK [vyos_backup : Assert VyOS password is loaded from Azure Key Vault runtime environment] ***",
+        "ok: [vyos01] => changed=false ",
+        "  msg: All assertions passed",
+        "",
+        "TASK [vyos_backup : Capture VyOS configuration commands] ***********************",
+        "ok: [vyos01]",
+        "",
+        "TASK [vyos_backup : Save sanitized VyOS configuration backup] ******************",
+        "ok: [vyos01 -> localhost]",
+        "",
+        "PLAY [A1 Cisco sanitized backup] ***********************************************",
+        "skipping: no hosts matched",
+        "",
+        "PLAY RECAP *********************************************************************",
+        "vyos01                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ",
+        "",
+        "",
+        "PLAY [A2 approved low-risk VyOS marker write] **********************************",
+        "",
+        "TASK [Assert Tier 4 approval inputs are present] *******************************",
+        "ok: [vyos01] => changed=false ",
+        "  msg: All assertions passed",
+        "",
+        "TASK [Read current VyOS login banner marker state before write] ****************",
+        "ok: [vyos01]",
+        "",
+        "TASK [Protect any existing non-A2 pre-login banner] ****************************",
+        "ok: [vyos01] => changed=false ",
+        "  msg: All assertions passed",
+        "",
+        "TASK [Apply low-risk A2 VyOS marker] *******************************************",
+        "changed: [vyos01]",
+        "",
+        "TASK [Read VyOS marker after write] ********************************************",
+        "ok: [vyos01]",
+        "",
+        "TASK [Assert A2 VyOS marker is present after write] ****************************",
+        "ok: [vyos01] => changed=false ",
+        "  msg: A2 VyOS marker write validated.",
+        "",
+        "TASK [Save sanitized A2 VyOS marker write evidence on management host] *********",
+        "ok: [vyos01 -> localhost]",
+        "",
+        "PLAY RECAP *********************************************************************",
+        "vyos01                     : ok=7    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ",
+        "",
+        "A2 VyOS marker write complete. Runtime secrets unset."
+    ]
+}
+
+PLAY RECAP *********************************************************************
+vm_dev_mgmt_01             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

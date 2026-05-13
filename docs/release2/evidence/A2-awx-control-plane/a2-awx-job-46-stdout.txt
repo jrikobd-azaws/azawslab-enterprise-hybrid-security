@@ -1,0 +1,86 @@
+Identity added: /runner/artifacts/46/ssh_key_data (a2-awx-dispatch-to-vm-dev-mgmt-01)
+Using /runner/project/ansible.cfg as config file
+
+PLAY [A2 dispatch emergency VyOS marker rollback on management Ansible host] ***
+
+TASK [Assert Tier 5 rollback variables are present] ****************************
+ok: [vm_dev_mgmt_01] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [Run A2 VyOS marker rollback wrapper from management host] ****************
+[WARNING]: Platform linux on host vm_dev_mgmt_01 is using the discovered Python
+interpreter at /usr/bin/python3.10, but future installation of another Python
+interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [vm_dev_mgmt_01] => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3.10"}, "changed": false, "cmd": "set -euo pipefail\\nexport PATH=\\"$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH\\"\\ncd \\"/home/azureuser/azawslab-o3b-ansible\\"\\nA1_AWS_PROFILE=\\"o3b-mgmt-rolesanywhere\\" A1_AWS_REGION=\\"eu-west-1\\" A2_ROLLBACK_APPROVED=\\"true\\" A2_CHANGE_TICKET=\\"A2MARKER-20260513134531\\" A2_ROLLBACK_REASON=\\"A2 Tier 5 rollback validation for the same VyOS marker\\" network/scripts/run-vyos-marker-rollback.sh\\n", "delta": "0:00:23.290006", "end": "2026-05-13 13:46:50.363518", "msg": "", "rc": 0, "start": "2026-05-13 13:46:27.073512", "stderr": "Loading FortiGate API token from Azure Key Vault: kvdevazawsne01/p5-fortigate-api-token\\nLoading VyOS Ansible password from Azure Key Vault: kvdevazawsne01/o3b-vyos-ansible-password\\nUsing AWS profile for SSM: o3b-mgmt-rolesanywhere\\nValidating AWS identity before Cisco SSM read.\\nLoading Cisco RESTCONF password from AWS SSM: /azawslab/release2/o3b/cisco-restconf-password\\nA1 runtime secrets loaded into environment variables only.\\n[WARNING]: To ensure idempotency and correct diff the input configuration lines\\nshould be similar to how they appear if present in the running configuration on\\ndevice", "stderr_lines": ["Loading FortiGate API token from Azure Key Vault: kvdevazawsne01/p5-fortigate-api-token", "Loading VyOS Ansible password from Azure Key Vault: kvdevazawsne01/o3b-vyos-ansible-password", "Using AWS profile for SSM: o3b-mgmt-rolesanywhere", "Validating AWS identity before Cisco SSM read.", "Loading Cisco RESTCONF password from AWS SSM: /azawslab/release2/o3b/cisco-restconf-password", "A1 runtime secrets loaded into environment variables only.", "[WARNING]: To ensure idempotency and correct diff the input configuration lines", "should be similar to how they appear if present in the running configuration on", "device"], "stdout": "\\nPLAY [A2 emergency rollback of VyOS marker] ************************************\\n\\nTASK [Assert Tier 5 rollback inputs are present] *******************************\\nok: [vyos01] => changed=false \\n  msg: All assertions passed\\n\\nTASK [Read current VyOS marker state before rollback] **************************\\nok: [vyos01]\\n\\nTASK [Protect any existing non-A2 pre-login banner during rollback] ************\\nok: [vyos01] => changed=false \\n  msg: All assertions passed\\n\\nTASK [Remove A2 VyOS marker if present] ****************************************\\nchanged: [vyos01]\\n\\nTASK [Read VyOS marker state after rollback] ***********************************\\nok: [vyos01]\\n\\nTASK [Assert A2 VyOS marker is absent after rollback] **************************\\nok: [vyos01] => changed=false \\n  msg: A2 VyOS marker rollback validated.\\n\\nTASK [Save sanitized A2 VyOS marker rollback evidence on management host] ******\\nok: [vyos01 -> localhost]\\n\\nPLAY RECAP *********************************************************************\\nvyos01                     : ok=7    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   \\n\\n\\nPLAY [A1 FortiGate read-only validation] ***************************************\\nskipping: no hosts matched\\n\\nPLAY [A1 VyOS read-only validation] ********************************************\\n\\nTASK [vyos_readonly : Assert VyOS password is loaded from Azure Key Vault runtime environment] ***\\nok: [vyos01] => changed=false \\n  msg: All assertions passed\\n\\nTASK [vyos_readonly : Read VyOS operational state] *****************************\\nok: [vyos01]\\n\\nTASK [vyos_readonly : Save VyOS read-only validation evidence] *****************\\nok: [vyos01 -> localhost]\\n\\nPLAY [A1 Cisco read-only validation] *******************************************\\nskipping: no hosts matched\\n\\nPLAY RECAP *********************************************************************\\nvyos01                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   \\n\\nA2 VyOS marker rollback complete. Runtime secrets unset.", "stdout_lines": ["", "PLAY [A2 emergency rollback of VyOS marker] ************************************", "", "TASK [Assert Tier 5 rollback inputs are present] *******************************", "ok: [vyos01] => changed=false ", "  msg: All assertions passed", "", "TASK [Read current VyOS marker state before rollback] **************************", "ok: [vyos01]", "", "TASK [Protect any existing non-A2 pre-login banner during rollback] ************", "ok: [vyos01] => changed=false ", "  msg: All assertions passed", "", "TASK [Remove A2 VyOS marker if present] ****************************************", "changed: [vyos01]", "", "TASK [Read VyOS marker state after rollback] ***********************************", "ok: [vyos01]", "", "TASK [Assert A2 VyOS marker is absent after rollback] **************************", "ok: [vyos01] => changed=false ", "  msg: A2 VyOS marker rollback validated.", "", "TASK [Save sanitized A2 VyOS marker rollback evidence on management host] ******", "ok: [vyos01 -> localhost]", "", "PLAY RECAP *********************************************************************", "vyos01                     : ok=7    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ", "", "", "PLAY [A1 FortiGate read-only validation] ***************************************", "skipping: no hosts matched", "", "PLAY [A1 VyOS read-only validation] ********************************************", "", "TASK [vyos_readonly : Assert VyOS password is loaded from Azure Key Vault runtime environment] ***", "ok: [vyos01] => changed=false ", "  msg: All assertions passed", "", "TASK [vyos_readonly : Read VyOS operational state] *****************************", "ok: [vyos01]", "", "TASK [vyos_readonly : Save VyOS read-only validation evidence] *****************", "ok: [vyos01 -> localhost]", "", "PLAY [A1 Cisco read-only validation] *******************************************", "skipping: no hosts matched", "", "PLAY RECAP *********************************************************************", "vyos01                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ", "", "A2 VyOS marker rollback complete. Runtime secrets unset."]}
+
+TASK [Assert A2 VyOS marker rollback completed successfully] *******************
+ok: [vm_dev_mgmt_01] => {
+    "changed": false,
+    "msg": "A2 VyOS marker rollback completed successfully from the management host."
+}
+
+TASK [Show A2 VyOS marker rollback output] *************************************
+ok: [vm_dev_mgmt_01] => {
+    "a2_vyos_marker_rollback_dispatch.stdout_lines": [
+        "",
+        "PLAY [A2 emergency rollback of VyOS marker] ************************************",
+        "",
+        "TASK [Assert Tier 5 rollback inputs are present] *******************************",
+        "ok: [vyos01] => changed=false ",
+        "  msg: All assertions passed",
+        "",
+        "TASK [Read current VyOS marker state before rollback] **************************",
+        "ok: [vyos01]",
+        "",
+        "TASK [Protect any existing non-A2 pre-login banner during rollback] ************",
+        "ok: [vyos01] => changed=false ",
+        "  msg: All assertions passed",
+        "",
+        "TASK [Remove A2 VyOS marker if present] ****************************************",
+        "changed: [vyos01]",
+        "",
+        "TASK [Read VyOS marker state after rollback] ***********************************",
+        "ok: [vyos01]",
+        "",
+        "TASK [Assert A2 VyOS marker is absent after rollback] **************************",
+        "ok: [vyos01] => changed=false ",
+        "  msg: A2 VyOS marker rollback validated.",
+        "",
+        "TASK [Save sanitized A2 VyOS marker rollback evidence on management host] ******",
+        "ok: [vyos01 -> localhost]",
+        "",
+        "PLAY RECAP *********************************************************************",
+        "vyos01                     : ok=7    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ",
+        "",
+        "",
+        "PLAY [A1 FortiGate read-only validation] ***************************************",
+        "skipping: no hosts matched",
+        "",
+        "PLAY [A1 VyOS read-only validation] ********************************************",
+        "",
+        "TASK [vyos_readonly : Assert VyOS password is loaded from Azure Key Vault runtime environment] ***",
+        "ok: [vyos01] => changed=false ",
+        "  msg: All assertions passed",
+        "",
+        "TASK [vyos_readonly : Read VyOS operational state] *****************************",
+        "ok: [vyos01]",
+        "",
+        "TASK [vyos_readonly : Save VyOS read-only validation evidence] *****************",
+        "ok: [vyos01 -> localhost]",
+        "",
+        "PLAY [A1 Cisco read-only validation] *******************************************",
+        "skipping: no hosts matched",
+        "",
+        "PLAY RECAP *********************************************************************",
+        "vyos01                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ",
+        "",
+        "A2 VyOS marker rollback complete. Runtime secrets unset."
+    ]
+}
+
+PLAY RECAP *********************************************************************
+vm_dev_mgmt_01             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

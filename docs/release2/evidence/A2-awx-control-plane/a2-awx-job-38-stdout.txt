@@ -1,0 +1,75 @@
+Identity added: /runner/artifacts/38/ssh_key_data (a2-awx-dispatch-to-vm-dev-mgmt-01)
+Using /runner/project/ansible.cfg as config file
+
+PLAY [A2 dispatch A1 sanitized backup on management Ansible host] **************
+
+TASK [Run A1 sanitized backup wrapper from management host] ********************
+[WARNING]: Platform linux on host vm_dev_mgmt_01 is using the discovered Python
+interpreter at /usr/bin/python3.10, but future installation of another Python
+interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [vm_dev_mgmt_01] => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3.10"}, "changed": false, "cmd": "set -euo pipefail\\nexport PATH=\\"$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH\\"\\ncd \\"/home/azureuser/azawslab-o3b-ansible\\"\\nA1_AWS_PROFILE=\\"o3b-mgmt-rolesanywhere\\" A1_AWS_REGION=\\"eu-west-1\\" network/scripts/run-sanitized-backup.sh\\n", "delta": "0:00:11.998954", "end": "2026-05-13 13:40:55.963930", "msg": "", "rc": 0, "start": "2026-05-13 13:40:43.964976", "stderr": "Loading FortiGate API token from Azure Key Vault: kvdevazawsne01/p5-fortigate-api-token\\nLoading VyOS Ansible password from Azure Key Vault: kvdevazawsne01/o3b-vyos-ansible-password\\nUsing AWS profile for SSM: o3b-mgmt-rolesanywhere\\nValidating AWS identity before Cisco SSM read.\\nLoading Cisco RESTCONF password from AWS SSM: /azawslab/release2/o3b/cisco-restconf-password\\nA1 runtime secrets loaded into environment variables only.", "stderr_lines": ["Loading FortiGate API token from Azure Key Vault: kvdevazawsne01/p5-fortigate-api-token", "Loading VyOS Ansible password from Azure Key Vault: kvdevazawsne01/o3b-vyos-ansible-password", "Using AWS profile for SSM: o3b-mgmt-rolesanywhere", "Validating AWS identity before Cisco SSM read.", "Loading Cisco RESTCONF password from AWS SSM: /azawslab/release2/o3b/cisco-restconf-password", "A1 runtime secrets loaded into environment variables only."], "stdout": "\\nPLAY [A1 FortiGate sanitized backup] *******************************************\\n\\nTASK [fortigate_backup : Assert FortiGate API token is loaded from Azure Key Vault runtime environment] ***\\nok: [fortigate_azure] => changed=false \\n  msg: All assertions passed\\n\\nTASK [fortigate_backup : Read FortiGate system status for sanitized backup snapshot] ***\\nok: [fortigate_azure]\\n\\nTASK [fortigate_backup : Read FortiGate interfaces for sanitized backup snapshot] ***\\nok: [fortigate_azure]\\n\\nTASK [fortigate_backup : Read FortiGate firewall policies for sanitized backup snapshot] ***\\nok: [fortigate_azure]\\n\\nTASK [fortigate_backup : Read FortiGate static routes for sanitized backup snapshot] ***\\nok: [fortigate_azure]\\n\\nTASK [fortigate_backup : Save sanitized FortiGate read-only API backup snapshot] ***\\nok: [fortigate_azure -> localhost]\\n\\nPLAY [A1 VyOS sanitized backup] ************************************************\\n\\nTASK [vyos_backup : Assert VyOS password is loaded from Azure Key Vault runtime environment] ***\\nok: [vyos01] => changed=false \\n  msg: All assertions passed\\n\\nTASK [vyos_backup : Capture VyOS configuration commands] ***********************\\nok: [vyos01]\\n\\nTASK [vyos_backup : Save sanitized VyOS configuration backup] ******************\\nok: [vyos01 -> localhost]\\n\\nPLAY [A1 Cisco sanitized backup] ***********************************************\\n\\nTASK [cisco_backup : Capture Cisco running configuration through controlled OpenSSH fallback] ***\\nok: [cisco_aws_branch_01 -> localhost]\\n\\nTASK [cisco_backup : Save sanitized Cisco running configuration backup] ********\\nok: [cisco_aws_branch_01 -> localhost]\\n\\nPLAY RECAP *********************************************************************\\ncisco_aws_branch_01        : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   \\nfortigate_azure            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   \\nvyos01                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   \\n\\nA1 sanitized backup complete. Runtime secrets unset.", "stdout_lines": ["", "PLAY [A1 FortiGate sanitized backup] *******************************************", "", "TASK [fortigate_backup : Assert FortiGate API token is loaded from Azure Key Vault runtime environment] ***", "ok: [fortigate_azure] => changed=false ", "  msg: All assertions passed", "", "TASK [fortigate_backup : Read FortiGate system status for sanitized backup snapshot] ***", "ok: [fortigate_azure]", "", "TASK [fortigate_backup : Read FortiGate interfaces for sanitized backup snapshot] ***", "ok: [fortigate_azure]", "", "TASK [fortigate_backup : Read FortiGate firewall policies for sanitized backup snapshot] ***", "ok: [fortigate_azure]", "", "TASK [fortigate_backup : Read FortiGate static routes for sanitized backup snapshot] ***", "ok: [fortigate_azure]", "", "TASK [fortigate_backup : Save sanitized FortiGate read-only API backup snapshot] ***", "ok: [fortigate_azure -> localhost]", "", "PLAY [A1 VyOS sanitized backup] ************************************************", "", "TASK [vyos_backup : Assert VyOS password is loaded from Azure Key Vault runtime environment] ***", "ok: [vyos01] => changed=false ", "  msg: All assertions passed", "", "TASK [vyos_backup : Capture VyOS configuration commands] ***********************", "ok: [vyos01]", "", "TASK [vyos_backup : Save sanitized VyOS configuration backup] ******************", "ok: [vyos01 -> localhost]", "", "PLAY [A1 Cisco sanitized backup] ***********************************************", "", "TASK [cisco_backup : Capture Cisco running configuration through controlled OpenSSH fallback] ***", "ok: [cisco_aws_branch_01 -> localhost]", "", "TASK [cisco_backup : Save sanitized Cisco running configuration backup] ********", "ok: [cisco_aws_branch_01 -> localhost]", "", "PLAY RECAP *********************************************************************", "cisco_aws_branch_01        : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ", "fortigate_azure            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ", "vyos01                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ", "", "A1 sanitized backup complete. Runtime secrets unset."]}
+
+TASK [Assert A1 sanitized backup completed successfully] ***********************
+ok: [vm_dev_mgmt_01] => {
+    "changed": false,
+    "msg": "A1 sanitized backup completed successfully from the management host."
+}
+
+TASK [Show A1 sanitized backup output] *****************************************
+ok: [vm_dev_mgmt_01] => {
+    "a2_backup_dispatch.stdout_lines": [
+        "",
+        "PLAY [A1 FortiGate sanitized backup] *******************************************",
+        "",
+        "TASK [fortigate_backup : Assert FortiGate API token is loaded from Azure Key Vault runtime environment] ***",
+        "ok: [fortigate_azure] => changed=false ",
+        "  msg: All assertions passed",
+        "",
+        "TASK [fortigate_backup : Read FortiGate system status for sanitized backup snapshot] ***",
+        "ok: [fortigate_azure]",
+        "",
+        "TASK [fortigate_backup : Read FortiGate interfaces for sanitized backup snapshot] ***",
+        "ok: [fortigate_azure]",
+        "",
+        "TASK [fortigate_backup : Read FortiGate firewall policies for sanitized backup snapshot] ***",
+        "ok: [fortigate_azure]",
+        "",
+        "TASK [fortigate_backup : Read FortiGate static routes for sanitized backup snapshot] ***",
+        "ok: [fortigate_azure]",
+        "",
+        "TASK [fortigate_backup : Save sanitized FortiGate read-only API backup snapshot] ***",
+        "ok: [fortigate_azure -> localhost]",
+        "",
+        "PLAY [A1 VyOS sanitized backup] ************************************************",
+        "",
+        "TASK [vyos_backup : Assert VyOS password is loaded from Azure Key Vault runtime environment] ***",
+        "ok: [vyos01] => changed=false ",
+        "  msg: All assertions passed",
+        "",
+        "TASK [vyos_backup : Capture VyOS configuration commands] ***********************",
+        "ok: [vyos01]",
+        "",
+        "TASK [vyos_backup : Save sanitized VyOS configuration backup] ******************",
+        "ok: [vyos01 -> localhost]",
+        "",
+        "PLAY [A1 Cisco sanitized backup] ***********************************************",
+        "",
+        "TASK [cisco_backup : Capture Cisco running configuration through controlled OpenSSH fallback] ***",
+        "ok: [cisco_aws_branch_01 -> localhost]",
+        "",
+        "TASK [cisco_backup : Save sanitized Cisco running configuration backup] ********",
+        "ok: [cisco_aws_branch_01 -> localhost]",
+        "",
+        "PLAY RECAP *********************************************************************",
+        "cisco_aws_branch_01        : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ",
+        "fortigate_azure            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ",
+        "vyos01                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ",
+        "",
+        "A1 sanitized backup complete. Runtime secrets unset."
+    ]
+}
+
+PLAY RECAP *********************************************************************
+vm_dev_mgmt_01             : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

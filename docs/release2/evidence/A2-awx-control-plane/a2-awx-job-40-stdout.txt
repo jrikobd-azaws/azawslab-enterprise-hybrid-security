@@ -1,0 +1,40 @@
+Identity added: /runner/artifacts/40/ssh_key_data (a2-awx-dispatch-to-vm-dev-mgmt-01)
+Using /runner/project/ansible.cfg as config file
+
+PLAY [A2 dispatch A1 idempotency check on management Ansible host] *************
+
+TASK [Run A1 idempotency check wrapper from management host] *******************
+[WARNING]: Platform linux on host vm_dev_mgmt_01 is using the discovered Python
+interpreter at /usr/bin/python3.10, but future installation of another Python
+interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [vm_dev_mgmt_01] => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3.10"}, "changed": false, "cmd": "set -euo pipefail\\nexport PATH=\\"$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH\\"\\ncd \\"/home/azureuser/azawslab-o3b-ansible\\"\\nA1_AWS_PROFILE=\\"o3b-mgmt-rolesanywhere\\" A1_AWS_REGION=\\"eu-west-1\\" network/scripts/run-idempotency-check.sh\\n", "delta": "0:00:04.875390", "end": "2026-05-13 13:41:18.975753", "msg": "", "rc": 0, "start": "2026-05-13 13:41:14.100363", "stderr": "Loading FortiGate API token from Azure Key Vault: kvdevazawsne01/p5-fortigate-api-token\\nLoading VyOS Ansible password from Azure Key Vault: kvdevazawsne01/o3b-vyos-ansible-password\\nUsing AWS profile for SSM: o3b-mgmt-rolesanywhere\\nValidating AWS identity before Cisco SSM read.\\nLoading Cisco RESTCONF password from AWS SSM: /azawslab/release2/o3b/cisco-restconf-password\\nA1 runtime secrets loaded into environment variables only.", "stderr_lines": ["Loading FortiGate API token from Azure Key Vault: kvdevazawsne01/p5-fortigate-api-token", "Loading VyOS Ansible password from Azure Key Vault: kvdevazawsne01/o3b-vyos-ansible-password", "Using AWS profile for SSM: o3b-mgmt-rolesanywhere", "Validating AWS identity before Cisco SSM read.", "Loading Cisco RESTCONF password from AWS SSM: /azawslab/release2/o3b/cisco-restconf-password", "A1 runtime secrets loaded into environment variables only."], "stdout": "\\nPLAY [A1 read-only idempotency and no-device-change proof] *********************\\n\\nTASK [Create idempotency evidence directory] ***********************************\\nok: [localhost]\\n\\nTASK [Save A1 idempotency design note] *****************************************\\nok: [localhost]\\n\\nPLAY RECAP *********************************************************************\\nlocalhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   \\n\\nA1 idempotency/no-change check complete. Runtime secrets unset.", "stdout_lines": ["", "PLAY [A1 read-only idempotency and no-device-change proof] *********************", "", "TASK [Create idempotency evidence directory] ***********************************", "ok: [localhost]", "", "TASK [Save A1 idempotency design note] *****************************************", "ok: [localhost]", "", "PLAY RECAP *********************************************************************", "localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ", "", "A1 idempotency/no-change check complete. Runtime secrets unset."]}
+
+TASK [Assert A1 idempotency check completed successfully] **********************
+ok: [vm_dev_mgmt_01] => {
+    "changed": false,
+    "msg": "A1 idempotency check completed successfully from the management host."
+}
+
+TASK [Show A1 idempotency output] **********************************************
+ok: [vm_dev_mgmt_01] => {
+    "a2_idempotency_dispatch.stdout_lines": [
+        "",
+        "PLAY [A1 read-only idempotency and no-device-change proof] *********************",
+        "",
+        "TASK [Create idempotency evidence directory] ***********************************",
+        "ok: [localhost]",
+        "",
+        "TASK [Save A1 idempotency design note] *****************************************",
+        "ok: [localhost]",
+        "",
+        "PLAY RECAP *********************************************************************",
+        "localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   ",
+        "",
+        "A1 idempotency/no-change check complete. Runtime secrets unset."
+    ]
+}
+
+PLAY RECAP *********************************************************************
+vm_dev_mgmt_01             : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
