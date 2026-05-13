@@ -1,0 +1,11 @@
+---
+fortigate_api_scheme: https
+fortigate_api_port: 443
+fortigate_validate_certs: false
+fortigate_token_env_name: FORTIOS_ACCESS_TOKEN
+
+fortigate_status_endpoint: /api/v2/monitor/system/status
+fortigate_policy_endpoint: /api/v2/cmdb/firewall/policy
+fortigate_static_route_endpoint: /api/v2/cmdb/router/static
+fortigate_interface_endpoint: /api/v2/cmdb/system/interface
+fortigate_backup_endpoint: /api/v2/monitor/system/config/backup?scope=global

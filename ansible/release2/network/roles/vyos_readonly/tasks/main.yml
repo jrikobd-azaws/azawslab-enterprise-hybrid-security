@@ -1,8 +1,13 @@
 ---
+- name: Resolve VyOS password from variable or environment fallback
+  ansible.builtin.set_fact:
+    vyos_effective_password: "{{ vyos_password | default(ansible_password | default(lookup('ansible.builtin.env', vyos_password_env_name | default('')), true), true) }}"
+    ansible_password: "{{ vyos_password | default(ansible_password | default(lookup('ansible.builtin.env', vyos_password_env_name | default('')), true), true) }}"
+  no_log: true
 - name: Assert VyOS password is loaded from Azure Key Vault runtime environment
   ansible.builtin.assert:
     that:
-      - lookup('env', vyos_password_env_name) | length > 0
+      - vyos_effective_password | length > 0
     fail_msg: "O3B_VYOS_ANSIBLE_PASSWORD is not loaded. Source scripts/load-runtime-secrets.sh first."
 
 - name: Read VyOS operational state
