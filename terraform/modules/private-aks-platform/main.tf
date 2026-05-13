@@ -178,6 +178,7 @@ resource "azurerm_kubernetes_cluster" "this" {
     node_public_ip_enabled       = false
     max_pods                     = 30
     temporary_name_for_rotation  = "sysrot"
+    tags                         = var.common_tags
   }
 
   identity {
