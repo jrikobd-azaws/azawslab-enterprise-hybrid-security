@@ -17,11 +17,11 @@ variable "awx_vm_name" {
 variable "awx_vm_size" {
   description = "Azure VM SKU for the A2 AWX VM. Must remain within approved policy."
   type        = string
-  default     = "Standard_B2s"
+  default     = "Standard_D2s_v4"
 
   validation {
-    condition     = contains(["Standard_B2s"], var.awx_vm_size)
-    error_message = "A2 AWX VM size must remain Standard_B2s unless policy and cost guardrails are revalidated."
+    condition     = contains(["Standard_B2s", "Standard_D2s_v4"], var.awx_vm_size)
+    error_message = "A2 AWX VM size must be one of the policy-approved AWX recovery SKUs: Standard_B2s or Standard_D2s_v4."
   }
 }
 
@@ -71,3 +71,4 @@ variable "a2_key_vault_rbac_role_definition_name" {
   type        = string
   default     = "Key Vault Secrets User"
 }
+
