@@ -1,0 +1,89 @@
+---
+- name: A2 approved low-risk VyOS marker write
+  hosts: vyos_routers
+  gather_facts: false
+  vars:
+    a2_marker_prefix: "AzawsLab A2 approved write marker"
+    a2_change_ticket: "{{ lookup('env', 'A2_CHANGE_TICKET') }}"
+    a2_change_reason: "{{ lookup('env', 'A2_CHANGE_REASON') }}"
+    a2_marker_text: "{{ a2_marker_prefix }} ticket={{ a2_change_ticket }}"
+
+  tasks:
+    - name: Assert Tier 4 approval inputs are present
+      ansible.builtin.assert:
+        that:
+          - lookup('env', 'A2_CHANGE_APPROVED') == 'true'
+          - a2_change_ticket | length > 0
+          - a2_change_reason | length > 0
+          - lookup('env', 'O3B_VYOS_ANSIBLE_PASSWORD') | length > 0
+        fail_msg: "Tier 4 write requires A2_CHANGE_APPROVED=true, ticket, reason, and VyOS runtime password."
+
+    - name: Read current VyOS login banner marker state before write
+      vyos.vyos.vyos_command:
+        commands:
+          - show configuration commands | match "^set system login banner pre-login"
+      register: a2_vyos_marker_before
+      changed_when: false
+      failed_when: false
+
+    - name: Protect any existing non-A2 pre-login banner
+      ansible.builtin.assert:
+        that:
+          - >
+            ('set system login banner pre-login' not in (a2_vyos_marker_before.stdout[0] | default('')))
+            or
+            (a2_marker_prefix in (a2_vyos_marker_before.stdout[0] | default('')))
+        fail_msg: "Existing non-A2 VyOS pre-login banner found. Refusing to overwrite."
+
+    - name: Apply low-risk A2 VyOS marker
+      vyos.vyos.vyos_config:
+        lines:
+          - set system login banner pre-login "{{ a2_marker_text }}"
+        save: true
+      register: a2_vyos_marker_write
+
+    - name: Read VyOS marker after write
+      vyos.vyos.vyos_command:
+        commands:
+          - show configuration commands | match "^set system login banner pre-login"
+      register: a2_vyos_marker_after
+      changed_when: false
+
+    - name: Assert A2 VyOS marker is present after write
+      ansible.builtin.assert:
+        that:
+          - a2_marker_prefix in (a2_vyos_marker_after.stdout[0] | default(''))
+          - a2_change_ticket in (a2_vyos_marker_after.stdout[0] | default(''))
+        fail_msg: "A2 VyOS marker was not found after write."
+        success_msg: "A2 VyOS marker write validated."
+
+    - name: Save sanitized A2 VyOS marker write evidence on management host
+      ansible.builtin.copy:
+        dest: "{{ a1_evidence_dir }}/a2-vyos-marker-write-validation.txt"
+        mode: '0600'
+        content: |
+          A2 Tier 4 VyOS Marker Write Validation
+          =====================================
+
+          Purpose:
+          Low-risk reversible A2 write validation.
+
+          Inventory:
+          - Host: {{ inventory_hostname }}
+          - Address: {{ ansible_host }}
+
+          Approval:
+          - Approved: {{ lookup('env', 'A2_CHANGE_APPROVED') }}
+          - Ticket: {{ a2_change_ticket }}
+          - Reason: {{ a2_change_reason }}
+
+          Before:
+          {{ a2_vyos_marker_before.stdout[0] | default('no pre-login banner configured') }}
+
+          After:
+          {{ a2_vyos_marker_after.stdout[0] | default('marker missing') }}
+
+          Result:
+          A2 VyOS marker write completed and validated.
+      delegate_to: localhost
+      changed_when: false

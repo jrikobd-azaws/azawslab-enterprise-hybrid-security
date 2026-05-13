@@ -1,0 +1,47 @@
+---
+- name: A2 dispatch emergency VyOS marker rollback on management Ansible host
+  hosts: a2_ansible_execution_hosts
+  gather_facts: false
+  vars:
+    a1_ansible_repo_dir: /home/azureuser/azawslab-o3b-ansible
+    a1_aws_profile: o3b-mgmt-rolesanywhere
+    a1_aws_region: eu-west-1
+    a2_rollback_approved: false
+    a2_change_ticket: ""
+    a2_rollback_reason: ""
+
+  tasks:
+    - name: Assert Tier 5 rollback variables are present
+      ansible.builtin.assert:
+        that:
+          - a2_rollback_approved | bool
+          - a2_change_ticket | length > 0
+          - a2_rollback_reason | length > 0
+        fail_msg: "Tier 5 requires a2_rollback_approved=true, a2_change_ticket, and a2_rollback_reason."
+
+    - name: Run A2 VyOS marker rollback wrapper from management host
+      ansible.builtin.shell: |
+        set -euo pipefail
+        export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+        cd "{{ a1_ansible_repo_dir }}"
+        A1_AWS_PROFILE="{{ a1_aws_profile }}" \
+        A1_AWS_REGION="{{ a1_aws_region }}" \
+        A2_ROLLBACK_APPROVED="true" \
+        A2_CHANGE_TICKET="{{ a2_change_ticket }}" \
+        A2_ROLLBACK_REASON="{{ a2_rollback_reason }}" \
+        network/scripts/run-vyos-marker-rollback.sh
+      args:
+        executable: /bin/bash
+      register: a2_vyos_marker_rollback_dispatch
+      changed_when: false
+
+    - name: Assert A2 VyOS marker rollback completed successfully
+      ansible.builtin.assert:
+        that:
+          - "'A2 VyOS marker rollback complete. Runtime secrets unset.' in a2_vyos_marker_rollback_dispatch.stdout"
+        fail_msg: "A2 VyOS marker rollback wrapper did not report successful completion."
+        success_msg: "A2 VyOS marker rollback completed successfully from the management host."
+
+    - name: Show A2 VyOS marker rollback output
+      ansible.builtin.debug:
+        var: a2_vyos_marker_rollback_dispatch.stdout_lines

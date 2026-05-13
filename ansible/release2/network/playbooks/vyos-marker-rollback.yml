@@ -1,0 +1,89 @@
+---
+- name: A2 emergency rollback of VyOS marker
+  hosts: vyos_routers
+  gather_facts: false
+  vars:
+    a2_marker_prefix: "AzawsLab A2 approved write marker"
+    a2_change_ticket: "{{ lookup('env', 'A2_CHANGE_TICKET') }}"
+    a2_rollback_reason: "{{ lookup('env', 'A2_ROLLBACK_REASON') }}"
+
+  tasks:
+    - name: Assert Tier 5 rollback inputs are present
+      ansible.builtin.assert:
+        that:
+          - lookup('env', 'A2_ROLLBACK_APPROVED') == 'true'
+          - a2_change_ticket | length > 0
+          - a2_rollback_reason | length > 0
+          - lookup('env', 'O3B_VYOS_ANSIBLE_PASSWORD') | length > 0
+        fail_msg: "Tier 5 rollback requires A2_ROLLBACK_APPROVED=true, ticket, reason, and VyOS runtime password."
+
+    - name: Read current VyOS marker state before rollback
+      vyos.vyos.vyos_command:
+        commands:
+          - show configuration commands | match "^set system login banner pre-login"
+      register: a2_vyos_marker_before
+      changed_when: false
+      failed_when: false
+
+    - name: Protect any existing non-A2 pre-login banner during rollback
+      ansible.builtin.assert:
+        that:
+          - >
+            ('set system login banner pre-login' not in (a2_vyos_marker_before.stdout[0] | default('')))
+            or
+            (a2_marker_prefix in (a2_vyos_marker_before.stdout[0] | default('')))
+        fail_msg: "Existing non-A2 VyOS pre-login banner found. Refusing rollback delete."
+
+    - name: Remove A2 VyOS marker if present
+      vyos.vyos.vyos_config:
+        lines:
+          - delete system login banner pre-login
+        save: true
+      when: a2_marker_prefix in (a2_vyos_marker_before.stdout[0] | default(''))
+      register: a2_vyos_marker_rollback
+
+    - name: Read VyOS marker state after rollback
+      vyos.vyos.vyos_command:
+        commands:
+          - show configuration commands | match "^set system login banner pre-login"
+      register: a2_vyos_marker_after
+      changed_when: false
+      failed_when: false
+
+    - name: Assert A2 VyOS marker is absent after rollback
+      ansible.builtin.assert:
+        that:
+          - a2_marker_prefix not in (a2_vyos_marker_after.stdout[0] | default(''))
+        fail_msg: "A2 VyOS marker is still present after rollback."
+        success_msg: "A2 VyOS marker rollback validated."
+
+    - name: Save sanitized A2 VyOS marker rollback evidence on management host
+      ansible.builtin.copy:
+        dest: "{{ a1_evidence_dir }}/a2-vyos-marker-rollback-validation.txt"
+        mode: '0600'
+        content: |
+          A2 Tier 5 VyOS Marker Rollback Validation
+          ========================================
+
+          Purpose:
+          Low-risk reversible A2 rollback validation.
+
+          Inventory:
+          - Host: {{ inventory_hostname }}
+          - Address: {{ ansible_host }}
+
+          Rollback:
+          - Approved: {{ lookup('env', 'A2_ROLLBACK_APPROVED') }}
+          - Ticket: {{ a2_change_ticket }}
+          - Reason: {{ a2_rollback_reason }}
+
+          Before:
+          {{ a2_vyos_marker_before.stdout[0] | default('no pre-login banner configured') }}
+
+          After:
+          {{ a2_vyos_marker_after.stdout[0] | default('no pre-login banner configured') }}
+
+          Result:
+          A2 VyOS marker rollback completed and validated.
+      delegate_to: localhost
+      changed_when: false

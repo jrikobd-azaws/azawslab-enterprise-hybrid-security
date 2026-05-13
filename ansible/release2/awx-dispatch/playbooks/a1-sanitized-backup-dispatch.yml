@@ -1,0 +1,31 @@
+---
+- name: A2 dispatch A1 sanitized backup on management Ansible host
+  hosts: a2_ansible_execution_hosts
+  gather_facts: false
+  vars:
+    a1_ansible_repo_dir: /home/azureuser/azawslab-o3b-ansible
+    a1_aws_profile: o3b-mgmt-rolesanywhere
+    a1_aws_region: eu-west-1
+
+  tasks:
+    - name: Run A1 sanitized backup wrapper from management host
+      ansible.builtin.shell: |
+        set -euo pipefail
+        export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+        cd "{{ a1_ansible_repo_dir }}"
+        A1_AWS_PROFILE="{{ a1_aws_profile }}" A1_AWS_REGION="{{ a1_aws_region }}" network/scripts/run-sanitized-backup.sh
+      args:
+        executable: /bin/bash
+      register: a2_backup_dispatch
+      changed_when: false
+
+    - name: Assert A1 sanitized backup completed successfully
+      ansible.builtin.assert:
+        that:
+          - "'A1 sanitized backup complete. Runtime secrets unset.' in a2_backup_dispatch.stdout"
+        fail_msg: "A1 sanitized backup wrapper did not report successful completion."
+        success_msg: "A1 sanitized backup completed successfully from the management host."
+
+    - name: Show A1 sanitized backup output
+      ansible.builtin.debug:
+        var: a2_backup_dispatch.stdout_lines
