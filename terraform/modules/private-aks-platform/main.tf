@@ -157,7 +157,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   location                            = azurerm_resource_group.this[0].location
   resource_group_name                 = azurerm_resource_group.this[0].name
   node_resource_group                 = var.node_resource_group
-  dns_prefix_private_cluster          = var.dns_prefix_private
+  dns_prefix                          = var.dns_prefix_private
   kubernetes_version                  = var.kubernetes_version
   private_cluster_enabled             = true
   private_dns_zone_id                 = "System"
