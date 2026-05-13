@@ -1,0 +1,31 @@
+---
+- name: A2 dispatch A1 idempotency check on management Ansible host
+  hosts: a2_ansible_execution_hosts
+  gather_facts: false
+  vars:
+    a1_ansible_repo_dir: /home/azureuser/azawslab-o3b-ansible
+    a1_aws_profile: o3b-mgmt-rolesanywhere
+    a1_aws_region: eu-west-1
+
+  tasks:
+    - name: Run A1 idempotency check wrapper from management host
+      ansible.builtin.shell: |
+        set -euo pipefail
+        export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+        cd "{{ a1_ansible_repo_dir }}"
+        A1_AWS_PROFILE="{{ a1_aws_profile }}" A1_AWS_REGION="{{ a1_aws_region }}" network/scripts/run-idempotency-check.sh
+      args:
+        executable: /bin/bash
+      register: a2_idempotency_dispatch
+      changed_when: false
+
+    - name: Assert A1 idempotency check completed successfully
+      ansible.builtin.assert:
+        that:
+          - "'A1 idempotency/no-change check complete. Runtime secrets unset.' in a2_idempotency_dispatch.stdout"
+        fail_msg: "A1 idempotency wrapper did not report successful completion."
+        success_msg: "A1 idempotency check completed successfully from the management host."
+
+    - name: Show A1 idempotency output
+      ansible.builtin.debug:
+        var: a2_idempotency_dispatch.stdout_lines
