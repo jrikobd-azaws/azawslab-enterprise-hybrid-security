@@ -1,0 +1,7 @@
+requests
+paramiko
+ncclient
+xmltodict
+jmespath
+netaddr
+cryptography

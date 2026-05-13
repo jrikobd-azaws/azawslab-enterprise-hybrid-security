@@ -1,0 +1,6 @@
+openssh-clients [platform:rpm]
+sshpass [platform:rpm]
+curl [platform:rpm]
+unzip [platform:rpm]
+tar [platform:rpm]
+gzip [platform:rpm]
