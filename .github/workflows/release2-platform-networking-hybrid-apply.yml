@@ -151,7 +151,7 @@ jobs:
 
       - name: Terraform apply - platform networking hybrid
         if: ${{ github.event.inputs.confirm_apply == 'true' }}
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -lock-timeout=5m -auto-approve tfplan
 
       - name: Skip apply
         if: ${{ github.event.inputs.confirm_apply != 'true' }}

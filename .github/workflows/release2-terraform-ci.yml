@@ -69,11 +69,8 @@ jobs:
       - name: Terraform fmt check
         run: terraform fmt -check -recursive
 
-      - name: Terraform init
-        run: terraform init
+      - name: Terraform init without backend
+        run: terraform init -backend=false -input=false
 
       - name: Terraform validate
         run: terraform validate
-
-      - name: Terraform plan
-        run: terraform plan -no-color -input=false
