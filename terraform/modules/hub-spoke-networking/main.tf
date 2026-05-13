@@ -1,4 +1,4 @@
-﻿resource "azurerm_resource_group" "connectivity" {
+resource "azurerm_resource_group" "connectivity" {
   name     = var.connectivity_resource_group_name
   location = var.location
   tags     = var.tags
@@ -158,58 +158,145 @@ resource "azurerm_firewall" "this" {
 resource "azurerm_firewall_policy_rule_collection_group" "p6_validation" {
   count = var.enable_azure_firewall ? 1 : 0
 
-  name               = "rcg-p6-validation"
+  name               = "rcg-o4-private-aks-egress"
   firewall_policy_id = azurerm_firewall_policy.this[0].id
   priority           = 100
 
   application_rule_collection {
-    name     = "arc-allow-microsoft-services"
+    name     = "arc-o4-aks-platform-required"
     priority = 100
     action   = "Allow"
 
     rule {
-      name = "allow-microsoft-and-azure"
+      name             = "allow-aks-platform-fqdn-tag"
+      source_addresses = ["10.10.0.0/16"]
+
+      destination_fqdn_tags = [
+        "AzureKubernetesService"
+      ]
 
       protocols {
         type = "Https"
         port = 443
       }
+    }
+  }
 
-      source_addresses = [
-        "10.10.0.0/16"
-      ]
+  application_rule_collection {
+    name     = "arc-o4-aks-core-and-registry"
+    priority = 110
+    action   = "Allow"
+
+    rule {
+      name             = "allow-aks-core-microsoft-endpoints"
+      source_addresses = ["10.10.0.0/16"]
 
       destination_fqdns = [
+        "management.azure.com",
+        "login.microsoftonline.com",
+        "packages.microsoft.com",
+        "mcr.microsoft.com",
+        "*.data.mcr.microsoft.com",
+        "mcr-0001.mcr-msedge.net",
         "*.microsoft.com",
         "*.azure.com"
       ]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+    }
+
+    rule {
+      name             = "allow-o4-acr-endpoints"
+      source_addresses = ["10.10.0.0/16"]
+
+      destination_fqdns = [
+        "acrdevazawsne01.azurecr.io",
+        "*.azurecr.io",
+        "*.data.azurecr.io",
+        "*.blob.core.windows.net"
+      ]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+    }
+  }
+
+  application_rule_collection {
+    name     = "arc-o4-keyvault-monitoring"
+    priority = 120
+    action   = "Allow"
+
+    rule {
+      name             = "allow-keyvault-csi"
+      source_addresses = ["10.10.0.0/16"]
+
+      destination_fqdns = [
+        "vault.azure.net",
+        "*.vault.azure.net"
+      ]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+    }
+
+    rule {
+      name             = "allow-azure-monitor-prometheus-grafana-dependencies"
+      source_addresses = ["10.10.0.0/16"]
+
+      destination_fqdns = [
+        "*.ods.opinsights.azure.com",
+        "*.oms.opinsights.azure.com",
+        "dc.services.visualstudio.com",
+        "*.monitoring.azure.com",
+        "global.handler.control.monitor.azure.com",
+        "norwayeast.handler.control.monitor.azure.com",
+        "*.ingest.monitor.azure.com",
+        "*.metrics.ingest.monitor.azure.com",
+        "login.microsoftonline.com",
+        "management.azure.com"
+      ]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
     }
   }
 
   network_rule_collection {
-    name     = "nrc-allow-dns"
+    name     = "nrc-o4-aks-platform-network"
     priority = 200
     action   = "Allow"
 
     rule {
-      name = "allow-dns"
+      name                  = "allow-dns"
+      source_addresses      = ["10.10.0.0/16"]
+      destination_addresses = ["*"]
+      destination_ports     = ["53"]
+      protocols             = ["UDP", "TCP"]
+    }
 
-      protocols = [
-        "UDP",
-        "TCP"
-      ]
+    rule {
+      name                  = "allow-ntp"
+      source_addresses      = ["10.10.0.0/16"]
+      destination_addresses = ["*"]
+      destination_ports     = ["123"]
+      protocols             = ["UDP"]
+    }
 
-      source_addresses = [
-        "10.10.0.0/16"
-      ]
-
-      destination_addresses = [
-        "*"
-      ]
-
-      destination_ports = [
-        "53"
-      ]
+    rule {
+      name                  = "allow-azure-monitor-service-tag"
+      source_addresses      = ["10.10.0.0/16"]
+      destination_addresses = ["AzureMonitor"]
+      destination_ports     = ["443"]
+      protocols             = ["TCP"]
     }
   }
 }
