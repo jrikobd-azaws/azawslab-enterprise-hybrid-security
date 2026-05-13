@@ -134,7 +134,11 @@ resource "azurerm_firewall_policy" "this" {
   location            = azurerm_resource_group.connectivity.location
   resource_group_name = azurerm_resource_group.connectivity.name
   sku                 = "Standard"
-  tags                = var.tags
+
+  dns {
+    proxy_enabled = true
+  }
+  tags = var.tags
 }
 
 resource "azurerm_firewall" "this" {
@@ -145,8 +149,10 @@ resource "azurerm_firewall" "this" {
   resource_group_name = azurerm_resource_group.connectivity.name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
-  firewall_policy_id  = azurerm_firewall_policy.this[0].id
-  tags                = var.tags
+
+  dns_proxy_enabled  = true
+  firewall_policy_id = azurerm_firewall_policy.this[0].id
+  tags               = var.tags
 
   ip_configuration {
     name                 = "configuration"
