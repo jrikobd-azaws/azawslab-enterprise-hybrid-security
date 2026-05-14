@@ -1,0 +1,60 @@
+﻿name: Release 2 Governance Terraform Apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_apply:
+        description: "Set to true to apply the reviewed Terraform plan"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  governance:
+    name: Terraform governance root
+    runs-on: ubuntu-latest
+    environment: release-2
+
+    defaults:
+      run:
+        working-directory: terraform/governance
+
+    env:
+      TF_IN_AUTOMATION: "true"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init
+        run: terraform init -input=false
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform plan
+        run: terraform plan -no-color -input=false -lock-timeout=2m
+
+      - name: Terraform apply
+        if: ${{ github.event.inputs.confirm_apply == 'true' }}
+        run: terraform apply -auto-approve -input=false -lock-timeout=2m
