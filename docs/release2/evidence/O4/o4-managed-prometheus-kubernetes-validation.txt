@@ -1,0 +1,33 @@
+O4 Managed Prometheus Kubernetes Validation
+==========================================
+
+Purpose:
+Validate that Azure Monitor managed Prometheus components are running in the AKS cluster.
+
+No secrets, kubeconfigs, tokens, or private keys are included.
+
+===== Azure Monitor / managed Prometheus pods =====
+NAME                                                   READY   STATUS    RESTARTS      AGE   IP             NODE                             NOMINATED NODE   READINESS GATES
+ama-metrics-57dbdb5f88-5mb5c                           2/2     Running   0             15h   10.244.0.130   aks-system-46611056-vmss000000   <none>           <none>
+ama-metrics-57dbdb5f88-6pxbx                           2/2     Running   0             15h   10.244.0.120   aks-system-46611056-vmss000000   <none>           <none>
+ama-metrics-ksm-5b746c9b6f-lvf69                       1/1     Running   1 (15h ago)   15h   10.244.0.202   aks-system-46611056-vmss000000   <none>           <none>
+ama-metrics-node-4tbs4                                 2/2     Running   0             15h   10.244.0.231   aks-system-46611056-vmss000000   <none>           <none>
+ama-metrics-operator-targets-7856b49dfc-p96st          2/2     Running   2 (15h ago)   15h   10.244.0.232   aks-system-46611056-vmss000000   <none>           <none>
+
+===== Managed Prometheus related resources =====
+NAMESPACE       NAME                                                   READY   STATUS    RESTARTS      AGE
+kube-system     ama-metrics-57dbdb5f88-5mb5c                           2/2     Running   0             15h
+kube-system     ama-metrics-57dbdb5f88-6pxbx                           2/2     Running   0             15h
+kube-system     ama-metrics-ksm-5b746c9b6f-lvf69                       1/1     Running   1 (15h ago)   15h
+kube-system     ama-metrics-node-4tbs4                                 2/2     Running   0             15h
+kube-system     ama-metrics-operator-targets-7856b49dfc-p96st          2/2     Running   2 (15h ago)   15h
+
+===== Metrics API sanity check =====
+NAME                             CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+aks-system-46611056-vmss000000   245m         12%      3640Mi          50%         
+
+===== Application workload metrics source state =====
+NAME                       READY   STATUS    RESTARTS   AGE   IP             NODE                             NOMINATED NODE   READINESS GATES
+o4-nginx-9f5946948-hnrp9   1/1     Running   0          80m   10.244.0.254   aks-system-46611056-vmss000000   <none>           <none>
+NAME                TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE   SELECTOR
+o4-nginx-internal   LoadBalancer   10.240.197.0   10.10.2.6     80:30136/TCP   87m   app=o4-nginx

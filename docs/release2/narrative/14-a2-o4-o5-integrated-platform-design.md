@@ -180,3 +180,134 @@ azw-avd-platform-engineers
 ```
 
 The two sets are intentionally separate but aligned. O5 users or platform engineers will use the AVD workspace to operate and validate the O4 private AKS platform through approved tooling.
+
+## O4 Closure Final State
+
+O4 Private AKS is closed and intentionally retained for O5.
+
+The final O4 design keeps the Release 2 state boundaries clean:
+
+```text
+platform-networking/dev
+  owns:
+    hub/spoke networking
+    Azure Firewall
+    shared route control
+    FortiGate
+    VPN Gateway
+    BGP and hybrid routing
+
+platform-aks/dev
+  owns:
+    private AKS
+    ACR
+    AKS managed identity
+    Workload Identity and OIDC
+    Key Vault CSI driver
+    Azure Monitor managed Prometheus
+    Azure Managed Grafana
+    AKS subnet and UDR
+
+platform-management/dev
+  owns:
+    management VM
+    AWX automation control plane
+```
+
+The O4 operating model is:
+
+```text
+Engineer / AWX user
+  |
+  v
+A2 AWX control plane
+  - Entra login
+  - AWX RBAC
+  - GitHub project sync
+  - tiered O4 job templates
+  |
+  v
+vm-dev-mgmt-01 execution target
+  - az login --identity
+  - kubectl
+  - kubelogin
+  - private AKS API access
+  |
+  v
+O4 Private AKS
+  - prod-workload namespace
+  - Kubernetes RBAC
+  - ACR-backed sample app
+  - internal LoadBalancer endpoint
+  - managed Prometheus and Grafana validation
+```
+
+AWX remains the control plane. It was not granted direct AKS write permission. The management VM managed identity is the approved private execution identity for O4 bootstrap and validation.
+
+The AKS authorization model is:
+
+```text
+Microsoft Entra authentication
++
+Kubernetes RBAC authorization
+```
+
+Azure RBAC is used for Azure control-plane resources such as ACR, Grafana, Monitor, subnet permissions, and `az aks get-credentials`. Kubernetes RBAC is used inside AKS for namespace, app-operator, and reader access.
+
+O4 validates the following enterprise controls:
+
+```text
+Private AKS API:
+  reachable from vm-dev-mgmt-01
+
+Identity:
+  vm-dev-mgmt-01 managed identity used for private execution
+  azw-aks-platform-admins used for bootstrap administration
+  azw-aks-app-operators bound through Kubernetes RBAC
+  azw-aks-readers bound through Kubernetes RBAC
+
+Application:
+  prod-workload namespace
+  ACR-backed image
+  internal LoadBalancer service
+  private endpoint reachable from management and HQ paths
+
+Egress:
+  AKS subnet 10.10.2.0/24 uses UDR default route to Azure Firewall
+  Azure Firewall private IP 10.0.1.4 handles AKS egress
+  AKS pod egress to Azure cloud endpoints validated
+
+Observability:
+  Azure Monitor managed Prometheus running
+  Azure Managed Grafana accessible
+  O4 Private AKS validation dashboard created
+
+Automation:
+  AWX project sync successful
+  O4 Tier 1 through Tier 5 job templates registered and executed
+  vm-dev-mgmt-01 remained the execution target
+  Tier 5 rollback removed only the safe marker ConfigMap
+```
+
+O4 uses an internal Kubernetes LoadBalancer as the first private endpoint validation. Full internal NGINX ingress is not claimed as part of this closure and may be implemented later if required by a future application pattern.
+
+Final Terraform no-drift was validated for both O4 state boundaries:
+
+```text
+platform-aks/dev:
+  terraform plan -var='enable_o4_private_aks=true'
+  result: No changes
+
+platform-networking/dev:
+  terraform plan with current-hybrid-o4 flags
+  result: No changes
+```
+
+No local Terraform apply was run. GitHub Actions remains the apply path.
+
+O4 evidence is stored under:
+
+```text
+docs/release2/evidence/O4/
+```
+

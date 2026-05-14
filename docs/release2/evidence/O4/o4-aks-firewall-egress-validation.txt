@@ -1,0 +1,42 @@
+﻿O4 AKS Azure Firewall Egress Validation
+=======================================
+
+Purpose:
+Validate that the O4 AKS node subnet uses Azure Firewall for default egress and that required AKS/cloud egress policy exists.
+
+No secrets, kubeconfigs, tokens, or private keys are included.
+
+===== Azure Firewall =====
+{
+  "name": "afw-dev-norwayeast-01",
+  "privateIp": "10.0.1.4",
+  "provisioningState": "Succeeded",
+  "sku": {
+    "name": "AZFW_VNet",
+    "tier": "Standard"
+  },
+  "tags": {
+    "CostCenter": "Lab-123",
+    "DeploymentMethod": "Terraform",
+    "Environment": "Development",
+    "Owner": "HASHIBUR RAHMAN",
+    "Project": "Azawslab-Release2"
+  }
+}
+
+===== AKS subnet route table association =====
+{
+  "addressPrefix": "10.10.2.0/24",
+  "name": "snet-aks-nodes-dev-norwayeast",
+  "routeTable": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-workload-norwayeast/providers/Microsoft.Network/routeTables/rt-aks-egress-dev-norwayeast"
+}
+
+===== AKS egress route table routes =====
+Name                             AddressPrefix    NextHopType       NextHopIpAddress
+-------------------------------  ---------------  ----------------  ------------------
+route-default-to-azure-firewall  0.0.0.0/0        VirtualAppliance  10.0.1.4
+
+===== Azure Firewall policy rule collection groups =====
+Name                       Priority    ProvisioningState
+-------------------------  ----------  -------------------
+rcg-o4-private-aks-egress  100         Succeeded

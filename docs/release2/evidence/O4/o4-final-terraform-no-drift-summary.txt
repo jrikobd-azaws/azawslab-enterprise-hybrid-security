@@ -1,0 +1,24 @@
+﻿O4 Final Terraform No-Drift Summary
+===================================
+
+Validation:
+- platform-aks/dev local plan-only check completed with:
+  -var='enable_o4_private_aks=true'
+- platform-networking/dev local plan-only check completed with current-hybrid-o4 flags:
+  -var='enable_p5_fortigate=true'
+  -var='enable_o3a_fortigate_vyos_ipsec=false'
+  -var='enable_o3a_azure_vpngw_vyos=true'
+  -var='enable_o1_fortigate_service_chain=true'
+  -var='enable_p5_gateway_ingress_fortigate=true'
+  -var='enable_o3b_aws_cisco_vpn=true'
+  -var='enable_azure_firewall=true'
+
+No local terraform apply was run.
+GitHub Actions remains the apply path.
+
+Result:
+PASS - both O4 state boundaries showed no drift at final closure check.
+
+State boundaries:
+- platform-networking/dev owns Azure Firewall, shared route control, hub/spoke, FortiGate, VPN Gateway, BGP/hybrid networking.
+- platform-aks/dev owns private AKS, ACR, AKS identity, Workload Identity, Key Vault CSI, Monitor/Prometheus/Grafana, AKS subnet/UDR.
