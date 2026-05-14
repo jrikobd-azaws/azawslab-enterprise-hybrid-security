@@ -1,0 +1,177 @@
+﻿---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod-workload
+  labels:
+    phase: o4
+    purpose: private-aks-validation
+    endpoint-pattern: internal-loadbalancer-first-validation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: o4-app-operator
+  namespace: prod-workload
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - pods/log
+      - services
+      - endpoints
+      - configmaps
+      - events
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - replicasets
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups: ["networking.k8s.io"]
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: o4-reader
+  namespace: prod-workload
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - pods/log
+      - services
+      - endpoints
+      - configmaps
+      - events
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - replicasets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups: ["networking.k8s.io"]
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: azw-aks-app-operators-o4-app-operator
+  namespace: prod-workload
+subjects:
+  - kind: Group
+    name: "5e4974b4-4d25-4e18-9f73-7f65557af0d1"
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: o4-app-operator
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: azw-aks-readers-o4-reader
+  namespace: prod-workload
+subjects:
+  - kind: Group
+    name: "6a628503-dd45-4086-825e-7623ce525989"
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: o4-reader
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: o4-nginx
+  namespace: prod-workload
+  labels:
+    app: o4-nginx
+    phase: o4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: o4-nginx
+  template:
+    metadata:
+      labels:
+        app: o4-nginx
+        phase: o4
+    spec:
+      containers:
+        - name: nginx
+          image: acrdevazawsne01.azurecr.io/o4/aks-helloworld:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: o4-nginx-internal
+  namespace: prod-workload
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  labels:
+    app: o4-nginx
+    phase: o4
+    endpoint-pattern: internal-loadbalancer-first-validation
+spec:
+  type: LoadBalancer
+  selector:
+    app: o4-nginx
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: o4-awx-change-marker
+  namespace: prod-workload
+  labels:
+    phase: o4
+    managed-by: awx
+data:
+  purpose: "safe marker used to validate O4 AWX approved-change and rollback workflow"
+  rollback_scope: "delete this marker only; do not delete app or platform"
+  private_endpoint_note: "O4 first private endpoint validation uses an internal LoadBalancer service, not full NGINX ingress"

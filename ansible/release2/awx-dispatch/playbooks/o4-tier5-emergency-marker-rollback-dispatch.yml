@@ -1,0 +1,48 @@
+﻿---
+- name: O4 Tier 5 - Emergency marker rollback from management host
+  hosts: vm_dev_mgmt_01
+  gather_facts: false
+  vars:
+    aks_rg: rg-dev-aks-norwayeast
+    aks_name: aks-dev-norwayeast-01
+    app_namespace: prod-workload
+  tasks:
+    - name: Remove only the O4 AWX safe change marker
+      ansible.builtin.shell: |
+        set -euo pipefail
+        export PATH="$HOME/bin:$PATH"
+
+        az login --identity >/dev/null
+
+        az aks get-credentials \
+          --resource-group "{{ aks_rg }}" \
+          --name "{{ aks_name }}" \
+          --overwrite-existing >/dev/null
+
+        kubelogin convert-kubeconfig -l azurecli >/dev/null
+
+        echo '===== Before marker rollback ====='
+        kubectl get configmap o4-awx-change-marker -n "{{ app_namespace }}" -o yaml || true
+
+        echo
+        echo '===== Remove safe marker only ====='
+        kubectl delete configmap o4-awx-change-marker -n "{{ app_namespace }}" --ignore-not-found=true
+
+        echo
+        echo '===== Confirm app remains running ====='
+        kubectl get deployment o4-nginx -n "{{ app_namespace }}" -o wide
+        kubectl get pods -n "{{ app_namespace }}" -o wide
+        kubectl get svc o4-nginx-internal -n "{{ app_namespace }}" -o wide
+
+        echo
+        echo '===== Rollback scope note ====='
+        echo 'This rollback removes only the safe AWX marker ConfigMap.'
+        echo 'It does not delete the namespace, app deployment, service, RBAC, AKS, ACR, or platform resources.'
+      args:
+        executable: /bin/bash
+      register: o4_rollback
+      changed_when: "'deleted' in o4_rollback.stdout"
+
+    - name: Print O4 emergency marker rollback output
+      ansible.builtin.debug:
+        var: o4_rollback.stdout_lines
