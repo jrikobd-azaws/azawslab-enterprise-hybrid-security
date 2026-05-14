@@ -432,3 +432,29 @@ The detailed decision is recorded in:
 ```text
 docs/release2/narrative/o5-location-resiliency-governance-decision.md
 ```
+
+## O5 Europe AVD Region Decision
+
+O5 is implemented as a Europe-region Azure Virtual Desktop secure admin/developer workspace.
+
+```text
+O5 primary AVD region:
+  northeurope
+
+O5 alternate / DR region:
+  westeurope
+
+O1-O4 primary platform region:
+  norwayeast
+
+O1-O4 paired backup / DR region:
+  norwaywest
+```
+
+This is a deliberate portfolio-grade design decision. O5 is not a mixed Norway workload plus Europe metadata workaround. O5 is a North Europe AVD workspace connected later to the existing Norway East O1-O4 platform through platform-networking-owned global VNet peering and controlled routing.
+
+Detailed decision file:
+
+```text
+docs/release2/narrative/o5-europe-avd-region-decision.md
+```
