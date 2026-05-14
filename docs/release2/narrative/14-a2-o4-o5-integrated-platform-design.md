@@ -420,3 +420,15 @@ This separation prevents AVD lifecycle operations from modifying the AKS platfor
 O5 first implementation uses the personal/single-user admin/dev workspace model. The workspace is intended for controlled operator access, not broad pooled desktop delivery.
 
 <!-- O5-STATE-BOUNDARY-ALIGNMENT:END -->
+
+### O5 Location and Resiliency Governance
+
+O5 deploys active AVD and FSLogix resources in Norway East.
+
+Norway West is approved as the paired region for backup, DR, geo-redundant storage, and Azure service resiliency requirements. Governance must allow both `norwayeast` and `norwaywest`; otherwise backup/DR workflows can fail even when the active workload is correctly deployed in Norway East.
+
+The detailed decision is recorded in:
+
+```text
+docs/release2/narrative/o5-location-resiliency-governance-decision.md
+```
