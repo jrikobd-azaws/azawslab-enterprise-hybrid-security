@@ -179,6 +179,12 @@ resource "azurerm_kubernetes_cluster" "this" {
     max_pods                     = 30
     temporary_name_for_rotation  = "sysrot"
     tags                         = var.common_tags
+
+    upgrade_settings {
+      drain_timeout_in_minutes      = 0
+      max_surge                     = "10%"
+      node_soak_duration_in_minutes = 0
+    }
   }
 
   identity {
