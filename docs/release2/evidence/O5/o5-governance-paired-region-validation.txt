@@ -1,0 +1,39 @@
+﻿O5 Governance Paired-Region Validation
+======================================
+
+Purpose:
+Validate that governance now allows both Norway East and Norway West for O5 paired-region, backup, DR, and geo-redundant service requirements.
+
+Expected:
+- Allowed locations include norwayeast and norwaywest.
+- Allowed resource group locations include norwayeast and norwaywest.
+- No local Terraform apply was run.
+- Governance was applied through the root-specific governance workflow.
+
+
+===== Allowed locations policy assignment =====
+{
+  "displayName": "pa-loc-prod-norwayeast",
+  "name": "pa-loc-prod-norwayeast",
+  "parameters": [
+    "norwayeast",
+    "norwaywest"
+  ],
+  "scope": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+}
+
+===== Allowed resource group locations policy assignment =====
+{
+  "displayName": "pa-rgloc-prod-norwayeast",
+  "name": "pa-rgloc-prod-norwayeast",
+  "parameters": [
+    "norwayeast",
+    "norwaywest"
+  ],
+  "scope": "/providers/Microsoft.Management/managementGroups/mg-landingzones-prod-global"
+}
+
+===== O5 Governance Validation Result =====
+PASS - Governance allowed-location assignments include norwayeast and norwaywest.
+PASS - O5 may proceed to Terraform design with norwayeast as primary and norwaywest as approved paired region.
+STOP CONDITION REMOVED - paired-region backup/DR/geo-redundancy should no longer be blocked by allowed-location policy.
