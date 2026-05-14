@@ -10,7 +10,7 @@ resource "azurerm_management_group_policy_assignment" "allowed_locations" {
 
   parameters = jsonencode({
     listOfAllowedLocations = {
-      value = ["norwayeast", "norwaywest"]
+      value = ["norwayeast", "norwaywest", "northeurope", "westeurope"]
     }
   })
 }
@@ -27,7 +27,7 @@ resource "azurerm_management_group_policy_assignment" "allowed_rg_locations" {
 
   parameters = jsonencode({
     listOfAllowedLocations = {
-      value = ["norwayeast", "norwaywest"]
+      value = ["norwayeast", "norwaywest", "northeurope", "westeurope"]
     }
   })
 }
