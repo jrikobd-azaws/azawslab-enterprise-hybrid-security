@@ -1,0 +1,278 @@
+﻿O5 Live Azure Preflight
+=======================
+
+Purpose:
+Validate Azure Policy, provider registration, region/SKU/quota, Windows image, naming, network overlap, AVD endpoint path, and FSLogix private endpoint prerequisites before O5 Terraform design.
+
+No Terraform code has been generated.
+No local terraform apply is allowed.
+No Azure O5 resources are created by this preflight.
+
+
+===== Azure account context =====
+{
+  "state": "Enabled",
+  "subscriptionId": "8d99637c-13e7-417c-b334-b586d0ddc3d6",
+  "subscriptionName": "Azure subscription 1",
+  "tenantId": "78643a83-bcc9-4a3b-ab7e-eeede0b3384e",
+  "user": {
+    "name": "hashib@entra.azawslab.co.uk",
+    "type": "user"
+  }
+}
+
+===== Azure Policy assignments =====
+Name                   DisplayName                                                       Scope                                                PolicyDefinitionId                                                                            EnforcementMode
+---------------------  ----------------------------------------------------------------  ---------------------------------------------------  --------------------------------------------------------------------------------------------  -----------------
+SecurityCenterBuiltIn  ASC Default (subscription: 8d99637c-13e7-417c-b334-b586d0ddc3d6)  /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6  /providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8  Default
+
+===== Azure Policy state summary =====
+{
+  "nonCompliantPolicies": 10,
+  "nonCompliantResources": 16
+}
+
+===== Required provider registration state =====
+Namespace                        RegistrationState
+-------------------------------  -------------------
+Microsoft.DesktopVirtualization  Registered
+Namespace          RegistrationState
+-----------------  -------------------
+Microsoft.Storage  Registered
+Namespace          RegistrationState
+-----------------  -------------------
+Microsoft.Network  Registered
+Namespace          RegistrationState
+-----------------  -------------------
+Microsoft.Compute  Registered
+Namespace                RegistrationState
+-----------------------  -------------------
+Microsoft.Authorization  Registered
+Namespace                  RegistrationState
+-------------------------  -------------------
+Microsoft.ManagedIdentity  Registered
+Namespace           RegistrationState
+------------------  -------------------
+Microsoft.KeyVault  Registered
+Namespace                      RegistrationState
+-----------------------------  -------------------
+Microsoft.OperationalInsights  Registered
+
+===== Location and VM SKU availability =====
+[
+  {
+    "locations": [
+      "NorwayEast"
+    ],
+    "name": "Standard_D2s_v4",
+    "resourceType": "virtualMachines",
+    "restrictions": []
+  }
+]
+[
+  {
+    "locations": [
+      "NorwayEast"
+    ],
+    "name": "Standard_D4s_v4",
+    "resourceType": "virtualMachines",
+    "restrictions": []
+  }
+]
+
+===== Regional quota / usage for likely O5 VM families =====
+Name                               Current    Limit
+---------------------------------  ---------  -------
+Standard DSv4 Family vCPUs         6          10
+Total Regional Low-priority vCPUs  0          3
+Total Regional vCPUs               10         20
+Standard DDSv4 Family vCPUs        0          10
+Standard EDSv4 Family vCPUs        0          10
+Standard EIDSv4 Family vCPUs       0          0
+
+===== Windows 11 Enterprise image availability =====
+Publisher                Offer       Sku                   Version
+-----------------------  ----------  --------------------  -----------------
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn       26100.7623.260109
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn       26100.7840.260206
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn       26100.8037.260306
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn       26100.8246.260413
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn       26100.8457.260507
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn-ltsc  26100.7623.260109
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn-ltsc  26100.7840.260206
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn-ltsc  26100.8037.260306
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn-ltsc  26100.8246.260413
+MicrosoftWindowsDesktop  windows-11  win11-24h2-entn-ltsc  26100.8457.260507
+MicrosoftWindowsDesktop  windows-11  win11-25h2-ent        26200.7623.260109
+MicrosoftWindowsDesktop  windows-11  win11-25h2-ent        26200.7840.260206
+MicrosoftWindowsDesktop  windows-11  win11-25h2-ent        26200.8037.260306
+MicrosoftWindowsDesktop  windows-11  win11-25h2-ent        26200.8246.260413
+MicrosoftWindowsDesktop  windows-11  win11-25h2-ent        26200.8457.260507
+MicrosoftWindowsDesktop  windows-11  win11-25h2-entn       26200.7623.260109
+MicrosoftWindowsDesktop  windows-11  win11-25h2-entn       26200.7840.260206
+MicrosoftWindowsDesktop  windows-11  win11-25h2-entn       26200.8037.260306
+MicrosoftWindowsDesktop  windows-11  win11-25h2-entn       26200.8246.260413
+MicrosoftWindowsDesktop  windows-11  win11-25h2-entn       26200.8457.260507
+
+===== O5 canonical resource name checks =====
+false
+{
+  "message": null,
+  "nameAvailable": true,
+  "reason": null
+}
+
+===== Existing VNet address spaces and O5 10.2.0.0/16 overlap validation =====
+[
+    {
+        "addressPrefixes":  [
+                                "10.0.0.0/16"
+                            ],
+        "name":  "vnet-dev-norwayeast-hub",
+        "resourceGroup":  "rg-connectivity-prod-norwayeast"
+    },
+    {
+        "addressPrefixes":  [
+                                "10.10.0.0/16"
+                            ],
+        "name":  "vnet-dev-norwayeast-spoke-workload",
+        "resourceGroup":  "rg-dev-workload-norwayeast"
+    }
+]
+PASS: O5 10.2.0.0/16 does not overlap existing Azure VNet address spaces.
+
+===== Existing private DNS zones relevant to FSLogix Azure Files =====
+Name                                                                   ResourceGroup
+---------------------------------------------------------------------  ---------------------------
+2dbfb1a5-7a41-46f9-9960-bf90f9702ca1.privatelink.norwayeast.azmk8s.io  rg-dev-aks-nodes-norwayeast
+privatelink.vaultcore.azure.net                                        rg-dev-security-norwayeast
+
+===== Current Azure Firewall state =====
+{
+  "name": "afw-dev-norwayeast-01",
+  "privateIp": "10.0.1.4",
+  "provisioningState": "Succeeded",
+  "sku": {
+    "name": "AZFW_VNet",
+    "tier": "Standard"
+  }
+}
+
+===== Azure Firewall policy rule collection groups =====
+az : WARNING: This command is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+At line:2 char:3
++   az network firewall policy rule-collection-group list `
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: This c...s/CLI_refstatus:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Name                       Priority    ProvisioningState
+-------------------------  ----------  -------------------
+rcg-o4-private-aks-egress  100         Succeeded
+
+===== Search Azure Firewall policy for AVD/Windows Virtual Desktop endpoint allowance signals =====
+
+              "packages.microsoft.com",
+              "mcr.microsoft.com",
+              "*.data.mcr.microsoft.com",
+              "*.microsoft.com",
+              "*.blob.core.windows.net"
+
+
+
+===== Existing O4 dependency summary =====
+az : WARNING: The behavior of this command has been altered by the following extension: aks-preview
+At line:2 char:3
++   az aks show `
++   ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: The be...on: aks-preview:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Name                   ProvisioningState    PowerState    KubernetesVersion    PrivateFqdn
+---------------------  -------------------  ------------  -------------------  --------------------------------------------------------------------------------------------
+aks-dev-norwayeast-01  Succeeded            Running       1.34.6               aks-dev-ne-o4-umg4paed.2dbfb1a5-7a41-46f9-9960-bf90f9702ca1.privatelink.norwayeast.azmk8s.io
+{
+  "endpoint": "https://amg-dev-aks-ne-01-gdb4cqcrgscvarcd.eno.grafana.azure.com",
+  "name": "amg-dev-aks-ne-01",
+  "provisioningState": "Succeeded"
+}
+
+===== Preflight stop-condition summary =====
+Review required after this preflight:
+- If Microsoft.DesktopVirtualization is not Registered, register it before Terraform design.
+- If AVD endpoint allowance is missing from Azure Firewall policy, patch platform-networking before or with O5.
+- If Windows 11 image or VM SKU is unavailable/restricted, choose an allowed image/SKU before Terraform design.
+- If FSLogix private DNS/AD DS identity model is unclear, stop before Terraform design.
+
+===== Corrected O5 Preflight Interpretation =====
+
+Provider registration:
+  PASS - all required providers are Registered:
+    Microsoft.DesktopVirtualization
+    Microsoft.Storage
+    Microsoft.Network
+    Microsoft.Compute
+    Microsoft.Authorization
+    Microsoft.ManagedIdentity
+    Microsoft.KeyVault
+    Microsoft.OperationalInsights
+
+Azure Policy:
+  PASS - only ASC Default assignment was shown at subscription scope.
+  NOTE - policy state summary reported noncompliance, but this is not by itself an O5 stop condition.
+  O5 Terraform design must still include required tags and approved region/SKU choices.
+
+VM SKU and quota:
+  PASS - Standard_D2s_v4 is available in NorwayEast with no restrictions.
+  PASS - Standard_D4s_v4 is available in NorwayEast with no restrictions.
+  DECISION - use Standard_D2s_v4 for first O5 AVD session host to preserve quota.
+  DSv4 quota observed:
+    current: 6
+    limit: 10
+    remaining: 4
+
+Windows image:
+  PASS - Windows 11 Enterprise images are available in NorwayEast.
+  Recommended first image:
+    publisher: MicrosoftWindowsDesktop
+    offer: windows-11
+    sku: win11-25h2-ent
+    version: latest
+
+Naming:
+  PASS - rg-dev-avd-norwayeast does not exist yet.
+  PASS - stdevavdfsne01 storage account name is available.
+
+Network:
+  PASS - O5 VNet CIDR 10.2.0.0/16 does not overlap existing Azure VNets.
+  Existing VNets:
+    vnet-dev-norwayeast-hub = 10.0.0.0/16
+    vnet-dev-norwayeast-spoke-workload = 10.10.0.0/16
+
+FSLogix private DNS:
+  DESIGN REQUIRED - privatelink.file.core.windows.net was not present.
+  O5/platform-avd design must create or link the Azure Files private DNS zone for FSLogix private endpoint resolution.
+
+Azure Firewall / AVD egress:
+  PASS - Azure Firewall afw-dev-norwayeast-01 is Succeeded.
+  PASS - existing Firewall policy has rcg-o4-private-aks-egress Succeeded.
+  DESIGN REQUIRED - O5 must include an explicit AVD egress readiness decision.
+  Current firewall policy search showed broad Microsoft endpoint allowance signals, but O5 should still validate AVD required endpoint access after session host deployment.
+
+O4 dependencies:
+  PASS - O4 AKS is Succeeded and Running.
+  PASS - Managed Grafana is Succeeded.
+
+Preflight result:
+  PASS WITH DESIGN CONDITIONS.
+
+Proceed to O5 Terraform design only with these locked assumptions:
+  - first session host SKU: Standard_D2s_v4
+  - region: NorwayEast
+  - AVD VNet CIDR: 10.2.0.0/16
+  - storage account: stdevavdfsne01
+  - FSLogix share: fslogix-profiles
+  - O5 root must own Azure Files private endpoint and private DNS linkage unless source-of-truth says platform-networking owns the DNS zone.
+  - platform-networking must own any shared Azure Firewall policy/rule updates required for AVD egress.
+  - no local terraform apply.
+  - no generic or matrix Terraform apply.
