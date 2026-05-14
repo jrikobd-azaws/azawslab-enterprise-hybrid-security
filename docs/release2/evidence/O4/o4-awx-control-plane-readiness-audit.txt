@@ -1,0 +1,78 @@
+O4 AWX Control Plane Readiness Audit
+====================================
+
+Purpose:
+Validate AWX source-of-truth operating model for O4 without using browser clicks or external AWX API tokens.
+
+Scope:
+Read-only AWX metadata:
+- organizations
+- inventories
+- hosts
+- projects
+- credentials names/types only
+- teams
+- job templates
+- workflow job templates
+- recent jobs
+
+No passwords, tokens, kubeconfigs, private keys, or credential secret values are printed.
+
+===== Organizations =====
+id=1 name=Default
+id=2 name=AzawsLab Release 2
+
+===== Inventories and hosts =====
+id=1 name=Demo Inventory organization=Default
+  host_id=1 name=localhost enabled=True
+id=2 name=A2 Network Security Devices organization=AzawsLab Release 2
+  host_id=2 name=fortigate_dev enabled=True
+  host_id=3 name=vyos01 enabled=True
+  host_id=4 name=cisco_aws_branch_01 enabled=True
+  host_id=5 name=vm_dev_mgmt_01 enabled=True
+
+===== Projects =====
+id=6 name=Demo Project organization=Default scm_type=git scm_url=https://github.com/ansible/ansible-tower-samples status=successful last_update_failed=False
+id=8 name=AzawsLab Release 2 Network Automation organization=AzawsLab Release 2 scm_type=git scm_url=https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security.git status=successful last_update_failed=False
+
+===== Credentials - names and types only =====
+id=1 name=Demo Credential organization= type=Machine
+id=2 name=Ansible Galaxy organization= type=Ansible Galaxy/Automation Hub API Token
+id=3 name=A2 Dispatcher SSH - vm-dev-mgmt-01 organization=AzawsLab Release 2 type=Machine
+
+===== Teams =====
+id=1 name=azw-awx-admins organization=AzawsLab Release 2
+id=2 name=azw-awx-operators organization=AzawsLab Release 2
+id=3 name=azw-awx-change-approvers organization=AzawsLab Release 2
+id=4 name=azw-awx-emergency-admins organization=AzawsLab Release 2
+
+===== Job templates =====
+id=7 name=Demo Job Template organization=Default inventory=Demo Inventory project=Demo Project playbook=hello_world.yml job_type=run credentials=[Demo Credential]
+id=13 name=A2 - Dispatch A1 Read-Only Validation on Management Host organization=AzawsLab Release 2 inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/a1-readonly-validation-dispatch.yml job_type=run credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+id=14 name=A2 - Tier 1 - Dispatch A1 Read-Only Validation organization=AzawsLab Release 2 inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/a1-readonly-validation-dispatch.yml job_type=run credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+id=15 name=A2 - Tier 2 - Dispatch A1 Sanitized Backup organization=AzawsLab Release 2 inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/a1-sanitized-backup-dispatch.yml job_type=run credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+id=16 name=A2 - Tier 3 - Dispatch A1 Idempotency Check organization=AzawsLab Release 2 inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/a1-idempotency-check-dispatch.yml job_type=run credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+id=17 name=A2 - Tier 4 - Approved VyOS Marker Write organization=AzawsLab Release 2 inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/a2-vyos-marker-write-dispatch.yml job_type=run credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+id=18 name=A2 - Tier 5 - Emergency VyOS Marker Rollback organization=AzawsLab Release 2 inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/a2-vyos-marker-rollback-dispatch.yml job_type=run credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+
+===== Workflow job templates =====
+
+===== Recent jobs =====
+id=46 name=A2 - Tier 5 - Emergency VyOS Marker Rollback template=A2 - Tier 5 - Emergency VyOS Marker Rollback inventory=A2 Network Security Devices status=successful failed=False created=2026-05-13 13:46:13.182925+00:00 finished=2026-05-13 13:46:51.039905+00:00
+id=44 name=A2 - Tier 4 - Approved VyOS Marker Write template=A2 - Tier 4 - Approved VyOS Marker Write inventory=A2 Network Security Devices status=successful failed=False created=2026-05-13 13:45:32.033221+00:00 finished=2026-05-13 13:46:07.708612+00:00
+id=42 name=A2 - Tier 4 - Approved VyOS Marker Write template=A2 - Tier 4 - Approved VyOS Marker Write inventory=A2 Network Security Devices status=failed failed=True created=2026-05-13 13:41:24.410991+00:00 finished=2026-05-13 13:41:40.036448+00:00
+id=40 name=A2 - Tier 3 - Dispatch A1 Idempotency Check template=A2 - Tier 3 - Dispatch A1 Idempotency Check inventory=A2 Network Security Devices status=successful failed=False created=2026-05-13 13:40:59.482047+00:00 finished=2026-05-13 13:41:21.140875+00:00
+id=38 name=A2 - Tier 2 - Dispatch A1 Sanitized Backup template=A2 - Tier 2 - Dispatch A1 Sanitized Backup inventory=A2 Network Security Devices status=successful failed=False created=2026-05-13 13:40:28.728822+00:00 finished=2026-05-13 13:40:56.779839+00:00
+id=35 name=A2 - Dispatch A1 Read-Only Validation on Management Host template=A2 - Dispatch A1 Read-Only Validation on Management Host inventory=A2 Network Security Devices status=successful failed=False created=2026-05-13 13:05:12.652039+00:00 finished=2026-05-13 13:05:43.713278+00:00
+id=32 name=A2 - Dispatch A1 Read-Only Validation on Management Host template=A2 - Dispatch A1 Read-Only Validation on Management Host inventory=A2 Network Security Devices status=successful failed=False created=2026-05-13 12:57:14.474390+00:00 finished=2026-05-13 12:57:44.655534+00:00
+id=30 name=A2 - Dispatch A1 Read-Only Validation on Management Host template=A2 - Dispatch A1 Read-Only Validation on Management Host inventory=A2 Network Security Devices status=failed failed=True created=2026-05-13 12:54:44.618047+00:00 finished=2026-05-13 12:55:04.806648+00:00
+id=23 name=A2 - Tier 1A - Azure Key Vault Runtime Validation template= inventory=A2 Network Security Devices status=failed failed=True created=2026-05-13 11:23:30.027045+00:00 finished=2026-05-13 11:23:47.059053+00:00
+id=20 name=A2 - Tier 1A - Azure Key Vault Runtime Validation template= inventory=A2 Network Security Devices status=failed failed=True created=2026-05-13 11:20:17.248013+00:00 finished=2026-05-13 11:20:33.459654+00:00
+id=17 name=A2 - Tier 1 - Network Read-Only Validation template= inventory=A2 Network Security Devices status=failed failed=True created=2026-05-13 11:04:54.900794+00:00 finished=2026-05-13 11:05:09.561365+00:00
+id=15 name=A2 - Tier 1 - Network Read-Only Validation template= inventory=A2 Network Security Devices status=error failed=True created=2026-05-13 10:55:51.014662+00:00 finished=2026-05-13 10:58:02.871239+00:00
+id=13 name=A2 - Tier 1 - Network Read-Only Validation template= inventory=A2 Network Security Devices status=failed failed=True created=2026-05-13 10:29:13.976096+00:00 finished=2026-05-13 10:29:27.852854+00:00
+id=10 name=A2 - Tier 1 - Network Read-Only Validation template= inventory=A2 Network Security Devices status=failed failed=True created=2026-05-13 10:25:57.468530+00:00 finished=2026-05-13 10:26:10.999409+00:00
+id=6 name=A2 - Tier 1 - Network Read-Only Validation template= inventory=A2 Network Security Devices status=failed failed=True created=2026-05-13 10:16:09.712764+00:00 finished=2026-05-13 10:16:23.832413+00:00
+id=3 name=A2 - Tier 1 - Network Read-Only Validation template= inventory=A2 Network Security Devices status=failed failed=True created=2026-05-13 10:05:41.498634+00:00 finished=2026-05-13 10:07:01.248794+00:00
+
+===== Recent workflow jobs =====

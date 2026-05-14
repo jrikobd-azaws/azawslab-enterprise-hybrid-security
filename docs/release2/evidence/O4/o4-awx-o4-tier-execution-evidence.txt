@@ -1,0 +1,352 @@
+O4 AWX Tier Execution Evidence
+==============================
+
+Purpose:
+Validate O4 through the A2 AWX enterprise automation control plane.
+
+Model:
+AWX control plane -> vm-dev-mgmt-01 execution target -> managed identity -> private AKS.
+
+Scope:
+- AWX project sync
+- O4 job template registration
+- Tier 1 read-only validation
+- Tier 2 sanitized snapshot
+- Tier 3 preflight/dry-run
+- Tier 4 approved idempotent apply
+- Tier 5 emergency marker rollback
+
+No passwords, tokens, kubeconfigs, private keys, or credential secret values are printed.
+
+===== Resolved AWX objects =====
+organization: id=2 name=AzawsLab Release 2
+inventory: id=2 name=A2 Network Security Devices
+project: id=8 name=AzawsLab Release 2 Network Automation scm_type=git scm_url=https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security.git status=successful
+credential: id=3 name=A2 Dispatcher SSH - vm-dev-mgmt-01 type=Machine
+
+===== Sync AWX GitHub project =====
+created project update id=57 status=new
+project update finished id=57 status=successful failed=False
+project status after sync: successful
+project last_update_failed: False
+
+===== Register O4 job templates =====
+updated: id=19 name=O4 - Tier 1 - Private AKS Read-Only Validation playbook=ansible/release2/awx-dispatch/playbooks/o4-tier1-readonly-validation-dispatch.yml
+updated: id=20 name=O4 - Tier 2 - Private AKS Sanitized Snapshot playbook=ansible/release2/awx-dispatch/playbooks/o4-tier2-sanitized-snapshot-dispatch.yml
+updated: id=21 name=O4 - Tier 3 - Private AKS Preflight Dry-Run playbook=ansible/release2/awx-dispatch/playbooks/o4-tier3-preflight-dry-run-dispatch.yml
+updated: id=22 name=O4 - Tier 4 - Approved Private AKS Idempotent Apply playbook=ansible/release2/awx-dispatch/playbooks/o4-tier4-approved-idempotent-apply-dispatch.yml
+updated: id=23 name=O4 - Tier 5 - Emergency Marker Rollback playbook=ansible/release2/awx-dispatch/playbooks/o4-tier5-emergency-marker-rollback-dispatch.yml
+
+===== Registered O4 templates =====
+id=19 name=O4 - Tier 1 - Private AKS Read-Only Validation inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/o4-tier1-readonly-validation-dispatch.yml credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+id=20 name=O4 - Tier 2 - Private AKS Sanitized Snapshot inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/o4-tier2-sanitized-snapshot-dispatch.yml credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+id=21 name=O4 - Tier 3 - Private AKS Preflight Dry-Run inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/o4-tier3-preflight-dry-run-dispatch.yml credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+id=22 name=O4 - Tier 4 - Approved Private AKS Idempotent Apply inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/o4-tier4-approved-idempotent-apply-dispatch.yml credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+id=23 name=O4 - Tier 5 - Emergency Marker Rollback inventory=A2 Network Security Devices project=AzawsLab Release 2 Network Automation playbook=ansible/release2/awx-dispatch/playbooks/o4-tier5-emergency-marker-rollback-dispatch.yml credentials=[A2 Dispatcher SSH - vm-dev-mgmt-01]
+
+===== Launch O4 tier jobs =====
+
+===== Launch O4 - Tier 1 - Private AKS Read-Only Validation =====
+created job id=58 name=O4 - Tier 1 - Private AKS Read-Only Validation status=new
+finished job id=58 name=O4 - Tier 1 - Private AKS Read-Only Validation status=successful failed=False
+
+===== Launch O4 - Tier 2 - Private AKS Sanitized Snapshot =====
+created job id=60 name=O4 - Tier 2 - Private AKS Sanitized Snapshot status=new
+finished job id=60 name=O4 - Tier 2 - Private AKS Sanitized Snapshot status=successful failed=False
+
+===== Launch O4 - Tier 3 - Private AKS Preflight Dry-Run =====
+created job id=62 name=O4 - Tier 3 - Private AKS Preflight Dry-Run status=new
+finished job id=62 name=O4 - Tier 3 - Private AKS Preflight Dry-Run status=successful failed=False
+
+===== Launch O4 - Tier 4 - Approved Private AKS Idempotent Apply =====
+created job id=64 name=O4 - Tier 4 - Approved Private AKS Idempotent Apply status=new
+finished job id=64 name=O4 - Tier 4 - Approved Private AKS Idempotent Apply status=successful failed=False
+
+===== Launch O4 - Tier 5 - Emergency Marker Rollback =====
+created job id=66 name=O4 - Tier 5 - Emergency Marker Rollback status=new
+finished job id=66 name=O4 - Tier 5 - Emergency Marker Rollback status=successful failed=False
+
+===== O4 tier job summary =====
+id=58 name=O4 - Tier 1 - Private AKS Read-Only Validation status=successful failed=False created=2026-05-14 14:08:28.799446+00:00 finished=2026-05-14 14:08:49.157451+00:00
+id=60 name=O4 - Tier 2 - Private AKS Sanitized Snapshot status=successful failed=False created=2026-05-14 14:08:54.000968+00:00 finished=2026-05-14 14:09:13.272334+00:00
+id=62 name=O4 - Tier 3 - Private AKS Preflight Dry-Run status=successful failed=False created=2026-05-14 14:09:14.194842+00:00 finished=2026-05-14 14:09:32.675405+00:00
+id=64 name=O4 - Tier 4 - Approved Private AKS Idempotent Apply status=successful failed=False created=2026-05-14 14:09:34.843599+00:00 finished=2026-05-14 14:10:30.135867+00:00
+id=66 name=O4 - Tier 5 - Emergency Marker Rollback status=successful failed=False created=2026-05-14 14:10:35.078528+00:00 finished=2026-05-14 14:10:53.761546+00:00
+
+===== Sanitized stdout for job id=58 name=O4 - Tier 1 - Private AKS Read-Only Validation =====
+Identity added: /runner/artifacts/58/ssh_key_data (a2-awx-dispatch-to-vm-dev-mgmt-01)
+
+PLAY [O4 Tier 1 - Read-only private AKS validation from management host] *******
+
+TASK [Run O4 read-only validation] *********************************************
+[1;35m[WARNING]: Platform linux on host vm_dev_mgmt_01 is using the discovered Python[0m
+[1;35minterpreter at /usr/bin/python3.10, but future installation of another Python[0m
+[1;35minterpreter could change the meaning of that path. See[0m
+[1;35mhttps://docs.ansible.com/ansible-[0m
+[1;35mcore/2.18/reference_appendices/interpreter_discovery.html for more information.[0m
+[0;32mok: [vm_dev_mgmt_01][0m
+
+TASK [Print O4 read-only validation output] ************************************
+[0;32mok: [vm_dev_mgmt_01] => {[0m
+[0;32m    "o4_readonly.stdout_lines": [[0m
+[0;32m        "===== AKS nodes =====",[0m
+[0;32m        "NAME                             STATUS   ROLES    AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME",[0m
+[0;32m        "aks-system-46611056-vmss000000   Ready    <none>   17h   v1.34.6   10.10.2.5     <none>        Ubuntu 22.04.5 LTS   5.15.0-1110-azure   containerd://1.7.31-1",[0m
+[0;32m        "",[0m
+[0;32m        "===== Bootstrap authorization =====",[0m
+[0;32m        "yes",[0m
+[0;32m        "",[0m
+[0;32m        "===== kube-system health =====",[0m
+[0;32m        "NAME                                                   READY   STATUS    RESTARTS      AGE   IP             NODE                             NOMINATED NODE   READINESS GATES",[0m
+[0;32m        "aks-secrets-store-csi-driver-bzhkc                     3/3     Running   0             17h   10.244.0.93    aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "aks-secrets-store-provider-azure-bxmz5                 1/1     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "ama-metrics-57dbdb5f88-5mb5c                           2/2     Running   0             17h   10.244.0.130   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "ama-metrics-57dbdb5f88-6pxbx                           2/2     Running   0             17h   10.244.0.120   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "ama-metrics-ksm-5b746c9b6f-lvf69                       1/1     Running   1 (17h ago)   17h   10.244.0.202   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "ama-metrics-node-4tbs4                                 2/2     Running   0             17h   10.244.0.231   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "ama-metrics-operator-targets-7856b49dfc-p96st          2/2     Running   2 (17h ago)   17h   10.244.0.232   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "azure-cns-b5sps                                        1/1     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "azure-ip-masq-agent-q42tz                              1/1     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "azure-npm-2x4hv                                        1/1     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "azure-wi-webhook-controller-manager-5f847898b6-9mv84   1/1     Running   1 (17h ago)   17h   10.244.0.162   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "azure-wi-webhook-controller-manager-5f847898b6-cnx69   1/1     Running   1 (17h ago)   17h   10.244.0.35    aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "cloud-node-manager-txm47                               1/1     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "coredns-74f87d9649-rkhgt                               1/1     Running   0             17h   10.244.0.118   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "coredns-74f87d9649-s22qm                               1/1     Running   0             17h   10.244.0.48    aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "coredns-autoscaler-5bdf6c6797-qhj6w                    1/1     Running   0             17h   10.244.0.2     aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "csi-azuredisk-node-btmrb                               3/3     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "csi-azurefile-node-z5549                               4/4     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "konnectivity-agent-6544bc97db-65hx9                    1/1     Running   0             17h   10.244.0.172   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "konnectivity-agent-6544bc97db-h8wnj                    1/1     Running   0             17h   10.244.0.67    aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "konnectivity-agent-autoscaler-5f7888c78f-dlmnh         1/1     Running   0             17h   10.244.0.122   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "kube-proxy-qlfkp                                       1/1     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "metrics-server-b887b5d7-75zb5                          2/2     Running   0             17h   10.244.0.148   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "metrics-server-b887b5d7-dbbfx                          2/2     Running   0             17h   10.244.0.248   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "retina-agent-hf22x                                     1/1     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "",[0m
+[0;32m        "===== Workload Identity and CSI validation =====",[0m
+[0;32m        "NAME                                                   READY   STATUS    RESTARTS      AGE   IP             NODE                             NOMINATED NODE   READINESS GATES",[0m
+[0;32m        "aks-secrets-store-csi-driver-bzhkc                     3/3     Running   0             17h   10.244.0.93    aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "aks-secrets-store-provider-azure-bxmz5                 1/1     Running   0             17h   10.10.2.5      aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "azure-wi-webhook-controller-manager-5f847898b6-9mv84   1/1     Running   1 (17h ago)   17h   10.244.0.162   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "azure-wi-webhook-controller-manager-5f847898b6-cnx69   1/1     Running   1 (17h ago)   17h   10.244.0.35    aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "NAME                       ATTACHREQUIRED   PODINFOONMOUNT   STORAGECAPACITY   TOKENREQUESTS                REQUIRESREPUBLISH   MODES                  AGE",[0m
+[0;32m        "disk.csi.azure.com         true             false            false             <unset>                      false               Persistent             17h",[0m
+[0;32m        "file.csi.azure.com         false            true             false             api://AzureADTokenExchange   false               Persistent,Ephemeral   17h",[0m
+[0;32m        "secrets-store.csi.k8s.io   false            true             false             api://AzureADTokenExchange   false               Ephemeral              17h",[0m
+[0;32m        "",[0m
+[0;32m        "===== O4 app namespace state - tolerant if not created yet =====",[0m
+[0;32m        "NAME            STATUS   AGE     LABELS",[0m
+[0;32m        "prod-workload   Active   3h11m   endpoint-pattern=internal-loadbalancer-first-validation,kubernetes.io/metadata.name=prod-workload,phase=o4,purpose=private-aks-validation",[0m
+[0;32m        "NAME                       READY   STATUS    RESTARTS   AGE    IP             NODE                             NOMINATED NODE   READINESS GATES",[0m
+[0;32m        "o4-nginx-9f5946948-hnrp9   1/1     Running   0          3h4m   10.244.0.254   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "NAME                TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE     SELECTOR",[0m
+[0;32m        "o4-nginx-internal   LoadBalancer   10.240.197.0   10.10.2.6     80:30136/TCP   3h11m   app=o4-nginx",[0m
+[0;32m        "NAME                                             CREATED AT",[0m
+[0;32m        "role.rbac.authorization.k8s.io/o4-app-operator   2026-05-14T10:57:18Z",[0m
+[0;32m        "role.rbac.authorization.k8s.io/o4-reader         2026-05-14T10:57:18Z",[0m
+[0;32m        "",[0m
+[0;32m        "NAME                                                                          ROLE                   AGE",[0m
+[0;32m        "rolebinding.rbac.authorization.k8s.io/azw-aks-app-operators-o4-app-operator   Role/o4-app-operator   3h11m",[0m
+[0;32m        "rolebinding.rbac.authorization.k8s.io/azw-aks-readers-o4-reader               Role/o4-reader         3h11m",[0m
+[0;32m        "",[0m
+[0;32m        "===== O4 app image - tolerant if deployment is absent =====",[0m
+[0;32m        "acrdevazawsne01.azurecr.io/o4/aks-helloworld:v1"[0m
+[0;32m    ][0m
+[0;32m}[0m
+
+PLAY RECAP *********************************************************************
+[0;32mvm_dev_mgmt_01[0m             : [0;32mok=2   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+===== Sanitized stdout for job id=60 name=O4 - Tier 2 - Private AKS Sanitized Snapshot =====
+Identity added: /runner/artifacts/60/ssh_key_data (a2-awx-dispatch-to-vm-dev-mgmt-01)
+
+PLAY [O4 Tier 2 - Sanitized snapshot from management host] *********************
+
+TASK [Create sanitized O4 snapshot] ********************************************
+[1;35m[WARNING]: Platform linux on host vm_dev_mgmt_01 is using the discovered Python[0m
+[1;35minterpreter at /usr/bin/python3.10, but future installation of another Python[0m
+[1;35minterpreter could change the meaning of that path. See[0m
+[1;35mhttps://docs.ansible.com/ansible-[0m
+[1;35mcore/2.18/reference_appendices/interpreter_discovery.html for more information.[0m
+[0;32mok: [vm_dev_mgmt_01][0m
+
+TASK [Print sanitized snapshot location] ***************************************
+[0;32mok: [vm_dev_mgmt_01] => {[0m
+[0;32m    "msg": "Sanitized snapshot saved on management host at /home/azureuser/o4-awx-tier2-sanitized-snapshot.txt"[0m
+[0;32m}[0m
+
+PLAY RECAP *********************************************************************
+[0;32mvm_dev_mgmt_01[0m             : [0;32mok=2   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+===== Sanitized stdout for job id=62 name=O4 - Tier 3 - Private AKS Preflight Dry-Run =====
+Identity added: /runner/artifacts/62/ssh_key_data (a2-awx-dispatch-to-vm-dev-mgmt-01)
+
+PLAY [O4 Tier 3 - Preflight dry-run from management host] **********************
+
+TASK [Copy O4 Kubernetes manifest to management host] **************************
+[1;35m[WARNING]: Platform linux on host vm_dev_mgmt_01 is using the discovered Python[0m
+[1;35minterpreter at /usr/bin/python3.10, but future installation of another Python[0m
+[1;35minterpreter could change the meaning of that path. See[0m
+[1;35mhttps://docs.ansible.com/ansible-[0m
+[1;35mcore/2.18/reference_appendices/interpreter_discovery.html for more information.[0m
+[0;32mok: [vm_dev_mgmt_01][0m
+
+TASK [Run O4 server-side dry-run and diff] *************************************
+[0;32mok: [vm_dev_mgmt_01][0m
+
+TASK [Print O4 preflight output] ***********************************************
+[0;32mok: [vm_dev_mgmt_01] => {[0m
+[0;32m    "o4_preflight.stdout_lines": [[0m
+[0;32m        "===== kubectl server-side dry-run =====",[0m
+[0;32m        "namespace/prod-workload serverside-applied (server dry run)",[0m
+[0;32m        "role.rbac.authorization.k8s.io/o4-app-operator serverside-applied (server dry run)",[0m
+[0;32m        "role.rbac.authorization.k8s.io/o4-reader serverside-applied (server dry run)",[0m
+[0;32m        "rolebinding.rbac.authorization.k8s.io/azw-aks-app-operators-o4-app-operator serverside-applied (server dry run)",[0m
+[0;32m        "rolebinding.rbac.authorization.k8s.io/azw-aks-readers-o4-reader serverside-applied (server dry run)",[0m
+[0;32m        "deployment.apps/o4-nginx serverside-applied (server dry run)",[0m
+[0;32m        "service/o4-nginx-internal serverside-applied (server dry run)",[0m
+[0;32m        "configmap/o4-awx-change-marker serverside-applied (server dry run)",[0m
+[0;32m        "",[0m
+[0;32m        "===== kubectl diff - informational only =====",[0m
+[0;32m        "",[0m
+[0;32m        "===== Preflight note =====",[0m
+[0;32m        "This tier validates manifest acceptance without persistent Kubernetes changes.",[0m
+[0;32m        "ACR image pull is validated at the start of Tier 4 before applying the manifest."[0m
+[0;32m    ][0m
+[0;32m}[0m
+
+PLAY RECAP *********************************************************************
+[0;32mvm_dev_mgmt_01[0m             : [0;32mok=3   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+===== Sanitized stdout for job id=64 name=O4 - Tier 4 - Approved Private AKS Idempotent Apply =====
+Identity added: /runner/artifacts/64/ssh_key_data (a2-awx-dispatch-to-vm-dev-mgmt-01)
+
+PLAY [O4 Tier 4 - Approved idempotent app/RBAC apply from management host] *****
+
+TASK [Copy O4 Kubernetes manifest to management host] **************************
+[1;35m[WARNING]: Platform linux on host vm_dev_mgmt_01 is using the discovered Python[0m
+[1;35minterpreter at /usr/bin/python3.10, but future installation of another Python[0m
+[1;35minterpreter could change the meaning of that path. See[0m
+[1;35mhttps://docs.ansible.com/ansible-[0m
+[1;35mcore/2.18/reference_appendices/interpreter_discovery.html for more information.[0m
+[0;32mok: [vm_dev_mgmt_01][0m
+
+TASK [Apply and validate O4 Kubernetes state] **********************************
+[0;33mchanged: [vm_dev_mgmt_01][0m
+
+TASK [Print O4 approved apply output] ******************************************
+[0;32mok: [vm_dev_mgmt_01] => {[0m
+[0;32m    "o4_apply.stdout_lines": [[0m
+[0;32m        "===== ACR image pull preflight using temporary pod =====",[0m
+[0;32m        "pod/o4-image-preflight created",[0m
+[0;32m        "pod/o4-image-preflight condition met",[0m
+[0;32m        "pod \"o4-image-preflight\" deleted from default namespace",[0m
+[0;32m        "",[0m
+[0;32m        "===== Apply approved O4 manifest =====",[0m
+[0;32m        "namespace/prod-workload unchanged",[0m
+[0;32m        "role.rbac.authorization.k8s.io/o4-app-operator unchanged",[0m
+[0;32m        "role.rbac.authorization.k8s.io/o4-reader unchanged",[0m
+[0;32m        "rolebinding.rbac.authorization.k8s.io/azw-aks-app-operators-o4-app-operator unchanged",[0m
+[0;32m        "rolebinding.rbac.authorization.k8s.io/azw-aks-readers-o4-reader unchanged",[0m
+[0;32m        "deployment.apps/o4-nginx unchanged",[0m
+[0;32m        "service/o4-nginx-internal unchanged",[0m
+[0;32m        "configmap/o4-awx-change-marker unchanged",[0m
+[0;32m        "",[0m
+[0;32m        "===== Rollout status =====",[0m
+[0;32m        "deployment \"o4-nginx\" successfully rolled out",[0m
+[0;32m        "",[0m
+[0;32m        "===== App state =====",[0m
+[0;32m        "NAME                       READY   STATUS    RESTARTS   AGE    IP             NODE                             NOMINATED NODE   READINESS GATES",[0m
+[0;32m        "o4-nginx-9f5946948-hnrp9   1/1     Running   0          3h6m   10.244.0.254   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "NAME       READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                                            SELECTOR",[0m
+[0;32m        "o4-nginx   1/1     1            1           3h13m   nginx        acrdevazawsne01.azurecr.io/o4/aks-helloworld:v1   app=o4-nginx",[0m
+[0;32m        "NAME                TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE     SELECTOR",[0m
+[0;32m        "o4-nginx-internal   LoadBalancer   10.240.197.0   10.10.2.6     80:30136/TCP   3h13m   app=o4-nginx",[0m
+[0;32m        "",[0m
+[0;32m        "===== RBAC validation =====",[0m
+[0;32m        "app-operator create deployments: yes",[0m
+[0;32m        "app-operator delete services: yes",[0m
+[0;32m        "reader get pods: yes",[0m
+[0;32m        "reader create deployments: no",[0m
+[0;32m        "",[0m
+[0;32m        "===== Internal endpoint validation =====",[0m
+[0;32m        "Internal service IP: 10.10.2.6",[0m
+[0;32m        "HTTP/1.1 200 OK",[0m
+[0;32m        "Server: nginx/1.13.7",[0m
+[0;32m        "Date: Thu, 14 May 2026 14:10:29 GMT",[0m
+[0;32m        "Content-Type: text/html; charset=utf-8",[0m
+[0;32m        "Content-Length: 627",[0m
+[0;32m        "Connection: keep-alive",[0m
+[0;32m        "",[0m
+[0;32m        "",[0m
+[0;32m        "===== Endpoint pattern note =====",[0m
+[0;32m        "This validates the first private app endpoint using an internal LoadBalancer service.",[0m
+[0;32m        "It is not claiming full internal NGINX ingress implementation."[0m
+[0;32m    ][0m
+[0;32m}[0m
+
+PLAY RECAP *********************************************************************
+[0;33mvm_dev_mgmt_01[0m             : [0;32mok=3   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+===== Sanitized stdout for job id=66 name=O4 - Tier 5 - Emergency Marker Rollback =====
+Identity added: /runner/artifacts/66/ssh_key_data (a2-awx-dispatch-to-vm-dev-mgmt-01)
+
+PLAY [O4 Tier 5 - Emergency marker rollback from management host] **************
+
+TASK [Remove only the O4 AWX safe change marker] *******************************
+[1;35m[WARNING]: Platform linux on host vm_dev_mgmt_01 is using the discovered Python[0m
+[1;35minterpreter at /usr/bin/python3.10, but future installation of another Python[0m
+[1;35minterpreter could change the meaning of that path. See[0m
+[1;35mhttps://docs.ansible.com/ansible-[0m
+[1;35mcore/2.18/reference_appendices/interpreter_discovery.html for more information.[0m
+[0;33mchanged: [vm_dev_mgmt_01][0m
+
+TASK [Print O4 emergency marker rollback output] *******************************
+[0;32mok: [vm_dev_mgmt_01] => {[0m
+[0;32m    "o4_rollback.stdout_lines": [[0m
+[0;32m        "===== Before marker rollback =====",[0m
+[0;32m        "apiVersion: v1",[0m
+[0;32m        "data:",[0m
+[0;32m        "  private_endpoint_note: O4 first private endpoint validation uses an internal LoadBalancer",[0m
+[0;32m        "    service, not full NGINX ingress",[0m
+[0;32m        "  purpose: safe marker used to validate O4 AWX approved-change and rollback workflow",[0m
+[0;32m        "  rollback_scope: delete this marker only; do not delete app or platform",[0m
+[0;32m        "kind: ConfigMap",[0m
+[0;32m        "metadata:",[0m
+[0;32m        "  annotations:",[0m
+[0;32m        "    kubectl.kubernetes.io/last-applied-configuration: |",[0m
+[0;32m        "      {\"apiVersion\":\"v1\",\"data\":{\"private_endpoint_note\":\"O4 first private endpoint validation uses an internal LoadBalancer service, not full NGINX ingress\",\"purpose\":\"safe marker used to validate O4 AWX approved-change and rollback workflow\",\"rollback_scope\":\"delete this marker only; do not delete app or platform\"},\"kind\":\"ConfigMap\",\"metadata\":{\"annotations\":{},\"labels\":{\"managed-by\":\"awx\",\"phase\":\"o4\"},\"name\":\"o4-awx-change-marker\",\"namespace\":\"prod-workload\"}}",[0m
+[0;32m        "  creationTimestamp: \"2026-05-14T14:02:43Z\"",[0m
+[0;32m        "  labels:",[0m
+[0;32m        "    managed-by: awx",[0m
+[0;32m        "    phase: o4",[0m
+[0;32m        "  name: o4-awx-change-marker",[0m
+[0;32m        "  namespace: prod-workload",[0m
+[0;32m        "  resourceVersion: \"291623\"",[0m
+[0;32m        "  uid: 5b0e28a2-75f9-41a4-83ee-4bcc744d4dd5",[0m
+[0;32m        "",[0m
+[0;32m        "===== Remove safe marker only =====",[0m
+[0;32m        "configmap \"o4-awx-change-marker\" deleted from prod-workload namespace",[0m
+[0;32m        "",[0m
+[0;32m        "===== Confirm app remains running =====",[0m
+[0;32m        "NAME       READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                                            SELECTOR",[0m
+[0;32m        "o4-nginx   1/1     1            1           3h13m   nginx        acrdevazawsne01.azurecr.io/o4/aks-helloworld:v1   app=o4-nginx",[0m
+[0;32m        "NAME                       READY   STATUS    RESTARTS   AGE    IP             NODE                             NOMINATED NODE   READINESS GATES",[0m
+[0;32m        "o4-nginx-9f5946948-hnrp9   1/1     Running   0          3h6m   10.244.0.254   aks-system-46611056-vmss000000   <none>           <none>",[0m
+[0;32m        "NAME                TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE     SELECTOR",[0m
+[0;32m        "o4-nginx-internal   LoadBalancer   10.240.197.0   10.10.2.6     80:30136/TCP   3h13m   app=o4-nginx",[0m
+[0;32m        "",[0m
+[0;32m        "===== Rollback scope note =====",[0m
+[0;32m        "This rollback removes only the safe AWX marker ConfigMap.",[0m
+[0;32m        "It does not delete the namespace, app deployment, service, RBAC, AKS, ACR, or platform resources."[0m
+[0;32m    ][0m
+[0;32m}[0m
+
+PLAY RECAP *********************************************************************
+[0;33mvm_dev_mgmt_01[0m             : [0;32mok=2   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+===== O4 AWX validation complete =====
+All O4 AWX tier jobs completed successfully.
+AWX remained the control plane. vm-dev-mgmt-01 remained the execution target.
+Tier 5 removed only the safe marker ConfigMap and did not delete the app/platform.

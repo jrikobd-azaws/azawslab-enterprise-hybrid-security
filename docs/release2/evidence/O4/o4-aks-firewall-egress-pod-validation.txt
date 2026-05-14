@@ -1,0 +1,37 @@
+O4 AKS Pod Egress Validation
+============================
+
+Purpose:
+Validate outbound connectivity from an AKS pod after AKS subnet default route is pointed to Azure Firewall.
+
+No secrets, kubeconfigs, tokens, or private keys are included.
+
+===== Current AKS node and app state =====
+NAME                             STATUS   ROLES    AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+aks-system-46611056-vmss000000   Ready    <none>   14h   v1.34.6   10.10.2.5     <none>        Ubuntu 22.04.5 LTS   5.15.0-1110-azure   containerd://1.7.31-1
+NAME                       READY   STATUS    RESTARTS   AGE   IP             NODE                             NOMINATED NODE   READINESS GATES
+o4-nginx-9f5946948-hnrp9   1/1     Running   0          41m   10.244.0.254   aks-system-46611056-vmss000000   <none>           <none>
+NAME                TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE   SELECTOR
+o4-nginx-internal   LoadBalancer   10.240.197.0   10.10.2.6     80:30136/TCP   48m   app=o4-nginx
+
+===== Remove previous egress test pod if present =====
+
+===== Run one-time ACR-based egress test pod =====
+/bin/sh: line 3: hostname: command not found
+/bin/sh: line 4: hostname: command not found
+Pod hostname: 
+Pod IPs: 
+
+Testing HTTPS to management.azure.com
+management.azure.com HTTP 400
+
+Testing HTTPS to mcr.microsoft.com
+mcr.microsoft.com HTTP 200
+
+Testing HTTPS to login.microsoftonline.com
+login.microsoftonline.com HTTP 302
+pod "o4-egress-test" deleted from prod-workload namespace
+
+===== Confirm egress test pod was removed =====
+NAME                       READY   STATUS    RESTARTS   AGE   IP             NODE                             NOMINATED NODE   READINESS GATES
+o4-nginx-9f5946948-hnrp9   1/1     Running   0          41m   10.244.0.254   aks-system-46611056-vmss000000   <none>           <none>

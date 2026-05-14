@@ -1,0 +1,78 @@
+﻿O4 Managed Prometheus and Grafana Validation
+===========================================
+
+Purpose:
+Validate O4 AKS platform observability using Azure Monitor managed Prometheus and Azure Managed Grafana.
+
+Scope:
+AKS platform observability only. Hybrid device/network observability is future scope.
+
+No secrets, kubeconfigs, tokens, or private keys are included.
+
+===== AKS managed Prometheus profile =====
+{
+  "addonProfiles": {
+    "azureKeyvaultSecretsProvider": {
+      "config": {
+        "enableSecretRotation": "true",
+        "rotationPollInterval": "2m"
+      },
+      "enabled": true,
+      "identity": {
+        "clientId": "baae8bad-ea21-4404-87ab-c9e9de014001",
+        "objectId": "cac0702a-817d-4fbb-b3b3-5f348cf7e3fa",
+        "resourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourcegroups/rg-dev-aks-nodes-norwayeast/providers/Microsoft.ManagedIdentity/userAssignedIdentities/azurekeyvaultsecretsprovider-aks-dev-norwayeast-01"
+      }
+    },
+    "azurepolicy": {
+      "config": {
+        "version": "v2"
+      },
+      "enabled": false,
+      "identity": null
+    }
+  },
+  "monitorProfile": null,
+  "name": "aks-dev-norwayeast-01",
+  "provisioningState": "Succeeded"
+}
+
+===== Azure Monitor workspace =====
+{
+  "defaultIngestionSettings": {
+    "dataCollectionEndpointResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/MA_amw-dev-aks-norwayeast-01_norwayeast_managed/providers/Microsoft.Insights/dataCollectionEndpoints/amw-dev-aks-norwayeast-01",
+    "dataCollectionRuleResourceId": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/MA_amw-dev-aks-norwayeast-01_norwayeast_managed/providers/Microsoft.Insights/dataCollectionRules/amw-dev-aks-norwayeast-01"
+  },
+  "location": "norwayeast",
+  "name": "amw-dev-aks-norwayeast-01",
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": "Enabled"
+}
+
+===== Azure Managed Grafana =====
+{
+  "endpoint": "https://amg-dev-aks-ne-01-gdb4cqcrgscvarcd.eno.grafana.azure.com",
+  "name": "amg-dev-aks-ne-01",
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": "Enabled",
+  "sku": {
+    "name": "Standard"
+  }
+}
+
+===== Grafana role assignments for O4 groups =====
+
+Group: azw-aks-platform-admins
+Role           PrincipalId                           Scope
+-------------  ------------------------------------  ------------------------------------------------------------------------------------------------------------------------------------------------
+Grafana Admin  f2607c9e-74e3-4575-be31-696b23535bcc  /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-aks-norwayeast/providers/Microsoft.Dashboard/grafana/amg-dev-aks-ne-01
+
+Group: azw-aks-app-operators
+Role            PrincipalId                           Scope
+--------------  ------------------------------------  ------------------------------------------------------------------------------------------------------------------------------------------------
+Grafana Viewer  5e4974b4-4d25-4e18-9f73-7f65557af0d1  /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-aks-norwayeast/providers/Microsoft.Dashboard/grafana/amg-dev-aks-ne-01
+
+Group: azw-aks-readers
+Role            PrincipalId                           Scope
+--------------  ------------------------------------  ------------------------------------------------------------------------------------------------------------------------------------------------
+Grafana Viewer  6a628503-dd45-4086-825e-7623ce525989  /subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-aks-norwayeast/providers/Microsoft.Dashboard/grafana/amg-dev-aks-ne-01
