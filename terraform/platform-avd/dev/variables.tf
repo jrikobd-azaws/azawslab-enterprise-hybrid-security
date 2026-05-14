@@ -5,15 +5,15 @@ variable "enable_o5_avd" {
 }
 
 variable "location" {
-  description = "Primary Azure region for O5 active resources."
+  description = "Primary Azure region for the O5 AVD secure admin/dev workspace."
   type        = string
-  default     = "norwayeast"
+  default     = "northeurope"
 }
 
 variable "paired_location" {
-  description = "Approved paired region for O5 backup, DR, and geo-redundant service use."
+  description = "Approved alternate Europe region for O5 backup, DR, and future AVD resiliency design."
   type        = string
-  default     = "norwaywest"
+  default     = "westeurope"
 }
 
 variable "common_tags" {
@@ -32,13 +32,13 @@ variable "common_tags" {
 variable "resource_group_name" {
   description = "O5 AVD resource group name."
   type        = string
-  default     = "rg-dev-avd-norwayeast"
+  default     = "rg-dev-avd-northeurope"
 }
 
 variable "avd_vnet_name" {
   description = "O5 AVD spoke VNet name."
   type        = string
-  default     = "vnet-dev-norwayeast-spoke-avd"
+  default     = "vnet-dev-northeurope-spoke-avd"
 }
 
 variable "avd_vnet_address_space" {
@@ -74,7 +74,7 @@ variable "private_endpoint_subnet_address_prefixes" {
 variable "route_table_name" {
   description = "O5 AVD route table name."
   type        = string
-  default     = "rt-avd-to-hub-norwayeast"
+  default     = "rt-avd-to-hub-northeurope"
 }
 
 variable "azure_firewall_private_ip_address" {
@@ -86,25 +86,25 @@ variable "azure_firewall_private_ip_address" {
 variable "host_pool_name" {
   description = "O5 AVD host pool name."
   type        = string
-  default     = "vdpool-dev-norwayeast"
+  default     = "vdpool-dev-northeurope"
 }
 
 variable "workspace_name" {
   description = "O5 AVD workspace name."
   type        = string
-  default     = "vdws-dev-norwayeast"
+  default     = "vdws-dev-northeurope"
 }
 
 variable "desktop_app_group_name" {
   description = "O5 AVD desktop application group name."
   type        = string
-  default     = "vdag-dev-norwayeast"
+  default     = "vdag-dev-northeurope"
 }
 
 variable "fslogix_storage_account_name" {
   description = "O5 FSLogix Azure Files storage account name."
   type        = string
-  default     = "stdevavdfsne01"
+  default     = "stdevavdfsneu01"
 }
 
 variable "fslogix_storage_replication_type" {
