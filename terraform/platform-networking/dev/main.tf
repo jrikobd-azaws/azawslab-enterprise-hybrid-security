@@ -56,6 +56,8 @@ module "hub_spoke_networking" {
   bastion_public_ip_name                = "pip-bas-dev-norwayeast-01"
 
   enable_azure_firewall         = var.enable_azure_firewall
+  enable_o5_avd_egress          = var.enable_o5_avd_egress
+  o5_avd_source_addresses       = var.o5_avd_source_addresses
   azure_firewall_name           = "afw-dev-norwayeast-01"
   azure_firewall_public_ip_name = "pip-azfw-norwayeast-01"
   azure_firewall_policy_name    = "afwp-dev-norwayeast"
