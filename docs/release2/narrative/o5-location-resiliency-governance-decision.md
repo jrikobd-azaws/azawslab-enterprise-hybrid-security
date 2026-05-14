@@ -1,4 +1,4 @@
-﻿# O5 Location and Resiliency Governance Decision
+# O5 Location and Resiliency Governance Decision
 
 ## Decision
 
@@ -76,3 +76,32 @@ storage redundancy choice is blocked by policy
 backup/DR service requires Norway West and governance denies it
 Terraform plan attempts to deploy normal O5 compute in Norway West without explicit approval
 ```
+
+## O5 Europe AVD Governance Update
+
+Governance now permits four approved locations:
+
+```text
+norwayeast
+norwaywest
+northeurope
+westeurope
+```
+
+Purpose:
+
+```text
+norwayeast:
+  existing O1-O4 active platform region
+
+norwaywest:
+  Norway East paired backup / DR region
+
+northeurope:
+  O5 primary Azure Virtual Desktop secure admin/dev workspace region
+
+westeurope:
+  O5 alternate / DR / future resiliency region
+```
+
+Normal O5 AVD foundation resources deploy to North Europe. O5 does not deploy ordinary workload resources to Norway West or West Europe unless explicitly approved.
