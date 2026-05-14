@@ -1,0 +1,109 @@
+﻿---
+- name: O4 Tier 4 - Approved idempotent app/RBAC apply from management host
+  hosts: vm_dev_mgmt_01
+  gather_facts: false
+  vars:
+    aks_rg: rg-dev-aks-norwayeast
+    aks_name: aks-dev-norwayeast-01
+    app_namespace: prod-workload
+    app_service: o4-nginx-internal
+    manifest_source: "{{ playbook_dir }}/../../kubernetes/o4-prod-workload-rbac-app.yml"
+    manifest_target: /tmp/o4-prod-workload-rbac-app.yml
+    app_image: acrdevazawsne01.azurecr.io/o4/aks-helloworld:v1
+    app_operators_group_id: "5e4974b4-4d25-4e18-9f73-7f65557af0d1"
+    readers_group_id: "6a628503-dd45-4086-825e-7623ce525989"
+  tasks:
+    - name: Copy O4 Kubernetes manifest to management host
+      ansible.builtin.copy:
+        src: "{{ manifest_source }}"
+        dest: "{{ manifest_target }}"
+        mode: "0644"
+
+    - name: Apply and validate O4 Kubernetes state
+      ansible.builtin.shell: |
+        set -euo pipefail
+        export PATH="$HOME/bin:$PATH"
+
+        az login --identity >/dev/null
+
+        az aks get-credentials \
+          --resource-group "{{ aks_rg }}" \
+          --name "{{ aks_name }}" \
+          --overwrite-existing >/dev/null
+
+        kubelogin convert-kubeconfig -l azurecli >/dev/null
+
+        echo '===== ACR image pull preflight using temporary pod ====='
+        kubectl delete pod o4-image-preflight -n default --ignore-not-found=true
+        kubectl run o4-image-preflight \
+          -n default \
+          --image="{{ app_image }}" \
+          --restart=Never
+
+        if ! kubectl wait --for=condition=Ready pod/o4-image-preflight -n default --timeout=180s; then
+          echo 'ERROR: ACR image pull preflight failed. Stop before applying O4 manifest.'
+          kubectl describe pod o4-image-preflight -n default || true
+          kubectl delete pod o4-image-preflight -n default --ignore-not-found=true
+          exit 1
+        fi
+
+        kubectl delete pod o4-image-preflight -n default --ignore-not-found=true
+
+        echo
+        echo '===== Apply approved O4 manifest ====='
+        kubectl apply -f "{{ manifest_target }}"
+
+        echo
+        echo '===== Rollout status ====='
+        kubectl rollout status deployment/o4-nginx -n "{{ app_namespace }}" --timeout=300s
+
+        echo
+        echo '===== App state ====='
+        kubectl get pods -n "{{ app_namespace }}" -o wide
+        kubectl get deployment o4-nginx -n "{{ app_namespace }}" -o wide
+        kubectl get svc "{{ app_service }}" -n "{{ app_namespace }}" -o wide
+
+        echo
+        echo '===== RBAC validation ====='
+        OperatorCreate="$(kubectl auth can-i create deployments.apps -n "{{ app_namespace }}" --as='aks-operator@entra.azawslab.co.uk' --as-group="{{ app_operators_group_id }}")"
+        OperatorDeleteSvc="$(kubectl auth can-i delete services -n "{{ app_namespace }}" --as='aks-operator@entra.azawslab.co.uk' --as-group="{{ app_operators_group_id }}")"
+        ReaderGetPods="$(kubectl auth can-i get pods -n "{{ app_namespace }}" --as='aks-reader@entra.azawslab.co.uk' --as-group="{{ readers_group_id }}")"
+        ReaderCreate="$(kubectl auth can-i create deployments.apps -n "{{ app_namespace }}" --as='aks-reader@entra.azawslab.co.uk' --as-group="{{ readers_group_id }}")"
+
+        echo "app-operator create deployments: ${OperatorCreate}"
+        echo "app-operator delete services: ${OperatorDeleteSvc}"
+        echo "reader get pods: ${ReaderGetPods}"
+        echo "reader create deployments: ${ReaderCreate}"
+
+        test "${OperatorCreate}" = "yes"
+        test "${OperatorDeleteSvc}" = "yes"
+        test "${ReaderGetPods}" = "yes"
+        test "${ReaderCreate}" = "no"
+
+        echo
+        echo '===== Internal endpoint validation ====='
+        InternalIp="$(kubectl get svc "{{ app_service }}" -n "{{ app_namespace }}" -o jsonpath='{.status.loadBalancer.ingress[0].ip}' || true)"
+
+        if [ -z "${InternalIp}" ]; then
+          echo 'ERROR: Internal LoadBalancer IP is missing.'
+          echo 'Possible stop condition: AKS-created internal LoadBalancer resources may be blocked by Azure tag policy.'
+          echo 'Do not work around this manually. Decide whether to use ClusterIP/port-forward or Terraform-managed/tagged internal ingress.'
+          kubectl describe svc "{{ app_service }}" -n "{{ app_namespace }}" || true
+          exit 1
+        fi
+
+        echo "Internal service IP: ${InternalIp}"
+        curl -I --connect-timeout 10 "http://${InternalIp}"
+
+        echo
+        echo '===== Endpoint pattern note ====='
+        echo 'This validates the first private app endpoint using an internal LoadBalancer service.'
+        echo 'It is not claiming full internal NGINX ingress implementation.'
+      args:
+        executable: /bin/bash
+      register: o4_apply
+      changed_when: "'created' in o4_apply.stdout or 'configured' in o4_apply.stdout or 'deleted' in o4_apply.stdout"
+
+    - name: Print O4 approved apply output
+      ansible.builtin.debug:
+        var: o4_apply.stdout_lines

@@ -1,0 +1,58 @@
+﻿---
+- name: O4 Tier 1 - Read-only private AKS validation from management host
+  hosts: vm_dev_mgmt_01
+  gather_facts: false
+  vars:
+    aks_rg: rg-dev-aks-norwayeast
+    aks_name: aks-dev-norwayeast-01
+    app_namespace: prod-workload
+  tasks:
+    - name: Run O4 read-only validation
+      ansible.builtin.shell: |
+        set -euo pipefail
+        export PATH="$HOME/bin:$PATH"
+
+        az login --identity >/dev/null
+
+        az aks get-credentials \
+          --resource-group "{{ aks_rg }}" \
+          --name "{{ aks_name }}" \
+          --overwrite-existing >/dev/null
+
+        kubelogin convert-kubeconfig -l azurecli >/dev/null
+
+        echo '===== AKS nodes ====='
+        kubectl get nodes -o wide
+
+        echo
+        echo '===== Bootstrap authorization ====='
+        kubectl auth can-i '*' '*'
+
+        echo
+        echo '===== kube-system health ====='
+        kubectl get pods -n kube-system -o wide
+
+        echo
+        echo '===== Workload Identity and CSI validation ====='
+        kubectl get pods -n kube-system -o wide | grep -E 'azure-wi-webhook|secrets-store|aks-secrets-store|NAME'
+        kubectl get csidriver
+
+        echo
+        echo '===== O4 app namespace state - tolerant if not created yet ====='
+        kubectl get namespace "{{ app_namespace }}" --show-labels || true
+        kubectl get pods -n "{{ app_namespace }}" -o wide || true
+        kubectl get svc -n "{{ app_namespace }}" -o wide || true
+        kubectl get roles,rolebindings -n "{{ app_namespace }}" || true
+
+        echo
+        echo '===== O4 app image - tolerant if deployment is absent ====='
+        kubectl get deployment o4-nginx -n "{{ app_namespace }}" \
+          -o jsonpath='{.spec.template.spec.containers[0].image}{"\n"}' || true
+      args:
+        executable: /bin/bash
+      register: o4_readonly
+      changed_when: false
+
+    - name: Print O4 read-only validation output
+      ansible.builtin.debug:
+        var: o4_readonly.stdout_lines

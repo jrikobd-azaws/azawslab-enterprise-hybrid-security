@@ -1,0 +1,49 @@
+﻿---
+- name: O4 Tier 3 - Preflight dry-run from management host
+  hosts: vm_dev_mgmt_01
+  gather_facts: false
+  vars:
+    aks_rg: rg-dev-aks-norwayeast
+    aks_name: aks-dev-norwayeast-01
+    manifest_source: "{{ playbook_dir }}/../../kubernetes/o4-prod-workload-rbac-app.yml"
+    manifest_target: /tmp/o4-prod-workload-rbac-app.yml
+  tasks:
+    - name: Copy O4 Kubernetes manifest to management host
+      ansible.builtin.copy:
+        src: "{{ manifest_source }}"
+        dest: "{{ manifest_target }}"
+        mode: "0644"
+
+    - name: Run O4 server-side dry-run and diff
+      ansible.builtin.shell: |
+        set -euo pipefail
+        export PATH="$HOME/bin:$PATH"
+
+        az login --identity >/dev/null
+
+        az aks get-credentials \
+          --resource-group "{{ aks_rg }}" \
+          --name "{{ aks_name }}" \
+          --overwrite-existing >/dev/null
+
+        kubelogin convert-kubeconfig -l azurecli >/dev/null
+
+        echo '===== kubectl server-side dry-run ====='
+        kubectl apply --server-side --dry-run=server -f "{{ manifest_target }}"
+
+        echo
+        echo '===== kubectl diff - informational only ====='
+        kubectl diff -f "{{ manifest_target }}" || true
+
+        echo
+        echo '===== Preflight note ====='
+        echo 'This tier validates manifest acceptance without persistent Kubernetes changes.'
+        echo 'ACR image pull is validated at the start of Tier 4 before applying the manifest.'
+      args:
+        executable: /bin/bash
+      register: o4_preflight
+      changed_when: false
+
+    - name: Print O4 preflight output
+      ansible.builtin.debug:
+        var: o4_preflight.stdout_lines

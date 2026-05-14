@@ -1,0 +1,64 @@
+﻿---
+- name: O4 Tier 2 - Sanitized snapshot from management host
+  hosts: vm_dev_mgmt_01
+  gather_facts: false
+  vars:
+    aks_rg: rg-dev-aks-norwayeast
+    aks_name: aks-dev-norwayeast-01
+    app_namespace: prod-workload
+    snapshot_file: /home/azureuser/o4-awx-tier2-sanitized-snapshot.txt
+  tasks:
+    - name: Create sanitized O4 snapshot
+      ansible.builtin.shell: |
+        set -euo pipefail
+        export PATH="$HOME/bin:$PATH"
+
+        az login --identity >/dev/null
+
+        az aks get-credentials \
+          --resource-group "{{ aks_rg }}" \
+          --name "{{ aks_name }}" \
+          --overwrite-existing >/dev/null
+
+        kubelogin convert-kubeconfig -l azurecli >/dev/null
+
+        {
+          echo 'O4 AWX Tier 2 Sanitized Snapshot'
+          echo '================================'
+          echo
+          echo 'No secrets, tokens, kubeconfigs, private keys, or credential values are included.'
+          echo
+          echo '===== Nodes ====='
+          kubectl get nodes -o wide
+          echo
+          echo '===== Namespaces ====='
+          kubectl get namespaces --show-labels
+          echo
+          echo '===== prod-workload namespace - tolerant if absent ====='
+          kubectl get namespace "{{ app_namespace }}" --show-labels || true
+          echo
+          echo '===== prod-workload pods - tolerant if absent ====='
+          kubectl get pods -n "{{ app_namespace }}" -o wide || true
+          echo
+          echo '===== prod-workload services - tolerant if absent ====='
+          kubectl get svc -n "{{ app_namespace }}" -o wide || true
+          echo
+          echo '===== prod-workload RBAC - tolerant if absent ====='
+          kubectl get roles,rolebindings -n "{{ app_namespace }}" -o wide || true
+          echo
+          echo '===== Managed Prometheus pods ====='
+          kubectl get pods -n kube-system -o wide | grep -E 'ama-metrics|NAME'
+          echo
+          echo '===== CSI drivers ====='
+          kubectl get csidriver
+        } > "{{ snapshot_file }}"
+
+        cat "{{ snapshot_file }}"
+      args:
+        executable: /bin/bash
+      register: o4_snapshot
+      changed_when: false
+
+    - name: Print sanitized snapshot location
+      ansible.builtin.debug:
+        msg: "Sanitized snapshot saved on management host at {{ snapshot_file }}"
