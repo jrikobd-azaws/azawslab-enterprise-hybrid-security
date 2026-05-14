@@ -56,3 +56,14 @@ variable "p5_gateway_ingress_fortigate_port1_ip" {
   type        = string
   default     = "10.0.3.4"
 }
+variable "enable_o5_avd_egress" {
+  description = "Controls whether O5 Azure Virtual Desktop egress readiness rules are enabled in the Azure Firewall policy."
+  type        = bool
+  default     = false
+}
+
+variable "o5_avd_source_addresses" {
+  description = "Source CIDR ranges for O5 AVD session host outbound egress through Azure Firewall."
+  type        = list(string)
+  default     = ["10.2.0.0/16"]
+}

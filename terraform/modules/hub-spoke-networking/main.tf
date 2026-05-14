@@ -344,6 +344,82 @@ resource "azurerm_bastion_host" "this" {
   }
 }
 
+resource "azurerm_firewall_policy_rule_collection_group" "o5_avd_egress" {
+  count = var.enable_azure_firewall && var.enable_o5_avd_egress ? 1 : 0
 
+  name               = "rcg-o5-avd-egress"
+  firewall_policy_id = azurerm_firewall_policy.this[0].id
+  priority           = 110
 
+  application_rule_collection {
+    name     = "arc-o5-avd-required"
+    priority = 100
+    action   = "Allow"
 
+    rule {
+      name             = "allow-avd-service-fqdn-tag"
+      source_addresses = var.o5_avd_source_addresses
+
+      destination_fqdn_tags = [
+        "WindowsVirtualDesktop"
+      ]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+    }
+
+    rule {
+      name             = "allow-windows-update-fqdn-tag"
+      source_addresses = var.o5_avd_source_addresses
+
+      destination_fqdn_tags = [
+        "WindowsUpdate"
+      ]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+    }
+  }
+
+  application_rule_collection {
+    name     = "arc-o5-avd-auth-bootstrap"
+    priority = 110
+    action   = "Allow"
+
+    rule {
+      name             = "allow-avd-identity-arm-storage-bootstrap"
+      source_addresses = var.o5_avd_source_addresses
+
+      destination_fqdns = [
+        "login.microsoftonline.com",
+        "device.login.microsoftonline.com",
+        "enterpriseregistration.windows.net",
+        "management.azure.com",
+        "*.blob.core.windows.net"
+      ]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+    }
+  }
+
+  network_rule_collection {
+    name     = "nrc-o5-avd-monitoring"
+    priority = 200
+    action   = "Allow"
+
+    rule {
+      name                  = "allow-azure-monitor-service-tag"
+      source_addresses      = var.o5_avd_source_addresses
+      destination_addresses = ["AzureMonitor"]
+      destination_ports     = ["443"]
+      protocols             = ["TCP"]
+    }
+  }
+}
