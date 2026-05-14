@@ -3,7 +3,7 @@
 **Version:** 5.0
 **Last Updated:** [Current Date]
 **Aligns with:** `README_PLAN.md`
-**Applies to:** All Release 2 phases (`P0â€“P9c`, `O1â€“O5`)
+**Applies to:** All Release 2 phases (`P0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œP9c`, `O1ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œO5`)
 **Related Docs:** [Architecture Decision Records](./architechture.md), [Master Plan](./README_PLAN.md), [Implementation Tracker](./implementation-tracker.md), [Phase Guide](./Phases-with-steps.md)
 
 ---
@@ -94,7 +94,7 @@ Release 2 uses a **single primary lab environment** with naming that still refle
 | Key Vault | `kv-<env>-<purpose>-<suffix>` | `kv-dev-platform-001` | Suffix should be numeric or random |
 | Log Analytics Workspace | `la-<env>-<purpose>` | `la-dev-platform` | Shared monitoring target |
 | Storage Account (Terraform state) | `st<env><service><unique>` | `stdevtfstatene01` | Lowercase only, no hyphens |
-| Storage Account (FSLogix) | `st<env>fslogix<unique>` | `stdevfslogix001` | Premium as required by design |
+| Storage Account (FSLogix) | `st<env>fslogix<unique>` | `stdevavdfsne01` | Premium as required by design |
 | Recovery Services Vault | `rsv-<env>-<purpose>` | `rsv-dev-backup` | Backup / DR scope |
 | Resource Guard RG | `rg-<env>-resourceguard` | `rg-dev-resourceguard` | For MUA / Resource Guard design |
 | Virtual Machine | `vm-<env>-<role>-<nn>` | `vm-dev-dc1-01` | Applies to Azure VMs |
@@ -111,10 +111,10 @@ Release 2 uses a **single primary lab environment** with naming that still refle
 | Data Connector | `connector-<source>` | `connector-azure-activity` | Sentinel connector labels |
 | Private DNS Zone | fixed provider format | `privatelink.blob.core.windows.net` | Do not modify provider-defined names |
 | Azure Arc Machine | existing machine name | `vm-dev-dc1-01` | Arc projects existing machine identity |
-| AVD Host Pool | `hp-<env>-<pooltype>` | `hp-dev-pooled` | `pooled`, `personal` |
-| AVD App Group | `dag-<env>-<type>` | `dag-dev-desktop` | Desktop or RemoteApp |
-| AVD Workspace | `ws-<env>-<region>` | `ws-dev-norwayeast` | Use region suffix |
-| FSLogix Share | `share-<env>-fslogix` | `share-dev-fslogix` | Azure Files share |
+| AVD Host Pool | `hp-<env>-<pooltype>` | `vdpool-dev-norwayeast` | `pooled`, `personal` |
+| AVD App Group | `dag-<env>-<type>` | `vdag-dev-norwayeast` | Desktop or RemoteApp |
+| AVD Workspace | `ws-<env>-<region>` | `vdws-dev-norwayeast` | Use region suffix |
+| FSLogix Share | `share-<env>-fslogix` | `fslogix-profiles` | Azure Files share |
 | GSA Remote Network | `gsa-rn-<site>` | `gsa-rn-azurehub` | Logical object in Entra |
 | GSA Connector VM | `vm-<env>-gsa-connector-<nn>` | `vm-dev-gsa-connector-01` | Connector host VM |
 
@@ -295,13 +295,13 @@ Avoid ad hoc role values unless the master plan explicitly introduces a new role
 
 ## 10. Phase-Specific Naming Examples
 
-### P0 â€“ Foundation
+### P0 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Foundation
 - `sp-terraform-gh`
 - `rg-dev-terraformstate-norwayeast`
 - `stdevtfstatene01`
 - `tfstate`
 
-### P1 / P3 â€“ Governance
+### P1 / P3 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Governance
 - `mg-platform-prod-global`
 - `mg-landingzones-prod-global`
 - `mg-sandbox-prod-global`
@@ -309,39 +309,39 @@ Avoid ad hoc role values unless the master plan explicitly introduces a new role
 - `policy-allowed-vm-skus`
 - `policy-mandatory-tags`
 
-### P5 – Hub-Spoke Networking
+### P5 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Hub-Spoke Networking
 - `vnet-dev-norwayeast-hub`
 - `vnet-dev-norwayeast-spoke-workload`
 - `snet-workload`
 - `snet-mgmt`
 - `rt-udr-to-firewall-norwayeast`
 
-### P6 â€“ Azure Firewall
+### P6 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Azure Firewall
 - `afw-dev-norwayeast-01`
 - `afwp-dev-norwayeast`
 - `pip-azfw-norwayeast-01`
 
-### O1 â€“ FortiGate
+### O1 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ FortiGate
 - `vm-dev-fortigate-01`
 - `pip-fortigate-norwayeast-01`
 - `rt-udr-to-fortigate-norwayeast`
 
-### O3a â€“ FortiGate â†” VyOS
+### O3a ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ FortiGate ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â VyOS
 - `vm-dev-fortigate-01`
 - `vyos-dev-onprem-01`
 - `peer-hq-vyos`
 - `lngw-dev-hq`
 
-### O3b â€“ AWS Branch
+### O3b ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ AWS Branch
 - `peer-aws-cisco`
 - `cisco-dev-branch-01`
 
-### O5 â€“ AVD
-- `hp-dev-pooled`
-- `dag-dev-desktop`
-- `ws-dev-norwayeast`
-- `stdevfslogix001`
-- `share-dev-fslogix`
+### O5 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ AVD
+- `vdpool-dev-norwayeast`
+- `vdag-dev-norwayeast`
+- `vdws-dev-norwayeast`
+- `stdevavdfsne01`
+- `fslogix-profiles`
 
 ---
 
@@ -490,8 +490,8 @@ Do not use:
 - `sp-terraform-gh`
 - `peer-hq-vyos`
 - `peer-aws-cisco`
-- `hp-dev-pooled`
-- `ws-dev-norwayeast`
+- `vdpool-dev-norwayeast`
+- `vdws-dev-norwayeast`
 
 ---
 
@@ -687,3 +687,27 @@ Approved write:
   user: ansible-a2-config-svc
   Key Vault secret: p5-fortigate-api-token-config
 ```
+
+<!-- O5-CANONICAL-NAMING-ADDENDUM:START -->
+
+## O5 Canonical Naming Addendum
+
+| O5 component | Canonical name |
+|---|---|
+| AVD resource group | `rg-dev-avd-norwayeast` |
+| AVD host pool | `vdpool-dev-norwayeast` |
+| AVD workspace | `vdws-dev-norwayeast` |
+| AVD desktop application group | `vdag-dev-norwayeast` |
+| AVD spoke VNet | `vnet-dev-norwayeast-spoke-avd` |
+| AVD subnet | `snet-avd` |
+| AVD route table | `rt-avd-to-hub-norwayeast` |
+| FSLogix storage account | `stdevavdfsne01` |
+| FSLogix file share | `fslogix-profiles` |
+| Azure Files private endpoint | `pe-stdevavdfsne01-file` |
+| AVD admins group | `azw-avd-admins` |
+| AVD users group | `azw-avd-users` |
+| AVD platform engineers group | `azw-avd-platform-engineers` |
+
+O5 implementation must use these names unless the source-of-truth documents are intentionally revised before Terraform code is generated.
+
+<!-- O5-CANONICAL-NAMING-ADDENDUM:END -->

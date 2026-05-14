@@ -1450,11 +1450,11 @@ Deploy Azure Virtual Desktop with FSLogix profile containers and validate user s
   - workspace
   - application group
   - FSLogix-backed profile storage
-- **Workspace:** `ws-dev-norwayeast`
-- **Host pool:** `hp-dev-pooled`
-- **App group:** `dag-dev-desktop`
-- **FSLogix storage:** `stdevfslogix001`
-- **FSLogix share:** `share-dev-fslogix`
+- **Workspace:** `vdws-dev-norwayeast`
+- **Host pool:** `vdpool-dev-norwayeast`
+- **App group:** `vdag-dev-norwayeast`
+- **FSLogix storage:** `stdevavdfsne01`
+- **FSLogix share:** `fslogix-profiles`
 
 ## Text Diagram
 ```text
@@ -1546,7 +1546,7 @@ docs/
 
 ---
 
-## O1 Closeout Addendum â€“ FortiGate Azure-to-HQ Service Chaining
+## O1 Closeout Addendum ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ FortiGate Azure-to-HQ Service Chaining
 
 O1 has validated controlled Azure workload to HQ service chaining through the FortiGate NVA.
 
@@ -2110,3 +2110,46 @@ Helm
 Docker CLI or approved container tooling
 Ansible/Python support tools
 ```
+
+<!-- O5-FINAL-PHASE-DIRECTION:START -->
+
+# O5 Finalized Phase Direction - AVD Secure Admin/Dev Workspace
+
+O5 follows O4. O4 provides the private AKS platform and can initially be operated from the existing management host and AWX. O5 adds the polished secure admin/dev workspace using Azure Virtual Desktop and FSLogix.
+
+## Canonical O5 design
+
+```text
+Engineer laptop
+    |
+    | AVD broker / HTTPS
+    v
+AVD personal session host
+    |
+    +-- Azure CLI / kubectl / kubelogin / Helm / Git / VS Code / Terraform / AWS CLI
+    |
+    +-- Azure Firewall path
+    |     AVD control plane, Microsoft endpoints, tooling, updates
+    |
+    +-- Hybrid path
+    |     HQ DNS/AD and private systems where intentionally routed
+    |
+    +-- Azure Files private endpoint
+          FSLogix profile container
+```
+
+## O5 implementation order
+
+```text
+1. Finish or stabilize O4.
+2. Run O5 source/state/provider/SKU/policy/network preflight.
+3. Add O5 dedicated Terraform root and root-specific workflow.
+4. Deploy AVD/FSLogix/session host infrastructure through GitHub Actions.
+5. Configure session hosts through AWX/Ansible.
+6. Validate AVD sign-in, FSLogix profile persistence, route/egress, and O4 AKS access.
+7. Capture final evidence and close O5.
+```
+
+O5 must not modify O4 AKS resources. O5 consumes O4 for validation.
+
+<!-- O5-FINAL-PHASE-DIRECTION:END -->

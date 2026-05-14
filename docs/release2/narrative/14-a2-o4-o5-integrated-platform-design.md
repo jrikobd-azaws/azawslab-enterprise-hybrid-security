@@ -379,3 +379,44 @@ O4 evidence is stored under:
 docs/release2/evidence/O4/
 ```
 
+<!-- O5-STATE-BOUNDARY-ALIGNMENT:START -->
+
+## O5 State Boundary and O4 Dependency Alignment
+
+O5 consumes O4; it does not own O4. The secure AVD admin/dev workspace is expected to validate the private AKS platform after O4 is closed or stable.
+
+```text
+O4 platform-aks/dev
+  creates:
+    private AKS
+    ACR
+    Azure Monitor workspace
+    managed Prometheus configuration
+    Azure Managed Grafana
+    AKS node subnet and UDR
+
+O5 platform-avd/dev
+  creates:
+    AVD host pool
+    AVD workspace
+    desktop application group
+    AVD session host
+    FSLogix Azure Files storage
+    Azure Files private endpoint
+    AVD subnet and route table
+
+O5 validation path:
+  AVD session host
+    -> Azure CLI
+    -> kubectl / kubelogin
+    -> O4 private AKS API
+    -> O4 internal app
+    -> Grafana / Azure Monitor
+    -> AWX
+```
+
+This separation prevents AVD lifecycle operations from modifying the AKS platform, and prevents AKS lifecycle operations from touching the secure workspace.
+
+O5 first implementation uses the personal/single-user admin/dev workspace model. The workspace is intended for controlled operator access, not broad pooled desktop delivery.
+
+<!-- O5-STATE-BOUNDARY-ALIGNMENT:END -->
