@@ -1,4 +1,4 @@
-﻿---
+---
 - name: O4 Tier 4 - Approved idempotent app/RBAC apply from management host
   hosts: vm_dev_mgmt_01
   gather_facts: false
@@ -65,20 +65,40 @@
 
         echo
         echo '===== RBAC validation ====='
-        OperatorCreate="$(kubectl auth can-i create deployments.apps -n "{{ app_namespace }}" --as='aks-operator@entra.azawslab.co.uk' --as-group="{{ app_operators_group_id }}")"
-        OperatorDeleteSvc="$(kubectl auth can-i delete services -n "{{ app_namespace }}" --as='aks-operator@entra.azawslab.co.uk' --as-group="{{ app_operators_group_id }}")"
-        ReaderGetPods="$(kubectl auth can-i get pods -n "{{ app_namespace }}" --as='aks-reader@entra.azawslab.co.uk' --as-group="{{ readers_group_id }}")"
-        ReaderCreate="$(kubectl auth can-i create deployments.apps -n "{{ app_namespace }}" --as='aks-reader@entra.azawslab.co.uk' --as-group="{{ readers_group_id }}")"
+
+        can_i() {
+          kubectl auth can-i "$@" || true
+        }
+
+        OperatorCreate="$(can_i create deployments.apps -n "{{ app_namespace }}" --as='aks-operator@entra.azawslab.co.uk' --as-group="{{ app_operators_group_id }}")"
+        OperatorDeleteSvc="$(can_i delete services -n "{{ app_namespace }}" --as='aks-operator@entra.azawslab.co.uk' --as-group="{{ app_operators_group_id }}")"
+        ReaderGetPods="$(can_i get pods -n "{{ app_namespace }}" --as='aks-reader@entra.azawslab.co.uk' --as-group="{{ readers_group_id }}")"
+        ReaderCreate="$(can_i create deployments.apps -n "{{ app_namespace }}" --as='aks-reader@entra.azawslab.co.uk' --as-group="{{ readers_group_id }}")"
 
         echo "app-operator create deployments: ${OperatorCreate}"
         echo "app-operator delete services: ${OperatorDeleteSvc}"
         echo "reader get pods: ${ReaderGetPods}"
         echo "reader create deployments: ${ReaderCreate}"
 
-        test "${OperatorCreate}" = "yes"
-        test "${OperatorDeleteSvc}" = "yes"
-        test "${ReaderGetPods}" = "yes"
-        test "${ReaderCreate}" = "no"
+        if [ "${OperatorCreate}" != "yes" ]; then
+          echo 'ERROR: app-operator cannot create deployments.'
+          exit 1
+        fi
+
+        if [ "${OperatorDeleteSvc}" != "yes" ]; then
+          echo 'ERROR: app-operator cannot delete services.'
+          exit 1
+        fi
+
+        if [ "${ReaderGetPods}" != "yes" ]; then
+          echo 'ERROR: reader cannot get pods.'
+          exit 1
+        fi
+
+        if [ "${ReaderCreate}" != "no" ]; then
+          echo 'ERROR: reader can create deployments, but should be read-only.'
+          exit 1
+        fi
 
         echo
         echo '===== Internal endpoint validation ====='
