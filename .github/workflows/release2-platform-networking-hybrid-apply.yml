@@ -12,6 +12,7 @@ on:
           - current-hybrid
           - current-hybrid-o4
           - current-hybrid-o5
+          - current-hybrid-o5
           - o1-service-chain
       confirm_apply:
         description: "Set to true to apply the reviewed Terraform plan"
@@ -78,7 +79,7 @@ jobs:
               echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=true' -var='enable_p5_gateway_ingress_fortigate=true' -var='enable_o3b_aws_cisco_vpn=true' -var='enable_azure_firewall=true'" >> "$GITHUB_OUTPUT"
               ;;
             current-hybrid-o5)
-              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=true' -var='enable_p5_gateway_ingress_fortigate=true' -var='enable_o3b_aws_cisco_vpn=true' -var='enable_azure_firewall=true' -var='enable_o5_avd_egress=true'" >> "$GITHUB_OUTPUT"
+              echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=true' -var='enable_p5_gateway_ingress_fortigate=true' -var='enable_o3b_aws_cisco_vpn=true' -var='enable_azure_firewall=true' -var='enable_o5_avd_egress=true' -var='enable_o5_avd_peering=true'" >> "$GITHUB_OUTPUT"
               ;;            current-hybrid)
               echo "flags=-var='enable_p5_fortigate=true' -var='enable_o3a_fortigate_vyos_ipsec=false' -var='enable_o3a_azure_vpngw_vyos=true' -var='enable_o1_fortigate_service_chain=true' -var='enable_p5_gateway_ingress_fortigate=true' -var='enable_o3b_aws_cisco_vpn=true'" >> "$GITHUB_OUTPUT"
               ;;
