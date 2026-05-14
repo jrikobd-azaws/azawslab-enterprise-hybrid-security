@@ -106,6 +106,74 @@ Included:
 - Azure Firewall egress path.
 - FortiGate only where private/hybrid inspection is proven.
 
+
+## O4 RBAC and Authorization Model
+
+O4 uses separate authorization layers. These layers must not be mixed.
+
+```text
+Azure control plane
+  |
+  +-- Azure RBAC
+  |     |
+  |     +-- GitHub OIDC deploys Azure resources
+  |     +-- AKS identity gets Network Contributor on subnet
+  |     +-- kubelet identity gets AcrPull on ACR
+  |     +-- Grafana/Monitor roles assigned to Entra groups
+  |     +-- vm-dev-mgmt-01 gets AKS Cluster User Role for kubeconfig
+  |
+  v
+AKS API authentication
+  |
+  +-- Microsoft Entra ID
+        |
+        +-- azw-aks-platform-admins
+              |
+              +-- vm-dev-mgmt-01 managed identity joins for bootstrap execution
+
+Inside Kubernetes
+  |
+  +-- Kubernetes RBAC
+        |
+        +-- prod-workload namespace
+              |
+              +-- azw-aks-app-operators RoleBinding
+              +-- azw-aks-readers RoleBinding
+```
+
+The practical split is:
+
+```text
+Azure RBAC:
+  controls Azure resources and Azure control-plane operations
+
+Microsoft Entra ID:
+  authenticates users, groups, and managed identities to AKS
+
+Kubernetes RBAC:
+  authorizes namespace and application actions inside AKS
+```
+
+O4 therefore does not use Azure Kubernetes Service RBAC Writer or Reader roles for app teams. The cluster uses Microsoft Entra authentication with Kubernetes RBAC authorization. Application operator and reader permissions are implemented through Kubernetes Role and RoleBinding objects in the `prod-workload` namespace.
+
+The O4 execution model is:
+
+```text
+A2 AWX control plane
+  |
+  | dispatches approved jobs
+  v
+vm-dev-mgmt-01
+  |
+  | az login --identity
+  | az aks get-credentials
+  | kubectl / kubelogin
+  v
+O4 private AKS API
+```
+
+AWX remains the control plane. It was not granted direct AKS write permission. `vm-dev-mgmt-01` is the approved private execution target for O4 bootstrap and validation.
+
 ## O5 AVD Scope
 
 O5 deploys a single-user secure admin/dev workspace.
