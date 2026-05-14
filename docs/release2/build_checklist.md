@@ -1,4 +1,4 @@
-# Build Checklist â€“ Release 2
+# Build Checklist ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Release 2
 
 **Version:** 1.0
 **Last Updated:** [02-May-2026]
@@ -39,7 +39,7 @@ That role belongs to `implementation-tracker.md`.
 - [ ] Do not start infrastructure build work until docs are aligned
 - [ ] Do not create resources with ad hoc names
 - [ ] Do not skip validation just because deployment succeeded
-- [ ] Do not skip evidence capture until â€œlaterâ€
+- [ ] Do not skip evidence capture until ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œlaterÃƒÂ¢Ã¢â€šÂ¬Ã‚Â
 - [ ] Do not leave expensive ephemeral resources running unnecessarily
 - [ ] Do not reintroduce RRAS terminology or config assumptions into Release 2
 - [ ] Treat Release 2 as CLI-first: capture text evidence first, screenshots second
@@ -168,8 +168,8 @@ Use this section every time before beginning a new phase.
 
 ### Phase Intent Check
 - [ ] I can explain what this phase is supposed to prove
-- [ ] I know what â€œdoneâ€ means for this phase
-- [ ] I am not starting the phase just because it â€œlooks nextâ€ without readiness
+- [ ] I know what ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œdoneÃƒÂ¢Ã¢â€šÂ¬Ã‚Â means for this phase
+- [ ] I am not starting the phase just because it ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œlooks nextÃƒÂ¢Ã¢â€šÂ¬Ã‚Â without readiness
 
 ---
 
@@ -218,7 +218,7 @@ Use this before running playbooks.
 - [ ] no secrets are exposed in plaintext files unnecessarily
 - [ ] expected host roles are understood
 - [ ] `ansible-lint` has been run
-- [ ] I know what â€œsuccessful rerunâ€ should look like for idempotency
+- [ ] I know what ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œsuccessful rerunÃƒÂ¢Ã¢â€šÂ¬Ã‚Â should look like for idempotency
 
 ---
 
@@ -359,7 +359,7 @@ Use this while you are still working mainly through GitHub Desktop.
 - [ ] using inconsistent naming
 - [ ] forgetting tags
 - [ ] reintroducing stale RRAS wording
-- [ ] treating â€œdeployment succeededâ€ as â€œphase completedâ€
+- [ ] treating ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œdeployment succeededÃƒÂ¢Ã¢â€šÂ¬Ã‚Â as ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œphase completedÃƒÂ¢Ã¢â€šÂ¬Ã‚Â
 - [ ] making too many file changes at once without controlled commits
 
 ---
@@ -368,7 +368,7 @@ Use this while you are still working mainly through GitHub Desktop.
 
 Use this when you need a simple execution memory aid.
 
-### Stage A â€“ Control the Docs
+### Stage A ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Control the Docs
 - [ ] align `README_PLAN.md`
 - [ ] align `implementation-tracker.md`
 - [ ] align `Phases-with-steps.md`
@@ -376,14 +376,14 @@ Use this when you need a simple execution memory aid.
 - [ ] align `README.md`
 - [ ] align `build_checklist.md`
 
-### Stage B â€“ Prepare the Build Environment
+### Stage B ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Prepare the Build Environment
 - [ ] Azure readiness
 - [ ] repo readiness
 - [ ] VS Code / Codespaces readiness
 - [ ] GitHub environment readiness
 - [ ] on-prem / AWS optional readiness
 
-### Stage C â€“ Execute Core Phases
+### Stage C ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Execute Core Phases
 - [ ] P0
 - [ ] P1
 - [ ] P2a
@@ -397,7 +397,7 @@ Use this when you need a simple execution memory aid.
 - [ ] P9b
 - [ ] P9c
 
-### Stage D â€“ Execute Optional Phases Only If Ready
+### Stage D ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Execute Optional Phases Only If Ready
 - [x] P4
 - [ ] P6
 - [x] O1
@@ -427,7 +427,7 @@ Use this when you need a simple execution memory aid.
 - [x] evidence saved under `docs/release2/evidence/P4/`
 - [x] Lighthouse delegation intentionally retained for portfolio demonstration until later teardown decision
 
-### Stage E â€“ Final Review
+### Stage E ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Final Review
 - [ ] evidence complete
 - [ ] costly resources reviewed
 - [ ] tracker honest and updated
@@ -459,7 +459,7 @@ Use this when you need a simple execution memory aid.
 
 ## 19. Personal Session Notes
 
-### Todayâ€™s Target
+### TodayÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢s Target
 - [ ] ___________________________________________
 
 ### Blockers
@@ -864,3 +864,32 @@ Date: 2026-05-06 00:59:25 +01:00
 - [ ] Admin/dev toolchain documented
 - [ ] AWX access validation planned
 - [ ] AKS tooling validation planned
+
+<!-- O5-CORRECTED-BUILD-CHECKLIST:START -->
+
+## O5 Corrected Build Checklist Addendum
+
+- [ ] Confirm O4 is closed or stable before O5 implementation starts.
+- [ ] Confirm O5 dedicated Terraform root name before code generation.
+- [ ] Confirm root-specific O5 GitHub Actions workflow.
+- [ ] Confirm canonical O5 names are used:
+  - [ ] `vdpool-dev-norwayeast`
+  - [ ] `vdws-dev-norwayeast`
+  - [ ] `vdag-dev-norwayeast`
+  - [ ] `vnet-dev-norwayeast-spoke-avd`
+  - [ ] `snet-avd`
+  - [ ] `rt-avd-to-hub-norwayeast`
+  - [ ] `stdevavdfsne01`
+  - [ ] `fslogix-profiles`
+  - [ ] `pe-stdevavdfsne01-file`
+- [ ] Confirm personal/single-user admin/dev workspace model.
+- [ ] Confirm no public IP on AVD session host.
+- [ ] Confirm FSLogix Azure Files private endpoint.
+- [ ] Confirm AVD required endpoints are allowed through Azure Firewall where enabled.
+- [ ] Confirm HQ DNS/AD path before domain-join implementation.
+- [ ] Confirm O5 does not modify O4 AKS state.
+- [ ] Confirm O5 validates `kubectl get nodes` against O4 private AKS.
+- [ ] Confirm Docker Desktop remains optional; Docker CLI or approved container tooling is sufficient for baseline.
+- [ ] Confirm final O5 evidence excludes secrets, raw logs, kubeconfigs, private keys, tfstate, tfplan, and noisy trial/error outputs.
+
+<!-- O5-CORRECTED-BUILD-CHECKLIST:END -->
