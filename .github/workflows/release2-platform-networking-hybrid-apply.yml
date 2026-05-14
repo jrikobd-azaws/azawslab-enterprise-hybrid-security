@@ -12,7 +12,6 @@ on:
           - current-hybrid
           - current-hybrid-o4
           - current-hybrid-o5
-          - current-hybrid-o5
           - o1-service-chain
       confirm_apply:
         description: "Set to true to apply the reviewed Terraform plan"
