@@ -3,6 +3,14 @@ name: Release 2 - Platform AVD Apply
 on:
   workflow_dispatch:
     inputs:
+      deployment_mode:
+        description: "Select platform-avd operation"
+        required: true
+        default: "deploy-foundation"
+        type: choice
+        options:
+          - "deploy-foundation"
+          - "cleanup-partial-foundation"
       confirm_apply:
         description: "Set to true to apply the reviewed Terraform plan"
         required: true
@@ -43,6 +51,25 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Resolve Terraform flags
+        id: tfvars
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          case "${{ github.event.inputs.deployment_mode }}" in
+            deploy-foundation)
+              echo "flags=-var='enable_o5_avd=true'" >> "$GITHUB_OUTPUT"
+              ;;
+            cleanup-partial-foundation)
+              echo "flags=-var='enable_o5_avd=false'" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "Unsupported deployment_mode: ${{ github.event.inputs.deployment_mode }}"
+              exit 1
+              ;;
+          esac
+
       - name: Terraform fmt check
         run: terraform fmt -check -recursive
 
@@ -53,8 +80,8 @@ jobs:
         run: terraform validate
 
       - name: Terraform plan
-        run: terraform plan -no-color -input=false -lock-timeout=5m -var='enable_o5_avd=true'
+        run: terraform plan -no-color -input=false -lock-timeout=5m ${{ steps.tfvars.outputs.flags }}
 
       - name: Terraform apply
         if: ${{ github.event.inputs.confirm_apply == 'true' }}
-        run: terraform apply -auto-approve -input=false -lock-timeout=5m -var='enable_o5_avd=true'
+        run: terraform apply -auto-approve -input=false -lock-timeout=5m ${{ steps.tfvars.outputs.flags }}
