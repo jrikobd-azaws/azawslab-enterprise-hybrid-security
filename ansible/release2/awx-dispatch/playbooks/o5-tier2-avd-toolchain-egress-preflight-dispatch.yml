@@ -8,35 +8,30 @@
     avd_session_host_name: vm-dev-avd-01
 
   tasks:
-    - name: Run O5 toolchain egress preflight from AVD session host
+    - name: Login to Azure with vm-dev-mgmt-01 managed identity
       ansible.builtin.shell: |
         set -euo pipefail
+        timeout 60 az login --identity --output none
+        az account show --query '{user:user.name,tenantId:tenantId,subscriptionId:id,name:name,state:state}' --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
 
-        export PATH="$HOME/bin:$PATH"
-
-        EvidenceFile="$HOME/o5-avd-toolchain-egress-preflight.txt"
-        AvdRg="{{ avd_resource_group }}"
-        SessionHostName="{{ avd_session_host_name }}"
-
-        az login --identity >/dev/null
-
-        cat > "$EvidenceFile" <<'EOF'
-        O5 AVD Toolchain Egress Preflight
-        =================================
-
-        Purpose:
-        Validate outbound DNS/TCP/HTTPS reachability required before installing O5 admin/dev tooling.
-
-        Scope:
-        Read-only network reachability validation only.
-        No software is installed by this playbook.
-
-        No secrets, tokens, private keys, tfstate, tfplan, or kubeconfigs are included.
-        EOF
+    - name: Validate O5 toolchain endpoint egress from AVD session host
+      ansible.builtin.shell: |
+        set -euo pipefail
 
         ScriptFile="$(mktemp)"
         cat > "$ScriptFile" <<'PS1'
         $ErrorActionPreference = 'Continue'
+
+        Write-Output 'O5 AVD Toolchain Egress Preflight'
+        Write-Output '================================='
+        Write-Output ''
+        Write-Output 'Purpose: Validate outbound DNS/TCP/HTTPS reachability required before installing O5 admin/dev tooling.'
+        Write-Output 'Scope: Read-only network reachability validation only.'
+        Write-Output 'No software is installed by this check.'
+        Write-Output ''
 
         function Test-O5Endpoint {
           param(
@@ -48,11 +43,16 @@
           Write-Output "===== $HostName ====="
 
           Write-Output 'DNS:'
-          Resolve-DnsName -Name $HostName -ErrorAction Continue
+          Resolve-DnsName -Name $HostName -ErrorAction Continue |
+            Select-Object Name, Type, IPAddress, NameHost |
+            Format-Table -AutoSize
 
           Write-Output ''
           Write-Output 'TCP 443:'
-          Test-NetConnection -ComputerName $HostName -Port 443
+          $TcpResult = Test-NetConnection -ComputerName $HostName -Port 443
+          $TcpResult |
+            Select-Object ComputerName, RemoteAddress, RemotePort, SourceAddress, TcpTestSucceeded |
+            Format-List
 
           Write-Output ''
           Write-Output 'HTTPS:'
@@ -61,7 +61,7 @@
             Write-Output "HTTPS status: $($Response.StatusCode)"
           }
           catch {
-            Write-Output 'HTTPS failed:'
+            Write-Output 'HTTPS probe completed with exception:'
             Write-Output $_.Exception.Message
             if ($_.Exception.Response) {
               Write-Output "HTTP response status: $($_.Exception.Response.StatusCode.value__)"
@@ -85,25 +85,15 @@
         Test-O5Endpoint -HostName 'awscli.amazonaws.com'
         PS1
 
-        {
-          echo ''
-          echo '===== Session host outbound endpoint tests ====='
-
-          az vm run-command invoke \
-            --resource-group "$AvdRg" \
-            --name "$SessionHostName" \
-            --command-id RunPowerShellScript \
-            --scripts "$(cat "$ScriptFile")" \
-            --query 'value[].message' \
-            --output tsv
-
-          echo ''
-          echo "Saved evidence: $EvidenceFile"
-        } >> "$EvidenceFile"
+        timeout 900 az vm run-command invoke \
+          --resource-group '{{ avd_resource_group }}' \
+          --name '{{ avd_session_host_name }}' \
+          --command-id RunPowerShellScript \
+          --scripts "$(cat "$ScriptFile")" \
+          --query 'value[].message' \
+          --output tsv
 
         rm -f "$ScriptFile"
-
-        cat "$EvidenceFile"
       args:
         executable: /bin/bash
       changed_when: false

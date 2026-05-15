@@ -6,92 +6,155 @@
   vars:
     avd_resource_group: rg-dev-avd-northeurope
     avd_session_host_name: vm-dev-avd-01
-    fslogix_storage_fqdn: stdevavdfsneu01.file.core.windows.net
-    fslogix_share_unc: \\stdevavdfsneu01.file.core.windows.net\fslogix-profiles
+    fslogix_storage_account_name: stdevavdfsneu01
+    fslogix_share_name: fslogix-profiles
+    fslogix_private_endpoint_name: pe-stdevavdfsneu01-file
+    fslogix_private_dns_zone_name: privatelink.file.core.windows.net
 
   tasks:
-    - name: Run O5 FSLogix private storage validation from AVD session host
+    - name: Login to Azure with vm-dev-mgmt-01 managed identity
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az login --identity --output none
+        az account show --query '{user:user.name,tenantId:tenantId,subscriptionId:id,name:name,state:state}' --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Validate FSLogix storage account identity model
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az storage account show \
+          --resource-group '{{ avd_resource_group }}' \
+          --name '{{ fslogix_storage_account_name }}' \
+          --query '{name:name,location:location,kind:kind,sku:sku.name,publicNetworkAccess:publicNetworkAccess,allowSharedKeyAccess:allowSharedKeyAccess,azureFilesIdentityBasedAuthentication:azureFilesIdentityBasedAuthentication}' \
+          --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Validate FSLogix Azure Files share
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az storage share-rm show \
+          --resource-group '{{ avd_resource_group }}' \
+          --storage-account '{{ fslogix_storage_account_name }}' \
+          --name '{{ fslogix_share_name }}' \
+          --query '{name:name,quota:shareQuota,enabledProtocols:enabledProtocols,accessTier:accessTier}' \
+          --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Validate FSLogix Azure Files private endpoint
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az network private-endpoint show \
+          --resource-group '{{ avd_resource_group }}' \
+          --name '{{ fslogix_private_endpoint_name }}' \
+          --query '{name:name,location:location,provisioningState:provisioningState,subnet:subnet.id,customDnsConfigs:customDnsConfigs}' \
+          --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Validate FSLogix private DNS zone link
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az network private-dns link vnet list \
+          --resource-group '{{ avd_resource_group }}' \
+          --zone-name '{{ fslogix_private_dns_zone_name }}' \
+          --query '[].{name:name,registrationEnabled:registrationEnabled,virtualNetworkId:virtualNetwork.id,provisioningState:provisioningState}' \
+          --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Validate FSLogix private storage path from AVD session host
       ansible.builtin.shell: |
         set -euo pipefail
 
-        export PATH="$HOME/bin:$PATH"
-
-        EvidenceFile="$HOME/o5-fslogix-private-storage-validation.txt"
-        AvdRg="{{ avd_resource_group }}"
-        SessionHostName="{{ avd_session_host_name }}"
-        FslogixStorageFqdn="{{ fslogix_storage_fqdn }}"
-        FslogixShareUnc="{{ fslogix_share_unc }}"
-
-        az login --identity >/dev/null
-
-        cat > "$EvidenceFile" <<EOF
-        O5 FSLogix Private Storage Validation
-        =====================================
-
-        Purpose:
-        Validate O5 FSLogix private Azure Files DNS, SMB reachability, and session-host FSLogix configuration state.
-
-        Scope:
-        Read-only validation only.
-
-        Expected storage FQDN:
-        $FslogixStorageFqdn
-
-        Expected FSLogix share:
-        $FslogixShareUnc
-
-        No secrets, tokens, private keys, tfstate, tfplan, or kubeconfigs are included.
-        EOF
-
         ScriptFile="$(mktemp)"
-        cat > "$ScriptFile" <<PS1
-        `$ErrorActionPreference = 'Continue'
+        cat > "$ScriptFile" <<'PS1'
+        $ErrorActionPreference = 'Continue'
 
-        `$FslogixStorageFqdn = '$FslogixStorageFqdn'
-        `$FslogixShareUnc = '$FslogixShareUnc'
+        $StorageName = 'stdevavdfsneu01'
+        $ShareName = 'fslogix-profiles'
+        $FileFqdn = "$StorageName.file.core.windows.net"
+        $SharePath = "\\$FileFqdn\$ShareName"
 
-        Write-Output '===== FSLogix storage DNS ====='
-        Resolve-DnsName -Name `$FslogixStorageFqdn -ErrorAction Continue
+        Write-Output 'O5 FSLogix Private Storage Validation'
+        Write-Output '===================================='
+        Write-Output ''
+        Write-Output 'Purpose: Validate FSLogix private Azure Files path from the O5 AVD session host.'
+        Write-Output 'Scope: Read-only DNS, TCP, service, and registry validation.'
+        Write-Output 'Known limitation: Azure VM Run Command runs as local SYSTEM, so user-token SMB/profile creation is validated separately from the interactive AVD user session.'
+        Write-Output ''
+
+        Write-Output '===== Computer context ====='
+        Write-Output "whoami: $(whoami)"
+        Write-Output "hostname: $(hostname)"
 
         Write-Output ''
-        Write-Output '===== FSLogix storage SMB 445 ====='
-        Test-NetConnection -ComputerName `$FslogixStorageFqdn -Port 445
+        Write-Output '===== Target path ====='
+        Write-Output "FileFqdn: $FileFqdn"
+        Write-Output "SharePath: $SharePath"
 
         Write-Output ''
-        Write-Output '===== FSLogix service/package state ====='
-        Get-Service -Name frxsvc -ErrorAction Continue |
-          Select-Object Name, Status, StartType |
+        Write-Output '===== DNS resolution from session host ====='
+        Resolve-DnsName $FileFqdn -ErrorAction Continue |
+          Select-Object Name, Type, IPAddress, NameHost |
           Format-Table -AutoSize
 
         Write-Output ''
-        Write-Output '===== FSLogix profile registry state ====='
-        Get-ItemProperty -Path 'HKLM:\SOFTWARE\FSLogix\Profiles' -ErrorAction Continue |
+        Write-Output '===== SMB 445 connectivity from session host ====='
+        Test-NetConnection $FileFqdn -Port 445 |
+          Select-Object ComputerName, RemoteAddress, RemotePort, SourceAddress, TcpTestSucceeded |
           Format-List
 
         Write-Output ''
-        Write-Output '===== Expected FSLogix VHDLocations ====='
-        Write-Output `$FslogixShareUnc
+        Write-Output '===== Share path probe under SYSTEM context ====='
+        Write-Output $SharePath
+        Write-Output "Test-Path result under SYSTEM context: $(Test-Path $SharePath)"
+
+        Write-Output ''
+        Write-Output '===== FSLogix installation state ====='
+        Get-Service -Name 'frxsvc' -ErrorAction SilentlyContinue |
+          Select-Object Name, Status, StartType |
+          Format-Table -AutoSize
+
+        Write-Output "FSLogix executable present: $(Test-Path 'C:\Program Files\FSLogix\Apps\frx.exe')"
+
+        Write-Output ''
+        Write-Output '===== FSLogix profile registry state ====='
+        if (Test-Path 'HKLM:\SOFTWARE\FSLogix\Profiles') {
+          Get-ItemProperty -Path 'HKLM:\SOFTWARE\FSLogix\Profiles' |
+            Format-List
+        }
+        else {
+          Write-Output 'FSLogix profile registry key not present.'
+        }
+
+        Write-Output ''
+        Write-Output '===== Kerberos and FSLogix Entra prerequisites ====='
+        Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Parameters' -ErrorAction SilentlyContinue |
+          Select-Object CloudKerberosTicketRetrievalEnabled |
+          Format-List
+
+        Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\FSLogix\ODFC' -ErrorAction SilentlyContinue |
+          Select-Object LoadCredKeyFromProfile |
+          Format-List
         PS1
 
-        {
-          echo ''
-          echo '===== Session host FSLogix private storage checks ====='
-
-          az vm run-command invoke \
-            --resource-group "$AvdRg" \
-            --name "$SessionHostName" \
-            --command-id RunPowerShellScript \
-            --scripts "$(cat "$ScriptFile")" \
-            --query 'value[].message' \
-            --output tsv
-
-          echo ''
-          echo "Saved evidence: $EvidenceFile"
-        } >> "$EvidenceFile"
+        timeout 600 az vm run-command invoke \
+          --resource-group '{{ avd_resource_group }}' \
+          --name '{{ avd_session_host_name }}' \
+          --command-id RunPowerShellScript \
+          --scripts "$(cat "$ScriptFile")" \
+          --query 'value[].message' \
+          --output tsv
 
         rm -f "$ScriptFile"
-
-        cat "$EvidenceFile"
       args:
         executable: /bin/bash
       changed_when: false
