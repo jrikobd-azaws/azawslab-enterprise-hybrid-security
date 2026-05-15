@@ -10,6 +10,7 @@ on:
         type: choice
         options:
           - "deploy-foundation"
+          - "deploy-session-host"
           - "cleanup-partial-foundation"
       confirm_apply:
         description: "Set to true to apply the reviewed Terraform plan"
@@ -58,6 +59,9 @@ jobs:
           set -euo pipefail
 
           case "${{ github.event.inputs.deployment_mode }}" in
+            deploy-session-host)
+              echo "flags=-var='enable_o5_avd=true' -var='enable_o5_session_host=true'" >> "$GITHUB_OUTPUT"
+              ;;
             deploy-foundation)
               echo "flags=-var='enable_o5_avd=true'" >> "$GITHUB_OUTPUT"
               ;;

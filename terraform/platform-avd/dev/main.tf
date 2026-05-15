@@ -3,6 +3,20 @@ module "avd_secure_workspace" {
 
   enabled = var.enable_o5_avd
 
+  enable_session_host                                  = var.enable_o5_session_host
+  session_host_name                                    = var.o5_session_host_name
+  session_host_nic_name                                = var.o5_session_host_nic_name
+  session_host_vm_size                                 = var.o5_session_host_vm_size
+  session_host_admin_username                          = var.o5_session_host_admin_username
+  session_host_image_publisher                         = var.o5_session_host_image_publisher
+  session_host_image_offer                             = var.o5_session_host_image_offer
+  session_host_image_sku                               = var.o5_session_host_image_sku
+  session_host_image_version                           = var.o5_session_host_image_version
+  session_host_registration_expiration_date            = var.o5_session_host_registration_expiration_date
+  session_host_admin_password_key_vault_name           = var.o5_session_host_admin_password_key_vault_name
+  session_host_admin_password_key_vault_resource_group = var.o5_session_host_admin_password_key_vault_resource_group_name
+  session_host_admin_password_secret_name              = var.o5_session_host_admin_password_secret_name
+
   location                          = var.location
   paired_location                   = var.paired_location
   common_tags                       = var.common_tags
