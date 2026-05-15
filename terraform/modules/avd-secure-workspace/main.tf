@@ -73,7 +73,7 @@ resource "azurerm_virtual_desktop_host_pool" "this" {
   personal_desktop_assignment_type = "Automatic"
   load_balancer_type               = "Persistent"
   preferred_app_group_type         = "Desktop"
-  custom_rdp_properties            = "targetisaadjoined:i:1"
+  custom_rdp_properties            = "enablerdsaadauth:i:1;"
   validate_environment             = false
   start_vm_on_connect              = false
   tags                             = var.common_tags
