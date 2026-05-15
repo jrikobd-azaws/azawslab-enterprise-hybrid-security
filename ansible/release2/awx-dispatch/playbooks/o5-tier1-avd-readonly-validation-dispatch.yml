@@ -1,4 +1,4 @@
-﻿---
+---
 - name: O5 - Tier 1 - AVD Read-Only Validation Dispatch
   hosts: vm_dev_mgmt_01
   gather_facts: false
@@ -33,10 +33,14 @@
     - name: Validate O5 AVD host pool
       ansible.builtin.shell: |
         set -euo pipefail
-        timeout 60 az desktopvirtualization hostpool show \
-          --resource-group '{{ avd_resource_group }}' \
-          --name '{{ avd_host_pool_name }}' \
-          --query '{name:name,location:location,hostPoolType:hostPoolType,personalDesktopAssignmentType:personalDesktopAssignmentType,customRdpProperty:customRdpProperty}' \
+
+        SubId="$(timeout 60 az account show --query id --output tsv)"
+        HostPoolUri="https://management.azure.com/subscriptions/${SubId}/resourceGroups/{{ avd_resource_group }}/providers/Microsoft.DesktopVirtualization/hostPools/{{ avd_host_pool_name }}?api-version=2025-10-10"
+
+        timeout 60 az rest \
+          --method get \
+          --url "$HostPoolUri" \
+          --query '{name:name,location:location,hostPoolType:properties.hostPoolType,personalDesktopAssignmentType:properties.personalDesktopAssignmentType,customRdpProperty:properties.customRdpProperty}' \
           --output json
       args:
         executable: /bin/bash
