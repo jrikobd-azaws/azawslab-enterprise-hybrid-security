@@ -334,3 +334,28 @@ resource "azurerm_role_assignment" "readers_monitor_reader" {
   principal_id         = var.readers_group_id
   principal_type       = "Group"
 }
+
+data "azurerm_private_dns_zone" "o5_aks_api" {
+  count = var.enabled && var.enable_o5_avd_aks_dns_link ? 1 : 0
+
+  name                = var.o5_aks_private_dns_zone_name
+  resource_group_name = var.o5_aks_private_dns_zone_resource_group_name
+}
+
+data "azurerm_virtual_network" "o5_avd" {
+  count = var.enabled && var.enable_o5_avd_aks_dns_link ? 1 : 0
+
+  name                = var.o5_avd_vnet_name
+  resource_group_name = var.o5_avd_vnet_resource_group_name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "o5_avd_aks_api" {
+  count = var.enabled && var.enable_o5_avd_aks_dns_link ? 1 : 0
+
+  name                  = "pdnslink-aks-api-to-o5-avd"
+  resource_group_name   = data.azurerm_private_dns_zone.o5_aks_api[0].resource_group_name
+  private_dns_zone_name = data.azurerm_private_dns_zone.o5_aks_api[0].name
+  virtual_network_id    = data.azurerm_virtual_network.o5_avd[0].id
+  registration_enabled  = false
+  tags                  = var.common_tags
+}

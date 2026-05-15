@@ -165,3 +165,32 @@ variable "tags" {
     Phase            = "O4"
   }
 }
+variable "enable_o5_avd_aks_dns_link" {
+  description = "Controls whether O4 AKS private API DNS is linked to the O5 AVD VNet for private kubectl validation from AVD."
+  type        = bool
+  default     = false
+}
+
+variable "o5_avd_vnet_resource_group_name" {
+  description = "Resource group containing the O5 AVD spoke VNet."
+  type        = string
+  default     = "rg-dev-avd-northeurope"
+}
+
+variable "o5_avd_vnet_name" {
+  description = "O5 AVD spoke VNet that requires private DNS resolution for the O4 AKS API."
+  type        = string
+  default     = "vnet-dev-northeurope-spoke-avd"
+}
+
+variable "o5_aks_private_dns_zone_resource_group_name" {
+  description = "Resource group containing the AKS system-managed private DNS zone."
+  type        = string
+  default     = "rg-dev-aks-nodes-norwayeast"
+}
+
+variable "o5_aks_private_dns_zone_name" {
+  description = "AKS system-managed private DNS zone name for the O4 private AKS API."
+  type        = string
+  default     = "2dbfb1a5-7a41-46f9-9960-bf90f9702ca1.privatelink.norwayeast.azmk8s.io"
+}

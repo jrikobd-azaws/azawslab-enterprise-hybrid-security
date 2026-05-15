@@ -28,4 +28,10 @@ module "private_aks_platform" {
   grafana_name           = var.grafana_name
   grafana_major_version  = var.grafana_major_version
   common_tags            = var.tags
+
+  enable_o5_avd_aks_dns_link                  = var.enable_o5_avd_aks_dns_link
+  o5_avd_vnet_resource_group_name             = var.o5_avd_vnet_resource_group_name
+  o5_avd_vnet_name                            = var.o5_avd_vnet_name
+  o5_aks_private_dns_zone_resource_group_name = var.o5_aks_private_dns_zone_resource_group_name
+  o5_aks_private_dns_zone_name                = var.o5_aks_private_dns_zone_name
 }
