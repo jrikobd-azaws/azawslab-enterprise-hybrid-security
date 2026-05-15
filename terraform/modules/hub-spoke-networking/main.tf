@@ -398,6 +398,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "o5_avd_egress" {
         "login.microsoftonline.com",
         "device.login.microsoftonline.com",
         "enterpriseregistration.windows.net",
+        "pas.windows.net",
         "management.azure.com",
         "*.blob.core.windows.net"
       ]
