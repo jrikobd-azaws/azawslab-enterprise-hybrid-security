@@ -1,4 +1,4 @@
-﻿---
+---
 - name: O5 - Tier 4 - AVD Toolchain Bootstrap Dispatch
   hosts: vm_dev_mgmt_01
   gather_facts: false
@@ -105,7 +105,7 @@
 
           for ($Attempt = 1; $Attempt -le 3; $Attempt++) {
             try {
-              Write-Output "Downloading attempt $Attempt: $Uri"
+              Write-Output ('Downloading attempt {0}: {1}' -f $Attempt, $Uri)
               Invoke-WebRequest `
                 -Uri $Uri `
                 -OutFile $OutFile `
