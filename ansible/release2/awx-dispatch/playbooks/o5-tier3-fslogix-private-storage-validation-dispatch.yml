@@ -1,0 +1,97 @@
+﻿---
+- name: O5 - Tier 3 - FSLogix Private Storage Validation Dispatch
+  hosts: vm_dev_mgmt_01
+  gather_facts: false
+
+  vars:
+    avd_resource_group: rg-dev-avd-northeurope
+    avd_session_host_name: vm-dev-avd-01
+    fslogix_storage_fqdn: stdevavdfsneu01.file.core.windows.net
+    fslogix_share_unc: \\stdevavdfsneu01.file.core.windows.net\fslogix-profiles
+
+  tasks:
+    - name: Run O5 FSLogix private storage validation from AVD session host
+      ansible.builtin.shell: |
+        set -euo pipefail
+
+        export PATH="$HOME/bin:$PATH"
+
+        EvidenceFile="$HOME/o5-fslogix-private-storage-validation.txt"
+        AvdRg="{{ avd_resource_group }}"
+        SessionHostName="{{ avd_session_host_name }}"
+        FslogixStorageFqdn="{{ fslogix_storage_fqdn }}"
+        FslogixShareUnc="{{ fslogix_share_unc }}"
+
+        az login --identity >/dev/null
+
+        cat > "$EvidenceFile" <<EOF
+        O5 FSLogix Private Storage Validation
+        =====================================
+
+        Purpose:
+        Validate O5 FSLogix private Azure Files DNS, SMB reachability, and session-host FSLogix configuration state.
+
+        Scope:
+        Read-only validation only.
+
+        Expected storage FQDN:
+        $FslogixStorageFqdn
+
+        Expected FSLogix share:
+        $FslogixShareUnc
+
+        No secrets, tokens, private keys, tfstate, tfplan, or kubeconfigs are included.
+        EOF
+
+        ScriptFile="$(mktemp)"
+        cat > "$ScriptFile" <<PS1
+        `$ErrorActionPreference = 'Continue'
+
+        `$FslogixStorageFqdn = '$FslogixStorageFqdn'
+        `$FslogixShareUnc = '$FslogixShareUnc'
+
+        Write-Output '===== FSLogix storage DNS ====='
+        Resolve-DnsName -Name `$FslogixStorageFqdn -ErrorAction Continue
+
+        Write-Output ''
+        Write-Output '===== FSLogix storage SMB 445 ====='
+        Test-NetConnection -ComputerName `$FslogixStorageFqdn -Port 445
+
+        Write-Output ''
+        Write-Output '===== FSLogix service/package state ====='
+        Get-Service -Name frxsvc -ErrorAction Continue |
+          Select-Object Name, Status, StartType |
+          Format-Table -AutoSize
+
+        Write-Output ''
+        Write-Output '===== FSLogix profile registry state ====='
+        Get-ItemProperty -Path 'HKLM:\SOFTWARE\FSLogix\Profiles' -ErrorAction Continue |
+          Format-List
+
+        Write-Output ''
+        Write-Output '===== Expected FSLogix VHDLocations ====='
+        Write-Output `$FslogixShareUnc
+        PS1
+
+        {
+          echo ''
+          echo '===== Session host FSLogix private storage checks ====='
+
+          az vm run-command invoke \
+            --resource-group "$AvdRg" \
+            --name "$SessionHostName" \
+            --command-id RunPowerShellScript \
+            --scripts "$(cat "$ScriptFile")" \
+            --query 'value[].message' \
+            --output tsv
+
+          echo ''
+          echo "Saved evidence: $EvidenceFile"
+        } >> "$EvidenceFile"
+
+        rm -f "$ScriptFile"
+
+        cat "$EvidenceFile"
+      args:
+        executable: /bin/bash
+      changed_when: false

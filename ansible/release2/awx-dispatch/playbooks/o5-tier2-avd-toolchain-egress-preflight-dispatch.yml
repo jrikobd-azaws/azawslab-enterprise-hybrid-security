@@ -1,0 +1,109 @@
+﻿---
+- name: O5 - Tier 2 - AVD Toolchain Egress Preflight Dispatch
+  hosts: vm_dev_mgmt_01
+  gather_facts: false
+
+  vars:
+    avd_resource_group: rg-dev-avd-northeurope
+    avd_session_host_name: vm-dev-avd-01
+
+  tasks:
+    - name: Run O5 toolchain egress preflight from AVD session host
+      ansible.builtin.shell: |
+        set -euo pipefail
+
+        export PATH="$HOME/bin:$PATH"
+
+        EvidenceFile="$HOME/o5-avd-toolchain-egress-preflight.txt"
+        AvdRg="{{ avd_resource_group }}"
+        SessionHostName="{{ avd_session_host_name }}"
+
+        az login --identity >/dev/null
+
+        cat > "$EvidenceFile" <<'EOF'
+        O5 AVD Toolchain Egress Preflight
+        =================================
+
+        Purpose:
+        Validate outbound DNS/TCP/HTTPS reachability required before installing O5 admin/dev tooling.
+
+        Scope:
+        Read-only network reachability validation only.
+        No software is installed by this playbook.
+
+        No secrets, tokens, private keys, tfstate, tfplan, or kubeconfigs are included.
+        EOF
+
+        ScriptFile="$(mktemp)"
+        cat > "$ScriptFile" <<'PS1'
+        $ErrorActionPreference = 'Continue'
+
+        function Test-O5Endpoint {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$HostName
+          )
+
+          Write-Output ''
+          Write-Output "===== $HostName ====="
+
+          Write-Output 'DNS:'
+          Resolve-DnsName -Name $HostName -ErrorAction Continue
+
+          Write-Output ''
+          Write-Output 'TCP 443:'
+          Test-NetConnection -ComputerName $HostName -Port 443
+
+          Write-Output ''
+          Write-Output 'HTTPS:'
+          try {
+            $Response = Invoke-WebRequest -Uri "https://$HostName" -UseBasicParsing -TimeoutSec 20
+            Write-Output "HTTPS status: $($Response.StatusCode)"
+          }
+          catch {
+            Write-Output 'HTTPS failed:'
+            Write-Output $_.Exception.Message
+            if ($_.Exception.Response) {
+              Write-Output "HTTP response status: $($_.Exception.Response.StatusCode.value__)"
+            }
+          }
+        }
+
+        Test-O5Endpoint -HostName 'login.microsoftonline.com'
+        Test-O5Endpoint -HostName 'pas.windows.net'
+        Test-O5Endpoint -HostName 'management.azure.com'
+        Test-O5Endpoint -HostName 'packages.microsoft.com'
+        Test-O5Endpoint -HostName 'azcliprod.blob.core.windows.net'
+        Test-O5Endpoint -HostName 'github.com'
+        Test-O5Endpoint -HostName 'objects.githubusercontent.com'
+        Test-O5Endpoint -HostName 'github-releases.githubusercontent.com'
+        Test-O5Endpoint -HostName 'update.code.visualstudio.com'
+        Test-O5Endpoint -HostName 'releases.hashicorp.com'
+        Test-O5Endpoint -HostName 'dl.k8s.io'
+        Test-O5Endpoint -HostName 'cdn.dl.k8s.io'
+        Test-O5Endpoint -HostName 'get.helm.sh'
+        Test-O5Endpoint -HostName 'awscli.amazonaws.com'
+        PS1
+
+        {
+          echo ''
+          echo '===== Session host outbound endpoint tests ====='
+
+          az vm run-command invoke \
+            --resource-group "$AvdRg" \
+            --name "$SessionHostName" \
+            --command-id RunPowerShellScript \
+            --scripts "$(cat "$ScriptFile")" \
+            --query 'value[].message' \
+            --output tsv
+
+          echo ''
+          echo "Saved evidence: $EvidenceFile"
+        } >> "$EvidenceFile"
+
+        rm -f "$ScriptFile"
+
+        cat "$EvidenceFile"
+      args:
+        executable: /bin/bash
+      changed_when: false
