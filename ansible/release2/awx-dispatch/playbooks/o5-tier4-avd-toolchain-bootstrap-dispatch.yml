@@ -1,0 +1,434 @@
+﻿---
+- name: O5 - Tier 4 - AVD Toolchain Bootstrap Dispatch
+  hosts: vm_dev_mgmt_01
+  gather_facts: false
+
+  vars:
+    avd_resource_group: rg-dev-avd-northeurope
+    avd_session_host_name: vm-dev-avd-01
+
+  tasks:
+    - name: Login to Azure with vm-dev-mgmt-01 managed identity
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az login --identity --output none
+        az account show --query '{user:user.name,tenantId:tenantId,subscriptionId:id,name:name,state:state}' --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Install approved O5 AVD admin and developer toolchain
+      ansible.builtin.shell: |
+        set -euo pipefail
+
+        ScriptFile="$(mktemp)"
+        cat > "$ScriptFile" <<'PS1'
+        $ErrorActionPreference = 'Stop'
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+        $Changed = $false
+        $ToolRoot = 'C:\Program Files\AzAWSLab\Tools'
+        $ToolBin = Join-Path -Path $ToolRoot -ChildPath 'bin'
+        $WorkDir = Join-Path -Path $env:TEMP -ChildPath 'o5-toolchain-bootstrap'
+
+        Write-Output 'O5 AVD Toolchain Bootstrap'
+        Write-Output '=========================='
+        Write-Output ''
+        Write-Output 'Scope: install approved O5 admin/dev tools only when missing.'
+        Write-Output 'No Terraform, Azure networking, FSLogix, AKS RBAC, VM restart, or WinRM changes are performed.'
+        Write-Output ''
+
+        function Ensure-Directory {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$Path
+          )
+
+          if (-not (Test-Path -Path $Path)) {
+            New-Item -Path $Path -ItemType Directory -Force | Out-Null
+            Write-Output "CREATED directory: $Path"
+            $script:Changed = $true
+          }
+          else {
+            Write-Output "OK directory exists: $Path"
+          }
+        }
+
+        function Ensure-MachinePath {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$Path
+          )
+
+          $CurrentPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+          $Parts = $CurrentPath -split ';' | Where-Object { $_ -ne '' }
+
+          if ($Parts -notcontains $Path) {
+            $NewPath = ($Parts + $Path) -join ';'
+            [Environment]::SetEnvironmentVariable('Path', $NewPath, 'Machine')
+            $env:Path = $env:Path + ';' + $Path
+            Write-Output "UPDATED machine PATH with: $Path"
+            $script:Changed = $true
+          }
+          else {
+            Write-Output "OK machine PATH already contains: $Path"
+          }
+        }
+
+        function Test-CommandAvailable {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$CommandName
+          )
+
+          $Command = Get-Command $CommandName -ErrorAction SilentlyContinue
+          return ($null -ne $Command)
+        }
+
+        function Invoke-Download {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$Uri,
+
+            [Parameter(Mandatory = $true)]
+            [string]$OutFile
+          )
+
+          Write-Output "Downloading: $Uri"
+          Invoke-WebRequest -Uri $Uri -OutFile $OutFile -UseBasicParsing
+        }
+
+        function Install-MsiIfCommandMissing {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$CommandName,
+
+            [Parameter(Mandatory = $true)]
+            [string]$DisplayName,
+
+            [Parameter(Mandatory = $true)]
+            [string]$Uri,
+
+            [Parameter(Mandatory = $true)]
+            [string]$FileName
+          )
+
+          if (Test-CommandAvailable -CommandName $CommandName) {
+            Write-Output "OK $DisplayName already installed."
+            return
+          }
+
+          $InstallerPath = Join-Path -Path $WorkDir -ChildPath $FileName
+          Invoke-Download -Uri $Uri -OutFile $InstallerPath
+
+          Write-Output "Installing $DisplayName from MSI."
+          $Process = Start-Process -FilePath 'msiexec.exe' -ArgumentList @('/i', "`"$InstallerPath`"", '/qn', '/norestart') -Wait -PassThru
+
+          if ($Process.ExitCode -notin @(0, 3010)) {
+            throw "$DisplayName MSI install failed with exit code $($Process.ExitCode)."
+          }
+
+          Write-Output "INSTALLED $DisplayName."
+          $script:Changed = $true
+        }
+
+        function Install-ExeIfCommandMissing {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$CommandName,
+
+            [Parameter(Mandatory = $true)]
+            [string]$DisplayName,
+
+            [Parameter(Mandatory = $true)]
+            [string]$Uri,
+
+            [Parameter(Mandatory = $true)]
+            [string]$FileName,
+
+            [Parameter(Mandatory = $true)]
+            [string[]]$Arguments
+          )
+
+          if (Test-CommandAvailable -CommandName $CommandName) {
+            Write-Output "OK $DisplayName already installed."
+            return
+          }
+
+          $InstallerPath = Join-Path -Path $WorkDir -ChildPath $FileName
+          Invoke-Download -Uri $Uri -OutFile $InstallerPath
+
+          Write-Output "Installing $DisplayName from EXE."
+          $Process = Start-Process -FilePath $InstallerPath -ArgumentList $Arguments -Wait -PassThru
+
+          if ($Process.ExitCode -ne 0) {
+            throw "$DisplayName EXE install failed with exit code $($Process.ExitCode)."
+          }
+
+          Write-Output "INSTALLED $DisplayName."
+          $script:Changed = $true
+        }
+
+        function Get-GitHubLatestAssetUrl {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$Repository,
+
+            [Parameter(Mandatory = $true)]
+            [string]$AssetPattern
+          )
+
+          $Uri = "https://api.github.com/repos/$Repository/releases/latest"
+          $Release = Invoke-RestMethod -Uri $Uri -Headers @{ 'User-Agent' = 'AzAWSLab-O5-Toolchain-Bootstrap' }
+          $Asset = $Release.assets |
+            Where-Object { $_.name -match $AssetPattern } |
+            Select-Object -First 1
+
+          if (-not $Asset) {
+            throw "Could not locate asset matching '$AssetPattern' in $Repository latest release."
+          }
+
+          return $Asset.browser_download_url
+        }
+
+        function Install-PortableExeFromZipIfMissing {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$CommandName,
+
+            [Parameter(Mandatory = $true)]
+            [string]$DisplayName,
+
+            [Parameter(Mandatory = $true)]
+            [string]$Uri,
+
+            [Parameter(Mandatory = $true)]
+            [string]$ZipName,
+
+            [Parameter(Mandatory = $true)]
+            [string]$ExeRelativeSearchName
+          )
+
+          $DestinationExe = Join-Path -Path $ToolBin -ChildPath "$CommandName.exe"
+          if (Test-Path -Path $DestinationExe) {
+            Write-Output "OK $DisplayName already present: $DestinationExe"
+            return
+          }
+
+          $ZipPath = Join-Path -Path $WorkDir -ChildPath $ZipName
+          $ExtractPath = Join-Path -Path $WorkDir -ChildPath ([System.IO.Path]::GetFileNameWithoutExtension($ZipName))
+
+          Invoke-Download -Uri $Uri -OutFile $ZipPath
+
+          if (Test-Path -Path $ExtractPath) {
+            Remove-Item -Path $ExtractPath -Recurse -Force
+          }
+
+          Expand-Archive -Path $ZipPath -DestinationPath $ExtractPath -Force
+
+          $FoundExe = Get-ChildItem -Path $ExtractPath -Recurse -File -Filter $ExeRelativeSearchName |
+            Select-Object -First 1
+
+          if (-not $FoundExe) {
+            throw "Could not find $ExeRelativeSearchName inside $ZipName."
+          }
+
+          Copy-Item -Path $FoundExe.FullName -Destination $DestinationExe -Force
+          Write-Output "INSTALLED $DisplayName to $DestinationExe"
+          $script:Changed = $true
+        }
+
+        function Install-PortableExeIfMissing {
+          param(
+            [Parameter(Mandatory = $true)]
+            [string]$CommandName,
+
+            [Parameter(Mandatory = $true)]
+            [string]$DisplayName,
+
+            [Parameter(Mandatory = $true)]
+            [string]$Uri
+          )
+
+          $DestinationExe = Join-Path -Path $ToolBin -ChildPath "$CommandName.exe"
+          if (Test-Path -Path $DestinationExe) {
+            Write-Output "OK $DisplayName already present: $DestinationExe"
+            return
+          }
+
+          Invoke-Download -Uri $Uri -OutFile $DestinationExe
+          Write-Output "INSTALLED $DisplayName to $DestinationExe"
+          $script:Changed = $true
+        }
+
+        function Get-TerraformLatestVersion {
+          $Index = Invoke-WebRequest -Uri 'https://releases.hashicorp.com/terraform/' -UseBasicParsing
+          $Matches = [regex]::Matches($Index.Content, '/terraform/([0-9]+\.[0-9]+\.[0-9]+)/')
+          $Versions = $Matches |
+            ForEach-Object { [version]$_.Groups[1].Value } |
+            Sort-Object -Descending
+
+          if (-not $Versions -or $Versions.Count -eq 0) {
+            throw 'Could not resolve latest Terraform version from HashiCorp releases index.'
+          }
+
+          return $Versions[0].ToString()
+        }
+
+        Ensure-Directory -Path $WorkDir
+        Ensure-Directory -Path $ToolRoot
+        Ensure-Directory -Path $ToolBin
+        Ensure-MachinePath -Path $ToolBin
+
+        Write-Output ''
+        Write-Output '===== Install MSI/EXE based tools if missing ====='
+
+        if (-not (Test-CommandAvailable -CommandName 'pwsh')) {
+          $PowerShellUri = Get-GitHubLatestAssetUrl -Repository 'PowerShell/PowerShell' -AssetPattern 'PowerShell-.*-win-x64\.msi$'
+          Install-MsiIfCommandMissing -CommandName 'pwsh' -DisplayName 'PowerShell 7' -Uri $PowerShellUri -FileName 'PowerShell-win-x64.msi'
+        }
+        else {
+          Write-Output 'OK PowerShell 7 already installed.'
+        }
+
+        Install-MsiIfCommandMissing `
+          -CommandName 'az' `
+          -DisplayName 'Azure CLI' `
+          -Uri 'https://aka.ms/installazurecliwindowsx64' `
+          -FileName 'AzureCLI.msi'
+
+        if (-not (Test-CommandAvailable -CommandName 'git')) {
+          $GitUri = Get-GitHubLatestAssetUrl -Repository 'git-for-windows/git' -AssetPattern '64-bit\.exe$'
+          Install-ExeIfCommandMissing `
+            -CommandName 'git' `
+            -DisplayName 'Git for Windows' `
+            -Uri $GitUri `
+            -FileName 'GitForWindows-x64.exe' `
+            -Arguments @('/VERYSILENT', '/NORESTART', '/NOCANCEL', '/SP-')
+        }
+        else {
+          Write-Output 'OK Git already installed.'
+        }
+
+        Install-ExeIfCommandMissing `
+          -CommandName 'code' `
+          -DisplayName 'Visual Studio Code' `
+          -Uri 'https://update.code.visualstudio.com/latest/win32-x64/stable' `
+          -FileName 'VSCodeSetup-x64.exe' `
+          -Arguments @('/verysilent', '/suppressmsgboxes', '/mergetasks=!runcode', '/norestart')
+
+        Install-MsiIfCommandMissing `
+          -CommandName 'aws' `
+          -DisplayName 'AWS CLI v2' `
+          -Uri 'https://awscli.amazonaws.com/AWSCLIV2.msi' `
+          -FileName 'AWSCLIV2.msi'
+
+        Write-Output ''
+        Write-Output '===== Install portable CLI tools if missing ====='
+
+        if (-not (Test-Path -Path (Join-Path -Path $ToolBin -ChildPath 'kubectl.exe'))) {
+          $KubectlVersion = (Invoke-WebRequest -Uri 'https://dl.k8s.io/release/stable.txt' -UseBasicParsing).Content.Trim()
+          $KubectlUri = "https://dl.k8s.io/release/$KubectlVersion/bin/windows/amd64/kubectl.exe"
+          Install-PortableExeIfMissing -CommandName 'kubectl' -DisplayName 'kubectl' -Uri $KubectlUri
+        }
+        else {
+          Write-Output 'OK kubectl already present.'
+        }
+
+        if (-not (Test-Path -Path (Join-Path -Path $ToolBin -ChildPath 'kubelogin.exe'))) {
+          $KubeloginUri = Get-GitHubLatestAssetUrl -Repository 'Azure/kubelogin' -AssetPattern 'win-amd64\.zip$'
+          Install-PortableExeFromZipIfMissing `
+            -CommandName 'kubelogin' `
+            -DisplayName 'kubelogin' `
+            -Uri $KubeloginUri `
+            -ZipName 'kubelogin-win-amd64.zip' `
+            -ExeRelativeSearchName 'kubelogin.exe'
+        }
+        else {
+          Write-Output 'OK kubelogin already present.'
+        }
+
+        if (-not (Test-Path -Path (Join-Path -Path $ToolBin -ChildPath 'helm.exe'))) {
+          $HelmUri = Get-GitHubLatestAssetUrl -Repository 'helm/helm' -AssetPattern 'windows-amd64\.zip$'
+          Install-PortableExeFromZipIfMissing `
+            -CommandName 'helm' `
+            -DisplayName 'Helm' `
+            -Uri $HelmUri `
+            -ZipName 'helm-windows-amd64.zip' `
+            -ExeRelativeSearchName 'helm.exe'
+        }
+        else {
+          Write-Output 'OK Helm already present.'
+        }
+
+        if (-not (Test-Path -Path (Join-Path -Path $ToolBin -ChildPath 'terraform.exe'))) {
+          $TerraformVersion = Get-TerraformLatestVersion
+          $TerraformUri = "https://releases.hashicorp.com/terraform/$TerraformVersion/terraform_${TerraformVersion}_windows_amd64.zip"
+          Install-PortableExeFromZipIfMissing `
+            -CommandName 'terraform' `
+            -DisplayName 'Terraform' `
+            -Uri $TerraformUri `
+            -ZipName 'terraform-windows-amd64.zip' `
+            -ExeRelativeSearchName 'terraform.exe'
+        }
+        else {
+          Write-Output 'OK Terraform already present.'
+        }
+
+        Write-Output ''
+        Write-Output '===== Tool version summary ====='
+
+        $env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [Environment]::GetEnvironmentVariable('Path', 'User')
+
+        $Checks = @(
+          @{ Name = 'pwsh';      Args = @('-NoLogo', '-NoProfile', '-Command', '$PSVersionTable.PSVersion.ToString()') },
+          @{ Name = 'az';        Args = @('version', '--output', 'json') },
+          @{ Name = 'kubectl';   Args = @('version', '--client=true', '--output=yaml') },
+          @{ Name = 'kubelogin'; Args = @('--version') },
+          @{ Name = 'helm';      Args = @('version', '--short') },
+          @{ Name = 'git';       Args = @('--version') },
+          @{ Name = 'code';      Args = @('--version') },
+          @{ Name = 'terraform'; Args = @('version') },
+          @{ Name = 'aws';       Args = @('--version') }
+        )
+
+        foreach ($Check in $Checks) {
+          Write-Output ''
+          Write-Output "----- $($Check.Name) -----"
+          $Command = Get-Command $Check.Name -ErrorAction SilentlyContinue
+          if ($Command) {
+            Write-Output "Path: $($Command.Source)"
+            try {
+              & $Check.Name @($Check.Args) 2>&1 | Select-Object -First 12
+            }
+            catch {
+              Write-Output "Version check failed: $($_.Exception.Message)"
+            }
+          }
+          else {
+            Write-Output 'NOT FOUND after bootstrap.'
+          }
+        }
+
+        Write-Output ''
+        if ($Changed) {
+          Write-Output 'O5_CHANGE=true'
+        }
+        else {
+          Write-Output 'O5_CHANGE=false'
+        }
+        PS1
+
+        timeout 3600 az vm run-command invoke \
+          --resource-group '{{ avd_resource_group }}' \
+          --name '{{ avd_session_host_name }}' \
+          --command-id RunPowerShellScript \
+          --scripts "$(cat "$ScriptFile")" \
+          --query 'value[].message' \
+          --output tsv
+
+        rm -f "$ScriptFile"
+      args:
+        executable: /bin/bash
+      register: o5_tier4_result
+      changed_when: "'O5_CHANGE=true' in o5_tier4_result.stdout"
