@@ -49,7 +49,7 @@ resource "azurerm_windows_virtual_machine" "session_host" {
   license_type              = "Windows_Client"
   patch_mode                = "AutomaticByOS"
   provision_vm_agent        = true
-  enable_automatic_updates  = true
+  automatic_updates_enabled = true
   secure_boot_enabled       = true
   vtpm_enabled              = true
   tags                      = azurerm_resource_group.this[0].tags
@@ -88,6 +88,7 @@ resource "azurerm_virtual_machine_extension" "session_host_aad_login" {
   type                       = "AADLoginForWindows"
   type_handler_version       = "2.0"
   auto_upgrade_minor_version = true
+  tags                       = azurerm_resource_group.this[0].tags
 
   depends_on = [
     azurerm_windows_virtual_machine.session_host
@@ -103,6 +104,7 @@ resource "azurerm_virtual_machine_extension" "session_host_avd_registration" {
   type                       = "DSC"
   type_handler_version       = "2.73"
   auto_upgrade_minor_version = true
+  tags                       = azurerm_resource_group.this[0].tags
 
   settings = jsonencode({
     modulesUrl            = "https://wvdportalstorageblob.blob.core.windows.net/galleryartifacts/Configuration_09-08-2022.zip"
