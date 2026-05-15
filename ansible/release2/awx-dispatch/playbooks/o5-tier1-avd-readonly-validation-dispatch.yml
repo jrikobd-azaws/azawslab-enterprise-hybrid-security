@@ -1,4 +1,4 @@
-﻿---
+---
 - name: O5 - Tier 1 - AVD Read-Only Validation Dispatch
   hosts: vm_dev_mgmt_01
   gather_facts: false
@@ -10,88 +10,89 @@
     avd_expected_assigned_user: awx-admin@entra.azawslab.co.uk
 
   tasks:
-    - name: Run O5 AVD read-only validation from management host
+    - name: Login to Azure with vm-dev-mgmt-01 managed identity
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az login --identity --output none
+        az account show --query '{user:user.name,tenantId:tenantId,subscriptionId:id,name:name,state:state}' --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Validate O5 AVD resource group
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az group show \
+          --name '{{ avd_resource_group }}' \
+          --query '{name:name,location:location,provisioningState:properties.provisioningState,tags:tags}' \
+          --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Validate O5 AVD host pool
       ansible.builtin.shell: |
         set -euo pipefail
 
-        export PATH="$HOME/bin:$PATH"
+        SubId="$(timeout 60 az account show --query id --output tsv)"
+        HostPoolUri="https://management.azure.com/subscriptions/${SubId}/resourceGroups/{{ avd_resource_group }}/providers/Microsoft.DesktopVirtualization/hostPools/{{ avd_host_pool_name }}?api-version=2025-10-10"
 
-        EvidenceFile="$HOME/o5-avd-readonly-validation.txt"
-        AvdRg="{{ avd_resource_group }}"
-        HostPoolName="{{ avd_host_pool_name }}"
-        SessionHostName="{{ avd_session_host_name }}"
-        ExpectedAssignedUser="{{ avd_expected_assigned_user }}"
+        timeout 60 az rest \
+          --method get \
+          --url "$HostPoolUri" \
+          --query '{name:name,location:location,hostPoolType:properties.hostPoolType,personalDesktopAssignmentType:properties.personalDesktopAssignmentType,customRdpProperty:properties.customRdpProperty}' \
+          --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
 
-        az login --identity >/dev/null
+    - name: Validate O5 AVD session host assignment and health
+      ansible.builtin.shell: |
+        set -euo pipefail
 
-        SubId="$(az account show --query id --output tsv)"
-        SessionHostUri="https://management.azure.com/subscriptions/${SubId}/resourceGroups/${AvdRg}/providers/Microsoft.DesktopVirtualization/hostPools/${HostPoolName}/sessionHosts/${SessionHostName}?api-version=2025-10-10"
+        SubId="$(timeout 60 az account show --query id --output tsv)"
+        SessionHostUri="https://management.azure.com/subscriptions/${SubId}/resourceGroups/{{ avd_resource_group }}/providers/Microsoft.DesktopVirtualization/hostPools/{{ avd_host_pool_name }}/sessionHosts/{{ avd_session_host_name }}?api-version=2025-10-10"
 
-        cat > "$EvidenceFile" <<EOF
-        O5 AVD Read-Only Validation
-        ===========================
+        timeout 60 az rest \
+          --method get \
+          --url "$SessionHostUri" \
+          --query '{name:name,status:properties.status,assignedUser:properties.assignedUser,allowNewSession:properties.allowNewSession,lastHeartBeat:properties.lastHeartBeat}' \
+          --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
 
-        Purpose:
-        Validate O5 AVD control-plane and session-host readiness through the AWX -> vm-dev-mgmt-01 execution model.
+    - name: Validate O5 AVD session host VM state
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az vm show \
+          --resource-group '{{ avd_resource_group }}' \
+          --name '{{ avd_session_host_name }}' \
+          --show-details \
+          --query '{name:name,location:location,powerState:powerState,provisioningState:provisioningState,privateIps:privateIps,publicIps:publicIps,identity:identity.type}' \
+          --output json
+      args:
+        executable: /bin/bash
+      changed_when: false
 
-        Scope:
-        Read-only validation only.
+    - name: Validate O5 AVD session host VM extensions
+      ansible.builtin.shell: |
+        set -euo pipefail
+        timeout 60 az vm extension list \
+          --resource-group '{{ avd_resource_group }}' \
+          --vm-name '{{ avd_session_host_name }}' \
+          --query '[].{name:name,publisher:publisher,type:type,provisioningState:provisioningState,typeHandlerVersion:typeHandlerVersion}' \
+          --output table
+      args:
+        executable: /bin/bash
+      changed_when: false
 
-        No secrets, tokens, private keys, tfstate, tfplan, or kubeconfigs are included.
-        EOF
+    - name: Validate basic in-guest state through Azure VM Run Command
+      ansible.builtin.shell: |
+        set -euo pipefail
 
-        {
-          echo ''
-          echo '===== Azure account context ====='
-          az account show \
-            --query '{user:user.name,tenantId:tenantId,subscriptionId:id,name:name,state:state}' \
-            --output json
-
-          echo ''
-          echo '===== AVD resource group ====='
-          az group show \
-            --name "$AvdRg" \
-            --query '{name:name,location:location,provisioningState:properties.provisioningState,tags:tags}' \
-            --output json
-
-          echo ''
-          echo '===== AVD host pool ====='
-          az desktopvirtualization hostpool show \
-            --resource-group "$AvdRg" \
-            --name "$HostPoolName" \
-            --query '{name:name,location:location,hostPoolType:hostPoolType,personalDesktopAssignmentType:personalDesktopAssignmentType,customRdpProperty:customRdpProperty}' \
-            --output json
-
-          echo ''
-          echo '===== Session host assignment and health ====='
-          az rest \
-            --method get \
-            --url "$SessionHostUri" \
-            --query '{name:name,status:properties.status,assignedUser:properties.assignedUser,allowNewSession:properties.allowNewSession,lastHeartBeat:properties.lastHeartBeat}' \
-            --output json
-
-          echo ''
-          echo '===== Session host VM state ====='
-          az vm show \
-            --resource-group "$AvdRg" \
-            --name "$SessionHostName" \
-            --show-details \
-            --query '{name:name,location:location,powerState:powerState,provisioningState:provisioningState,privateIps:privateIps,publicIps:publicIps,identity:identity.type}' \
-            --output json
-
-          echo ''
-          echo '===== Session host VM extensions ====='
-          az vm extension list \
-            --resource-group "$AvdRg" \
-            --vm-name "$SessionHostName" \
-            --query '[].{name:name,publisher:publisher,type:type,provisioningState:provisioningState,typeHandlerVersion:typeHandlerVersion}' \
-            --output table
-
-          echo ''
-          echo '===== In-guest identity and service checks ====='
-
-          ScriptFile="$(mktemp)"
-          cat > "$ScriptFile" <<'PS1'
+        ScriptFile="$(mktemp)"
+        cat > "$ScriptFile" <<'PS1'
         Write-Output '===== Computer identity ====='
         Get-ComputerInfo |
           Select-Object CsName, CsDomain, CsPartOfDomain, WindowsProductName, WindowsVersion, OsBuildNumber |
@@ -109,7 +110,7 @@
           Format-Table -AutoSize
 
         Write-Output ''
-        Write-Output '===== Installed tool command availability ====='
+        Write-Output '===== Tool command availability - read-only ====='
         $Commands = 'az','kubectl','kubelogin','helm','git','code','terraform','aws','pwsh','python'
         foreach ($Command in $Commands) {
           $Resolved = Get-Command $Command -ErrorAction SilentlyContinue
@@ -122,23 +123,15 @@
         }
         PS1
 
-          az vm run-command invoke \
-            --resource-group "$AvdRg" \
-            --name "$SessionHostName" \
-            --command-id RunPowerShellScript \
-            --scripts "$(cat "$ScriptFile")" \
-            --query 'value[].message' \
-            --output tsv
+        timeout 180 az vm run-command invoke \
+          --resource-group '{{ avd_resource_group }}' \
+          --name '{{ avd_session_host_name }}' \
+          --command-id RunPowerShellScript \
+          --scripts "$(cat "$ScriptFile")" \
+          --query 'value[].message' \
+          --output tsv
 
-          rm -f "$ScriptFile"
-
-          echo ''
-          echo '===== Result ====='
-          echo "Expected assigned user: $ExpectedAssignedUser"
-          echo "Saved evidence: $EvidenceFile"
-        } >> "$EvidenceFile"
-
-        cat "$EvidenceFile"
+        rm -f "$ScriptFile"
       args:
         executable: /bin/bash
       changed_when: false
