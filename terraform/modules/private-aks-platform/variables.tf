@@ -108,3 +108,28 @@ variable "grafana_major_version" {
 variable "common_tags" {
   type = map(string)
 }
+variable "enable_o5_avd_aks_dns_link" {
+  description = "Controls whether O4 AKS private API DNS is linked to the O5 AVD VNet for private kubectl validation from AVD."
+  type        = bool
+  default     = false
+}
+
+variable "o5_avd_vnet_resource_group_name" {
+  description = "Resource group containing the O5 AVD spoke VNet."
+  type        = string
+}
+
+variable "o5_avd_vnet_name" {
+  description = "O5 AVD spoke VNet that requires private DNS resolution for the O4 AKS API."
+  type        = string
+}
+
+variable "o5_aks_private_dns_zone_resource_group_name" {
+  description = "Resource group containing the AKS system-managed private DNS zone."
+  type        = string
+}
+
+variable "o5_aks_private_dns_zone_name" {
+  description = "AKS system-managed private DNS zone name for the O4 private AKS API."
+  type        = string
+}

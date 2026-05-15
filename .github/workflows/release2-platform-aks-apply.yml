@@ -76,7 +76,7 @@ jobs:
 
           case "${{ github.event.inputs.profile }}" in
             o4-private-aks-full)
-              echo "flags=-var='enable_o4_private_aks=true'" >> "$GITHUB_OUTPUT"
+              echo "flags=-var='enable_o4_private_aks=true' -var='enable_o5_avd_aks_dns_link=true'" >> "$GITHUB_OUTPUT"
               ;;
             *)
               echo "Unsupported profile: ${{ github.event.inputs.profile }}"
