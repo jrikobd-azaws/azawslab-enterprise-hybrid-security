@@ -477,3 +477,53 @@ resource "azurerm_firewall_policy_rule_collection_group" "o5_o6_private_admin_tr
     }
   }
 }
+
+resource "azurerm_firewall_policy_rule_collection_group" "o5_avd_toolchain_egress" {
+  count = var.enable_azure_firewall && var.enable_o5_avd_toolchain_egress ? 1 : 0
+
+  name               = "rcg-o5-avd-toolchain-egress"
+  firewall_policy_id = azurerm_firewall_policy.this[0].id
+  priority           = 130
+
+  application_rule_collection {
+    name     = "arc-o5-avd-approved-toolchain"
+    priority = 100
+    action   = "Allow"
+
+    rule {
+      name             = "allow-microsoft-admin-tooling"
+      source_addresses = var.o5_avd_toolchain_source_addresses
+
+      destination_fqdns = var.o5_avd_toolchain_microsoft_fqdns
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+    }
+
+    rule {
+      name             = "allow-github-release-assets"
+      source_addresses = var.o5_avd_toolchain_source_addresses
+
+      destination_fqdns = var.o5_avd_toolchain_github_fqdns
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+    }
+
+    rule {
+      name             = "allow-approved-vendor-installers"
+      source_addresses = var.o5_avd_toolchain_source_addresses
+
+      destination_fqdns = var.o5_avd_toolchain_vendor_fqdns
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+    }
+  }
+}

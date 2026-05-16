@@ -69,10 +69,16 @@ module "hub_spoke_networking" {
   o5_o6_mgmt_ssh_ports               = var.o5_o6_mgmt_ssh_ports
   o5_o6_aks_api_private_ip           = var.o5_o6_aks_api_private_ip
   o5_o6_aks_api_ports                = var.o5_o6_aks_api_ports
-  azure_firewall_name                = "afw-dev-norwayeast-01"
-  azure_firewall_public_ip_name      = "pip-azfw-norwayeast-01"
-  azure_firewall_policy_name         = "afwp-dev-norwayeast"
-  azure_firewall_route_name          = "route-default-to-azure-firewall"
+
+  enable_o5_avd_toolchain_egress    = var.enable_o5_avd_toolchain_egress
+  o5_avd_toolchain_source_addresses = var.o5_avd_toolchain_source_addresses
+  o5_avd_toolchain_microsoft_fqdns  = var.o5_avd_toolchain_microsoft_fqdns
+  o5_avd_toolchain_github_fqdns     = var.o5_avd_toolchain_github_fqdns
+  o5_avd_toolchain_vendor_fqdns     = var.o5_avd_toolchain_vendor_fqdns
+  azure_firewall_name               = "afw-dev-norwayeast-01"
+  azure_firewall_public_ip_name     = "pip-azfw-norwayeast-01"
+  azure_firewall_policy_name        = "afwp-dev-norwayeast"
+  azure_firewall_route_name         = "route-default-to-azure-firewall"
 
   tags = local.common_tags
 }
