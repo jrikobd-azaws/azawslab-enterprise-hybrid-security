@@ -37,6 +37,7 @@
         $GitVersion = '2.54.0'
         $KubeloginVersion = '0.2.17'
         $HelmVersion = '4.0.0'
+        $TerraformVersion = '1.15.3'
 
         function Write-Step {
           param([string]$Message)
@@ -241,20 +242,6 @@
           $script:Changed = $true
         }
 
-        function Get-TerraformLatestVersion {
-          $Index = Invoke-WebRequest -Uri 'https://releases.hashicorp.com/terraform/' -UseBasicParsing -TimeoutSec 120
-          $Matches = [regex]::Matches($Index.Content, '/terraform/([0-9]+\.[0-9]+\.[0-9]+)/')
-          $Versions = $Matches |
-            ForEach-Object { [version]$_.Groups[1].Value } |
-            Sort-Object -Descending
-
-          if (-not $Versions -or $Versions.Count -eq 0) {
-            throw 'Could not resolve latest Terraform version from HashiCorp releases index.'
-          }
-
-          return $Versions[0].ToString()
-        }
-
         try {
           Write-Output 'O5 AVD Toolchain Bootstrap'
           Write-Output '=========================='
@@ -273,7 +260,7 @@
           $GitUri = "https://github.com/git-for-windows/git/releases/download/v$GitVersion.windows.1/Git-$GitVersion-64-bit.exe"
           $KubeloginUri = "https://github.com/Azure/kubelogin/releases/download/v$KubeloginVersion/kubelogin-win-amd64.zip"
           $HelmUri = "https://get.helm.sh/helm-v$HelmVersion-windows-amd64.zip"
-          $TerraformVersion = Get-TerraformLatestVersion
+          # Terraform version is pinned above for deterministic O5 bootstrap.
           $TerraformUri = "https://releases.hashicorp.com/terraform/$TerraformVersion/terraform_${TerraformVersion}_windows_amd64.zip"
 
           Write-Step 'Install MSI/EXE based tools if missing'
