@@ -124,3 +124,32 @@ variable "fslogix_share_quota_gb" {
   type        = number
   default     = 100
 }
+variable "enable_o5_o6_private_routes" {
+  description = "Controls O5/O6 explicit private routes from the AVD subnet to Azure admin, HQ, and AWS trusted destinations."
+  type        = bool
+  default     = false
+}
+
+variable "o5_o6_azure_platform_admin_prefix" {
+  description = "Azure platform/admin destination prefix reached from O5 AVD through Azure Firewall."
+  type        = string
+  default     = "10.10.0.0/16"
+}
+
+variable "o5_o6_hq_prefix" {
+  description = "HQ destination prefix reached from O5 AVD through FortiGate."
+  type        = string
+  default     = "192.168.1.0/24"
+}
+
+variable "o5_o6_aws_trusted_prefix" {
+  description = "AWS trusted destination prefix reached from O5 AVD through FortiGate."
+  type        = string
+  default     = "172.16.1.0/24"
+}
+
+variable "o5_o6_fortigate_private_ip_address" {
+  description = "FortiGate private next-hop IP for O5/O6 HQ and AWS trusted private routes."
+  type        = string
+  default     = "10.0.3.4"
+}

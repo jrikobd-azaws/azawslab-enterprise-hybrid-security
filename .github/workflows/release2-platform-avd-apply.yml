@@ -60,10 +60,10 @@ jobs:
 
           case "${{ github.event.inputs.deployment_mode }}" in
             deploy-session-host)
-              echo "flags=-var='enable_o5_avd=true' -var='enable_o5_session_host=true'" >> "$GITHUB_OUTPUT"
+              echo "flags=-var='enable_o5_avd=true' -var='enable_o5_session_host=true' -var='enable_o5_o6_private_routes=true'" >> "$GITHUB_OUTPUT"
               ;;
             deploy-foundation)
-              echo "flags=-var='enable_o5_avd=true'" >> "$GITHUB_OUTPUT"
+              echo "flags=-var='enable_o5_avd=true' -var='enable_o5_o6_private_routes=true'" >> "$GITHUB_OUTPUT"
               ;;
             cleanup-partial-foundation)
               echo "flags=-var='enable_o5_avd=false'" >> "$GITHUB_OUTPUT"
