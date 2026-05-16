@@ -229,3 +229,59 @@ variable "o5_o6_aks_api_ports" {
   type        = list(string)
   default     = ["443"]
 }
+variable "enable_o5_avd_toolchain_egress" {
+  description = "Controls O5 AVD approved admin/dev toolchain egress through Azure Firewall."
+  type        = bool
+  default     = false
+}
+
+variable "o5_avd_toolchain_source_addresses" {
+  description = "Source CIDR ranges allowed to use O5 AVD approved admin/dev toolchain egress."
+  type        = list(string)
+  default     = ["10.2.0.0/16"]
+}
+
+variable "o5_avd_toolchain_microsoft_fqdns" {
+  description = "Microsoft and VS Code FQDNs required for approved O5 AVD toolchain bootstrap and admin use."
+  type        = list(string)
+  default = [
+    "aka.ms",
+    "go.microsoft.com",
+    "download.microsoft.com",
+    "download.visualstudio.microsoft.com",
+    "update.code.visualstudio.com",
+    "code.visualstudio.com",
+    "vscode.download.prss.microsoft.com",
+    "packages.microsoft.com",
+    "azcliprod.blob.core.windows.net",
+    "learn.microsoft.com",
+    "docs.microsoft.com",
+    "portal.azure.com",
+    "graph.microsoft.com"
+  ]
+}
+
+variable "o5_avd_toolchain_github_fqdns" {
+  description = "GitHub FQDNs required for approved O5 AVD toolchain release downloads."
+  type        = list(string)
+  default = [
+    "github.com",
+    "api.github.com",
+    "objects.githubusercontent.com",
+    "github-releases.githubusercontent.com",
+    "*.githubusercontent.com"
+  ]
+}
+
+variable "o5_avd_toolchain_vendor_fqdns" {
+  description = "Approved vendor FQDNs required for kubectl, Helm, Terraform, AWS CLI, and related admin tooling."
+  type        = list(string)
+  default = [
+    "dl.k8s.io",
+    "cdn.dl.k8s.io",
+    "get.helm.sh",
+    "releases.hashicorp.com",
+    "registry.terraform.io",
+    "awscli.amazonaws.com"
+  ]
+}
