@@ -67,3 +67,62 @@ variable "o5_avd_source_addresses" {
   type        = list(string)
   default     = ["10.2.0.0/16"]
 }
+variable "enable_o5_o6_private_admin_transit" {
+  description = "Controls O5/O6 private admin transit readiness for AVD to AWX, AKS API, management, and hybrid return path."
+  type        = bool
+  default     = false
+}
+
+variable "o5_gateway_ingress_avd_route_name" {
+  description = "Name of the GatewaySubnet route steering O5 AVD return traffic through FortiGate port1."
+  type        = string
+  default     = "route-o5-avd-via-fgt-port1"
+}
+
+variable "o5_gateway_ingress_avd_prefix" {
+  description = "O5 AVD CIDR that must return through FortiGate from VPN/HQ/AWS paths."
+  type        = string
+  default     = "10.2.0.0/16"
+}
+
+variable "o5_o6_admin_source_addresses" {
+  description = "Approved O5/O6 private admin source CIDRs."
+  type        = list(string)
+  default     = ["10.2.0.0/16"]
+}
+
+variable "o5_o6_awx_private_ip" {
+  description = "AWX private IP reachable from O5 AVD."
+  type        = string
+  default     = "10.10.1.5"
+}
+
+variable "o5_o6_awx_nodeport_ports" {
+  description = "AWX private UI ports reachable from O5 AVD."
+  type        = list(string)
+  default     = ["32625"]
+}
+
+variable "o5_o6_mgmt_private_ip" {
+  description = "Management/Ansible VM private IP reachable from O5 AVD."
+  type        = string
+  default     = "10.10.1.4"
+}
+
+variable "o5_o6_mgmt_ssh_ports" {
+  description = "Management/Ansible VM private SSH ports reachable from O5 AVD."
+  type        = list(string)
+  default     = ["22"]
+}
+
+variable "o5_o6_aks_api_private_ip" {
+  description = "O4 private AKS API private IP reachable from O5 AVD."
+  type        = string
+  default     = "10.10.2.4"
+}
+
+variable "o5_o6_aks_api_ports" {
+  description = "O4 private AKS API ports reachable from O5 AVD."
+  type        = list(string)
+  default     = ["443"]
+}

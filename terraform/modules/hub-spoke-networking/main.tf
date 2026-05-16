@@ -424,3 +424,56 @@ resource "azurerm_firewall_policy_rule_collection_group" "o5_avd_egress" {
     }
   }
 }
+
+resource "azurerm_route" "gateway_ingress_avd_via_fgt_port1" {
+  count = var.enable_p5_gateway_ingress_fortigate && var.enable_o5_o6_private_admin_transit ? 1 : 0
+
+  name                   = var.o5_gateway_ingress_avd_route_name
+  resource_group_name    = azurerm_resource_group.connectivity.name
+  route_table_name       = azurerm_route_table.gateway_ingress_fgt[0].name
+  address_prefix         = var.o5_gateway_ingress_avd_prefix
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = var.p5_gateway_ingress_fortigate_port1_ip
+
+  depends_on = [
+    azurerm_subnet_route_table_association.gateway_ingress_fgt
+  ]
+}
+
+resource "azurerm_firewall_policy_rule_collection_group" "o5_o6_private_admin_transit" {
+  count = var.enable_azure_firewall && var.enable_o5_o6_private_admin_transit ? 1 : 0
+
+  name               = "rcg-o5-o6-private-admin-transit"
+  firewall_policy_id = azurerm_firewall_policy.this[0].id
+  priority           = 120
+
+  network_rule_collection {
+    name     = "nrc-o5-o6-azure-admin-platform"
+    priority = 100
+    action   = "Allow"
+
+    rule {
+      name                  = "allow-avd-to-awx-private-ui"
+      source_addresses      = var.o5_o6_admin_source_addresses
+      destination_addresses = [var.o5_o6_awx_private_ip]
+      destination_ports     = var.o5_o6_awx_nodeport_ports
+      protocols             = ["TCP"]
+    }
+
+    rule {
+      name                  = "allow-avd-to-aks-private-api"
+      source_addresses      = var.o5_o6_admin_source_addresses
+      destination_addresses = [var.o5_o6_aks_api_private_ip]
+      destination_ports     = var.o5_o6_aks_api_ports
+      protocols             = ["TCP"]
+    }
+
+    rule {
+      name                  = "allow-avd-to-mgmt-ssh"
+      source_addresses      = var.o5_o6_admin_source_addresses
+      destination_addresses = [var.o5_o6_mgmt_private_ip]
+      destination_ports     = var.o5_o6_mgmt_ssh_ports
+      protocols             = ["TCP"]
+    }
+  }
+}

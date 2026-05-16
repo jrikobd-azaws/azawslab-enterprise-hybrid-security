@@ -55,13 +55,24 @@ module "hub_spoke_networking" {
   bastion_host_name                     = "bas-dev-norwayeast-01"
   bastion_public_ip_name                = "pip-bas-dev-norwayeast-01"
 
-  enable_azure_firewall         = var.enable_azure_firewall
-  enable_o5_avd_egress          = var.enable_o5_avd_egress
-  o5_avd_source_addresses       = var.o5_avd_source_addresses
-  azure_firewall_name           = "afw-dev-norwayeast-01"
-  azure_firewall_public_ip_name = "pip-azfw-norwayeast-01"
-  azure_firewall_policy_name    = "afwp-dev-norwayeast"
-  azure_firewall_route_name     = "route-default-to-azure-firewall"
+  enable_azure_firewall   = var.enable_azure_firewall
+  enable_o5_avd_egress    = var.enable_o5_avd_egress
+  o5_avd_source_addresses = var.o5_avd_source_addresses
+
+  enable_o5_o6_private_admin_transit = var.enable_o5_o6_private_admin_transit
+  o5_gateway_ingress_avd_route_name  = var.o5_gateway_ingress_avd_route_name
+  o5_gateway_ingress_avd_prefix      = var.o5_gateway_ingress_avd_prefix
+  o5_o6_admin_source_addresses       = var.o5_o6_admin_source_addresses
+  o5_o6_awx_private_ip               = var.o5_o6_awx_private_ip
+  o5_o6_awx_nodeport_ports           = var.o5_o6_awx_nodeport_ports
+  o5_o6_mgmt_private_ip              = var.o5_o6_mgmt_private_ip
+  o5_o6_mgmt_ssh_ports               = var.o5_o6_mgmt_ssh_ports
+  o5_o6_aks_api_private_ip           = var.o5_o6_aks_api_private_ip
+  o5_o6_aks_api_ports                = var.o5_o6_aks_api_ports
+  azure_firewall_name                = "afw-dev-norwayeast-01"
+  azure_firewall_public_ip_name      = "pip-azfw-norwayeast-01"
+  azure_firewall_policy_name         = "afwp-dev-norwayeast"
+  azure_firewall_route_name          = "route-default-to-azure-firewall"
 
   tags = local.common_tags
 }
