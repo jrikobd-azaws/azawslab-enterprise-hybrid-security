@@ -62,7 +62,7 @@ Because Azure SKU availability and restrictions vary over time by subscription, 
 ### Identity / Namespace Snapshot
 - **Entra tenant namespace:** `entra.azawslab.co.uk`
 - **HQ AD domain:** `hq.azawslab.co.uk`
-- **Branch namespace:** `br.azawslab.co.uk`
+- **Branch namespace:** `br1.azawslab.co.uk`
 
 ### Text Diagram
 ```text
@@ -1546,7 +1546,7 @@ docs/
 
 ---
 
-## O1 Closeout Addendum ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ FortiGate Azure-to-HQ Service Chaining
+## O1 Closeout Addendum ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ FortiGate Azure-to-HQ Service Chaining
 
 O1 has validated controlled Azure workload to HQ service chaining through the FortiGate NVA.
 
@@ -2153,3 +2153,5 @@ AVD personal session host
 O5 must not modify O4 AKS resources. O5 consumes O4 for validation.
 
 <!-- O5-FINAL-PHASE-DIRECTION:END -->
+
+

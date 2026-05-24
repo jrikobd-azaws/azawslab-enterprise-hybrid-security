@@ -31,14 +31,14 @@ It should be used together with:
 
 ## 2. Status Legend
 
-| Symbol | Meaning                              |
-| ------ | ------------------------------------ |
-| [ ]    | Not started                          |
-| [~]    | In progress                          |
-| [x]    | Completed and validated              |
-| [!]    | Blocked                              |
+| Symbol | Meaning                                                                    |
+| ------ | -------------------------------------------------------------------------- |
+| [ ]    | Not started                                                                |
+| [~]    | In progress                                                                |
+| [x]    | Completed and validated                                                    |
+| [!]    | Blocked                                                                    |
 | [E]    | Ephemeral ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ destroy after validation |
-| [O]    | Optional phase                       |
+| [O]    | Optional phase                                                             |
 
 ---
 
@@ -200,29 +200,29 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ## 6. Core Phase Tracker (P0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œP9c, O1ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œO5)
 
-| Phase | Name                                           | Depends On | Est. Time | Status | Evidence Path                 | Validation Gate                                                      | Teardown / Cost Action                                         |
-| ----- | ---------------------------------------------- | ---------- | --------- | ------ | ----------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
-| P0    | Foundation & OIDC Backend                      | Prep       | 1h        | [x]    | `docs/release2/evidence/P0/`  | OIDC workflow succeeds; backend init succeeds                        | Persistent                                                     |
-| P1    | Landing Zone & Management Groups               | P0         | 30m       | [x]    | `docs/release2/evidence/P1/`  | MG hierarchy exists; policy assignments visible                      | Persistent                                                     |
-| P2a   | Terraform Reusable Modules                     | P1         | 1h        | [x]    | `docs/release2/evidence/P2a/` | `terraform validate` and `plan` succeed; no public IP on workload VM | Persistent                                                     |
-| P2b   | Ansible Configuration Management               | P2a        | 45m       | [x]    | `docs/release2/evidence/P2b/` | management host path works; WinRM path validated; common role succeeds; rerun shows idempotency; AD join deferred until HQ AD and hybrid connectivity are ready | Management host ephemeral; deallocate when not actively needed |
-| P2c   | CI/CD Pipeline                                 | P0, P2a    | 45m       | [ ]    | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds             | Persistent                                                     |
-| P3    | Enterprise Governance & Guardrails             | P1         | 30m       | [x]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                    | Persistent                                                     |
-| P4    | Azure Lighthouse                               | P0         | 30m       | [x]    | `docs/release2/evidence/P4/`  | delegated Reader visibility works cross-tenant                       | Persistent until later teardown decision                       |
-| P5    | Hub-Spoke Networking                           | P0         | 1h        | [x]    | `docs/release2/evidence/P5/`  | peering and routing validated                                        | Persistent                                                   |
-| P6    | Azure Firewall                                 | P5         | 1h        | [x]    | `docs/release2/evidence/P6/`  | Firewall deployed; forced-tunneling route and workload egress validated; teardown complete | [E] destroyed after validation                             |
-| P7    | Defender for Cloud                             | P5         | 30m       | [~]    | `docs/release2/evidence/P7/`  | security contact deployed; secure score and recommendations captured; post-change review pending | Persistent                                                   |
-| P8    | Microsoft Sentinel                             | P7         | 45m       | [ ]    | `docs/release2/evidence/P8/`  | incident generation path validated                                   | Persistent                                                     |
-| P9a   | Azure Monitor Alerts                           | P7         | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                              | Persistent                                                     |
-| P9b   | Backup / Recovery Services Vault               | P5         | 45m       | [ ]    | `docs/release2/evidence/P9b/` | backup policy and protected item verified                            | Persistent                                                     |
-| P9c   | Final Validation & Portfolio Evidence Pack     | P0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œP9b     | 1h        | [ ]    | `docs/release2/evidence/P9c/` | all mandatory evidence complete                                      | Persistent                                                     |
-| O1    | FortiGate Azure-to-HQ Service-Chaining / Inspection | P5, O3a    | 1h        | [x]    | `docs/release2/evidence/O1/`  | Azure workload to HQ traffic validated through FortiGate policy 1 with SNAT lab delta | Retain only while dependent hybrid validation needs FortiGate/VPN resources |
-| O2    | Azure Arc                                      | P5         | 45m       | [ ]    | `docs/release2/evidence/O2/`  | Arc machine shows connected                                          | Persistent / optional                                          |
-| O3a   | Azure VPN Gateway to VyOS Hybrid Connectivity   | P5         | 1.5h      | [x]    | `docs/release2/evidence/O3a/` | VPN connected; AES256/SHA256/DHGroup14/PFS14 validated; workload reaches VyOS LAN gateway | Retain only while O1/O3 service-chaining validation depends on it |
-| O3b   | AWS Cisco Branch with Segmented BGP            | O3a        | 1.5h      | [ ]    | `docs/release2/evidence/O3b/` | AWS branch routes propagate correctly                                | [E] destroy AWS NVA after validation                           |
-| O3c   | Global Transit / Transitive Routing Validation | O3a, O3b   | 1h        | [ ]    | `docs/release2/evidence/O3c/` | end-to-end path validation succeeds                                  | [E] teardown transient routing lab components                  |
-| O4    | Entra Global Secure Access                     | P5         | 1h        | [ ]    | `docs/release2/evidence/O4/`  | private access validated; remote network works                       | Optional persistent                                            |
-| O5    | Azure Virtual Desktop + FSLogix                | P5         | 1.5h      | [ ]    | `docs/release2/evidence/O5/`  | host pool, profiles, and session validation succeed                  | [E] destroy session hosts after validation if budget-sensitive |
+| Phase | Name                                                | Depends On                                   | Est. Time | Status | Evidence Path                 | Validation Gate                                                                                                                                                 | Teardown / Cost Action                                                      |
+| ----- | --------------------------------------------------- | -------------------------------------------- | --------- | ------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| P0    | Foundation & OIDC Backend                           | Prep                                         | 1h        | [x]    | `docs/release2/evidence/P0/`  | OIDC workflow succeeds; backend init succeeds                                                                                                                   | Persistent                                                                  |
+| P1    | Landing Zone & Management Groups                    | P0                                           | 30m       | [x]    | `docs/release2/evidence/P1/`  | MG hierarchy exists; policy assignments visible                                                                                                                 | Persistent                                                                  |
+| P2a   | Terraform Reusable Modules                          | P1                                           | 1h        | [x]    | `docs/release2/evidence/P2a/` | `terraform validate` and `plan` succeed; no public IP on workload VM                                                                                            | Persistent                                                                  |
+| P2b   | Ansible Configuration Management                    | P2a                                          | 45m       | [x]    | `docs/release2/evidence/P2b/` | management host path works; WinRM path validated; common role succeeds; rerun shows idempotency; AD join deferred until HQ AD and hybrid connectivity are ready | Management host ephemeral; deallocate when not actively needed              |
+| P2c   | CI/CD Pipeline                                      | P0, P2a                                      | 45m       | [ ]    | `docs/release2/evidence/P2c/` | PR plan workflow succeeds; merge/apply workflow succeeds                                                                                                        | Persistent                                                                  |
+| P3    | Enterprise Governance & Guardrails                  | P1                                           | 30m       | [x]    | `docs/release2/evidence/P3/`  | deny policy tested; RBAC verified                                                                                                                               | Persistent                                                                  |
+| P4    | Azure Lighthouse                                    | P0                                           | 30m       | [x]    | `docs/release2/evidence/P4/`  | delegated Reader visibility works cross-tenant                                                                                                                  | Persistent until later teardown decision                                    |
+| P5    | Hub-Spoke Networking                                | P0                                           | 1h        | [x]    | `docs/release2/evidence/P5/`  | peering and routing validated                                                                                                                                   | Persistent                                                                  |
+| P6    | Azure Firewall                                      | P5                                           | 1h        | [x]    | `docs/release2/evidence/P6/`  | Firewall deployed; forced-tunneling route and workload egress validated; teardown complete                                                                      | [E] destroyed after validation                                              |
+| P7    | Defender for Cloud                                  | P5                                           | 30m       | [~]    | `docs/release2/evidence/P7/`  | security contact deployed; secure score and recommendations captured; post-change review pending                                                                | Persistent                                                                  |
+| P8    | Microsoft Sentinel                                  | P7                                           | 45m       | [ ]    | `docs/release2/evidence/P8/`  | incident generation path validated                                                                                                                              | Persistent                                                                  |
+| P9a   | Azure Monitor Alerts                                | P7                                           | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                                                                                                                         | Persistent                                                                  |
+| P9b   | Backup / Recovery Services Vault                    | P5                                           | 45m       | [ ]    | `docs/release2/evidence/P9b/` | backup policy and protected item verified                                                                                                                       | Persistent                                                                  |
+| P9c   | Final Validation & Portfolio Evidence Pack          | P0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œP9b | 1h        | [ ]    | `docs/release2/evidence/P9c/` | all mandatory evidence complete                                                                                                                                 | Persistent                                                                  |
+| O1    | FortiGate Azure-to-HQ Service-Chaining / Inspection | P5, O3a                                      | 1h        | [x]    | `docs/release2/evidence/O1/`  | Azure workload to HQ traffic validated through FortiGate policy 1 with SNAT lab delta                                                                           | Retain only while dependent hybrid validation needs FortiGate/VPN resources |
+| O2    | Azure Arc                                           | P5                                           | 45m       | [ ]    | `docs/release2/evidence/O2/`  | Arc machine shows connected                                                                                                                                     | Persistent / optional                                                       |
+| O3a   | Azure VPN Gateway to VyOS Hybrid Connectivity       | P5                                           | 1.5h      | [x]    | `docs/release2/evidence/O3a/` | VPN connected; AES256/SHA256/DHGroup14/PFS14 validated; workload reaches VyOS LAN gateway                                                                       | Retain only while O1/O3 service-chaining validation depends on it           |
+| O3b   | AWS Cisco Branch with Segmented BGP                 | O3a                                          | 1.5h      | [ ]    | `docs/release2/evidence/O3b/` | AWS branch routes propagate correctly                                                                                                                           | [E] destroy AWS NVA after validation                                        |
+| O3c   | Global Transit / Transitive Routing Validation      | O3a, O3b                                     | 1h        | [ ]    | `docs/release2/evidence/O3c/` | end-to-end path validation succeeds                                                                                                                             | [E] teardown transient routing lab components                               |
+| O4    | Entra Global Secure Access                          | P5                                           | 1h        | [ ]    | `docs/release2/evidence/O4/`  | private access validated; remote network works                                                                                                                  | Optional persistent                                                         |
+| O5    | Azure Virtual Desktop + FSLogix                     | P5                                           | 1.5h      | [ ]    | `docs/release2/evidence/O5/`  | host pool, profiles, and session validation succeed                                                                                                             | [E] destroy session hosts after validation if budget-sensitive              |
 
 ---
 
@@ -662,12 +662,12 @@ Use this section during execution.
 
 ## 11. Change Log
 
-| Date   | Change                                                | Reason                                                                         |
-| ------ | ----------------------------------------------------- | ------------------------------------------------------------------------------ |
-| [Date] | Initial rewritten tracker aligned to `README_PLAN.md` | Removed stale RRAS path, restructured prep flow, strengthened validation gates |
-| 2026-05-04 | P4 Azure Lighthouse Reader delegation completed | Registration definition and assignment deployed; customer subscription visible from managing tenant via Reader delegation |
-| 2026-05-04 | P5 Hub-Spoke Networking completed | Platform-networking root deployed hub VNet, reserved hub subnets, bidirectional peering, and workload route-table association |
-| 2026-05-05 | Platform management state split completed | Temporary Ansible management host moved from workload-dev state to dedicated platform-management-dev state with no Azure resource destroy or recreate |
+| Date       | Change                                                | Reason                                                                                                                                                |
+| ---------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Date]     | Initial rewritten tracker aligned to `README_PLAN.md` | Removed stale RRAS path, restructured prep flow, strengthened validation gates                                                                        |
+| 2026-05-04 | P4 Azure Lighthouse Reader delegation completed       | Registration definition and assignment deployed; customer subscription visible from managing tenant via Reader delegation                             |
+| 2026-05-04 | P5 Hub-Spoke Networking completed                     | Platform-networking root deployed hub VNet, reserved hub subnets, bidirectional peering, and workload route-table association                         |
+| 2026-05-05 | Platform management state split completed             | Temporary Ansible management host moved from workload-dev state to dedicated platform-management-dev state with no Azure resource destroy or recreate |
 
 ---
 
@@ -695,8 +695,8 @@ Use this section during execution.
 - [x] O3a complete if included
 - [ ] O3b complete if included
 - [ ] O3c complete if included
-- [ ] O4 complete if included
-- [ ] O5 complete if included
+- [x] O4 complete if included - previously validated; resources currently destroyed for cost control
+- [x] O5 complete if included - previously validated; resources currently destroyed for cost control
 
 ### Final Operational Checks
 - [ ] No stale RRAS references remain in Release 2 docs
@@ -1246,37 +1246,34 @@ Evidence:
 - `docs/release2/evidence/A1-ansible-network-baseline/evidence/a1-idempotency-no-change-proof.txt`
 - `docs/release2/evidence/A1-ansible-network-baseline/sanitized-backups/`
 
-### A2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ AWX Automation Control Plane [~]
+### A2 - AWX Automation Control Plane [x]
 
-Status: Planning next.
+Status: Completed and validated.
 
-Objective:
+Completed:
 
-Centralize the validated A1 Ansible model into an enterprise-style AWX control plane before O4.
+- AWX management access through the approved SSH tunnel and management path.
+- AWX project sync from GitHub branch `a2-awx-platform-management-design`.
+- Management-host dispatcher model.
+- Azure Key Vault runtime secret retrieval.
+- AWS SSM runtime secret retrieval through Roles Anywhere.
+- Entra / Azure AD SSO login.
+- AWX social user creation for `awx-admin@entra.azawslab.co.uk`.
+- AWX Tier 1 through Tier 5 templates.
+- First low-risk reversible VyOS write and rollback.
 
-Target:
+Evidence:
 
-```text
-AWX on Azure-managed host
-  -> Entra/Azure AD login
-  -> AWX RBAC
-  -> GitHub project sync
-  -> Azure Key Vault runtime secrets
-  -> AWS SSM runtime secrets
-  -> A1/O4/O5 job templates
-```
+- `docs/release2/evidence/A2-awx-control-plane/a2-awx-control-plane-closure-evidence.md`
+- `docs/release2/evidence/A2-awx-control-plane/a2-awx-api-final-state.json`
+- `docs/release2/evidence/A2-awx-control-plane/a2-entra-awx-sso-final-state.json`
+- `docs/release2/evidence/A2-awx-control-plane/a2-awx-job-46-stdout.txt`
+- `docs/release2/evidence/A2-awx-control-plane/a2-awx-entra-sso-social-user-awxadmin-login.png`
 
-Minimum validation:
+Current resource state:
 
-- [ ] AWX management path documented.
-- [ ] Entra/Azure AD login model selected.
-- [ ] RBAC model documented.
-- [ ] GitHub project sync validated.
-- [ ] Key Vault secret retrieval validated.
-- [ ] AWS SSM secret retrieval validated.
-- [ ] A1 job template created or planned.
-- [ ] O4 support job templates planned.
-- [ ] Evidence saved under `docs/release2/evidence/A2-awx-control-plane/`.
+- A2 was validated and evidence was captured.
+- Cloud resources are currently destroyed or deallocated where applicable to control cost.
 
 ---
 
@@ -1284,7 +1281,7 @@ Minimum validation:
 
 ### A2 - AWX Automation Control Plane
 
-Status: Planned next.
+Status: Completed and validated. Evidence captured. Resources currently destroyed or deallocated where applicable for cost control.
 
 Scope:
 
@@ -1312,7 +1309,7 @@ docs/release2/evidence/A2-awx-control-plane/
 
 ### O4 - Private AKS Modern Application Platform
 
-Status: Planned after A2 design.
+Status: Previously validated. Current cloud resources are destroyed for cost control.
 
 Scope:
 
@@ -1334,7 +1331,7 @@ docs/release2/evidence/O4-private-aks-platform/
 
 ### O5 - AVD + FSLogix Secure Admin/Dev Workspace
 
-Status: Planned after O4 design.
+Status: Previously validated. Current cloud resources are destroyed for cost control.
 
 Scope:
 
@@ -1372,3 +1369,44 @@ Required O5 tracking behavior:
 - [ ] O5 does not claim FortiGate inspection unless route path and FortiGate counters/logs prove traversal.
 
 <!-- O5-CORRECTED-TRACKING-ALIGNMENT:END -->
+### O6 - Secure AI Operations Enclave Integration Pattern [O]
+
+Status: Prepared as documentation and optional live-validation scaffold. Not currently deployed.
+
+Current cloud state:
+
+- No cloud resources are currently active.
+- No O6 AKS namespace is currently deployed.
+- O6 live AKS validation is deferred to a future approved short validation window.
+
+Scope:
+
+O6 is a Release 2 design extension and architecture integration pattern. It documents how the companion Local AI Infrastructure Operations Lab can map into the private AKS and AVD-governed operational boundary without granting autonomous production write access.
+
+Prepared:
+
+- [x] O6 architecture pattern documented
+- [x] O6 relationship to Local AI Infrastructure Operations Lab documented
+- [x] Terraform / Ansible / AWX responsibility boundaries documented
+- [x] MCP/tool gateway allow/deny boundary documented
+- [x] Redaction and output-filtering model documented
+- [x] API/tool-call monitoring model documented
+- [x] Human approval boundary documented
+
+Future live validation:
+
+- [ ] Optional live AKS deployment of `ai-enclave` namespace validated
+- [ ] Optional Workload Identity manifests applied and validated
+- [ ] Optional NetworkPolicy manifests applied and validated
+- [ ] Optional Azure Monitor / Log Analytics dashboard validated
+- [ ] Optional AWX job-template proposal examples created in AWX UI/API
+
+Evidence path:
+
+```text
+docs/release2/evidence/O6/
+```
+
+Cost control:
+
+O6 live validation must be executed only during an approved short validation window. After evidence capture, any temporary cloud resources must be destroyed or deallocated.

@@ -1,4 +1,4 @@
-# A2/O4/O5 Integrated Platform Design
+﻿# A2/O4/O5 Integrated Platform Design
 
 ## Objective
 
@@ -16,7 +16,7 @@ Azure / Entra:
   entra.azawslab.co.uk
 
 AWS branch:
-  br.azawslab.co.uk
+  br1.azawslab.co.uk
 ```
 
 ## Integrated Architecture
@@ -458,3 +458,4 @@ Detailed decision file:
 ```text
 docs/release2/narrative/o5-europe-avd-region-decision.md
 ```
+
