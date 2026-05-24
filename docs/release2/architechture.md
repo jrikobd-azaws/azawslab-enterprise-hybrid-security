@@ -1,4 +1,4 @@
-﻿# Architecture Decision Records (ADR) â€“ Azawslab Enterprise Hybrid Security
+# Architecture Decision Records (ADR) â€“ Azawslab Enterprise Hybrid Security
 
 **Project:** Azawslab Enterprise Hybrid Security  
 **Releases:** 1 (Hybrid Workplace Foundation) and 2 (Azure Platform & Security)  
@@ -388,3 +388,15 @@ vm-dev-client-01 / 10.10.0.4
 ```
 
 **Consequence:** The manual GatewaySubnet UDR validation must be codified in terraform/platform-networking/dev to remove drift and keep the route-security model auditable.
+
+## ADR - O6 Secure AI Operations Enclave as Design Extension
+
+**Context:** Release 2 already validates private infrastructure, automation governance, private AKS, and secure admin/dev workspace patterns. The companion Local AI Infrastructure Operations Lab demonstrates a local-first AI-assisted infrastructure operations workflow.
+
+**Decision:** Include O6 as a Release 2 design extension and architecture integration pattern. O6 documents how the companion local AI workflow can map into the private AKS and AVD-governed operational boundary.
+
+**Current State:** O6 is prepared as documentation and optional live-validation scaffold. No O6 live AKS deployment is currently active.
+
+**Controls:** O6 does not grant autonomous remediation. Terraform apply, kubectl apply, Ansible playbook execution, AWX job launch, firewall mutation, BGP mutation, broad shell execution, and secret reads remain denied unless separately approved through governed human workflows.
+
+**Cost Position:** O4 and O5 were previously validated and are currently destroyed for cost control. O6 live validation is deferred to a future approved short validation window.

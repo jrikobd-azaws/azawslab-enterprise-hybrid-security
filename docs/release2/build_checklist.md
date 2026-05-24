@@ -1,4 +1,4 @@
-# Build Checklist ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Release 2
+﻿# Build Checklist ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Release 2
 
 **Version:** 1.0
 **Last Updated:** [02-May-2026]
@@ -39,7 +39,7 @@ That role belongs to `implementation-tracker.md`.
 - [ ] Do not start infrastructure build work until docs are aligned
 - [ ] Do not create resources with ad hoc names
 - [ ] Do not skip validation just because deployment succeeded
-- [ ] Do not skip evidence capture until ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œlaterÃƒÂ¢Ã¢â€šÂ¬Ã‚Â
+- [ ] Do not skip evidence capture until ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“laterÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â
 - [ ] Do not leave expensive ephemeral resources running unnecessarily
 - [ ] Do not reintroduce RRAS terminology or config assumptions into Release 2
 - [ ] Treat Release 2 as CLI-first: capture text evidence first, screenshots second
@@ -168,8 +168,8 @@ Use this section every time before beginning a new phase.
 
 ### Phase Intent Check
 - [ ] I can explain what this phase is supposed to prove
-- [ ] I know what ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œdoneÃƒÂ¢Ã¢â€šÂ¬Ã‚Â means for this phase
-- [ ] I am not starting the phase just because it ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œlooks nextÃƒÂ¢Ã¢â€šÂ¬Ã‚Â without readiness
+- [ ] I know what ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“doneÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â means for this phase
+- [ ] I am not starting the phase just because it ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“looks nextÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â without readiness
 
 ---
 
@@ -218,7 +218,7 @@ Use this before running playbooks.
 - [ ] no secrets are exposed in plaintext files unnecessarily
 - [ ] expected host roles are understood
 - [ ] `ansible-lint` has been run
-- [ ] I know what ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œsuccessful rerunÃƒÂ¢Ã¢â€šÂ¬Ã‚Â should look like for idempotency
+- [ ] I know what ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“successful rerunÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â should look like for idempotency
 
 ---
 
@@ -359,7 +359,7 @@ Use this while you are still working mainly through GitHub Desktop.
 - [ ] using inconsistent naming
 - [ ] forgetting tags
 - [ ] reintroducing stale RRAS wording
-- [ ] treating ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œdeployment succeededÃƒÂ¢Ã¢â€šÂ¬Ã‚Â as ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œphase completedÃƒÂ¢Ã¢â€šÂ¬Ã‚Â
+- [ ] treating ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“deployment succeededÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â as ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“phase completedÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â
 - [ ] making too many file changes at once without controlled commits
 
 ---
@@ -368,7 +368,7 @@ Use this while you are still working mainly through GitHub Desktop.
 
 Use this when you need a simple execution memory aid.
 
-### Stage A ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Control the Docs
+### Stage A ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Control the Docs
 - [ ] align `README_PLAN.md`
 - [ ] align `implementation-tracker.md`
 - [ ] align `Phases-with-steps.md`
@@ -376,14 +376,14 @@ Use this when you need a simple execution memory aid.
 - [ ] align `README.md`
 - [ ] align `build_checklist.md`
 
-### Stage B ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Prepare the Build Environment
+### Stage B ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Prepare the Build Environment
 - [ ] Azure readiness
 - [ ] repo readiness
 - [ ] VS Code / Codespaces readiness
 - [ ] GitHub environment readiness
 - [ ] on-prem / AWS optional readiness
 
-### Stage C ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Execute Core Phases
+### Stage C ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Execute Core Phases
 - [ ] P0
 - [ ] P1
 - [ ] P2a
@@ -397,7 +397,7 @@ Use this when you need a simple execution memory aid.
 - [ ] P9b
 - [ ] P9c
 
-### Stage D ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Execute Optional Phases Only If Ready
+### Stage D ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Execute Optional Phases Only If Ready
 - [x] P4
 - [ ] P6
 - [x] O1
@@ -427,7 +427,7 @@ Use this when you need a simple execution memory aid.
 - [x] evidence saved under `docs/release2/evidence/P4/`
 - [x] Lighthouse delegation intentionally retained for portfolio demonstration until later teardown decision
 
-### Stage E ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Final Review
+### Stage E ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Final Review
 - [ ] evidence complete
 - [ ] costly resources reviewed
 - [ ] tracker honest and updated
@@ -459,7 +459,7 @@ Use this when you need a simple execution memory aid.
 
 ## 19. Personal Session Notes
 
-### TodayÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢s Target
+### TodayÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢s Target
 - [ ] ___________________________________________
 
 ### Blockers
@@ -826,7 +826,7 @@ Date: 2026-05-06 00:59:25 +01:00
 
 - [x] HQ/on-prem domain confirmed as `hq.azawslab.co.uk`
 - [x] Entra domain confirmed as `entra.azawslab.co.uk`
-- [x] AWS branch domain confirmed as `br.azawslab.co.uk`
+- [x] AWS branch domain confirmed as `br1.azawslab.co.uk`
 
 ### A2 AWX
 
@@ -893,3 +893,36 @@ Date: 2026-05-06 00:59:25 +01:00
 - [ ] Confirm final O5 evidence excludes secrets, raw logs, kubeconfigs, private keys, tfstate, tfplan, and noisy trial/error outputs.
 
 <!-- O5-CORRECTED-BUILD-CHECKLIST:END -->
+
+## O6 - Secure AI Operations Enclave Integration Pattern
+
+### Prepared-State Checklist
+
+- [x] O6 documented as Release 2 architecture integration pattern
+- [x] O6 not described as autonomous remediation
+- [x] O6 relationship to Local AI Infrastructure Operations Lab documented
+- [x] Terraform review boundary documented
+- [x] Ansible validation boundary documented
+- [x] AWX proposal-only boundary documented
+- [x] MCP/tool gateway allow/deny policy documented
+- [x] Redaction and output-filtering controls documented
+- [x] API/tool-call monitoring model documented
+- [x] Human approval boundary documented
+
+### Future Live-Validation Checklist
+
+- [ ] `ai-enclave` namespace applied to private AKS
+- [ ] Workload Identity service accounts applied
+- [ ] NetworkPolicies applied
+- [ ] Log Analytics / Azure Monitor query pack validated
+- [ ] AWX job-template proposals created or imported
+- [ ] Evidence captured
+- [ ] O6 live resources removed or dependent resources destroyed/deallocated
+
+### Current Cost-Control State
+
+- [x] No cloud resources are currently active
+- [x] O4/O5 evidence was captured previously
+- [x] O4/O5 cloud resources are currently destroyed for cost control
+- [x] O6 live validation is deferred to a future approved short validation window
+

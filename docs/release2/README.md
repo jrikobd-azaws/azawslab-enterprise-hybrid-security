@@ -202,3 +202,9 @@ Candidate regions and SKUs were assessed against actual subscription-level deplo
 ## Final Note
 
 This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
+
+### AI-Assisted Operations Under Governance
+
+Release 2 includes the O6 Secure AI Operations Enclave integration pattern, which connects the companion Local AI Infrastructure Operations Lab to the private AKS platform. O6 demonstrates how AI-assisted operations can support read-only auditing, Terraform review, Ansible validation, AWX runbook proposal generation, FinOps summaries, and GitOps documentation without granting autonomous production write access.
+
+Current cloud state: no cloud resources are currently active. O4 and O5 were previously validated and are currently destroyed for cost control. O6 optional live validation is prepared, not deployed.

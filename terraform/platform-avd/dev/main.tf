@@ -36,4 +36,10 @@ module "avd_secure_workspace" {
   fslogix_storage_replication_type  = var.fslogix_storage_replication_type
   fslogix_share_name                = var.fslogix_share_name
   fslogix_share_quota_gb            = var.fslogix_share_quota_gb
+
+  enable_o5_o6_private_routes        = var.enable_o5_o6_private_routes
+  o5_o6_azure_platform_admin_prefix  = var.o5_o6_azure_platform_admin_prefix
+  o5_o6_hq_prefix                    = var.o5_o6_hq_prefix
+  o5_o6_aws_trusted_prefix           = var.o5_o6_aws_trusted_prefix
+  o5_o6_fortigate_private_ip_address = var.o5_o6_fortigate_private_ip_address
 }

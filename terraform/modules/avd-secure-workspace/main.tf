@@ -73,7 +73,7 @@ resource "azurerm_virtual_desktop_host_pool" "this" {
   personal_desktop_assignment_type = "Automatic"
   load_balancer_type               = "Persistent"
   preferred_app_group_type         = "Desktop"
-  custom_rdp_properties            = "enablerdsaadauth:i:1;"
+  custom_rdp_properties            = "enablerdsaadauth:i:1;targetisaadjoined:i:1;"
   validate_environment             = false
   start_vm_on_connect              = false
   tags                             = var.common_tags
@@ -183,4 +183,37 @@ resource "azurerm_private_endpoint" "fslogix_file" {
   depends_on = [
     azurerm_private_dns_zone_virtual_network_link.file_to_avd
   ]
+}
+
+resource "azurerm_route" "o5_o6_azure_platform_admin_to_azure_firewall" {
+  count = var.enabled && var.enable_o5_o6_private_routes ? 1 : 0
+
+  name                   = "route-o5-o6-azure-platform-admin-to-azfw"
+  resource_group_name    = azurerm_resource_group.this[0].name
+  route_table_name       = azurerm_route_table.avd[0].name
+  address_prefix         = var.o5_o6_azure_platform_admin_prefix
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = var.azure_firewall_private_ip_address
+}
+
+resource "azurerm_route" "o5_o6_hq_to_fortigate" {
+  count = var.enabled && var.enable_o5_o6_private_routes ? 1 : 0
+
+  name                   = "route-o5-o6-hq-to-fortigate"
+  resource_group_name    = azurerm_resource_group.this[0].name
+  route_table_name       = azurerm_route_table.avd[0].name
+  address_prefix         = var.o5_o6_hq_prefix
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = var.o5_o6_fortigate_private_ip_address
+}
+
+resource "azurerm_route" "o5_o6_aws_trusted_to_fortigate" {
+  count = var.enabled && var.enable_o5_o6_private_routes ? 1 : 0
+
+  name                   = "route-o5-o6-aws-trusted-to-fortigate"
+  resource_group_name    = azurerm_resource_group.this[0].name
+  route_table_name       = azurerm_route_table.avd[0].name
+  address_prefix         = var.o5_o6_aws_trusted_prefix
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = var.o5_o6_fortigate_private_ip_address
 }
