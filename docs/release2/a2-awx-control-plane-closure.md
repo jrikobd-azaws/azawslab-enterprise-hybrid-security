@@ -155,3 +155,11 @@ Future A2 extensions:
   - FortiGate write workflow only after separate write token validation.
   - Cisco write workflow only after transport stability is proven.
 ```
+
+## Future Extension - O6 Support
+
+A2 is complete and evidence-backed as the Release 2 AWX automation control plane.
+
+O6 may later consume A2 as a governed proposal and approval path for AI-assisted runbook drafts, AWX job-template proposals, and human-approved operational workflows.
+
+O6 must not directly launch AWX jobs during Day-1 validation. AWX remains the governed human-approved automation boundary.
