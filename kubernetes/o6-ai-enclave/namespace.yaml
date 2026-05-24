@@ -1,0 +1,10 @@
+﻿apiVersion: v1
+kind: Namespace
+metadata:
+  name: ai-enclave
+  labels:
+    app.kubernetes.io/part-of: o6-secure-ai-operations-enclave
+    app.kubernetes.io/managed-by: gitops-prepared-scaffold
+    azawslab.phase: O6
+    security.azawslab.io/boundary: private-aks
+    security.azawslab.io/live-validation: prepared-not-deployed
