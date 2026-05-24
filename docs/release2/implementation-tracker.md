@@ -1,5 +1,22 @@
 # Implementation Tracker ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Release 2 (Azure Platform Engineering & Security)
 
+<!-- portfolio-source-truth:start -->
+
+## Portfolio Migration Source-Truth Note
+
+This note is the source-truth lock for portfolio migration.
+
+- Final branch namespace is br1.azawslab.co.uk.
+- A2 AWX automation control plane is complete and evidenced.
+- O4 Private AKS is complete.
+- O5 AVD + FSLogix is complete.
+- O6 is the remaining Release 2 closeout / AI Operations Enclave work.
+- Release 3 direction is AKS + EKS + Argo CD + DevSecOps.
+- If older sections conflict with this note, use STATUS.md and update the stale section during the migration.
+- Files with mojibake/encoding artifacts should not be used as final public prose until cleaned.
+
+<!-- portfolio-source-truth:end -->
+
 **Last Updated:** [02-May-2026]
 **Owner:** HASHIBUR RAHMAN
 **Repository:** `https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/docs/release2/`
