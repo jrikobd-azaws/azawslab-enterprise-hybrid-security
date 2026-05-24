@@ -1,0 +1,23 @@
+﻿// O6 Secure AI Operations Enclave - Log Analytics Query Pack
+// Status: prepared query pack only. Not connected to live O6 telemetry yet.
+
+// Model/API calls
+O6ModelCalls_CL
+| project TimeGenerated, CorrelationId_s, AgentName_s, Provider_s, Model_s, Status_s, RedactionApplied_b, FallbackUsed_b, DurationMs_d
+| order by TimeGenerated desc
+
+// MCP/tool calls
+O6ToolCalls_CL
+| project TimeGenerated, CorrelationId_s, AgentName_s, ToolName_s, TargetSystem_s, PolicyDecision_s, DeniedReason_s, DurationMs_d
+| order by TimeGenerated desc
+
+// Safety events
+O6SafetyEvents_CL
+| project TimeGenerated, CorrelationId_s, AgentName_s, EventType_s, PolicyDecision_s, OutputFilterResult_s, Error_s
+| order by TimeGenerated desc
+
+// Denied actions summary
+O6ToolCalls_CL
+| where PolicyDecision_s == "Denied"
+| summarize DeniedCount=count() by ToolName_s, TargetSystem_s, DeniedReason_s
+| order by DeniedCount desc
