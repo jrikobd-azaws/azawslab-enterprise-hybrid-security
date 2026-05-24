@@ -43,3 +43,5 @@ tfplan-*
 
 # O3b AWS branch committed non-secret deployment variables
 !terraform/aws-branch/dev/o3b-dev.tfvars
+
+.migration-backups/

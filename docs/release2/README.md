@@ -1,9 +1,26 @@
 # Release 2 â€“ Azure Platform Engineering & Security
 
+<!-- portfolio-source-truth:start -->
+
+## Portfolio Migration Source-Truth Note
+
+This note is the source-truth lock for portfolio migration.
+
+- Final branch namespace is br1.azawslab.co.uk.
+- A2 AWX automation control plane is complete and evidenced.
+- O4 Private AKS is complete.
+- O5 AVD + FSLogix is complete.
+- O6 is the remaining Release 2 closeout / AI Operations Enclave work.
+- Release 3 direction is AKS + EKS + Argo CD + DevSecOps.
+- If older sections conflict with this note, use STATUS.md and update the stale section during the migration.
+- Files with mojibake/encoding artifacts should not be used as final public prose until cleaned.
+
+<!-- portfolio-source-truth:end -->
+
 > **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**
 > Status: **In progress** â€“ see [implementation tracker](./implementation-tracker.md)
 
-> Current implemented milestone: **A1 Ansible Network/Security Automation Baseline completed**, with FortiGate, VyOS, and Cisco read-only validation, sanitized backup evidence, runtime secrets from Azure Key Vault and AWS SSM, and post-merge Terraform no-drift checks completed.
+> Current implemented milestone: **A2 AWX Automation Control Plane, O4 Private AKS, and O5 AVD + FSLogix secure workspace are complete and evidenced**. O6 remains the active Release 2 closeout area for the AI Operations Enclave and documentation migration.
 
 ## Overview
 
