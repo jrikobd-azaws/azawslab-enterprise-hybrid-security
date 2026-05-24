@@ -45,3 +45,5 @@ tfplan-*
 !terraform/aws-branch/dev/o3b-dev.tfvars
 
 .migration-backups/
+
+docs/portfolio-migration-reports/

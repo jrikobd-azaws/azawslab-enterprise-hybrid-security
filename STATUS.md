@@ -11,7 +11,7 @@ The project presents a staged enterprise platform journey from hybrid Microsoft 
 | Release   | Theme                                                                                 | Status                                                                |
 | --------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | Release 1 | Hybrid Microsoft Foundation                                                           | Complete and evidenced                                                |
-| Release 2 | Azure Platform Engineering, Security, Automation, Private Platform, and AI Operations | Implemented; documentation reorganization and O6 closeout in progress |
+| Release 2 | Azure Platform Engineering, Security, Automation, Private Platform, and AI Operations | Implemented and evidenced; portfolio documentation reorganization in progress |
 | Release 3 | Multi-Cloud Kubernetes, GitOps, and DevSecOps                                         | Roadmap                                                               |
 
 ## Canonical Decisions
@@ -23,7 +23,7 @@ The project presents a staged enterprise platform journey from hybrid Microsoft 
 - A2 AWX automation control plane is complete and evidenced.
 - O4 Private AKS is complete.
 - O5 AVD + FSLogix is complete.
-- O6 is the remaining Release 2 closeout / AI Operations Enclave work.
+- O6 AI Operations Enclave work is complete and evidenced.
 - Release 3 direction includes AKS, EKS, Argo CD, DevSecOps controls, image scanning, policy gates, protected ingress, observability, and resilience.
 
 ## Six Portfolio Capability Tracks
