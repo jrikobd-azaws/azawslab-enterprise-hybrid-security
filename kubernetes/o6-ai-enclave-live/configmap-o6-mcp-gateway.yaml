@@ -1,0 +1,94 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: o6-mcp-gateway-config
+  namespace: ai-enclave
+  labels:
+    azawslab.phase: O6
+data:
+  tool-policy.json: |
+    {
+      "allowed": [
+        "read_namespace_security_posture",
+        "read_networkpolicy_summary",
+        "read_serviceaccount_identity_summary",
+        "validate_denied_tools",
+        "generate_security_finding",
+        "read_resource_inventory_summary",
+        "read_cost_policy",
+        "estimate_runtime_cost",
+        "summarise_finops_metadata",
+        "generate_teardown_recommendation",
+        "generate_runbook_draft",
+        "generate_awx_job_template_proposal"
+      ],
+      "denied": [
+        "terraform_apply",
+        "terraform_destroy",
+        "kubectl_apply",
+        "run_ansible_playbook",
+        "launch_awx_job",
+        "modify_firewall_rule",
+        "update_bgp_neighbor",
+        "execute_shell",
+        "read_secret_value",
+        "delete_resource_group",
+        "scale_nodepool",
+        "resize_vm",
+        "modify_networkpolicy",
+        "create_clusterrolebinding"
+      ]
+    }
+  mcp-gateway.py: |
+    import json
+    import time
+    import urllib.parse
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    with open("/app/tool-policy.json", "r", encoding="utf-8") as f:
+        policy = json.load(f)
+
+    allowed = set(policy.get("allowed", []))
+    denied = set(policy.get("denied", []))
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            parsed = urllib.parse.urlparse(self.path)
+            params = urllib.parse.parse_qs(parsed.query)
+            agent = params.get("agent", ["unknown"])[0]
+            tool = parsed.path.replace("/tool/", "", 1)
+
+            if tool in denied:
+                decision = "denied"
+                status = 403
+                reason = "tool-denied-by-o6-policy"
+            elif tool in allowed:
+                decision = "allowed"
+                status = 200
+                reason = "tool-allowed-by-o6-policy"
+            else:
+                decision = "denied"
+                status = 403
+                reason = "tool-not-in-allow-list"
+
+            event = {
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "phase": "O6",
+                "agent": agent,
+                "tool": tool,
+                "decision": decision,
+                "reason": reason
+            }
+            print(json.dumps(event), flush=True)
+
+            body = json.dumps(event).encode("utf-8")
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, format, *args):
+            return
+
+    HTTPServer(("0.0.0.0", 8080), Handler).serve_forever()

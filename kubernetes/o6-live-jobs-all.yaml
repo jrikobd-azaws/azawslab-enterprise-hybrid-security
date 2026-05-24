@@ -1,0 +1,131 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ai-secops-agent-sim
+  namespace: ai-enclave
+  labels:
+    azawslab.phase: O6
+    azawslab.o6/agent: "true"
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        azawslab.phase: O6
+        azawslab.o6/agent: "true"
+    spec:
+      restartPolicy: Never
+      serviceAccountName: ai-secops-agent
+      containers:
+        - name: secops-agent
+          image: python:3.12-alpine
+          command: ["python", "-c"]
+          args:
+            - |
+              import urllib.request, urllib.error
+              tools=["read_networkpolicy_summary","read_secret_value","modify_networkpolicy"]
+              for tool in tools:
+                  url=f"http://ai-mcp-gateway.ai-enclave.svc.cluster.local:8080/tool/{tool}?agent=ai-secops-agent"
+                  try:
+                      print(urllib.request.urlopen(url, timeout=10).read().decode())
+                  except urllib.error.HTTPError as e:
+                      print(e.read().decode())
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ai-finops-agent-sim
+  namespace: ai-enclave
+  labels:
+    azawslab.phase: O6
+    azawslab.o6/agent: "true"
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        azawslab.phase: O6
+        azawslab.o6/agent: "true"
+    spec:
+      restartPolicy: Never
+      serviceAccountName: ai-finops-agent
+      containers:
+        - name: finops-agent
+          image: python:3.12-alpine
+          command: ["python", "-c"]
+          args:
+            - |
+              import urllib.request, urllib.error
+              tools=["estimate_runtime_cost","generate_teardown_recommendation","delete_resource_group","scale_nodepool"]
+              for tool in tools:
+                  url=f"http://ai-mcp-gateway.ai-enclave.svc.cluster.local:8080/tool/{tool}?agent=ai-finops-agent"
+                  try:
+                      print(urllib.request.urlopen(url, timeout=10).read().decode())
+                  except urllib.error.HTTPError as e:
+                      print(e.read().decode())
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ai-runbook-agent-sim
+  namespace: ai-enclave
+  labels:
+    azawslab.phase: O6
+    azawslab.o6/agent: "true"
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        azawslab.phase: O6
+        azawslab.o6/agent: "true"
+    spec:
+      restartPolicy: Never
+      serviceAccountName: ai-runbook-agent
+      containers:
+        - name: runbook-agent
+          image: python:3.12-alpine
+          command: ["python", "-c"]
+          args:
+            - |
+              import urllib.request, urllib.error
+              tools=["generate_runbook_draft","generate_awx_job_template_proposal","launch_awx_job","run_ansible_playbook"]
+              for tool in tools:
+                  url=f"http://ai-mcp-gateway.ai-enclave.svc.cluster.local:8080/tool/{tool}?agent=ai-runbook-agent"
+                  try:
+                      print(urllib.request.urlopen(url, timeout=10).read().decode())
+                  except urllib.error.HTTPError as e:
+                      print(e.read().decode())
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ai-network-egress-deny-sim
+  namespace: ai-enclave
+  labels:
+    azawslab.phase: O6
+    azawslab.o6/agent: "true"
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        azawslab.phase: O6
+        azawslab.o6/agent: "true"
+    spec:
+      restartPolicy: Never
+      serviceAccountName: ai-audit-agent
+      containers:
+        - name: network-deny-agent
+          image: python:3.12-alpine
+          command: ["python", "-c"]
+          args:
+            - |
+              import urllib.request
+              try:
+                  urllib.request.urlopen("https://example.com", timeout=8)
+                  print("UNEXPECTED_EXTERNAL_EGRESS_ALLOWED")
+              except Exception as e:
+                  print("EXPECTED_EXTERNAL_EGRESS_BLOCKED")
+                  print(type(e).__name__)
+                  print(str(e)[:200])
