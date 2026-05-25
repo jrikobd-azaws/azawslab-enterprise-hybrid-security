@@ -1,6 +1,6 @@
-﻿# Release 1 - Hybrid Microsoft Foundation
+# Release 1 - Hybrid Modern Workplace, Identity & Endpoint Security
 
-Release 1 is the most complete and strongly evidenced phase of the project. It establishes the hybrid Microsoft foundation of the platform across identity, messaging, collaboration, endpoint management and security, information protection, monitoring, and operational recovery.
+Release 1 is the most complete and strongly evidenced phase of the project. It establishes the Hybrid Modern Workplace, Identity & Endpoint Security of the platform across identity, messaging, collaboration, endpoint management and security, information protection, monitoring, and operational recovery.
 
 The implementation is designed to demonstrate more than initial setup. It focuses on **validated delivery**, **supportable operations**, and **scope-controlled engineering** across a small-enterprise hybrid environment built and tested in a local lab.
 

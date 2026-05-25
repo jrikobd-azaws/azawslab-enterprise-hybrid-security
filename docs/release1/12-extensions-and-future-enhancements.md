@@ -1,4 +1,4 @@
-﻿# Extensions and Future Enhancements
+# Extensions and Future Enhancements
 
 ## Purpose
 
@@ -130,7 +130,7 @@ The current release intentionally prioritised visible and well-evidenced user-fa
 
 ## Release 2 Strategic Extensions
 
-The next release should expand the platform from hybrid Microsoft foundation into Azure platform governance and security.
+The next release should expand the platform from Hybrid Modern Workplace, Identity & Endpoint Security into Azure platform governance and security.
 
 High-priority Release 2 growth areas include:
 - Azure landing zone structure

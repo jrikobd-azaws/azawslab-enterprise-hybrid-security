@@ -10,7 +10,7 @@ The project presents a staged enterprise platform journey from hybrid Microsoft 
 
 | Release   | Theme                                                                                 | Status                                                                |
 | --------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| Release 1 | Hybrid Microsoft Foundation                                                           | Complete and evidenced                                                |
+| Release 1 | Hybrid Modern Workplace, Identity & Endpoint Security                                                           | Complete and evidenced                                                |
 | Release 2 | Azure Platform Engineering, Security, Automation, Private Platform, and AI Operations | Implemented and evidenced; portfolio documentation reorganization in progress |
 | Release 3 | Multi-Cloud Kubernetes, GitOps, and DevSecOps                                         | Roadmap                                                               |
 
@@ -30,7 +30,7 @@ The project presents a staged enterprise platform journey from hybrid Microsoft 
 
 | Track | Name                                                 | Release   | What it proves                                                                                     |
 | ----- | ---------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------- |
-| 1     | Modern Workplace and Hybrid Identity                 | Release 1 | Entra ID, Active Directory, Microsoft 365, Intune, Autopilot, Purview, endpoint security, recovery |
+| 1     | Hybrid Modern Workplace, Identity & Endpoint Security                 | Release 1 | Entra ID, Active Directory, Microsoft 365, Intune, Autopilot, Purview, endpoint security, recovery |
 | 2     | Azure Landing Zone, IaC and Governance               | Release 2 | Terraform, GitHub Actions OIDC, remote state, Azure Policy, RBAC, naming, controlled delivery      |
 | 3     | Secure Hybrid and Multi-Cloud Networking             | Release 2 | Azure and AWS connectivity, hub-spoke, FortiGate, VyOS, Cisco, IPSec, BGP, transit routing         |
 | 4     | Automation, SecOps and Resilience                    | Release 2 | Ansible, AWX, runtime secrets, monitoring, backup, validation, operational runbooks                |

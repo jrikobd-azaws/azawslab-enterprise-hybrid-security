@@ -14,7 +14,7 @@ These facts are fixed unless the human owner explicitly changes them:
 
 - This is one flagship platform repository, not multiple disconnected projects.
 - Keep `release1`, `release2`, and `release3` naming.
-- Release 1 = Hybrid Microsoft Foundation.
+- Release 1 = Hybrid Modern Workplace, Identity & Endpoint Security.
 - Release 2 = Azure Platform Engineering, Security, Automation, Private Platform, and AI Operations.
 - Release 3 = Multi-Cloud Kubernetes, GitOps, and DevSecOps with AKS, EKS, and Argo CD.
 - Final branch namespace is `br1.azawslab.co.uk`.
@@ -29,7 +29,7 @@ These facts are fixed unless the human owner explicitly changes them:
 
 Use these tracks as the public mental model of the portfolio:
 
-1. Modern Workplace and Hybrid Identity
+1. Hybrid Modern Workplace, Identity & Endpoint Security
 2. Azure Landing Zone, IaC and Governance
 3. Secure Hybrid and Multi-Cloud Networking
 4. Automation, SecOps and Resilience
@@ -121,7 +121,7 @@ Do not create fake links, fake screenshots, fake logs, or fake command outputs.
 
 Release 1 is complete and evidenced.
 
-Present Release 1 as the Hybrid Microsoft Foundation:
+Present Release 1 as the Hybrid Modern Workplace, Identity & Endpoint Security:
 
 - Active Directory
 - Microsoft Entra ID

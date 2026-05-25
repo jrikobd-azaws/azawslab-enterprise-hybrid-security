@@ -1,10 +1,10 @@
-﻿# Roadmap
+# Roadmap
 
 ## Purpose
 
 This page explains how the `azawslab Enterprise Hybrid Security Platform` is intended to progress across three releases.
 
-It shows how the project moves from a controlled hybrid Microsoft foundation, into Azure governance and security expansion, and then into secure workload modernization. The roadmap should be read as a structured delivery sequence, not as a claim that every future capability already exists.
+It shows how the project moves from a controlled Hybrid Modern Workplace, Identity & Endpoint Security, into Azure governance and security expansion, and then into secure workload modernization. The roadmap should be read as a structured delivery sequence, not as a claim that every future capability already exists.
 
 ---
 
@@ -36,7 +36,7 @@ The roadmap therefore shows that the project is structured around dependency ord
 
 | Release | Theme | Maturity Role |
 |---|---|---|
-| **Release 1** | Hybrid Microsoft foundation + advanced validation | Establishes the operational baseline across identity, messaging, endpoints, protection, monitoring, recovery, and modern capabilities such as Autopilot + ESP, Graph automation, email security, document fingerprinting, and application deployment |
+| **Release 1** | Hybrid Modern Workplace, Identity & Endpoint Security + advanced validation | Establishes the operational baseline across identity, messaging, endpoints, protection, monitoring, recovery, and modern capabilities such as Autopilot + ESP, Graph automation, email security, document fingerprinting, and application deployment |
 | **Release 2** | Azure secure platform expansion | Extends the foundation into governance, delegated administration, policy-driven control, and cloud security visibility |
 | **Release 3** | Secure workload modernization | Builds on the governed platform to support protected hosting, observability, and resilience for workloads |
 
@@ -47,7 +47,7 @@ This progression is intentional:
 
 ---
 
-## Release 1 — Hybrid Microsoft Foundation (Implemented and Evidenced)
+## Release 1 — Hybrid Modern Workplace, Identity & Endpoint Security (Implemented and Evidenced)
 
 ### Objective
 
