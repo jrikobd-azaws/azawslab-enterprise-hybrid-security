@@ -1,6 +1,6 @@
-﻿# Release 1 Summary
+# Release 1 Summary
 
-Release 1 establishes the hybrid Microsoft foundation of the platform across identity, messaging, collaboration, endpoint management and security, information protection, monitoring, and recovery.
+Release 1 establishes the Hybrid Modern Workplace, Identity & Endpoint Security of the platform across identity, messaging, collaboration, endpoint management and security, information protection, monitoring, and recovery.
 
 This summary focuses on the most complete and most strongly evidenced part of the project. It is intended to show that the platform is not just configured, but **validated, supportable, recoverable, and operationally credible** under realistic administrative conditions.
 

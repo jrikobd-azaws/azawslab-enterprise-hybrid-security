@@ -1,4 +1,4 @@
-﻿# Platform Overview
+# Platform Overview
 
 ## Purpose
 
@@ -37,7 +37,7 @@ The platform is organized into three releases:
 
 | Release | Core Theme | What It Adds |
 |---|---|---|
-| **Release 1** | Hybrid Microsoft foundation | Hybrid identity, Microsoft 365, Exchange hybrid, endpoint management and security, information protection, monitoring, operational recovery, plus advanced validation in Autopilot + ESP, LAPS retrieval and remediation, Graph identity lifecycle, email security, document fingerprinting, application deployment, and Graph operational scripts |
+| **Release 1** | Hybrid Modern Workplace, Identity & Endpoint Security | Hybrid identity, Microsoft 365, Exchange hybrid, endpoint management and security, information protection, monitoring, operational recovery, plus advanced validation in Autopilot + ESP, LAPS retrieval and remediation, Graph identity lifecycle, email security, document fingerprinting, application deployment, and Graph operational scripts |
 | **Release 2** | Azure secure platform expansion | Landing zone design, infrastructure as code, governance, network security, delegated administration, Defender for Cloud, and Sentinel-aligned monitoring |
 | **Release 3** | Secure workload modernization | Application hosting, containerization, protected ingress, observability, and resilience |
 

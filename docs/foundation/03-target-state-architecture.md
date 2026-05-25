@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This page describes the intended end state of the platform after Release 1 is fully implemented and evidenced. It explains how the hybrid Microsoft foundation, including advanced validation capabilities, addresses the constraints of the current-state architecture and establishes a credible, supportable enterprise platform.
+This page describes the intended end state of the platform after Release 1 is fully implemented and evidenced. It explains how the Hybrid Modern Workplace, Identity & Endpoint Security, including advanced validation capabilities, addresses the constraints of the current-state architecture and establishes a credible, supportable enterprise platform.
 
 The target state is not a theoretical wish list. It is the architecture that has been **implemented, validated, and documented** in the repository, with clear boundaries between baseline capability and later-added advanced validation.
 
@@ -127,7 +127,7 @@ The target state is **implemented and evidenced** but does **not** claim:
 - enterprise-scale device or user populations beyond pilot scope
 - full Defender for Endpoint product depth beyond baseline AV and ASR
 - Android BYOD / MAM, which remains deferred
-- full enterprise PKI / AD CS, since Let’s Encrypt was used for hybrid validation
+- full enterprise PKI / AD CS, since Letâ€™s Encrypt was used for hybrid validation
 - Azure governance, Sentinel, or workload hosting, which belong to Releases 2 and 3
 
 These boundaries are intentional and are tracked in the [Build Checklist](../release1/11-build-checklist.md) and [Extensions and Future Enhancements](../release1/12-extensions-and-future-enhancements.md).
