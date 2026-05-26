@@ -25,7 +25,7 @@ Release 1 establishes the human and device security boundary.
 
 **Identity Plane**
 
-```
+```text
 Active Directory (On-Premises)
         │
         ▼
@@ -90,31 +90,45 @@ Azure Hub VNet
 
 - **Kubernetes-hosted AWX automation control plane** (A2): the single point of operational authority.
 - GitHub Actions authenticates through OIDC for Terraform delivery. AWX retrieves runtime secrets from Azure Key Vault and AWS SSM, then executes controlled automation against approved targets.
-- After approval, the controlled GitHub Actions apply stage runs — no auto-apply.
+- After review and approval, infrastructure changes are applied through the controlled GitHub Actions workflow, preserving the repository's GitHub Actions controlled-apply model.
 - Ansible playbooks perform network validation, backups, compliance checks.
 - Monitoring via Azure Monitor, Log Analytics, and custom dashboards.
 
 *Diagram placeholder — Automation architecture: CI/CD pipeline, AWX control plane, secret stores, managed nodes.*
 
-### 4.4 O5 Secure Workspace — Azure Virtual Desktop + FSLogix
+### 4.4 O4 Private AKS — Private Platform Runtime
 
-O5 is a **secure admin/developer workspace** used for controlled platform operations. It is not a generic virtual desktop feature; it is the governed access layer for Release 2 operations.
+O4 delivers the private container platform for Release 2 workloads. The AKS cluster is deployed with no public API server, ensuring all control-plane operations happen over private endpoints.
 
 **Architecture components:**
 
-- **Personal / single-user AVD model** — dedicated session host for platform operators.
-- **AVD host pool, workspace, and desktop application group** — standard AVD control plane objects.
-- **Session host** — runs in the AVD spoke VNet, with **no public IP**.
-- **FSLogix profile container** — stores user profile on Azure Files, providing persistence across sessions.
-- **Azure Files storage** — accessed over a **private endpoint**, with private DNS integration ensuring the FSLogix path resolves inside the VNet.
-- **Controlled route table** — outbound traffic from the AVD host flows through Azure Firewall for egress control.
-- **Admin/dev toolchain** — PowerShell 7, Azure CLI, AWS CLI, Terraform, Git, VS Code, kubectl, Helm. All operational work is performed through this controlled environment.
+- Private AKS cluster with private API access pattern.
+- Azure Container Registry (ACR) for workload images, accessed over private endpoints.
+- Egress traffic from AKS pods flows through Azure Firewall for inspection — validated via firewall egress tests and pod-level egress checks.
+- Internal applications served from the cluster are accessed through private network paths; browser validation confirms end-to-end reachability.
+- Managed Prometheus and Grafana provide monitoring and dashboarding, with dedicated dashboards for private-AKS health.
+- AWX control plane readiness and tier-execution evidence confirm the automation platform can manage AKS workloads.
 
-**Why this matters architecturally:**
+*Diagram placeholder — O4 Private AKS: private API access, egress through Azure Firewall, managed monitoring, AWX integration.*
 
-O5 reduces unmanaged workstation dependency. Privileged tools and access tokens are contained within a governed, private workspace. The FSLogix profile persists user state, but the session host itself can be re-imaged without losing tool configurations or command history.
+### 4.5 O5 Secure Workspace — Azure Virtual Desktop + FSLogix
 
-**O5 operational flow:**
+O5 is the secure admin/developer workspace for Release 2 platform operations. It is not a generic virtual desktop; it is the governed access layer for AWX, AKS, Terraform, and cloud management.
+
+**Architecture components:**
+
+- Personal/single-user AVD host pool, workspace, and desktop application group.
+- Session host runs in the AVD spoke VNet with **no public IP**.
+- FSLogix profile container stores user state on Azure Files, providing profile persistence across sessions.
+- Azure Files is accessed over a **private endpoint**, with private DNS integration ensuring the FSLogix path resolves inside the VNet.
+- Controlled route table routes outbound traffic from the AVD host through Azure Firewall.
+- Admin/dev toolchain includes PowerShell 7, Azure CLI, AWS CLI, Terraform, Git, VS Code, kubectl, and Helm — all operations executed from this controlled environment.
+
+**Region decision (evidence-backed):**
+
+The O5 governance validation confirms **Norway East** as the primary O5 region, with **Norway West** enabled for paired-region backup, DR, and geo-redundant service requirements. The design also validates Microsoft Desktop Virtualization provider readiness, Windows 11 image availability, VM SKU/quota readiness, non-overlapping AVD VNet CIDR planning, and FSLogix private endpoint prerequisites. This demonstrates senior architectural judgement: Azure service regional constraints, governance policy, paired-region design, and state-boundary discipline were all factored into the deployment model.
+
+**Operational flow:**
 
 ```text
 Engineer
@@ -134,20 +148,18 @@ AWX automation control plane
    └── Azure / AWS operational tooling
 ```
 
-**Region decision:**
-
-The O1–O4 platform is governed around Norway East / Norway West. AVD metadata and workspace planning had to respect Microsoft Desktop Virtualization regional availability. The final O5 model allows **North Europe** as the primary AVD secure workspace region and **West Europe** as alternate / future resiliency region, while preserving Norway East / Norway West for the existing platform and paired-region governance. This demonstrates senior architectural judgement: Azure service constraints, governance policy, paired-region design, and state-boundary discipline were all factored into the decision.
+O5 reduces unmanaged workstation dependency by containing privileged tools and access tokens within a governed, private workspace. The FSLogix profile persists user state independently, so the session host can be re-imaged without losing tool configurations or command history.
 
 *Diagram placeholder — O5 secure workspace architecture: AVD host pool, private FSLogix path, toolchain, and access flow to AWX/AKS.*
 
-### 4.5 AI Operations Enclave (O6)
+### 4.6 O6 AI Operations Enclave
 
-The O6 enclave introduces governed AI-assisted CloudOps across two repositories:
+The O6 enclave introduces a governed AI-assisted CloudOps pattern across two repositories:
 
-- **Primary portfolio:** `docs/release2/evidence/O6/` holds MCP gateway configuration, policy decision logs, agent enforcement records, network policy verification, post-cleanup validation.
-- **Companion project (`local-ai-lab-infra`):** Multi-agent LangGraph pipeline with deny-by-default tool permissions. Coder agent runs locally via Ollama (DeepSeek Coder 6.7B) — sensitive IaC never leaves the host. Cloud agents receive sanitised summaries unless configured otherwise.
+- **Primary portfolio:** `docs/release2/evidence/O6/` holds MCP gateway configuration, policy decision logs, agent enforcement records, network policy verification, and post-cleanup validation.
+- **Companion project (`local-ai-lab-infra`):** Multi-agent LangGraph pipeline with deny-by-default tool permissions. The Coder agent runs locally via Ollama (DeepSeek Coder 6.7B) — sensitive IaC never leaves the host. Cloud agents receive sanitised summaries unless configured otherwise.
 
-**Architectural boundary:** AI agents analyse, recommend, draft runbooks; execution is gated behind human approval and the Terraform/AWX CI/CD pipelines. No autonomous mutation.
+**Architectural boundary:** AI agents analyse, recommend, and draft runbooks, but execution is gated behind human approval and the Terraform/AWX CI/CD pipelines. No autonomous mutation.
 
 *Diagram placeholder — O6 AI Operations Enclave: multi-agent pipeline with human approval gate and evidence capture.*
 
@@ -157,11 +169,11 @@ The O6 enclave introduces governed AI-assisted CloudOps across two repositories:
 
 Release 3 extends the platform into workload delivery governance: source control, CI/CD quality gates, unit testing, SAST, DAST, image scanning, signed image promotion, GitOps reconciliation, policy-as-code admission control, protected ingress, service-to-service encryption, observability, and resilience validation.
 
-- **AKS & EKS** managed via Argo CD; cluster configs, apps, and policies in Git.
-- **Image promotion gates:** Trivy scans, signed images, OPA/Gatekeeper admission.
-- **Protected ingress:** Istio mTLS, NGINX/WAF, TLS termination.
-- **Observability:** Prometheus, Grafana, Loki, OpenTelemetry tracing.
-- **GitOps drift detection:** Argo CD continuously reconciles desired vs actual state.
+- AKS and EKS managed via Argo CD; cluster configs, apps, and policies defined in Git.
+- Trivy for image scanning; signed images enforced by OPA/Gatekeeper admission policies.
+- Istio service mesh for mTLS-encrypted communication; NGINX/WAF for ingress protection.
+- Prometheus, Grafana, and Loki for observability; OpenTelemetry for distributed tracing.
+- GitOps drift detection continuously reconciles desired vs actual state.
 
 ```text
 Git Repos (Apps, Infra, Policies)
@@ -222,7 +234,7 @@ Git Repos (Apps, Infra, Policies)
 
 ## 8. Automation and Operations Flow
 
-1. **Infrastructure Change:** Engineer pushes Terraform change; GitHub Actions runs plan via OIDC. After review and approval, controlled apply stage executes.
+1. **Infrastructure Change:** Engineer pushes Terraform change; GitHub Actions runs plan via OIDC. After review and approval, the controlled apply stage executes.
 2. **Configuration Drift:** AWX periodically runs Ansible playbooks; secrets fetched from Key Vault/SSM at runtime.
 3. **AI-Assisted Operations:** O6 pipeline invoked via `local-ai-lab-infra`. AI drafts runbook or IaC suggestion; human reviews, then commits and deploys through standard CI/CD — never auto-applied.
 4. **Monitoring & Alerting:** Azure Monitor/Log Analytics collect signals; alerts trigger automated responses or engineer notification.
@@ -235,13 +247,18 @@ Git Repos (Apps, Infra, Policies)
 
 - **Release 1:** `screenshots/release1/` — identity sync, Intune policies, Autopilot, Purview, DLP, recovery scenarios.
 - **Release 2:**
-  - `docs/release2/evidence/` — Terraform plan/apply logs, AWX job outputs, network validation, AKS evidence.
+  - `docs/release2/evidence/` — Terraform plan/apply logs, AWX job outputs, network validation.
+  - **O4 Private AKS Evidence:** `docs/release2/evidence/O4/`
+    - AKS running-state evidence
+    - Azure Firewall egress validation
+    - pod-level egress validation
+    - internal application validation
+    - managed Prometheus/Grafana validation
+    - AWX control plane readiness and tier execution evidence
+    - `proof link to be inserted`
   - **O5 Secure Workspace Evidence:** `docs/release2/evidence/O5/`
-    - governance paired-region validation
-    - provider / SKU / network preflight
-    - AVD region decision
-    - FSLogix storage and private endpoint readiness
-    - `platform-avd` state-boundary evidence
+    - governance paired-region validation (Norway East primary, Norway West paired)
+    - preflight: provider registration, SKU/quota readiness, network overlap check, AVD endpoint dependency, FSLogix private endpoint prerequisites
     - `proof link to be inserted`
   - **O6 AI Operations Enclave:** `docs/release2/evidence/O6/` — MCP gateway, policy logs, agent enforcement records, network policy, post-cleanup validation.
 - **Release 3:** Roadmap / platform evolution evidence position — target architecture, planned control model, and proof placeholders to be replaced as implementation evidence is produced.
@@ -256,9 +273,9 @@ Git Repos (Apps, Infra, Policies)
 |---|---|---|
 | Platform Architect | Sections 1, 4, 6 | Sections 2, 3 for baseline context |
 | Cloud Network Engineer | Sections 4.2, 7 | Section 9 for routing evidence |
-| Security Architect | Sections 3, 4.2, 4.5, 6 | Section 9 for zero-trust controls |
-| DevOps/SRE | Sections 4.3, 4.4, 8 | Sections 5 for future GitOps direction |
-| AI/ML Engineer | Sections 4.5, 6 (AI boundary) | O6 evidence and companion project |
+| Security Architect | Sections 3, 4.2, 4.6, 6 | Section 9 for zero-trust controls |
+| DevOps/SRE | Sections 4.3, 4.4, 4.5, 8 | Section 5 for future GitOps direction |
+| AI/ML Engineer | Sections 4.6, 6 (AI boundary) | O6 evidence and companion project |
 | Recruiter/Hiring Manager | Sections 1, 10 | README.md for high-level story |
 
 *Diagram placeholder — Portfolio architecture hero overview.*
