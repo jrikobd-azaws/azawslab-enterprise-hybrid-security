@@ -1,227 +1,99 @@
-# Release 2 â€“ Azure Platform Engineering & Security
+# Release 2 — Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
 
-<!-- portfolio-source-truth:start -->
+> **Part of the [Azawslab Enterprise Hybrid Security Platform](../../README.md)**
+>
+> **Status:** Implemented and evidenced.
 
-## Portfolio Migration Source-Truth Note
-
-This note is the source-truth lock for portfolio migration.
-
-- Final branch namespace is br1.azawslab.co.uk.
-- A2 AWX automation control plane is complete and evidenced.
-- O4 Private AKS is complete.
-- O5 AVD + FSLogix is complete.
-- O6 is the remaining Release 2 closeout / AI Operations Enclave work.
-- Release 3 direction is AKS + EKS + Argo CD + DevSecOps.
-- If older sections conflict with this note, use STATUS.md and update the stale section during the migration.
-- Files with mojibake/encoding artifacts should not be used as final public prose until cleaned.
-
-<!-- portfolio-source-truth:end -->
-
-> **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**
-> Status: **In progress** â€“ see [implementation tracker](./implementation-tracker.md)
-
-> Current implemented milestone: **A2 AWX Automation Control Plane, O4 Private AKS, and O5 AVD + FSLogix secure workspace are complete and evidenced**. O6 remains the active Release 2 closeout area for the AI Operations Enclave and documentation migration.
+---
 
 ## Overview
 
-Release 2 builds a modern Azure landing zone from scratch using **Infrastructure as Code (Terraform)** and **secretless CI/CD (GitHub Actions + OIDC)**. It establishes a hub-spoke network, centralised security inspection, governance guardrails, cloud security posture management, SIEM visibility, and optional advanced capabilities for hybrid, multi-cloud, Zero Trust access, and virtual desktop delivery.
+Release 2 transforms the hybrid Microsoft foundation into a governed, multi-cloud enterprise platform. It moves operations from manual portal management to a strict **Git-driven, IaC-first delivery model**. This release proves the ability to engineer secure Azure landing zones, implement multi-cloud network transit, automate infrastructure via AWX, deliver private containerised platforms, and govern AI-assisted CloudOps.
 
-The project is designed to demonstrate:
-- Azure platform engineering
-- secure automation with OIDC
-- policy-as-code governance
-- hybrid and multi-cloud networking
-- operational validation with CLI-first evidence
-
-All resources follow a strict **naming convention** and are validated primarily through **CLI-first evidence**, not just portal screenshots.
+Every capability in this release is **operationally validated** through CLI-first evidence, Git-controlled deployments, and documented validation workflows.
 
 ---
 
-## Key Deliverables (Phases P0â€“P9c, O1â€“O5)
+## Capability Tracks
 
-| Category | Phases | What is built |
-|----------|--------|----------------|
-| **Foundation** | P0, P1, P2a, P2b, P2c | OIDC bootstrap, Terraform backend, management groups, policy guardrails, reusable Terraform modules, Ansible roles, CI/CD pipelines |
-| **Automation Control Plane** | A1, A2 | A1 Ansible network/security automation baseline; A2 AWX with Entra login, RBAC, GitHub sync, Key Vault, and AWS SSM integration |
-| **Network & Security** | P5, P6, O1 | Hub-spoke VNets, Azure Firewall, dual-firewall with FortiGate NVA (optional), forced tunneling, UDRs |
-| **Governance & MSP** | P3, P4 | Policy-as-code (allowed regions, VM SKUs, mandatory tags), least-privilege RBAC, Azure Lighthouse cross-tenant delegation |
-| **Observability & SIEM** | P7, P8, P9a | Defender for Cloud (CSPM), Microsoft Sentinel (analytic rules, incidents), Azure Monitor alerts |
-| **Disaster Recovery** | P9b | Recovery Services Vault with immutability, Multi-User Authorization (Resource Guard), optional ASR-aligned controls |
-| **Hybrid & Multi-Cloud** | O2, O3a, O3b, O3c | Azure Arc, Azure VPN Gateway to VyOS IPSec, FortiGate service-chaining/inspection, AWS Cisco NVA with segmented BGP, transitive routing validation |
-| **Modern App Platform & Secure Workspace** | O4, O5 | Private AKS with dual-security routing, ACR, Docker/container tooling, AVD secure admin/dev workspace with FSLogix |
+Release 2 is organised into the following capability stories, which serve as the primary reading path for technical reviewers and hiring managers:
 
----
-
-## Documentation & Tracking
-
-| Document | Purpose |
-|----------|---------|
-| [Master Plan](./README_PLAN.md) | Authoritative source of truth for scope, architecture, sequencing, and implementation intent |
-| [Implementation Tracker](./implementation-tracker.md) | Operational control document for readiness, phase progress, validation status, blockers, and teardown tracking |
-| [Architecture Decisions](./architechture.md) | ADRs that explain why major design choices were made |
-| [Naming Conventions](./naming-conventions.md) | Canonical naming, tagging, identity, evidence, and repo file naming standards |
-| [Phase Guide](./Phases-with-steps.md) | Operator-focused phase execution guide with configuration snapshots, compact text diagrams, steps, validation, and evidence reminders |
-| [Build Checklist](./build_checklist.md) | Build-time execution checklist for organized implementation flow |
+| Capability Story | Focus |
+|---|---|
+| **01. Landing Zone, IaC & Governance** | Infrastructure as Code (Terraform), OIDC-authenticated CI/CD, Azure Policy guardrails, and naming standards. |
+| **02. Hybrid & Multi-Cloud Networking** | Hub-spoke architecture, FortiGate/VyOS/Cisco transit, IPSec/BGP routing, and private service connectivity. |
+| **03. Automation, SecOps & Resilience** | AWX control plane, Ansible configuration management, runtime secrets (Key Vault/SSM), and backup/recovery. |
+| **04. Private Platform & Secure Workspace** | Private AKS, Azure Virtual Desktop with FSLogix, and hardened endpoint-to-platform connectivity. |
+| **05. AI Operations Enclave** | Human-approved AI CloudOps: MCP gateway, RAG/LLM governance, and tool-use boundaries. |
 
 ---
 
-## Release 2 Design Themes
+## How to Read Release 2
 
-### 1. Secretless Automation
-GitHub Actions authenticates to Azure using **OIDC federation**, removing the need for long-lived client secrets.
+This release is designed for role-based navigation. Use the following guide to find the technical depth relevant to your review:
 
-### 2. Governance First
-Management groups, Azure Policy, tagging, and RBAC are established early so the platform is controlled before it scales.
-
-### 3. Private-Only Workloads
-Workload VMs remain private unless a public IP is explicitly required by the design. Administrative and hybrid access flows are controlled intentionally.
-
-### 4. Hybrid and Multi-Cloud Depth
-The project goes beyond a standard Azure landing zone by introducing:
-- FortiGate-based hybrid transit
-- VyOS-based on-prem simulation on Hyper-V
-- AWS Cisco branch routing
-- transitive routing validation through a central Azure transit hub
-
-### 5. CLI-First Validation
-Evidence is collected primarily through:
-- Azure CLI output
-- Terraform plan/apply logs
-- Ansible output
-- route validation output
-- KQL / monitoring results
+| Role | Recommended Starting Point |
+|---|---|
+| **Cloud Platform Reviewer** | [01. Landing Zone & IaC](./01-landing-zone-iac-governance.md) |
+| **Network & Security Reviewer** | [02. Hybrid & Multi-Cloud Networking](./02-hybrid-multicloud-network-security.md) |
+| **DevOps / SRE Reviewer** | [03. Automation & SecOps](./03-automation-secops-resilience.md) |
+| **Private Platform / AVD Specialist** | [04. Private Platform & Secure Workspace](./04-private-platform-secure-workspace.md) |
+| **AI Operations / Security Reviewer** | [05. AI Operations Enclave](./05-ai-operations-enclave.md) |
+| **Hiring Manager / Recruiter** | [06. Skills & Evidence Index](./06-skills-and-evidence-index.md) |
 
 ---
 
-## Transition from Release 1 to Release 2
+## Documentation Navigation
 
-Release 1 established a hybrid workplace foundation using the `corp.azawslab.co.uk` domain and Microsoft 365-oriented services.
+The following documents define the Release 2 operational and engineering reality:
 
-Release 2 moves into full Azure platform engineering and security by introducing:
-- a new Microsoft Entra namespace: `entra.azawslab.co.uk`
-- a new HQ AD anchor: `hq.azawslab.co.uk`
-- an optional branch namespace: `br1.azawslab.co.uk`
-
-This separation reflects a realistic greenfield cloud initiative where a new Azure platform is built with modern governance, Zero Trust principles, and infrastructure-as-code while legacy or previous environments remain distinct.
-
----
-
-## Tenant and Subscription Setup Rationale
-
-To build a fully functional Azure Virtual Desktop (AVD) lab without upfront cost, I first created an Azure Free Trial subscription using my personal Microsoft Account (MSA), which provided the $200 Azure credit that Microsoft does not offer directly to newly created work/school tenants. Since Microsoft 365 E5 trials are only available to organizational tenants, I then created a new Microsoft Entra ID (work) tenant and activated the Microsoft 365 E5 trial there to unlock AVDâ€‘required services such as Windows Enterprise, Entra ID P2, Intune, and Defender. Because Azure credits cannot be issued directly to a new work tenant, I transferred the Azure subscription (and its remaining $200 credit) from the personal MSA directory into the new organizational tenant. This unified all compute, identity, and licensing under a single enterprise tenant, enabling a clean, productionâ€‘style environment for deploying and testing Azure Virtual Desktop.
-
-## Domain Namespaces
-
-| Phase / Scope | Purpose | Domain / Namespace | Status |
-|---------------|---------|--------------------|--------|
-| Release 1 baseline | Original hybrid workplace foundation | `corp.azawslab.co.uk` | Completed |
-| Release 1 advanced validation | Cloud-first continuation | `belfast.azawslab.co.uk` | Completed |
-| Release 2 HQ AD | Greenfield corporate identity anchor | `hq.azawslab.co.uk` | New |
-| Release 2 branch RODC | Branch office identity namespace | `br1.azawslab.co.uk` | New |
-| Release 2 Entra tenant | Greenfield cloud identity namespace | `entra.azawslab.co.uk` | New |
+| File | Purpose |
+|---|---|
+| [00. Summary](./00-summary.md) | Executive proof and validated outcome summary |
+| [01. Landing Zone & IaC](./01-landing-zone-iac-governance.md) | Governance, IaC, and CI/CD engineering stories |
+| [02. Hybrid & Multi-Cloud Networking](./02-hybrid-multicloud-network-security.md) | Transit architecture, firewalling, and routing validation |
+| [03. Automation & SecOps](./03-automation-secops-resilience.md) | Ansible, AWX, monitoring, and secrets management |
+| [04. Private Platform & Secure Workspace](./04-private-platform-secure-workspace.md) | Private AKS, AVD, and FSLogix integration |
+| [05. AI Operations Enclave](./05-ai-operations-enclave.md) | AI-assisted operations, governance, and validation |
+| [06. Skills & Evidence Index](./06-skills-and-evidence-index.md) | Capability-to-proof mapping |
+| [11. Terraform State & Pipeline Map](./11-terraform-state-and-pipeline-map.md) | IaC state boundaries and pipeline execution model |
+| [Phase Reference](./10-phase-reference/) | Deep technical implementation logs and phase-level tracing |
 
 ---
 
-## Evidence & Validation
+## Evidence Model
 
-All Release 2 evidence should be stored under:
+Release 2 evidence is **CLI-first and engineering-led**. We prioritise verifiable runtime state over portal screenshots. Evidence is organised by capability within `docs/release2/evidence/`.
 
-`docs/release2/evidence/`
+*   **Terraform Evidence:** Plan/apply logs, state boundary audits, and pipeline execution success (OIDC).
+*   **Networking Evidence:** Routing tables, FortiGate policy flow logs, BGP status, and connectivity validation.
+*   **Automation Evidence:** AWX job stdout, playbook execution logs, and Key Vault/SSM secret retrieval validation.
+*   **AKS/AVD/Enclave Evidence:** Cluster API posture, FSLogix profile container tests, MCP gateway policy logs, and human-in-the-loop review records.
 
-This aligns with the CLI-first validation model of the project.
-
-Each phase should have its own evidence subfolder, for example:
-- `docs/release2/evidence/P0/`
-- `docs/release2/evidence/P5/`
-- `docs/release2/evidence/O3a/`
-
-Preferred evidence types:
-- `.txt`
-- `.md`
-
-Screenshots are supplementary and should only be used where text-first evidence is not enough.
-
-For Release 1 evidence, see the Release 1 evidence path in that part of the repository.
+*Note: All evidence is redacted to preserve tenant security. Links to specific proof items that are currently undergoing reorganization are marked `proof link to be inserted`.*
 
 ---
 
-## Getting Started with Release 2
+## Phase Reference Snapshot
 
-1. Read the [Master Plan](./README_PLAN.md) first.
-2. Review the [Implementation Tracker](./implementation-tracker.md) to understand readiness, dependencies, and current status.
-3. Use the [Phase Guide](./Phases-with-steps.md) as the working execution companion during implementation.
-4. Follow the [Naming Conventions](./naming-conventions.md) when creating resources, identities, files, evidence, and workflows.
-5. Capture validation output into `docs/release2/evidence/<Phase>/`.
-6. Use the [Build Checklist](./build_checklist.md) to stay organized during execution.
+For implementation traceability and deep technical audits, individual phases are tracked below. These serve as the supporting implementation backbone for the capability stories above.
 
----
-
-
-## Current P2b implementation note
-
-P2b currently proves the Azure-connected management-host and Ansible control path:
-- temporary Linux management host in a separate management plane
-- private WinRM reachability to the Windows workload VM
-- role-based Ansible scaffold
-- validated common role with idempotent rerun
-
-Execution of `ad-join` to `hq.azawslab.co.uk` is deferred until HQ AD and hybrid connectivity are ready.
-
-## Recommended Working Order
-
-For the most controlled implementation flow:
-
-1. Align documentation and file references.
-2. Complete environment readiness and pre-P0 checks.
-3. Execute the core platform phases first.
-4. Add optional advanced phases only after the core platform is stable.
-5. Tear down expensive ephemeral resources as soon as validation is complete.
-6. Finish with final evidence review and portfolio packaging.
+| Phase | Description | Status |
+|---|---|---|
+| P0-P4 | Foundation, Governance, and Lighthouse | Complete and evidenced |
+| P5-P6, O1 | Networking, Firewall, and Service Chaining | Complete and evidenced |
+| P7-P9a | Defender, Sentinel, and Monitor Alerts | Complete and evidenced |
+| P9b | Backup & Recovery Services Vault | Complete and evidenced |
+| A1, A2 | Ansible Baseline & AWX Automation | Complete and evidenced |
+| O4 | Private AKS | Complete and evidenced |
+| O5 | AVD + FSLogix Secure Workspace | Complete and evidenced |
+| O6 | AI Operations Enclave | Complete and evidenced |
 
 ---
 
-## Core Release 2 Principles
+## Key Design Principles
 
-- **Source of truth:** `README_PLAN.md`
-- **Execution guide:** `Phases-with-steps.md`
-- **Operational control:** `implementation-tracker.md`
-- **Naming authority:** `naming-conventions.md`
-- **Architecture rationale:** `architechture.md`
-- **Execution discipline:** validate, capture evidence, then tear down ephemeral components
-
----
-
-
-## Environment Readiness Status
-
-- **Project Status:** Deployment ready
-- **Identity:** Primary lab admin account:** `admin-lab@entra.azawslab.co.uk`
-- **Break-glass global account:** `hashib@entra.azawslab.co.uk`
-- **Funding:** Azure `$200` credit successfully moved
-- **Licensing:** Microsoft 365 E5 is active and assigned
-- **Namespace:** `entra.azawslab.co.uk` is the verified tenant boundary
-
----
-
-## Current Status
-
-- **P0:** Complete
-- **P1:** Complete
-- **P2a:** Complete
-- **P2c:** Complete
-- **Current active Terraform backend:** `rg-dev-terraformstate-norwayeast` / `stdevtfstatene01`
-- **Finalized implementation region:** `norwayeast`
-- **Finalized VM SKU:** `Standard_B2als_v2`
-
-Release 2 region and VM sizing were treated as validated implementation inputs rather than static assumptions.
-Candidate regions and SKUs were assessed against actual subscription-level deployability first, and the Terraform design was then aligned to the confirmed implementation target.
-
-## Final Note
-
-This release is intended to be more than a lab build. It is structured as a portfolio-grade Azure platform engineering project that demonstrates architectural thinking, secure automation, governance maturity, hybrid networking depth, and operational discipline.
-
-### AI-Assisted Operations Under Governance
-
-Release 2 includes the O6 Secure AI Operations Enclave integration pattern, which connects the companion Local AI Infrastructure Operations Lab to the private AKS platform. O6 demonstrates how AI-assisted operations can support read-only auditing, Terraform review, Ansible validation, AWX runbook proposal generation, FinOps summaries, and GitOps documentation without granting autonomous production write access.
-
-Current cloud state: no cloud resources are currently active. O4 and O5 were previously validated and are currently destroyed for cost control. O6 optional live validation is prepared, not deployed.
+- **IaC-First Delivery:** GitHub Actions controlled apply is the default execution model. Local Terraform apply is exceptional.
+- **Secrets Management:** No secrets in source code. Runtime retrieval via Key Vault and AWS SSM is enforced.
+- **Network Boundaries:** `br1.azawslab.co.uk` defines the branch office namespace, maintaining clean identity and routing isolation.
+- **Operational Reality:** Documentation includes recovery scenarios, idempotency proofs, and remediation workflows to prove the system is supportable, not just deployable.
