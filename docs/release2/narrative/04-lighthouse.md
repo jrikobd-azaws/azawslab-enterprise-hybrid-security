@@ -1,4 +1,4 @@
-﻿# 04-lighthouse
+# 04-lighthouse
 
 ## 1. Objective
 
@@ -52,7 +52,7 @@ The registration definition described the managed service offer and authorized t
 The registration assignment linked the definition to the customer subscription:
 
 - customer subscription: `azawslab`
-- customer subscription ID: `bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb`
+- customer subscription ID: `REDACTED-SUBSCRIPTION-ID`
 
 The deployment was performed from the customer-side subscription context using a subscription-scope ARM template stored at:
 
@@ -209,11 +209,11 @@ Customer-side resource validation:
 
 ```powershell
 az resource show `
-  --ids "/subscriptions/bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb/providers/Microsoft.ManagedServices/registrationDefinitions/fb8f2924-6706-5603-aeaa-c2756d7f3e42" `
+  --ids "/subscriptions/REDACTED-SUBSCRIPTION-ID/providers/Microsoft.ManagedServices/registrationDefinitions/fb8f2924-6706-5603-aeaa-c2756d7f3e42" `
   --output jsonc
 
 az resource show `
-  --ids "/subscriptions/bee0b8d3-954e-4ee0-a2a8-9861b3bbcacb/providers/Microsoft.ManagedServices/registrationAssignments/ba7d65bc-258b-5276-b1f3-0a4e4fd77787" `
+  --ids "/subscriptions/REDACTED-SUBSCRIPTION-ID/providers/Microsoft.ManagedServices/registrationAssignments/ba7d65bc-258b-5276-b1f3-0a4e4fd77787" `
   --output jsonc
 ```
 

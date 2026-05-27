@@ -1,4 +1,4 @@
-# Release 2 — Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
+# Release 2 â€” Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
 
 > **Part of the [Azawslab Enterprise Hybrid Security Platform](../../README.md)**
 >
@@ -8,7 +8,7 @@
 
 ## Overview
 
-Release 2 transforms the hybrid Microsoft foundation into a governed, multi-cloud enterprise platform. It moves operations from manual portal management to a strict **Git-driven, IaC-first delivery model**. This release proves the ability to engineer secure Azure landing zones, implement multi-cloud network transit, automate infrastructure via AWX, deliver private containerised platforms, and govern AI-assisted CloudOps.
+Release 2 transforms the Release 1 Hybrid Modern Workplace, Identity & Endpoint Security foundation into a governed, multi-cloud enterprise platform. It moves operations from manual portal management to a strict **Git-driven, IaC-first delivery model**. This release proves the ability to engineer secure Azure landing zones, implement multi-cloud network transit, automate infrastructure via AWX, deliver private containerised platforms, and govern AI-assisted CloudOps.
 
 Every capability in this release is **operationally validated** through CLI-first evidence, Git-controlled deployments, and documented validation workflows.
 
