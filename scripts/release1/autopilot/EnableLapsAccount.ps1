@@ -1,5 +1,5 @@
 # 1. Provide a temporary password (SYSTEM will use this to create the account)
-$Password = ConvertTo-SecureString "BelfastPilot2026!" -AsPlainText -Force
+$Password = Read-Host "Enter LAPS password" -AsSecureString
 
 # 2. Create the custom account beladm01
 if (-not (Get-LocalUser -Name "beladm01" -ErrorAction SilentlyContinue)) {

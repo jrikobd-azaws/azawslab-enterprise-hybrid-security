@@ -1,3 +1,5 @@
+# Historical Release 2 P2b WinRM helper script.
+# Retained for implementation traceability; review before use.
 Write-Host "Network profiles:"
 Get-NetConnectionProfile | Select-Object Name, InterfaceAlias, NetworkCategory
 

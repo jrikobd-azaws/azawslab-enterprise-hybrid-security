@@ -1,11 +1,11 @@
-﻿# Azawslab Enterprise Hybrid Security Platform
+# Azawslab Enterprise Hybrid Security Platform
 
 [![Release 1](https://img.shields.io/badge/Release%201-Complete%20%26%20Evidenced-brightgreen)](docs/release1/README.md)
 [![Release 2](https://img.shields.io/badge/Release%202-Implemented%20%26%20Evidenced-blue)](docs/release2/README.md)
 [![Release 3](https://img.shields.io/badge/Release%203-Roadmap%20%2F%20Platform%20Evolution-lightgrey)](docs/release3/README.md)
 [![Status](https://img.shields.io/badge/Status-Canonical%20Truth-success)](STATUS.md)
 
-**Flagship enterprise platform portfolio — production-style, operationally validated, evidence-backed.**
+**Flagship enterprise platform portfolio â€” production-style, operationally validated, evidence-backed.**
 
 ---
 
@@ -13,7 +13,7 @@
 
 This repository presents a single, staged enterprise platform journey that moves from hybrid Microsoft operations into Azure platform engineering, multi-cloud security, automation, private platform delivery, AI-assisted CloudOps, and a clear roadmap toward multi-cloud Kubernetes and GitOps.
 
-Every major capability — identity, landing zones, networking, automation, private AKS, virtual desktop, and the AI Operations Enclave — has been built, operationally validated, and backed by curated evidence. The repository is structured to show what was built, how it was validated, and how each capability fits into a wider enterprise platform journey for senior cloud, platform, infrastructure, and security roles.
+Every major capability â€” identity, landing zones, networking, automation, private AKS, virtual desktop, and the AI Operations Enclave â€” has been built, operationally validated, and backed by curated evidence. The repository is structured to show what was built, how it was validated, and how each capability fits into a wider enterprise platform journey for senior cloud, platform, infrastructure, and security roles.
 
 ---
 
@@ -170,7 +170,6 @@ azawslab-enterprise-hybrid-security/
 |-- SKILLS_MATRIX.md
 |-- EVIDENCE_GUIDE.md
 |-- STATUS.md
-|-- MIGRATION_TRACKER.md
 |
 |-- docs/
 |   |-- foundation/
@@ -185,7 +184,6 @@ azawslab-enterprise-hybrid-security/
 |
 |-- terraform/
 |-- ansible/
-|-- awx/
 |-- scripts/
 |-- diagrams/
 |-- .github/
@@ -228,3 +226,11 @@ I have over a decade of experience in IT infrastructure, hybrid cloud, operation
 My cloud architecture expertise is validated by high-level technical certifications, including **AWS Certified Solutions Architect - Professional** and **Microsoft Azure Solutions Architect Expert**.
 
 This repository is owned, built, and maintained as a professional flagship platform portfolio. All work is original, operationally validated, and presented as a transparent demonstration of enterprise-grade engineering.
+
+## Evidence Location Standard
+
+Release 1 evidence is screenshot-first and lives under `screenshots/release1/`.
+
+Release 2 evidence is CLI/IaC/automation-first and lives under `docs/release2/evidence/`.
+
+Release 3 is roadmap/platform evolution; evidence should not be treated as implemented proof until that work begins.

@@ -24,7 +24,7 @@ This capability story demonstrates how the **O6 AI Operations Enclave** introduc
 | **Network Policy Verification** | Validation that enclave network egress rules and isolation boundaries are enforced | `docs/release2/evidence/O6/` (`o6-network-policy-verification.txt`, `o6-network-egress-deny-proof.json`) |
 | **Namespace Lifecycle & Cleanup** | Creation, governance, and post-teardown validation of AI-managed namespaces | `docs/release2/evidence/O6/` (`o6-namespace-lifecycle.txt`, `o6-post-cleanup-validation.txt`) |
 | **Companion Runtime** | `local-ai-lab-infra` — multi-agent LangGraph pipeline with local RAG (Chroma, Ollama), deny-by-default tool permissions, and human-in-the-loop gating. Supports multiple local models (`gpt-oss-tools`, `deepseek-r1-tools`, `gemma3-tools`, `llama3.2`, `nomic-embed-text`) and optional cloud APIs (Groq, GPT, Claude, DeepSeek R1, Mistral, NIM) | [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra); [`usage guide`](https://github.com/jrikobd-azaws/local-ai-lab-infra/blob/main/docs/how_to_use_project.md) |
-
+| **Kubernetes O6 Manifests** | Repository-level Kubernetes manifests and live-validation support for the O6 enclave, including namespace, policy, gateway, and job definitions used to validate the governed AI operations pattern | [`kubernetes/`](../../kubernetes/) |
 ---
 
 ## Architecture
@@ -119,7 +119,7 @@ O6 is designed so AI-assisted operations produce reviewable evidence. The eviden
 | Namespace lifecycle management | `docs/release2/evidence/O6/` (`o6-namespace-lifecycle.txt`) | Proves AI-managed namespaces were governed |
 | Post-cleanup validation | `docs/release2/evidence/O6/` (`o6-post-cleanup-validation.txt`) | Proves the enclave can be torn down cleanly |
 | Companion project runtime | [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra); [`usage guide`](https://github.com/jrikobd-azaws/local-ai-lab-infra/blob/main/docs/how_to_use_project.md) | Proves the multi-agent pipeline and configuration exist |
-
+| Kubernetes manifest support | [`kubernetes/`](../../kubernetes/) | Provides O6 Kubernetes manifests and live-validation scaffolding; formal validation evidence remains under `docs/release2/evidence/O6/` |
 ---
 
 ## Operational Notes
@@ -129,7 +129,7 @@ O6 is designed so AI-assisted operations produce reviewable evidence. The eviden
 - **Local code generation protects sensitive IaC.** The local Ollama models handle code generation; code does not leave the machine unless cloud review is explicitly configured.
 - **Policy decision logs are retained as evidence.** Every allow/deny decision is recorded for audit.
 - **The companion project provides the AI runtime; the main repository provides platform-side evidence.** Together, they show the full O6 pattern without mixing runtime implementation details into the core platform evidence repository.
-
+- **Kubernetes manifests support O6 live validation.** The root-level `kubernetes/` folder contains O6 enclave manifests and job definitions; formal evidence remains in `docs/release2/evidence/O6/`.
 ---
 
 ## What I Learned

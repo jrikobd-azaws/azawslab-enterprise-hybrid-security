@@ -1,6 +1,6 @@
-# 06. Skills & Evidence Index — Release 2
+# 06. Skills & Evidence Index â€” Release 2
 
-> **Part of** [Release 2 — Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
+> **Part of** [Release 2 â€” Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
 >
 > **Purpose:** Fast reviewer index connecting each Release 2 capability to its evidence location, capability document, and target role. Designed so a technical reviewer can verify a claim in under 30 seconds.
 
@@ -14,7 +14,7 @@
 | **Hybrid & Multi-Cloud Networking** | [02-hybrid-multicloud-network-security](./02-hybrid-multicloud-network-security.md) | Hub-spoke, Azure Firewall, FortiGate NVA, VyOS, Cisco CSR, IPSec/BGP, UDR steering, route filtering, `br1.azawslab.co.uk` namespace | [`P5`](./evidence/P5/), [`P6`](./evidence/P6/), [`P5-vpn`](./evidence/P5-vpn/), [`O1`](./evidence/O1/), [`O3b`](./evidence/O3b/), [`O3c`](./evidence/O3c/), [`A1-ansible-network-baseline`](./evidence/A1-ansible-network-baseline/) |
 | **Automation, SecOps & Resilience** | [03-automation-secops-resilience](./03-automation-secops-resilience.md) | AWX control plane (Entra SSO, RBAC, tiered jobs), Ansible read-only validation, runtime secrets (Key Vault/SSM), Defender for Cloud, Sentinel, Azure Monitor alerts, Recovery Vault (immutability, MUA) | [`A2-awx-control-plane`](./evidence/A2-awx-control-plane/), [`A1-ansible-network-baseline`](./evidence/A1-ansible-network-baseline/), [`P7`](./evidence/P7/), [`P8`](./evidence/P8/), [`P9a`](./evidence/P9a/), [`P9b`](./evidence/P9b/), [`P9b-redesign`](./evidence/P9b-redesign/) |
 | **Private Platform & Secure Workspace** | [04-private-platform-secure-workspace](./04-private-platform-secure-workspace.md) | Private AKS (private API, Azure CNI, UDR egress, managed Prometheus/Grafana), AVD + FSLogix (private endpoint, no-public-IP, persistent profiles, admin toolchain), Norway East/West governance | [`O4`](./evidence/O4/), [`O5`](./evidence/O5/) |
-| **AI Operations Enclave** | [05-ai-operations-enclave](./05-ai-operations-enclave.md) | Governed AI CloudOps: MCP gateway, deny-by-default tool access, local multi-model inference, optional cloud-API integration, human-in-the-loop gating, evidence logging | [`O6`](./evidence/O6/), [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra) |
+| **AI Operations Enclave** | [05-ai-operations-enclave](./05-ai-operations-enclave.md) | Governed AI CloudOps: MCP gateway, deny-by-default tool access, local multi-model inference, optional cloud-API integration, human-in-the-loop gating, evidence logging | [`O6`](./evidence/O6/), [`kubernetes`](../../kubernetes/) supporting manifests, [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra) |
 
 ---
 
@@ -26,7 +26,7 @@
 | **Hybrid Cloud / Infrastructure Engineer** | [02 Networking](./02-hybrid-multicloud-network-security.md) | [`P5`](./evidence/P5/), [`P6`](./evidence/P6/), [`P5-vpn`](./evidence/P5-vpn/), [`O1`](./evidence/O1/), [`O3b`](./evidence/O3b/), [`O3c`](./evidence/O3c/) |
 | **DevOps / SRE** | [03 Automation](./03-automation-secops-resilience.md) | [`A2-awx-control-plane`](./evidence/A2-awx-control-plane/), [`P9a`](./evidence/P9a/), [`P9b`](./evidence/P9b/), [`P9b-redesign`](./evidence/P9b-redesign/) |
 | **Cloud Security Architect** | [01 Landing Zone](./01-landing-zone-iac-governance.md), [03 Automation](./03-automation-secops-resilience.md), [05 AI Enclave](./05-ai-operations-enclave.md) | [`P3`](./evidence/P3/), [`P6`](./evidence/P6/), [`P7`](./evidence/P7/), [`P8`](./evidence/P8/), [`O6`](./evidence/O6/) |
-| **AI Operations / Security Reviewer** | [05 AI Enclave](./05-ai-operations-enclave.md) | [`O6`](./evidence/O6/), [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra) |
+| **AI Operations / Security Reviewer** | [05 AI Enclave](./05-ai-operations-enclave.md) | [`O6`](./evidence/O6/), [`kubernetes`](../../kubernetes/) supporting manifests, [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra) |
 | **Recruiter / Hiring Manager** | [00 Summary](./00-summary.md), [Release 2 README](./README.md) | Start with capability overview, then follow role paths above |
 
 ---
