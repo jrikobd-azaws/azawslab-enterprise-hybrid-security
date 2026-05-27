@@ -1,3 +1,5 @@
+# Historical Release 2 P2b WinRM helper script.
+# Retained for implementation traceability; review before use.
 hostname
 Get-Service WinRM | Select-Object Status, Name, StartType
 Enable-PSRemoting -Force

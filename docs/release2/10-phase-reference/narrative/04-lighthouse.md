@@ -57,7 +57,7 @@ The registration assignment linked the definition to the customer subscription:
 The deployment was performed from the customer-side subscription context using a subscription-scope ARM template stored at:
 
 ```text
-docs/release2/artifacts/P4/lighthouse/lighthouse-reader-delegation.json
+docs/release2/evidence/P4/artifacts/lighthouse/lighthouse-reader-delegation.json
 ```
 
 ## 4. Architecture Snapshot
@@ -171,7 +171,7 @@ p4-cli-managing-tenant-delegated-subscription-visible.png
 Implementation artifact:
 
 ```text
-docs/release2/artifacts/P4/lighthouse/lighthouse-reader-delegation.json
+docs/release2/evidence/P4/artifacts/lighthouse/lighthouse-reader-delegation.json
 ```
 
 ## 8. Key Commands Used
@@ -191,7 +191,7 @@ ARM what-if:
 az deployment sub what-if `
   --name 'p4-lighthouse-reader-whatif' `
   --location 'norwayeast' `
-  --template-file 'docs/release2/artifacts/P4/lighthouse/lighthouse-reader-delegation.json' `
+  --template-file 'docs/release2/evidence/P4/artifacts/lighthouse/lighthouse-reader-delegation.json' `
   --output table
 ```
 
@@ -201,7 +201,7 @@ ARM deployment:
 az deployment sub create `
   --name 'p4-lighthouse-reader-delegation' `
   --location 'norwayeast' `
-  --template-file 'docs/release2/artifacts/P4/lighthouse/lighthouse-reader-delegation.json' `
+  --template-file 'docs/release2/evidence/P4/artifacts/lighthouse/lighthouse-reader-delegation.json' `
   --output jsonc
 ```
 

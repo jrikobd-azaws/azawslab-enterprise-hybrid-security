@@ -1,4 +1,4 @@
-﻿# O6 Local Preparation Evidence
+# O6 Local Preparation Evidence
 
 Captured: 2026-05-24T12:33:02+01:00
 
@@ -19,9 +19,9 @@ Captured: 2026-05-24T12:33:02+01:00
 - `kubernetes/o6-ai-enclave/networkpolicy-deny-all.yaml`
 - `kubernetes/o6-ai-enclave/networkpolicy-allow-dns.yaml`
 - `kubernetes/o6-ai-enclave/networkpolicy-allow-internal-mcp.yaml`
-- `docs/release2/o6/awx-job-template-proposals/`
-- `docs/release2/o6/monitoring/o6-log-analytics-queries.kql`
-- `docs/release2/o6/monitoring/o6-workbook-outline.md`
+- `docs/release2/10-phase-reference/o6/awx-job-template-proposals/`
+- `docs/release2/10-phase-reference/o6/monitoring/o6-log-analytics-queries.kql`
+- `docs/release2/10-phase-reference/o6/monitoring/o6-workbook-outline.md`
 
 ## Safety Boundary
 
