@@ -47,3 +47,9 @@ tfplan-*
 .migration-backups/
 
 docs/portfolio-migration-reports/
+
+# Local AI prompt/agent scaffolding should not be committed publicly
+.github/prompts/
+.github/agents/
+*.prompt.*
+*.agent.md
