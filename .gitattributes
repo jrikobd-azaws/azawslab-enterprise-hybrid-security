@@ -1,0 +1,25 @@
+* text=auto
+
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.tf text eol=lf
+*.tfvars text eol=lf
+*.ps1 text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.7z binary
+*.gz binary
+*.tfstate binary
+*.tfplan binary
