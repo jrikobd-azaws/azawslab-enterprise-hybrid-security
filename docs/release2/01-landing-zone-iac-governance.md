@@ -1,4 +1,4 @@
-﻿# 01. Landing Zone, IaC & Governance
+# 01. Landing Zone, IaC & Governance
 
 > **Part of** [Release 2 â€” Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
 >
@@ -65,7 +65,7 @@ This capability story demonstrates how the platform was rebuilt from scratch usi
 â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-*Diagram placeholder â€” Landing zone control-plane flow: GitHub Actions OIDC, Terraform remote state, Azure Policy, and RBAC.*
+![Release 2 landing zone IaC and governance](../../diagrams/release2/landing-zone-iac-governance.png)
 
 Detailed state boundary mapping is maintained in [11. Terraform State & Pipeline Map](./11-terraform-state-and-pipeline-map.md).
 

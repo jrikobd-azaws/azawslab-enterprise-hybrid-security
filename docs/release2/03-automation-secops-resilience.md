@@ -1,6 +1,6 @@
 # 03. Automation, SecOps & Resilience
 
-> **Part of** [Release 2 — Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
+> **Part of** [Release 2 â€” Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
 >
 > **Status:** Implemented and evidenced.
 
@@ -30,48 +30,48 @@ This capability story demonstrates how the platform operationalises infrastructu
 ## Architecture
 
 ```text
-┌─────────────────────────────────────────────────────┐
-│           AWX Automation Control Plane               │
-│                                                     │
-│  ┌──────────────┐ ┌──────────────┐ ┌─────────────┐  │
-│  │ Job Templates│ │  Inventories │ │ RBAC / Teams │  │
-│  └──────┬───────┘ └──────┬───────┘ └──────┬──────┘  │
-│         │                │               │         │
-│         └────────────────┼───────────────┘         │
-│                          │                         │
-│              ┌───────────▼───────────┐             │
-│              │  GitHub Project Sync  │             │
-│              └───────────────────────┘             │
-│              ┌───────────────────────┐             │
-│              │ Runtime Secrets       │             │
-│              │ Azure Key Vault /     │             │
-│              │ AWS SSM               │             │
-│              └───────────────────────┘             │
-└──────────────────────┬──────────────────────────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        ▼              ▼              ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────────┐
-│ Network      │ │ Configuration│ │ Operational      │
-│ Validation   │ │ Backup       │ │ Runbooks         │
-│ (A1 read-only│ │ Evidence     │ │ (controlled      │
-│  playbooks)  │ │              │ │  remediation)    │
-└──────────────┘ └──────────────┘ └──────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚           AWX Automation Control Plane               â”‚
+â”‚                                                     â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚ Job Templatesâ”‚ â”‚  Inventories â”‚ â”‚ RBAC / Teams â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚         â”‚                â”‚               â”‚         â”‚
+â”‚         â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜         â”‚
+â”‚                          â”‚                         â”‚
+â”‚              â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”             â”‚
+â”‚              â”‚  GitHub Project Sync  â”‚             â”‚
+â”‚              â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜             â”‚
+â”‚              â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”             â”‚
+â”‚              â”‚ Runtime Secrets       â”‚             â”‚
+â”‚              â”‚ Azure Key Vault /     â”‚             â”‚
+â”‚              â”‚ AWS SSM               â”‚             â”‚
+â”‚              â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜             â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                       â”‚
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â–¼              â–¼              â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ Network      â”‚ â”‚ Configurationâ”‚ â”‚ Operational      â”‚
+â”‚ Validation   â”‚ â”‚ Backup       â”‚ â”‚ Runbooks         â”‚
+â”‚ (A1 read-onlyâ”‚ â”‚ Evidence     â”‚ â”‚ (controlled      â”‚
+â”‚  playbooks)  â”‚ â”‚              â”‚ â”‚  remediation)    â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 
-┌─────────────────────────────────────────────────────┐
-│        Continuous Security & Resilience              │
-│                                                     │
-│  ┌─────────────────┐ ┌─────────────┐ ┌───────────┐  │
-│  │ Defender for    │ │ Sentinel    │ │ Azure     │  │
-│  │ Cloud (CSPM)    │ │ (SIEM)      │ │ Monitor   │  │
-│  └─────────────────┘ └─────────────┘ └───────────┘  │
-│  ┌─────────────────────────────────────────────────┐ │
-│  │ Recovery Services Vault (immutability, MUA)     │ │
-│  └─────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚        Continuous Security & Resilience              â”‚
+â”‚                                                     â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚ Defender for    â”‚ â”‚ Sentinel    â”‚ â”‚ Azure     â”‚  â”‚
+â”‚  â”‚ Cloud (CSPM)    â”‚ â”‚ (SIEM)      â”‚ â”‚ Monitor   â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
+â”‚  â”‚ Recovery Services Vault (immutability, MUA)     â”‚ â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-*Diagram placeholder — Automation, SecOps, and resilience architecture: AWX control plane, Key Vault/SSM runtime secrets, A1/A2 automation path, Defender, Sentinel, Monitor, and Recovery Services Vault.*
+![Release 2 automation SecOps and resilience](../../diagrams/release2/automation-secops-resilience.png)
 
 ---
 
@@ -143,6 +143,6 @@ A Recovery Services Vault protects platform resources with soft-delete and immut
 This automation and SecOps capability proves the platform is supportable, monitored, and recoverable. The AWX control plane demonstrates senior-level operational design; the integration of Key Vault and AWS SSM proves secrets management maturity; and the Defender/Sentinel/Monitor stack provides continuous security visibility. The Recovery Services Vault with immutability, MUA, and a documented redesign history closes the resilience loop with production-grade credibility.
 
 Reviewers evaluating this for **DevOps / SRE** and **Cloud Security Architect** roles should focus on:
-- The A1 → A2 progression from read-only automation baseline to governed control plane.
+- The A1 â†’ A2 progression from read-only automation baseline to governed control plane.
 - The zero-hardcoded-secret automation pattern and runtime credential retrieval model.
 - The evidence of synthetic alert firing and staged backup redesign, which proves operational readiness beyond deployment.

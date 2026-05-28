@@ -1,6 +1,6 @@
 # 04. Observability & Resilience Direction
 
-> **Part of** [Release 3 — Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
+> **Part of** [Release 3 â€” Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
 >
 > **Status:** Roadmap / platform evolution
 
@@ -27,4 +27,4 @@ Define the observability stack and resilience validation strategy for the multi-
 - The backup immutability and MUA model (P9b) provides a template for Kubernetes backup governance.
 - The staged redesign approach (P9b-redesign) will guide iterative resilience testing.
 
-*Diagram placeholder — Observability stack: Prometheus, Grafana, Loki, OpenTelemetry, alert routing.*
+![Release 3 multi-cloud Kubernetes GitOps and DevSecOps roadmap](../../diagrams/release3/release3-target-roadmap.png)

@@ -1,6 +1,6 @@
 # 03. DevSecOps Controls Direction
 
-> **Part of** [Release 3 — Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
+> **Part of** [Release 3 â€” Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
 >
 > **Status:** Roadmap / platform evolution
 
@@ -23,4 +23,4 @@ Define the DevSecOps quality gates and policy enforcement that will sit between 
 - The controlled-apply model in CI/CD will be extended with new quality gates.
 - The Defender for Cloud / Sentinel baseline provides CSPM and SIEM context for workload security.
 
-*Diagram placeholder — DevSecOps pipeline: commit, SAST/DAST, image scan, sign, Gatekeeper admission, Argo CD sync.*
+![Release 3 multi-cloud Kubernetes GitOps and DevSecOps roadmap](../../diagrams/release3/release3-target-roadmap.png)

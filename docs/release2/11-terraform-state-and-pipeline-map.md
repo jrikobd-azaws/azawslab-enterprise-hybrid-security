@@ -1,6 +1,6 @@
-# 11. Terraform State & Pipeline Map — Release 2
+# 11. Terraform State & Pipeline Map Ã¢â‚¬â€ Release 2
 
-> **Part of** [Release 2 — Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
+> **Part of** [Release 2 Ã¢â‚¬â€ Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
 >
 > **Status:** Implemented and evidenced.
 
@@ -37,7 +37,7 @@ The paths below are shown relative to the repository's `terraform/` directory.
 
 The retired root `environments/dev-retired-after-state-split` documents the original three-root model (`governance`, `platform-shared`, `workloads`) from which the current granular structure evolved.
 
-*Diagram placeholder — create `diagrams/release2/terraform-state-boundaries.png`: Terraform roots, state boundaries, lifecycle ownership, and evidence folders.*
+![Release 2 Terraform state boundaries](../../diagrams/release2/terraform-state-boundaries.png)
 
 **Design principles:**
 - Each root has its own remote state file in Azure Storage, with native blob leasing to prevent concurrent modifications.
@@ -103,7 +103,7 @@ Pull Request (feature branch -> main)
 +------------------------------+
 ```
 
-*Diagram placeholder — create `diagrams/release2/pipeline-flow.png`: GitHub Actions OIDC plan, review gate, approved controlled apply, remote state, and evidence capture.*
+![Release 2 controlled Terraform pipeline flow](../../diagrams/release2/pipeline-flow.png)
 
 ### Key properties
 - **Secretless authentication:** GitHub Actions authenticates to Azure via OpenID Connect (OIDC). No client secrets, service principal keys, or connection strings are stored in the repository.

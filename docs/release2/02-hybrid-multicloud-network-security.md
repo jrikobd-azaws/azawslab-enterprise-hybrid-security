@@ -1,6 +1,6 @@
 # 02. Hybrid & Multi-Cloud Network Security
 
-> **Part of** [Release 2 — Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
+> **Part of** [Release 2 â€” Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
 >
 > **Status:** Implemented and evidenced.
 
@@ -31,40 +31,40 @@ This capability story proves the design and validation of a secure, multi-cloud 
 ## Architecture
 
 ```text
-                        ┌────────────────────────┐
-                        │   On-Premises (VyOS)   │
-                        │   br1.azawslab.co.uk   │
-                        └───────────┬────────────┘
-                                    │ IPSec Site-to-Site Tunnel
-                                    ▼ (Dynamic eBGP Peering)
-                        ┌────────────────────────┐
-                        │   Azure VPN Gateway    │
-                        │   (GatewaySubnet)      │
-                        └───────────┬────────────┘
-                                    │
-          ┌─────────────────────────┼─────────────────────────┐
-          │ UDR Next-Hop Steering   │ UDR Next-Hop Steering   │
-          ▼                         ▼                         ▼
-┌───────────────────┐     ┌───────────────────┐     ┌───────────────────┐
-│  Azure Firewall   │     │   FortiGate NVA   │     │    Spoke VNets    │
-│ Centralized Cloud │◄───►│ Deep Hybrid Trust │◄───►│ (Private AKS O4,  │
-│ Egress Filtermaps │     │ Policy Inspection │     │  AVD Workspace O5)│
-└───────────────────┘     └───────────────────┘     └───────────────────┘
-          ▲
-          │ IPSec Site-to-Site Tunnel
-          │ (Dynamic eBGP Peering)
-          ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                              AWS Cloud                               │
-│  ┌────────────────────────────────────────────────────────────────┐  │
-│  │       AWS Transit Gateway Peering & Cisco CSR 8000V Edge       │  │
-│  │   Route-Map Policy Matrix: Propagates Trusted Workload Subnets │  │
-│  │   Explicitly Drops/Withholds Dynamic DMZ Subnet Advertisements │  │
-│  └────────────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────────┘
+                        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                        â”‚   On-Premises (VyOS)   â”‚
+                        â”‚   br1.azawslab.co.uk   â”‚
+                        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                    â”‚ IPSec Site-to-Site Tunnel
+                                    â–¼ (Dynamic eBGP Peering)
+                        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                        â”‚   Azure VPN Gateway    â”‚
+                        â”‚   (GatewaySubnet)      â”‚
+                        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                    â”‚
+          â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+          â”‚ UDR Next-Hop Steering   â”‚ UDR Next-Hop Steering   â”‚
+          â–¼                         â–¼                         â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  Azure Firewall   â”‚     â”‚   FortiGate NVA   â”‚     â”‚    Spoke VNets    â”‚
+â”‚ Centralized Cloud â”‚â—„â”€â”€â”€â–ºâ”‚ Deep Hybrid Trust â”‚â—„â”€â”€â”€â–ºâ”‚ (Private AKS O4,  â”‚
+â”‚ Egress Filtermaps â”‚     â”‚ Policy Inspection â”‚     â”‚  AVD Workspace O5)â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+          â–²
+          â”‚ IPSec Site-to-Site Tunnel
+          â”‚ (Dynamic eBGP Peering)
+          â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                              AWS Cloud                               â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚       AWS Transit Gateway Peering & Cisco CSR 8000V Edge       â”‚  â”‚
+â”‚  â”‚   Route-Map Policy Matrix: Propagates Trusted Workload Subnets â”‚  â”‚
+â”‚  â”‚   Explicitly Drops/Withholds Dynamic DMZ Subnet Advertisements â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-*Diagram placeholder — Hybrid and multi-cloud network flow: Azure hub, Azure Firewall, FortiGate NVA, VyOS branch, AWS Cisco CSR, IPSec, and BGP.*
+![Release 2 hybrid multi-cloud network security](../../diagrams/release2/hybrid-multicloud-network-security.png)
 
 ---
 
