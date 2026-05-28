@@ -1,4 +1,4 @@
-﻿P3 governance review - initial validation
+P3 governance review - initial validation
 
 Validated:
 - Azure context confirmed under the intended subscription.

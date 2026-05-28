@@ -1,4 +1,4 @@
-﻿--- Hyper-V Lab Local Evidence Collection ---
+--- Hyper-V Lab Local Evidence Collection ---
 Generated: 05/07/2026 13:23:07
 -------------------------------------------
 === VM: DC1-HQ ===

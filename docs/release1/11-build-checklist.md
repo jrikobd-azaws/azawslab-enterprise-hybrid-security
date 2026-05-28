@@ -1,4 +1,4 @@
-﻿# Release 1 Build Checklist
+# Release 1 Build Checklist
 
 ## Purpose
 

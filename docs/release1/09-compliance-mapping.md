@@ -1,4 +1,4 @@
-﻿# Compliance Mapping
+# Compliance Mapping
 
 ## Purpose
 

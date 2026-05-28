@@ -1,4 +1,4 @@
-﻿Enable succeeded: 
+Enable succeeded: 
 [stdout]
 y baseline is only policy 1 and policy 11] *************
 ok: [vm-dev-fortigate-01] => changed=false 

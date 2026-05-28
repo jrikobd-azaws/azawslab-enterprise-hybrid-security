@@ -1,4 +1,4 @@
-﻿Ephemeral Ops Resources Audit Summary
+Ephemeral Ops Resources Audit Summary
 
 Decision date:
 2026-05-05 16:12:11 +01:00

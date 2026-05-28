@@ -1,6 +1,6 @@
-# 00. Release 2 Executive Summary — Validated Outcomes
+# 00. Release 2 Executive Summary - Validated Outcomes
 
-> **Part of** [Release 2 — Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
+> **Part of** [Release 2 - Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
 >
 > **Status:** Implemented and evidenced.
 
@@ -14,7 +14,7 @@ Release 2 transforms a manually-operated hybrid Microsoft estate into a governed
 
 - **Secure, policy-driven Azure landing zones** deployed entirely through Terraform and GitHub Actions (OIDC).
 - **Multi-cloud transit networking** integrating Azure Firewall, FortiGate NVAs, VyOS, and Cisco CSR with dynamic BGP routing.
-- **A fully operational AWX automation control plane** that retrieves runtime secrets from Azure Key Vault and AWS SSM — zero hard-coded credentials.
+- **A fully operational AWX automation control plane** that retrieves runtime secrets from Azure Key Vault and AWS SSM - zero hard-coded credentials.
 - **A private, production-style AKS cluster** with no public API, validated egress through Azure Firewall, and managed observability.
 - **A secure admin/developer workspace** using Azure Virtual Desktop + FSLogix, accessed over private endpoints with no public IP on session hosts.
 - **A governed AI Operations Enclave** that assists CloudOps through RAG and MCP while enforcing human-approval gates and deny-by-default tool access.
@@ -27,7 +27,7 @@ Release 2 transforms a manually-operated hybrid Microsoft estate into a governed
 
 | Outcome | Evidence |
 |---|---|
-| Terraform-defined landing zone with remote state, locking, and modular design | `docs/release2/evidence/P0/` – `P2b/` |
+| Terraform-defined landing zone with remote state, locking, and modular design | `docs/release2/evidence/P0/` - `P2b/` |
 | OIDC-authenticated CI/CD pipelines; no static credentials | Pipeline configuration; Terraform plan/apply logs |
 | Azure Policy deny rules for region, VM SKU, and mandatory tags | `docs/release2/evidence/P3/` |
 | Azure Lighthouse cross-tenant delegation for MSP scenarios | `docs/release2/evidence/P4/` |
@@ -94,7 +94,7 @@ Release 2 evidence is **engineering-led and CLI-first**. Screenshots are supplem
 |---|---|
 | **Terraform over Bicep/ARM** | Multi-cloud portability; same IaC toolchain for Azure and AWS |
 | **OIDC over static credentials** | No long-lived secrets in CI/CD |
-| **AWX as automation backbone** | Tiered job templates, RBAC, audit trails — automation as a platform service |
+| **AWX as automation backbone** | Tiered job templates, RBAC, audit trails - automation as a platform service |
 | **Private AKS, no public API** | Eliminates a critical attack surface |
 | **AVD + FSLogix as secure workspace** | Reduces unmanaged workstation dependency; tools kept inside governed boundary |
 | **O6 human-in-the-loop AI** | AI assists, human approves; execution gated by CI/CD |

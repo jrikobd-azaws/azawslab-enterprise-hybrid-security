@@ -1,4 +1,4 @@
-﻿O3b VyOS BGP Data Plane Regression
+O3b VyOS BGP Data Plane Regression
 ==================================
 
 Purpose:

@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "eTag": null,
     "id": "/subscriptions/8d99637c-13e7-417c-b334-b586d0ddc3d6/resourceGroups/rg-dev-backup-norwayeast/providers/Microsoft.RecoveryServices/vaults/rsv-dev-backup/backupFabrics/Azure/protectionContainers/IaasVMContainer;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01/protectedItems/VM;iaasvmcontainerv2;rg-dev-workload-norwayeast;vm-dev-client-01/recoveryPoints/7566390631190213368",

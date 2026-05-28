@@ -1,4 +1,4 @@
-﻿<#
+<#
 Purpose:
   Delegate OU-scoped Linux computer join permissions for the Release 2 Ansible service account model.
 

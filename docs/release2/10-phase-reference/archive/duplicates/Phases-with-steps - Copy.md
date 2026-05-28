@@ -1,4 +1,4 @@
-﻿# Phase-by-Phase Implementation Guide - Release 2
+# Phase-by-Phase Implementation Guide - Release 2
 
 **Version:** 4.0  
 **Aligns with:** `README_PLAN.md`, `implementation-tracker.md`, and `naming-conventions.md`  

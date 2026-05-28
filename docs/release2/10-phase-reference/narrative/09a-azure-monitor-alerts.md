@@ -1,4 +1,4 @@
-﻿# 09a-azure-monitor-alerts
+# 09a-azure-monitor-alerts
 
 ## 1. Objective
 

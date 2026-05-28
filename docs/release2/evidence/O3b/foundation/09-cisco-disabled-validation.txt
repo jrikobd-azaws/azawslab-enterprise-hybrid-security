@@ -1,4 +1,4 @@
-﻿================================================================================
+================================================================================
 O3b AWS foundation evidence: 09-cisco-disabled-validation.txt
 Generated: 2026-05-07 09:47:52 +01:00
 RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security

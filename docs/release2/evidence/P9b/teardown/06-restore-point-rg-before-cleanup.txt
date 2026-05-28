@@ -1,4 +1,4 @@
-﻿================================================================================
+================================================================================
 P9b teardown evidence: 06-restore-point-rg-before-cleanup.txt
 Generated: 2026-05-06 17:28:22 +01:00
 RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security

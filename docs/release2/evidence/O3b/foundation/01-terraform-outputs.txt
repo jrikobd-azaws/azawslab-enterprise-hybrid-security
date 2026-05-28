@@ -1,4 +1,4 @@
-﻿================================================================================
+================================================================================
 O3b AWS foundation evidence: 01-terraform-outputs.txt
 Generated: 2026-05-07 09:47:34 +01:00
 RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security

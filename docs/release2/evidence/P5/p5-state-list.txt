@@ -1,4 +1,4 @@
-﻿data.azurerm_subnet.workload
+data.azurerm_subnet.workload
 data.azurerm_virtual_network.workload_spoke
 module.hub_spoke_networking.azurerm_resource_group.connectivity
 module.hub_spoke_networking.azurerm_route_table.workload_to_hub

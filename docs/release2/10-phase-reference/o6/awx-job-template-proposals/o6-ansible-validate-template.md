@@ -1,4 +1,4 @@
-﻿# O6 AWX Job Template Proposal - Ansible Validation
+# O6 AWX Job Template Proposal - Ansible Validation
 
 Status: proposal only.
 

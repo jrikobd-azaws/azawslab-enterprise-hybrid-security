@@ -1,4 +1,4 @@
-﻿P4 customer tenant readiness evidence
+P4 customer tenant readiness evidence
 =====================================
 
 Purpose:

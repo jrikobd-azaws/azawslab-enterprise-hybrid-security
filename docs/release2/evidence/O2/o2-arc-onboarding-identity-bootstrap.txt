@@ -1,4 +1,4 @@
-﻿O2 Azure Arc onboarding identity bootstrap
+O2 Azure Arc onboarding identity bootstrap
 Generated UTC: 2026-05-10 20:27:02
 
 SubscriptionId: 8d99637c-13e7-417c-b334-b586d0ddc3d6

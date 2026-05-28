@@ -1,4 +1,4 @@
-﻿# Modern Workplace
+# Modern Workplace
 
 ## Purpose
 
@@ -214,9 +214,9 @@ Safe Links matters because it represents user-facing protection against maliciou
 
 Its relevance in this project is that it extends the platform story from:
 
-- “mailboxes are reachable”
+- "mailboxes are reachable"
 to
-- “the email environment includes protection against common link-based threats”
+- "the email environment includes protection against common link-based threats"
 
 That gives the Modern Workplace section a stronger operational security dimension without requiring the repo to overclaim a full Defender for Office 365 maturity program.
 

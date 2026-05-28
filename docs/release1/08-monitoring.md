@@ -1,4 +1,4 @@
-﻿# Monitoring
+# Monitoring
 
 ## Purpose
 
@@ -184,9 +184,9 @@ Evidence was captured in a compatible environment that preserved the existing pl
 The platform includes a set of reusable Graph PowerShell scripts that give an administrator programmatic visibility into pilot user state, managed device state, and the ability to perform corrective actions such as device rename. The validation covers:
 
 - **Graph connection** with proper admin consent and delegated permissions
-- **Pilot user state query** — retrieving user properties and account status
-- **Managed device state query** — compliance, management status, and device details
-- **Device rename operation** — dry run and apply to correct a naming inconsistency after enrollment
+- **Pilot user state query** - retrieving user properties and account status
+- **Managed device state query** - compliance, management status, and device details
+- **Device rename operation** - dry run and apply to correct a naming inconsistency after enrollment
 
 **Why this matters**
 

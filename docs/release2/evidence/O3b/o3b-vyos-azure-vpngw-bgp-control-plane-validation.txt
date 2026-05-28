@@ -1,4 +1,4 @@
-﻿O3b VyOS to Azure VPN Gateway BGP Control Plane Validation
+O3b VyOS to Azure VPN Gateway BGP Control Plane Validation
 ==========================================================
 
 Purpose:

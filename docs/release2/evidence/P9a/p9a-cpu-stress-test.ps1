@@ -1,4 +1,4 @@
-﻿param(
+param(
     [int]$DurationSeconds = 900,
     [int]$Threads = 64
 )

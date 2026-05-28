@@ -1,4 +1,4 @@
-﻿# P9b BCDR Plan - Lab Implementation
+# P9b BCDR Plan - Lab Implementation
 
 ## Scope
 

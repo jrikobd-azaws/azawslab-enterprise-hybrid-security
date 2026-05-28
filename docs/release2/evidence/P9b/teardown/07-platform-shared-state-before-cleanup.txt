@@ -1,4 +1,4 @@
-﻿================================================================================
+================================================================================
 P9b teardown evidence: 07-platform-shared-state-before-cleanup.txt
 Generated: 2026-05-06 17:28:29 +01:00
 RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security

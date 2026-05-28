@@ -1,4 +1,4 @@
-﻿# Hybrid Identity
+# Hybrid Identity
 
 ## Purpose
 
@@ -36,7 +36,7 @@ This work matters because it demonstrates:
 - downstream validation of Exchange hybrid, Intune, and Microsoft 365 services
 - later extension from static identity synchronization into operational identity administration through controlled Graph PowerShell workflows
 
-That last point is important because it shows the identity layer evolving from “users synchronized into Entra” into “user state and access can also be administered in a support-oriented way.”
+That last point is important because it shows the identity layer evolving from "users synchronized into Entra" into "user state and access can also be administered in a support-oriented way."
 
 ---
 
@@ -125,7 +125,7 @@ That structure included:
 - groups used to control pilot scope and downstream service behavior
 - later dynamic group logic tied to department-driven lifecycle scenarios
 
-This matters because the identity story in Release 1 is not only “users exist in Entra.” It is also about how those users and groups support policy, service access, and later lifecycle outcomes.
+This matters because the identity story in Release 1 is not only "users exist in Entra." It is also about how those users and groups support policy, service access, and later lifecycle outcomes.
 
 ---
 
@@ -191,8 +191,8 @@ The scripts in this project were designed as **interactive, operator-led tools**
 
 The validation covers two distinct scenarios:
 
-- **leaver / access response** — disable, revoke session, enable
-- **mover** — department change, dynamic group membership, downstream application access
+- **leaver / access response** - disable, revoke session, enable
+- **mover** - department change, dynamic group membership, downstream application access
 
 Evidence was captured in a compatible environment that preserved the existing platform naming and domain context for consistency.
 
@@ -246,17 +246,17 @@ The platform now includes validated access-state lifecycle controls using **Grap
 
 **What was validated**
 
-The mover scenario is the stronger business-facing lifecycle validation. Using an **interactive Graph PowerShell script** (`Invoke-BelfastUserLifecycleAction.ps1`), the platform demonstrates that updating a user’s organizational attributes can trigger downstream access changes through dynamic group membership and application assignment. The validation covers:
+The mover scenario is the stronger business-facing lifecycle validation. Using an **interactive Graph PowerShell script** (`Invoke-BelfastUserLifecycleAction.ps1`), the platform demonstrates that updating a user's organizational attributes can trigger downstream access changes through dynamic group membership and application assignment. The validation covers:
 
 - baseline user profile (`pilot-win02`) in the Finance department, with no access to the Slack gallery app
 - dynamic groups: `SG-Dept-Finance-Users` (rule: `department eq "Finance"`) and `SG-Dept-Operations-Slack` (rule: `department eq "Operations"`)
 - Slack assigned to `SG-Dept-Operations-Slack` only
 - interactive script prompting for department and job title, supporting preview-style and apply modes
-- post-update: the user’s department changes to Operations, dynamic group membership recalculates, and Slack becomes available in the user’s My Apps portal
+- post-update: the user's department changes to Operations, dynamic group membership recalculates, and Slack becomes available in the user's My Apps portal
 
 **Why this matters**
 
-The mover scenario reflects a real business need: employees change roles, departments, or locations, and their access to applications should follow automatically. By linking a department attribute change to dynamic group membership and then to a gallery app assignment, the platform shows attribute-driven access control. This is more sophisticated than simply editing a user’s profile; it proves that the identity system can propagate changes into practical access outcomes.
+The mover scenario reflects a real business need: employees change roles, departments, or locations, and their access to applications should follow automatically. By linking a department attribute change to dynamic group membership and then to a gallery app assignment, the platform shows attribute-driven access control. This is more sophisticated than simply editing a user's profile; it proves that the identity system can propagate changes into practical access outcomes.
 
 Using **Graph API + PowerShell** to drive this workflow demonstrates that the identity layer is not only synchronized and policy-aware, but also operationally manageable through reusable automation.
 
@@ -265,9 +265,9 @@ Using **Graph API + PowerShell** to drive this workflow demonstrates that the id
 - Baseline state: `pilot-win02` had department = Finance and job title = Finance Analyst. Slack was not available in My Apps.
 - Dynamic group membership was verified: the user was in `SG-Dept-Finance-Users` but not in `SG-Dept-Operations-Slack`.
 - The interactive script `Invoke-BelfastUserLifecycleAction.ps1` connected through Graph, prompted for department (`Finance` -> `Operations`) and job title. A preview step showed the intended change, then apply executed.
-- After the script completed, Entra showed the user’s department as Operations and job title as Operations Analyst.
+- After the script completed, Entra showed the user's department as Operations and job title as Operations Analyst.
 - Dynamic group membership recalculated: the user left the Finance-aligned state and joined the Operations-linked Slack group.
-- Slack then appeared in the user’s My Apps portal, confirming that the department-driven access-control path was successful.
+- Slack then appeared in the user's My Apps portal, confirming that the department-driven access-control path was successful.
 
 **Flagship evidence**
 
@@ -289,11 +289,11 @@ Using **Graph API + PowerShell** to drive this workflow demonstrates that the id
 
 ![Slack available in My Apps after move](../../screenshots/release1/identity-and-access/identity-operations/lifecycle/23-myapps-slack-available-pilot-win02-operations-state.png)
 
-*Slack visible in the user’s My Apps portal after the department change, demonstrating that the attribute update successfully triggered downstream access.*
+*Slack visible in the user's My Apps portal after the department change, demonstrating that the attribute update successfully triggered downstream access.*
 
 **Outcome**
 
-The mover scenario is fully validated using **Graph API + PowerShell**. The platform can update a user’s department attribute through an interactive Graph PowerShell script, trigger dynamic group membership recalculation, and change access to a gallery app based solely on that department value. This closes the loop between identity governance and application access, making the identity lifecycle story significantly stronger and more operationally relevant.
+The mover scenario is fully validated using **Graph API + PowerShell**. The platform can update a user's department attribute through an interactive Graph PowerShell script, trigger dynamic group membership recalculation, and change access to a gallery app based solely on that department value. This closes the loop between identity governance and application access, making the identity lifecycle story significantly stronger and more operationally relevant.
 
 ---
 

@@ -1,4 +1,4 @@
-# Release 3 — Multi-Cloud Kubernetes, GitOps & DevSecOps
+# Release 3 - Multi-Cloud Kubernetes, GitOps & DevSecOps
 
 > **Part of the [Azawslab Enterprise Hybrid Security Platform](../../README.md)**
 >

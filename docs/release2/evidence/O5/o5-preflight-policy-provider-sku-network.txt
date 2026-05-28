@@ -1,4 +1,4 @@
-﻿O5 Live Azure Preflight
+O5 Live Azure Preflight
 =======================
 
 Purpose:

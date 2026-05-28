@@ -1,4 +1,4 @@
-﻿# P5/O1/O3a Closeout Summary
+# P5/O1/O3a Closeout Summary
 
 ## Scope
 

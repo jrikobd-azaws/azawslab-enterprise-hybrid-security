@@ -1,4 +1,4 @@
-﻿================================================================================
+================================================================================
 P9b Plan Change Review
 Purpose:
 Identify the non-P9b existing resource included in the Terraform plan as "1 to change".

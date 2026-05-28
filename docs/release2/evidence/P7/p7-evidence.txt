@@ -1,4 +1,4 @@
-﻿# P7 Defender for Cloud Evidence
+# P7 Defender for Cloud Evidence
 
 Date: 2026-05-05 14:05:12 +01:00
 

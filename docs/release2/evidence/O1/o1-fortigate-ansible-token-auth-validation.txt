@@ -1,4 +1,4 @@
-﻿O1 FortiGate Ansible Token-Auth Validation
+O1 FortiGate Ansible Token-Auth Validation
 
 Purpose:
 Validate that the manually proven O1 FortiGate service-chain configuration is now codified and executable through Ansible from vm-dev-mgmt-01 using a dedicated FortiGate REST API token.

@@ -1,4 +1,4 @@
-﻿# Design Decisions — Senior Engineering Judgement
+# Design Decisions - Senior Engineering Judgement
 
 This document captures the architectural decisions that shaped the platform. Each decision includes the context, options considered, chosen path, and evidence location.
 
@@ -10,7 +10,7 @@ This document captures the architectural decisions that shaped the platform. Eac
 
 **Decision:** Build the hybrid identity, endpoint management, and information protection layer first in Release 1.
 
-**Evidence:** `screenshots/release1/` — Conditional Access, Intune compliance, Autopilot, Exchange hybrid, Purview, and operational validation evidence.
+**Evidence:** `screenshots/release1/` - Conditional Access, Intune compliance, Autopilot, Exchange hybrid, Purview, and operational validation evidence.
 
 ## 2. Terraform over Bicep or ARM
 
@@ -20,7 +20,7 @@ This document captures the architectural decisions that shaped the platform. Eac
 
 **Decision:** Use Terraform for provider-agnostic infrastructure delivery and consistent workflow across Azure and AWS.
 
-**Evidence:** `docs/release2/evidence/P0/` through `P2b/`, `O3b/`, `O3c/` — Terraform plan/apply outputs, remote-backend evidence, and state-boundary documentation.
+**Evidence:** `docs/release2/evidence/P0/` through `P2b/`, `O3b/`, `O3c/` - Terraform plan/apply outputs, remote-backend evidence, and state-boundary documentation.
 
 ## 3. OIDC over Static Service Principal Secrets
 
@@ -30,7 +30,7 @@ This document captures the architectural decisions that shaped the platform. Eac
 
 **Decision:** Use GitHub Actions OIDC federation for Azure authentication.
 
-**Evidence:** `docs/release2/evidence/P0/` — OIDC trust configuration, bootstrap records, and pipeline/backend validation.
+**Evidence:** `docs/release2/evidence/P0/` - OIDC trust configuration, bootstrap records, and pipeline/backend validation.
 
 ## 4. Split-State Terraform Model
 

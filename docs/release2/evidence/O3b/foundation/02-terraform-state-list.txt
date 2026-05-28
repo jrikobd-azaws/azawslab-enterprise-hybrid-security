@@ -1,4 +1,4 @@
-﻿================================================================================
+================================================================================
 O3b AWS foundation evidence: 02-terraform-state-list.txt
 Generated: 2026-05-07 09:47:35 +01:00
 RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security

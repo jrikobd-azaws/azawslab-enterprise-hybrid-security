@@ -1,4 +1,4 @@
-﻿# Recovery Scenarios
+# Recovery Scenarios
 
 ## Purpose
 
@@ -64,7 +64,7 @@ It does **not** try to represent every enterprise recovery scenario. Instead, it
 5. duplicate or stale records are reviewed and cleaned up
 6. compliant state is restored
 
-This makes recovery a first-class proof of operational maturity rather than a vague "supportabilityâ€ claim.
+This makes recovery a first-class proof of operational maturity rather than a vague "supportability" claim.
 
 ---
 
@@ -171,7 +171,7 @@ The key engineering value here is that the platform could:
 - clean the lifecycle records
 - restore a healthy managed state
 
-That is a much stronger proof of operational maturity than a simple "BitLocker enabledâ€ claim.
+That is a much stronger proof of operational maturity than a simple "BitLocker enabled" claim.
 
 ---
 

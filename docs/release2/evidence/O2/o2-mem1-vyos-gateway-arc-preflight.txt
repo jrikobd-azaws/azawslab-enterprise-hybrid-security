@@ -1,4 +1,4 @@
-﻿**********************
+**********************
 Windows PowerShell transcript start
 Start time: 20260510132114
 Username: HQ\administrator

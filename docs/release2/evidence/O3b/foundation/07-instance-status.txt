@@ -1,4 +1,4 @@
-﻿================================================================================
+================================================================================
 O3b AWS foundation evidence: 07-instance-status.txt
 Generated: 2026-05-07 09:47:47 +01:00
 RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security

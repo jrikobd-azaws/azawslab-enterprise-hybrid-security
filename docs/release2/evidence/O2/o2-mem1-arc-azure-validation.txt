@@ -1,4 +1,4 @@
-﻿O2 Azure Arc MEM1 Azure-side validation
+O2 Azure Arc MEM1 Azure-side validation
 Generated UTC: 2026-05-10 22:04:39
 
 Expected result: MEM1 appears as an Azure Arc-enabled server with Connected status.

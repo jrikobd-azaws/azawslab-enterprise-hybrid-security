@@ -1,4 +1,4 @@
-﻿Release 2 - P2a Platform-Shared State Validation
+Release 2 - P2a Platform-Shared State Validation
 
 Active root:
 terraform/platform-shared/dev

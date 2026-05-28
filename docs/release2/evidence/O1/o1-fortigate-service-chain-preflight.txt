@@ -1,4 +1,4 @@
-﻿O1 FortiGate Service-Chain Preflight
+O1 FortiGate Service-Chain Preflight
 
 Purpose:
 Validate current FortiGate, Azure VPN Gateway, routing, and management state before introducing any Azure UDR or FortiGate inspection-policy change.

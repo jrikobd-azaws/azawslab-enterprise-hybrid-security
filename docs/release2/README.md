@@ -1,4 +1,4 @@
-# Release 2 â€” Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
+# Release 2 - Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
 
 > **Part of the [Azawslab Enterprise Hybrid Security Platform](../../README.md)**
 >

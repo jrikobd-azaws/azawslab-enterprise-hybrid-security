@@ -1,4 +1,4 @@
-﻿# 10. Roadmap Reference — Release 3
+# 10. Roadmap Reference - Release 3
 
 This folder contains earlier Release 3 planning and application-hosting reference documents.
 

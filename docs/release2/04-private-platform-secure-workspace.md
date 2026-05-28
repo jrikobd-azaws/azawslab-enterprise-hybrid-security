@@ -1,6 +1,6 @@
 # 04. Private Platform & Secure Workspace
 
-> **Part of** [Release 2 â€” Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
+> **Part of** [Release 2 - Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
 >
 > **Status:** Implemented and evidenced.
 
@@ -34,46 +34,46 @@ This capability story demonstrates two complementary solutions: **Private AKS (O
 ## Architecture
 
 ```text
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚                   Azure Hub VNet                             â”‚
-â”‚                                                             â”‚
-â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”   â”‚
-â”‚  â”‚ Azure Firewall   â”‚  â”‚ VPN Gateway  â”‚  â”‚ FortiGate NVA â”‚   â”‚
-â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜   â”‚
-â”‚           â”‚                                                  â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-            â”‚
-   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”
-   â–¼                 â–¼
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚ Spoke: AKS   â”‚  â”‚ Spoke: AVD       â”‚
-â”‚              â”‚  â”‚                  â”‚
-â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚  â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
-â”‚ â”‚ Private  â”‚ â”‚  â”‚ â”‚ Session Host â”‚ â”‚
-â”‚ â”‚ AKS      â”‚ â”‚  â”‚ â”‚ (no public   â”‚ â”‚
-â”‚ â”‚ Cluster  â”‚ â”‚  â”‚ â”‚  IP)         â”‚ â”‚
-â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚  â”‚ â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
-â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚  â”‚        â”‚         â”‚
-â”‚ â”‚ ACR      â”‚ â”‚  â”‚ â”Œâ”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â” â”‚
-â”‚ â”‚ (private â”‚ â”‚  â”‚ â”‚ Azure Files  â”‚ â”‚
-â”‚ â”‚  access) â”‚ â”‚  â”‚ â”‚ (private     â”‚ â”‚
-â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚  â”‚ â”‚  endpoint)   â”‚ â”‚
-â”‚              â”‚  â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
-â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚  â”‚                  â”‚
-â”‚ â”‚ Prom/    â”‚ â”‚  â”‚ â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”‚
-â”‚ â”‚ Grafana  â”‚ â”‚  â”‚ â”‚ FSLogix      â”‚ â”‚
-â”‚ â”‚ (managed)â”‚ â”‚  â”‚ â”‚ Profile      â”‚ â”‚
-â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚  â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+┌-------------------------------------------------------------┐
+|                   Azure Hub VNet                             |
+|                                                             |
+|  ┌------------------┐  ┌--------------┐  ┌--------------┐   |
+|  | Azure Firewall   |  | VPN Gateway  |  | FortiGate NVA |   |
+|  `--------┬---------┘  `--------------┘  `--------------┘   |
+|           |                                                  |
+`-----------┼--------------------------------------------------┘
+            |
+   ┌--------┴--------┐
+   ▼                 ▼
+┌--------------┐  ┌------------------┐
+| Spoke: AKS   |  | Spoke: AVD       |
+|              |  |                  |
+| ┌----------┐ |  | ┌--------------┐ |
+| | Private  | |  | | Session Host | |
+| | AKS      | |  | | (no public   | |
+| | Cluster  | |  | |  IP)         | |
+| `----------┘ |  | `------┬-------┘ |
+| ┌----------┐ |  |        |         |
+| | ACR      | |  | ┌------▼-------┐ |
+| | (private | |  | | Azure Files  | |
+| |  access) | |  | | (private     | |
+| `----------┘ |  | |  endpoint)   | |
+|              |  | `--------------┘ |
+| ┌----------┐ |  |                  |
+| | Prom/    | |  | ┌--------------┐ |
+| | Grafana  | |  | | FSLogix      | |
+| | (managed)| |  | | Profile      | |
+| `----------┘ |  | `--------------┘ |
+`--------------┘  `------------------┘
 
 Operator Access Path:
   Entra ID + Conditional Access
-        â”‚
-        â–¼
+        |
+        ▼
   O5 AVD Secure Workspace
-   â”œâ”€â”€ Terraform / Azure CLI / kubectl / Helm
-   â”œâ”€â”€ AWX access path
-   â””â”€â”€ O4 Private AKS operations path
+   |-- Terraform / Azure CLI / kubectl / Helm
+   |-- AWX access path
+   `-- O4 Private AKS operations path
 ```
 
 ![Release 2 private platform and secure workspace](../../diagrams/release2/private-platform-secure-workspace.png)
@@ -92,7 +92,7 @@ Managed **Prometheus and Grafana** provide cluster and workload observability, w
 
 ### 2. AVD + FSLogix as the Secure Administrative Workspace
 
-The O5 workspace is not a generic virtual desktop â€” it is the **governed operator console** for the entire Release 2 platform. It also functions as the exclusive trusted plane for executing `kubectl` and Helm commands against the private AKS API endpoint.
+The O5 workspace is not a generic virtual desktop - it is the **governed operator console** for the entire Release 2 platform. It also functions as the exclusive trusted plane for executing `kubectl` and Helm commands against the private AKS API endpoint.
 
 A personal host pool, workspace, and desktop application group are deployed within the AVD spoke VNet. The session host has **no public IP**; all inbound access is gated through Entra ID and Conditional Access, requiring compliant, managed devices.
 
@@ -138,7 +138,7 @@ The O5 deployment involved deliberate architectural decision-making around Azure
 - **Private AKS changes the security model completely.** With a private API access pattern, the attack surface shrinks dramatically, and every operational path must be deliberate.
 - **AVD as an administrative workspace is a forcing function for good access hygiene.** When all tools live inside a governed boundary, there is no temptation to run privileged commands from an unmanaged device.
 - **FSLogix solves the state problem for non-persistent desktops elegantly.** Profile persistence is a prerequisite for administrative workspaces; FSLogix delivers it without complicating the host lifecycle.
-- **Regional service constraints are a real architectural challenge.** AVD metadata regions, VM SKU availability, and provider registration all had to be checked, validated, and documented â€” just as they would in a production planning exercise.
+- **Regional service constraints are a real architectural challenge.** AVD metadata regions, VM SKU availability, and provider registration all had to be checked, validated, and documented - just as they would in a production planning exercise.
 
 ---
 

@@ -1,4 +1,4 @@
-﻿P5 platform networking validation
+P5 platform networking validation
 =================================
 
 Timestamp: 2026-05-04 23:37:19 +01:00

@@ -1,4 +1,4 @@
-# Build Checklist ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Release 2
+# Build Checklist - Release 2
 
 <!-- portfolio-source-truth:start -->
 
@@ -56,7 +56,7 @@ That role belongs to `implementation-tracker.md`.
 - [ ] Do not start infrastructure build work until docs are aligned
 - [ ] Do not create resources with ad hoc names
 - [ ] Do not skip validation just because deployment succeeded
-- [ ] Do not skip evidence capture until ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“laterÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â
+- [ ] Do not skip evidence capture until "later"
 - [ ] Do not leave expensive ephemeral resources running unnecessarily
 - [ ] Do not reintroduce RRAS terminology or config assumptions into Release 2
 - [ ] Treat Release 2 as CLI-first: capture text evidence first, screenshots second
@@ -185,8 +185,8 @@ Use this section every time before beginning a new phase.
 
 ### Phase Intent Check
 - [ ] I can explain what this phase is supposed to prove
-- [ ] I know what ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“doneÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â means for this phase
-- [ ] I am not starting the phase just because it ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“looks nextÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â without readiness
+- [ ] I know what "done" means for this phase
+- [ ] I am not starting the phase just because it "looks next" without readiness
 
 ---
 
@@ -235,7 +235,7 @@ Use this before running playbooks.
 - [ ] no secrets are exposed in plaintext files unnecessarily
 - [ ] expected host roles are understood
 - [ ] `ansible-lint` has been run
-- [ ] I know what ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“successful rerunÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â should look like for idempotency
+- [ ] I know what "successful rerun" should look like for idempotency
 
 ---
 
@@ -376,7 +376,7 @@ Use this while you are still working mainly through GitHub Desktop.
 - [ ] using inconsistent naming
 - [ ] forgetting tags
 - [ ] reintroducing stale RRAS wording
-- [ ] treating ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“deployment succeededÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â as ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“phase completedÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â
+- [ ] treating "deployment succeeded" as "phase completed"
 - [ ] making too many file changes at once without controlled commits
 
 ---
@@ -385,7 +385,7 @@ Use this while you are still working mainly through GitHub Desktop.
 
 Use this when you need a simple execution memory aid.
 
-### Stage A ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Control the Docs
+### Stage A - Control the Docs
 - [ ] align `README_PLAN.md`
 - [ ] align `implementation-tracker.md`
 - [ ] align `Phases-with-steps.md`
@@ -393,14 +393,14 @@ Use this when you need a simple execution memory aid.
 - [ ] align `README.md`
 - [ ] align `build_checklist.md`
 
-### Stage B ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Prepare the Build Environment
+### Stage B - Prepare the Build Environment
 - [ ] Azure readiness
 - [ ] repo readiness
 - [ ] VS Code / Codespaces readiness
 - [ ] GitHub environment readiness
 - [ ] on-prem / AWS optional readiness
 
-### Stage C ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Execute Core Phases
+### Stage C - Execute Core Phases
 - [ ] P0
 - [ ] P1
 - [ ] P2a
@@ -414,7 +414,7 @@ Use this when you need a simple execution memory aid.
 - [ ] P9b
 - [ ] P9c
 
-### Stage D ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Execute Optional Phases Only If Ready
+### Stage D - Execute Optional Phases Only If Ready
 - [x] P4
 - [ ] P6
 - [x] O1
@@ -444,7 +444,7 @@ Use this when you need a simple execution memory aid.
 - [x] evidence saved under `docs/release2/evidence/P4/`
 - [x] Lighthouse delegation intentionally retained for portfolio demonstration until later teardown decision
 
-### Stage E ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Final Review
+### Stage E - Final Review
 - [ ] evidence complete
 - [ ] costly resources reviewed
 - [ ] tracker honest and updated
@@ -476,7 +476,7 @@ Use this when you need a simple execution memory aid.
 
 ## 19. Personal Session Notes
 
-### TodayÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢s Target
+### Today's Target
 - [ ] ___________________________________________
 
 ### Blockers

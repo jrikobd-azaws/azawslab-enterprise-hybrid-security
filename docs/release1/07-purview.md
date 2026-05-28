@@ -1,4 +1,4 @@
-﻿# Purview
+# Purview
 
 ## Purpose
 
@@ -84,7 +84,7 @@ The key point is not merely that a DLP policy exists, but that:
 - a policy tip was triggered in Microsoft Word
 - the user experience showed that the control was active at the point of interaction
 
-That turns “policy configured” into “policy demonstrated.”
+That turns "policy configured" into "policy demonstrated."
 
 ---
 
@@ -170,10 +170,10 @@ The validation covers:
 Generic pattern matching is useful, but many confidential documents do not rely on fixed regex-style patterns alone. Document fingerprinting allows the platform to identify a recurring high-risk document form based on its structure and formatting.
 
 This moves information protection from:
-- “detecting a credit card number”
+- "detecting a credit card number"
 
 to:
-- “recognizing an entire confidential document class”
+- "recognizing an entire confidential document class"
 
 For Release 1, that is a meaningful extension of the Purview story because it shows capability beyond baseline labels and generic DLP pattern matching.
 
@@ -183,7 +183,7 @@ For Release 1, that is a meaningful extension of the Purview story because it sh
 - A custom SIT (`R1-Document-Fingerprint-HR-Form-Belfast`) was created using the fingerprint of the source document.
 - The fingerprint workflow was tested against both document variants, with successful match validation evidenced in the repository.
 - A DLP policy (`R1-DLP-Document-Fingerprint-Belfast`) was created using the fingerprint SIT as a detection rule.
-- A policy tip was validated in a pilot user’s OneDrive workflow when a matching document was uploaded or handled in a way that triggered policy evaluation.
+- A policy tip was validated in a pilot user's OneDrive workflow when a matching document was uploaded or handled in a way that triggered policy evaluation.
 
 **Flagship evidence**
 

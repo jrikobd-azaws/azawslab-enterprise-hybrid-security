@@ -1,4 +1,4 @@
-﻿# 00-summary
+# 00-summary
 
 ## 1. Release Overview
 

@@ -1,4 +1,4 @@
-﻿# P9a Azure Monitor Alerts Evidence
+# P9a Azure Monitor Alerts Evidence
 
 Date: 2026-05-05 19:18:45 +01:00
 

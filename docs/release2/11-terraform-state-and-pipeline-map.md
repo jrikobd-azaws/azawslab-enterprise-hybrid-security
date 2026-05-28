@@ -1,6 +1,6 @@
-# 11. Terraform State & Pipeline Map Ã¢â‚¬â€ Release 2
+# 11. Terraform State & Pipeline Map - Release 2
 
-> **Part of** [Release 2 Ã¢â‚¬â€ Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
+> **Part of** [Release 2 - Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
 >
 > **Status:** Implemented and evidenced.
 

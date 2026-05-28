@@ -1,4 +1,4 @@
-﻿# Endpoint Enrollment
+# Endpoint Enrollment
 
 ## Purpose
 
@@ -140,11 +140,11 @@ This means enrollment should be understood as the first visible stage of endpoin
 
 ## Advanced Validation Added After Baseline: Windows Autopilot and ESP
 
-After the original Release 1 baseline was completed, the endpoint story was extended with Windows Autopilot and Enrollment Status Page (ESP) validation to strengthen the project’s modern provisioning coverage.
+After the original Release 1 baseline was completed, the endpoint story was extended with Windows Autopilot and Enrollment Status Page (ESP) validation to strengthen the project's modern provisioning coverage.
 
 The original baseline already demonstrated endpoint management, enrollment, compliance, and security control paths. Autopilot and ESP were then added as advanced validation to show how the same platform could support cloud-led Windows onboarding and a more role-relevant Intune provisioning workflow.
 
-This later validation is important because it extends the project from “managed devices can be enrolled” into “managed Windows devices can also be provisioned through a modern deployment path.”
+This later validation is important because it extends the project from "managed devices can be enrolled" into "managed Windows devices can also be provisioned through a modern deployment path."
 
 ### Why this was added later
 
@@ -227,7 +227,7 @@ This part of the workflow includes:
 
 A particularly important proof point here is the device-import and profile-assignment stage, including group tag assignment. That evidence shows how the provisioning path was prepared before the user-facing stages began.
 
-This matters because it demonstrates that Autopilot was not documented as a vague “cloud provisioning exists” claim. It was prepared through real targeting and assignment steps that connect directly to the later OOBE and ESP experience.
+This matters because it demonstrates that Autopilot was not documented as a vague "cloud provisioning exists" claim. It was prepared through real targeting and assignment steps that connect directly to the later OOBE and ESP experience.
 
 ---
 
@@ -383,7 +383,7 @@ The strongest design choice here was to connect:
 - managed state after enrollment
 - operational follow-up after provisioning
 
-That is what turns the endpoint story from “devices were added” into “devices were onboarded into a governable and supportable estate.”
+That is what turns the endpoint story from "devices were added" into "devices were onboarded into a governable and supportable estate."
 
 Autopilot and ESP strengthen that story further because they show that the platform can support a more modern provisioning path while still surfacing realistic operational lessons such as post-enrollment rename handling and LAPS targeting remediation.
 

@@ -1,4 +1,4 @@
-﻿# O3b AWS Branch Foundation Narrative
+# O3b AWS Branch Foundation Narrative
 
 ## Objective
 

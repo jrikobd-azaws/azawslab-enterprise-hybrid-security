@@ -1,4 +1,4 @@
-﻿# P7 Recommendations Summary
+# P7 Recommendations Summary
 
 ## Baseline
 

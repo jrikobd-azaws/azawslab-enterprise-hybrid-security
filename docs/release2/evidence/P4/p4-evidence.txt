@@ -1,4 +1,4 @@
-﻿P4 readiness checkpoint
+P4 readiness checkpoint
 =======================
 
 Status:

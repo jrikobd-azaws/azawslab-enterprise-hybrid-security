@@ -1,4 +1,4 @@
-﻿================================================================================
+================================================================================
 P9b teardown evidence: 02-vault-status-before-cleanup.txt
 Generated: 2026-05-06 17:28:13 +01:00
 RepoRoot: C:\GitHub\azawslab-enterprise-hybrid-security

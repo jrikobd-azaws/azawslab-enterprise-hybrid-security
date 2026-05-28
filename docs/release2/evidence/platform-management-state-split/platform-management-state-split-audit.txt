@@ -1,4 +1,4 @@
-﻿Platform management state split audit
+Platform management state split audit
 =====================================
 
 Timestamp: 2026-05-04 23:51:21 +01:00

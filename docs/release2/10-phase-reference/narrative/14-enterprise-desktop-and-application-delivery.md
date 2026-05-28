@@ -1,4 +1,4 @@
-﻿# 14-enterprise-desktop-and-application-delivery
+# 14-enterprise-desktop-and-application-delivery
 
 ## 1. Objective
 

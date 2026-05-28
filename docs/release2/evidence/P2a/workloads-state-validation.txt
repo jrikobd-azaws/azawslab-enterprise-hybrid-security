@@ -1,4 +1,4 @@
-﻿Release 2 - P2a Workloads State Validation
+Release 2 - P2a Workloads State Validation
 
 Active root:
 terraform/workloads/dev

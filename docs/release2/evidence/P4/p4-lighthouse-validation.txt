@@ -1,4 +1,4 @@
-﻿P4 Azure Lighthouse validation
+P4 Azure Lighthouse validation
 ==============================
 
 Timestamp:

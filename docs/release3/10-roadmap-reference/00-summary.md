@@ -1,6 +1,6 @@
 # 00. Release 3 Roadmap
 
-> **Part of** [Release 3 Ã¢â‚¬â€ Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
+> **Part of** [Release 3 - Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
 >
 > **Status:** Roadmap / platform evolution
 

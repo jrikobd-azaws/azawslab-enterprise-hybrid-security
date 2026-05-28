@@ -1,4 +1,4 @@
-# Implementation Tracker ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Release 2 (Azure Platform Engineering & Security)
+# Implementation Tracker â€" Release 2 (Azure Platform Engineering & Security)
 
 <!-- portfolio-source-truth:start -->
 
@@ -38,11 +38,11 @@ Use it to:
 
 This file does **not** replace the master plan.
 It should be used together with:
-- `README_PLAN.md` ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ authoritative phase design and detailed implementation logic
-- `Phases-with-steps.md` ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ step execution support
-- `naming-conventions.md` ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ naming and tagging standards
-- `architechture.md` ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ architecture decisions and rationale
-- `build_checklist.md` ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ execution checklist once finalised
+- `README_PLAN.md` â€" authoritative phase design and detailed implementation logic
+- `Phases-with-steps.md` â€" step execution support
+- `naming-conventions.md` â€" naming and tagging standards
+- `architechture.md` â€" architecture decisions and rationale
+- `build_checklist.md` â€" execution checklist once finalised
 
 ---
 
@@ -54,7 +54,7 @@ It should be used together with:
 | [~]    | In progress                                                                |
 | [x]    | Completed and validated                                                    |
 | [!]    | Blocked                                                                    |
-| [E]    | Ephemeral ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ destroy after validation |
+| [E]    | Ephemeral â€" destroy after validation |
 | [O]    | Optional phase                                                             |
 
 ---
@@ -215,7 +215,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-## 6. Core Phase Tracker (P0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œP9c, O1ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œO5)
+## 6. Core Phase Tracker (P0â€"P9c, O1â€"O5)
 
 | Phase | Name                                                | Depends On                                   | Est. Time | Status | Evidence Path                 | Validation Gate                                                                                                                                                 | Teardown / Cost Action                                                      |
 | ----- | --------------------------------------------------- | -------------------------------------------- | --------- | ------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
@@ -232,7 +232,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 | P8    | Microsoft Sentinel                                  | P7                                           | 45m       | [ ]    | `docs/release2/evidence/P8/`  | incident generation path validated                                                                                                                              | Persistent                                                                  |
 | P9a   | Azure Monitor Alerts                                | P7                                           | 30m       | [ ]    | `docs/release2/evidence/P9a/` | alert rule fires and action group works                                                                                                                         | Persistent                                                                  |
 | P9b   | Backup / Recovery Services Vault                    | P5                                           | 45m       | [ ]    | `docs/release2/evidence/P9b/` | backup policy and protected item verified                                                                                                                       | Persistent                                                                  |
-| P9c   | Final Validation & Portfolio Evidence Pack          | P0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œP9b | 1h        | [ ]    | `docs/release2/evidence/P9c/` | all mandatory evidence complete                                                                                                                                 | Persistent                                                                  |
+| P9c   | Final Validation & Portfolio Evidence Pack          | P0â€"P9b | 1h        | [ ]    | `docs/release2/evidence/P9c/` | all mandatory evidence complete                                                                                                                                 | Persistent                                                                  |
 | O1    | FortiGate Azure-to-HQ Service-Chaining / Inspection | P5, O3a                                      | 1h        | [x]    | `docs/release2/evidence/O1/`  | Azure workload to HQ traffic validated through FortiGate policy 1 with SNAT lab delta                                                                           | Retain only while dependent hybrid validation needs FortiGate/VPN resources |
 | O2    | Azure Arc                                           | P5                                           | 45m       | [ ]    | `docs/release2/evidence/O2/`  | Arc machine shows connected                                                                                                                                     | Persistent / optional                                                       |
 | O3a   | Azure VPN Gateway to VyOS Hybrid Connectivity       | P5                                           | 1.5h      | [x]    | `docs/release2/evidence/O3a/` | VPN connected; AES256/SHA256/DHGroup14/PFS14 validated; workload reaches VyOS LAN gateway                                                                       | Retain only while O1/O3 service-chaining validation depends on it           |
@@ -245,7 +245,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ## 7. Detailed Phase Control Notes
 
-### P0 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Foundation & OIDC Backend
+### P0 â€" Foundation & OIDC Backend
 **Objective:** Establish secretless automation and remote Terraform backend.
 
 **Checklist**
@@ -269,7 +269,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P1 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Landing Zone & Management Groups
+### P1 â€" Landing Zone & Management Groups
 **Objective:** Build the governance scaffold.
 
 **Checklist**
@@ -290,7 +290,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P2a ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Terraform Reusable Modules
+### P2a â€" Terraform Reusable Modules
 **Objective:** Build reusable IaC modules with dynamic secrets and private-only compute.
 
 **Checklist**
@@ -315,7 +315,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P2b ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Ansible Configuration Management
+### P2b â€" Ansible Configuration Management
 **Objective:** Apply post-deployment configuration and prove idempotent automation.
 
 **Checklist**
@@ -348,7 +348,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - The management host should be kept minimal and deallocated or destroyed after P2b validation unless needed by the next dependent phase
 ---
 
-### P2c ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ CI/CD Pipeline
+### P2c â€" CI/CD Pipeline
 **Objective:** Enforce PR-based automation using OIDC and GitHub Actions.
 
 **Checklist**
@@ -372,7 +372,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P3 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Enterprise Governance & Guardrails
+### P3 â€" Enterprise Governance & Guardrails
 **Objective:** Enforce data sovereignty, tagging, and cost controls.
 
 **Checklist**
@@ -396,7 +396,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P4 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Azure Lighthouse
+### P4 â€" Azure Lighthouse
 **Objective:** Demonstrate delegated cross-tenant administration.
 
 **Checklist**
@@ -414,7 +414,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P5 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Hub-Spoke Networking
+### P5 â€" Hub-Spoke Networking
 **Objective:** Establish core connectivity for all later platform/security phases.
 
 **Checklist**
@@ -436,7 +436,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P6 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Azure Firewall [E]
+### P6 â€" Azure Firewall [E]
 **Objective:** Validate controlled egress and inspection via Azure Firewall.
 
 **P6 deployment note:** Azure Firewall was deployed through GitHub Actions controlled Terraform Apply after correcting the Firewall SKU from Basic to Standard. Basic failed because it requires a management IP configuration and `AzureFirewallManagementSubnet`; the current P5 hub design uses `AzureFirewallSubnet` only. The active firewall is intentionally ephemeral and must be disabled after validation evidence is complete.
@@ -464,7 +464,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P7 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Defender for Cloud
+### P7 â€" Defender for Cloud
 **Objective:** Validate Microsoft Defender for Cloud / CSPM visibility and implement a low-cost security posture improvement.
 
 **Checklist**
@@ -497,7 +497,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P8 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Microsoft Sentinel
+### P8 â€" Microsoft Sentinel
 **Objective:** Establish SIEM ingestion and incident visibility.
 
 **Checklist**
@@ -519,7 +519,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P9a ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Azure Monitor Alerts
+### P9a â€" Azure Monitor Alerts
 **Objective:** Validate platform alerting and action groups.
 
 **Checklist**
@@ -540,7 +540,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P9b ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Backup / Recovery Services Vault
+### P9b â€" Backup / Recovery Services Vault
 **Objective:** Validate backup controls and recovery governance.
 
 **Checklist**
@@ -562,7 +562,7 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ---
 
-### P9c ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Final Validation & Portfolio Evidence Pack
+### P9c â€" Final Validation & Portfolio Evidence Pack
 **Objective:** Close the loop on implementation quality and portfolio readiness.
 
 **Checklist**
@@ -587,19 +587,19 @@ Do **not** start P0 until sections 4 and 5 are complete.
 
 ## 8. Optional Advanced Phases
 
-### O1 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ FortiGate NVA Dual-Firewall Pattern [E][O]
+### O1 â€" FortiGate NVA Dual-Firewall Pattern [E][O]
 - [x] FortiGate deployed
 - [ ] East-West / hybrid UDRs configured
 - [ ] traffic separation from Azure Firewall validated
 - [ ] validation evidence captured
 - [ ] teardown completed after validation
 
-### O2 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Azure Arc [O]
+### O2 â€" Azure Arc [O]
 - [ ] Arc agent deployed to target machine
 - [ ] machine appears in Azure
 - [ ] tags/policy/management visibility confirmed
 
-### O3a ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Azure VPN Gateway to VyOS Hybrid Connectivity [E][O]
+### O3a â€" Azure VPN Gateway to VyOS Hybrid Connectivity [E][O]
 - [x] VyOS prepared locally
 - [ ] IPSec tunnel established
 - [ ] BGP peering established
@@ -607,26 +607,26 @@ Do **not** start P0 until sections 4 and 5 are complete.
 - [ ] validation evidence captured
 - [ ] cloud-side ephemeral assets destroyed when no longer required
 
-### O3b ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ AWS Cisco Branch with Segmented BGP [E][O]
+### O3b â€" AWS Cisco Branch with Segmented BGP [E][O]
 - [ ] AWS branch VPC created
 - [ ] Cisco NVA deployed
 - [ ] IPSec/BGP to Azure path established
 - [ ] branch segmentation validated
 - [ ] teardown completed after validation
 
-### O3c ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Global Transit / Transitive Routing Validation [E][O]
+### O3c â€" Global Transit / Transitive Routing Validation [E][O]
 - [ ] end-to-end route propagation verified
 - [ ] path tests completed
 - [ ] packet path notes saved
 - [ ] transit lab resources torn down after validation
 
-### O4 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Entra Global Secure Access [O]
+### O4 â€" Entra Global Secure Access [O]
 - [ ] remote network configured
 - [ ] connector/dependency setup completed
 - [ ] private access policy validated
 - [ ] legacy VPN replacement narrative documented
 
-### O5 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Azure Virtual Desktop + FSLogix [E][O]
+### O5 â€" Azure Virtual Desktop + FSLogix [E][O]
 - [ ] host pool created
 - [ ] workspace created
 - [ ] app group configured
@@ -968,7 +968,7 @@ The previous direct FortiGate-to-VyOS IPSec objective is retained only as design
 
 
 
-### O1 Closeout ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ FortiGate Azure-to-HQ Service Chaining
+### O1 Closeout â€" FortiGate Azure-to-HQ Service Chaining
 
 O1 is validated for the Azure workload to HQ direction.
 
@@ -1241,7 +1241,7 @@ Non-claim:
 
 ## A1/A2 Automation Control Plane Tracker
 
-### A1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Ansible Network/Security Automation Baseline [x]
+### A1 - Ansible Network/Security Automation Baseline [x]
 
 Status: Completed and validated.
 

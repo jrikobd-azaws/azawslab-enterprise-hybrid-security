@@ -1,4 +1,4 @@
-﻿O3b AWS SSM Parameter Foundation Validation
+O3b AWS SSM Parameter Foundation Validation
 Generated UTC: 2026-05-11 00:34:30
 
 Scope: validate Terraform-managed non-secret O3b SSM parameters.

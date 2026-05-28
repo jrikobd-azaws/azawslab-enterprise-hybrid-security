@@ -38,7 +38,7 @@ The following capabilities were originally described as future enhancements but 
 | **Purview document fingerprinting** (custom SIT from HR form, DLP linkage, policy tip) | [Purview](07-purview.md) | ✅ Completed (advanced validation) |
 | **Graph/PowerShell operational scripts** (user state, device state, rename, helpdesk tooling) | [Monitoring](08-monitoring.md) | ✅ Completed (advanced validation) |
 
-These capabilities are no longer future items. They are integrated into the existing Release 1 documentation with clear “Advanced Validation Added After Baseline” markers.
+These capabilities are no longer future items. They are integrated into the existing Release 1 documentation with clear "Advanced Validation Added After Baseline" markers.
 
 ---
 

@@ -1,4 +1,4 @@
-﻿# Endpoint Compliance and Security
+# Endpoint Compliance and Security
 
 ## Purpose
 
@@ -80,7 +80,7 @@ That meant moving beyond simple device presence into:
 
 Compliance policy is one of the clearest expressions of trusted-device evaluation in this phase.
 
-It matters because it turns endpoint management from “device registered” into “device assessed.”
+It matters because it turns endpoint management from "device registered" into "device assessed."
 
 The compliance layer was used to:
 
@@ -119,7 +119,7 @@ This is important because it demonstrates that endpoint protection was treated a
 
 BitLocker controls here focus on policy configuration, encryption posture, and recovery-key visibility.
 
-The full operational recovery workflow—trust break, key retrieval, rebuild, stale-record cleanup, and restored compliance—is documented in [Recovery Scenarios](06-recovery-scenarios.md).
+The full operational recovery workflow-trust break, key retrieval, rebuild, stale-record cleanup, and restored compliance-is documented in [Recovery Scenarios](06-recovery-scenarios.md).
 
 This page should therefore be read as the control and readiness side of the BitLocker story, while the recovery page carries the deeper operational failure-and-restoration path.
 
@@ -252,7 +252,7 @@ The following capabilities were implemented after the core Release 1 baseline wa
 
 **What was validated**
 
-The baseline Windows LAPS policy configuration was already in place, but the retrieval workflow was not yet fully evidenced. This advanced validation closes that gap by showing that a managed Windows device’s local administrator password can be retrieved from the cloud management layer through both the Entra admin center and the Intune admin center.
+The baseline Windows LAPS policy configuration was already in place, but the retrieval workflow was not yet fully evidenced. This advanced validation closes that gap by showing that a managed Windows device's local administrator password can be retrieved from the cloud management layer through both the Entra admin center and the Intune admin center.
 
 **Why this matters**
 
@@ -263,7 +263,7 @@ Local administrator password recovery is an important Windows security and suppo
 - The LAPS policy remained scoped to the corporate Windows pilot device set.
 - After policy application, the device `win11-bel-01` showed successful policy status in Intune.
 - In the Entra admin center, the device record exposed the local administrator password recovery view for the built-in `beladm01` account.
-- The same recovery information was also visible through the Intune admin center’s local admin password view.
+- The same recovery information was also visible through the Intune admin center's local admin password view.
 
 **Flagship evidence**
 
@@ -292,7 +292,7 @@ This validation covers:
 
 **Why this matters**
 
-This is a realistic operational lesson rather than a project weakness. Modern provisioning workflows such as Autopilot and device-scoped security controls such as LAPS do not always align perfectly on the first pass. Identifying the gap, correcting it, and validating the outcome makes the platform more credible than a simplified “everything worked immediately” narrative.
+This is a realistic operational lesson rather than a project weakness. Modern provisioning workflows such as Autopilot and device-scoped security controls such as LAPS do not always align perfectly on the first pass. Identifying the gap, correcting it, and validating the outcome makes the platform more credible than a simplified "everything worked immediately" narrative.
 
 **Implementation and evidence**
 
@@ -331,7 +331,7 @@ That is especially clear in two areas:
 
 The later Autopilot-related LAPS remediation strengthens this further because it shows that endpoint controls were not documented as flawless first-pass configuration. They were implemented, tested, corrected where necessary, and then validated in a way that reflects real support conditions.
 
-That makes the endpoint security story more operationally credible than a simple “baseline configured” claim.
+That makes the endpoint security story more operationally credible than a simple "baseline configured" claim.
 
 ---
 

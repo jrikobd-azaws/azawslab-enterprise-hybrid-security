@@ -1,6 +1,6 @@
 # 03. DevSecOps Controls Direction
 
-> **Part of** [Release 3 â€” Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
+> **Part of** [Release 3 - Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
 >
 > **Status:** Roadmap / platform evolution
 

@@ -1,4 +1,4 @@
-﻿# O4 Private AKS Closure
+# O4 Private AKS Closure
 
 ## Closure Status
 

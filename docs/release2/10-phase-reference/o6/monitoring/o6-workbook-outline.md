@@ -1,4 +1,4 @@
-﻿# O6 Monitoring Workbook Outline
+# O6 Monitoring Workbook Outline
 
 Status: prepared only. No live Azure Monitor workbook is currently deployed.
 

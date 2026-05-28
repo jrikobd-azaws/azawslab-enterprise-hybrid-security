@@ -47,7 +47,7 @@ This progression is intentional:
 
 ---
 
-## Release 1 — Hybrid Modern Workplace, Identity & Endpoint Security (Implemented and Evidenced)
+## Release 1 - Hybrid Modern Workplace, Identity & Endpoint Security (Implemented and Evidenced)
 
 ### Objective
 
@@ -95,7 +95,7 @@ Without Release 1:
 - endpoint and collaboration claims would remain disconnected from identity and monitoring
 - the repository would read like isolated technology exercises rather than a coherent platform
 
-### Intended outcome — achieved
+### Intended outcome - achieved
 
 Release 1 leaves the platform in a state where:
 - hybrid identity is established and automation-ready
@@ -112,7 +112,7 @@ Release 1 is **complete and fully evidenced**, with clear distinctions between b
 
 ---
 
-## Release 2 — Azure Secure Platform Expansion (Planned)
+## Release 2 - Azure Secure Platform Expansion (Planned)
 
 ### Objective
 
@@ -154,7 +154,7 @@ It is part of the platform design, but it should not be represented as completed
 
 ---
 
-## Release 3 — Secure Workload Modernization (Planned)
+## Release 3 - Secure Workload Modernization (Planned)
 
 ### Objective
 
@@ -304,9 +304,9 @@ For planned expansion paths:
 
 ## Related Diagrams
 
-- [Three-Release Roadmap](../../diagrams/04-phased-roadmap-release1-release2-release3.png) — shows the staged progression across the platform
-- [Release 1 End-State Architecture](../../diagrams/01-release1-end-state-architecture.png) — shows the implemented first release that anchors later expansion
-- [Release 1 Implementation Flow and Proof Map](../../diagrams/05-release1-implementation-flow-and-proof-map.png) — shows how the first release is organized and evidenced
+- [Three-Release Roadmap](../../diagrams/04-phased-roadmap-release1-release2-release3.png) - shows the staged progression across the platform
+- [Release 1 End-State Architecture](../../diagrams/01-release1-end-state-architecture.png) - shows the implemented first release that anchors later expansion
+- [Release 1 Implementation Flow and Proof Map](../../diagrams/05-release1-implementation-flow-and-proof-map.png) - shows how the first release is organized and evidenced
 
 ---
 
@@ -314,9 +314,9 @@ For planned expansion paths:
 
 The roadmap should be read as a structured platform progression:
 
-- **Release 1** — **completed** — hybrid trust, Microsoft 365 collaboration and email security, endpoint control including Autopilot, LAPS, and app deployment, information protection including document fingerprinting, Graph-powered automation, recovery, and operational visibility
-- **Release 2** — **planned** — extends into Azure governance and cloud security maturity
-- **Release 3** — **planned** — extends the governed platform into secure workload modernization
+- **Release 1** - **completed** - hybrid trust, Microsoft 365 collaboration and email security, endpoint control including Autopilot, LAPS, and app deployment, information protection including document fingerprinting, Graph-powered automation, recovery, and operational visibility
+- **Release 2** - **planned** - extends into Azure governance and cloud security maturity
+- **Release 3** - **planned** - extends the governed platform into secure workload modernization
 
 This order is intentional. It ensures the project grows from:
 - a credible hybrid foundation with modern capabilities

@@ -1,4 +1,4 @@
-﻿Platform management state split plan
+Platform management state split plan
 ====================================
 
 Timestamp: 2026-05-04 23:57:51 +01:00
