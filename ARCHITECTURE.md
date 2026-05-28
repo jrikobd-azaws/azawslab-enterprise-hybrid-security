@@ -1,11 +1,11 @@
-# Platform Architecture Overview Ã¢â‚¬â€ Azawslab Enterprise Hybrid Security Platform
+# Platform Architecture Overview ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Azawslab Enterprise Hybrid Security Platform
 
 ## 1. Platform Evolution Summary
 
 The Azawslab platform is a staged architectural evolution across three releases. Each release builds on the proven security, governance, and automation layers of the previous one.
 
 ```
-Identity Ã¢â€ â€™ Platform Engineering Ã¢â€ â€™ Multi-Cloud K8s/GitOps
+Identity ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ Platform Engineering ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ Multi-Cloud K8s/GitOps
  (Release 1)    (Release 2)          (Release 3)
 ```
 
@@ -19,7 +19,7 @@ The starting state was a typical small-enterprise hybrid Microsoft environment: 
 
 ---
 
-## 3. Release 1 Architecture Ã¢â‚¬â€ Hybrid Modern Workplace, Identity & Endpoint Security
+## 3. Release 1 Architecture ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Hybrid Modern Workplace, Identity & Endpoint Security
 
 Release 1 establishes the human and device security boundary.
 
@@ -27,16 +27,16 @@ Release 1 establishes the human and device security boundary.
 
 ```text
 Active Directory (On-Premises)
-        Ã¢â€â€š
-        Ã¢â€“Â¼
+        ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+        ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼
   Entra Connect Sync
-        Ã¢â€â€š
-        Ã¢â€“Â¼
+        ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+        ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼
  Microsoft Entra ID
-   Ã¢â€â€š
-   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Conditional Access / MFA / SSPR
-   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Intune device compliance
-   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Microsoft 365 / Exchange / SharePoint / Teams
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Conditional Access / MFA / SSPR
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Intune device compliance
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Microsoft 365 / Exchange / SharePoint / Teams
 ```
 
 Entra Connect Sync provides the bridge. Entra ID consumes the identity and enriches it with Conditional Access, MFA, and self-service password reset. Intune evaluates device compliance; Entra Conditional Access uses that state to make access decisions. Microsoft 365 services are governed by the same identity and compliance signals.
@@ -49,11 +49,11 @@ Entra Connect Sync provides the bridge. Entra ID consumes the identity and enric
 
 All components are evidenced through screenshots in `screenshots/release1/`.
 
-*Diagram placeholder Ã¢â‚¬â€ Detailed Release 1 architecture with Entra Connect Sync flow, Conditional Access rules, and endpoint protection layers.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
 ---
 
-## 4. Release 2 Architecture Ã¢â‚¬â€ Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
+## 4. Release 2 Architecture ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
 
 Release 2 is the architectural core: governed landing zone, multi-cloud networking, automation, private workloads, secure admin workspace, and an AI Operations Enclave.
 
@@ -68,23 +68,23 @@ Release 2 is the architectural core: governed landing zone, multi-cloud networki
 
 ```text
 Azure Hub VNet
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Azure Firewall
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ controlled egress / platform inspection
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ FortiGate NVA
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ hybrid and multi-cloud inspection
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ VPN Gateway
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ IPSec/BGP to branch and AWS
-Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Spoke VNets
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Private AKS (O4)
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ AVD / FSLogix (O5)
-    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Private endpoints
+ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Azure Firewall
+ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ controlled egress / platform inspection
+ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ FortiGate NVA
+ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ hybrid and multi-cloud inspection
+ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ VPN Gateway
+ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ IPSec/BGP to branch and AWS
+ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Spoke VNets
+    ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Private AKS (O4)
+    ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ AVD / FSLogix (O5)
+    ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Private endpoints
 ```
 
 - Azure Firewall handles east-west and egress inspection.
 - FortiGate NVAs provide advanced threat protection and hybrid traffic control.
 - BGP (via VyOS and Cisco CSR) dynamically routes between Azure, AWS, and the branch namespace `br1.azawslab.co.uk`.
 
-*Diagram placeholder Ã¢â‚¬â€ Release 2 multi-cloud networking with hub, spokes, and inspection devices.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
 ### 4.3 Automation & SecOps
 
@@ -94,9 +94,9 @@ Azure Hub VNet
 - Ansible playbooks perform network validation, backups, compliance checks.
 - Monitoring via Azure Monitor, Log Analytics, and custom dashboards.
 
-*Diagram placeholder Ã¢â‚¬â€ Automation architecture: CI/CD pipeline, AWX control plane, secret stores, managed nodes.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
-### 4.4 O4 Private AKS Ã¢â‚¬â€ Private Platform Runtime
+### 4.4 O4 Private AKS ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Private Platform Runtime
 
 O4 delivers the private container platform for Release 2 workloads. The AKS cluster is deployed with no public API server, ensuring all control-plane operations happen over private endpoints.
 
@@ -104,14 +104,14 @@ O4 delivers the private container platform for Release 2 workloads. The AKS clus
 
 - Private AKS cluster with private API access pattern.
 - Azure Container Registry (ACR) for workload images, accessed over private endpoints.
-- Egress traffic from AKS pods flows through Azure Firewall for inspection Ã¢â‚¬â€ validated via firewall egress tests and pod-level egress checks.
+- Egress traffic from AKS pods flows through Azure Firewall for inspection ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â validated via firewall egress tests and pod-level egress checks.
 - Internal applications served from the cluster are accessed through private network paths; browser validation confirms end-to-end reachability.
 - Managed Prometheus and Grafana provide monitoring and dashboarding, with dedicated dashboards for private-AKS health.
 - AWX control plane readiness and tier-execution evidence confirm the automation platform can manage AKS workloads.
 
-*Diagram placeholder Ã¢â‚¬â€ O4 Private AKS: private API access, egress through Azure Firewall, managed monitoring, AWX integration.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
-### 4.5 O5 Secure Workspace Ã¢â‚¬â€ Azure Virtual Desktop + FSLogix
+### 4.5 O5 Secure Workspace ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Azure Virtual Desktop + FSLogix
 
 O5 is the secure admin/developer workspace for Release 2 platform operations. It is not a generic virtual desktop; it is the governed access layer for AWX, AKS, Terraform, and cloud management.
 
@@ -122,7 +122,7 @@ O5 is the secure admin/developer workspace for Release 2 platform operations. It
 - FSLogix profile container stores user state on Azure Files, providing profile persistence across sessions.
 - Azure Files is accessed over a **private endpoint**, with private DNS integration ensuring the FSLogix path resolves inside the VNet.
 - Controlled route table routes outbound traffic from the AVD host through Azure Firewall.
-- Admin/dev toolchain includes PowerShell 7, Azure CLI, AWS CLI, Terraform, Git, VS Code, kubectl, and Helm Ã¢â‚¬â€ all operations executed from this controlled environment.
+- Admin/dev toolchain includes PowerShell 7, Azure CLI, AWS CLI, Terraform, Git, VS Code, kubectl, and Helm ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â all operations executed from this controlled environment.
 
 **Region decision (evidence-backed):**
 
@@ -132,25 +132,25 @@ The O5 governance validation confirms **Norway East** as the primary O5 region, 
 
 ```text
 Engineer
-   Ã¢â€â€š
-   Ã¢â€“Â¼
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼
 Entra ID / Conditional Access (device compliance required)
-   Ã¢â€â€š
-   Ã¢â€“Â¼
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼
 O5 AVD secure admin/dev workspace
-   Ã¢â€â€š
-   +Ã¢â€â‚¬Ã¢â€â‚¬ PowerShell 7, Azure CLI, AWS CLI, Terraform, Git, VS Code, kubectl, Helm
-   Ã¢â€â€š
-   Ã¢â€“Â¼
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+   +ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ PowerShell 7, Azure CLI, AWS CLI, Terraform, Git, VS Code, kubectl, Helm
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼
 AWX automation control plane
-   Ã¢â€â€š
-   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Private AKS (O4)
-   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Azure / AWS operational tooling
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Private AKS (O4)
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Azure / AWS operational tooling
 ```
 
 O5 reduces unmanaged workstation dependency by containing privileged tools and access tokens within a governed, private workspace. The FSLogix profile persists user state independently, so the session host can be re-imaged without losing tool configurations or command history.
 
-*Diagram placeholder Ã¢â‚¬â€ O5 secure workspace architecture: AVD host pool, private FSLogix path, toolchain, and access flow to AWX/AKS.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
 ### 4.6 O6 AI Operations Enclave
 
@@ -161,11 +161,11 @@ The O6 enclave introduces a governed AI-assisted CloudOps pattern across two rep
 
 **Architectural boundary:** AI agents analyse, recommend, and draft runbooks, but execution is gated behind human approval and the Terraform/AWX CI/CD pipelines. No autonomous mutation.
 
-*Diagram placeholder Ã¢â‚¬â€ O6 AI Operations Enclave: multi-agent pipeline with human approval gate and evidence capture.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
 ---
 
-## 5. Release 3 Target Direction Ã¢â‚¬â€ Multi-Cloud Kubernetes, GitOps & DevSecOps
+## 5. Release 3 Target Direction ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Multi-Cloud Kubernetes, GitOps & DevSecOps
 
 Release 3 extends the platform into workload delivery governance: source control, CI/CD quality gates, unit testing, SAST, DAST, image scanning, signed image promotion, GitOps reconciliation, policy-as-code admission control, protected ingress, service-to-service encryption, observability, and resilience validation.
 
@@ -177,23 +177,23 @@ Release 3 extends the platform into workload delivery governance: source control
 
 ```text
 Git Repos (Apps, Infra, Policies)
-        Ã¢â€â€š
-        Ã¢â€“Â¼
+        ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+        ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼
      Argo CD
-        Ã¢â€â€š
-   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
-   Ã¢â€“Â¼         Ã¢â€“Â¼
+        ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â´ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â
+   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼         ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼
  AKS       EKS
  (Istio,   (Istio,
   OPA,      OPA,
   Trivy)    Trivy)
-        Ã¢â€â€š
-        Ã¢â€“Â¼
+        ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡
+        ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼
  Observability Stack
  (Prometheus, Grafana, Loki)
 ```
 
-*Diagram placeholder Ã¢â‚¬â€ Release 3 target multi-cloud Kubernetes and DevSecOps architecture.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
 ---
 
@@ -207,7 +207,7 @@ Git Repos (Apps, Infra, Policies)
 - **Namespace Boundary:** `br1.azawslab.co.uk` isolates branch identity and routing from the core domain.
 - **Evidence Boundary:** Implementation proof is separated from narrative documentation. Screenshots, CLI outputs, pipeline logs, policy records, and validation artifacts are stored in evidence folders so architectural claims can be reviewed independently.
 
-*Diagram placeholder Ã¢â‚¬â€ Trust boundary map overlay on Release 2 architecture.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
 ---
 
@@ -228,7 +228,7 @@ Git Repos (Apps, Infra, Policies)
 4. Outbound return traffic follows reverse path.
 5. BGP dynamically updates routes across Azure, AWS, and `br1.azawslab.co.uk`.
 
-*Diagram placeholder Ã¢â‚¬â€ End-to-end network and identity flow sequence diagram.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
 ---
 
@@ -236,18 +236,18 @@ Git Repos (Apps, Infra, Policies)
 
 1. **Infrastructure Change:** Engineer pushes Terraform change; GitHub Actions runs plan via OIDC. After review and approval, the controlled apply stage executes.
 2. **Configuration Drift:** AWX periodically runs Ansible playbooks; secrets fetched from Key Vault/SSM at runtime.
-3. **AI-Assisted Operations:** O6 pipeline invoked via `local-ai-lab-infra`. AI drafts runbook or IaC suggestion; human reviews, then commits and deploys through standard CI/CD Ã¢â‚¬â€ never auto-applied.
+3. **AI-Assisted Operations:** O6 pipeline invoked via `local-ai-lab-infra`. AI drafts runbook or IaC suggestion; human reviews, then commits and deploys through standard CI/CD ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â never auto-applied.
 4. **Monitoring & Alerting:** Azure Monitor/Log Analytics collect signals; alerts trigger automated responses or engineer notification.
 
-*Diagram placeholder Ã¢â‚¬â€ Operations flow from Git commit through AWX execution and AI-assisted review.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
 ---
 
 ## 9. Evidence and Diagram Index
 
-- **Release 1:** `screenshots/release1/` Ã¢â‚¬â€ identity sync, Intune policies, Autopilot, Purview, DLP, recovery scenarios.
+- **Release 1:** `screenshots/release1/` ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â identity sync, Intune policies, Autopilot, Purview, DLP, recovery scenarios.
 - **Release 2:**
-  - `docs/release2/evidence/` Ã¢â‚¬â€ Terraform plan/apply logs, AWX job outputs, network validation.
+  - `docs/release2/evidence/` ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Terraform plan/apply logs, AWX job outputs, network validation.
   - **O4 Private AKS Evidence:** `docs/release2/evidence/O4/`
     - AKS running-state evidence
     - Azure Firewall egress validation
@@ -260,10 +260,10 @@ Git Repos (Apps, Infra, Policies)
     - governance paired-region validation (Norway East primary, Norway West paired)
     - preflight: provider registration, SKU/quota readiness, network overlap check, AVD endpoint dependency, FSLogix private endpoint prerequisites
     - `proof link to be inserted`
-  - **O6 AI Operations Enclave:** `docs/release2/evidence/O6/` Ã¢â‚¬â€ MCP gateway, policy logs, agent enforcement records, network policy, post-cleanup validation.
-- **Release 3:** Roadmap / platform evolution evidence position Ã¢â‚¬â€ target architecture, planned control model, and proof placeholders to be replaced as implementation evidence is produced.
+  - **O6 AI Operations Enclave:** `docs/release2/evidence/O6/` ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â MCP gateway, policy logs, agent enforcement records, network policy, post-cleanup validation.
+- **Release 3:** Roadmap / platform evolution evidence position ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â target architecture, planned control model, and proof placeholders to be replaced as implementation evidence is produced.
 
-*Diagram placeholder Ã¢â‚¬â€ Visual evidence map linking architecture components to evidence folders.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
 
 ---
 
@@ -278,4 +278,30 @@ Git Repos (Apps, Infra, Policies)
 | AI/ML Engineer | Sections 4.6, 6 (AI boundary) | O6 evidence and companion project |
 | Recruiter/Hiring Manager | Sections 1, 10 | README.md for high-level story |
 
-*Diagram placeholder Ã¢â‚¬â€ Portfolio architecture hero overview.*
+*Architecture visual pending â€” platform journey overview will show Release 1 identity foundation, Release 2 platform engineering implementation, and Release 3 roadmap evolution.*
+
+---
+
+## Supplemental Architecture Visuals
+
+The following views provide additional architecture context for reviewers who want to inspect Release 2 control boundaries, evidence mapping, and operational flow.
+
+### Release 2 End-to-End Platform Architecture
+
+![Release 2 end-to-end platform architecture](./diagrams/release2/release2-high-level-architecture.png)
+
+### Release 2 Capability-to-Evidence Map
+
+![Release 2 capability-to-evidence map](./diagrams/release2/evidence-map.png)
+
+### Release 2 Trust Boundary Map
+
+![Release 2 trust boundary map](./diagrams/release2/trust-boundaries.png)
+
+### Release 2 Network and Identity Flow
+
+![Release 2 network and identity flow](./diagrams/release2/network-identity-flow.png)
+
+### Release 2 Controlled Operations Flow with AI Assistance
+
+![Release 2 controlled operations flow with AI assistance](./diagrams/release2/operations-flow.png)

@@ -1,6 +1,6 @@
 # 00. Release 3 Roadmap
 
-> **Part of** [Release 3 — Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
+> **Part of** [Release 3 Ã¢â‚¬â€ Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
 >
 > **Status:** Roadmap / platform evolution
 
@@ -34,6 +34,6 @@ Release 3 is designed to be built on top of the Release 2 platform without disru
 All Release 3 evidence will use the same CLI-first, redacted, phase-folder model as Release 2. Placeholder paths are marked `proof link to be inserted` until implementation begins.
 
 - `docs/release3/evidence/` will mirror the Release 2 evidence structure.
-- Diagram placeholders follow the standard portfolio convention.
+- Architecture visuals use the shared Release 3 roadmap diagram until implementation begins.
 
-*Diagram placeholder — Release 3 target architecture overview.*
+![Release 3 multi-cloud Kubernetes GitOps and DevSecOps roadmap](../../diagrams/release3/release3-target-roadmap.png)

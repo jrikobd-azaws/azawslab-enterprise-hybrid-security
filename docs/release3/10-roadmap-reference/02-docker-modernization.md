@@ -1,6 +1,6 @@
 # 02. Argo CD & GitOps Direction
 
-> **Part of** [Release 3 â€” Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
+> **Part of** [Release 3 Ã¢â‚¬â€ Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
 >
 > **Status:** Roadmap / platform evolution
 
@@ -22,4 +22,4 @@ Define the GitOps delivery model that will manage cluster configurations, applic
 - The controlled-apply discipline (plan, review, approve, apply) will be extended to GitOps sync gating.
 - The existing branch protection and PR review workflows will be reused.
 
-*Diagram placeholder â€” Argo CD multi-cluster architecture with Git repos, sync policies, and promotion flow.*
+> Current visual reference: [Release 3 roadmap target state](../../../diagrams/release3/release3-target-roadmap.png).

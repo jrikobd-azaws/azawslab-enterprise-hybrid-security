@@ -1,6 +1,6 @@
 # 01. AKS & EKS Platform Direction
 
-> **Part of** [Release 3 — Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
+> **Part of** [Release 3 â€” Multi-Cloud Kubernetes, GitOps & DevSecOps](./README.md)
 >
 > **Status:** Roadmap / platform evolution
 
@@ -22,4 +22,4 @@ Define the target design for a multi-cloud Kubernetes fleet (AKS on Azure, EKS o
 - The private endpoint model for container registries (ACR, ECR) is already validated.
 - The AWX control plane and Ansible automation can be extended to manage Kubernetes operational tasks.
 
-*Diagram placeholder — AKS and EKS clusters, networking integration, and identity flow.*
+![Release 3 multi-cloud Kubernetes GitOps and DevSecOps roadmap](../../diagrams/release3/release3-target-roadmap.png)
