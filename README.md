@@ -5,7 +5,7 @@
 [![Release 3](https://img.shields.io/badge/Release%203-Roadmap%20%2F%20Platform%20Evolution-lightgrey)](docs/release3/README.md)
 [![Status](https://img.shields.io/badge/Status-Canonical%20Truth-success)](STATUS.md)
 
-**Flagship enterprise platform portfolio â€” production-style, operationally validated, evidence-backed.**
+**Flagship enterprise platform portfolio - production-style, operationally validated, evidence-backed.**
 
 ---
 
@@ -13,7 +13,7 @@
 
 This repository presents a single, staged enterprise platform journey that moves from hybrid Microsoft operations into Azure platform engineering, multi-cloud security, automation, private platform delivery, AI-assisted CloudOps, and a clear roadmap toward multi-cloud Kubernetes and GitOps.
 
-Every major capability â€” identity, landing zones, networking, automation, private AKS, virtual desktop, and the AI Operations Enclave â€” has been built, operationally validated, and backed by curated evidence. The repository is structured to show what was built, how it was validated, and how each capability fits into a wider enterprise platform journey for senior cloud, platform, infrastructure, and security roles.
+Every major capability ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â identity, landing zones, networking, automation, private AKS, virtual desktop, and the AI Operations Enclave ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â has been built, operationally validated, and backed by curated evidence. The repository is structured to show what was built, how it was validated, and how each capability fits into a wider enterprise platform journey for senior cloud, platform, infrastructure, and security roles.
 
 ---
 
@@ -223,7 +223,7 @@ Belfast, United Kingdom
 
 I have over a decade of experience in IT infrastructure, hybrid cloud, operations, automation, and enterprise platform support. My background combines hands-on delivery across Microsoft, Azure, AWS, networking, endpoint management, automation, and security with a data-driven academic foundation through an MSc and BSc in Statistics.
 
-My cloud architecture expertise is validated by high-level technical certifications, including **AWS Certified Solutions Architect - Professional** and **Microsoft Azure Solutions Architect Expert**.
+My cloud and cybersecurity architecture expertise is validated by expert-level certifications, including **AWS Certified Solutions Architect - Professional**, **Microsoft Certified: Azure Solutions Architect Expert**, and **Microsoft Certified: Cybersecurity Architect Expert**.
 
 This repository is owned, built, and maintained as a professional flagship platform portfolio. All work is original, operationally validated, and presented as a transparent demonstration of enterprise-grade engineering.
 
