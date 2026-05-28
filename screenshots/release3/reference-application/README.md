@@ -1,4 +1,4 @@
-﻿# Reference Application Evidence
+# Reference Application Evidence
 
 This folder is reserved for Release 3 reference-application evidence.
 

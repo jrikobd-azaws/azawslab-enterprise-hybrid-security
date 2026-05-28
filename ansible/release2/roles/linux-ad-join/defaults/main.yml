@@ -1,4 +1,4 @@
-﻿---
+---
 linux_ad_join_domain: hq.azawslab.co.uk
 linux_ad_join_dc_fqdn: dc1.hq.azawslab.co.uk
 linux_ad_join_dc_ip: 192.168.1.10

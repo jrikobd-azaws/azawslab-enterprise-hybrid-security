@@ -1,4 +1,4 @@
-﻿#requires -Version 5.1
+#requires -Version 5.1
 <#
 .SYNOPSIS
   Fix Cycle 0 source-truth issues before portfolio documentation migration.
@@ -469,7 +469,7 @@ Replace-TextInFile `
 
 Replace-TextInFile `
     -Path $release2Readme `
-    -Search "> Status: **In progress** Ã¢â‚¬â€œ see [implementation tracker](./implementation-tracker.md)" `
+    -Search "> Status: **In progress** Ã¢â'¬â€œ see [implementation tracker](./implementation-tracker.md)" `
     -Replace "> Status: **Implemented / final documentation and O6 closeout in progress** - see [implementation tracker](./implementation-tracker.md)" `
     -BackupRoot $backupRoot
 
@@ -513,15 +513,15 @@ Write-Step "Creating mojibake/encoding artifact report"
 $encodingReportPath = Join-Path $reportRoot "cycle0-encoding-artifact-report.md"
 $badPatterns = @(
     "Ãƒ",
-    "Ã‚",
-    "Ã¢â‚¬",
-    "ÃƒÆ’",
+    "Ã'",
+    "Ã¢â'¬",
+    "ÃƒÆ'",
     "Ãƒâ€š",
     "ÃƒÂ¢",
     "Ãƒâ€¦",
-    "Ãƒâ€ ",
-    "Ã‚Â¢",
-    "Ã‚Â¬"
+    "Ãƒâ€ ",
+    "Ã'Â¢",
+    "Ã'Â¬"
 )
 
 $encodingLines = New-Object System.Collections.Generic.List[string]

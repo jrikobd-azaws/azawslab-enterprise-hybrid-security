@@ -1,4 +1,4 @@
-﻿resource "random_password" "local_admin" {
+resource "random_password" "local_admin" {
   length           = 20
   special          = true
   override_special = "!@#%^*-_=+?"

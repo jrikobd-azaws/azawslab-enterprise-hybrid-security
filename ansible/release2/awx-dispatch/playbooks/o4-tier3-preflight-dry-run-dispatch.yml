@@ -1,4 +1,4 @@
-﻿---
+---
 - name: O4 Tier 3 - Preflight dry-run from management host
   hosts: vm_dev_mgmt_01
   gather_facts: false

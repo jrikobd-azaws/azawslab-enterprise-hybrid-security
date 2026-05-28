@@ -1,4 +1,4 @@
-﻿# FortiGate Legacy IPSec Cleanup Runbook
+# FortiGate Legacy IPSec Cleanup Runbook
 
 ## Purpose
 

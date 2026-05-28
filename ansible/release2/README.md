@@ -1,4 +1,4 @@
-﻿# Release 2 Ansible Automation
+# Release 2 Ansible Automation
 
 This folder contains the Release 2 Ansible automation path.
 

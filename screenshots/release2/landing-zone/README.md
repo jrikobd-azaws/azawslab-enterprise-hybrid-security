@@ -1,4 +1,4 @@
-﻿# Landing Zone Evidence
+# Landing Zone Evidence
 
 This folder is reserved for Release 2 landing-zone evidence.
 

@@ -1,4 +1,4 @@
-﻿variable "enable_sentinel" {
+variable "enable_sentinel" {
   description = "Controls whether P8 Log Analytics and Microsoft Sentinel resources are deployed."
   type        = bool
   default     = false

@@ -1,4 +1,4 @@
-﻿# Release 3 Screenshots
+# Release 3 Screenshots
 
 This folder is reserved for Release 3 evidence in the `azawslab Enterprise Hybrid Security Platform`.
 

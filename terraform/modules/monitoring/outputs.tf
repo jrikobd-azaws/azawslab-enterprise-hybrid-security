@@ -1,4 +1,4 @@
-﻿output "monitoring_resource_group_name" {
+output "monitoring_resource_group_name" {
   value = try(azurerm_resource_group.monitoring[0].name, null)
 }
 

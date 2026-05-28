@@ -1,4 +1,4 @@
-﻿# FortiGate API Token Runbook
+# FortiGate API Token Runbook
 
 ## Purpose
 

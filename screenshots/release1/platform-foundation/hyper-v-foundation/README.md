@@ -1,4 +1,4 @@
-﻿# Hyper-V Foundation Evidence
+# Hyper-V Foundation Evidence
 
 This folder contains the Release 1 platform-foundation evidence for the Hyper-V lab environment.
 

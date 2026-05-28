@@ -1,4 +1,4 @@
-﻿# Connectivity Evidence
+# Connectivity Evidence
 
 This folder is reserved for Release 3 secure-connectivity evidence.
 

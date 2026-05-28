@@ -1,4 +1,4 @@
-﻿# Defender for Cloud Evidence
+# Defender for Cloud Evidence
 
 This folder is reserved for Release 2 Defender for Cloud evidence.
 

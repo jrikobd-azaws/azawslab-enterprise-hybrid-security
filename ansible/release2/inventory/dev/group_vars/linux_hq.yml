@@ -1,4 +1,4 @@
-﻿---
+---
 # Linux target password is loaded at runtime from Azure Key Vault
 # by scripts/run-linux-with-keyvault-secrets.sh.
 # Do not place plaintext passwords in inventory files.

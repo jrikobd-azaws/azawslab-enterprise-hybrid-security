@@ -1,4 +1,4 @@
-﻿# Platform Foundation Evidence Hub
+# Platform Foundation Evidence Hub
 
 ## Purpose
 

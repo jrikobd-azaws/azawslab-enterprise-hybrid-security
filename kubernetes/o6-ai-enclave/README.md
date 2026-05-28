@@ -1,4 +1,4 @@
-﻿# O6 AI Enclave Kubernetes Scaffold
+# O6 AI Enclave Kubernetes Scaffold
 
 This folder contains the prepared Kubernetes scaffold for the O6 Secure AI Operations Enclave.
 

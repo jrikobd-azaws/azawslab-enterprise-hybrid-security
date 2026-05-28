@@ -1,4 +1,4 @@
-﻿# Sentinel Evidence
+# Sentinel Evidence
 
 This folder is reserved for Release 2 Microsoft Sentinel evidence.
 

@@ -1,4 +1,4 @@
-﻿---
+---
 - name: Assert domain join password is available from Key Vault-backed runtime environment
   ansible.builtin.assert:
     that:

@@ -1,4 +1,4 @@
-﻿data "azurerm_subscription" "current" {}
+data "azurerm_subscription" "current" {}
 
 resource "azurerm_resource_group" "monitoring" {
   count = var.enable_sentinel ? 1 : 0

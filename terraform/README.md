@@ -1,4 +1,4 @@
-﻿# Terraform
+# Terraform
 
 This folder contains the Terraform roots and reusable modules for the Azawslab Enterprise Hybrid Security Platform.
 

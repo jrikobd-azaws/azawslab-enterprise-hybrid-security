@@ -1,4 +1,4 @@
-﻿# Azure Firewall Evidence
+# Azure Firewall Evidence
 
 This folder is reserved for Release 2 Azure Firewall evidence.
 

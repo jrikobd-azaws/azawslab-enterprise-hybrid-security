@@ -1,4 +1,4 @@
-﻿# Docker Evidence
+# Docker Evidence
 
 This folder is reserved for Release 3 Docker modernization evidence.
 

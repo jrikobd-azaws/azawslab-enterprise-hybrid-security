@@ -1,4 +1,4 @@
-﻿# AWS Branch Terraform Root
+# AWS Branch Terraform Root
 
 This root owns the O3b AWS branch/customer environment.
 

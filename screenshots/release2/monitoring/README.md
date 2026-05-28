@@ -1,4 +1,4 @@
-﻿# Monitoring Evidence
+# Monitoring Evidence
 
 This folder is reserved for Release 2 monitoring evidence.
 

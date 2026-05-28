@@ -1,4 +1,4 @@
-﻿---
+---
 - name: P2b Linux HQ domain join
   hosts: linux_hq
   gather_facts: true

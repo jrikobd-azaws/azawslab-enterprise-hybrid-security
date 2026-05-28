@@ -1,4 +1,4 @@
-﻿# Purview Evidence
+# Purview Evidence
 
 This folder contains the Release 1 information-protection evidence for Microsoft Purview.
 

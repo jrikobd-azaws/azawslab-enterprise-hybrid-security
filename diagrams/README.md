@@ -1,4 +1,4 @@
-﻿# Diagrams
+# Diagrams
 
 **Related navigation:** [README](../README.md) | [Roadmap](../docs/foundation/04-roadmap.md) | [Release 1 Summary](../docs/release1/00-summary.md)
 
