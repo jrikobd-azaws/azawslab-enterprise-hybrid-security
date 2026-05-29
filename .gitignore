@@ -55,3 +55,8 @@ docs/portfolio-migration-reports/
 *.agent.md
 
 .tmp-public-audit/
+
+# Local portfolio/audit/export working files
+.tmp/
+_audit/
+azawslab-portfolio-audit*.zip

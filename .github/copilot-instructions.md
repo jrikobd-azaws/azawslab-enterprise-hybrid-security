@@ -1,113 +1,145 @@
-﻿# Copilot Instructions — Azawslab Enterprise Hybrid Security Platform
+# Copilot Instructions - Azawslab Enterprise Hybrid Security Platform
 
-## 1. Start here every session
+## 1. Repository purpose
 
-Read **STATUS.md** first. That file is the source-truth lock for the entire portfolio. If any other document appears to conflict with STATUS.md, treat STATUS.md as authoritative.
+This repository documents and implements a staged enterprise hybrid cloud security platform.
 
-## 2. Canonical project truths
+The project demonstrates Microsoft hybrid workplace foundations, Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and governed AI operations patterns.
 
-- This is **one flagship enterprise platform portfolio**, not multiple disconnected projects.
-- Release naming: `release1`, `release2`, `release3`.
-- **Release 1** = Hybrid Modern Workplace, Identity & Endpoint Security. **Status:** Complete and evidenced.
-- **Release 2** = Azure Platform Engineering, Security, Automation, Private Platform & AI Operations. **Status:** Implemented and evidenced.
-  - A2 AWX automation control plane is complete and evidenced.
-  - O4 Private AKS is complete and evidenced.
-  - O5 AVD + FSLogix is complete and evidenced.
-  - O6 AI Operations Enclave is complete and evidenced.
-- **Release 3** = Multi-Cloud Kubernetes, GitOps & DevSecOps. **Status:** Roadmap / platform evolution.
-- **Branch namespace** `br1.azawslab.co.uk` is a network identity boundary, not a Git branch.
-- **Terraform apply model:** GitHub Actions controlled apply is the default. Local Terraform apply is exceptional.
+Treat this as an engineering repository with evidence-backed documentation. Do not weaken implemented status, invent evidence, or introduce unverified claims.
 
-## 3. Six capability tracks
+## 2. Source of truth
 
-1. Hybrid Modern Workplace, Identity & Endpoint Security (Release 1)
-2. Azure Landing Zone, IaC & Governance (Release 2)
-3. Secure Hybrid & Multi-Cloud Networking (Release 2)
-4. Automation, SecOps & Resilience (Release 2)
-5. Private Platform, Secure Workspace & AI Operations (Release 2)
-6. Multi-Cloud Kubernetes, GitOps & DevSecOps (Release 3, roadmap)
+Read `STATUS.md` first when changing documentation or implementation notes.
 
-## 4. Evidence locations
+If files disagree, use this order:
 
-- **Release 1 evidence:** `screenshots/release1/`
-- **Release 2 evidence:** `docs/release2/evidence/`
-- **Release 3:** roadmap only — no implementation evidence yet.
-- **O6 Kubernetes support manifests:** `kubernetes/`
-  - These are supporting manifests and live-validation scaffolding.
-  - Formal O6 evidence remains under `docs/release2/evidence/O6/`.
-- If a proof path is unconfirmed, use `proof link to be inserted`. Never invent file names or evidence folders.
+1. `STATUS.md`
+2. Root reader documents:
+   - `README.md`
+   - `PORTFOLIO.md`
+   - `ARCHITECTURE.md`
+   - `PROOF_GALLERY.md`
+   - `ROLE_GUIDE.md`
+   - `SKILLS_MATRIX.md`
+   - `EVIDENCE_GUIDE.md`
+3. Release documentation under `docs/release1/`, `docs/release2/`, and `docs/release3/`
+4. Implementation files under `terraform/`, `ansible/`, `kubernetes/`, `.github/workflows/`, and `scripts/`
 
-## 5. Forbidden language
+## 3. Release boundaries
 
-Do not use:
+Release 1:
+- Hybrid Modern Workplace, Identity, Endpoint Security, and Microsoft 365 security foundations.
+- Status: complete and evidenced.
 
-- "Hybrid Microsoft Foundation"
-- "Modern Workplace and Hybrid Identity"
-- "only a lab", "not production", "limitations", "weakness", "this project does not claim"
-- "Release 2 roadmap"
-- "A2 incomplete", "O4 incomplete", "O5 incomplete", "O6 incomplete"
-- `br1.azawslab.co.uk` described as a Git branch
-- Customer, partner, or product-user sales language
-- Defensive or self-deprecating public-facing wording
+Release 2:
+- Azure platform engineering, landing zone, IaC, governance, secure hybrid/multi-cloud networking, automation, private AKS, AVD/FSLogix, and AI Operations Enclave.
+- Status: implemented and evidenced.
 
-## 6. Preferred portfolio language
+Release 3:
+- Multi-cloud Kubernetes, GitOps, DevSecOps, and platform evolution.
+- Status: roadmap / future platform direction.
+- Do not describe Release 3 as implemented evidence.
 
-Use confident, evidence-led phrasing:
+## 4. Terraform and deployment safety
 
-- flagship enterprise platform portfolio
-- staged enterprise platform journey
-- production-style portfolio lab
-- operationally validated
-- evidence-backed implementation
-- human-approved AI operations model
-- Release 3 platform evolution
-- implementation positioning
+GitHub Actions controlled deployment is the default delivery model.
 
-## 7. What to suggest and what not to suggest
+Do not recommend routine local `terraform apply`.
 
-Do:
+Do not run or suggest destructive operations unless explicitly requested and scoped.
 
-- Draft reader-facing documentation.
-- Draft capability stories.
-- Draft evidence indexes.
-- Draft roadmap descriptions.
-- Preserve the canonical release structure.
-- Use existing evidence paths only.
+Never commit or expose:
+- `.terraform/`
+- `.tfstate`
+- `.tfplan`
+- `terraform.tfvars`
+- `*.auto.tfvars`
+- kubeconfig files
+- private keys
+- certificates
+- raw tokens
+- raw secrets
+- unredacted logs
 
-Do not:
+State boundaries must remain clean:
+- `platform-networking` owns hub/spoke connectivity, firewall, FortiGate, VPN, BGP, and shared route control.
+- `platform-management` owns management VM and AWX control-plane resources.
+- `platform-aks` owns private AKS, ACR integration, identity, Workload Identity, Key Vault CSI, monitoring, and AKS-specific egress.
+- `platform-avd` owns AVD, session hosts, FSLogix, and secure workspace components.
+- `aws-branch` owns AWS branch networking and Cisco/AWS branch resources.
+- `governance` and `platform-shared` own shared policy, monitoring, backup, and platform services according to their root documentation.
 
-- Recommend Terraform apply during documentation work.
-- Invent evidence.
-- Invent file names.
-- Edit multiple files without explicit approval.
-- Weaken Release 1 or Release 2 status.
-- Treat Release 3 as implemented.
+## 5. Evidence integrity
 
-## 8. Key repository files to reference
+Use only existing evidence paths.
 
-- `README.md` — portfolio storefront
-- `PORTFOLIO.md` — full narrative case study
-- `ARCHITECTURE.md` — platform evolution and technical architecture overview
-- `SKILLS_MATRIX.md` — role-to-evidence mapping
-- `EVIDENCE_GUIDE.md` — evidence organisation and redaction rules
-- `STATUS.md` — canonical source-truth lock
-- `PROOF_GALLERY.md` — curated flagship evidence highlights
-- `ROLE_GUIDE.md` — role-based reading paths
-- `DESIGN_DECISIONS.md` — senior engineering decision record
-- `docs/release2/README.md` — Release 2 capability-led entry point
-- `docs/release2/01-05` — Release 2 capability stories
+Do not invent screenshots, logs, file names, test results, or validation claims.
+
+If evidence is not confirmed, link to the closest existing evidence folder README or state that evidence requires final curation.
+
+Primary evidence locations:
+- Release 1 evidence: `screenshots/release1/`
+- Release 2 evidence: `docs/release2/evidence/`
+- Release 3: roadmap documents only
+- O6 Kubernetes support manifests: `kubernetes/`
+- O6 formal evidence: `docs/release2/evidence/O6/`
+
+## 6. Documentation standards
+
+Reader-facing documentation should be clear, factual, and evidence-led.
+
+Use business-impact framing when it is directly supported by the implementation, for example:
+- secretless deployment through GitHub Actions OIDC
+- reduced public exposure through private platform patterns
+- governed AI operations through policy-mediated tool use
+- separated platform ownership through Terraform root boundaries
+- operational validation through evidence folders
+
+Do not use placeholders such as:
+- `proof link to be inserted`
+- `Diagram placeholder`
+- `insert-link`
+- `path-to-gif`
+
+Do not include internal migration, prompt, or portfolio-build scaffolding in public-facing documentation.
+
+## 7. AI operations boundary
+
+O6 is a governed AI operations pattern.
+
+It may describe AI-assisted operations, policy mediation, MCP gateway behavior, agent simulation, and human-approved workflows.
+
+Do not describe O6 as unrestricted autonomous infrastructure mutation.
+
+Do not claim that AI agents can directly modify production infrastructure without human approval and policy control.
+
+## 8. Primary reader paths
+
+Use these as the main reader-facing entry points:
+
+- `README.md`
+- `PORTFOLIO.md`
+- `ARCHITECTURE.md`
+- `PROOF_GALLERY.md`
+- `ROLE_GUIDE.md`
+- `SKILLS_MATRIX.md`
+- `EVIDENCE_GUIDE.md`
+- `DESIGN_DECISIONS.md`
+- `STATUS.md`
+- `docs/release2/README.md`
 - `docs/release2/06-skills-and-evidence-index.md`
 - `docs/release2/11-terraform-state-and-pipeline-map.md`
-- `docs/release3/` — Release 3 roadmap direction documents
-- `terraform/README.md` — Terraform root map and safety notes
-- `scripts/README.md` — script usage and safety notes
-- `kubernetes/README.md` — O6 Kubernetes manifest support
-- `collections/README.md` — Ansible collection dependency context
+- `terraform/README.md`
+- `scripts/README.md`
+- `kubernetes/README.md`
+- `collections/README.md`
 
-## 9. Repository structure notes
+## 9. Reference and archive paths
 
-- `ansible.cfg` at the repository root is intentional. It supports Ansible/AWX execution behaviour and should not be treated as loose clutter.
-- `collections/` contains Ansible collection dependency declarations.
-- `kubernetes/` supports O6 AI Operations Enclave manifests and live validation.
-- `docs/release2/10-phase-reference/` contains implementation-era Release 2 reference material, not the primary reader path.
-- `docs/release3/10-roadmap-reference/` contains earlier Release 3 planning reference material, not implemented evidence.
+These paths may contain implementation history or detailed reference material, but they are not the primary portfolio reading path:
+
+- `docs/release2/10-phase-reference/`
+- `docs/release3/10-roadmap-reference/`
+
+Do not surface local temporary folders, migration backups, audit exports, or prompt scaffolding as public portfolio content.
