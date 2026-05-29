@@ -72,33 +72,6 @@ This page is the reviewer-facing proof dashboard for the platform. Each proof ca
 
 ---
 
-## Visual proof map
-
-<div class="grid cards" markdown>
-
-- ![Platform journey](assets/images/proof/01-platform-hero.jpg)
-  **Platform Journey**  
-  Executive view of the staged enterprise platform: identity, cloud foundation, private platform, and governed AI-assisted CloudOps.
-
-- ![Release 2 architecture](assets/images/proof/02-release2-architecture.jpg)
-  **Release 2 Platform Architecture**  
-  Azure platform engineering, secure networking, private platform delivery, automation, monitoring, and evidence-driven validation.
-
-- ![Terraform state boundaries](assets/images/proof/03-terraform-state-boundaries.jpg)
-  **Terraform State Boundaries**  
-  Multi-root Terraform ownership model showing how blast radius, lifecycle, and platform responsibilities are separated.
-
-- ![AI operations enclave](assets/images/proof/04-ai-operations-enclave.jpg)
-  **O6 AI Operations Enclave**  
-  Governed AI-assisted CloudOps pattern with policy-mediated tool use, evidence capture, and human approval boundaries.
-
-- ![Release 3 roadmap](assets/images/proof/05-release3-roadmap.jpg)
-  **Release 3 Roadmap**  
-  Multi-cloud Kubernetes, GitOps, DevSecOps, observability, and resilience direction.
-
-</div>
-
----
 ## Release 2: Azure platform engineering and security
 
 ???+ success "Secretless Terraform delivery through GitHub Actions OIDC"
@@ -210,33 +183,6 @@ This page is the reviewer-facing proof dashboard for the platform. Each proof ca
 
 ---
 
-## Visual proof map
-
-<div class="grid cards" markdown>
-
-- ![Platform journey](assets/images/proof/01-platform-hero.jpg)
-  **Platform Journey**  
-  Executive view of the staged enterprise platform: identity, cloud foundation, private platform, and governed AI-assisted CloudOps.
-
-- ![Release 2 architecture](assets/images/proof/02-release2-architecture.jpg)
-  **Release 2 Platform Architecture**  
-  Azure platform engineering, secure networking, private platform delivery, automation, monitoring, and evidence-driven validation.
-
-- ![Terraform state boundaries](assets/images/proof/03-terraform-state-boundaries.jpg)
-  **Terraform State Boundaries**  
-  Multi-root Terraform ownership model showing how blast radius, lifecycle, and platform responsibilities are separated.
-
-- ![AI operations enclave](assets/images/proof/04-ai-operations-enclave.jpg)
-  **O6 AI Operations Enclave**  
-  Governed AI-assisted CloudOps pattern with policy-mediated tool use, evidence capture, and human approval boundaries.
-
-- ![Release 3 roadmap](assets/images/proof/05-release3-roadmap.jpg)
-  **Release 3 Roadmap**  
-  Multi-cloud Kubernetes, GitOps, DevSecOps, observability, and resilience direction.
-
-</div>
-
----
 ## Release 3: Future direction
 
 Release 3 is intentionally positioned as roadmap and platform evolution. It extends toward multi-cloud Kubernetes, GitOps, DevSecOps, observability, and resilience without presenting future work as already implemented.
