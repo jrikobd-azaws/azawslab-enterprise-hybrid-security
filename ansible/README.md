@@ -1,4 +1,4 @@
-﻿# Ansible
+# Ansible
 
 **Related navigation:** [README](../README.md) | [Release 1 Summary](../docs/release1/00-summary.md) | [Release 1 Build Checklist](../docs/release1/11-build-checklist.md)
 

@@ -209,7 +209,7 @@ That should be understood as:
 
 This distinction matters because the project is intended to remain extensible. Future platform work could include alternative virtualization implementations or additional hosting models without changing the core documentation model.
 
-In other words, Hyper-V supports the platform, but the project is not “about Hyper-V” alone.
+In other words, Hyper-V supports the platform, but the project is not "about Hyper-V" alone.
 
 ---
 
@@ -220,7 +220,7 @@ Certificate trust and namespace readiness are important platform concerns becaus
 For Release 1:
 - namespace design was treated as a strategic part of the platform
 - the hybrid pilot used a dedicated namespace path
-- certificate handling was approached pragmatically using Let’s Encrypt via `win-acme` where required for the hybrid configuration path
+- certificate handling was approached pragmatically using Let's Encrypt via `win-acme` where required for the hybrid configuration path
 
 Release 1 does **not** claim a full internal PKI or AD CS deployment.
 
@@ -245,7 +245,7 @@ That is why Release 1 includes scenarios and evidence related to:
 - LAPS retrieval and post-provisioning remediation
 - operator-led Graph PowerShell scripts with dry-run support
 
-This operational realism is intentional. It makes the platform more useful as engineering proof than a simple “all green” demonstration.
+This operational realism is intentional. It makes the platform more useful as engineering proof than a simple "all green" demonstration.
 
 ---
 
@@ -275,10 +275,10 @@ Then move into the release most relevant to the role or review context.
 
 ## Related Diagrams
 
-- [Release 1 End-State Architecture](../../diagrams/01-release1-end-state-architecture.png) — shows the implemented Release 1 hybrid platform end state
-- [Identity, Messaging, and Endpoint Control Flow](../../diagrams/02-identity-messaging-endpoint-control-flow.png) — shows how identity, messaging, and endpoint trust interact across the platform
-- [Three-Release Roadmap](../../diagrams/04-phased-roadmap-release1-release2-release3.png) — shows the staged release progression across the platform
-- [Release 1 Implementation Flow and Proof Map](../../diagrams/05-release1-implementation-flow-and-proof-map.png) — maps Release 1 delivery areas to their supporting proof
+- [Release 1 End-State Architecture](../../diagrams/01-release1-end-state-architecture.png) - shows the implemented Release 1 hybrid platform end state
+- [Identity, Messaging, and Endpoint Control Flow](../../diagrams/02-identity-messaging-endpoint-control-flow.png) - shows how identity, messaging, and endpoint trust interact across the platform
+- [Three-Release Roadmap](../../diagrams/04-phased-roadmap-release1-release2-release3.png) - shows the staged release progression across the platform
+- [Release 1 Implementation Flow and Proof Map](../../diagrams/05-release1-implementation-flow-and-proof-map.png) - maps Release 1 delivery areas to their supporting proof
 
 ---
 

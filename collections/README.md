@@ -1,4 +1,4 @@
-﻿# Ansible Collections
+# Ansible Collections
 
 This folder contains Ansible collection dependency declarations used by the platform automation work.
 

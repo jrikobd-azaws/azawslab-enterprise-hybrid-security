@@ -1,4 +1,4 @@
-﻿# Lighthouse Evidence
+# Lighthouse Evidence
 
 This folder is reserved for Release 2 Azure Lighthouse evidence.
 

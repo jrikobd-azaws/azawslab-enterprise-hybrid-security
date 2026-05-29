@@ -1,4 +1,4 @@
-﻿# Kubernetes Manifests
+# Kubernetes Manifests
 
 This folder contains Kubernetes manifests used to support Release 2 O6 AI Operations Enclave validation.
 

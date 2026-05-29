@@ -1,4 +1,4 @@
-﻿# O3b AWS Branch State Boundary Decision
+# O3b AWS Branch State Boundary Decision
 
 ## Decision
 

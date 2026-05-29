@@ -1,4 +1,4 @@
-﻿Platform management state split validation
+Platform management state split validation
 ==========================================
 
 Timestamp: 2026-05-05 00:24:25 +01:00

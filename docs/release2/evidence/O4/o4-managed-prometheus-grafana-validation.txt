@@ -1,4 +1,4 @@
-﻿O4 Managed Prometheus and Grafana Validation
+O4 Managed Prometheus and Grafana Validation
 ===========================================
 
 Purpose:

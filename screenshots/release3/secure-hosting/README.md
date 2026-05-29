@@ -1,4 +1,4 @@
-﻿# Secure Hosting Evidence
+# Secure Hosting Evidence
 
 This folder is reserved for Release 3 secure-hosting evidence.
 

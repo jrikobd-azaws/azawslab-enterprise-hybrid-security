@@ -1,4 +1,4 @@
-﻿# O3b AWS Naming and Enable Flags Decision
+# O3b AWS Naming and Enable Flags Decision
 
 ## Decision
 

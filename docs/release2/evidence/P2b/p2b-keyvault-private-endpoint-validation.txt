@@ -1,4 +1,4 @@
-﻿Enable succeeded: 
+Enable succeeded: 
 [stdout]
 === host ===
 vm-dev-mgmt-01

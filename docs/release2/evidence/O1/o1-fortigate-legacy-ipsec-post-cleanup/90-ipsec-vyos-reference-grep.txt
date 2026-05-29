@@ -1,4 +1,4 @@
-﻿Post-cleanup reference review:
+Post-cleanup reference review:
 No ipsec-vyos or ipsec-vyos-p2 references were found in FortiGate configuration JSON files after cleanup.
 
 The only remaining mentions are documentation/evidence notes describing the removed legacy objects.

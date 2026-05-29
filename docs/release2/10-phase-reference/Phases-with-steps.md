@@ -1563,7 +1563,7 @@ docs/
 
 ---
 
-## O1 Closeout Addendum ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ FortiGate Azure-to-HQ Service Chaining
+## O1 Closeout Addendum - FortiGate Azure-to-HQ Service Chaining
 
 O1 has validated controlled Azure workload to HQ service chaining through the FortiGate NVA.
 

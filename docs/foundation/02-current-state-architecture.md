@@ -1,4 +1,4 @@
-﻿# Current-State Architecture
+# Current-State Architecture
 
 ## Purpose
 
@@ -139,7 +139,7 @@ The current-state architecture can be summarized through the principal platform 
 | **EXCH1** | Provides the on-premises Exchange messaging platform used for hybrid readiness and pilot migration work |
 | **Microsoft 365 tenant** | Provides the cloud service target for identity alignment, collaboration services, and later policy control |
 
-This component view is useful because it shows that the platform did not begin as “all cloud” or “all on-premises,” but as a staged hybrid candidate environment.
+This component view is useful because it shows that the platform did not begin as "all cloud" or "all on-premises," but as a staged hybrid candidate environment.
 
 ---
 
@@ -263,7 +263,7 @@ Suggested interpretation:
 - **Business Scenario** explains why the platform exists
 - **Platform Overview** explains the full three-release structure
 - **Current-State Architecture** explains the starting point
-- **Target-State Architecture** explains the intended Release 1–anchored design direction
+- **Target-State Architecture** explains the intended Release 1-anchored design direction
 - **Roadmap** explains the sequence of maturity
 
 ---
@@ -279,9 +279,9 @@ Suggested interpretation:
 
 ## Related Diagrams
 
-- [Release 1 End-State Architecture](../../diagrams/01-release1-end-state-architecture.png) — shows the implemented target for Release 1 after hybrid and endpoint capability expansion
-- [Identity, Messaging, and Endpoint Control Flow](../../diagrams/02-identity-messaging-endpoint-control-flow.png) — shows how identity, messaging, and endpoint trust interact after Release 1 controls are introduced
-- [Three-Release Roadmap](../../diagrams/04-phased-roadmap-release1-release2-release3.png) — shows how the current state evolves into later release stages
+- [Release 1 End-State Architecture](../../diagrams/01-release1-end-state-architecture.png) - shows the implemented target for Release 1 after hybrid and endpoint capability expansion
+- [Identity, Messaging, and Endpoint Control Flow](../../diagrams/02-identity-messaging-endpoint-control-flow.png) - shows how identity, messaging, and endpoint trust interact after Release 1 controls are introduced
+- [Three-Release Roadmap](../../diagrams/04-phased-roadmap-release1-release2-release3.png) - shows how the current state evolves into later release stages
 
 ---
 

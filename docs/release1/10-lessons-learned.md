@@ -1,4 +1,4 @@
-﻿# Lessons Learned
+# Lessons Learned
 
 ## Purpose
 
@@ -214,7 +214,7 @@ The following lessons emerged from adding advanced validation capabilities after
 
 The original intent was to validate Autopilot and ESP using an Azure-based VM. However, Azure nested virtualisation and network latency made a clean OOBE/ESP experience difficult to capture. Switching to a local Hyper-V workflow produced the needed evidence without compromising technical credibility.
 
-**Lesson:** Be willing to change the validation environment when the original path introduces friction. The repository’s value is in the evidence, not in rigid adherence to a specific infrastructure choice.
+**Lesson:** Be willing to change the validation environment when the original path introduces friction. The repository's value is in the evidence, not in rigid adherence to a specific infrastructure choice.
 
 ---
 

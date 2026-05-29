@@ -1,4 +1,4 @@
-﻿# 06-azure-firewall
+# 06-azure-firewall
 
 ## 1. Objective
 

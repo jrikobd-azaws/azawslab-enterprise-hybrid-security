@@ -1,4 +1,4 @@
-﻿---
+---
 - name: P2b Linux AD join using Key Vault runtime secrets
   hosts: linux_hq
   gather_facts: false

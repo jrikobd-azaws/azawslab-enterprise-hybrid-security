@@ -1,4 +1,4 @@
-﻿# P9b Plan Non-P9b Change Review
+# P9b Plan Non-P9b Change Review
 
 ## Finding
 

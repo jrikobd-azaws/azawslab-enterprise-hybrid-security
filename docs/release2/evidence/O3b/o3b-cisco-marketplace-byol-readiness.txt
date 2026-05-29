@@ -1,4 +1,4 @@
-﻿O3b Cisco Catalyst 8000V AWS Marketplace BYOL Readiness
+O3b Cisco Catalyst 8000V AWS Marketplace BYOL Readiness
 
 Purpose:
 Confirm Cisco Catalyst 8000V Marketplace agreement is active before Terraform-based Cisco deployment.

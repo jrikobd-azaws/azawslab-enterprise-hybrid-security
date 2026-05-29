@@ -1,4 +1,4 @@
-﻿Release 2 - Phase P0 Evidence
+Release 2 - Phase P0 Evidence
 Phase: Foundation and OIDC Backend
 Project: Azawslab Release 2
 Subscription: Azure subscription 1
@@ -11,7 +11,8 @@ The raw implementation history is retained separately in p0-execution-log.txt.
 STEP P0.1 - AZURE CONTEXT BASELINE
 
 RESULT:
-Phase P0 was completed under the Release 2 tenant boundary using the active Azure subscription and GitHub environment elease-2.
+Phase P0 was completed under the Release 2 tenant boundary using the active Azure subscription and GitHub environment 
+elease-2.
 
 CONFIRMED BASELINE:
 - Subscription: Azure subscription 1
@@ -45,10 +46,12 @@ The GitHub workload identity was granted Contributor at subscription scope, sati
 STEP P0.2 - FEDERATED CREDENTIAL VERIFICATION
 
 RESULT:
-OIDC federation between GitHub Actions and Azure was configured and verified successfully for the elease-2 environment.
+OIDC federation between GitHub Actions and Azure was configured and verified successfully for the 
+elease-2 environment.
 
 CONFIRMED SUBJECT:
-- epo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2
+- 
+epo:jrikobd-azaws/azawslab-enterprise-hybrid-security:environment:release-2
 
 ==============================
 STEP P0.3 - REMOTE TERRAFORM BACKEND
@@ -57,7 +60,8 @@ RESULT:
 The remote Terraform backend for Release 2 was established successfully and backend initialization completed successfully.
 
 CURRENT ACTIVE BACKEND TARGET:
-- Resource group: g-dev-terraformstate-norwayeast
+- Resource group: 
+g-dev-terraformstate-norwayeast
 - Storage account: stdevtfstatene01
 - Container: 	fstate
 
@@ -68,7 +72,8 @@ ACTIVE ROOTS VERIFIED:
 
 VERIFICATION RESULT:
 Current local Terraform initialization metadata confirms all active roots reference:
-- g-dev-terraformstate-norwayeast
+- 
+g-dev-terraformstate-norwayeast
 - stdevtfstatene01
 
 NOTE:
@@ -102,7 +107,8 @@ DETAILS:
 - Status: Success
 
 NOTE:
-This validated secretless GitHub-to-Azure authentication through OIDC federation using the elease-2 environment.
+This validated secretless GitHub-to-Azure authentication through OIDC federation using the 
+elease-2 environment.
 
 ==============================
 P0 CLOSURE STATUS

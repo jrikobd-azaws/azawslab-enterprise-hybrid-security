@@ -1,4 +1,4 @@
-﻿# Governance Evidence
+# Governance Evidence
 
 This folder is reserved for Release 2 governance evidence.
 

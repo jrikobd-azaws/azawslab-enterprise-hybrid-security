@@ -1,4 +1,4 @@
-﻿# 02-terraform-and-automation
+# 02-terraform-and-automation
 
 ## 1. Objective
 
@@ -58,7 +58,7 @@ Workload active state:
 
 ## 5. Implementation Summary
 
-### P2a – Terraform reusable modules
+### P2a - Terraform reusable modules
 Key implementation outcomes:
 - deployment target finalized as:
   - region: `norwayeast`
@@ -89,7 +89,7 @@ A hardening refinement was completed after the validated build:
 
 This reduced destroy risk by separating governance, shared security, and workload lifecycles while keeping the reusable module structure intact.
 
-### P2b – Ansible configuration management
+### P2b - Ansible configuration management
 Key implementation outcomes for the current scope:
 - Azure-connected Linux management host pattern validated for private workload administration
 - private WinRM path to the workload VM validated
@@ -98,7 +98,7 @@ Key implementation outcomes for the current scope:
 - idempotent rerun validated with no unnecessary changes
 - `ad-join` execution intentionally deferred until `hq.azawslab.co.uk` and hybrid connectivity are ready
 
-### P2c – CI/CD pipeline
+### P2c - CI/CD pipeline
 Key implementation outcomes:
 - GitHub Actions Terraform CI workflow implemented
 - GitHub Actions controlled Terraform Apply workflow implemented

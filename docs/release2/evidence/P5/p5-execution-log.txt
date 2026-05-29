@@ -1,4 +1,4 @@
-﻿
+
 [2026-05-04 23:41:17 +01:00] P5 hub-spoke networking deployed and validated
 
 Scope:

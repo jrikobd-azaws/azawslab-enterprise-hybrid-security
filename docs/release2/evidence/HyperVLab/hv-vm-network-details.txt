@@ -1,4 +1,4 @@
-﻿--- Hyper-V Lab NIC and IP Evidence ---
+--- Hyper-V Lab NIC and IP Evidence ---
 Generated: 05/07/2026 13:27:00
 -------------------------------------------
 === VM: DC1-HQ ===

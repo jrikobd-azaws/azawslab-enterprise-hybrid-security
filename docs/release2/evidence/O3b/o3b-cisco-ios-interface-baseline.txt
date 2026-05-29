@@ -1,4 +1,4 @@
-﻿O3b Cisco 8000V IOS XE Interface Baseline Validation
+O3b Cisco 8000V IOS XE Interface Baseline Validation
 
 Scope:
 Validate Cisco Catalyst 8000V first boot, SSH management access, IOS version, and AWS ENI-to-interface baseline.

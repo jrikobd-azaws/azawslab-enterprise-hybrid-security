@@ -1,4 +1,4 @@
-﻿---
+---
 - name: O5 - Tier 2 - AVD Toolchain Egress Preflight Dispatch
   hosts: vm_dev_mgmt_01
   gather_facts: false

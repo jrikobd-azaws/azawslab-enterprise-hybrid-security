@@ -1,4 +1,4 @@
-﻿--- Hyper-V Lab Local Connectivity & IP Assignment ---
+--- Hyper-V Lab Local Connectivity & IP Assignment ---
 Generated: 05/07/2026 13:35:25
 -------------------------------------------
 Error assigning IP to LinuxVM01: Connection failed to establish within 10000 milliseconds.

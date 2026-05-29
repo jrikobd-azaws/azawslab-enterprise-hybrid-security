@@ -1,4 +1,4 @@
-﻿# P5/O3a Hybrid Connectivity Execution Log
+# P5/O3a Hybrid Connectivity Execution Log
 
 ## Scope
 

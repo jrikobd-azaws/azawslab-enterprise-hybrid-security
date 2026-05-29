@@ -1,4 +1,4 @@
-﻿---
+---
 - name: O4 Tier 2 - Sanitized snapshot from management host
   hosts: vm_dev_mgmt_01
   gather_facts: false

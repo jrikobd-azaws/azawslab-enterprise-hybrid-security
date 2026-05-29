@@ -1,4 +1,4 @@
-﻿# Observability Evidence
+# Observability Evidence
 
 This folder is reserved for Release 3 workload-observability evidence.
 

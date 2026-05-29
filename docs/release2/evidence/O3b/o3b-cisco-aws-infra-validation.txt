@@ -1,4 +1,4 @@
-﻿O3b Cisco 8000V AWS Infrastructure Validation
+O3b Cisco 8000V AWS Infrastructure Validation
 Generated UTC: 2026-05-11 11:01:23
 
 Scope: validate Cisco 8000V AWS-side Terraform deployment and routing foundation.

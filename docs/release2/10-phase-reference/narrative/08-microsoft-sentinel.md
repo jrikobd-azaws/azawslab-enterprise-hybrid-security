@@ -1,4 +1,4 @@
-﻿# 08-microsoft-sentinel
+# 08-microsoft-sentinel
 
 ## 1. Objective
 

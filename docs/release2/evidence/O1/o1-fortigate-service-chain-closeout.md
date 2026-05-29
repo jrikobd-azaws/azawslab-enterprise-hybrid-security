@@ -1,4 +1,4 @@
-﻿# O1 FortiGate Service-Chain Closeout Evidence
+# O1 FortiGate Service-Chain Closeout Evidence
 
 ## Scope
 

@@ -53,3 +53,5 @@ docs/portfolio-migration-reports/
 .github/agents/
 *.prompt.*
 *.agent.md
+
+.tmp-public-audit/

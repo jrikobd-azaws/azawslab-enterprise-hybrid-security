@@ -1,7 +1,7 @@
-﻿# Release 2 – Azure Platform Engineering & Security
+# Release 2 - Azure Platform Engineering & Security
 
 > **Part of the [azawslab Enterprise Hybrid Security Platform](../README.md)**  
-> Status: **In progress** – see [implementation tracker](../implementation-tracker.md)
+> Status: **In progress** - see [implementation tracker](../implementation-tracker.md)
 
 ## Overview
 
@@ -18,7 +18,7 @@ All resources follow a strict **naming convention** and are validated primarily 
 
 ---
 
-## Key Deliverables (Phases P0–P9c, O1–O5)
+## Key Deliverables (Phases P0-P9c, O1-O5)
 
 | Category | Phases | What is built |
 |----------|--------|----------------|
@@ -27,7 +27,7 @@ All resources follow a strict **naming convention** and are validated primarily 
 | **Governance & MSP** | P3, P4 | Policy-as-code (allowed regions, VM SKUs, mandatory tags), least-privilege RBAC, Azure Lighthouse cross-tenant delegation |
 | **Observability & SIEM** | P7, P8, P9a | Defender for Cloud (CSPM), Microsoft Sentinel (analytic rules, incidents), Azure Monitor alerts |
 | **Disaster Recovery** | P9b | Recovery Services Vault with immutability, Multi-User Authorization (Resource Guard), optional ASR-aligned controls |
-| **Hybrid & Multi-Cloud** | O2, O3a, O3b, O3c | Azure Arc, BGP over IPSec (FortiGate ↔ VyOS on Hyper-V), AWS Cisco NVA with segmented BGP, transitive routing validation |
+| **Hybrid & Multi-Cloud** | O2, O3a, O3b, O3c | Azure Arc, BGP over IPSec (FortiGate <-> VyOS on Hyper-V), AWS Cisco NVA with segmented BGP, transitive routing validation |
 | **Zero Trust & VDI** | O4, O5 | Entra Global Secure Access (ZTNA / private access), AVD with FSLogix profile containers |
 
 ---
@@ -88,7 +88,7 @@ This separation reflects a realistic greenfield cloud initiative where a new Azu
 
 ## Tenant and Subscription Setup Rationale
 
-To build a fully functional Azure Virtual Desktop (AVD) lab without upfront cost, I first created an Azure Free Trial subscription using my personal Microsoft Account (MSA), which provided the $200 Azure credit that Microsoft does not offer directly to newly created work/school tenants. Since Microsoft 365 E5 trials are only available to organizational tenants, I then created a new Microsoft Entra ID (work) tenant and activated the Microsoft 365 E5 trial there to unlock AVD‑required services such as Windows Enterprise, Entra ID P2, Intune, and Defender. Because Azure credits cannot be issued directly to a new work tenant, I transferred the Azure subscription (and its remaining $200 credit) from the personal MSA directory into the new organizational tenant. This unified all compute, identity, and licensing under a single enterprise tenant, enabling a clean, production‑style environment for deploying and testing Azure Virtual Desktop.
+To build a fully functional Azure Virtual Desktop (AVD) lab without upfront cost, I first created an Azure Free Trial subscription using my personal Microsoft Account (MSA), which provided the $200 Azure credit that Microsoft does not offer directly to newly created work/school tenants. Since Microsoft 365 E5 trials are only available to organizational tenants, I then created a new Microsoft Entra ID (work) tenant and activated the Microsoft 365 E5 trial there to unlock AVD-required services such as Windows Enterprise, Entra ID P2, Intune, and Defender. Because Azure credits cannot be issued directly to a new work tenant, I transferred the Azure subscription (and its remaining $200 credit) from the personal MSA directory into the new organizational tenant. This unified all compute, identity, and licensing under a single enterprise tenant, enabling a clean, production-style environment for deploying and testing Azure Virtual Desktop.
 
 ## Domain Namespaces
 

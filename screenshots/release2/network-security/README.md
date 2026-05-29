@@ -1,4 +1,4 @@
-﻿# Network Security Evidence
+# Network Security Evidence
 
 This folder is reserved for Release 2 Azure network-security evidence.
 

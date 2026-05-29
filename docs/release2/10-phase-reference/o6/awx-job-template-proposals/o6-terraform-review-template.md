@@ -1,4 +1,4 @@
-﻿# O6 AWX Job Template Proposal - Terraform Review
+# O6 AWX Job Template Proposal - Terraform Review
 
 Status: proposal only.
 

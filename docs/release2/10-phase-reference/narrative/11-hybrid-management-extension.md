@@ -1,4 +1,4 @@
-﻿# 11-hybrid-management-extension
+# 11-hybrid-management-extension
 
 ## 1. Objective
 

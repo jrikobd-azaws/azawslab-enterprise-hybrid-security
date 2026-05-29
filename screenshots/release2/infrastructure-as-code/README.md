@@ -1,4 +1,4 @@
-﻿# Infrastructure as Code Evidence
+# Infrastructure as Code Evidence
 
 This folder is reserved for Release 2 infrastructure-as-code evidence.
 

@@ -1,4 +1,4 @@
-﻿O3b Cisco Selective Route Advertisement Negative Control
+O3b Cisco Selective Route Advertisement Negative Control
 =======================================================
 
 Purpose:

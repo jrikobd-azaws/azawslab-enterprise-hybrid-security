@@ -1,4 +1,4 @@
-﻿# Release 2 Screenshots
+# Release 2 Screenshots
 
 This folder is reserved for Release 2 evidence in the `azawslab Enterprise Hybrid Security Platform`.
 

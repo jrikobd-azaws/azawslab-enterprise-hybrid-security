@@ -1,4 +1,4 @@
-﻿# Ingress and WAF Evidence
+# Ingress and WAF Evidence
 
 This folder is reserved for Release 3 ingress and web-protection evidence.
 

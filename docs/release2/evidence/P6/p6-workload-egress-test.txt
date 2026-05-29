@@ -1,4 +1,4 @@
-﻿{
+{
   "value": [
     {
       "code": "ComponentStatus/StdOut/succeeded",

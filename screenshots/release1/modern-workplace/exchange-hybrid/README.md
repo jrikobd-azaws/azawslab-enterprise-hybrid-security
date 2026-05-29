@@ -1,4 +1,4 @@
-﻿# Exchange Hybrid Evidence
+# Exchange Hybrid Evidence
 
 This folder contains the Release 1 Exchange hybrid and Exchange Online pilot-migration evidence.
 

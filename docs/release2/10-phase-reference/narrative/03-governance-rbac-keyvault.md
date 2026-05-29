@@ -1,4 +1,4 @@
-﻿# 03-governance-rbac-keyvault
+# 03-governance-rbac-keyvault
 
 ## 1. Objective
 
@@ -331,9 +331,9 @@ The mandatory tag issue was especially valuable. The environment had tag policie
 - `Indexed` policies apply to resources that support tags and location in the indexed resource model.
 - `All` policies are required for broader scopes such as resource groups.
 
-This changed the implementation from “policies exist” to “policies demonstrably enforce the platform rules.”
+This changed the implementation from "policies exist" to "policies demonstrably enforce the platform rules."
 
-A second operational lesson was the importance of keeping Terraform remote-state references aligned after backend migration. The workload root’s backend configuration was correct, but its remote-state data source still referenced the retired UK South backend. GitHub Actions CI exposed this issue before further deployment.
+A second operational lesson was the importance of keeping Terraform remote-state references aligned after backend migration. The workload root's backend configuration was correct, but its remote-state data source still referenced the retired UK South backend. GitHub Actions CI exposed this issue before further deployment.
 
 ## 10. Recruiter-Ready Outcome Statement
 

@@ -1,4 +1,4 @@
-﻿# 13-zero-trust-access-modernization
+# 13-zero-trust-access-modernization
 
 ## 1. Objective
 

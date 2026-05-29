@@ -1,4 +1,4 @@
-﻿# Identity and Access Evidence Hub
+# Identity and Access Evidence Hub
 
 **Revised: April 2026**
 
@@ -129,7 +129,7 @@ This evidence set is strong, but it should be read carefully. It does not imply 
 
 The following are now fully implemented as advanced validation and are no longer "deferred":
 - full identity lifecycle automation (disable, session revoke, enable)
-- mover scenario (department change → dynamic group → Slack access)
+- mover scenario (department change -> dynamic group -> Slack access)
 - stronger operational validation of Windows LAPS retrieval workflows
 
 These boundaries are documented in: [Build Checklist - Identity](../../../docs/release1/11-build-checklist.md), [Extensions and Future Enhancements](../../../docs/release1/12-extensions-and-future-enhancements.md), [Skills and Evidence Index](../../../docs/foundation/05-skills-and-evidence-index.md)

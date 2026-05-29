@@ -1,4 +1,4 @@
-# Evidence Verification Guide — Azawslab Enterprise Hybrid Security Platform
+# Evidence Verification Guide - Azawslab Enterprise Hybrid Security Platform
 
 ## 1. Purpose
 
@@ -79,8 +79,8 @@ To maintain security while proving engineering capability, raw logs and screensh
 
 The documentation adheres to a strict placeholder standard to ensure complete transparency during portfolio migration and future roadmap expansion:
 
-*   `proof link to be inserted` — Used explicitly for evidence that exists but whose final public path in the repository is not yet confirmed.
-*   `diagram placeholder` — Used explicitly for architectural or flow diagrams that are planned but not yet generated.
+*   `proof link to be inserted` - Used explicitly for evidence that exists but whose final public path in the repository is not yet confirmed.
+*   `diagram placeholder` - Used explicitly for architectural or flow diagrams that are planned but not yet generated.
 *   No file paths or evidence names are invented or hallucinated. If proof is pending, the placeholder is used.
 
 ---

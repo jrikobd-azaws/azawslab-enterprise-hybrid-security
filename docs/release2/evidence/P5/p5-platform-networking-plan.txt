@@ -1,4 +1,4 @@
-﻿P5 platform-networking Terraform plan evidence
+P5 platform-networking Terraform plan evidence
 ==============================================
 
 Purpose:

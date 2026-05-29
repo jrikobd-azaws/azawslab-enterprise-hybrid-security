@@ -127,7 +127,7 @@ The target state is **implemented and evidenced** but does **not** claim:
 - enterprise-scale device or user populations beyond pilot scope
 - full Defender for Endpoint product depth beyond baseline AV and ASR
 - Android BYOD / MAM, which remains deferred
-- full enterprise PKI / AD CS, since Letâ€™s Encrypt was used for hybrid validation
+- full enterprise PKI / AD CS, since Let's Encrypt was used for hybrid validation
 - Azure governance, Sentinel, or workload hosting, which belong to Releases 2 and 3
 
 These boundaries are intentional and are tracked in the [Build Checklist](../release1/11-build-checklist.md) and [Extensions and Future Enhancements](../release1/12-extensions-and-future-enhancements.md).

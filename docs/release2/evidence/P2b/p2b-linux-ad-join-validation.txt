@@ -1,4 +1,4 @@
-﻿Enable succeeded: 
+Enable succeeded: 
 [stdout]
 Runtime Linux and domain-join secrets loaded from Key Vault using vm-dev-mgmt-01 managed identity.
 Secret values will not be printed.

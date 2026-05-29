@@ -1,4 +1,4 @@
-﻿# FortiGate Service-Chain Role
+# FortiGate Service-Chain Role
 
 This role codifies the validated Release 2 O1 FortiGate service-chain configuration.
 

@@ -1,4 +1,4 @@
-﻿# Intune Evidence Hub
+# Intune Evidence Hub
 
 ## Purpose
 

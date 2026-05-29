@@ -1,4 +1,4 @@
-﻿[2026-05-04 16:19:59] P3 governance review started
+[2026-05-04 16:19:59] P3 governance review started
 
 Azure account context:
 Name                  User                         TenantId                              SubscriptionId --------------------  ---------------------------  ------------------------------------  ------------------------------------ Azure subscription 1  hashib@entra.azawslab.co.uk  78643a83-bcc9-4a3b-ab7e-eeede0b3384e  8d99637c-13e7-417c-b334-b586d0ddc3d6

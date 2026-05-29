@@ -1,4 +1,4 @@
-﻿Name                                ResourceGroup                    Location    NumSubnets    Prefixes      DnsServers    DDOSProtection    VMProtection
+Name                                ResourceGroup                    Location    NumSubnets    Prefixes      DnsServers    DDOSProtection    VMProtection
 ----------------------------------  -------------------------------  ----------  ------------  ------------  ------------  ----------------  --------------
 vnet-dev-norwayeast-hub             rg-connectivity-prod-norwayeast  norwayeast  3             10.0.0.0/16                 False
 vnet-dev-norwayeast-spoke-workload  rg-dev-workload-norwayeast       norwayeast  2             10.10.0.0/16                False

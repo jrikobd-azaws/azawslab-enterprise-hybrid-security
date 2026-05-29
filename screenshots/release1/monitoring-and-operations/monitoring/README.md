@@ -1,4 +1,4 @@
-﻿# Monitoring Evidence
+# Monitoring Evidence
 
 This folder contains the Release 1 monitoring and visibility evidence.
 

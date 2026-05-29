@@ -1,4 +1,4 @@
-﻿# Scripts
+# Scripts
 
 This folder contains support scripts used for documentation migration, Release 1 validation, and Release 2 platform operations.
 

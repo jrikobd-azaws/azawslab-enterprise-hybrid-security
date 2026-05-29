@@ -1,4 +1,4 @@
-﻿Release 2 - Phase P0 Backend Current State Verification
+Release 2 - Phase P0 Backend Current State Verification
 
 Current active Terraform backend target:
 - Resource group: rg-dev-terraformstate-norwayeast

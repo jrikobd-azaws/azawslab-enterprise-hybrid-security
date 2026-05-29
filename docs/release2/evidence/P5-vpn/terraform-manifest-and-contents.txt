@@ -1,4 +1,4 @@
-﻿===== File: C:\GitHub\azawslab-enterprise-hybrid-security\terraform\aws-branch\dev\locals.tf =====
+===== File: C:\GitHub\azawslab-enterprise-hybrid-security\terraform\aws-branch\dev\locals.tf =====
 locals {
   common_tags = {
     Environment      = "Development"

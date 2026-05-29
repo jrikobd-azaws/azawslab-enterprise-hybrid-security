@@ -1,6 +1,6 @@
-# 06. Skills & Evidence Index â€” Release 2
+# 06. Skills & Evidence Index - Release 2
 
-> **Part of** [Release 2 â€” Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
+> **Part of** [Release 2 - Azure Platform Engineering, Security, Automation, Private Platform & AI Operations](./README.md)
 >
 > **Purpose:** Fast reviewer index connecting each Release 2 capability to its evidence location, capability document, and target role. Designed so a technical reviewer can verify a claim in under 30 seconds.
 

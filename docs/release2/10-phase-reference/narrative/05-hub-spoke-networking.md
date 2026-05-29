@@ -1,4 +1,4 @@
-﻿# 05-hub-spoke-networking
+# 05-hub-spoke-networking
 
 ## 1. Objective
 

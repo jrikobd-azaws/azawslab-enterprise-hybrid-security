@@ -1,4 +1,4 @@
-# Skills Matrix — Azawslab Enterprise Hybrid Security Platform
+# Skills Matrix - Azawslab Enterprise Hybrid Security Platform
 
 ## 1. Purpose
 
@@ -10,11 +10,11 @@ This skills matrix maps portfolio evidence directly to target cloud platform, in
 
 The matrix addresses four senior roles and one adjacent role:
 
-1. **Senior Cloud Platform Engineer** – Azure platform architecture, IaC, CI/CD, landing zones, private container platforms, secure operator workspace.
-2. **Hybrid Cloud / Infrastructure Engineer** – Multi-cloud networking, hybrid identity, on-premises integration, branch office connectivity, secure admin workspace.
-3. **Cloud Security Architect** – Zero-trust architecture, identity security, network inspection, secrets management, AI operations governance, secure workspace controls.
-4. **Modern Workplace / Endpoint Engineer** – Microsoft 365, Intune, Autopilot, Purview, endpoint security, operational recovery, AVD + FSLogix design integration.
-5. **DevOps / SRE** (adjacent) – CI/CD pipeline design, automation control planes, monitoring, resilience validation, private platform operations, AI-assisted workflows.
+1. **Senior Cloud Platform Engineer** - Azure platform architecture, IaC, CI/CD, landing zones, private container platforms, secure operator workspace.
+2. **Hybrid Cloud / Infrastructure Engineer** - Multi-cloud networking, hybrid identity, on-premises integration, branch office connectivity, secure admin workspace.
+3. **Cloud Security Architect** - Zero-trust architecture, identity security, network inspection, secrets management, AI operations governance, secure workspace controls.
+4. **Modern Workplace / Endpoint Engineer** - Microsoft 365, Intune, Autopilot, Purview, endpoint security, operational recovery, AVD + FSLogix design integration.
+5. **DevOps / SRE** (adjacent) - CI/CD pipeline design, automation control planes, monitoring, resilience validation, private platform operations, AI-assisted workflows.
 
 ---
 
@@ -120,15 +120,15 @@ The matrix addresses four senior roles and one adjacent role:
 
 For technical reviewers conducting a deep-dive assessment:
 
-1. **Start with `ARCHITECTURE.md`** — understand the platform evolution, trust boundaries, and component relationships.
-2. **Select a role from §4** — identify the skills relevant to the position.
-3. **Follow the evidence locations** — each skill maps to a specific evidence folder. Reviewers can verify claims directly:
+1. **Start with `ARCHITECTURE.md`** - understand the platform evolution, trust boundaries, and component relationships.
+2. **Select a role from §4** - identify the skills relevant to the position.
+3. **Follow the evidence locations** - each skill maps to a specific evidence folder. Reviewers can verify claims directly:
    - Screenshots for UI-based validation.
    - CLI outputs and Terraform logs for infrastructure verification.
    - AWX job logs for automation proof.
    - Policy records for governance and AI enclave controls.
-4. **Cross-reference `EVIDENCE_GUIDE.md`** once Cycle 5 is complete — for redaction standards and evidence organisation rules.
-5. **Review `PORTFOLIO.md`** — for the full narrative case study and interview talking points aligned to each role.
-6. **Check `STATUS.md`** — for the canonical release status and source-truth lock.
+4. **Cross-reference `EVIDENCE_GUIDE.md`** once Cycle 5 is complete - for redaction standards and evidence organisation rules.
+5. **Review `PORTFOLIO.md`** - for the full narrative case study and interview talking points aligned to each role.
+6. **Check `STATUS.md`** - for the canonical release status and source-truth lock.
 
 This matrix is maintained as a living document. Evidence paths are updated as proof links are finalised.

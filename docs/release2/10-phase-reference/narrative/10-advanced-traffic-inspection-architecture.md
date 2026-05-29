@@ -1,4 +1,4 @@
-﻿# 10-advanced-traffic-inspection-architecture
+# 10-advanced-traffic-inspection-architecture
 
 ## 1. Objective
 

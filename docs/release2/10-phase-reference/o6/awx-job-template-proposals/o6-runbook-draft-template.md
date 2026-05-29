@@ -1,4 +1,4 @@
-﻿# O6 AWX Job Template Proposal - Runbook Draft
+# O6 AWX Job Template Proposal - Runbook Draft
 
 Status: proposal only.
 

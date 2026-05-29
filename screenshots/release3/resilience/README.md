@@ -1,4 +1,4 @@
-﻿# Resilience Evidence
+# Resilience Evidence
 
 This folder is reserved for Release 3 resilience evidence.
 

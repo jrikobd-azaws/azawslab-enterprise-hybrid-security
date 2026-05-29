@@ -1,4 +1,4 @@
-﻿P5 FortiGate GatewaySubnet Ingress Symmetry Validation
+P5 FortiGate GatewaySubnet Ingress Symmetry Validation
 
 Purpose:
 Document the root cause and fix for HQ/DC1 initiated traffic to Azure workload vm-dev-client-01.

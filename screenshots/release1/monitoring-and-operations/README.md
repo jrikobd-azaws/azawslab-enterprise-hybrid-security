@@ -1,14 +1,14 @@
-﻿# Monitoring and Operations Evidence Hub
+# Monitoring and Operations Evidence Hub
 
 ## Purpose
 
 This page is the guided evidence index for the monitoring and operations portion of the implemented platform. It exists to make the screenshot archive easier to review by grouping evidence into the main visibility areas:
 
-- **sign‑in logs** – access and Conditional Access outcomes
-- **audit logs** – administrative traceability
-- **device visibility** – compliance and control status
-- **alert visibility** – example operational alerts
-- **Graph PowerShell operational scripts** – programmatic user and device state visibility (advanced validation)
+- **sign-in logs** - access and Conditional Access outcomes
+- **audit logs** - administrative traceability
+- **device visibility** - compliance and control status
+- **alert visibility** - example operational alerts
+- **Graph PowerShell operational scripts** - programmatic user and device state visibility (advanced validation)
 
 This page should be read as an evidence hub, not as a narrative implementation document.
 
@@ -19,25 +19,25 @@ This page should be read as an evidence hub, not as a narrative implementation d
 The monitoring and operations evidence demonstrates that the platform was designed to be observed and supported, not just configured and left alone.
 
 The baseline evidence validates:
-- sign‑in visibility linked to access decisions
+- sign-in visibility linked to access decisions
 - audit trails for administrative actions
-- device‑state visibility for compliance and troubleshooting
-- practical alert visibility for day‑to‑day support
+- device-state visibility for compliance and troubleshooting
+- practical alert visibility for day-to-day support
 
 **Advanced validation (added after baseline) adds:**
 - Graph/PowerShell scripts that provide programmatic user and device state visibility
-- safe, operator‑led device rename via Graph API (dry‑run + apply)
+- safe, operator-led device rename via Graph API (dry-run + apply)
 
-This combination of portal visibility and scriptable, automation‑ready tooling directly supports helpdesk and L3 engineering workflows.
+This combination of portal visibility and scriptable, automation-ready tooling directly supports helpdesk and L3 engineering workflows.
 
 ---
 
 ## How to Use This Hub
 
 Use this page in one of three ways:
-- **Start with flagship proof** – the shortest route to the strongest screenshots
-- **Browse by monitoring area** – evidence grouped by logs, visibility, alerts, or scripts
-- **Follow the related docs** – the implementation story behind the evidence
+- **Start with flagship proof** - the shortest route to the strongest screenshots
+- **Browse by monitoring area** - evidence grouped by logs, visibility, alerts, or scripts
+- **Follow the related docs** - the implementation story behind the evidence
 
 This hub is designed to reduce click fatigue while still giving access to the wider screenshot archive underneath each folder.
 
@@ -47,29 +47,29 @@ This hub is designed to reduce click fatigue while still giving access to the wi
 
 | Proof Area | What it demonstrates | Best evidence |
 | :--- | :--- | :--- |
-| **Conditional Access result visibility** | Access‑control outcome visible in sign‑in logs | [Conditional Access result in sign‑in logs](monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png) |
+| **Conditional Access result visibility** | Access-control outcome visible in sign-in logs | [Conditional Access result in sign-in logs](monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png) |
 | **Audit log overview** | Administrative activity is reviewable and traceable | [Entra audit log overview](monitoring/audit-logs/01-entra-audit-log-overview.png) |
 | **Device compliance status** | Managed endpoint health visible at a glance | [Intune device compliance status](monitoring/device-visibility/03-intune-device-compliance-status.png) |
 | **Example alert** | Platform supports proactive configuration awareness | [Intune dashboard device configuration alert](monitoring/example-alert/02-intune-dashboard-device-configuration-alert.png) |
-| **Graph PowerShell managed device state** | Script‑driven device compliance and management status | [Managed device state script result](../identity-and-access/identity-operations/graph-powershell/08-managed-device-state-script-result-desktop-cdniaqb.png) |
-| **Graph PowerShell rename device** | Safe, script‑based device rename via Graph API | [Rename device apply success](../identity-and-access/identity-operations/graph-powershell/09-rename-managed-device-apply-desktop-cdniaqb-to-win11-bel-02.png) |
+| **Graph PowerShell managed device state** | Script-driven device compliance and management status | [Managed device state script result](../identity-and-access/identity-operations/graph-powershell/08-managed-device-state-script-result-desktop-cdniaqb.png) |
+| **Graph PowerShell rename device** | Safe, script-based device rename via Graph API | [Rename device apply success](../identity-and-access/identity-operations/graph-powershell/09-rename-managed-device-apply-desktop-cdniaqb-to-win11-bel-02.png) |
 
 ---
 
 ## Evidence by Monitoring Area
 
-### 1. Sign‑In Visibility
+### 1. Sign-In Visibility
 
-This area contains one of the strongest identity‑access proofs. It supports:
+This area contains one of the strongest identity-access proofs. It supports:
 - Conditional Access outcome review
-- device‑context interpretation
+- device-context interpretation
 - operational investigation
 
-**Start here:** [Sign‑In Logs Folder](monitoring/sign-in-logs/)
+**Start here:** [Sign-In Logs Folder](monitoring/sign-in-logs/)
 
-**Best evidence:** [Conditional Access result in sign‑in logs](monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
+**Best evidence:** [Conditional Access result in sign-in logs](monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
 
-**Related docs:** [Monitoring – Sign‑In Review](../../../docs/release1/08-monitoring.md)
+**Related docs:** [Monitoring - Sign-In Review](../../../docs/release1/08-monitoring.md)
 
 ### 2. Audit Visibility
 
@@ -82,12 +82,12 @@ This area shows that administrative actions leave a traceable history. It suppor
 
 **Best evidence:** [Entra audit log overview](monitoring/audit-logs/01-entra-audit-log-overview.png)
 
-**Related docs:** [Monitoring – Audit Visibility](../../../docs/release1/08-monitoring.md)
+**Related docs:** [Monitoring - Audit Visibility](../../../docs/release1/08-monitoring.md)
 
 ### 3. Device and Control Visibility
 
 This area proves that the endpoint estate can be reviewed for health and compliance. It supports:
-- compliance‑state evaluation
+- compliance-state evaluation
 - policy visibility
 - operational dashboards
 
@@ -95,12 +95,12 @@ This area proves that the endpoint estate can be reviewed for health and complia
 
 **Best evidence:** [Intune device compliance status](monitoring/device-visibility/03-intune-device-compliance-status.png)
 
-**Related docs:** [Monitoring – Device Visibility](../../../docs/release1/08-monitoring.md)
+**Related docs:** [Monitoring - Device Visibility](../../../docs/release1/08-monitoring.md)
 
 ### 4. Alert Visibility
 
 This area shows that the platform supports practical administrative awareness. It supports:
-- day‑to‑day supportability
+- day-to-day supportability
 - detection of configuration drift
 - proactive endpoint administration
 
@@ -108,15 +108,15 @@ This area shows that the platform supports practical administrative awareness. I
 
 **Best evidence:** [Intune dashboard device configuration alert](monitoring/example-alert/02-intune-dashboard-device-configuration-alert.png)
 
-**Related docs:** [Monitoring – Alerting](../../../docs/release1/08-monitoring.md)
+**Related docs:** [Monitoring - Alerting](../../../docs/release1/08-monitoring.md)
 
 ### 5. Graph PowerShell Operational Scripts (Advanced Validation)
 
-This area demonstrates programmatic, script‑driven visibility and control over user and device state – critical for helpdesk and L3 support scenarios where portal access is not the primary workflow. It supports:
+This area demonstrates programmatic, script-driven visibility and control over user and device state - critical for helpdesk and L3 support scenarios where portal access is not the primary workflow. It supports:
 - Graph API permission scoping (admin consent screens)
 - user state queries (`Get-BelfastPilotUserState.ps1`)
 - managed device state queries (`Get-BelfastManagedDeviceState.ps1`)
-- device rename, executed via Graph API with a safety‑conscious dry‑run → apply pattern (`Rename-BelfastManagedDevice.ps1`)
+- device rename, executed via Graph API with a safety-conscious dry-run -> apply pattern (`Rename-BelfastManagedDevice.ps1`)
 
 **Start here:** [`../identity-and-access/identity-operations/graph-powershell/`](../identity-and-access/identity-operations/graph-powershell/)
 
@@ -133,9 +133,9 @@ This area demonstrates programmatic, script‑driven visibility and control over
 
 ## Recommended Review Path
 
-For the fastest high‑value path through the monitoring and operations evidence (including Graph PowerShell advanced validation), use this order:
+For the fastest high-value path through the monitoring and operations evidence (including Graph PowerShell advanced validation), use this order:
 
-1. [Conditional Access result in sign‑in logs](monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
+1. [Conditional Access result in sign-in logs](monitoring/sign-in-logs/05-entra-signin-conditional-access-result.png)
 2. [Entra audit log overview](monitoring/audit-logs/01-entra-audit-log-overview.png)
 3. [Intune device compliance status](monitoring/device-visibility/03-intune-device-compliance-status.png)
 4. [Intune dashboard device configuration alert](monitoring/example-alert/02-intune-dashboard-device-configuration-alert.png)
@@ -143,12 +143,12 @@ For the fastest high‑value path through the monitoring and operations evidence
 6. [Rename device apply success](../identity-and-access/identity-operations/graph-powershell/09-rename-managed-device-apply-desktop-cdniaqb-to-win11-bel-02.png)
 
 This sequence gives the fastest view of:
-- access‑control visibility
+- access-control visibility
 - administrative traceability
 - endpoint health at a glance
 - proactive alerting
 - programmatic device state awareness
-- safe, script‑based device management
+- safe, script-based device management
 
 ---
 
@@ -161,9 +161,9 @@ Use the **documentation** when you want:
 - how monitoring supports recovery
 
 Use this **evidence hub** when you want:
-- direct proof of sign‑in and Conditional Access visibility
+- direct proof of sign-in and Conditional Access visibility
 - direct proof of audit logs
-- direct proof of device‑state visibility
+- direct proof of device-state visibility
 - direct proof of alert examples
 - direct proof of Graph PowerShell operational scripts
 
@@ -173,11 +173,11 @@ Use this **evidence hub** when you want:
 
 ## Scope Boundaries
 
-The monitoring evidence set is strong for the implemented scope, but it does **not** claim a full enterprise‑grade SIEM, SOC, or real‑time detection and response stack.
+The monitoring evidence set is strong for the implemented scope, but it does **not** claim a full enterprise-grade SIEM, SOC, or real-time detection and response stack.
 
 Examples of intentionally limited or deferred areas include:
 - full Microsoft Sentinel integration (deferred to Release 2)
-- real‑time incident response playbooks (deferred)
+- real-time incident response playbooks (deferred)
 - advanced threat hunting workflows (deferred)
 
 > **Note:** Graph/PowerShell operational scripts are now **fully implemented and evidenced** as advanced validation within Release 1. They are no longer deferred.

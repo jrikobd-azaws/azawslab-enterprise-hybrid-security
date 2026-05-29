@@ -1,11 +1,11 @@
-﻿
+
 ---
 
 ## Release 1 evidence areas
 
 The `screenshots/release1/` folder is organised by operational domain.
 
-Each subfolder contains a `README.md` that serves as a domain‑level evidence dashboard, explaining what the screenshots in that area prove and linking to related documentation.
+Each subfolder contains a `README.md` that serves as a domain-level evidence dashboard, explaining what the screenshots in that area prove and linking to related documentation.
 
 **Implemented and evidenced domains include:**
 
@@ -17,7 +17,7 @@ Each subfolder contains a `README.md` that serves as a domain‑level evidence d
 | Identity lifecycle automation (Graph PowerShell) | `identity-and-access/identity-operations/lifecycle/` |
 | Graph PowerShell operational scripts | `identity-and-access/identity-operations/graph-powershell/` |
 | Exchange hybrid & Microsoft 365 baseline | `modern-workplace/exchange-hybrid/` |
-| Email security (anti‑phishing, Safe Links, Safe Attachments) | `modern-workplace/email-security/` |
+| Email security (anti-phishing, Safe Links, Safe Attachments) | `modern-workplace/email-security/` |
 | Teams & SharePoint baseline | `modern-workplace/teams-baseline/`, `sharepoint-baseline/` |
 | Intune enrollment (Windows corp/BYOD, iPhone, Linux) | `endpoint-management/intune/` |
 | Windows Autopilot + ESP | `endpoint-management/intune/intune-autopilot-esp/` |
@@ -28,7 +28,7 @@ Each subfolder contains a `README.md` that serves as a domain‑level evidence d
 | BitLocker recovery & stale record cleanup | `endpoint-management/intune/intune-bitlocker-recovery-scenario/` |
 | Purview sensitivity labels, DLP & retention | `information-protection/purview/` |
 | Purview document fingerprinting | `information-protection/purview/purview-fingerprint/` |
-| Monitoring (sign‑ins, audits, alerts) | `monitoring-and-operations/monitoring/` |
+| Monitoring (sign-ins, audits, alerts) | `monitoring-and-operations/monitoring/` |
 
 For guided navigation through the evidence, start with the **Release 1 evidence dashboard**:
 - [`screenshots/release1/README.md`](release1/README.md)
@@ -46,4 +46,4 @@ For guided navigation through the evidence, start with the **Release 1 evidenc
 
 ## Subfolders
 
-You can’t perform that action at this time.
+You can't perform that action at this time.

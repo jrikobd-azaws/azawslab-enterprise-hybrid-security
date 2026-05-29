@@ -1,4 +1,4 @@
-﻿[2026-05-04 19:27:35 +01:00] P4 readiness checkpoint completed
+[2026-05-04 19:27:35 +01:00] P4 readiness checkpoint completed
 
 Scope:
 - Prepared Azure Lighthouse customer-side tenant/domain.

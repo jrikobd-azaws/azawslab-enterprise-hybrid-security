@@ -1,4 +1,4 @@
-﻿# 01-foundation-and-landing-zone
+# 01-foundation-and-landing-zone
 
 ## 1. Objective
 
@@ -63,7 +63,7 @@ Later P3 validation strengthened this baseline by adding resource-group-specific
 
 ## 5. Implementation Summary
 
-### P0 – Foundation and automation bootstrap
+### P0 - Foundation and automation bootstrap
 Key implementation outcomes:
 - Azure subscription context confirmed
 - GitHub environment prepared for Release 2 deployment control
@@ -74,7 +74,7 @@ Key implementation outcomes:
   - `stdevtfstatene01`
 - initial repository structure scaffolded for Terraform, Ansible, workflows, and evidence
 
-### P1 – Landing zone and governance foundation
+### P1 - Landing zone and governance foundation
 Key implementation outcomes:
 - management groups created successfully:
   - `mg-platform-prod-global`

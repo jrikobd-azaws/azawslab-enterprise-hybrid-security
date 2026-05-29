@@ -20,7 +20,7 @@ The starting point represented a typical fragmented hybrid setup: a legacy on-pr
 
 ---
 
-## 4. Release 1 Story ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â Hybrid Modern Workplace, Identity & Endpoint Security
+## 4. Release 1 Story - Hybrid Modern Workplace, Identity & Endpoint Security
 
 **Status: Complete and evidenced**
 
@@ -32,7 +32,7 @@ The endpoint boundary was secured via Intune across corporate, BYOD, Linux, and 
 
 ---
 
-## 5. Release 2 Story ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
+## 5. Release 2 Story - Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
 
 **Status: Implemented and evidenced**
 
@@ -45,7 +45,7 @@ A secure multi-cloud networking and inspection architecture was deployed, combin
 The O6 AI Operations Enclave is a fully implemented, human-approved AI-assisted CloudOps pattern. It spans two complementary repositories:
 
 **`azawslab-enterprise-hybrid-security` (primary portfolio)**  
-The main repository holds the enclave's operational evidence under `docs/release2/evidence/O6/`. This includes live validation artifacts: MCP gateway configuration (`o6-mcp-gateway-live.json`), policy decision logs (`o6-mcp-policy-decision-logs.json`), agent-specific policy enforcement records (FinOps, Runbook, SecOps), network policy verification, namespace lifecycle management, and post-cleanup resource validation. Every piece of evidence proves that the AI enclave was deployed, governed, and operationally verified ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â not merely described.
+The main repository holds the enclave's operational evidence under `docs/release2/evidence/O6/`. This includes live validation artifacts: MCP gateway configuration (`o6-mcp-gateway-live.json`), policy decision logs (`o6-mcp-policy-decision-logs.json`), agent-specific policy enforcement records (FinOps, Runbook, SecOps), network policy verification, namespace lifecycle management, and post-cleanup resource validation. Every piece of evidence proves that the AI enclave was deployed, governed, and operationally verified - not merely described.
 
 **`local-ai-lab-infra` (companion execution environment)**  
 The companion project provides the multi-agent AI runtime that powers the O6 pattern. It is a local-first, LangGraph-orchestrated pipeline with five specialised agents:
@@ -58,7 +58,7 @@ The companion project provides the multi-agent AI runtime that powers the O6 pat
 | FinOps | Cost estimation and budget checks | Cloud API or local |
 | GitOps | Summaries, commit text, PR descriptions | Cloud API or local |
 
-The security model is **deny-by-default**: every agent receives only the tools explicitly permitted in `configs/project_config.yaml`. Destructive or write-capable tools must be explicitly enabled per project. The orchestrator validates every tool call before execution. Code generation runs locally through DeepSeek Coder on Ollama ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â sensitive IaC never leaves the machine unless cloud review is explicitly configured with sanitised summaries.
+The security model is **deny-by-default**: every agent receives only the tools explicitly permitted in `configs/project_config.yaml`. Destructive or write-capable tools must be explicitly enabled per project. The orchestrator validates every tool call before execution. Code generation runs locally through DeepSeek Coder on Ollama - sensitive IaC never leaves the machine unless cloud review is explicitly configured with sanitised summaries.
 
 Critically, the O6 boundary enforces a strict architectural separation: AI agents perform analysis, generate recommendations, and produce runbook drafts via MCP and RAG (Chroma vector DB), but **execution authority remains decoupled and gated behind human approval and the Terraform/AWX CI/CD pipelines**. AI does not mutate infrastructure autonomously. This is the hallmark of senior-level AI risk management.
 
@@ -70,7 +70,7 @@ Together, the two repositories form a complete story: `local-ai-lab-infra` is th
 
 ---
 
-## 6. Release 3 Platform Evolution ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â Multi-Cloud Kubernetes, GitOps & DevSecOps
+## 6. Release 3 Platform Evolution - Multi-Cloud Kubernetes, GitOps & DevSecOps
 
 **Status: Roadmap / platform evolution**
 
@@ -99,7 +99,7 @@ The portfolio is executed across six distinct capability tracks to manage comple
 
 These decisions reflect deliberate architectural judgement, not defaults.
 
-- **Staged delivery:** Designing the platform sequentially ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â Identity ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ Infrastructure ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ Automation ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ AI/Workloads ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â reduced blast radius and proved the ability to execute complex migrations systematically.
+- **Staged delivery:** Designing the platform sequentially - Identity -> Infrastructure -> Automation -> AI/Workloads - reduced blast radius and proved the ability to execute complex migrations systematically.
 - **Zero-trust automation boundaries:** Moving from localised scripts to an AWX control plane (A2) ensured runtime secrets are retrieved dynamically from Azure Key Vault and AWS SSM, eliminating credential sprawl.
 - **Human-in-the-loop AI:** The O6 AI Operations Enclave isolates AI analysis from direct infrastructure mutation. Insights are generated via local RAG and MCP, but execution remains securely gated by Terraform and Ansible CI/CD pipelines requiring human approval.
 - **Terraform over Bicep or ARM:** Terraform was chosen for multi-cloud portability, enabling the same IaC approach across Azure and AWS without vendor lock-in.
@@ -126,7 +126,7 @@ The portfolio is anchored in verifiable artifacts: screenshots, CLI outputs, Ter
 - **For Cloud Platform Engineers:** Demonstrates an architectural mindset capable of designing governed Azure landing zones, managing complex IaC state with remote backends and locking, and delivering private container platforms with no public API exposure.
 - **For Hybrid Infrastructure Engineers:** Proves the ability to bridge legacy on-premises environments (Active Directory, Hyper-V, VyOS) with modern cloud endpoints via IPSec, BGP, and Entra Connect, while maintaining clean namespace boundaries through `br1.azawslab.co.uk`.
 - **For Cloud Security Architects:** Highlights a zero-trust methodology, showcasing identity lifecycle automation, FortiGate and Azure Firewall multi-cloud inspection, Defender/Sentinel integration, credential-less automation pipelines, and governed AI operations with human-in-the-loop enforcement.
-- **For Modern Workplace Engineers:** Validates deep expertise in Intune, Windows Autopilot, Purview information protection, and operational recovery scenarios, all integrated into a broader platform security story ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â not treated as a silo.
+- **For Modern Workplace Engineers:** Validates deep expertise in Intune, Windows Autopilot, Purview information protection, and operational recovery scenarios, all integrated into a broader platform security story - not treated as a silo.
 
 ---
 
@@ -152,7 +152,7 @@ Future hardening (Release 3) will extend these patterns into container image sig
 
 **Q:** *"How do you handle state management and module reusability when scaling an Azure landing zone?"*
 
-**Response strategy:** Detail the Phase P2a execution. Explain the decision to split Terraform state boundaries ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â Governance vs. Platform-Shared vs. Workloads ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â to align lifecycle boundaries and reduce destroy risk. Reference the GitHub Actions OIDC integration for secretless pipeline execution and the use of remote state with locking in Azure Storage. Evidence: Terraform plan/apply outputs and pipeline run logs in `docs/release2/evidence/`.
+**Response strategy:** Detail the Phase P2a execution. Explain the decision to split Terraform state boundaries - Governance vs. Platform-Shared vs. Workloads - to align lifecycle boundaries and reduce destroy risk. Reference the GitHub Actions OIDC integration for secretless pipeline execution and the use of remote state with locking in Azure Storage. Evidence: Terraform plan/apply outputs and pipeline run logs in `docs/release2/evidence/`.
 
 ---
 
@@ -168,7 +168,7 @@ Future hardening (Release 3) will extend these patterns into container image sig
 
 **Q:** *"How do you securely integrate AI tooling into CloudOps without exposing the infrastructure to autonomous mutation?"*
 
-**Response strategy:** Reference the O6 AI Operations Enclave's dual-repository architecture. Explain the boundary: the `local-ai-lab-infra` companion project runs a LangGraph multi-agent pipeline where the Coder agent generates IaC locally through DeepSeek Coder on Ollama ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â sensitive code never leaves the machine. Cloud agents (Architect, SecOps, FinOps, GitOps) receive only sanitised summaries unless explicitly configured otherwise. All tool access is deny-by-default, validated per project in `project_config.yaml`. Critically, AI-generated recommendations are never auto-applied: execution authority remains strictly decoupled, requiring human approval and CI/CD pipeline execution through Terraform and AWX. Evidence: MCP gateway logs, policy decision logs, and agent enforcement records in `docs/release2/evidence/O6/`.
+**Response strategy:** Reference the O6 AI Operations Enclave's dual-repository architecture. Explain the boundary: the `local-ai-lab-infra` companion project runs a LangGraph multi-agent pipeline where the Coder agent generates IaC locally through DeepSeek Coder on Ollama - sensitive code never leaves the machine. Cloud agents (Architect, SecOps, FinOps, GitOps) receive only sanitised summaries unless explicitly configured otherwise. All tool access is deny-by-default, validated per project in `project_config.yaml`. Critically, AI-generated recommendations are never auto-applied: execution authority remains strictly decoupled, requiring human approval and CI/CD pipeline execution through Terraform and AWX. Evidence: MCP gateway logs, policy decision logs, and agent enforcement records in `docs/release2/evidence/O6/`.
 
 ---
 
@@ -176,4 +176,4 @@ Future hardening (Release 3) will extend these patterns into container image sig
 
 **Q:** *"How do you handle endpoint compliance failures and operational recovery in a remote-first environment?"*
 
-**Response strategy:** Point to the Release 1 operational recovery scenarios. Discuss the induced trust-break scenario: retrieving the BitLocker key from Entra, rebuilding the device, executing Graph PowerShell scripts to clean up stale records, and validating the restored Intune compliance state. Emphasise that endpoint state directly gates cloud access through Conditional Access policies ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â a device that fails compliance cannot reach the Azure platform. Evidence: Intune policy screenshots, Autopilot deployment status, and endpoint compliance reports in `screenshots/release1/`.
+**Response strategy:** Point to the Release 1 operational recovery scenarios. Discuss the induced trust-break scenario: retrieving the BitLocker key from Entra, rebuilding the device, executing Graph PowerShell scripts to clean up stale records, and validating the restored Intune compliance state. Emphasise that endpoint state directly gates cloud access through Conditional Access policies - a device that fails compliance cannot reach the Azure platform. Evidence: Intune policy screenshots, Autopilot deployment status, and endpoint compliance reports in `screenshots/release1/`.

@@ -1,6 +1,6 @@
-﻿# Skills and Evidence Index
+# Skills and Evidence Index
 
-This page maps the platform’s implemented capabilities to the documentation and evidence that support them.
+This page maps the platform's implemented capabilities to the documentation and evidence that support them.
 
 It is designed to help:
 - recruiters quickly recognise role-relevant skills
@@ -57,7 +57,7 @@ This page is especially useful for roles centered on:
 | **BitLocker Key Escrow / Recovery** | Release 1 | Implemented & evidenced | [Endpoint Compliance and Security](../release1/05-endpoint-compliance-and-security.md), [Recovery Scenarios](../release1/06-recovery-scenarios.md) | `screenshots/release1/endpoint-management/intune/intune-bitlocker-recovery-scenario/` |
 | **Windows Update for Business (WUfB)** | Release 1 | Implemented & evidenced | [Endpoint Compliance and Security](../release1/05-endpoint-compliance-and-security.md) | `screenshots/release1/endpoint-management/intune/intune-windows-update/` |
 | **Identity Lifecycle (Access-State: Disable, Revoke, Enable)** | Release 1 | **Completed (advanced validation added after baseline)** | [Hybrid Identity](../release1/01-hybrid-identity.md) | `screenshots/release1/identity-and-access/identity-operations/lifecycle/` |
-| **Identity Lifecycle (Mover: Department Change → Dynamic Group → App Access)** | Release 1 | **Completed (advanced validation added after baseline)** | [Hybrid Identity](../release1/01-hybrid-identity.md) | `screenshots/release1/identity-and-access/identity-operations/lifecycle/` |
+| **Identity Lifecycle (Mover: Department Change -> Dynamic Group -> App Access)** | Release 1 | **Completed (advanced validation added after baseline)** | [Hybrid Identity](../release1/01-hybrid-identity.md) | `screenshots/release1/identity-and-access/identity-operations/lifecycle/` |
 | **Microsoft Graph API + PowerShell Automation** | Release 1 | **Completed (advanced validation added after baseline)** | [Hybrid Identity](../release1/01-hybrid-identity.md), [Monitoring](../release1/08-monitoring.md) | `screenshots/release1/identity-and-access/identity-operations/graph-powershell/`, `scripts/release1/identity/graph-lifecycle/` |
 | **Operational Recovery / Device Rebuild / Stale Record Cleanup** | Release 1 | Implemented & evidenced | [Recovery Scenarios](../release1/06-recovery-scenarios.md), [Lessons Learned](../release1/10-lessons-learned.md) | `screenshots/release1/endpoint-management/intune/intune-bitlocker-recovery-scenario/` |
 | **Purview Sensitivity Labels** | Release 1 | Implemented & evidenced | [Purview](../release1/07-purview.md) | `screenshots/release1/information-protection/purview/purview-sensitivity-labels/` |
@@ -95,11 +95,11 @@ These capabilities belong to Release 2 or Release 3 and should not be presented 
 
 The following terms may appear in role descriptions and market terminology, but they should be used carefully in the documentation:
 
-- **Enterprise PKI / AD CS** – do not claim full implementation where Release 1 used Let’s Encrypt / `win-acme` for hybrid validation
-- **Broad Azure security platform delivery** – reserved for Release 2
-- **Secure workload modernization / WAF / observability stack** – reserved for Release 3
-- **Full Defender for Endpoint stack** – not fully implemented; baseline AV/ASR only
-- **Android BYOD / MAM** – deferred, not yet evidenced
+- **Enterprise PKI / AD CS** - do not claim full implementation where Release 1 used Let's Encrypt / `win-acme` for hybrid validation
+- **Broad Azure security platform delivery** - reserved for Release 2
+- **Secure workload modernization / WAF / observability stack** - reserved for Release 3
+- **Full Defender for Endpoint stack** - not fully implemented; baseline AV/ASR only
+- **Android BYOD / MAM** - deferred, not yet evidenced
 
 These scope boundaries should always be consistent with:
 - [Build Checklist](../release1/11-build-checklist.md)
@@ -140,7 +140,7 @@ Start with:
 
 This page is one of the most important recruiter and hiring-manager entry points in the repo.
 
-It helps translate the repository from “lots of Microsoft screenshots and docs” into a clear capability map covering:
+It helps translate the repository from "lots of Microsoft screenshots and docs" into a clear capability map covering:
 
 - Intune and Windows 11 endpoint engineering
 - Entra ID and hybrid identity

@@ -1,4 +1,4 @@
-﻿# 07-defender-for-cloud
+# 07-defender-for-cloud
 
 ## 1. Objective
 

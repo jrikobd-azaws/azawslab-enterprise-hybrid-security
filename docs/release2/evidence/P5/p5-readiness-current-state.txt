@@ -1,4 +1,4 @@
-﻿P5 readiness current-state audit
+P5 readiness current-state audit
 ================================
 
 Purpose:

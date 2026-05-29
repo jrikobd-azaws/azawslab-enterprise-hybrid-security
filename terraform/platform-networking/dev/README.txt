@@ -1,4 +1,4 @@
-﻿# Platform-networking root
+# Platform-networking root
 
 This Terraform root owns shared Azure networking infrastructure for Release 2 dev scope.
 

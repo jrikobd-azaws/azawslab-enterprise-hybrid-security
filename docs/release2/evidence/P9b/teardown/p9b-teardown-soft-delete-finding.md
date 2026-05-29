@@ -1,4 +1,4 @@
-﻿# P9b Teardown Finding - Azure Backup Soft Delete
+# P9b Teardown Finding - Azure Backup Soft Delete
 
 ## Summary
 

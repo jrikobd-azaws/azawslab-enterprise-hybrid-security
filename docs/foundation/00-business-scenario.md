@@ -1,4 +1,4 @@
-﻿# Business Scenario
+# Business Scenario
 
 ## Purpose
 
@@ -104,7 +104,7 @@ As Microsoft 365 adoption grows, the business needs confidence that user product
 - protected (including email security)
 - aligned to identity and device trust
 
-This is why Exchange hybrid, Teams, SharePoint, and later email security (anti‑phishing, Safe Links, Safe Attachments) are part of the Release 1 story.
+This is why Exchange hybrid, Teams, SharePoint, and later email security (anti-phishing, Safe Links, Safe Attachments) are part of the Release 1 story.
 
 ### 4. Improve compliance alignment and information-protection visibility
 
@@ -141,7 +141,7 @@ Release 1 focuses on the controls that have to come first:
 - Microsoft 365 service validation (including email security)
 - endpoint management and security (including Autopilot, LAPS, app deployment)
 - information protection (including document fingerprinting)
-- monitoring and Graph‑powered operational support
+- monitoring and Graph-powered operational support
 - recovery
 
 ### Release 2 solves governance expansion
@@ -188,12 +188,12 @@ These risks are not hypothetical. They are the kinds of pressures that typically
 
 In business terms, success means the organization reaches a state where:
 
-- identity is synchronized, supportable, and automation‑ready
+- identity is synchronized, supportable, and automation-ready
 - access decisions are influenced by stronger trust conditions
 - Microsoft 365 services are validated, usable, and protected
 - endpoints are enrolled, visible, compliant, provisionable via Autopilot, and recoverable
 - information protection controls are visible to users (including document fingerprinting)
-- operational review and troubleshooting are possible (including Graph‑powered scripts)
+- operational review and troubleshooting are possible (including Graph-powered scripts)
 - later Azure and workload expansion can build on a credible base
 
 That is exactly why Release 1 is the implementation anchor of the repository.

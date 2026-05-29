@@ -1,4 +1,4 @@
-﻿---
+---
 - name: Validate WinRM connectivity to Windows target
   ansible.windows.win_ping:
 

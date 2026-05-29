@@ -1,4 +1,4 @@
-﻿# A2/O4/O5 Integrated Platform Design
+# A2/O4/O5 Integrated Platform Design
 
 ## Objective
 

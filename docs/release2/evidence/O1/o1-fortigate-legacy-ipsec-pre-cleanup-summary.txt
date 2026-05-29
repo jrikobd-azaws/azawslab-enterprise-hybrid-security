@@ -1,4 +1,4 @@
-﻿O1 FortiGate Legacy IPSec Pre-Cleanup Summary
+O1 FortiGate Legacy IPSec Pre-Cleanup Summary
 
 Purpose:
 Capture and review FortiGate state before removing the legacy direct FortiGate-to-VyOS IPSec configuration.

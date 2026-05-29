@@ -1,4 +1,4 @@
-﻿# O3b AWS Branch Foundation - Execution Summary
+# O3b AWS Branch Foundation - Execution Summary
 
 ## Scope
 
