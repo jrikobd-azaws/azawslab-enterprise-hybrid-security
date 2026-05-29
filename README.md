@@ -140,7 +140,7 @@ Every major capability has a dedicated evidence path containing screenshots, CLI
 - **O5 evidence** - AVD + FSLogix
 - **O6 evidence** - AI Operations Enclave
 
-Evidence is redacted to remove secrets and sensitive identifiers. Placeholder links in public-facing documentation are marked with `proof link to be inserted` until final paths are confirmed.
+Evidence is redacted to remove secrets and sensitive identifiers. Start with the [Proof Gallery](PROOF_GALLERY.md), [Evidence Guide](EVIDENCE_GUIDE.md), Release 1 screenshot hub (`screenshots/release1/`), Release 2 evidence root (`docs/release2/evidence/`), and O6 evidence folder (`docs/release2/evidence/O6/`).
 
 ---
 

@@ -117,7 +117,7 @@ The portfolio is anchored in verifiable artifacts: screenshots, CLI outputs, Ter
 - **Release 1 (UI & Narrative):** Verified via a comprehensive screenshot hub (`screenshots/release1/`) capturing Intune compliance, Autopilot ESP stages, DLP policy enforcement, Exchange hybrid mail flow, and operational recovery scenarios.
 - **Release 2 (CLI & Engineering):** Verified via detailed execution logs, Terraform plan/apply outputs, AWX job stdout, and KQL queries located in `docs/release2/evidence/`.
 - **O6 AI Operations Enclave:** Verified via live validation artifacts in `docs/release2/evidence/O6/`, including MCP gateway configuration, agent policy enforcement logs, network policy verification, namespace lifecycle management, and post-cleanup validation. The companion `local-ai-lab-infra` repository provides the executable multi-agent pipeline that generated these results.
-- `proof link to be inserted` for any evidence path not yet confirmed.
+- **Evidence map:** Start with [`PROOF_GALLERY.md`](PROOF_GALLERY.md), [`EVIDENCE_GUIDE.md`](EVIDENCE_GUIDE.md), [`docs/release2/06-skills-and-evidence-index.md`](docs/release2/06-skills-and-evidence-index.md), and the Release 2 evidence root (`docs/release2/evidence/`).
 
 ---
 

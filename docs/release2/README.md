@@ -70,7 +70,7 @@ Release 2 evidence is **CLI-first and engineering-led**. We prioritise verifiabl
 *   **Automation Evidence:** AWX job stdout, playbook execution logs, and Key Vault/SSM secret retrieval validation.
 *   **AKS/AVD/Enclave Evidence:** Cluster API posture, FSLogix profile container tests, MCP gateway policy logs, and human-in-the-loop review records.
 
-*Note: All evidence is redacted to preserve tenant security. Links to specific proof items that are currently undergoing reorganization are marked `proof link to be inserted`.*
+*Note: All evidence is redacted to preserve tenant security. Start with the Release 2 evidence root [`./evidence/`](./evidence/) and the skills/evidence map [`06-skills-and-evidence-index.md`](./06-skills-and-evidence-index.md); detailed artifacts remain inside the relevant phase and capability folders.*
 
 ---
 

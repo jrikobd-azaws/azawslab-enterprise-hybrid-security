@@ -52,7 +52,7 @@
 - **All Release 2 evidence** is stored under [`docs/release2/evidence/`](./evidence/). Implemented phase/capability folders include P0-P9b, P5-vpn, P9b-redesign, O1, O2, O3b, O3c, O4, O5, O6, A1-ansible-network-baseline, A2-awx-control-plane, and supporting folders.
 - **Preferred evidence format:** `.txt`, `.json`, `.md` for CLI-first validation; `.png` only where UI state is the primary proof.
 - **Redaction standard:** All tenant IDs, subscription IDs, internal IPs, secrets, and credentials are stripped. Enough metadata is preserved to prove the claim.
-- **Proof-link convention:** `proof link to be inserted` marks evidence that exists but whose final public path is not yet confirmed.
+- **Evidence-link convention:** link only to existing evidence folders, verified artifacts, implementation source files, or workflow definitions. Primary reviewer entry points are [`docs/release2/evidence/`](./evidence/), [`PROOF_GALLERY.md`](../../PROOF_GALLERY.md), and [`EVIDENCE_GUIDE.md`](../../EVIDENCE_GUIDE.md).
 - For full redaction rules and evidence organisation standards, see [`EVIDENCE_GUIDE.md`](../../EVIDENCE_GUIDE.md).
 - Model details for the AI Operations Enclave are maintained in [05-ai-operations-enclave.md](./05-ai-operations-enclave.md); the index deliberately avoids duplicating a list that may evolve.
 
