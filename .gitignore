@@ -60,3 +60,7 @@ docs/portfolio-migration-reports/
 .tmp/
 _audit/
 azawslab-portfolio-audit*.zip
+
+# MkDocs local build output
+.site/
+.venv-mkdocs/
