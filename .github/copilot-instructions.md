@@ -97,12 +97,12 @@ Use business-impact framing when it is directly supported by the implementation,
 - operational validation through evidence folders
 
 Do not use placeholders such as:
-- `proof link to be inserted`
-- `Diagram placeholder`
-- `insert-link`
-- `path-to-gif`
+- unresolved proof placeholders
+- unresolved diagram placeholders
+- generic placeholder links
+- generic demo media placeholders
 
-Do not include internal migration, prompt, or portfolio-build scaffolding in public-facing documentation.
+Do not include internal migration notes, assistant-workflow notes, or portfolio-build scaffolding in public-facing documentation.
 
 ## 7. AI operations boundary
 
@@ -142,4 +142,4 @@ These paths may contain implementation history or detailed reference material, b
 - `docs/release2/10-phase-reference/`
 - `docs/release3/10-roadmap-reference/`
 
-Do not surface local temporary folders, migration backups, audit exports, or prompt scaffolding as public portfolio content.
+Do not surface local temporary folders, migration backups, audit exports, or assistant-workflow scaffolding as public portfolio content.
