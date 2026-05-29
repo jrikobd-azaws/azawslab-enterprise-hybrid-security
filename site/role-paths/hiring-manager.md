@@ -22,6 +22,6 @@ This project shows ownership of a multi-release enterprise platform journey. It 
 
 ## Source links
 
-- [Portfolio case study](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/PORTFOLIO.md)
-- [Architecture document](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/ARCHITECTURE.md)
+- [Portfolio case study](../portfolio-case-study.md)
+- [Platform Journey](../architecture.md)
 - [Status](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/STATUS.md)

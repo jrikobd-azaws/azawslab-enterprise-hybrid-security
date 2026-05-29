@@ -28,5 +28,5 @@ This page helps reviewers map the project to interview discussion areas.
 ## Source links
 
 - [Role guide](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/ROLE_GUIDE.md)
-- [Skills matrix](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/SKILLS_MATRIX.md)
-- [Proof gallery](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/PROOF_GALLERY.md)
+- [Skills matrix](skills-matrix.md)
+- [Proof Gallery](proof-gallery.md)
