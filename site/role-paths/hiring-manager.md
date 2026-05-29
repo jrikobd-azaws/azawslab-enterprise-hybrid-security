@@ -1,27 +1,43 @@
-# Hiring Manager Path
+---
+title: Hiring Manager Brief
+---
 
-## What this project demonstrates
+# Hiring Manager Brief
 
-This project shows ownership of a multi-release enterprise platform journey. It combines architecture, implementation, validation, evidence, and operational judgement.
+This path explains the project as an ownership, delivery, and risk-mitigation story.
 
-## Management-level signals
+## Business scenario
 
-- The work is staged and documented across releases.
-- Evidence is curated and redacted.
-- Platform state is separated by ownership boundary.
-- Delivery is controlled through workflows rather than ad hoc local changes.
-- Security and operations are treated as architecture concerns, not afterthoughts.
+The project models a realistic enterprise modernization journey: a local Microsoft infrastructure foundation is extended into hybrid identity, modern endpoint security, cloud governance, secure networking, automation, private platform delivery, and governed AI-assisted operations.
 
-## Best review path
+## What was delivered
 
-1. Platform journey.
-2. Portfolio case study.
-3. Proof gallery.
-4. Terraform state and pipeline map.
-5. AI operations boundary.
+| Area | Delivery signal |
+|---|---|
+| Release 1 | Hybrid workplace, identity, endpoint security, information protection, recovery scenarios |
+| Release 2 | Azure platform engineering, Terraform, OIDC workflows, networking, AWX, private AKS, AVD, O6 AI operations |
+| Release 3 | Roadmap for multi-cloud Kubernetes, GitOps, DevSecOps, observability, and resilience |
 
-## Source links
+## Management-level value
 
-- [Portfolio case study](../portfolio-case-study.md)
-- [Platform Journey](../architecture.md)
-- [Status](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/STATUS.md)
+| Value area | What the project demonstrates |
+|---|---|
+| Ownership | One connected platform story from local foundations to cloud platform evolution |
+| Delivery discipline | Staged releases, source-of-truth documents, evidence folders, and strict roadmap separation |
+| Risk reduction | OIDC delivery, private platform patterns, identity controls, state separation, evidence redaction |
+| Operational readiness | Automation, monitoring, backup validation, recovery narratives, AWX control-plane thinking |
+| Communication | Role-specific paths for recruiters, managers, engineers, architects, and evidence auditors |
+
+## Suggested interview prompts
+
+- Walk me through the Terraform root and state boundary design.
+- Why use GitHub Actions OIDC instead of long-lived deployment secrets?
+- How did you separate implemented capability from roadmap?
+- How does O6 prevent AI-assisted operations from becoming unsafe automation?
+- What evidence would you show first to prove the platform was implemented?
+
+## Hiring manager takeaway
+
+The project demonstrates more than tool exposure. It shows architecture, implementation, evidence capture, risk management, and the judgement needed to explain complex systems to different audiences.
+
+[Back to Home](../index.md)

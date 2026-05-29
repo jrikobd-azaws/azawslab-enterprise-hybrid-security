@@ -1,29 +1,51 @@
-# Recruiter Path
+---
+title: Recruiter Overview
+---
 
-This page gives a fast profile screen without requiring deep GitHub folder navigation.
+# Recruiter Overview
 
-## 60-second fit summary
+This path is designed for quick screening and role alignment.
 
-| Screening area | Evidence signal |
+## 60-second profile
+
+Azawslab Enterprise Hybrid Security Platform is a staged, evidence-backed portfolio covering Microsoft hybrid identity, modern endpoint governance, Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and governed AI-assisted CloudOps.
+
+## Best-fit role families
+
+| Role family | Why this project is relevant |
 |---|---|
-| Cloud platform engineering | Terraform roots, GitHub Actions workflows, Azure platform documentation |
-| Security and identity | Entra ID, Intune, hybrid identity, private platform patterns |
-| Automation and operations | AWX, Ansible, workflow validation, evidence folders |
-| Cloud architecture | Release-based platform journey and architecture diagrams |
-| AI operations | O6 governed AI operations enclave and companion local AI lab |
+| Cloud Engineer | Azure, Terraform, identity, networking, evidence-backed implementation |
+| Cloud Platform Engineer | Landing zone, root boundaries, OIDC delivery, private AKS, AWX |
+| Infrastructure Engineer | Hyper-V, AD DS, Exchange foundation, Windows/Linux operations, hybrid identity |
+| DevOps Engineer | GitHub Actions, Terraform validation, workflow discipline, AWX automation |
+| Security Engineer | Conditional Access, endpoint governance, DLP, private platform patterns, AI governance |
+| Cloud Architect-aligned roles | End-to-end staged architecture, design decisions, evidence, and roadmap discipline |
 
-## Best review path
+## Skills at a glance
 
-1. Read the homepage.
-2. Open the proof gallery.
-3. Review the skills matrix.
-4. Review the role guide.
-5. Share the technical reviewer path for engineering validation.
+| Domain | Tools and platforms |
+|---|---|
+| Cloud platforms | Azure, AWS branch context |
+| Infrastructure as Code | Terraform, Ansible |
+| CI/CD | GitHub Actions OIDC, MkDocs Pages workflow |
+| Identity | Active Directory DS, Entra ID, Entra Connect, Conditional Access |
+| Endpoint management | Microsoft Intune, Autopilot, BitLocker, Windows LAPS |
+| Security | Defender, Sentinel, Azure Firewall, FortiGate context, Purview DLP |
+| Kubernetes | Private AKS, Kubernetes support manifests, Release 3 GitOps roadmap |
+| AI-assisted operations | O6 AI Operations Enclave, local-ai-lab-infra, RAG, validation hooks |
 
-## Source links
+## Top links to share
 
-- [Skills matrix](../skills-matrix.md)
-- [Role guide source](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/ROLE_GUIDE.md)
-- [Portfolio case study](../portfolio-case-study.md)
+| Purpose | Link |
+|---|---|
+| Live portfolio | [www.azawslab.co.uk](https://www.azawslab.co.uk/) |
+| Proof gallery | [Proof Gallery](../proof-gallery.md) |
+| Skills matrix | [Skills Matrix](../skills-matrix.md) |
+| Case study | [Portfolio Case Study](../portfolio-case-study.md) |
+| Technical validation path | [Technical Reviewer Path](technical-reviewer.md) |
 
-[Return to showroom home](../index.md){ .md-button }
+## Recruiter takeaway
+
+This portfolio is structured to make screening easier: the live site provides fast navigation, while the repository contains the source implementation and redacted evidence for technical validation.
+
+[Back to Home](../index.md)

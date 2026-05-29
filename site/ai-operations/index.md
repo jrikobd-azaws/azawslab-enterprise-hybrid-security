@@ -1,48 +1,58 @@
-# Secure AI Operations Enclave
+---
+title: AI Operations Enclave
+---
 
-O6 models governed AI operations, not unrestricted autonomous infrastructure mutation.
+# Governed AI-Assisted CloudOps
 
-## Enterprise challenge
+O6 is not a chatbot demo. It is a governed AI-assisted CloudOps pattern that connects the main enterprise platform repo with a working local-first companion AI infrastructure lab.
 
-Uncontrolled AI agents with write access to cloud environments can create risk across security, compliance, cost, and operational stability.
+The core principle is simple: AI can draft, validate, review, summarize, and recommend, but infrastructure authority remains with the engineer and the approved workflow.
 
-## Architecture solution
-
-The O6 pattern introduces a policy-mediated boundary between AI assistance and infrastructure control-plane execution.
+## Pattern overview
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    actor Engineer as Platform Engineer
-    participant AI as Local AI Agent Stack
-    participant MCP as Policy Gateway
-    participant Repo as Repository and Evidence
-    participant Cloud as Cloud Control Plane
-
-    Engineer->>AI: Request analysis or draft change
-    AI->>MCP: Attempt tool call
-    MCP->>MCP: Evaluate policy and context
-    alt Approved analysis path
-        MCP-->>AI: Return sanitized metadata or permitted result
-        AI->>Engineer: Present draft, impact, and evidence references
-        Engineer->>Repo: Review, commit, and open PR
-        Engineer->>Cloud: Human-approved workflow execution
-    else Unsafe or out-of-scope path
-        MCP-->>AI: Deny route
-        MCP->>Repo: Record decision evidence
-    end
+graph LR
+  Engineer[Engineer] --> Request[CloudOps request]
+  Request --> Orchestrator[Multi-agent orchestration]
+  Orchestrator --> Architect[Architect review]
+  Orchestrator --> Coder[Local coder agent]
+  Orchestrator --> SecOps[Security review]
+  Orchestrator --> FinOps[Cost review]
+  Orchestrator --> GitOps[GitOps summary]
+  Coder --> Validate[Terraform or Ansible validation]
+  Validate --> Review[Human review]
+  Review --> Workflow[Approved workflow action]
 ```
 
-## Principles verified
+## Control themes
 
-- AI agents do not hold permanent tenant-wide deployment credentials.
-- AI assists with analysis, drafting, and validation.
-- Infrastructure mutation remains governed by review, policy, and explicit human-controlled workflows.
-- Policy decisions and simulated tool routes are evidenced.
+| Control | What it means |
+|---|---|
+| Local-first generation | Sensitive Terraform and Ansible generation can run locally through Ollama and DeepSeek Coder in the companion lab |
+| Multi-agent workflow | Architect, Coder, SecOps, FinOps, and GitOps roles are separated rather than collapsed into one unrestricted assistant |
+| Tool permission control | Tool access is governed by project configuration rather than granting every agent broad capability |
+| Deny-by-default model | Agents cannot call tools unless allowed for the selected project context |
+| Validation without deployment | Terraform and Ansible validation check generated output without applying infrastructure |
+| Human review boundary | Generated infrastructure code still requires engineer review before real use |
+| Data-boundary design | Local execution and configurable cloud review reduce unnecessary source exposure |
 
-## Targeted verification
+## What O6 proves
 
-- [O6 evidence folder](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6)
-- [O6 Kubernetes manifests](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/kubernetes)
-- [O6 AI operations diagram](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/diagrams/release2/ai-operations-enclave.png)
-- [Companion local AI lab](https://github.com/jrikobd-azaws/local-ai-lab-infra)
+| Capability | Reviewer signal |
+|---|---|
+| Governed AI operations | AI assistance is bounded by policy, validation, and human review |
+| AI plus platform engineering | The project connects AI workflow design with Terraform, Ansible, Kubernetes, and CloudOps |
+| Local/cloud boundary thinking | Sensitive generation can remain local while optional cloud review is configurable |
+| Evidence-backed AI story | The main repo contains O6 evidence; the companion repo contains a working lab/reference implementation |
+
+## Evidence and implementation
+
+- [Main repo O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6){ target="_blank" }
+- [Main repo Kubernetes support manifests](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/kubernetes){ target="_blank" }
+- [O6 AI operations diagram](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/diagrams/release2/ai-operations-enclave.png){ target="_blank" }
+- [Companion implementation: local-ai-lab-infra](https://github.com/jrikobd-azaws/local-ai-lab-infra){ target="_blank" }
+
+!!! warning "Boundary statement"
+    O6 is presented as governed AI-assisted infrastructure work, not unsupervised production mutation. Generated outputs require validation and human review before real infrastructure use.
+
+[Back to Home](../index.md)
