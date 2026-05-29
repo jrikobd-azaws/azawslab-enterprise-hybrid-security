@@ -1,0 +1,45 @@
+.md-typeset .hero {
+  padding: 2.4rem 2rem;
+  margin: 0 0 1.6rem 0;
+  border-radius: 0.9rem;
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.16), rgba(14, 165, 233, 0.12));
+  border: 1px solid rgba(100, 116, 139, 0.28);
+}
+
+.md-typeset .hero h1 {
+  margin-bottom: 0.2rem;
+}
+
+.md-typeset .hero p {
+  max-width: 58rem;
+  font-size: 1.05rem;
+}
+
+.md-typeset .grid.cards > * {
+  border-radius: 0.6rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.md-typeset .grid.cards > *:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.md-typeset .role-button {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  margin: 0.25rem 0.25rem 0.25rem 0;
+  border-radius: 0.4rem;
+  background: var(--md-primary-fg-color);
+  color: #fff !important;
+  text-decoration: none !important;
+  font-weight: 700;
+}
+
+.md-typeset .role-button:hover {
+  opacity: 0.9;
+}
+
+.md-typeset .signal-table td:first-child {
+  font-weight: 700;
+}
