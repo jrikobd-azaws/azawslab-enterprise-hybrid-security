@@ -77,11 +77,12 @@ To maintain security while proving engineering capability, raw logs and screensh
 
 ## 8. Proof Link Wording
 
-The documentation adheres to a strict placeholder standard to ensure complete transparency during portfolio migration and future roadmap expansion:
+The documentation follows a strict evidence-linking standard:
 
-*   `proof link to be inserted` - Used explicitly for evidence that exists but whose final public path in the repository is not yet confirmed.
-*   `diagram placeholder` - Used explicitly for architectural or flow diagrams that are planned but not yet generated.
-*   No file paths or evidence names are invented or hallucinated. If proof is pending, the placeholder is used.
+*   Link only to existing evidence folders, existing artifacts, or existing implementation files.
+*   If file-level proof is still being curated, link to the closest evidence folder README and describe what that folder validates.
+*   If a diagram is not final, use the architecture narrative and implementation source paths instead of publishing unfinished placeholder text.
+*   No file paths, screenshot names, validation results, or evidence artifacts are invented.
 
 ---
 

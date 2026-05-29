@@ -22,7 +22,7 @@ This capability story demonstrates how the platform was rebuilt from scratch usi
 | **Management Plane** | Management group hierarchy, subscription organisation | `docs/release2/evidence/P1/` |
 | **Reusable Modules** | Terraform modules for networking, compute, Key Vault; split-state model (governance, platform-shared, workloads) | `docs/release2/evidence/P2a/` |
 | **Configuration Baseline** | Ansible-driven host preparation, private WinRM paths, Key Vault secrets retrieval, and domain-join automation | `docs/release2/evidence/P2b/` |
-| **Controlled Delivery** | GitHub Actions workflow: plan on PR, manual review, approved controlled apply stage | `proof link to be inserted` |
+| **Controlled Delivery** | GitHub Actions workflow: plan on PR, manual review, approved controlled apply stage | Workflow source: [`release2-terraform-ci.yml`](../../.github/workflows/release2-terraform-ci.yml), [`release2-terraform-apply.yml`](../../.github/workflows/release2-terraform-apply.yml); evidence: [`P0`](./evidence/P0/) |
 | **Policy-as-Code** | Azure Policy deny rules: allowed region `norwayeast`, allowed VM SKU `Standard_B2als_v2`, mandatory tags | `docs/release2/evidence/P3/` |
 | **Least-Privilege RBAC** | Custom roles scoped to resource groups; separation of deployment vs. operations | `docs/release2/evidence/P3/` |
 | **Multi-Tenant Governance** | Azure Lighthouse cross-tenant Reader delegation for managed-service visibility | `docs/release2/evidence/P4/` |
@@ -32,37 +32,37 @@ This capability story demonstrates how the platform was rebuilt from scratch usi
 ## Architecture
 
 ```text
-┌-----------------------------------------------------┐
+ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬â„¢-----------------------------------------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â
 |                  GitHub Actions                      |
-|  ┌--------------┐  ┌--------------------------┐     |
+|  ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬â„¢--------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â  ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬â„¢--------------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â     |
 |  | Terraform    |  | Approved Controlled Apply |     |
 |  | Plan (PR)    |--| Stage                     |     |
-|  `------┬-------┘  `------┬-------------------┘     |
+|  `------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â¬-------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¹Ã…â€œ  `------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â¬-------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¹Ã…â€œ     |
 |         |                 |                         |
-|         `--------┬--------┘                         |
+|         `--------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â¬--------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¹Ã…â€œ                         |
 |                  | OIDC (no secrets)                |
-`------------------┼---------------------------------┘
+`------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â¼---------------------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¹Ã…â€œ
                    |
-                   ▼
-┌-----------------------------------------------------┐
+                   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¼
+ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬â„¢-----------------------------------------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â
 |                    Azure                             |
-|  ┌---------------------------------------------┐    |
+|  ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬â„¢---------------------------------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â    |
 |  | Management Groups                            |    |
 |  |  |-- Platform (governance, networking)       |    |
 |  |  |-- Workloads (AVD, AKS)                    |    |
 |  |  `-- Sandbox (experiments)                   |    |
-|  `---------------------------------------------┘    |
-|  ┌--------------┐  ┌--------------┐                 |
+|  `---------------------------------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¹Ã…â€œ    |
+|  ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬â„¢--------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â  ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬â„¢--------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â                 |
 |  | Azure Policy |  | Custom RBAC  |                 |
 |  | (deny rules) |  | (least priv) |                 |
-|  `--------------┘  `--------------┘                 |
-|  ┌---------------------------------------------┐    |
+|  `--------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¹Ã…â€œ  `--------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¹Ã…â€œ                 |
+|  ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬â„¢---------------------------------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â    |
 |  | Terraform Remote State (Azure Storage)      |    |
 |  |  |-- governance                             |    |
 |  |  |-- platform-shared                        |    |
 |  |  `-- workload boundaries                    |    |
-|  `---------------------------------------------┘    |
-`-----------------------------------------------------┘
+|  `---------------------------------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¹Ã…â€œ    |
+`-----------------------------------------------------ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¹Ã…â€œ
 ```
 
 ![Release 2 landing zone IaC and governance](../../diagrams/release2/landing-zone-iac-governance.png)
@@ -99,7 +99,7 @@ The GitHub Actions workflow runs `terraform plan` on every pull request. A human
 | Management group structure | `docs/release2/evidence/P1/` | Proves governance hierarchy from day one |
 | Reusable Terraform modules and split-state roots | `docs/release2/evidence/P2a/` | Proves IaC maturity and lifecycle-aligned state boundaries |
 | Ansible configuration baseline, private WinRM, Key Vault secrets | `docs/release2/evidence/P2b/` | Proves idempotent node configuration and secret retrieval |
-| Controlled apply pipeline | `proof link to be inserted` | Proves plan-review-apply discipline |
+| Controlled apply pipeline | Workflow source: [`release2-terraform-ci.yml`](../../.github/workflows/release2-terraform-ci.yml), [`release2-terraform-apply.yml`](../../.github/workflows/release2-terraform-apply.yml); evidence: [`P0`](./evidence/P0/) | Proves plan-review-apply discipline |
 | Policy deny enforcement (region and SKU) | `docs/release2/evidence/P3/` | Proves governance blocks non-compliant configurations |
 | Lighthouse delegation | `docs/release2/evidence/P4/` | Proves cross-tenant visibility readiness |
 

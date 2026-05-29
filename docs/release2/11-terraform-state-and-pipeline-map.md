@@ -32,7 +32,7 @@ The paths below are shown relative to the repository's `terraform/` directory.
 | `platform-aks/dev` | Private container runtime | Private AKS cluster, ACR, managed Prometheus/Grafana, workload identity | [`O4`](./evidence/O4/) |
 | `platform-avd/dev` | Secure administrative workspace | AVD host pool, workspace, session hosts, FSLogix storage, private endpoints | [`O5`](./evidence/O5/) |
 | `platform-management/dev` | Operations and automation tooling | Management VM, Bastion, AWX hosting infrastructure | [`P2b`](./evidence/P2b/), [`A2-awx-control-plane`](./evidence/A2-awx-control-plane/) |
-| `workloads/dev` | Workload-level resources | Workload VMs, application-layer resources | `proof link to be inserted` |
+| `workloads/dev` | Workload-level resources | Workload VMs, application-layer resources | Implementation source: [`terraform/workloads/dev`](../../terraform/workloads/dev/); split-state context: [`P2a`](./evidence/P2a/) |
 | `aws-branch/dev` | AWS multi-cloud edge | AWS Transit Gateway, Cisco CSR 8000V, BGP configuration, route maps; active-profile enable flags for optional resources | [`O3b`](./evidence/O3b/), [`O3c`](./evidence/O3c/) |
 
 The retired root `environments/dev-retired-after-state-split` documents the original three-root model (`governance`, `platform-shared`, `workloads`) from which the current granular structure evolved.
@@ -124,7 +124,7 @@ The controlled-apply model is evidenced through pipeline logs and Terraform outp
 | Terraform module and split-state foundation | [`P2a`](./evidence/P2a/), [`P2b`](./evidence/P2b/) |
 | Networking and active-profile hybrid evidence | [`P5`](./evidence/P5/), [`P6`](./evidence/P6/), [`P5-vpn`](./evidence/P5-vpn/), [`O1`](./evidence/O1/) |
 | AWS branch and active-profile evidence | [`O3b`](./evidence/O3b/), [`O3c`](./evidence/O3c/) |
-| Pipeline execution logs | `proof link to be inserted` |
+| Pipeline execution logs | Workflow source: [`release2-terraform-ci.yml`](../../.github/workflows/release2-terraform-ci.yml), [`release2-terraform-apply.yml`](../../.github/workflows/release2-terraform-apply.yml), platform-specific workflows under [`.github/workflows`](../../.github/workflows/), and public run history in [GitHub Actions](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/actions) |
 
 For reviewers who need to trace a specific infrastructure change from commit to cloud, follow the path:
 

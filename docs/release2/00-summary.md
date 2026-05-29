@@ -71,7 +71,7 @@ Release 2 transforms a manually-operated hybrid Microsoft estate into a governed
 | O6 AI Operations Enclave with MCP gateway and policy enforcement | `docs/release2/evidence/O6/` |
 | Agent-specific policy records: FinOps, Runbook, SecOps, GitOps | `docs/release2/evidence/O6/` |
 | Human-in-the-loop gating; no autonomous infrastructure mutation | Policy decision logs; post-cleanup validation |
-| Companion project `local-ai-lab-infra` provides local RAG and multi-agent pipeline | [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra); `proof link to be inserted` for exact project config path |
+| Companion project `local-ai-lab-infra` provides local RAG and multi-agent pipeline | [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra); companion policy/config entry point: [`configs/project_config.yaml`](https://github.com/jrikobd-azaws/local-ai-lab-infra/blob/main/configs/project_config.yaml); main repository evidence: [`docs/release2/evidence/O6/`](./evidence/O6/) |
 
 ---
 

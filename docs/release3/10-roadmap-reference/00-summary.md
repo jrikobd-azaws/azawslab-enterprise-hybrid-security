@@ -31,9 +31,9 @@ Release 3 is designed to be built on top of the Release 2 platform without disru
 
 ## Evidence Strategy
 
-All Release 3 evidence will use the same CLI-first, redacted, phase-folder model as Release 2. Placeholder paths are marked `proof link to be inserted` until implementation begins.
+Release 3 is roadmap-only. Current visual reference: [Release 3 roadmap target state](../../../diagrams/release3/release3-target-roadmap.png). Evidence folders will be created when implementation begins and will follow the same CLI-first, redacted, phase-folder model as Release 2.
 
 - `docs/release3/evidence/` will mirror the Release 2 evidence structure.
-- Diagram placeholders follow the standard portfolio convention.
+- Current visual reference: [Release 3 roadmap target state](../../../diagrams/release3/release3-target-roadmap.png). Additional diagrams will be added only when implementation scope is confirmed.
 
 > Current visual reference: [Release 3 roadmap target state](../../../diagrams/release3/release3-target-roadmap.png).
