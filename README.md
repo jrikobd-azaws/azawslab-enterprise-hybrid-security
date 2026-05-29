@@ -13,7 +13,7 @@
 
 This repository presents a single, staged enterprise platform journey that moves from hybrid Microsoft operations into Azure platform engineering, multi-cloud security, automation, private platform delivery, AI-assisted CloudOps, and a clear roadmap toward multi-cloud Kubernetes and GitOps.
 
-Every major capability Ã¢â'¬â€ identity, landing zones, networking, automation, private AKS, virtual desktop, and the AI Operations Enclave Ã¢â'¬â€ has been built, operationally validated, and backed by curated evidence. The repository is structured to show what was built, how it was validated, and how each capability fits into a wider enterprise platform journey for senior cloud, platform, infrastructure, and security roles.
+Every major capability - identity, landing zones, networking, automation, private AKS, virtual desktop, and the AI Operations Enclave - has been built, operationally validated, and backed by curated evidence. The repository is structured to show what was built, how it was validated, and how each capability fits into a wider enterprise platform journey for senior cloud, platform, infrastructure, and security roles.
 
 ---
 
