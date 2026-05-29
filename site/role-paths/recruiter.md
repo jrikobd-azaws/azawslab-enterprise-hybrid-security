@@ -22,8 +22,8 @@ This page gives a fast profile screen without requiring deep GitHub folder navig
 
 ## Source links
 
-- [Skills matrix](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/SKILLS_MATRIX.md)
-- [Role guide](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/ROLE_GUIDE.md)
-- [Portfolio case study](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/PORTFOLIO.md)
+- [Skills matrix](../skills-matrix.md)
+- [Role guide source](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/ROLE_GUIDE.md)
+- [Portfolio case study](../portfolio-case-study.md)
 
 [Return to showroom home](../index.md){ .md-button }

@@ -70,7 +70,10 @@ nav:
   - Home: index.md
   - For Recruiters: role-paths/recruiter.md
   - Platform Journey: architecture.md
+  - Case Study: portfolio-case-study.md
+  - Skills Matrix: skills-matrix.md
   - Proof Gallery: proof-gallery.md
+  - Evidence Guide: evidence-guide.md
   - Reader Pathways:
       - Hiring Manager: role-paths/hiring-manager.md
       - Technical Reviewer: role-paths/technical-reviewer.md
