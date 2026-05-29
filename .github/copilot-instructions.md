@@ -98,7 +98,7 @@ Use business-impact framing when it is directly supported by the implementation,
 
 Do not use placeholders such as:
 - unresolved proof placeholders
-- unresolved diagram placeholders
+- unfinished architecture diagram notes
 - generic placeholder links
 - generic demo media placeholders
 
