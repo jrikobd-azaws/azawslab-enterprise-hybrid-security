@@ -71,21 +71,28 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+
   - Platform Journey:
       - Architecture Overview: architecture.md
-      - Release 1 - Workplace & Identity: releases/release1.md
-      - Release 2 - Platform Engineering: releases/release2.md
-      - Release 3 - Multi-Cloud Roadmap: releases/release3.md
-      - Engineering Deep Dive:
-          - Terraform State Boundaries: engineering/terraform-state-boundaries.md
-          - GitHub Actions OIDC: engineering/github-actions-oidc.md
-          - Hybrid Multi-Cloud Networking: engineering/hybrid-multicloud-networking.md
-          - Private AKS and AVD: engineering/private-aks-avd.md
+      - Release 1 - Hybrid Modern Workplace, Identity, Endpoint Security and Microsoft 365 Operations: releases/release1.md
+      - Release 2 - Azure Platform Engineering, Security, Automation, Private Platform and AI Operations: releases/release2.md
+      - Release 3 - Multi-Cloud Kubernetes, GitOps and DevSecOps Roadmap: releases/release3.md
 
-  - Proof & Evidence:
+  - Engineering Deep Dive:
+      - Landing Zone, Governance and Terraform State Boundaries: engineering/terraform-state-boundaries.md
+      - Secretless GitHub Actions OIDC: engineering/github-actions-oidc.md
+      - Ansible and AWX Automation Control Plane: engineering/automation-control-plane.md
+      - Hybrid BGP and Multi-Cloud Transit: engineering/hybrid-bgp-multicloud-transit.md
+      - Secure Transmission, Inspection and Private Routing: engineering/secure-transmission-inspection.md
+      - Private AKS Platform: engineering/private-aks-platform.md
+      - AVD Secure Workspace and FSLogix: engineering/avd-secure-workspace.md
+      - Code Traceability: engineering/code-traceability.md
+
+  - Proof and Evidence:
       - Proof Gallery: proof-gallery.md
+      - Release 2 Capability-Mapped Evidence Index: evidence/release2-evidence-index.md
+      - Evidence Handling Guide: evidence-guide.md
       - Skills Matrix: skills-matrix.md
-      - Evidence Guide: evidence-guide.md
       - Portfolio Case Study: portfolio-case-study.md
 
   - Reviewer Pathways:
@@ -96,6 +103,6 @@ nav:
       - DevOps / SRE: role-paths/devops-sre.md
       - Interview Guide: interview-guide.md
 
-  - AI & Innovation:
-      - O6 AI Operations Enclave: ai-operations/index.md
-      - Companion AI Lab: companion-project.md
+  - AI and Innovation:
+      - Governed AI Operations Enclave: ai-operations/index.md
+      - Companion Local AI Lab: companion-project.md
