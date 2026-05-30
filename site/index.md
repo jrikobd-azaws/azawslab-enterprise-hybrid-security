@@ -3,7 +3,7 @@
 # Azawslab Enterprise Hybrid Security Platform
 
 <p align="center">
-  <img src="assets/brand/header.svg" alt="Azawslab Enterprise Hybrid Security Platform" class="hero-logo">
+  <img src="assets/brand/header-floating.svg" alt="Azawslab Enterprise Hybrid Security Platform" class="hero-logo">
 </p>
 
 ### Evidence-backed enterprise hybrid security and platform engineering portfolio.
