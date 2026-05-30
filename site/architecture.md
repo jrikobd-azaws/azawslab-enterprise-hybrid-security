@@ -1,37 +1,28 @@
-# Platform Journey and Architecture
+# Architecture Overview
 
-This architecture is designed as a staged enterprise journey rather than a single isolated lab.
+The Azawslab Enterprise Hybrid Security Platform is a staged enterprise platform portfolio. It is designed to show how hybrid identity and workplace operations evolve into governed Azure platform engineering, secure automation, hybrid BGP and multi-cloud transit, private platform delivery and governed AI operations.
 
-## Architecture principles
+## Platform journey
 
-- Identity-first access control.
-- Infrastructure as Code with separated root ownership.
-- Controlled delivery through GitHub Actions and OIDC.
-- Hybrid and multi-cloud connectivity with explicit routing and inspection.
-- Private platform delivery for AKS and AVD.
-- Evidence-backed documentation instead of unsupported claims.
-- Governed AI operations with policy and human approval.
+| Stage | Capability |
+|---|---|
+| Release 1 | Hybrid Modern Workplace, Identity, Endpoint Security and Microsoft 365 Operations |
+| Release 2 | Azure Platform Engineering, Security, Automation, Private Platform and AI Operations |
+| Release 3 | Multi-Cloud Kubernetes, GitOps and DevSecOps Roadmap |
 
-## Journey model
+## Architecture signals
 
-| Release | Architecture role | Status |
-|---|---|---|
-| Release 1 | Local and Microsoft 365 hybrid foundation | Complete and evidenced |
-| Release 2 | Azure platform engineering and secure operations | Implemented and evidenced |
-| Release 3 | Kubernetes, GitOps, and DevSecOps evolution | Roadmap |
+| Signal | Where to review |
+|---|---|
+| Identity, Conditional Access, Intune, Autopilot, Purview and Microsoft 365 operations | [Release 1](releases/release1.md) |
+| Terraform state boundaries and secretless delivery | [Terraform State Boundaries](engineering/terraform-state-boundaries.md), [GitHub Actions OIDC](engineering/github-actions-oidc.md) |
+| Ansible and AWX operations | [Automation Control Plane](engineering/automation-control-plane.md) |
+| BGP, multi-cloud and hybrid transit | [Hybrid BGP and Multi-Cloud Transit](engineering/hybrid-bgp-multicloud-transit.md) |
+| Secure transmission, firewalling, inspection and private routing | [Secure Transmission and Traffic Inspection](engineering/secure-transmission-inspection.md) |
+| Private AKS and AVD secure workspace | [Private AKS Platform](engineering/private-aks-platform.md), [AVD Secure Workspace](engineering/avd-secure-workspace.md) |
+| Governed AI operations | [Governed AI Operations Enclave](ai-operations/index.md) |
+| Claim-to-source verification | [Code Traceability](engineering/code-traceability.md) |
 
-!!! tip "How to review"
-    Hiring managers should read this page with the portfolio case study. Technical reviewers should pair it with the Terraform state map and proof gallery.
+## Reviewer guidance
 
-## Main architecture references
-
-- [Repository README](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/README.md)
-- [Architecture document](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/ARCHITECTURE.md)
-- [Portfolio case study](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/PORTFOLIO.md)
-- [Design decisions](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/DESIGN_DECISIONS.md)
-
-## Key diagrams
-
-- [Platform hero diagram](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/diagrams/platform/hero-diagram.png)
-- [Release 2 AI operations enclave](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/diagrams/release2/ai-operations-enclave.png)
-- [Release 3 roadmap target state](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/diagrams/release3/release3-target-roadmap.png)
+Use this page to understand the platform story. Use the Engineering Deep Dive section to inspect the major implementation pillars. Use Proof and Evidence to validate claims against public-safe evidence.
