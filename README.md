@@ -88,21 +88,7 @@ The full architecture narrative and diagrams are available on the [portfolio sit
 | Release 2 | Azure Platform Engineering, Security, Automation, Private Platform, AI Operations | Implemented and evidenced | [`docs/release2/evidence/`](docs/release2/evidence/) |
 | Release 3 | Multi-cloud Kubernetes, GitOps, DevSecOps | Roadmap / platform evolution | [`docs/release3/`](docs/release3/) |
 
----
-
-## Flagship proof paths
-
-| Area | Start here |
-|---|---|
-| Curated evidence | [Proof Gallery](https://www.azawslab.co.uk/proof-gallery/) |
-| Evidence handling model | [Evidence Guide](https://www.azawslab.co.uk/evidence-guide/) |
-| Skills map | [Skills Matrix](https://www.azawslab.co.uk/skills-matrix/) |
-| Full case study | [Portfolio Case Study](https://www.azawslab.co.uk/portfolio-case-study/) |
-| GitHub audit path | [Reviewer Guide](REVIEWER_GUIDE.md) |
-| Release 2 evidence root | [docs/release2/evidence/](docs/release2/evidence/) |
-| Terraform state and pipeline map | [docs/release2/11-terraform-state-and-pipeline-map.md](docs/release2/11-terraform-state-and-pipeline-map.md) |
-| O6 AI operations evidence | [docs/release2/evidence/O6/](docs/release2/evidence/O6/) |
-| Companion AI infrastructure lab | [local-ai-lab-infra](https://github.com/jrikobd-azaws/local-ai-lab-infra) |
+**Quick evidence links:** [OIDC Terraform](docs/release2/evidence/P0/) · [Multi-cloud BGP](docs/release2/evidence/P5/) · [Private AKS](docs/release2/evidence/O4/) · [AI governance](docs/release2/evidence/O6/)
 
 ---
 
