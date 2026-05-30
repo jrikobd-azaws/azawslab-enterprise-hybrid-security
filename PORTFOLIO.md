@@ -1,5 +1,9 @@
 # Azawslab Enterprise Hybrid Security Platform: A Case Study
 
+> Part of: [Azawslab Enterprise Hybrid Security Platform](README.md)  
+> Best for: hiring managers, recruiters, and portfolio reviewers  
+> Purpose: full case study and business-impact narrative
+
 ## 1. Executive Summary
 
 The Azawslab Enterprise Hybrid Security Platform is a flagship enterprise platform portfolio demonstrating a staged, evidence-backed transformation. It captures the comprehensive journey from a baseline hybrid Microsoft environment into a highly governed, multi-cloud platform driven by Infrastructure as Code, advanced security automation, and AI-assisted operations. Engineered with architectural precision, the portfolio showcases operationally validated implementations across identity, secure networking, private platform delivery, and a human-approved AI Operations Enclave.
@@ -177,3 +181,12 @@ Future hardening (Release 3) will extend these patterns into container image sig
 **Q:** *"How do you handle endpoint compliance failures and operational recovery in a remote-first environment?"*
 
 **Response strategy:** Point to the Release 1 operational recovery scenarios. Discuss the induced trust-break scenario: retrieving the BitLocker key from Entra, rebuilding the device, executing Graph PowerShell scripts to clean up stale records, and validating the restored Intune compliance state. Emphasise that endpoint state directly gates cloud access through Conditional Access policies - a device that fails compliance cannot reach the Azure platform. Evidence: Intune policy screenshots, Autopilot deployment status, and endpoint compliance reports in `screenshots/release1/`.
+---
+
+## Navigation
+
+- [Live portfolio showroom](https://www.azawslab.co.uk/)
+- [Repository home](README.md)
+- [Reviewer guide](REVIEWER_GUIDE.md)
+- [Proof gallery](PROOF_GALLERY.md)
+- [Evidence guide](EVIDENCE_GUIDE.md)

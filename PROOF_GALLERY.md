@@ -1,5 +1,9 @@
 # Proof Gallery - Flagship Evidence in One View
 
+> Part of: [Azawslab Enterprise Hybrid Security Platform](README.md)  
+> Best for: evidence-first reviewers, hiring managers, recruiters, and technical reviewers  
+> Purpose: curated proof map across releases and capability areas
+
 This gallery highlights the strongest operational proof from each release. It is designed for a reviewer who wants a rapid confidence check before diving into detailed capability stories or evidence folders.
 
 ## Release 1 - Hybrid Modern Workplace, Identity & Endpoint Security
@@ -41,3 +45,12 @@ This gallery highlights the strongest operational proof from each release. It is
 - For full narrative context, read the capability stories in `docs/release2/01-*.md` through `docs/release2/05-*.md` and the portfolio case study in `PORTFOLIO.md`.
 
 This is a curated highlight, not a replacement for the complete evidence index.
+---
+
+## Navigation
+
+- [Live portfolio showroom](https://www.azawslab.co.uk/)
+- [Repository home](README.md)
+- [Reviewer guide](REVIEWER_GUIDE.md)
+- [Proof gallery](PROOF_GALLERY.md)
+- [Evidence guide](EVIDENCE_GUIDE.md)
