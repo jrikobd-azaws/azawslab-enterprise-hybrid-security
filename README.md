@@ -1,13 +1,16 @@
 # Azawslab Enterprise Hybrid Security Platform
 
-[![Enterprise Showroom](https://img.shields.io/badge/Enterprise%20Showroom-www.azawslab.co.uk-0066cc?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://www.azawslab.co.uk/)
-[![Status](https://img.shields.io/badge/Platform%20Status-Canonical%20Truth-success?style=for-the-badge)](STATUS.md)
+[![Enterprise Showroom](https://img.shields.io/badge/Enterprise%20Showroom-www.azawslab.co.uk-0B5CAD?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://www.azawslab.co.uk/)
+[![Reviewer Guide](https://img.shields.io/badge/Reviewer%20Guide-GitHub%20Audit%20Map-374151?style=for-the-badge)](REVIEWER_GUIDE.md)
+[![Proof Gallery](https://img.shields.io/badge/Proof%20Gallery-Evidence%20Backed-166534?style=for-the-badge)](PROOF_GALLERY.md)
+[![Architecture](https://img.shields.io/badge/Architecture-Platform%20Journey-7C3AED?style=for-the-badge)](ARCHITECTURE.md)
 
-[![Release 1](https://img.shields.io/badge/Release%201-Workplace%20%26%20Identity-brightgreen)](docs/release1/README.md)
-[![Release 2](https://img.shields.io/badge/Release%202-Platform%20Engineering-blue)](docs/release2/README.md)
-[![Release 3](https://img.shields.io/badge/Release%203-Multi--Cloud%20Roadmap-lightgrey)](docs/release3/README.md)
+[![Platform Status](https://img.shields.io/badge/Platform%20Status-Public%20Ready-16A34A?style=flat-square)](STATUS.md)
+[![Release 1](https://img.shields.io/badge/Release%201-Workplace%20%26%20Identity-2563EB?style=flat-square)](docs/release1/README.md)
+[![Release 2](https://img.shields.io/badge/Release%202-Platform%20Engineering-059669?style=flat-square)](docs/release2/README.md)
+[![Release 3](https://img.shields.io/badge/Release%203-Multi--Cloud%20Roadmap-6B7280?style=flat-square)](docs/release3/README.md)
 
-> **Evidence-backed enterprise hybrid security and platform engineering portfolio:** zero-trust hybrid identity, modern endpoint governance, secretless Infrastructure as Code delivery, secure hybrid and multi-cloud networking, private platform patterns, automation control planes, and governed AI-assisted CloudOps.
+> Evidence-backed enterprise hybrid security and platform engineering portfolio: zero-trust hybrid identity, modern endpoint governance, secretless Infrastructure as Code delivery, secure hybrid and multi-cloud networking, private platform patterns, automation control planes, and governed AI-assisted CloudOps.
 
 ---
 
@@ -21,16 +24,28 @@ The showroom provides searchable navigation, role-based review paths, architectu
 
 ---
 
+## Start here
+
+| Reader | Best first step |
+|---|---|
+| Recruiter | [Live showroom](https://www.azawslab.co.uk/) and [Skills Matrix](SKILLS_MATRIX.md) |
+| Hiring manager | [Portfolio Case Study](PORTFOLIO.md) and [Architecture](ARCHITECTURE.md) |
+| Technical reviewer | [Reviewer Guide](REVIEWER_GUIDE.md), [Terraform State Map](docs/release2/11-terraform-state-and-pipeline-map.md), and [Release 2 evidence](docs/release2/evidence/) |
+| Security architect | [Architecture](ARCHITECTURE.md), [Evidence Guide](EVIDENCE_GUIDE.md), and [O6 evidence](docs/release2/evidence/O6/) |
+| Evidence-first reviewer | [Proof Gallery](PROOF_GALLERY.md), [Evidence Guide](EVIDENCE_GUIDE.md), and [Release 2 evidence root](docs/release2/evidence/) |
+
+---
+
 ## Targeted reader pathways
 
 | Target reader | Strategic focus | Showroom gateway |
 |---|---|---|
-| 👔 Recruiter | Skills, role alignment, high-level proof | [Recruiter overview](https://www.azawslab.co.uk/role-paths/recruiter/) |
-| 📋 Hiring Manager | Business context, delivery ownership, risk mitigation | [Hiring manager path](https://www.azawslab.co.uk/role-paths/hiring-manager/) |
-| ⚙️ Technical Reviewer | IaC structure, state boundaries, workflows, implementation evidence | [Technical reviewer path](https://www.azawslab.co.uk/role-paths/technical-reviewer/) |
-| 🛡️ Security Architect | Zero-trust boundaries, private access, network inspection, AI governance | [Security architect path](https://www.azawslab.co.uk/role-paths/security-architect/) |
-| 🚀 DevOps / SRE Reviewer | OIDC delivery, AWX, monitoring, backup, validation, operational readiness | [DevOps and SRE path](https://www.azawslab.co.uk/role-paths/devops-sre/) |
-| 🔍 Evidence-first Reviewer | Screenshots, CLI output, logs, manifests, workflow and evidence folders | [Proof gallery](https://www.azawslab.co.uk/proof-gallery/) |
+| Recruiter | Skills, role alignment, high-level proof | [Recruiter overview](https://www.azawslab.co.uk/role-paths/recruiter/) |
+| Hiring manager | Business context, delivery ownership, risk mitigation | [Hiring manager path](https://www.azawslab.co.uk/role-paths/hiring-manager/) |
+| Technical reviewer | IaC structure, state boundaries, workflows, implementation evidence | [Technical reviewer path](https://www.azawslab.co.uk/role-paths/technical-reviewer/) |
+| Security architect | Zero-trust boundaries, private access, network inspection, AI governance | [Security architect path](https://www.azawslab.co.uk/role-paths/security-architect/) |
+| DevOps / SRE reviewer | OIDC delivery, AWX, monitoring, backup, validation, operational readiness | [DevOps and SRE path](https://www.azawslab.co.uk/role-paths/devops-sre/) |
+| Evidence-first reviewer | Screenshots, CLI output, logs, manifests, workflow and evidence folders | [Proof gallery](https://www.azawslab.co.uk/proof-gallery/) |
 
 ---
 
@@ -83,6 +98,7 @@ The full architecture narrative and diagrams are available on the [portfolio sit
 | Evidence handling model | [Evidence Guide](https://www.azawslab.co.uk/evidence-guide/) |
 | Skills map | [Skills Matrix](https://www.azawslab.co.uk/skills-matrix/) |
 | Full case study | [Portfolio Case Study](https://www.azawslab.co.uk/portfolio-case-study/) |
+| GitHub audit path | [Reviewer Guide](REVIEWER_GUIDE.md) |
 | Release 2 evidence root | [docs/release2/evidence/](docs/release2/evidence/) |
 | Terraform state and pipeline map | [docs/release2/11-terraform-state-and-pipeline-map.md](docs/release2/11-terraform-state-and-pipeline-map.md) |
 | O6 AI operations evidence | [docs/release2/evidence/O6/](docs/release2/evidence/O6/) |
@@ -133,6 +149,7 @@ azawslab-enterprise-hybrid-security/
 |-- EVIDENCE_GUIDE.md
 |-- PORTFOLIO.md
 |-- README.md
+|-- REVIEWER_GUIDE.md
 |-- SKILLS_MATRIX.md
 |-- STATUS.md
 |-- mkdocs.yml
@@ -145,6 +162,7 @@ azawslab-enterprise-hybrid-security/
 | Purpose | File |
 |---|---|
 | Current status and truth lock | [STATUS.md](STATUS.md) |
+| GitHub audit map | [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md) |
 | Full case study | [PORTFOLIO.md](PORTFOLIO.md) |
 | Architecture narrative | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Skills mapping | [SKILLS_MATRIX.md](SKILLS_MATRIX.md) |
@@ -175,3 +193,13 @@ Hybrid Cloud, IT Infrastructure, and Operations Engineer
 Belfast, United Kingdom
 
 This repository is owned, built, and maintained as a professional platform portfolio. Evidence is curated for public review and redacted to avoid exposing secrets, raw state, credentials, private keys, or sensitive tenant details.
+
+---
+
+## Navigation
+
+- [Live portfolio showroom](https://www.azawslab.co.uk/)
+- [Reviewer guide](REVIEWER_GUIDE.md)
+- [Proof gallery](PROOF_GALLERY.md)
+- [Evidence guide](EVIDENCE_GUIDE.md)
+- [Architecture](ARCHITECTURE.md)
