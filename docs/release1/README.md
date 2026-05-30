@@ -1,4 +1,40 @@
-# Release 1 - Hybrid Modern Workplace, Identity & Endpoint Security
+# Release 1 - Hybrid Modern Workplace, Identity and Endpoint Security
+
+[![Repository Home](https://img.shields.io/badge/Repository-Home-374151?style=flat-square)](../../README.md)
+[![Live Showroom](https://img.shields.io/badge/Live%20Showroom-www.azawslab.co.uk-0B5CAD?style=flat-square)](https://www.azawslab.co.uk/)
+[![Reviewer Guide](https://img.shields.io/badge/Reviewer%20Guide-GitHub%20Audit%20Map-374151?style=flat-square)](../../REVIEWER_GUIDE.md)
+[![Proof Gallery](https://img.shields.io/badge/Proof%20Gallery-Evidence-166534?style=flat-square)](../../PROOF_GALLERY.md)
+
+[![Release 1](https://img.shields.io/badge/Release%201-Workplace%20and%20Identity-2563EB?style=for-the-badge)](README.md) [![Screenshots](https://img.shields.io/badge/Screenshots-Release%201%20Proof-166534?style=for-the-badge)](../../screenshots/release1/README.md)
+
+> Part of: [Azawslab Enterprise Hybrid Security Platform](../../README.md)  
+> Status: Complete and evidenced  
+> Best for: recruiters, hiring managers, modern workplace reviewers, identity reviewers, and endpoint security reviewers
+
+---
+
+## Start here
+
+| Reader | Best path |
+|---|---|
+| Recruiter | [Release 1 at a Glance](#release-1-at-a-glance) and [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md) |
+| Hiring manager | [What Release 1 Delivers](#what-release-1-delivers) and [What This Release Proves](#what-this-release-proves) |
+| Technical reviewer | [Screenshots evidence](../../screenshots/release1/README.md) and detailed capability sections |
+| Security reviewer | Identity, endpoint compliance, information protection, and operational recovery sections |
+
+---
+
+## Release navigation
+
+| Area | Link |
+|---|---|
+| Release overview | [Release 1 at a Glance](#release-1-at-a-glance) |
+| Capability proof | [What Release 1 Delivers](#what-release-1-delivers) |
+| Evidence | [Release 1 screenshots](../../screenshots/release1/README.md) |
+| Skills mapping | [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md) |
+| Next release | [Release 2](../release2/README.md) |
+
+---
 
 Release 1 is the most complete and strongly evidenced phase of the project. It establishes the Hybrid Modern Workplace, Identity & Endpoint Security of the platform across identity, messaging, collaboration, endpoint management and security, information protection, monitoring, and operational recovery.
 
@@ -201,3 +237,16 @@ For cross-release context, refer back to:
 - [Target-State Architecture](../foundation/03-target-state-architecture.md)
 - [Roadmap](../foundation/04-roadmap.md)
 - [Skills and Evidence Index](../foundation/05-skills-and-evidence-index.md)
+---
+
+## Navigation
+
+- [Live portfolio showroom](https://www.azawslab.co.uk/)
+- [Repository home](../../README.md)
+- [Reviewer guide](../../REVIEWER_GUIDE.md)
+- [Proof gallery](../../PROOF_GALLERY.md)
+- [Evidence guide](../../EVIDENCE_GUIDE.md)
+- [Release 1](../release1/README.md)
+- [Release 2](../release2/README.md)
+- [Release 3](../release3/README.md)
+- [Current release: Release 1](README.md)
