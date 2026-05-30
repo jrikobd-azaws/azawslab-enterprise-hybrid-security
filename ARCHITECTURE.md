@@ -1,5 +1,9 @@
 # Platform Architecture Overview - Azawslab Enterprise Hybrid Security Platform
 
+> Part of: [Azawslab Enterprise Hybrid Security Platform](README.md)  
+> Best for: technical reviewers, security architects, platform architects, and hiring managers  
+> Purpose: architecture narrative, design boundaries, and platform evolution
+
 ## 1. Platform Evolution Summary
 
 The Azawslab platform is a staged architectural evolution across three releases. Each release builds on the proven security, governance, and automation layers of the previous one.
@@ -276,3 +280,12 @@ Git Repos (Apps, Infra, Policies)
 | DevOps/SRE | Sections 4.3, 4.4, 4.5, 8 | Section 5 for future GitOps direction |
 | AI/ML Engineer | Sections 4.6, 6 | O6 evidence and companion project |
 | Recruiter/Hiring Manager | Sections 1, 10 | README.md for high-level story |
+---
+
+## Navigation
+
+- [Live portfolio showroom](https://www.azawslab.co.uk/)
+- [Repository home](README.md)
+- [Reviewer guide](REVIEWER_GUIDE.md)
+- [Proof gallery](PROOF_GALLERY.md)
+- [Evidence guide](EVIDENCE_GUIDE.md)

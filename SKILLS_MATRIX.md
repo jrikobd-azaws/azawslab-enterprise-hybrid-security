@@ -1,5 +1,9 @@
 # Skills Matrix - Azawslab Enterprise Hybrid Security Platform
 
+> Part of: [Azawslab Enterprise Hybrid Security Platform](README.md)  
+> Best for: recruiters, hiring managers, and role-alignment reviewers  
+> Purpose: skills-to-evidence mapping across the portfolio
+
 ## 1. Purpose
 
 This skills matrix maps portfolio evidence directly to target cloud platform, infrastructure, security, and modern workplace roles. It is designed to give recruiters and hiring managers a fast, evidence-backed view of demonstrated capabilities, and to give technical reviewers a clear path from role requirements to verified proof.
@@ -108,11 +112,11 @@ The matrix addresses four senior roles and one adjacent role:
 
 | Role | Key Signal | Where to Verify |
 |---|---|---|
-| Senior Cloud Platform Engineer | Designed and delivered a governed Azure platform with private AKS, AVD secure workspace, and AI operations integration | `ARCHITECTURE.md` §4.1-4.5; `docs/release2/evidence/O4/`; `docs/release2/evidence/O5/` |
-| Hybrid Cloud / Infrastructure Engineer | Built multi-cloud transit with BGP, FortiGate, AWS, branch namespace, AVD operations workspace, and multi-platform endpoint management | `ARCHITECTURE.md` §4.2, §4.5; `docs/release2/evidence/O3b/`; `docs/release2/evidence/O3c/`; `docs/release2/evidence/O5/`; `screenshots/release1/endpoint-management/intune/` |
-| Cloud Security Architect | Enforced zero-trust from identity through AI operations, including AVD secure workspace, email security, and AI policy enforcement | `ARCHITECTURE.md` §3, §6; `docs/release2/evidence/O6/`; `docs/release2/evidence/O5/`; `screenshots/release1/modern-workplace/email-security/` |
+| Senior Cloud Platform Engineer | Designed and delivered a governed Azure platform with private AKS, AVD secure workspace, and AI operations integration | `ARCHITECTURE.md` Â§4.1-4.5; `docs/release2/evidence/O4/`; `docs/release2/evidence/O5/` |
+| Hybrid Cloud / Infrastructure Engineer | Built multi-cloud transit with BGP, FortiGate, AWS, branch namespace, AVD operations workspace, and multi-platform endpoint management | `ARCHITECTURE.md` Â§4.2, Â§4.5; `docs/release2/evidence/O3b/`; `docs/release2/evidence/O3c/`; `docs/release2/evidence/O5/`; `screenshots/release1/endpoint-management/intune/` |
+| Cloud Security Architect | Enforced zero-trust from identity through AI operations, including AVD secure workspace, email security, and AI policy enforcement | `ARCHITECTURE.md` Â§3, Â§6; `docs/release2/evidence/O6/`; `docs/release2/evidence/O5/`; `screenshots/release1/modern-workplace/email-security/` |
 | Modern Workplace / Endpoint Engineer | Delivered Intune multi-platform, Autopilot, Purview fingerprinting, Graph identity automation, LAPS, Win32 apps, operational recovery, and AVD workspace awareness | `screenshots/release1/` (endpoint, identity, info protection, recovery); `docs/release2/evidence/O5/` |
-| DevOps / SRE | Operates AWX control plane, CI/CD pipelines, private platform monitoring, secure workspace, and AI-assisted runbook workflows | `ARCHITECTURE.md` §4.3-4.5; `docs/release2/evidence/A2-awx-control-plane/`; `docs/release2/evidence/O4/`; `docs/release2/evidence/O6/` |
+| DevOps / SRE | Operates AWX control plane, CI/CD pipelines, private platform monitoring, secure workspace, and AI-assisted runbook workflows | `ARCHITECTURE.md` Â§4.3-4.5; `docs/release2/evidence/A2-awx-control-plane/`; `docs/release2/evidence/O4/`; `docs/release2/evidence/O6/` |
 
 ---
 
@@ -121,7 +125,7 @@ The matrix addresses four senior roles and one adjacent role:
 For technical reviewers conducting a deep-dive assessment:
 
 1. **Start with `ARCHITECTURE.md`** - understand the platform evolution, trust boundaries, and component relationships.
-2. **Select a role from §4** - identify the skills relevant to the position.
+2. **Select a role from Â§4** - identify the skills relevant to the position.
 3. **Follow the evidence locations** - each skill maps to a specific evidence folder. Reviewers can verify claims directly:
    - Screenshots for UI-based validation.
    - CLI outputs and Terraform logs for infrastructure verification.
@@ -132,3 +136,12 @@ For technical reviewers conducting a deep-dive assessment:
 6. **Check `STATUS.md`** - for the canonical release status and source-truth lock.
 
 This matrix is maintained as a living document. Evidence paths are updated as proof links are finalised.
+---
+
+## Navigation
+
+- [Live portfolio showroom](https://www.azawslab.co.uk/)
+- [Repository home](README.md)
+- [Reviewer guide](REVIEWER_GUIDE.md)
+- [Proof gallery](PROOF_GALLERY.md)
+- [Evidence guide](EVIDENCE_GUIDE.md)

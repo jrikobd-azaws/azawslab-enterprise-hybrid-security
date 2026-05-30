@@ -1,5 +1,9 @@
 # Evidence Verification Guide - Azawslab Enterprise Hybrid Security Platform
 
+> Part of: [Azawslab Enterprise Hybrid Security Platform](README.md)  
+> Best for: technical reviewers, security reviewers, and evidence-first reviewers  
+> Purpose: evidence handling, public-safe review standards, and proof interpretation
+
 ## 1. Purpose
 
 This guide serves as the technical reviewer's proof-navigation and redaction standard. The Azawslab Enterprise Hybrid Security Platform is anchored in verifiable artifacts: screenshots, CLI outputs, Terraform records, AWX job logs, policy evidence, validation files, and implementation notes. This document explains how evidence is structured, what specific evidence types prove, how claims are mapped by release, and the strict redaction standards applied to protect sensitive tenant information while preserving engineering integrity.
@@ -96,3 +100,12 @@ To efficiently audit the repository, reviewers are encouraged to follow the path
 *   **Modern Workplace Reviewer:** Navigate directly to `screenshots/release1/` to review Intune compliance, Autopilot workflows, Purview information protection, and operational recovery scenarios.
 *   **DevOps / SRE Reviewer:** Evaluate `.github/workflows/` for pipeline design, `docs/release2/evidence/A2-awx-control-plane/` for the automation control plane, and `docs/release2/evidence/P9a/` for Azure Monitor alerting configurations.
 *   **AI Operations Reviewer:** Review `docs/release2/evidence/O6/` to audit the MCP boundary logs, policy decision constraints, and human-in-the-loop AI CloudOps execution.
+---
+
+## Navigation
+
+- [Live portfolio showroom](https://www.azawslab.co.uk/)
+- [Repository home](README.md)
+- [Reviewer guide](REVIEWER_GUIDE.md)
+- [Proof gallery](PROOF_GALLERY.md)
+- [Evidence guide](EVIDENCE_GUIDE.md)
