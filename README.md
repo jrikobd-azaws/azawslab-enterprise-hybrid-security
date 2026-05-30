@@ -40,13 +40,12 @@ The showroom provides searchable navigation, role-based review paths, architectu
 
 | Target reader | Strategic focus | Showroom gateway |
 |---|---|---|
-| ðŸ‘” Recruiter | Skills, role alignment, high-level proof | [Recruiter overview](https://www.azawslab.co.uk/role-paths/recruiter/) |
-| ðŸ“‹ Hiring manager | Business context, delivery ownership, risk mitigation | [Hiring manager path](https://www.azawslab.co.uk/role-paths/hiring-manager/) |
-| âš™ï¸ Technical reviewer | IaC structure, state boundaries, workflows, implementation evidence | [Technical reviewer path](https://www.azawslab.co.uk/role-paths/technical-reviewer/) |
-| ðŸ›¡ï¸ Security architect | Zero-trust boundaries, private access, network inspection, AI governance | [Security architect path](https://www.azawslab.co.uk/role-paths/security-architect/) |
-| ðŸš€ DevOps / SRE reviewer | OIDC delivery, AWX, monitoring, backup, validation, operational readiness | [DevOps and SRE path](https://www.azawslab.co.uk/role-paths/devops-sre/) |
-| ðŸ” Evidence-first reviewer | Screenshots, CLI output, logs, manifests, workflow and evidence folders | [Proof gallery](https://www.azawslab.co.uk/proof-gallery/) |
-
+| :necktie: Recruiter | Skills, role alignment, high-level proof | [Recruiter overview](https://www.azawslab.co.uk/role-paths/recruiter/) |
+| :clipboard: Hiring manager | Business context, delivery ownership, risk mitigation | [Hiring manager path](https://www.azawslab.co.uk/role-paths/hiring-manager/) |
+| :gear: Technical reviewer | IaC structure, state boundaries, workflows, implementation evidence | [Technical reviewer path](https://www.azawslab.co.uk/role-paths/technical-reviewer/) |
+| :shield: Security architect | Zero-trust boundaries, private access, network inspection, AI governance | [Security architect path](https://www.azawslab.co.uk/role-paths/security-architect/) |
+| :rocket: DevOps / SRE reviewer | OIDC delivery, AWX, monitoring, backup, validation, operational readiness | [DevOps and SRE path](https://www.azawslab.co.uk/role-paths/devops-sre/) |
+| :mag: Evidence-first reviewer | Screenshots, CLI output, logs, manifests, workflow and evidence folders | [Proof gallery](https://www.azawslab.co.uk/proof-gallery/) |
 ---
 
 ## 60-second architectural evolution
@@ -88,7 +87,7 @@ The full architecture narrative and diagrams are available on the [portfolio sit
 | Release 2 | Azure Platform Engineering, Security, Automation, Private Platform, AI Operations | Implemented and evidenced | [`docs/release2/evidence/`](docs/release2/evidence/) |
 | Release 3 | Multi-cloud Kubernetes, GitOps, DevSecOps | Roadmap / platform evolution | [`docs/release3/`](docs/release3/) |
 
-**Quick evidence links:** [OIDC Terraform](docs/release2/evidence/P0/) Â· [Multi-cloud BGP](docs/release2/evidence/P5/) Â· [Private AKS](docs/release2/evidence/O4/) Â· [AI governance](docs/release2/evidence/O6/)
+**Quick evidence links:** [OIDC Terraform](docs/release2/evidence/P0/) | [Multi-cloud BGP](docs/release2/evidence/P5/) | [Private AKS](docs/release2/evidence/O4/) | [AI governance](docs/release2/evidence/O6/)
 
 ---
 
