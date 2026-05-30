@@ -10,7 +10,7 @@ site_dir: .site
 
 theme:
   favicon: assets/brand/favicon-32x32.png
-  logo: assets/brand/logo-square.svg
+  logo: assets/brand/logo-nav.svg
   name: material
   language: en
   icon:
