@@ -40,12 +40,12 @@ The showroom provides searchable navigation, role-based review paths, architectu
 
 | Target reader | Strategic focus | Showroom gateway |
 |---|---|---|
-| Recruiter | Skills, role alignment, high-level proof | [Recruiter overview](https://www.azawslab.co.uk/role-paths/recruiter/) |
-| Hiring manager | Business context, delivery ownership, risk mitigation | [Hiring manager path](https://www.azawslab.co.uk/role-paths/hiring-manager/) |
-| Technical reviewer | IaC structure, state boundaries, workflows, implementation evidence | [Technical reviewer path](https://www.azawslab.co.uk/role-paths/technical-reviewer/) |
-| Security architect | Zero-trust boundaries, private access, network inspection, AI governance | [Security architect path](https://www.azawslab.co.uk/role-paths/security-architect/) |
-| DevOps / SRE reviewer | OIDC delivery, AWX, monitoring, backup, validation, operational readiness | [DevOps and SRE path](https://www.azawslab.co.uk/role-paths/devops-sre/) |
-| Evidence-first reviewer | Screenshots, CLI output, logs, manifests, workflow and evidence folders | [Proof gallery](https://www.azawslab.co.uk/proof-gallery/) |
+| 👔 Recruiter | Skills, role alignment, high-level proof | [Recruiter overview](https://www.azawslab.co.uk/role-paths/recruiter/) |
+| 📋 Hiring manager | Business context, delivery ownership, risk mitigation | [Hiring manager path](https://www.azawslab.co.uk/role-paths/hiring-manager/) |
+| ⚙️ Technical reviewer | IaC structure, state boundaries, workflows, implementation evidence | [Technical reviewer path](https://www.azawslab.co.uk/role-paths/technical-reviewer/) |
+| 🛡️ Security architect | Zero-trust boundaries, private access, network inspection, AI governance | [Security architect path](https://www.azawslab.co.uk/role-paths/security-architect/) |
+| 🚀 DevOps / SRE reviewer | OIDC delivery, AWX, monitoring, backup, validation, operational readiness | [DevOps and SRE path](https://www.azawslab.co.uk/role-paths/devops-sre/) |
+| 🔍 Evidence-first reviewer | Screenshots, CLI output, logs, manifests, workflow and evidence folders | [Proof gallery](https://www.azawslab.co.uk/proof-gallery/) |
 
 ---
 
@@ -84,9 +84,9 @@ The full architecture narrative and diagrams are available on the [portfolio sit
 
 | Release | Focus | Status | Evidence position |
 |---|---|---|---|
-| Release 1 | Hybrid Modern Workplace, Identity, Endpoint Security | Complete and evidenced | `screenshots/release1/` and `docs/release1/` |
-| Release 2 | Azure Platform Engineering, Security, Automation, Private Platform, AI Operations | Implemented and evidenced | `docs/release2/evidence/` |
-| Release 3 | Multi-cloud Kubernetes, GitOps, DevSecOps | Roadmap / platform evolution | `docs/release3/` |
+| Release 1 | Hybrid Modern Workplace, Identity, Endpoint Security | Complete and evidenced | [`screenshots/release1/`](screenshots/release1/) and [`docs/release1/`](docs/release1/) |
+| Release 2 | Azure Platform Engineering, Security, Automation, Private Platform, AI Operations | Implemented and evidenced | [`docs/release2/evidence/`](docs/release2/evidence/) |
+| Release 3 | Multi-cloud Kubernetes, GitOps, DevSecOps | Roadmap / platform evolution | [`docs/release3/`](docs/release3/) |
 
 ---
 
@@ -192,7 +192,7 @@ This is a professional flagship portfolio project demonstrating:
 Hybrid Cloud, IT Infrastructure, and Operations Engineer  
 Belfast, United Kingdom
 
-This repository is owned, built, and maintained as a professional platform portfolio. Evidence is curated for public review and redacted to avoid exposing secrets, raw state, credentials, private keys, or sensitive tenant details.
+This repository is a professional flagship portfolio demonstrating staged enterprise platform transformation across hybrid identity, secure cloud platform engineering, automation, private platform delivery, and governed AI-assisted CloudOps.
 
 ---
 
