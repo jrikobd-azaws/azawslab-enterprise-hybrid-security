@@ -132,3 +132,4 @@ Use this guide to choose the right path without browsing the full repository tre
 - [Proof gallery](PROOF_GALLERY.md)
 - [Evidence guide](EVIDENCE_GUIDE.md)
 - [Architecture](ARCHITECTURE.md)
+- [Code traceability map](CODE_TRACEABILITY.md)
