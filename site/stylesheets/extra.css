@@ -43,3 +43,11 @@
 .md-typeset .signal-table td:first-child {
   font-weight: 700;
 }
+/* Portfolio brand assets */
+.md-typeset .hero-logo {
+  max-width: 560px;
+  width: 82%;
+  height: auto;
+  margin: 0.5rem auto 1.5rem auto;
+  display: block;
+}

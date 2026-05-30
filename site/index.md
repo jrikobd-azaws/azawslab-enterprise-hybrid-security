@@ -2,6 +2,10 @@
 
 # Azawslab Enterprise Hybrid Security Platform
 
+<p align="center">
+  <img src="assets/brand/header.svg" alt="Azawslab Enterprise Hybrid Security Platform" class="hero-logo">
+</p>
+
 ### Evidence-backed enterprise hybrid security and platform engineering portfolio.
 
 This showroom presents a staged enterprise platform journey across Microsoft hybrid identity, Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and governed AI-assisted CloudOps.
