@@ -56,3 +56,7 @@ graph LR
     O6 is presented as governed AI-assisted infrastructure work, not unsupervised production mutation. Generated outputs require validation and human review before real infrastructure use.
 
 [Back to Home](../index.md)
+
+## Governance guardrails
+
+- **Quantifiable governance:** Policy decision logs and deny-by-default rules make AI tool use auditable and measurable. AI recommendations are treated as signals that require validation, policy checks, and human approval before action.

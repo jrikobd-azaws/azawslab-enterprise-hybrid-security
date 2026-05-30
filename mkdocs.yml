@@ -35,6 +35,7 @@ theme:
     - navigation.sections
     - navigation.top
     - navigation.indexes
+    - navigation.path
     - search.suggest
     - search.highlight
     - content.code.copy
@@ -67,23 +68,33 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 nav:
-  - Home: index.md
-  - For Recruiters: role-paths/recruiter.md
-  - Platform Journey: architecture.md
-  - Case Study: portfolio-case-study.md
-  - Skills Matrix: skills-matrix.md
-  - Proof Gallery: proof-gallery.md
-  - Evidence Guide: evidence-guide.md
-  - Reader Pathways:
+  - 🏠 Home: index.md
+
+  - 🗺️ Platform Journey:
+      - Architecture Overview: architecture.md
+      - Release 1 - Workplace & Identity: releases/release1.md
+      - Release 2 - Platform Engineering: releases/release2.md
+      - Release 3 - Multi-Cloud Roadmap: releases/release3.md
+      - Engineering Deep Dive:
+          - Terraform State Boundaries: engineering/terraform-state-boundaries.md
+          - GitHub Actions OIDC: engineering/github-actions-oidc.md
+          - Hybrid Multi-Cloud Networking: engineering/hybrid-multicloud-networking.md
+          - Private AKS and AVD: engineering/private-aks-avd.md
+
+  - 🛡️ Proof & Evidence:
+      - Proof Gallery: proof-gallery.md
+      - Skills Matrix: skills-matrix.md
+      - Evidence Guide: evidence-guide.md
+      - Portfolio Case Study: portfolio-case-study.md
+
+  - 👥 Reviewer Pathways:
+      - Recruiter: role-paths/recruiter.md
       - Hiring Manager: role-paths/hiring-manager.md
       - Technical Reviewer: role-paths/technical-reviewer.md
       - Security Architect: role-paths/security-architect.md
-      - DevOps and SRE: role-paths/devops-sre.md
-  - Engineering Deep Dive:
-      - Terraform State Boundaries: engineering/terraform-state-boundaries.md
-      - GitHub Actions OIDC: engineering/github-actions-oidc.md
-      - Hybrid Multi-Cloud Networking: engineering/hybrid-multicloud-networking.md
-      - Private AKS and AVD: engineering/private-aks-avd.md
-  - AI Operations: ai-operations/index.md
-  - Companion Project: companion-project.md
-  - Interview Guide: interview-guide.md
+      - DevOps / SRE: role-paths/devops-sre.md
+      - Interview Guide: interview-guide.md
+
+  - 🤖 AI & Innovation:
+      - O6 AI Operations Enclave: ai-operations/index.md
+      - Companion AI Lab: companion-project.md
