@@ -1,8 +1,41 @@
-# Release 2 - Azure Platform Engineering, Security, Automation, Private Platform & AI Operations
+# Release 2 - Azure Platform Engineering, Security, Automation, Private Platform and AI Operations
 
-> **Part of the [Azawslab Enterprise Hybrid Security Platform](../../README.md)**
->
-> **Status:** Implemented and evidenced.
+[![Repository Home](https://img.shields.io/badge/Repository-Home-374151?style=flat-square)](../../README.md)
+[![Live Showroom](https://img.shields.io/badge/Live%20Showroom-www.azawslab.co.uk-0B5CAD?style=flat-square)](https://www.azawslab.co.uk/)
+[![Reviewer Guide](https://img.shields.io/badge/Reviewer%20Guide-GitHub%20Audit%20Map-374151?style=flat-square)](../../REVIEWER_GUIDE.md)
+[![Proof Gallery](https://img.shields.io/badge/Proof%20Gallery-Evidence-166534?style=flat-square)](../../PROOF_GALLERY.md)
+
+[![Release 2](https://img.shields.io/badge/Release%202-Platform%20Engineering-059669?style=for-the-badge)](README.md) [![Evidence Index](https://img.shields.io/badge/Evidence%20Index-Capability%20Mapped-166534?style=for-the-badge)](evidence/README.md) [![Terraform Map](https://img.shields.io/badge/Terraform-State%20and%20Pipeline-7C3AED?style=for-the-badge)](11-terraform-state-and-pipeline-map.md)
+
+> Part of: [Azawslab Enterprise Hybrid Security Platform](../../README.md)  
+> Status: Implemented and evidenced  
+> Best for: hiring managers, platform reviewers, security reviewers, DevOps/SRE reviewers, and AI operations reviewers
+
+---
+
+## Start here
+
+| Reader | Best path |
+|---|---|
+| Recruiter | [Skills and Evidence Index](./06-skills-and-evidence-index.md) and [Proof Gallery](../../PROOF_GALLERY.md) |
+| Hiring manager | [Overview](#overview), [Capability Tracks](#capability-tracks), and [Release 2 evidence index](./evidence/README.md) |
+| Technical reviewer | [Terraform state and pipeline map](./11-terraform-state-and-pipeline-map.md), capability stories, and [evidence index](./evidence/README.md) |
+| Security reviewer | [Hybrid and multi-cloud networking](./02-hybrid-multicloud-network-security.md), [private platform](./04-private-platform-secure-workspace.md), and [AI operations](./05-ai-operations-enclave.md) |
+| Evidence-first reviewer | [Release 2 evidence index](./evidence/README.md) |
+
+---
+
+## Release navigation
+
+| Area | Link |
+|---|---|
+| Overview | [Overview](#overview) |
+| Capability stories | [Capability Tracks](#capability-tracks) |
+| Evidence index | [docs/release2/evidence](./evidence/README.md) |
+| Terraform state map | [Terraform State and Pipeline Map](./11-terraform-state-and-pipeline-map.md) |
+| Skills and evidence | [Skills and Evidence Index](./06-skills-and-evidence-index.md) |
+| Previous release | [Release 1](../release1/README.md) |
+| Next release | [Release 3](../release3/README.md) |
 
 ---
 
@@ -97,3 +130,16 @@ For implementation traceability and deep technical audits, individual phases are
 - **Secrets Management:** No secrets in source code. Runtime retrieval via Key Vault and AWS SSM is enforced.
 - **Network Boundaries:** `br1.azawslab.co.uk` defines the branch office namespace, maintaining clean identity and routing isolation.
 - **Operational Reality:** Documentation includes recovery scenarios, idempotency proofs, and remediation workflows to prove the system is supportable, not just deployable.
+---
+
+## Navigation
+
+- [Live portfolio showroom](https://www.azawslab.co.uk/)
+- [Repository home](../../README.md)
+- [Reviewer guide](../../REVIEWER_GUIDE.md)
+- [Proof gallery](../../PROOF_GALLERY.md)
+- [Evidence guide](../../EVIDENCE_GUIDE.md)
+- [Release 1](../release1/README.md)
+- [Release 2](../release2/README.md)
+- [Release 3](../release3/README.md)
+- [Current release: Release 2](README.md)
