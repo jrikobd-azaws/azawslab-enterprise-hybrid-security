@@ -9,6 +9,8 @@ docs_dir: site
 site_dir: .site
 
 theme:
+  favicon: assets/brand/favicon-32x32.png
+  logo: assets/brand/logo-square.svg
   name: material
   language: en
   icon:
@@ -68,9 +70,8 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 nav:
-  - 🏠 Home: index.md
-
-  - 🗺️ Platform Journey:
+  - Home: index.md
+  - Platform Journey:
       - Architecture Overview: architecture.md
       - Release 1 - Workplace & Identity: releases/release1.md
       - Release 2 - Platform Engineering: releases/release2.md
@@ -81,13 +82,13 @@ nav:
           - Hybrid Multi-Cloud Networking: engineering/hybrid-multicloud-networking.md
           - Private AKS and AVD: engineering/private-aks-avd.md
 
-  - 🛡️ Proof & Evidence:
+  - Proof & Evidence:
       - Proof Gallery: proof-gallery.md
       - Skills Matrix: skills-matrix.md
       - Evidence Guide: evidence-guide.md
       - Portfolio Case Study: portfolio-case-study.md
 
-  - 👥 Reviewer Pathways:
+  - Reviewer Pathways:
       - Recruiter: role-paths/recruiter.md
       - Hiring Manager: role-paths/hiring-manager.md
       - Technical Reviewer: role-paths/technical-reviewer.md
@@ -95,6 +96,6 @@ nav:
       - DevOps / SRE: role-paths/devops-sre.md
       - Interview Guide: interview-guide.md
 
-  - 🤖 AI & Innovation:
+  - AI & Innovation:
       - O6 AI Operations Enclave: ai-operations/index.md
       - Companion AI Lab: companion-project.md
