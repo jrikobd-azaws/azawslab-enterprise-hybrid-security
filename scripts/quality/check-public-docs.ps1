@@ -18,7 +18,8 @@ function Get-TrackedTextFiles {
         '^docs/release3/10-roadmap-reference/archive/',
         '^site/assets/images/',
         '^screenshots/',
-        '^diagrams/'
+        '^diagrams/',
+        '^scripts/quality/check-public-docs\.ps1$'
     )
 
     foreach ($File in $TrackedFiles) {
