@@ -112,11 +112,11 @@ The matrix addresses four senior roles and one adjacent role:
 
 | Role | Key Signal | Where to Verify |
 |---|---|---|
-| Senior Cloud Platform Engineer | Designed and delivered a governed Azure platform with private AKS, AVD secure workspace, and AI operations integration | `ARCHITECTURE.md` Ã‚sections 4.1-4.5; `docs/release2/evidence/O4/`; `docs/release2/evidence/O5/` |
-| Hybrid Cloud / Infrastructure Engineer | Built multi-cloud transit with BGP, FortiGate, AWS, branch namespace, AVD operations workspace, and multi-platform endpoint management | `ARCHITECTURE.md` Ã‚section 4.2, Ã‚section 4.5; `docs/release2/evidence/O3b/`; `docs/release2/evidence/O3c/`; `docs/release2/evidence/O5/`; `screenshots/release1/endpoint-management/intune/` |
-| Cloud Security Architect | Enforced zero-trust from identity through AI operations, including AVD secure workspace, email security, and AI policy enforcement | `ARCHITECTURE.md` Ã‚section 3, Ã‚section 6; `docs/release2/evidence/O6/`; `docs/release2/evidence/O5/`; `screenshots/release1/modern-workplace/email-security/` |
-| Modern Workplace / Endpoint Engineer | Delivered Intune multi-platform, Autopilot, Purview fingerprinting, Graph identity automation, LAPS, Win32 apps, operational recovery, and AVD workspace awareness | `screenshots/release1/` (endpoint, identity, info protection, recovery); `docs/release2/evidence/O5/` |
-| DevOps / SRE | Operates AWX control plane, CI/CD pipelines, private platform monitoring, secure workspace, and AI-assisted runbook workflows | `ARCHITECTURE.md` Ã‚sections 4.3-4.5; `docs/release2/evidence/A2-awx-control-plane/`; `docs/release2/evidence/O4/`; `docs/release2/evidence/O6/` |
+| Senior Cloud Platform Engineer | Designed and delivered a governed Azure platform with private AKS, AVD secure workspace, and AI operations integration | `ARCHITECTURE.md` sections 4.1-4.5; `docs/release2/evidence/O4/`; `docs/release2/evidence/O5/` |
+| Hybrid Cloud / Infrastructure Engineer | Built multi-cloud transit with BGP, FortiGate, AWS, branch namespace, AVD operations workspace, and multi-platform endpoint management | `ARCHITECTURE.md` sections 4.2 and 4.5; `docs/release2/evidence/O3b/`; `docs/release2/evidence/O3c/`; `docs/release2/evidence/O5/`; `screenshots/release1/endpoint-management/intune/` |
+| Cloud Security Architect | Enforced zero-trust from identity through AI operations, including AVD secure workspace, email security, and AI policy enforcement | `ARCHITECTURE.md` sections 3 and 6; `docs/release2/evidence/O6/`; `docs/release2/evidence/O5/`; `screenshots/release1/modern-workplace/email-security/` |
+| Modern Workplace / Endpoint Engineer | Delivered Intune multi-platform, Autopilot, Purview fingerprinting, Graph identity automation, LAPS, Win32 apps, operational recovery, and AVD workspace awareness | `screenshots/release1/` endpoint, identity, info protection, recovery; `docs/release2/evidence/O5/` |
+| DevOps / SRE | Operates AWX control plane, CI/CD pipelines, private platform monitoring, secure workspace, and AI-assisted runbook workflows | `ARCHITECTURE.md` sections 4.3-4.5; `docs/release2/evidence/A2-awx-control-plane/`; `docs/release2/evidence/O4/`; `docs/release2/evidence/O6/` |
 
 ---
 
@@ -125,7 +125,7 @@ The matrix addresses four senior roles and one adjacent role:
 For technical reviewers conducting a deep-dive assessment:
 
 1. **Start with `ARCHITECTURE.md`** - understand the platform evolution, trust boundaries, and component relationships.
-2. **Select a role from Ã‚section 4** - identify the skills relevant to the position.
+2. **Select a role from section 4** - identify the skills relevant to the position.
 3. **Follow the evidence locations** - each skill maps to a specific evidence folder. Reviewers can verify claims directly:
    - Screenshots for UI-based validation.
    - CLI outputs and Terraform logs for infrastructure verification.
