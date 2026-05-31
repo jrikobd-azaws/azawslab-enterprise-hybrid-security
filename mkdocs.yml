@@ -72,8 +72,13 @@ markdown_extensions:
 nav:
   - Home: index.md
 
-  - Platform Journey:
+  - Portfolio:
+      - Portfolio Case Study: portfolio-case-study.md
+      - Skills Matrix: skills-matrix.md
       - Architecture Overview: architecture.md
+      - Code Traceability: engineering/code-traceability.md
+
+  - Platform Journey:
       - Release 1 - Hybrid Modern Workplace, Identity, Endpoint Security and Microsoft 365 Operations: releases/release1.md
       - Release 2 - Azure Platform Engineering, Security, Automation, Private Platform and AI Operations: releases/release2.md
       - Release 3 - Multi-Cloud Kubernetes, GitOps and DevSecOps Roadmap: releases/release3.md
@@ -92,10 +97,9 @@ nav:
 
   - Proof and Evidence:
       - Proof Gallery: proof-gallery.md
+      - Release 1 Evidence Index: evidence/release1-evidence-index.md
       - Release 2 Capability-Mapped Evidence Index: evidence/release2-evidence-index.md
       - Evidence Handling Guide: evidence-guide.md
-      - Skills Matrix: skills-matrix.md
-      - Portfolio Case Study: portfolio-case-study.md
 
   - Reviewer Pathways:
       - Recruiter: role-paths/recruiter.md
