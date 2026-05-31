@@ -1,31 +1,64 @@
-# Release 1 - Hybrid Modern Workplace, Identity, Endpoint Security and Microsoft 365 Operations
+---
+title: Release 1 - Workplace & Identity
+---
 
-Release 1 demonstrates a complete hybrid modern workplace capability, not a basic foundation. It covers hybrid identity, Microsoft 365 services, endpoint governance, security controls, information protection, operational monitoring and scripted administration.
+# Release 1 - Hybrid Modern Workplace, Identity & Endpoint Security
+
+Release 1 establishes the enterprise foundation: identity, messaging, endpoint management, compliance, and recovery. It proves that the platform starts from a realistic Microsoft hybrid environment rather than isolated cloud-only examples.
+
+## Architecture at a glance
+
+```mermaid
+flowchart LR
+    AD["On-prem Active Directory"] --> Connect["Entra Connect"]
+    Connect --> Entra["Entra ID"]
+    Entra --> M365["Microsoft 365 / Exchange Online"]
+    Entra --> Intune["Intune and Autopilot"]
+    Intune --> Endpoints["Windows, Ubuntu, and iOS endpoints"]
+    Intune --> Security["Defender, BitLocker, and LAPS"]
+    M365 --> Purview["Purview DLP and sensitivity controls"]
+    Entra --> Graph["Graph PowerShell and monitoring"]
+```
+
+This release validates the identity and endpoint operating model that later Azure, Kubernetes, and AI operations work depends on.
 
 ## What this release proves
 
-| Capability | Reviewer signal |
+| Capability | What it demonstrates |
 |---|---|
-| Hybrid identity and Entra integration | AD, Entra ID and Entra Connect operational readiness |
-| Conditional Access | Access control, identity protection and policy enforcement |
-| Intune endpoint management | Corporate and BYOD endpoint governance across multiple platforms |
-| Windows Autopilot | Automated Windows provisioning and enrolment validation |
-| Endpoint security | BitLocker, LAPS, Defender, ASR and compliance policy validation |
-| Microsoft 365 Operations | Exchange hybrid, Exchange Online, Teams, SharePoint and service validation |
-| Purview information protection | Sensitivity labels, DLP, retention and user-visible policy behaviour |
-| Graph and PowerShell operations | Scripted identity, endpoint and operational administration |
-| Monitoring and recovery | Sign-in logs, audit logs, device state review and recovery scenarios |
+| Hybrid identity | Active Directory DS integrated with Microsoft cloud identity patterns |
+| Microsoft 365 and Exchange hybrid | Messaging coexistence and modern workplace transition planning |
+| Endpoint management | Intune, Autopilot, compliance, BitLocker, and LAPS-oriented operations |
+| Data protection | Purview-oriented compliance and DLP controls |
+| Recovery operations | Device and identity recovery scenarios with evidence-first validation |
+| Automation | Graph PowerShell and repeatable identity/operations workflows |
 
-## Source and evidence
+## Flagship proof
 
-| Area | Repository path |
-|---|---|
-| Release 1 documentation | [docs/release1](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release1) |
-| Release 1 evidence | [screenshots/release1](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1) |
-| Release 1 scripts | [scripts/release1](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/scripts/release1) |
+| Evidence area | What it shows | Entry point |
+|---|---|---|
+| Hybrid workplace documentation | Release 1 design, implementation, and validation story | [Release 1 docs](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release1) |
+| Screenshot evidence | Public-safe visual evidence for identity, endpoint, and compliance work | [Release 1 screenshots](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1) |
+| Skills mapping | How Release 1 capabilities map to platform, identity, endpoint, and compliance skills | [Skills Matrix](../skills-matrix.md) |
+| Curated proof | Reviewer-friendly evidence summary across releases | [Proof Gallery](../proof-gallery.md) |
 
-## Related pages
+!!! quote "Architect's insight"
+    Implementing hybrid identity and endpoint governance before cloud platform expansion creates a tested identity perimeter. That sequencing reduces rework because later Azure, private platform, and automation decisions inherit a stable access model.
 
-- [Architecture Overview](../architecture.md)
-- [Code Traceability](../engineering/code-traceability.md)
+## Why it matters
+
+Release 1 shows the identity perimeter and workplace operating model that enterprise cloud platforms depend on. It gives reviewers confidence that the later Azure, Kubernetes, and AI operations work is built on real operational foundations.
+
+## Platform evolution notes
+
+- Conditional Access and compliance guardrails could be further codified through policy-as-code patterns as the identity layer matures.
+- Endpoint compliance evidence could be extended with deeper Defender hunting queries and incident-response validation.
+
+## Reviewer entry points
+
+- [Proof Gallery](../proof-gallery.md)
 - [Skills Matrix](../skills-matrix.md)
+- [Full Release 1 documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release1)
+- [Release 1 screenshots](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1)
+
+Release 1 is complete and evidenced.
