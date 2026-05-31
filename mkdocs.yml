@@ -82,8 +82,10 @@ nav:
       - Landing Zone, Governance and Terraform State Boundaries: engineering/terraform-state-boundaries.md
       - Secretless GitHub Actions OIDC: engineering/github-actions-oidc.md
       - Ansible and AWX Automation Control Plane: engineering/automation-control-plane.md
+      - Hybrid Multi-Cloud Networking: engineering/hybrid-multicloud-networking.md
       - Hybrid BGP and Multi-Cloud Transit: engineering/hybrid-bgp-multicloud-transit.md
       - Secure Transmission, Inspection and Private Routing: engineering/secure-transmission-inspection.md
+      - Private AKS and AVD Architecture: engineering/private-aks-avd.md
       - Private AKS Platform: engineering/private-aks-platform.md
       - AVD Secure Workspace and FSLogix: engineering/avd-secure-workspace.md
       - Code Traceability: engineering/code-traceability.md
