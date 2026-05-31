@@ -6,14 +6,29 @@
   <img src="assets/brand/header-floating.svg" alt="Azawslab Enterprise Hybrid Security Platform" class="hero-logo">
 </p>
 
-### An evidence-backed Azure, hybrid, and multi-cloud platform engineering portfolio.
+### Evidence-backed Azure, hybrid, and multi-cloud platform engineering portfolio.
 
-AzAWSLab is a staged enterprise platform journey built from a realistic Microsoft hybrid foundation through Azure platform engineering, secure hybrid and multi-cloud networking, private platform delivery, and governed AI-assisted operations.
+AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid foundation into Azure platform engineering, secure hybrid and multi-cloud networking, private platform delivery, and governed AI-assisted operations.
 
-**What is inside:** Terraform-driven landing zones, OIDC-based CI/CD, hybrid identity, private AKS, AVD, AWX automation, and an O6 AI operations enclave.
-**What it proves:** Evidence-backed implementation across identity, security, networking, platform delivery, and operational insight.
-**Who should review it:** Cloud engineers, platform engineers, infrastructure architects, security architects, and technical reviewers.
-**Where the evidence lives:** The [Proof Gallery](proof-gallery.md) and the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security) hold the full evidence record.
+<div class="grid cards" markdown>
+
+-   :material-package-variant-closed: **Inside the platform**
+
+    Terraform-driven landing zones, OIDC-based CI/CD, hybrid identity, private AKS, AVD, AWX automation, and a governed AI operations enclave.
+
+-   :material-check-decagram: **What it proves**
+
+    Evidence-backed implementation across identity, security, networking, platform delivery, and operational insight.
+
+-   :material-account-search: **Who should review it**
+
+    Cloud engineers, platform engineers, infrastructure architects, security architects, and technical reviewers.
+
+-   :material-folder-search: **Where the evidence lives**
+
+    The [Proof Gallery](proof-gallery.md) and the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security) hold the full evidence record.
+
+</div>
 
 [Explore Platform Journey](architecture.md){ .role-button }
 [View Proof Gallery](proof-gallery.md){ .role-button }
@@ -79,7 +94,7 @@ graph TD
     A["Local enterprise foundation<br>Hyper-V, AD DS, Exchange"] --> B["Release 1<br>Hybrid Workplace & Identity"]
     B --> C["Release 2<br>Azure Platform Engineering & Security"]
     C --> D["Private Platform & Secure Workspace<br>AKS, AVD, FSLogix"]
-    D --> E["O6<br>Governed AI-Assisted CloudOps"]
+    D --> E["Governed AI Operations Enclave<br>Human-reviewed CloudOps"]
     E --> F["Release 3<br>Multi-Cloud Kubernetes & DevSecOps roadmap"]
 ```
 
@@ -93,7 +108,7 @@ graph TD
 
 -   :material-numeric-2-circle: **Release 2: Platform Engineering**
 
-    Terraform OIDC, Azure governance, secure networking, automation, private AKS, AVD, and O6 AI operations.
+    Terraform OIDC, Azure governance, secure networking, automation, private AKS, AVD, and a governed AI operations enclave.
 
     [Open Release 2 summary](releases/release2.md)
 
@@ -131,7 +146,7 @@ graph TD
 
     Models AI-assisted operations through policy mediation, evidence, and human-controlled execution boundaries.
 
-    [Review O6 AI operations](ai-operations/index.md)
+    [Review AI operations](ai-operations/index.md)
 
 </div>
 
@@ -143,7 +158,7 @@ graph TD
 | Multi-cloud routing | [BGP and VPN evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5) |
 | Private AKS | [Private cluster validation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4) |
 | AWX automation | [AWX control plane evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A2-awx-control-plane) |
-| AI governance | [O6 policy evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6) |
+| AI governance | [AI operations evidence](evidence/release2-evidence-index.md) |
 
 ## Source repository
 
