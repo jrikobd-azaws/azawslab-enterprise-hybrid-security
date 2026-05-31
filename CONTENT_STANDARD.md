@@ -15,7 +15,7 @@ AzAWSLab has two connected presentation layers:
 
 Both layers must tell the same story, but they must not duplicate the same content.
 
-The frontend should be concise, guided, visual, and readable.  
+The frontend should be concise, guided, visual, and readable.
 The GitHub backend should be deeper, more technical, evidence-linked, and implementation-oriented.
 
 ## 2. Core operating principles
@@ -47,34 +47,34 @@ Every major claim must map to one of the following:
 
 Every major frontend page should follow this structure:
 
-1. **Title**  
+1. **Title**
    Clear, human, and portfolio-ready. Avoid internal metadata phrasing.
 
-2. **Visual status chips/badges**  
+2. **Visual status chips/badges**
    Use short visual labels for release coverage, evidence status, and platform area.
 
-3. **Strong opening explanation**  
+3. **Strong opening explanation**
    Explain what the page is, why it exists, and why it matters.
 
-4. **What this page proves**  
+4. **What this page proves**
    A short evidence-backed statement.
 
-5. **Architecture snapshot**  
+5. **Architecture snapshot**
    Use an annotated PNG, Mermaid diagram, or plain text diagram where it improves understanding. Diagrams must explain architecture, not decorate the page.
 
-6. **Key capabilities**  
+6. **Key capabilities**
    Concrete, verifiable items. Avoid vague skill lists.
 
-7. **Selected proof**  
+7. **Selected proof**
    Use only the strongest screenshots, CLI excerpts, workflow outputs, or evidence cards. Do not overload frontend pages with raw evidence.
 
-8. **Reviewer takeaway**  
+8. **Reviewer takeaway**
    A calm, experienced observation that helps the reader understand the value of the work.
 
-9. **Deeper GitHub evidence**  
+9. **Deeper GitHub evidence**
    Link to the relevant GitHub page, evidence folder, README, workflow, Terraform root, Ansible playbook, or architecture document.
 
-10. **Next recommended page**  
+10. **Next recommended page**
    Guide the reader to the next relevant portfolio path.
 
 ### Homepage exception
@@ -113,22 +113,22 @@ GitHub Markdown is allowed to use structured headings such as `Purpose`, `Scope`
 
 Every evidence page or evidence section must explain:
 
-1. **Evidence item**  
+1. **Evidence item**
    What the reviewer is looking at.
 
-2. **Capability proven**  
+2. **Capability proven**
    Which architectural, operational, security, automation, or platform claim the evidence supports.
 
-3. **Evidence type**  
+3. **Evidence type**
    Use one of: `screenshot`, `CLI`, `workflow`, `diagram`, `config`, `validation note`.
 
-4. **What the reviewer should verify**  
+4. **What the reviewer should verify**
    Short guidance that explains how to interpret the evidence.
 
-5. **Related implementation file**  
+5. **Related implementation file**
    Link to Terraform, Ansible, workflow, Markdown documentation, config, or architecture file where available.
 
-6. **Redaction note**  
+6. **Redaction note**
    Explain if values are masked, renamed, or intentionally hidden.
 
 ## 6. Emoji/status scanning table standard for GitHub Markdown
@@ -215,7 +215,7 @@ Recommended submenu:
 | Release 2 · Platform Engineering | Terraform, Azure platform, AKS, AVD, AWX, multi-cloud, security, AI operations |
 | Release 3 · Multi-Cloud Roadmap | DevSecOps, Argo CD, multi-cloud Kubernetes roadmap |
 
-The frontend Role Guide should be human-friendly.  
+The frontend Role Guide should be human-friendly.
 A short GitHub reviewer path may also exist for technical readers browsing the repository directly.
 
 ## 10. Screenshot evidence wording standard
