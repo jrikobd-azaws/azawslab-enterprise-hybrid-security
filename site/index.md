@@ -18,8 +18,6 @@ AzAWSLab is a staged enterprise platform portfolio built from a realistic Micros
 
 **Reviewers:** Cloud engineers, platform engineers, infrastructure architects, security architects, and technical reviewers.
 
-**Evidence:** [Proof Gallery](proof-gallery.md) and [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security).
-
 </div>
 
 [Explore Platform Journey](architecture.md){ .role-button }
