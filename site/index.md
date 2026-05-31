@@ -8,7 +8,7 @@
 
 ### Evidence-backed Azure, hybrid, and multi-cloud platform engineering portfolio.
 
-AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid foundation into Azure platform engineering, secure hybrid and multi-cloud networking, private platform delivery, and governed AI-assisted operations.
+AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid infrastructure into Azure platform engineering, secure hybrid and multi-cloud networking, private platform delivery, and governed AI-assisted operations.
 
 <div class="hero-proof-strip" markdown>
 
@@ -20,10 +20,9 @@ AzAWSLab is a staged enterprise platform portfolio built from a realistic Micros
 
 </div>
 
-[Explore Platform Journey](architecture.md){ .role-button }
+[Explore Platform Journey](releases/index.md){ .role-button }
 [View Proof Gallery](proof-gallery.md){ .role-button }
-[Technical Review](role-paths/technical-reviewer.md){ .role-button }
-[Recruiter Path](role-paths/recruiter.md){ .role-button }
+[Reviewer Pathways](role-paths/index.md){ .role-button }
 
 </section>
 

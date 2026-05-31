@@ -79,6 +79,7 @@ nav:
       - Architecture Overview: architecture.md
 
   - Platform Journey:
+      - Platform Journey Overview: releases/index.md
       - Release 1 - Hybrid Modern Workplace, Identity, Endpoint Security and Microsoft 365 Operations: releases/release1.md
       - Release 2 - Azure Platform Engineering, Security, Automation, Private Platform and AI Operations: releases/release2.md
       - Release 3 - Multi-Cloud Kubernetes, GitOps and DevSecOps Roadmap: releases/release3.md
@@ -102,6 +103,7 @@ nav:
       - Evidence Handling Guide: evidence-guide.md
 
   - Reviewer Pathways:
+      - Reviewer Pathways Overview: role-paths/index.md
       - Recruiter: role-paths/recruiter.md
       - Hiring Manager: role-paths/hiring-manager.md
       - Technical Reviewer: role-paths/technical-reviewer.md
