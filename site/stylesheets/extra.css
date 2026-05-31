@@ -67,3 +67,25 @@
   width: auto !important;
   max-width: none !important;
 }
+
+/* Homepage hero proof strip */
+.hero-proof-strip {
+  margin: 1.1rem auto 1.4rem;
+  max-width: 980px;
+  text-align: left;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.hero-proof-strip p {
+  margin: 0.35rem 0;
+}
+
+.hero-proof-strip strong {
+  color: var(--md-primary-fg-color);
+  font-weight: 700;
+}
+
+.hero .hero-proof-strip a {
+  font-weight: 600;
+}
