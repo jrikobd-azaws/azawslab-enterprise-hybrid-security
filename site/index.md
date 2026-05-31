@@ -6,9 +6,14 @@
   <img src="assets/brand/header-floating.svg" alt="Azawslab Enterprise Hybrid Security Platform" class="hero-logo">
 </p>
 
-### Evidence-backed enterprise hybrid security and platform engineering portfolio.
+### An evidence-backed Azure, hybrid, and multi-cloud platform engineering portfolio.
 
-This showroom presents a staged enterprise platform journey across Microsoft hybrid identity, Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and governed AI-assisted CloudOps.
+AzAWSLab is a staged enterprise platform journey built from a realistic Microsoft hybrid foundation through Azure platform engineering, secure hybrid and multi-cloud networking, private platform delivery, and governed AI-assisted operations.
+
+**What is inside:** Terraform-driven landing zones, OIDC-based CI/CD, hybrid identity, private AKS, AVD, AWX automation, and an O6 AI operations enclave.
+**What it proves:** Evidence-backed implementation across identity, security, networking, platform delivery, and operational insight.
+**Who should review it:** Cloud engineers, platform engineers, infrastructure architects, security architects, and technical reviewers.
+**Where the evidence lives:** The [Proof Gallery](proof-gallery.md) and the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security) hold the full evidence record.
 
 [Explore Platform Journey](architecture.md){ .role-button }
 [View Proof Gallery](proof-gallery.md){ .role-button }
@@ -18,7 +23,12 @@ This showroom presents a staged enterprise platform journey across Microsoft hyb
 </section>
 
 !!! success "Public portfolio status"
-    The project is published as a curated MkDocs Material showroom, backed by a public GitHub repository, custom domain, HTTPS, evidence folders, strict documentation checks, and role-based reviewer paths.
+    The project is published as a curated case-study portfolio, backed by a public GitHub repository, custom domain, HTTPS, evidence folders, strict documentation checks, and role-based reviewer paths.
+
+<!-- Visual architecture snapshot -->
+[![Platform hero diagram](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/raw/main/diagrams/platform/hero-diagram.png)](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/diagrams/platform/hero-diagram.png)
+
+*Platform architecture overview - [view full diagram on GitHub](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/diagrams/platform/hero-diagram.png)*
 
 ## Choose your review path
 
@@ -139,4 +149,4 @@ graph TD
 
 The implementation, evidence folders, workflows, Terraform roots, Kubernetes manifests, diagrams, and full Markdown documentation remain in the GitHub source repository.
 
-[:fontawesome-brands-github: Open source repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security){ .md-button .md-button--primary }
+[:fontawesome-brands-github: Open GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security){ .md-button .md-button--primary }
