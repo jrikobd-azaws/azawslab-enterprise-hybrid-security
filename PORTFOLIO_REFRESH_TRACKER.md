@@ -1,181 +1,110 @@
 # AzAWSLab Portfolio Refresh Tracker
 
-| Area | Status | Reader signal |
-|---|---:|---|
-| 🟢 Platform Status | Public Ready | Portfolio and evidence are safe for public review |
-| 🔵 Release 1 | Workplace & Identity | Hybrid modern workplace, identity, endpoint, security, and recovery |
-| 🟢 Release 2 | Platform Engineering | Terraform, AKS, AVD, multi-cloud, AWX, security, and AI enclave |
-| ⚪ Release 3 | Multi-Cloud Roadmap | DevSecOps, Argo CD, and multi-cloud platform roadmap |
-
-## Purpose
-
-This tracker controls the AzAWSLab portfolio refresh so the frontend website and GitHub documentation become a consistent, premium, evidence-backed cloud engineering portfolio.
-
-The refresh must improve presentation quality without inventing claims, weakening the project narrative, or creating inconsistent documentation styles.
+This tracker controls the AzAWSLab portfolio refresh so the work remains scoped, evidence-led, and consistent across the frontend website, GitHub Markdown documentation, diagrams, and evidence files.
 
 ## Working branch
 
 `feature/portfolio-premium-refresh`
 
-## Portfolio model
+Confirm locally before editing:
 
-| Layer | Purpose | Audience | Content style |
-|---|---|---|---|
-| 🌐 Frontend website | Public portfolio and case-study presentation | Recruiters, hiring managers, technical reviewers | Polished, guided, visual, concise |
-| 📦 GitHub repository | Technical backend and source-of-truth evidence | Engineers, architects, security reviewers | Detailed, evidence-linked, implementation-focused |
-| 🧾 Evidence folders | Proof layer | Technical reviewers | Screenshots, CLI evidence, workflow output, diagrams, validation notes |
+```powershell
+git branch --show-current
+git status --short
+```
 
-## Core operating rules
+## Portfolio refresh objective
+
+Upgrade AzAWSLab into a premium, evidence-backed Azure, hybrid, and multi-cloud platform engineering portfolio.
+
+The refresh must improve:
+
+- homepage clarity
+- frontend navigation
+- Portfolio submenu and Role Guide
+- frontend content quality
+- GitHub root documentation
+- Release 1 and Release 2 consistency
+- skills presentation
+- architecture presentation
+- evidence-to-capability mapping
+- diagram placement
+- roadmap separation
+- encoding and mojibake safety
+
+The project must support these target roles:
+
+| Priority | Role |
+|---|---|
+| Primary | Azure Engineer |
+| Primary | Cloud Engineer |
+| Primary | Cloud Platform Engineer |
+| Primary | Multi-Cloud Platform Engineer |
+| Secondary | Infrastructure Engineer |
+| Secondary | Infrastructure Architect |
+| Advanced credibility | Cloud Architect |
+| Advanced credibility | Security Architect |
+| Advanced credibility | DevOps / SRE Engineer |
+
+## Operating rules
 
 - Work in one feature branch.
 - Do not push directly from `main`.
-- Use multiple focused local commits.
+- Use focused local commits.
 - Keep push commands separate from commit commands.
 - Do not use `git add .`.
 - Do not rewrite unrelated files.
-- Do not start writing before auditing the relevant files.
-- Do not edit before comparing existing content with the proposed replacement.
-- Do not invent implementation details.
-- Do not add claims without evidence.
-- Update this tracker at the end of every phase.
-- Check encoding and mojibake before every commit.
-- Preserve emoji/status-style scanning tables in GitHub Markdown.
-- Remove duplicate flat tables where they repeat the same information.
+- Read and compare files before rewriting.
+- Preserve emoji/status scanning tables in GitHub Markdown.
+- Remove duplicate flat tables when they repeat the same information.
 - Use visual chips/badges on frontend pages.
-- Do not use weak public headers such as `Part of`, `Best for`, or `Purpose`.
-- Do not use the word `showroom`.
+- Do not use weak public headers such as `Part of / Best for / Purpose`.
+- Do not use the word `showroom` in public-facing portfolio content, except where listed as a banned term in the content standard.
+- Check encoding and mojibake before commit.
+- Do not invent claims or evidence.
 - Keep implemented, evidenced, design-standard, and roadmap content clearly separated.
+- Do not rename screenshots until an evidence index exists and links can be validated.
+- Do not create Mermaid diagrams until site rendering support is confirmed.
+- Do not push until a meaningful milestone is complete.
 
-## Approved presentation direction
+## Approved content decisions
 
-| Decision | Approved standard |
+| Decision | Status |
 |---|---|
-| Portfolio positioning | Evidence-backed Azure, hybrid, and multi-cloud platform engineering portfolio |
-| Primary role alignment | Azure Engineer, Cloud Engineer, Cloud Platform Engineer |
-| Secondary role alignment | Multi-Cloud Platform Engineer, Infrastructure Engineer, Infrastructure Architect |
-| Advanced credibility layer | Cloud Architect, Security Architect, DevOps / SRE Engineer |
-| Writing tone | Human, experienced, organised, confident, evidence-led, architect-level |
-| Frontend style | Public portfolio and case-study presentation |
-| GitHub style | Technical backend, source of truth, and evidence record |
-| Release 1 evidence | Curated screenshots on frontend, deeper evidence in GitHub |
-| Release 2 evidence | Selected proof and text diagrams on frontend, deeper CLI/workflow evidence in GitHub |
-| Lessons learned page | Convert to Architectural Decisions and Operational Insights |
-| Homepage requirement | Must explain what the project is, what is inside, intent, proof, audience, and evidence location |
+| Frontend is the public portfolio and case-study presentation | ✅ Approved |
+| GitHub is the technical backend and evidence source of truth | ✅ Approved |
+| Keep emoji/status scanning tables in GitHub Markdown | ✅ Approved |
+| Remove duplicate flat tables | ✅ Approved |
+| Use visual chips/badges on frontend pages | ✅ Approved |
+| Add Portfolio > Role Guide submenu | ✅ Approved |
+| Homepage must explain what the project is, what is inside, intent, proof, audience, and evidence location | ✅ Approved |
+| Keep selected Release 1 screenshots visible on frontend | ✅ Approved |
+| Move bulk screenshot evidence to deeper GitHub evidence paths | ✅ Approved |
+| Use selected Release 2 CLI/workflow evidence only where it strengthens presentation | ✅ Approved |
+| Prefer text diagrams for Release 2 technical flows | ✅ Approved |
+| Convert Lessons Learned into Architectural Decisions and Operational Insights | ✅ Approved |
+| Avoid defensive, scaffold-like, and internal metadata wording | ✅ Approved |
+| Maintain human, experienced, organised, confident, evidence-led tone | ✅ Approved |
 
-## Content standards
+## Claim classification model
 
-### Frontend page standard
+Every major claim must map to one of these statuses:
 
-Every major frontend page should follow this pattern:
-
-1. Title
-2. Visual status chips/badges
-3. Strong opening explanation
-4. What this page proves
-5. Architecture snapshot
-6. Key capabilities
-7. Selected proof
-8. Reviewer takeaway
-9. Deeper GitHub evidence
-10. Next recommended page
-
-### GitHub backend Markdown standard
-
-Every major GitHub Markdown page should follow this pattern:
-
-1. Title
-2. Emoji/status scanning table
-3. Purpose
-4. Scope
-5. Architecture model
-6. Implementation summary
-7. Terraform, Ansible, AWX, workflow, or evidence wiring where relevant
-8. Evidence map
-9. Validation notes
-10. Reviewer takeaway
-11. Related files
-
-### Evidence page standard
-
-Every evidence page or evidence section should explain:
-
-1. Evidence item
-2. Capability proven
-3. Evidence type: screenshot, CLI, workflow, diagram, config, or validation note
-4. What the reviewer should verify
-5. Related implementation file
-6. Redaction note where required
-
-## Writing quality rules
-
-Use wording that feels:
-
-- Human
-- Experienced
-- Organised
-- Confident
-- Evidence-led
-- Architect-level
-- Calm and precise
-- Premium portfolio quality
-
-Avoid wording that feels:
-
-- AI-generated
-- Scaffold-like
-- Defensive
-- Salesy
-- Intern-level
-- Overexplained without evidence
-- Like internal documentation metadata
-- Like trial-and-error notes
-
-## Banned or discouraged wording
-
-| Avoid | Use instead |
-|---|---|
-| showroom | portfolio, case study, evidence-backed platform record |
-| I tried | implemented, validated, designed, tested |
-| failed because | validated a guardrail, confirmed a policy boundary |
-| not completed | roadmap, future extension, intentionally scoped |
-| basic lab | production-style lab, enterprise-pattern implementation, lab-validated platform |
-| simple setup | controlled implementation, scoped platform pattern |
-| just a demo | evidence-backed portfolio implementation |
-| Part of / Best for / Purpose header | visual chips on frontend, emoji/status table in GitHub |
-| maybe / probably | state only what is evidenced or mark as not confirmed |
-
-## Evidence-safe claim model
-
-Every major claim must map to one of these categories:
-
-| Category | Meaning | Allowed public wording |
+| Status | Meaning | Use when |
 |---|---|---|
-| ✅ Implemented and evidenced | Implementation and proof both exist | Evidence-backed implementation |
-| 🟡 Implemented, evidence needs linking | Work exists but evidence path needs improvement | Implemented capability with evidence to be linked |
-| 🔵 Documented design standard | Architecture/design exists, implementation evidence is not the main claim | Documented design standard |
-| ⚪ Roadmap | Future or planned work | Roadmap extension |
-| 🔴 Reword or remove | Claim is unsupported, unclear, or risky | Do not publish until fixed |
-
-## Guardrail and failed-evidence wording
-
-If evidence shows a blocked or failed validation, do not present it as weakness. Classify what it proves.
-
-| Evidence pattern | Stronger interpretation |
-|---|---|
-| Policy blocked deployment | Governance enforcement validated |
-| Single-region DR blocked | Recovery design boundary confirmed |
-| Route did not follow expected path | Routing/inspection boundary identified |
-| Permission denied | RBAC or least-privilege control validated |
-| Workflow failed safely | Delivery guardrail validated |
-| Missing final screenshot | Do not claim success evidence; describe the evidenced control boundary |
+| ✅ Implemented and evidenced | Implementation and evidence are both present | Screenshots, CLI output, workflow logs, diagrams, or docs prove the claim |
+| 🟡 Implemented; evidence linking needed | Implementation appears present, but evidence needs linking | File exists but evidence index is missing |
+| 🔵 Design standard documented | Design exists but implementation evidence is not claimed | Architecture, roadmap, pattern, or intended model |
+| ⚪ Roadmap | Future item | Release 3 or later enhancement |
+| 🔴 Remove or reword | Unsupported or risky claim | No evidence, overclaiming, duplicate, or weak wording |
 
 ## Phase tracker
 
 | Phase | Scope | Status | Files changed | Evidence checked | Encoding checked | Commit |
 |---|---|---:|---|---|---:|---|
-| 0 | Branch and baseline tracker | In progress | `PORTFOLIO_REFRESH_TRACKER.md` | Not started | Pending | Pending |
-| 1 | Audit and source-of-truth map | Pending |  |  |  |  |
-| 2 | Content, navigation, and writing standard | Pending |  |  |  |  |
+| 0 | Branch and baseline | Prepared | `PORTFOLIO_REFRESH_TRACKER.md` | N/A | Pending local check | Pending |
+| 1 | Audit and source-of-truth map | Complete | None | Audit-level evidence inventory completed | Reviewed; local check still required before commit | N/A |
+| 2 | Content, navigation, and writing standard | Complete | `CONTENT_STANDARD.md`, `PORTFOLIO_REFRESH_TRACKER.md` | N/A | Pending local check after file creation | Pending |
 | 3 | Homepage and frontend shell | Pending |  |  |  |  |
 | 4 | GitHub root documentation cleanup | Pending |  |  |  |  |
 | 5 | Release 1 normalization | Pending |  |  |  |  |
@@ -183,176 +112,300 @@ If evidence shows a blocked or failed validation, do not present it as weakness.
 | 7 | Diagrams and evidence model | Pending |  |  |  |  |
 | 8 | Final QA and polish | Pending |  |  |  |  |
 
-## Phase 0 baseline checklist
+## Phase 1 — Audit and source-of-truth map
 
-| Check | Status | Notes |
-|---|---:|---|
-| Feature branch created | Pending | `feature/portfolio-premium-refresh` |
-| Tracker created | In progress | This file |
-| Working tree reviewed | Pending | Use `git status --short` |
-| Push avoided from main | Required | Never push directly from `main` |
-| Commit prepared | Pending | Stage only this tracker file |
-| Push required | No | First push should happen after a meaningful milestone |
+### Status
 
-## Files to audit in Phase 1
+Complete as directional audit.
 
-| Area | Files or folders | Audit goal |
-|---|---|---|
-| Root entry point | `README.md` | Remove duplication, fix weak intro, improve evidence path |
-| Portfolio backend | `PORTFOLIO.md` | Preserve strong case-study value, align with frontend |
-| Skills | `SKILLS_MATRIX.md` | Expand and align with target roles |
-| Architecture | `ARCHITECTURE.md` | Improve diagram-led explanation and remove weak metadata tone |
-| Frontend home | Website homepage source | Explain project, intent, proof, audience, and evidence |
-| Frontend navigation | MkDocs/navigation configuration | Add Portfolio > Role Guide submenu |
-| Release 1 | Release 1 docs and evidence | Curate screenshot proof and normalize tone |
-| Release 2 | Release 2 docs and evidence | Raise platform engineering narrative quality |
-| Diagrams | `diagrams/` | Reuse available diagrams before creating new ones |
-| Evidence | Evidence/proof folders | Map claims to proof and avoid overclaiming |
+### Scope reviewed
 
-## Claim-to-evidence register
+- Live frontend website
+- Homepage
+- Architecture page
+- Portfolio page
+- Skills page
+- Blog area
+- GitHub root documents
+- Release 1 documentation areas
+- Release 2 documentation areas
+- Foundation documentation areas
+- Evidence folders
+- Screenshots
+- Diagram folder
+- Tracker requirements
 
-Use this table during audits and rewrites.
+### Accepted Phase 1 findings
 
-| Claim | Release | Status | Evidence path | Public wording | Technical reviewer wording | Action |
-|---|---|---:|---|---|---|---|
-|  |  | Pending |  |  |  |  |
+| Finding | Decision |
+|---|---|
+| Homepage needs stronger explanation of project, intent, proof, audience, and evidence location | Accepted |
+| The word `showroom` must be removed from public-facing content | Accepted |
+| Portfolio menu needs Role Guide submenu | Accepted |
+| Emoji/status scanning tables should stay in GitHub Markdown | Accepted |
+| Duplicate flat tables should be removed | Accepted |
+| SKILLS_MATRIX.md needs major improvement | Accepted |
+| ARCHITECTURE.md needs stronger diagram-led presentation | Accepted |
+| Release 1 screenshots should remain visible where valuable | Accepted |
+| Release 2 should use selected CLI/log evidence and stronger text diagrams | Accepted |
+| Unsupported claims must be moved to roadmap or reworded | Accepted |
+| Lessons Learned should become Architectural Decisions and Operational Insights | Accepted |
+| Mermaid support must be confirmed before relying on Mermaid diagrams | Accepted |
+| Screenshot renaming should be deferred until evidence indexing exists | Accepted |
 
-## Diagram placement register
+### Phase 1 caution
 
-Use this table before adding or moving diagrams.
+The Phase 1 audit is accepted as a directional audit, not as an automatic edit list.
 
-| Page | Diagram file | Purpose | What it proves | Related evidence | Action |
-|---|---|---|---|---|---|
-|  |  |  |  |  |  |
+Before editing, Phase 3 and later must locally verify:
 
-## Quality gate
+- exact MkDocs navigation file
+- exact homepage source file
+- current branch
+- current working tree
+- current file content
+- diagram availability
+- Mermaid rendering support
+- evidence paths
+- unsupported or overclaimed statements
+- local encoding status
 
-Before committing a rewritten page, score it from 1 to 10.
+## Phase 2 — Content, navigation, and writing standard
 
-| Quality area | Score | Notes |
-|---|---:|---|
-| Human-written tone |  |  |
-| Premium portfolio quality |  |  |
-| Technical credibility |  |  |
-| Recruiter readability |  |  |
-| Architect-level clarity |  |  |
-| Evidence alignment |  |  |
-| Navigation usefulness |  |  |
-| Release consistency |  |  |
-| No defensive wording |  |  |
-| No AI-sounding filler |  |  |
+### Status
 
-If any important page scores below 8, revise before commit.
+Complete.
 
-## Encoding and mojibake gate
+### Files created or updated
 
-Before every commit that changes Markdown, YAML, or website content:
+| File | Status |
+|---|---|
+| `CONTENT_STANDARD.md` | New standard document |
+| `PORTFOLIO_REFRESH_TRACKER.md` | Updated with Phase 1 and Phase 2 control state |
 
-- Confirm files are UTF-8.
-- Scan for replacement characters and mojibake.
-- Pay special attention to emoji/status tables.
-- Do not commit files showing corrupted characters.
-- Do not repair encoding by guessing; compare against the intended content.
+### Phase 2 completion log
 
-## Stop conditions
+- Status: Complete
+- Files changed:
+  - `CONTENT_STANDARD.md`
+  - `PORTFOLIO_REFRESH_TRACKER.md`
+- Evidence checked: Not applicable; this was standard creation.
+- Encoding checked: Must be confirmed locally after file creation.
+- Commit: Pending.
+- Notes:
+  - Formalised content, navigation, evidence, diagram, roadmap, and writing standards.
+  - Confirmed GitHub Markdown should preserve emoji/status scanning tables.
+  - Confirmed duplicate flat tables should be removed.
+  - Confirmed frontend pages should use visual chips/badges.
+  - Confirmed `Evidence · Verified` must only be used when evidence directly supports the claim.
+  - Confirmed Mermaid diagrams should not be required until MkDocs support is verified.
+  - Confirmed Role Guide may start as a guided reviewer pathway and become interactive later.
+  - No major pages rewritten in Phase 2.
+
+### Quality score
+
+Ready for controlled implementation.
+
+## Phase 3 — Homepage and frontend shell
+
+### Status
+
+Pending.
+
+### Goals
+
+- Inspect local MkDocs/navigation configuration.
+- Inspect homepage source file.
+- Inspect current Portfolio pages.
+- Confirm diagram support and available diagrams.
+- Rewrite homepage to explain:
+  - what AzAWSLab is
+  - why it exists
+  - what is inside
+  - what it proves
+  - who should review it
+  - where evidence lives
+  - what to inspect next
+- Remove public-facing `showroom` wording.
+- Add or prepare Portfolio > Role Guide navigation.
+- Create Role Guide page or visible stub only if navigation points to it.
+- Use visual chips/badges under major page titles.
+- Use one existing architecture diagram where suitable.
+- Do not create unverified Mermaid diagrams.
+- Do not rename screenshots.
+- Do not expand `SKILLS_MATRIX.md` yet.
+- Do not rewrite Release 1 or Release 2 deeply yet.
+
+### Expected files to inspect before editing
+
+- `CONTENT_STANDARD.md`
+- `PORTFOLIO_REFRESH_TRACKER.md`
+- `mkdocs.yml` or equivalent navigation configuration
+- homepage source file, likely `docs/index.md`
+- portfolio page sources
+- diagrams folder
+
+### Stop conditions
+
+Stop Phase 3 before editing if:
+
+- the navigation file cannot be located
+- homepage source file cannot be confirmed
+- Mermaid support is unknown but a Mermaid dependency is being introduced
+- Role Guide navigation points to a missing page
+- a claim cannot be mapped to existing documentation or evidence
+- encoding corruption appears in the target files
+
+## Phase 4 — GitHub root documentation cleanup
+
+### Status
+
+Pending.
+
+### Candidate files
+
+- `README.md`
+- `PORTFOLIO.md`
+- `SKILLS_MATRIX.md`
+- `ARCHITECTURE.md`
+- `CONTENT_STANDARD.md`
+- `PORTFOLIO_REFRESH_TRACKER.md`
+
+### Goals
+
+- Improve GitHub entry point clarity.
+- Remove duplicate flat tables.
+- Preserve emoji/status scanning tables.
+- Remove weak public metadata-style headers.
+- Improve root portfolio narrative.
+- Expand skills matrix.
+- Improve architecture overview.
+- Reword unsupported claims.
+- Convert Lessons Learned to Architectural Decisions and Operational Insights.
+- Check mojibake and encoding before commit.
+
+## Phase 5 — Release 1 normalization
+
+### Status
+
+Pending.
+
+### Goals
+
+- Keep important screenshot evidence visible.
+- Convert screenshot-heavy sections into proof-card style.
+- Link bulk screenshots through evidence index.
+- Standardise tone with Release 2.
+- Present Microsoft 365, identity, endpoint, security, compliance, and recovery work clearly.
+- Reframe blocked or denied evidence as policy enforcement, guardrail validation, or control boundary where truthful.
+- Avoid overclaiming production-scale maturity.
+
+## Phase 6 — Release 2 normalization
+
+### Status
+
+Pending.
+
+### Goals
+
+- Improve Release 2 from implementation notes into premium platform engineering case-study quality.
+- Explain Terraform root ownership and state boundaries.
+- Explain GitHub Actions OIDC delivery model.
+- Explain secure networking, AKS, AVD, AWX, backup, monitoring, and O6 patterns.
+- Use text diagrams where they improve clarity.
+- Summarise CLI/log evidence instead of dumping raw output.
+- Add evidence-to-capability mapping.
+- Separate implemented work from roadmap.
+- Reframe blocked/failed evidence as guardrail or control validation where truthful.
+
+## Phase 7 — Diagrams and evidence model
+
+### Status
+
+Pending.
+
+### Goals
+
+- Audit existing diagrams before creating new ones.
+- Place one strong architecture diagram on the homepage.
+- Improve architecture page diagram flow.
+- Create or update evidence index.
+- Add diagram placement mapping.
+- Add evidence-to-capability mapping.
+- Confirm Mermaid support before adding Mermaid dependency.
+- Avoid diagrams that mention unconfirmed technologies.
+
+## Phase 8 — Final QA and polish
+
+### Status
+
+Pending.
+
+### Checks
+
+- No mojibake.
+- No broken Markdown tables.
+- No duplicate flat status tables.
+- Emoji/status scanning tables preserved in GitHub Markdown.
+- Visual chips/badges used on frontend pages where appropriate.
+- No public-facing `showroom` wording.
+- No weak public metadata headers.
+- No unsupported claims.
+- No roadmap content written as implemented.
+- No AI-sounding filler.
+- No defensive wording.
+- Release 1 and Release 2 tone is consistent.
+- Important pages contain reviewer takeaways.
+- No placeholder links.
+- Homepage answers the required portfolio questions.
+- Skills story is complete.
+- Architecture page is stronger and diagram-led.
+- Role Guide submenu exists or unsupported Role Guide claims are removed.
+
+## Current stop conditions
 
 Stop and review before continuing if:
 
-- A claim cannot be mapped to evidence.
-- A file contains mojibake or encoding corruption.
-- A rewrite changes technical meaning.
-- Roadmap content appears as implemented content.
-- Release 1 or Release 2 style becomes inconsistent.
-- The page reads like internal notes instead of premium portfolio writing.
-- The AI proposes broad rewrites without first auditing the file.
-- The AI invents missing implementation details.
-- A command tries to use `git add .`.
-- A command tries to push directly from `main`.
+- a claim cannot be mapped to evidence
+- a file contains encoding corruption
+- a rewrite changes technical meaning
+- roadmap content appears as implemented content
+- Release 1 or Release 2 style becomes inconsistent
+- a page reads like internal notes instead of premium portfolio writing
+- the AI proposes editing files outside the current phase
+- the AI proposes pushing from `main`
+- the AI proposes `git add .`
+- the AI proposes renaming screenshots before evidence indexing exists
+- the AI proposes Mermaid diagrams before support is confirmed
 
-## Phase completion log
+## Commit policy
 
-### Phase 0 — Branch and baseline tracker
+Use focused commits.
 
-- Status: In progress
+Do not commit until:
+
+- target files have been reviewed
+- diff has been inspected
+- `git diff --check` is clean
+- mojibake scan is clean
+- changed files match the phase scope
+- tracker has been updated
+
+Do not push after every small change. Push only after a meaningful milestone, such as after Phase 3 or Phase 4.
+
+## Required phase closeout format
+
+Every phase must end with:
+
+```text
+Phase status:
+- Completed:
+- Files audited:
 - Files changed:
-  - `PORTFOLIO_REFRESH_TRACKER.md`
-- Evidence checked:
-  - Not started
-- Encoding checked:
-  - Pending
-- Commit:
-  - Pending
-- Notes:
-  - Tracker created to control the portfolio refresh and prevent scope drift.
-
-### Phase 1 — Audit and source-of-truth map
-
-- Status: Pending
-- Files changed:
-- Evidence checked:
-- Encoding checked:
-- Commit:
-- Notes:
-
-### Phase 2 — Content, navigation, and writing standard
-
-- Status: Pending
-- Files changed:
-- Evidence checked:
-- Encoding checked:
-- Commit:
-- Notes:
-
-### Phase 3 — Homepage and frontend shell
-
-- Status: Pending
-- Files changed:
-- Evidence checked:
-- Encoding checked:
-- Commit:
-- Notes:
-
-### Phase 4 — GitHub root documentation cleanup
-
-- Status: Pending
-- Files changed:
-- Evidence checked:
-- Encoding checked:
-- Commit:
-- Notes:
-
-### Phase 5 — Release 1 normalization
-
-- Status: Pending
-- Files changed:
-- Evidence checked:
-- Encoding checked:
-- Commit:
-- Notes:
-
-### Phase 6 — Release 2 normalization
-
-- Status: Pending
-- Files changed:
-- Evidence checked:
-- Encoding checked:
-- Commit:
-- Notes:
-
-### Phase 7 — Diagrams and evidence model
-
-- Status: Pending
-- Files changed:
-- Evidence checked:
-- Encoding checked:
-- Commit:
-- Notes:
-
-### Phase 8 — Final QA and polish
-
-- Status: Pending
-- Files changed:
-- Evidence checked:
-- Encoding checked:
-- Commit:
-- Notes:
+- Evidence linked:
+- Encoding check:
+- Quality score:
+- Commit prepared:
+- Push required:
+- Next phase:
+```
