@@ -74,6 +74,7 @@ nav:
 
   - Portfolio:
       - Portfolio Case Study: portfolio-case-study.md
+      - Role Guide: role-guide.md
       - Skills Matrix: skills-matrix.md
       - Architecture Overview: architecture.md
 
