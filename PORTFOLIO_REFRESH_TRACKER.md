@@ -105,14 +105,14 @@ Every major claim must map to one of these statuses:
 | 0 | Branch and baseline | Prepared | `PORTFOLIO_REFRESH_TRACKER.md` | N/A | Pending local check | Pending |
 | 1 | Audit and source-of-truth map | Complete | None | Audit-level evidence inventory completed | Reviewed; local check still required before commit | N/A |
 | 2 | Content, navigation, and writing standard | Complete | `CONTENT_STANDARD.md`, `PORTFOLIO_REFRESH_TRACKER.md` | N/A | Pending local check after file creation | Pending |
-| 3 | Homepage and frontend shell | Pending |  |  |  |  |
+| 3 | Homepage and frontend shell | Complete | `site/index.md`, `site/role-guide.md`, `mkdocs.yml`, `site/portfolio-case-study.md`, `PORTFOLIO_REFRESH_TRACKER.md` | Frontend navigation, homepage evidence paths, role-guide links | Build passed; local encoding check required before commit | Pending |
 | 4 | GitHub root documentation cleanup | Pending |  |  |  |  |
 | 5 | Release 1 normalization | Pending |  |  |  |  |
 | 6 | Release 2 normalization | Pending |  |  |  |  |
 | 7 | Diagrams and evidence model | Pending |  |  |  |  |
 | 8 | Final QA and polish | Pending |  |  |  |  |
 
-## Phase 1 — Audit and source-of-truth map
+## Phase 1 - Audit and source-of-truth map
 
 ### Status
 
@@ -170,7 +170,7 @@ Before editing, Phase 3 and later must locally verify:
 - unsupported or overclaimed statements
 - local encoding status
 
-## Phase 2 — Content, navigation, and writing standard
+## Phase 2 - Content, navigation, and writing standard
 
 ### Status
 
@@ -206,7 +206,7 @@ Complete.
 
 Ready for controlled implementation.
 
-## Phase 3 — Homepage and frontend shell
+## Phase 3 - Homepage and frontend shell
 
 ### Status
 
@@ -256,7 +256,7 @@ Stop Phase 3 before editing if:
 - a claim cannot be mapped to existing documentation or evidence
 - encoding corruption appears in the target files
 
-## Phase 4 — GitHub root documentation cleanup
+## Phase 4 - GitHub root documentation cleanup
 
 ### Status
 
@@ -284,7 +284,7 @@ Pending.
 - Convert Lessons Learned to Architectural Decisions and Operational Insights.
 - Check mojibake and encoding before commit.
 
-## Phase 5 — Release 1 normalization
+## Phase 5 - Release 1 normalization
 
 ### Status
 
@@ -300,7 +300,7 @@ Pending.
 - Reframe blocked or denied evidence as policy enforcement, guardrail validation, or control boundary where truthful.
 - Avoid overclaiming production-scale maturity.
 
-## Phase 6 — Release 2 normalization
+## Phase 6 - Release 2 normalization
 
 ### Status
 
@@ -318,7 +318,7 @@ Pending.
 - Separate implemented work from roadmap.
 - Reframe blocked/failed evidence as guardrail or control validation where truthful.
 
-## Phase 7 — Diagrams and evidence model
+## Phase 7 - Diagrams and evidence model
 
 ### Status
 
@@ -335,7 +335,7 @@ Pending.
 - Confirm Mermaid support before adding Mermaid dependency.
 - Avoid diagrams that mention unconfirmed technologies.
 
-## Phase 8 — Final QA and polish
+## Phase 8 - Final QA and polish
 
 ### Status
 
@@ -409,3 +409,52 @@ Phase status:
 - Push required:
 - Next phase:
 ```
+## Phase 3A - Homepage and frontend shell local inspection
+
+### Status
+
+Complete.
+
+### Inspection summary
+
+- Files inspected: `mkdocs.yml`, `site/index.md`, `site/portfolio-case-study.md`, `site/architecture.md`, `site/skills-matrix.md`, `site/proof-gallery.md`, `site/evidence-guide.md`, `CONTENT_STANDARD.md`, `PORTFOLIO_REFRESH_TRACKER.md`, diagrams folder inventory.
+- Homepage source: `site/index.md`.
+- Navigation: Portfolio menu had three items before Phase 3B; Role Guide was missing.
+- Mermaid: Supported through `pymdownx.superfences` with a Mermaid fence.
+- Diagram recommendation: `diagrams/platform/hero-diagram.png` for the homepage.
+- `showroom`: two occurrences found in `site/index.md`.
+- No weak scaffold headers found.
+- Files changed: None during inspection.
+
+## Phase 3B - Homepage and frontend shell implementation
+
+### Status
+
+Complete.
+
+### Files changed
+
+- `site/index.md` - homepage hero rewrite, public-facing `showroom` wording removed, architecture diagram reference added, evidence path strengthened.
+- `site/role-guide.md` - new guided reviewer routing page.
+- `mkdocs.yml` - Role Guide added to Portfolio submenu.
+- `site/portfolio-case-study.md` - Role Guide added to reviewer entry points.
+- `PORTFOLIO_REFRESH_TRACKER.md` - Phase 3A and Phase 3B status recorded.
+
+### Evidence checked
+
+- Homepage evidence paths point to the Proof Gallery and public GitHub repository.
+- Featured proof links remain mapped to existing evidence folders.
+- Role Guide links point to existing reviewer pathway pages.
+- No release implementation claims were added.
+
+### Encoding checked
+
+Pending local verification before commit.
+
+### Commit
+
+Pending.
+
+### Notes
+
+Phase 3B was implemented within the approved frontend shell scope. No release documentation, backend root documentation, screenshots, diagrams, or evidence folders were modified.
