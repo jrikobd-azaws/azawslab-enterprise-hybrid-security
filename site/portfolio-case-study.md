@@ -35,6 +35,7 @@ This project demonstrates architecture, implementation, validation, documentatio
 - [Proof Gallery](proof-gallery.md)
 - [Skills Matrix](skills-matrix.md)
 - [Evidence Guide](evidence-guide.md)
+- [Role Guide](role-guide.md)
 - [Technical Reviewer Path](role-paths/technical-reviewer.md)
 
 ## Full source document
