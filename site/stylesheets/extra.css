@@ -68,24 +68,51 @@
   max-width: none !important;
 }
 
-/* Homepage hero proof strip */
+/* Homepage hero typography and proof strip */
+.md-typeset .hero h1 {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset .hero h3 {
+  margin: 1rem 0 0.7rem;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.52;
+}
+
+.md-typeset .hero > p:not([align]) {
+  margin: 0.65rem 0 1rem;
+  font-size: 1.02rem;
+  line-height: 1.52;
+}
+
 .md-typeset .hero .hero-proof-strip {
-  margin: 1rem auto 1.25rem;
+  margin: 0.9rem auto 1.1rem;
   max-width: 980px;
   text-align: left;
-  font-size: inherit;
-  line-height: inherit;
+  font-size: 1.02rem;
+  line-height: 1.52;
 }
 
 .md-typeset .hero .hero-proof-strip p {
-  margin: 0.45rem 0;
-  font-size: inherit;
-  line-height: inherit;
+  margin: 0.35rem 0;
+  font-size: 1.02rem;
+  line-height: 1.52;
 }
 
 .md-typeset .hero .hero-proof-strip strong {
   color: var(--md-primary-fg-color);
   font-weight: 700;
-  font-size: inherit;
+  font-size: 1.02rem;
 }
-/* End homepage hero proof strip */
+
+.md-typeset .hero a.role-button {
+  display: inline-block;
+  margin: 0.25rem 0.35rem 0.25rem 0;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  border-radius: 0.35rem;
+}
+/* End homepage hero typography and proof strip */
