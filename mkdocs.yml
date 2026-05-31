@@ -76,7 +76,6 @@ nav:
       - Portfolio Case Study: portfolio-case-study.md
       - Skills Matrix: skills-matrix.md
       - Architecture Overview: architecture.md
-      - Code Traceability: engineering/code-traceability.md
 
   - Platform Journey:
       - Release 1 - Hybrid Modern Workplace, Identity, Endpoint Security and Microsoft 365 Operations: releases/release1.md
