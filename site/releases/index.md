@@ -20,7 +20,7 @@
 </div>
 
 !!! summary "What this page is"
-    A guided entry into the AzAWSLab platform lifecycle: from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, private platform delivery, automation, resilience, and controlled operations.
+    A guided entry into the full AzAWSLab platform lifecycle: from on-premises hybrid identity to Azure platform engineering, secure multi-cloud networking, automation, resilience, and an AI operations enclave with policy-mediated tool use and human approval boundaries.
 
 Release 1 and Release 2 are implemented, operationally validated, and evidenced through public-safe screenshots, CLI output, workflow records, source files, manifests, diagrams, and design documents. Release 3 is clearly marked as roadmap until implementation evidence is added.
 
@@ -47,11 +47,12 @@ flowchart LR
 
 | Reviewer need | Recommended path |
 |---|---|
-| Fast project understanding | Start with the release map, then open the [Proof Gallery](/proof-gallery/). |
+| Fast project understanding | Start here for the release map, then open the [Proof Gallery](/proof-gallery/). |
+| Recruiter or hiring-manager scan | Review the delivery table, then use [Release 2](/releases/release2/) for the strongest platform engineering signals. |
 | Hybrid workplace and Microsoft 365 proof | Review [Release 1](/releases/release1/) for identity, endpoint, Purview, monitoring, and recovery evidence. |
-| Platform engineering depth | Review [Release 2](/releases/release2/) for Terraform, OIDC, networking, automation, private platform, and resilience evidence. |
-| Security architecture review | Follow Release 1 identity controls into Release 2 private access, inspection, Sentinel, Defender, backup, and AI operations boundaries. |
-| Future roadmap context | Use [Release 3](/releases/release3/) to understand the planned platform evolution without confusing roadmap with delivered proof. |
+| Platform architecture depth | Review [Release 2](/releases/release2/) for Terraform roots, OIDC, FortiGate inspection, AWS branch routing, AWX, private AKS, AVD, backup, and AI operations. |
+| Security architecture review | Follow Release 1 identity and endpoint controls into Release 2 private access, inspection, Sentinel, Defender, backup, and O6 AI operations boundaries. |
+| Future roadmap context | Use [Release 3](/releases/release3/) to understand planned platform evolution without confusing roadmap with delivered proof. |
 
 ## Evidence model
 
@@ -66,7 +67,10 @@ The release pages are not standalone marketing summaries. They route reviewers t
 ## Source entry points
 
 - [GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security)
+- [Release 1 screenshots](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1)
+- [Release 2 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence)
+- [Terraform source](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform)
+- [Ansible source](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/ansible)
+- [Kubernetes source](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/kubernetes)
 - [Proof Gallery](/proof-gallery/)
 - [Evidence Guide](/evidence-guide/)
-- [Architecture Overview](/architecture/)
-- [Skills Matrix](/skills-matrix/)

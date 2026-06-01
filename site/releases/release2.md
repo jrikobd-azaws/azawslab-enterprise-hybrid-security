@@ -11,7 +11,7 @@
   </a>
   <a class="portfolio-chip" href="/releases/release2/">
     <span class="portfolio-chip-label">R2</span>
-    <span class="portfolio-chip-value">Platform + Multi-Cloud</span>
+    <span class="portfolio-chip-value portfolio-chip-value-active">Platform + Multi-Cloud</span>
   </a>
   <a class="portfolio-chip" href="/releases/release3/">
     <span class="portfolio-chip-label">R3</span>
@@ -76,12 +76,24 @@ flowchart TD
     O6 --> Operations
 ```
 
+## What this release proves
+
+- **Landing-zone governance** - Terraform-defined management groups, Azure Policy, RBAC, and strict state-file separation across multiple Terraform roots.
+- **Secretless CI/CD** - GitHub Actions with OpenID Connect and no long-lived deployment credentials for routine platform delivery.
+- **Hub-spoke networking with advanced inspection** - Azure Firewall forced routing, route tables, service chaining, and FortiGate NVA inspection.
+- **Hybrid and multi-cloud routing** - Site-to-site VPN, IPSec, BGP, Cisco CSR context, AWS branch foundation, route filtering, and cross-cloud route validation.
+- **Automation control plane** - Ansible playbooks and AWX inventories, job templates, execution records, and operational runbooks replace ad-hoc scripting.
+- **Private AKS** - Private cluster pattern, private access, Kubernetes support manifests, network policy context, and validation evidence.
+- **Secure AVD workspace** - Azure Virtual Desktop, FSLogix, private endpoint orientation, privileged access separation, and secure workspace governance.
+- **Backup and disaster recovery** - Recovery Services Vault, backup policies, BCDR planning, soft-delete handling, immutability, monitoring, and validation evidence.
+- **AI operations enclave** - AI operations enclave with policy-mediated tool use and human approval boundaries, tied to O6 evidence and the dedicated AI operations page.
+
 ## Capability matrix
 
 | Capability | Implementation signal | Evidence path |
 |---|---|---|
 | Landing zone governance | Terraform-defined Azure foundations, management group hierarchy, Azure Policy, RBAC separation, remote state, and controlled delivery boundaries. | [Landing zone documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/01-landing-zone-iac-governance.md), [Terraform source](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform), and [P0 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P0) |
-| Secretless CI/CD | GitHub Actions OIDC federation to Azure, workflow-controlled Terraform plan/apply delivery, and no routine dependency on long-lived cloud deployment credentials. | [P0 OIDC evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P0) and [GitHub Actions workflows](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/.github/workflows) |
+| Secretless CI/CD | GitHub Actions OIDC federation to Azure, workflow-controlled Terraform plan/apply delivery, and reduced static deployment credential exposure. | [P0 OIDC evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P0) and [GitHub Actions workflows](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/.github/workflows) |
 | Terraform state discipline | Multiple Terraform roots separate platform networking, management, AKS, AVD, shared services, governance, workloads, and AWS branch ownership. | [Terraform state boundary deep dive](/engineering/terraform-state-boundaries/) and [platform management state split evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/platform-management-state-split) |
 | Hub-spoke network security | Azure hub-spoke design, Azure Firewall, forced routing, route tables, inspection boundaries, and service chaining. | [Networking documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/02-hybrid-multicloud-network-security.md) and [P5 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5) |
 | Advanced traffic inspection | FortiGate NVA integration into the inspection path with route and policy validation. | [Hybrid multi-cloud networking deep dive](/engineering/hybrid-multicloud-networking/) and [Release 2 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence) |
@@ -91,6 +103,38 @@ flowchart TD
 | Secure AVD workspace | Azure Virtual Desktop, FSLogix, private endpoint orientation, privileged access separation, and secure workspace governance. | [Private platform documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/04-private-platform-secure-workspace.md), [AVD secure workspace deep dive](/engineering/avd-secure-workspace/), and [O5 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5) |
 | Backup and disaster recovery | Recovery Services Vault, backup policies, BCDR planning, soft-delete handling, immutability, monitoring, and operational validation. | [Automation, SecOps, and resilience documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/03-automation-secops-resilience.md) and [Release 2 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence) |
 | AI operations enclave | AI operations enclave with policy-mediated tool use and human approval boundaries, tied to O6 evidence and the dedicated AI operations page. | [AI Operations page](/ai-operations/) and [O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6) |
+
+## Automation control plane
+
+AWX is presented as an operations control plane, not a screenshot of a tool. It gives the platform a repeatable execution layer for configuration management and operational runbooks.
+
+The control plane demonstrates:
+
+- Ansible playbooks and inventories for platform operations.
+- AWX job templates and execution records for auditable runs.
+- Operational separation between source-controlled automation and runtime execution.
+- Integration with private platform services and infrastructure evidence.
+- A day-2 operations pattern that can support remediation, validation, and controlled execution.
+
+**Evidence:** [Ansible source](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/ansible), [automation documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/03-automation-secops-resilience.md), and [A2 AWX evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A2-awx-control-plane).
+
+## Multi-cloud routing detail
+
+The AWS branch foundation is part of the implemented Release 2 network story. It extends the Azure hub-spoke environment into a multi-cloud route-validation pattern with VPN, IPSec, BGP, and AWS branch evidence.
+
+This proves:
+
+- Cross-cloud routing was treated as a network architecture problem, not a diagram-only claim.
+- BGP and route validation were included in the evidence model.
+- Azure inspection and AWS branch patterns were connected through documented implementation and validation paths.
+
+**Evidence:** [P5 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5), [P5 VPN evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5-vpn), and [hybrid multi-cloud networking documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/02-hybrid-multicloud-network-security.md).
+
+## AI operations enclave
+
+Release 2 includes an AI operations enclave with policy-mediated tool use and human approval boundaries. It is documented as an operational governance pattern: AI assistance can support analysis and operational requests, but infrastructure mutation remains constrained by approval, policy, and evidence boundaries.
+
+**Evidence:** [AI Operations page](/ai-operations/) and [O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6).
 
 ## Evidence hub
 
@@ -104,7 +148,7 @@ Release 2 evidence is structured so reviewers can move from architectural claim 
 | [A2 AWX evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A2-awx-control-plane) | AWX inventories, job templates, execution control, and operations automation. |
 | [O4 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4) | Private AKS platform validation and Kubernetes boundary proof. |
 | [O5 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5) | AVD and FSLogix secure workspace governance, readiness, and private access orientation. |
-| [O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6) | Governed AI operations boundary, policy decisions, namespace lifecycle, and cleanup validation. |
+| [O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6) | AI operations boundary, policy decisions, namespace lifecycle, and cleanup validation. |
 | [Release 2 evidence index](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence) | Full evidence vault for Release 2 implementation proof. |
 
 ## Why it matters

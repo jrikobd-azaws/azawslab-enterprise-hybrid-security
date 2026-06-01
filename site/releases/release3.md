@@ -1,4 +1,4 @@
-# Release 3 - Multi-Cloud Kubernetes, GitOps and DevSecOps Roadmap
+# Release 3 - Multi-Cloud Kubernetes and DevSecOps Roadmap
 
 <div class="portfolio-chipline">
   <a class="portfolio-chip" href="/releases/">
@@ -15,7 +15,7 @@
   </a>
   <a class="portfolio-chip" href="/releases/release3/">
     <span class="portfolio-chip-label">R3</span>
-    <span class="portfolio-chip-value portfolio-chip-value-muted">Roadmap</span>
+    <span class="portfolio-chip-value portfolio-chip-value-active portfolio-chip-value-muted">Roadmap</span>
   </a>
 </div>
 
@@ -73,6 +73,7 @@ Release 3 builds on foundations that are already implemented and evidenced in Re
 - [Hybrid multi-cloud networking](/engineering/hybrid-multicloud-networking/) for the implemented network path toward multi-cloud operations.
 - [Private AKS and AVD architecture](/engineering/private-aks-avd/) for the current private platform boundary.
 - [Proof Gallery](/proof-gallery/) for implemented Release 1 and Release 2 evidence.
+- [Release 3 source roadmap](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release3) for the GitOps, DevSecOps, observability, and resilience direction.
 
 ## Evidence standard for future work
 

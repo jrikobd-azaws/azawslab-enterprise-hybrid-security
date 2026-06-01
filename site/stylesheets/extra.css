@@ -168,3 +168,7 @@
 .md-typeset .portfolio-chip-value-muted {
   background: #6b7280;
 }
+.portfolio-chip-value-active {
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+}
