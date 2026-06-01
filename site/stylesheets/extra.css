@@ -121,31 +121,50 @@
 .md-typeset .portfolio-chipline {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  margin: 0.35rem 0 1.2rem 0;
+  gap: 0.35rem;
   align-items: center;
-}
-
-.md-typeset .portfolio-chipline p {
-  margin: 0;
+  margin: 0.35rem 0 1.2rem 0;
 }
 
 .md-typeset .portfolio-chip {
   display: inline-flex;
-  align-items: center;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 0.08rem;
   border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: 999px;
-  padding: 0.18rem 0.6rem;
-  font-size: 0.68rem;
+  font-size: 0.62rem;
+  line-height: 1.2;
   font-weight: 700;
-  letter-spacing: 0.01em;
   text-decoration: none;
-  background: var(--md-code-bg-color);
-  color: var(--md-default-fg-color);
   white-space: nowrap;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
 }
 
 .md-typeset .portfolio-chip:hover {
+  text-decoration: none;
   border-color: var(--md-accent-fg-color);
-  color: var(--md-accent-fg-color);
+}
+
+.md-typeset .portfolio-chip-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.38rem;
+  background: #4b5563;
+  color: #ffffff;
+}
+
+.md-typeset .portfolio-chip-value {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.42rem;
+  background: var(--md-primary-fg-color);
+  color: #ffffff;
+}
+
+.md-typeset .portfolio-chip-value-ready {
+  background: #00a651;
+}
+
+.md-typeset .portfolio-chip-value-muted {
+  background: #6b7280;
 }

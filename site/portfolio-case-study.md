@@ -1,5 +1,7 @@
 # Portfolio Case Study
 
+<div class="portfolio-chipline"><a class="portfolio-chip" href="/portfolio-case-study/"><span class="portfolio-chip-label">Platform Status</span><span class="portfolio-chip-value portfolio-chip-value-ready">Public Ready</span></a><a class="portfolio-chip" href="/releases/release1/"><span class="portfolio-chip-label">Release 1</span><span class="portfolio-chip-value">Workplace & Identity</span></a><a class="portfolio-chip" href="/releases/release2/"><span class="portfolio-chip-label">Release 2</span><span class="portfolio-chip-value">Platform Engineering</span></a><a class="portfolio-chip" href="/releases/release3/"><span class="portfolio-chip-label">Release 3</span><span class="portfolio-chip-value portfolio-chip-value-muted">Multi-Cloud Roadmap</span></a></div>
+
 <div class="portfolio-chips" markdown><span>Platform - Public Ready</span> <span>Release 1 - Workplace and Identity</span> <span>Release 2 - Platform Engineering</span> <span>Release 3 - Roadmap</span></div>
 
 !!! tip "Case-study summary"

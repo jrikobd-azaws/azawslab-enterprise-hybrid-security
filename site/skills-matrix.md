@@ -1,11 +1,6 @@
 # Skills Matrix
 
-<div class="portfolio-chipline" markdown>
-[Platform Ready](portfolio-case-study.md){ .portfolio-chip }
-[Release 1 - Workplace & Identity](releases/release1.md){ .portfolio-chip }
-[Release 2 - Platform Engineering](releases/release2.md){ .portfolio-chip }
-[Release 3 - Roadmap](releases/release3.md){ .portfolio-chip }
-</div>
+<div class="portfolio-chipline"><a class="portfolio-chip" href="/portfolio-case-study/"><span class="portfolio-chip-label">Platform Status</span><span class="portfolio-chip-value portfolio-chip-value-ready">Public Ready</span></a><a class="portfolio-chip" href="/releases/release1/"><span class="portfolio-chip-label">Release 1</span><span class="portfolio-chip-value">Workplace & Identity</span></a><a class="portfolio-chip" href="/releases/release2/"><span class="portfolio-chip-label">Release 2</span><span class="portfolio-chip-value">Platform Engineering</span></a><a class="portfolio-chip" href="/releases/release3/"><span class="portfolio-chip-label">Release 3</span><span class="portfolio-chip-value portfolio-chip-value-muted">Multi-Cloud Roadmap</span></a></div>
 
 The matrix below translates the platform implementation into role-aligned engineering signals, showing where each capability is proven across identity, Azure platform engineering, automation, networking, security, resilience, and operations.
 
