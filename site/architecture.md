@@ -1,6 +1,11 @@
 # Architecture Overview
 
-`Platform - Public Ready` `Release 1 - Workplace & Identity` `Release 2 - Platform Engineering`
+<div class="portfolio-chipline" markdown>
+[Platform Ready](portfolio-case-study.md){ .portfolio-chip }
+[Release 1 - Workplace & Identity](releases/release1.md){ .portfolio-chip }
+[Release 2 - Platform Engineering](releases/release2.md){ .portfolio-chip }
+[Release 3 - Roadmap](releases/release3.md){ .portfolio-chip }
+</div>
 
 A high-level architecture view of the staged platform journey, control planes, trust boundaries, delivery paths, and evidence-backed implementation model.
 

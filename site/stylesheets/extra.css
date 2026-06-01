@@ -116,3 +116,36 @@
   border-radius: 0.35rem;
 }
 /* End homepage hero typography and proof strip */
+
+/* Portfolio metadata chip rail */
+.md-typeset .portfolio-chipline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.35rem 0 1.2rem 0;
+  align-items: center;
+}
+
+.md-typeset .portfolio-chipline p {
+  margin: 0;
+}
+
+.md-typeset .portfolio-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 999px;
+  padding: 0.18rem 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  background: var(--md-code-bg-color);
+  color: var(--md-default-fg-color);
+  white-space: nowrap;
+}
+
+.md-typeset .portfolio-chip:hover {
+  border-color: var(--md-accent-fg-color);
+  color: var(--md-accent-fg-color);
+}
