@@ -33,6 +33,7 @@ The matrix below translates the platform implementation into role-aligned engine
 | Azure platform engineering | Landing zones, Terraform root separation, governance, private AKS, AVD, monitoring |
 | Microsoft hybrid identity | AD DS, Entra Connect, Conditional Access, MFA, identity protection |
 | Modern endpoint management | Intune, Autopilot, compliance policies, BitLocker, LAPS, device recovery |
+| Microsoft 365 operations and compliance | Exchange Hybrid, Exchange Online, Teams, SharePoint, Entra Connect, Conditional Access, Purview, DLP, sensitivity labels |
 | Infrastructure as Code | Multi-root Terraform, remote state, plan/apply discipline, state drift detection |
 | CI/CD and secretless delivery | GitHub Actions OIDC, workflow-controlled Terraform, no routine local apply |
 | Hybrid networking | Hub-spoke, Azure Firewall, forced tunneling, service chaining |
