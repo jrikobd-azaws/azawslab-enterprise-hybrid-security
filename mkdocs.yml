@@ -74,10 +74,8 @@ nav:
 
   - Portfolio:
       - Portfolio Case Study: portfolio-case-study.md
-      - Role Guide: role-guide.md
       - Skills Matrix: skills-matrix.md
       - Architecture Overview: architecture.md
-
   - Platform Journey:
       - Platform Journey Overview: releases/index.md
       - Release 1 - Hybrid Modern Workplace, Identity, Endpoint Security and Microsoft 365 Operations: releases/release1.md
