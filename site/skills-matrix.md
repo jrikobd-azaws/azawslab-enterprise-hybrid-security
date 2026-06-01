@@ -2,7 +2,29 @@
 
 `Platform - Public Ready` `Release 1 - Workplace & Identity` `Release 2 - Platform Engineering`
 
-This page maps the platform work to concrete, evidence-backed skills. Every domain links to implementation proof in the GitHub repository.
+The matrix below translates the platform implementation into role-aligned engineering signals, showing where each capability is proven across identity, Azure platform engineering, automation, networking, security, resilience, and operations.
+
+## Capability layers
+
+<div class="grid cards" markdown>
+
+-   **Identity and workplace operations**
+
+    AD DS, Exchange Hybrid, Entra Connect, Conditional Access, MFA, Intune, Autopilot, BitLocker, LAPS, Purview, Sentinel, Defender for Cloud, and recovery workflows.
+
+-   **Azure platform engineering**
+
+    Terraform landing zones, management groups, Azure Policy, RBAC, remote state, separated roots, private AKS, AVD, monitoring, and platform governance.
+
+-   **Networking and secure transit**
+
+    Hub-spoke, Azure Firewall, forced tunneling, route tables, FortiGate NVA inspection, AWS branch, site-to-site VPN, BGP, and route validation.
+
+-   **Automation, resilience, and CloudOps**
+
+    GitHub Actions OIDC, Ansible, AWX, job templates, Recovery Services Vault, BCDR planning, soft-delete handling, and AI operations.
+
+</div>
 
 ## Core skill domains
 

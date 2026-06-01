@@ -2,7 +2,7 @@
 
 `Platform - Public Ready` `Release 1 - Workplace & Identity` `Release 2 - Platform Engineering`
 
-This page provides a high-level view of the platform architecture and the staged journey. Deeper design notes, diagrams, and implementation details are in the [GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security).
+A high-level architecture view of the staged platform journey, control planes, trust boundaries, delivery paths, and evidence-backed implementation model.
 
 ## Architecture principles
 
@@ -15,15 +15,17 @@ This page provides a high-level view of the platform architecture and the staged
 - Evidence-backed documentation instead of unsupported claims.
 - AI operations enclave with policy-mediated tool use and human approval boundaries.
 
-## Journey model
+## Layered platform model
 
 ```mermaid
-graph TD
-    A["Local enterprise foundation<br>Hyper-V, AD DS, Exchange"] --> B["Release 1<br>Hybrid Workplace, Identity & Endpoint Security"]
-    B --> C["Release 2<br>Azure Platform Engineering & Security"]
-    C --> D["Private Platform & Secure Workspace<br>AKS, AVD, FSLogix"]
-    D --> E["AI Operations Enclave<br>Policy-mediated tool use"]
-    E --> F["Release 3<br>Multi-Cloud Kubernetes & DevSecOps roadmap"]
+flowchart TD
+    A["Engineer / Operator / Reviewer"] --> B["Identity and Access Controls<br>AD DS, Entra ID, Conditional Access, MFA"]
+    B --> C["Delivery Control Plane<br>GitHub Actions OIDC, Terraform, state boundaries"]
+    C --> D["Governance and Platform Roots<br>Management groups, Azure Policy, RBAC, Key Vault"]
+    D --> E["Network and Inspection Layer<br>Hub-spoke, Azure Firewall, FortiGate, VPN, BGP"]
+    E --> F["Private Platform Layer<br>Private AKS, ACR, AVD, FSLogix, private endpoints"]
+    F --> G["Operations and Resilience Layer<br>Ansible, AWX, monitoring, backup, BCDR"]
+    G --> H["AI Operations Boundary<br>Policy-mediated tool use, human approval, local AI lab"]
 ```
 
 ## Key architectural components
