@@ -8,11 +8,11 @@
 
 ### Evidence-backed Azure, hybrid, and multi-cloud platform engineering portfolio.
 
-AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid infrastructure into Azure platform engineering, secure hybrid and multi-cloud networking, private platform delivery, and governed AI-assisted operations.
+AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid foundation through Azure platform engineering, secure hybrid and multi-cloud networking, private platform delivery, and controlled operations.
 
 <div class="hero-proof-strip" markdown>
 
-**Inside:** Terraform-driven landing zones, OIDC-based CI/CD, hybrid identity, private AKS, AVD, AWX automation, and a governed AI operations enclave.
+**Inside:** Terraform-driven landing zones, OIDC-based CI/CD, hybrid identity, private AKS, AVD, AWX automation, and an AI operations enclave with policy-mediated tool use and human approval boundaries.
 
 **Proves:** Evidence-backed implementation across identity, security, networking, platform delivery, and operational insight.
 
