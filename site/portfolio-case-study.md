@@ -2,8 +2,6 @@
 
 <div class="portfolio-chipline"><a class="portfolio-chip" href="/portfolio-case-study/"><span class="portfolio-chip-label">Journey</span><span class="portfolio-chip-value portfolio-chip-value-ready">Public Ready</span></a><a class="portfolio-chip" href="/releases/release1/"><span class="portfolio-chip-label">R1</span><span class="portfolio-chip-value">Workplace + M365</span></a><a class="portfolio-chip" href="/releases/release2/"><span class="portfolio-chip-label">R2</span><span class="portfolio-chip-value">Platform + Multi-Cloud</span></a><a class="portfolio-chip" href="/releases/release3/"><span class="portfolio-chip-label">R3</span><span class="portfolio-chip-value portfolio-chip-value-muted">Roadmap</span></a></div>
 
-<div class="portfolio-chips" markdown><span>Platform - Public Ready</span> <span>Release 1 - Workplace and Identity</span> <span>Release 2 - Platform Engineering</span> <span>Release 3 - Roadmap</span></div>
-
 !!! tip "Case-study summary"
     AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and policy-mediated AI operations.
 
