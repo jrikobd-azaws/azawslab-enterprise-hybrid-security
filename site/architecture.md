@@ -32,6 +32,8 @@ flowchart TD
 
 ### Release 1 - Hybrid Workplace, Identity, Endpoint Security and Microsoft 365 Operations
 
+Release 1 builds a hybrid enterprise fabric: on-premises Active Directory and Exchange Hybrid connect to Microsoft 365 through Entra Connect, forming the identity and collaboration backbone. Intune and Autopilot layer on modern endpoint management, while Conditional Access, MFA, BitLocker, LAPS, Purview, Sentinel, and Defender complete the security, compliance, monitoring, and recovery posture.
+
 - Active Directory Domain Services and Exchange Hybrid running in a Hyper-V enterprise lab environment.
 - Entra Connect synchronisation, Conditional Access, MFA, and identity protection.
 - Intune enrollment, Autopilot provisioning, compliance policies, BitLocker, and LAPS.
