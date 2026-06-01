@@ -1,14 +1,28 @@
 # Portfolio Case Study
 
-`Platform - Public Ready` `Release 1 - Workplace & Identity` `Release 2 - Platform Engineering` `Release 3 - Roadmap`
+<div class="portfolio-chips" markdown><span>Platform - Public Ready</span> <span>Release 1 - Workplace and Identity</span> <span>Release 2 - Platform Engineering</span> <span>Release 3 - Roadmap</span></div>
 
-This case study presents the full scope of the project in a format designed for recruiters, hiring managers, and technical reviewers. Every claim is backed by screenshots, CLI output, workflow logs, or design documents in the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security).
+!!! tip "Case-study summary"
+    AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and policy-mediated AI operations.
+
+This case study is written for recruiters, hiring managers, and technical reviewers who need to understand the full project scope quickly. Every claim is backed by screenshots, CLI output, workflow logs, or design documents in the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security).
 
 ## What this project is
 
-AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid enterprise environment. It moves through hybrid identity and modern workplace security, then into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and an AI operations enclave with policy-mediated tool use and human approval boundaries.
+AzAWSLab is not a collection of isolated screenshots. It is a connected platform lifecycle that demonstrates architecture, implementation, validation, documentation, and operational judgement.
 
-It is not a collection of isolated screenshots. It is a connected platform lifecycle that demonstrates architecture, implementation, validation, documentation, and operational judgement.
+The portfolio starts with hybrid workplace, identity, endpoint security, and Microsoft 365 operations. It then extends into Azure platform engineering, secure hybrid and multi-cloud networking, automation control planes, private AKS, AVD secure workspace, backup and disaster recovery, and an AI operations enclave with policy-mediated tool use and human approval boundaries.
+
+## Transformation map
+
+```mermaid
+flowchart LR
+    R1["Release 1<br>Hybrid workplace<br>Identity, endpoint security<br>Microsoft 365 operations"]
+    R2["Release 2<br>Azure platform engineering<br>Networking, automation<br>Private AKS and AVD"]
+    R3["Release 3<br>Multi-cloud roadmap<br>Kubernetes, GitOps<br>DevSecOps"]
+
+    R1 --> R2 --> R3
+```
 
 ## What it proves - Release 1
 
@@ -20,8 +34,6 @@ Release 1 establishes hybrid workplace, identity, endpoint security, and Microso
 - **Information protection:** Microsoft Purview, data loss prevention, sensitivity labels.
 - **Operational recovery:** BitLocker key recovery, stale device cleanup, documented recovery scenarios.
 - **Security monitoring:** Microsoft Sentinel, Defender for Cloud, alerting configuration.
-
-All capabilities are evidenced in the Release 1 documentation and screenshot folders.
 
 ## What it proves - Release 2
 
