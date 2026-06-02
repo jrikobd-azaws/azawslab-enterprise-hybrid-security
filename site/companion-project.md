@@ -16,21 +16,21 @@
 </div>
 
 !!! summary "Purpose"
-    The companion [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra) repository provides a local-first AI infrastructure workflow aligned with the O6 policy-mediated operations model. It gives reviewers a runnable way to inspect AI-assisted infrastructure generation, validation, evidence capture, and human review boundaries before those patterns are promoted into cloud operations.
+    The companion [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra) repository provides a local-first AI infrastructure workflow aligned with the O6 policy-mediated operations model. It gives reviewers a runnable way to inspect AI-assisted infrastructure generation, validation, evidence capture, and human approval boundaries before those patterns move into cloud operations.
 
 ## Repository at a glance
 
 | Area | Description |
 |---|---|
 | Repository | [`jrikobd-azaws/local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra) |
-| Scope | Local AI-assisted infrastructure workflow, validation pipeline, tool access controls, evidence bundles, and review gates. |
+| Scope | Local AI-assisted infrastructure workflow, validation pipeline, tool access controls, evidence bundles, and human review gates. |
 | Runtime model | Local-first workflow with Ollama/local model support and optional cloud provider routing where configured. |
-| Relationship to O6 | A local reference implementation aligned with the AzAWSLab O6 governance pattern: policy-mediated tool use, controlled execution, validation evidence, and human review boundaries. |
-| Safety posture | The lab is designed to generate, review, and validate infrastructure artifacts without auto-applying infrastructure changes. |
+| Relationship to O6 | A local reference implementation aligned with the AzAWSLab O6 AI Operations Enclave: policy-mediated tool use, controlled execution, validation evidence, and human approval boundaries. |
+| Safety posture | The lab generates, reviews, and validates infrastructure artifacts without auto-applying infrastructure changes. |
 
 ## Operating model
 
-The companion lab is designed around controlled AI assistance rather than autonomous execution.
+The companion lab is built around controlled AI assistance rather than autonomous execution.
 
 ```text
 User request
@@ -68,11 +68,11 @@ Optional GitOps-ready output
 
 ## How to use the project
 
-The project includes a runnable usage guide at:
+The project includes a runnable usage guide:
 
 [docs/how_to_use_project.md](https://github.com/jrikobd-azaws/local-ai-lab-infra/blob/main/docs/how_to_use_project.md)
 
-The guide walks through:
+The guide covers:
 
 1. syncing or cloning the repository;
 2. creating and activating the Python virtual environment;
@@ -85,36 +85,36 @@ The guide walks through:
 9. inspecting JSON audit bundles and run indexes;
 10. stopping at the human-in-the-loop boundary before GitOps output.
 
-The key operational point is that the project is designed for local validation and review. It should not auto-apply infrastructure.
+The key operational point is local validation and review. It does not auto-apply infrastructure.
 
 ## Safety and validation model
 
-| Safety control | What it proves |
+| Safety control | What it validates |
 |---|---|
 | No-auto-apply posture | The workflow is designed not to run `terraform apply` or `terraform destroy` automatically. |
-| HITL pause | Generated infrastructure output remains subject to human review before GitOps or promotion. |
-| Sandbox validation | IaC, security, cost, and syntax checks run before generated output is considered reviewable. |
+| HITL pause | Generated infrastructure output remains subject to human review before GitOps output or promotion. |
+| Sandbox validation | IaC, security, cost, and syntax checks run before generated output is treated as reviewable. |
 | Deterministic reports | SecOps and FinOps outputs can be inspected consistently between runs. |
-| JSON audit bundles | Runs produce structured evidence that can be reviewed after execution. |
+| JSON audit bundles | Runs produce structured evidence for post-execution review. |
 | SQLite run index | Execution metadata is retained for traceability. |
 | LangGraph checkpointing | Workflow state can be persisted and inspected. |
-| Tool access controls | Tool use is validated and constrained instead of being handed broad execution authority. |
+| Tool access controls | Tool use is validated and constrained instead of receiving broad execution authority. |
 
 ## Core components
 
 | Component | Implementation role |
 |---|---|
 | Orchestrator | Coordinates the local multi-agent workflow and validation path. |
-| Agent roles | Separate concerns such as planning, generation, security review, cost review, and GitOps formatting. |
+| Agent roles | Separate planning, generation, security review, cost review, and GitOps formatting. |
 | Local LLM runtime | Supports local model execution through Ollama where configured. |
-| Provider routing | Allows configured provider selection for different review or generation tasks. |
+| Provider routing | Allows configured provider selection for review or generation tasks. |
 | Sandbox validator | Runs infrastructure, security, cost, and syntax checks before output is treated as reviewable. |
-| Evidence bundle | Captures reports, JSON audit data, run metadata, and validation outputs. |
+| Evidence bundle | Captures reports, JSON audit data, run metadata, and validation output. |
 | Human review gate | Keeps generated infrastructure changes under engineer control. |
 
 ## Documentation and evidence routes
 
-Use the actual repository documentation as the review path:
+Use the repository documentation as the review path:
 
 | Document or folder | What to inspect |
 |---|---|
@@ -130,22 +130,22 @@ Use the actual repository documentation as the review path:
 
 ## Relationship to AzAWSLab O6
 
-The companion lab is not a separate unrelated project. It supports the O6 story by giving the AI operations pattern a local development and validation environment.
+The companion lab is not a separate, unrelated project. It supports O6 by giving the AI Operations Enclave a local development and validation environment.
 
 | O6 concept | Companion lab support |
 |---|---|
-| Policy-mediated tool use | Tool access controls and validation keep AI actions bounded. |
+| Policy-mediated tool use | Tool access controls and validation keep AI actions bounded by policy. |
 | Human approval boundaries | HITL pause keeps generated changes under engineer review. |
-| Evidence capture | JSON audit bundles, reports, run indexes, and validation output provide reviewable proof. |
+| Evidence capture | JSON audit bundles, reports, run indexes, and validation output provide reviewable evidence. |
 | Platform safety | No-auto-apply posture prevents generated infrastructure from mutating live environments automatically. |
 | Reproducibility | Local setup and usage guide allow the workflow to be rerun and inspected. |
 
 ## Why this matters
 
-- AI governance is shown as a working implementation pattern, not only a concept.
-- The project demonstrates local-first AI infrastructure generation with validation, traceability, and review gates.
-- The design is suitable for technical reviewers who want to inspect how AI-assisted operations can remain bounded.
-- The companion project strengthens O6 by showing how the same operational discipline can be tested safely before cloud-side adoption.
+- AI governance is implemented as a working pattern, not left as a concept.
+- The project implements local-first AI infrastructure generation with validation, traceability, and review gates.
+- The design gives technical reviewers a way to inspect how AI-assisted operations stay bounded.
+- The companion project strengthens O6 by testing the same operational discipline before cloud-side adoption.
 
 ## Review entry points
 
