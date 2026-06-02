@@ -20,9 +20,9 @@
 </div>
 
 !!! summary "What this page is"
-    A guided entry into the full AzAWSLab platform lifecycle: from on-premises hybrid identity to Azure platform engineering, secure multi-cloud networking, automation, resilience, and an AI operations enclave with policy-mediated tool use and human approval boundaries.
+    A guided entry into the AzAWSLab release lifecycle: from a realistic Microsoft hybrid enterprise environment to Azure platform engineering, secure multi-cloud networking, automation, resilience, and the AI Operations Enclave with policy-mediated tool use and human approval boundaries.
 
-Release 1 and Release 2 are implemented, operationally validated, and evidenced through public-safe screenshots, CLI output, workflow records, source files, manifests, diagrams, and design documents. Release 3 is clearly marked as roadmap until implementation evidence is added.
+Release 1 and Release 2 are implemented and routed to public-safe evidence through screenshots, CLI output, workflow records, source files, manifests, diagrams, and design documents. Release 3 is marked as roadmap until implementation evidence is added.
 
 ## Transformation map
 
@@ -40,29 +40,29 @@ flowchart LR
 | Release | Focus | Status |
 |---|---|---|
 | [Release 1](/releases/release1/) | Hybrid workplace, identity, endpoint security, and Microsoft 365 operations | Implemented and evidenced |
-| [Release 2](/releases/release2/) | Azure platform engineering, secure networking, automation, private AKS, AVD, resilience, and AI operations | Implemented and evidenced |
+| [Release 2](/releases/release2/) | Platform engineering, secure networking, automation, private platform services, operations, and AI governance | Implemented and evidenced |
 | [Release 3](/releases/release3/) | Multi-cloud Kubernetes, GitOps, DevSecOps, observability, and resilience roadmap | Roadmap |
 
 ## How to use this journey
 
 | Reviewer need | Recommended path |
 |---|---|
-| Fast project understanding | Start here for the release map, then open the [Proof Gallery](/proof-gallery/). |
-| Recruiter or hiring-manager scan | Review the delivery table, then use [Release 2](/releases/release2/) for the strongest platform engineering signals. |
-| Hybrid workplace and Microsoft 365 proof | Review [Release 1](/releases/release1/) for identity, endpoint, Purview, monitoring, and recovery evidence. |
-| Platform architecture depth | Review [Release 2](/releases/release2/) for Terraform roots, OIDC, FortiGate inspection, AWS branch routing, AWX, private AKS, AVD, backup, and AI operations. |
-| Security architecture review | Follow Release 1 identity and endpoint controls into Release 2 private access, inspection, Sentinel, Defender, backup, and O6 AI operations boundaries. |
-| Future roadmap context | Use [Release 3](/releases/release3/) to understand planned platform evolution without confusing roadmap with delivered proof. |
+| Fast project understanding | Start here for the release map, then open the [Proof Gallery](/proof-gallery/) for the evidence route. |
+| Recruiter or hiring-manager scan | Review the delivery table, then use [Release 2](/releases/release2/) for platform engineering, secure networking, automation, private platform services, operations, and AI governance signals. |
+| Hybrid workplace and Microsoft 365 proof | Review [Release 1](/releases/release1/) for hybrid workplace, identity, endpoint security, Microsoft 365 operations, monitoring, and recovery evidence. |
+| Platform architecture depth | Review [Release 2](/releases/release2/) for Terraform roots, OIDC, FortiGate inspection, AWS branch routing, AWX automation, private AKS, AVD, backup, operations, and AI governance. |
+| Security architecture review | Follow Release 1 identity and endpoint controls into Release 2 private access, inspection, Sentinel, Defender, backup, and the AI Operations Enclave, evidenced through O6. |
+| Future roadmap context | Use [Release 3](/releases/release3/) to separate the multi-cloud Kubernetes, GitOps, and DevSecOps roadmap from implemented proof. |
 
 ## Evidence model
 
-The release pages are not standalone marketing summaries. They route reviewers to the implementation source and evidence layers:
+The release pages are not marketing summaries. They route reviewers to implementation sources and evidence layers:
 
-- GitHub Markdown documentation for architecture decisions and implementation narratives.
+- GitHub Markdown documentation for architecture decisions and implementation notes.
 - Screenshot folders for portal-level configuration and operational outcomes.
-- CLI and workflow output for runtime validation and delivery proof.
+- CLI and workflow output for runtime validation and delivery records.
 - Terraform, Kubernetes, Ansible, and GitHub Actions source for implementation traceability.
-- Curated proof pages for reviewers who need a guided evidence path.
+- Proof pages for reviewers who need a guided route through the evidence.
 
 ## Source entry points
 

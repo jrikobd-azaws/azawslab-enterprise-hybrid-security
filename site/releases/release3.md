@@ -20,11 +20,11 @@
 </div>
 
 !!! info "Status: Roadmap"
-    Release 3 is planned platform evolution. It is not presented as implemented proof. Implementation claims will only be added when evidence exists under the same public-safe documentation and validation standard used for Release 1 and Release 2.
+    Release 3 is the multi-cloud Kubernetes, GitOps, and DevSecOps roadmap. It is not presented as implemented proof. Implementation claims should only be added when evidence exists under the same public-safe documentation and validation standard used for Release 1 and Release 2.
 
-Release 3 defines the next target state for the platform: multi-cloud Kubernetes delivery, GitOps, DevSecOps controls, observability, resilience, and policy-driven operations across Azure and AWS.
+Release 3 defines the next target state: multi-cloud Kubernetes delivery, GitOps, DevSecOps controls, observability, resilience, and policy-driven operations across Azure and AWS.
 
-The purpose of this page is to show architectural direction without confusing roadmap with delivered implementation.
+This page records architectural direction without presenting roadmap items as delivered implementation.
 
 ## Target evolution
 
@@ -46,17 +46,17 @@ flowchart LR
 
 | Planned capability | Direction |
 |---|---|
-| Multi-cloud Kubernetes | Extend the Release 2 private platform foundation toward coordinated AKS and AWS Kubernetes delivery patterns. |
+| Multi-cloud Kubernetes | Extend the Release 2 private platform services work toward coordinated AKS and AWS Kubernetes delivery patterns. |
 | GitOps delivery | Move application and platform configuration toward declarative, reviewable, pull-based deployment workflows. |
 | DevSecOps controls | Add security gates for infrastructure, container images, policy, dependencies, and deployment approvals. |
-| Policy as Code | Expand guardrails so cluster and application controls are validated before and after deployment. |
+| Policy as Code | Expand guardrails so cluster and application controls can be validated before and after deployment. |
 | Observability | Build cross-platform visibility for metrics, logs, traces, deployment health, and rollback signals. |
 | Resilience engineering | Add progressive delivery, failure testing, recovery validation, and service-level operational evidence. |
-| Evidence model | Preserve the same standard used in Release 1 and Release 2: public-safe proof, source traceability, and clear validation artifacts. |
+| Evidence model | Preserve the same standard used in Release 1 and Release 2: public-safe proof, source traceability, and clear validation artefacts. |
 
 ## Relationship to Release 2
 
-Release 3 builds on foundations that are already implemented and evidenced in Release 2:
+Release 3 builds on capabilities already implemented and routed to evidence in Release 2:
 
 | Release 2 foundation | How it supports Release 3 |
 |---|---|
@@ -69,20 +69,20 @@ Release 3 builds on foundations that are already implemented and evidenced in Re
 
 ## What can be reviewed now
 
-- [Release 2 platform engineering](/releases/release2/) for the implemented Azure platform, network, automation, private platform, and resilience foundation.
+- [Release 2 platform engineering](/releases/release2/) for the implemented Azure platform, network, automation, private platform services, operations, and resilience evidence.
 - [Hybrid multi-cloud networking](/engineering/hybrid-multicloud-networking/) for the implemented network path toward multi-cloud operations.
-- [Private AKS and AVD architecture](/engineering/private-aks-avd/) for the current private platform boundary.
+- [Private AKS and AVD architecture](/engineering/private-aks-avd/) for the current private platform services boundary.
 - [Proof Gallery](/proof-gallery/) for implemented Release 1 and Release 2 evidence.
 - [Release 3 source roadmap](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release3) for the GitOps, DevSecOps, observability, and resilience direction.
 
 ## Evidence standard for future work
 
-Release 3 implementation will require the same evidence discipline as the current portfolio:
+Release 3 implementation should follow the same evidence discipline as the current portfolio:
 
 - Source-controlled infrastructure and platform manifests.
 - Workflow records for delivery and validation.
-- Public-safe screenshots, CLI outputs, and operational records.
+- Public-safe screenshots, CLI output, and operational records.
 - Explicit separation between implemented proof and future design.
-- Reviewer-facing documentation that maps claims to evidence.
+- Reviewer-facing documentation that routes claims to evidence.
 
-Until then, Release 3 remains a clearly labelled roadmap.
+Until implementation evidence is added, Release 3 remains a clearly labelled roadmap.
