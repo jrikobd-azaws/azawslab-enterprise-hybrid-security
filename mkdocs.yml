@@ -107,6 +107,7 @@ nav:
 
       - Release 2 Operations Engineering:
           - Automation Control Plane: engineering/automation-control-plane.md
+          - Monitoring, Backup and Resilience: engineering/monitoring-backup-resilience.md
   - Proof and Evidence:
       - Proof Gallery: proof-gallery.md
       - Release 1 Evidence Index: evidence/release1-evidence-index.md
