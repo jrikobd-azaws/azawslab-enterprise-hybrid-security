@@ -28,7 +28,7 @@
 </div>
 
 !!! summary "Scope"
-    Engineering rationale and evidence for the Release 2 operational resilience capabilities: security posture management, SIEM deployment, synthetic alert validation, and a hardened backup protection model that evolved through three design stages.
+    Operations resilience notes and evidence paths for Release 2: security posture management, SIEM deployment, synthetic alert validation, and a backup protection model evolved through three design stages.
 
 ## Operations visibility model
 
@@ -40,7 +40,7 @@ Release 2 uses a layered operations model rather than treating monitoring and ba
 | SIEM deployment | Microsoft Sentinel with Log Analytics integration, provider/schema checks, policy exemption handling, and post-apply validation | `docs/release2/evidence/P8/` |
 | Alert validation | Azure Monitor alert rules tested with synthetic CPU stress and action group notification evidence | `docs/release2/evidence/P9a/` |
 | Recovery protection | Recovery Services Vault with immutability, Multi-User Authorization / Resource Guard, and soft-delete validation | `docs/release2/evidence/P9b/` |
-| Backup architecture evolution | Three-stage redesign covering platform-shared vault config, governance policy exemption handling, backup-now trigger, and final recovery point validation | `docs/release2/evidence/P9b-redesign/` |
+| Backup architecture evolution | Three-stage redesign covering platform-shared vault configuration, governance policy exemption handling, backup-now trigger, and final recovery point validation | `docs/release2/evidence/P9b-redesign/` |
 
 ## Microsoft Sentinel and Defender visibility
 
@@ -48,13 +48,13 @@ Defender for Cloud provides the posture-management layer: Defender for Servers P
 
 Microsoft Sentinel provides the SIEM deployment layer: the workspace is provisioned with Log Analytics integration, provider and schema checks are captured, policy exemption records are documented, and post-apply validation evidence confirms the deployment path.
 
-The public evidence proves deployment and validation. Incident or analytic-rule claims are linked only where explicit incident records or rule exports are present.
+The public evidence validates deployment and validation. Incident or analytic-rule claims are linked only where incident records or rule exports are present.
 
 ## Azure Monitor alert validation
 
-Operational alerting is tested, not just configured.
+Operational alerting is tested, not only configured.
 
-Azure Monitor alert rules are created for critical conditions. Synthetic CPU stress is triggered on a monitored VM, and the resulting alert is captured through action group notifications. This proves the alert pipeline works end-to-end: metric threshold is breached, alert fires, and notification is sent.
+Azure Monitor alert rules are created for critical conditions. Synthetic CPU stress is triggered on a monitored VM, and the resulting alert is captured through action group notifications. This validates the alert pipeline end to end: metric threshold is breached, alert fires, and notification is sent.
 
 **Evidence:** P9a folder - alert rule configuration, synthetic stress output, and notification evidence.
 
@@ -71,27 +71,27 @@ The evidenced controls include:
 - Backup-now trigger output.
 - Final recovery point validation.
 
-These controls ensure that backups cannot be accidentally or maliciously deleted, that an extra approval gate exists for destructive operations, and that backups are genuinely recoverable.
+These controls protect backups from accidental or malicious deletion, add an approval gate for destructive operations, and validate recoverability.
 
 **Evidence:** P9b folder - vault properties, MUA configuration, soft-delete status, backup-now job logs, and recovery point screenshots.
 
 ## P9b redesign: staged resilience engineering
 
-The backup architecture did not follow a single, linear path. It went through three deliberate design stages.
+The backup architecture did not follow a single linear path. It went through three design stages.
 
 | Stage | Focus | Outcome |
 |---|---|---|
 | Stage 1 | Platform-shared vault configuration | Established vault, backup policy, and initial protected items. |
 | Stage 2 | Governance and policy exemption handling | Documented how Azure Policy exemptions interact with backup and MUA requirements. |
-| Stage 3 | Backup-now trigger and final recovery point validation | Proved that on-demand backup works and that recovery points are usable. |
+| Stage 3 | Backup-now trigger and final recovery point validation | Validated on-demand backup and usable recovery points. |
 
-This multi-stage evolution shows that the resilience design responded to real constraints: governance policy, shared platform architecture, and operational validation. It is not a one-click deployment.
+This multi-stage evolution shows that the resilience design responded to real constraints: governance policy, shared platform architecture, and operational validation. It is not presented as a one-click deployment.
 
 **Evidence:** P9b-redesign folder - design notes, stage-by-stage outputs, and final validation evidence.
 
 ## Enterprise hardening pattern
 
-The current implementation uses immutability, MUA/Resource Guard, and soft-delete. In a stricter enterprise environment, the same protection model can be extended further:
+The current implementation uses immutability, MUA/Resource Guard, and soft-delete. In a stricter enterprise environment, the same protection model can follow a stronger hardening path:
 
 - Customer-managed keys for backup encryption.
 - Private endpoints for the Recovery Services Vault.
@@ -99,14 +99,14 @@ The current implementation uses immutability, MUA/Resource Guard, and soft-delet
 - Separate vaults for production and non-production workloads.
 - Automated restore testing with post-restore validation scripts.
 
-These patterns are documented here to show that the platform's resilience design understands what a fully hardened enterprise backup regime requires, even if not every control is activated in a demonstration environment.
+These patterns document how the platform's resilience design maps to a fully hardened enterprise backup regime, even where not every control is activated in the evidence environment.
 
 ## Engineering significance
 
-- Demonstrates that operational visibility is layered: posture management, SIEM, and synthetic alert validation each have distinct evidence.
-- Shows that the backup design includes deletion protection through immutability, MUA, and soft-delete, and has been validated through on-demand backup and recovery point inspection.
-- Proves that resilience engineering is iterative: the P9b redesign evidence reveals real design evolution, not a static setup.
-- Establishes that the platform can be monitored, alerted on, backed up, and recovered with controls that match enterprise expectations.
+- Shows that operational visibility is layered: posture management, SIEM, and synthetic alert validation each have distinct evidence.
+- Shows that the backup design includes deletion protection through immutability, MUA, and soft-delete, with validation through on-demand backup and recovery point inspection.
+- Shows that resilience engineering is iterative: the P9b redesign evidence records design evolution, not a static setup.
+- Establishes that the platform can be monitored, alerted on, backed up, and recovered with controls aligned to enterprise expectations.
 
 ## Evidence map
 
@@ -116,11 +116,11 @@ These patterns are documented here to show that the platform's resilience design
 | Sentinel workspace deployed and validated | [`docs/release2/evidence/P8/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P8) | Provider/schema checks, policy exemption records, post-apply validation |
 | Azure Monitor alerts fire on synthetic CPU stress | [`docs/release2/evidence/P9a/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P9a) | Alert rule config, stress test output, notification evidence |
 | Recovery Services Vault has immutability, MUA, soft-delete | [`docs/release2/evidence/P9b/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P9b) | Vault properties, MUA configuration, soft-delete status |
-| Backup-now trigger produces a valid recovery point | [`docs/release2/evidence/P9b/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P9b) and [`docs/release2/evidence/P9b-redesign/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P9b-redesign) | Backup-now job logs, recovery point screenshots |
-| Backup architecture evolved through three design stages | [`docs/release2/evidence/P9b-redesign/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P9b-redesign) | Stage-by-stage design notes, final validation outputs |
+| Backup-now trigger produces a validated recovery point | [`docs/release2/evidence/P9b/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P9b) and [`docs/release2/evidence/P9b-redesign/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P9b-redesign) | Backup-now job logs, recovery point screenshots |
+| Backup architecture evolved through three evidenced design stages | [`docs/release2/evidence/P9b-redesign/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P9b-redesign) | Stage-by-stage design notes, final validation outputs |
 
 ## Review takeaway
 
-Monitoring, Backup & Resilience proves that Release 2 has an operational visibility and recovery plane, not just deployed infrastructure.
+Monitoring, Backup and Resilience shows that Release 2 has an operational visibility and recovery plane, not just deployed infrastructure.
 
-A reviewer can inspect the Defender, Sentinel, alerting, Recovery Services Vault, MUA, soft-delete, and P9b redesign evidence to confirm that monitoring and resilience were implemented, validated, and documented as part of the platform operating model.
+A reviewer can inspect Defender, Sentinel, alerting, Recovery Services Vault, MUA, soft-delete, and P9b redesign evidence to confirm that monitoring and resilience were implemented, validated, and documented as part of the platform operating model.
