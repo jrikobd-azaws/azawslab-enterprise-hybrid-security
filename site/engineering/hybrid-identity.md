@@ -6,8 +6,24 @@
     <span class="portfolio-chip-value">Deep Dive</span>
   </a>
   <a class="portfolio-chip" href="/engineering/hybrid-identity/">
-    <span class="portfolio-chip-label">Workplace</span>
-    <span class="portfolio-chip-value portfolio-chip-value-active">Hybrid Identity</span>
+    <span class="portfolio-chip-label">R1</span>
+    <span class="portfolio-chip-value portfolio-chip-value-active">Workplace</span>
+  </a>
+  <a class="portfolio-chip" href="/engineering/terraform-state-boundaries/">
+    <span class="portfolio-chip-label">R2</span>
+    <span class="portfolio-chip-value">Delivery</span>
+  </a>
+  <a class="portfolio-chip" href="/engineering/hybrid-multicloud-networking/">
+    <span class="portfolio-chip-label">R2</span>
+    <span class="portfolio-chip-value">Network</span>
+  </a>
+  <a class="portfolio-chip" href="/engineering/private-aks-platform/">
+    <span class="portfolio-chip-label">R2</span>
+    <span class="portfolio-chip-value">Platform</span>
+  </a>
+  <a class="portfolio-chip" href="/engineering/automation-control-plane/">
+    <span class="portfolio-chip-label">R2</span>
+    <span class="portfolio-chip-value">Operations</span>
   </a>
 </div>
 
