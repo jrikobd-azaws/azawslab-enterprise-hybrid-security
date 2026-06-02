@@ -28,7 +28,7 @@
 </div>
 
 !!! summary "Scope"
-    How AzAWSLab enforces encrypted transport, embeds third-party inspection, and extends private transmission boundaries. This page focuses on IPSec transport, BGP route exchange, Azure Firewall enforcement, FortiGate NVA service chaining, UDR steering, private service access where evidenced, and symmetric return-path validation.
+    Network security notes and evidence paths for encrypted transport, third-party inspection, and private transmission boundaries in Release 2. It covers IPSec transport, BGP route exchange, Azure Firewall enforcement, FortiGate NVA service chaining, UDR steering, private service access where evidenced, and symmetric return-path validation.
 
 ## Architecture
 
@@ -56,11 +56,11 @@ Spoke Subnets
     no-public-exposure pattern where evidenced
 ```
 
-Traffic for the validated hybrid, spoke, and multi-cloud paths is routed through controlled inspection points. The design avoids unmanaged public bypass paths for the evidenced platform services.
+Traffic for the validated hybrid, spoke, and multi-cloud paths routes through controlled inspection points. The design keeps evidenced platform services away from unmanaged public bypass paths.
 
 ## Secure transmission model
 
-Release 2 applies a layered approach to transmission security.
+Release 2 applies layered transmission security across transport encryption, inspection, private access, and path validation.
 
 | Layer | Control | Evidence |
 |---|---|---|
@@ -71,17 +71,17 @@ Release 2 applies a layered approach to transmission security.
 
 ## IPSec and BGP transport boundary
 
-The platform's site-to-site and cross-cloud connectivity runs over IPSec VPN tunnels with dynamic routing.
+The platform's site-to-site and cross-cloud connectivity runs over IPSec VPN tunnels with BGP dynamic routing.
 
 - Azure VPN Gateway provides the central VPN termination point.
 - VyOS and Cisco CSR participate in the hybrid and multi-cloud routing pattern.
 - Connected tunnel state and BGP route exchange are captured in the evidence set.
 
-The VPN evidence proves Azure VPN Gateway configuration, connected IPSec tunnel status, and BGP route exchange. In production, the same pattern should be governed with approved IKE/IPSec proposals, strong encryption suites, Perfect Forward Secrecy where required by policy, redundant tunnels, and documented key-rotation procedures.
+The VPN evidence validates Azure VPN Gateway configuration, connected IPSec tunnel status, and BGP route exchange. In production, the same pattern should be governed with approved IKE/IPSec proposals, strong encryption suites, Perfect Forward Secrecy where required by policy, redundant tunnels, and documented key-rotation procedures.
 
 ## FortiGate NVA inspection path
 
-The FortiGate NVA is integrated into the Azure hub as a third-party inspection layer. User-defined routes steer selected traffic through the NVA, and the evidence validates FortiGate policy state, routing state, service-chain traffic flow, and UDR next-hop behavior.
+The FortiGate NVA is integrated into the Azure hub inspection path as a third-party inspection layer. User-defined routes steer selected traffic through the NVA, and the evidence validates FortiGate policy state, routing state, service-chain traffic flow, and UDR next-hop behavior.
 
 Validated signals include:
 
@@ -91,7 +91,7 @@ Validated signals include:
 - Service-chain validation through traffic-flow logs.
 - Symmetric path validation as part of the wider multi-cloud routing evidence.
 
-This keeps the NVA story grounded in verifiable signals: routing, policy state, service chaining, and traffic-flow evidence.
+This keeps the NVA evidence route grounded in verifiable signals: routing, policy state, service chaining, and traffic-flow evidence.
 
 ## Azure Firewall and UDR steering
 
@@ -104,13 +104,13 @@ The pattern provides:
 - Inspection boundaries between workload spokes, management paths, and hybrid/multi-cloud routes.
 - A second inspection tier where selected routes are steered through FortiGate.
 
-This combination gives the platform centralized Azure Firewall enforcement and targeted FortiGate deep inspection.
+This combination gives the platform Azure Firewall enforcement and targeted FortiGate inspection.
 
 ## Private endpoint and no-public-exposure patterns
 
-Private endpoint and no-public-exposure patterns are used where the Release 2 evidence proves them, especially for AVD/FSLogix private endpoint readiness and private platform access paths. The AKS and AVD pages carry the service-specific controls in more detail.
+Private endpoint and no-public-exposure patterns are used where the Release 2 evidence validates them, especially for AVD/FSLogix private endpoint readiness and private platform access paths. The AKS and AVD pages carry the service-specific controls in more detail.
 
-For this Secure Transmission page, the important network pattern is that private service access is treated as a transmission boundary: name resolution, routing, and endpoint exposure are controlled so platform services are not reached through unmanaged public paths.
+For this Secure Transmission page, the key network pattern is that private service access is treated as a transmission boundary: name resolution, routing, and endpoint exposure are controlled so platform services are not reached through unmanaged public paths.
 
 **Evidence:** O5 shows AVD/FSLogix private endpoint readiness. Related private platform pages cover service-specific private access and no-public-exposure evidence.
 
@@ -127,7 +127,7 @@ This validation is documented alongside the O1 FortiGate service-chain evidence 
 
 ## Enterprise hardening pattern
 
-In stricter environments, the same transmission security model can be hardened further.
+In stricter environments, the same transmission security model can be extended with production hardening controls.
 
 | Area | Enterprise hardening pattern |
 |---|---|
@@ -138,19 +138,19 @@ In stricter environments, the same transmission security model can be hardened f
 | Route control | UDR validation, effective route review, route-map governance, and regular no-bypass checks. |
 | Operations | Read-only network validation, sanitized backups, approved change workflow, and rollback testing through the automation control plane. |
 
-These patterns show that the transmission design is not a single demonstration. It is a platform security model that can be hardened further for production requirements.
+These patterns show that the transmission design is not a one-off demonstration. It is a platform security model with a clear production hardening path.
 
 ## Engineering significance
 
-Secure Transmission & Inspection demonstrates five network-security decisions:
+Secure Transmission and Inspection shows five network security decisions:
 
 1. Hybrid and multi-cloud transport uses IPSec and BGP route exchange rather than unmanaged public paths.
 2. Azure Firewall provides centralized enforcement for routed platform traffic.
 3. FortiGate NVA service chaining is validated through UDR steering, policy state, routing state, and traffic-flow logs.
 4. Private endpoint and no-public-exposure patterns are treated as transmission boundaries where evidenced.
-5. Symmetric return path validation is explicitly addressed, reducing a common failure point in NVA deployments.
+5. Symmetric return path validation is addressed as a common failure point in NVA deployments.
 
-This page complements the broader Multi-Cloud Networking page by focusing on the security controls that make the routed fabric safe to operate.
+This page complements the broader Multi-Cloud Networking page by focusing on the security controls that make the routed fabric inspectable and governable.
 
 ## Evidence map
 
@@ -162,10 +162,10 @@ This page complements the broader Multi-Cloud Networking page by focusing on the
 | Azure Firewall provides centralized enforcement | [`docs/release2/evidence/O1/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O1) and network evidence | Firewall path validation, rule evidence, and traffic-flow logs where captured |
 | Private endpoint pattern is evidenced for AVD/FSLogix | [`docs/release2/evidence/O5/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5) | FSLogix private endpoint readiness and no-public-exposure evidence |
 | Symmetric return path is validated | [`docs/release2/evidence/O3c/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O3c) and [`docs/release2/evidence/O1/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O1) | Bidirectional path validation, effective routes, and service-chain traffic-flow evidence |
-| Enterprise hardening path is understood | This page | VPN proposal governance, private endpoint policy, NVA HA options, route validation, and operational backup/change controls documented as production hardening patterns |
+| Enterprise hardening path is documented | This page | VPN proposal governance, private endpoint policy, NVA HA options, route validation, and operational backup/change controls documented as production hardening patterns |
 
 ## Review takeaway
 
-Secure Transmission & Inspection shows that AzAWSLab treats network security as a routed, inspected, and validated control plane.
+Secure Transmission and Inspection shows that AzAWSLab treats network security as a routed, inspected, and validated control plane.
 
-A reviewer can inspect VPN evidence, FortiGate service-chain evidence, Terraform route definitions, O5 private endpoint evidence, and O3c return-path validation to confirm that secure transmission is implemented as part of the platform architecture.
+A reviewer can inspect VPN evidence, FortiGate service-chain evidence, Terraform route definitions, O5 private endpoint evidence, and O3c return-path validation to confirm secure transmission as part of the platform architecture.
