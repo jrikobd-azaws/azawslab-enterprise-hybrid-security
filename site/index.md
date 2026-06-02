@@ -1,17 +1,21 @@
 ﻿---
 title: Home
+hide:
+  - title
+  - navigation
+  - toc
 ---
 
-<section class="hero" markdown>
+<section class="hero hero--compact" markdown>
 
 
 <p align="center">
   <img src="assets/brand/header-floating.svg" alt="" class="hero-logo">
 </p>
 
-<p class="hero-subtitle"><strong>Azure, AWS-connected hybrid, and multi-cloud platform engineering portfolio with public evidence routes.</strong></p>
+<p class="hero-subtitle"><strong>Flagship Azure, AWS-connected hybrid, and multi-cloud platform engineering portfolio with public evidence routes.</strong></p>
 
-AzAWSLab is a staged technical portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, AWS-connected secure networking, automation, private platform services, operations, and AI governance.
+AzAWSLab is the flagship portfolio project: a staged technical platform built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, AWS-connected secure networking, automation, private platform services, operations, and AI governance.
 
 <div class="hero-proof-strip" markdown>
 
@@ -168,4 +172,5 @@ graph TD
 The public GitHub repository contains the implementation, evidence folders, workflows, Terraform roots, Kubernetes manifests, diagrams, and Markdown documentation.
 
 [:fontawesome-brands-github: Open GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security){ .md-button .md-button--primary }
+
 

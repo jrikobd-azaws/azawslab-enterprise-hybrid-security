@@ -1,4 +1,4 @@
-# Portfolio Case Study
+﻿# Portfolio Case Study
 
 <div class="portfolio-chipline">
   <a class="portfolio-chip" href="/portfolio-case-study/">
@@ -20,7 +20,7 @@
 </div>
 
 !!! tip "Case-study summary"
-    AzAWSLab is a staged platform portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform services, operations, and AI governance.
+    AzAWSLab is the flagship portfolio project: a staged platform built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform services, operations, and AI governance.
 
 This case study gives recruiters, hiring managers, and technical reviewers a direct route through the implemented releases, delivery story, and evidence map. Major capabilities are evidenced through screenshots, CLI output, workflow logs, source files, and design documents in the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security), with review routes organised through the [Proof Gallery](/proof-gallery/), [Engineering Deep Dive](/engineering/), and [Skills Matrix](/skills-matrix/).
 
@@ -84,3 +84,4 @@ Release 2 extends that environment into platform engineering, secure networking,
 - **[Engineering Deep Dive](/engineering/)** - engineering notes with design rationale, implementation context, configuration details, and evidence maps.
 - **[Architecture Overview](/architecture/)** - platform journey, lifecycle domains, and key architectural decisions.
 - **Reviewer Pathways** - role-specific routes for recruiters, hiring managers, technical reviewers, security architects, and DevOps/SRE reviewers.
+
