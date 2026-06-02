@@ -1,8 +1,4 @@
----
-title: DevOps and SRE Focus
----
-
-# DevOps and SRE Focus
+# DevOps / SRE Pathway
 
 <div class="portfolio-chipline">
   <a class="portfolio-chip" href="/engineering/">
@@ -19,41 +15,95 @@ title: DevOps and SRE Focus
   </a>
 </div>
 
-This path focuses on delivery control, repeatability, validation, observability, and operational readiness.
+!!! summary "Purpose of this page"
+    A technical evaluation guide for DevOps engineers, site reliability engineers, and platform operations reviewers. It focuses on CI/CD pipeline safety, infrastructure as code delivery, automation governance, observability, backup resilience, and operational runbooks.
 
-## Delivery and operations model
+## Operations review framework
 
-| Area | Site signal | Repository signal |
+DevOps and SRE reviewers care about how the platform is delivered, operated, monitored, and recovered. This pathway organises the operational capabilities into four areas and links each area to engineering notes and public proof routes.
+
+---
+
+## 1. CI/CD and Infrastructure Delivery
+
+**What to validate:** Secret-less pipelines, controlled Terraform delivery, state boundaries, and code-to-evidence traceability.
+
+| Capability | Engineering note | Evidence route |
 |---|---|---|
-| CI/CD | GitHub Actions OIDC delivery model | `.github/workflows/` |
-| IaC | Terraform roots and state boundaries | `terraform/` and state map |
-| Automation | AWX and Ansible operations pattern | `docs/release2/evidence/A2-awx-control-plane/` |
-| Monitoring | Azure Monitor, Sentinel, Defender context | Release 2 evidence folders |
-| Backup and recovery | Backup validation and recovery evidence | Release 2 evidence folders |
-| Private platform | Private AKS and AVD access patterns | O4 and O5 evidence |
-| AI operations | O6 governed AI-assisted workflow | O6 evidence and companion repo |
+| GitHub Actions OIDC and workflow-controlled delivery | [GitHub Actions OIDC](/engineering/github-actions-oidc/) | Workflow and identity-federation evidence |
+| Multi-root Terraform with isolated state boundaries | [Terraform State Boundaries](/engineering/terraform-state-boundaries/) | Terraform source, state-boundary documentation, and evidence index |
+| Source, workflow, documentation, and platform claim traceability | [Code Traceability](/engineering/code-traceability/) | Traceability evidence and proof routes |
 
-## Operational maturity signals
+### Operational validation checklist
 
-| Signal | What it shows |
-|---|---|
-| Workflow-controlled delivery | Infrastructure changes are routed through repeatable pipelines |
-| Strict build validation | The portfolio site itself is built with `mkdocs build --strict` |
-| Evidence folders | Operations are documented with reviewable artifacts |
-| AWX control plane | Automation can be governed beyond local shell execution |
-| Terraform state boundaries | Infrastructure ownership is separated to reduce accidental blast radius |
-| Human-reviewed AI assistance | Generated infrastructure output is validated and reviewed before real use |
+- Validate that the pipeline reduces reliance on long-lived deployment credentials.
+- Inspect Terraform state boundaries and how root separation reduces blast radius.
+- Confirm that source, workflow, and evidence routes can be reviewed together.
+- Review how delivery governance supports repeatable platform operations.
 
-## Reliability review path
+---
 
-1. [GitHub Actions OIDC](../engineering/github-actions-oidc.md)
-2. [Terraform state boundaries](../engineering/terraform-state-boundaries.md)
-3. [Proof Gallery](../proof-gallery.md)
-4. [A2 AWX evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A2-awx-control-plane){ target="_blank" }
-5. [Release 2 evidence root](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence){ target="_blank" }
+## 2. Automation Control Plane
 
-## DevOps/SRE takeaway
+**What to validate:** AWX governed automation, job execution discipline, runtime handling, and source-controlled Ansible.
 
-The project demonstrates operational thinking: repeatable delivery, validation, automation control, monitoring evidence, recovery context, and clear separation between implementation and roadmap.
+| Capability | Engineering note | Evidence route |
+|---|---|---|
+| AWX as the central automation execution layer | [Automation Control Plane](/engineering/automation-control-plane/) | AWX control-plane evidence |
+| Source-controlled Ansible playbooks, inventories, and runbooks | [Automation Control Plane](/engineering/automation-control-plane/) | Ansible source and execution evidence |
+| Governed job execution and operational runbook evidence | [Automation Control Plane](/engineering/automation-control-plane/) | Job-template and execution-log evidence |
 
-[Back to Home](../index.md)
+### Operational validation checklist
+
+- Validate that automation execution is governed rather than operator-local.
+- Inspect how runbooks, inventories, and job templates are source-controlled or evidenced.
+- Review how operational changes are executed with repeatability.
+- Confirm that automation evidence supports day-2 operations.
+
+---
+
+## 3. Observability and Alerting
+
+**What to validate:** Security monitoring, alert validation, Defender for Cloud, Sentinel, Azure Monitor, and Release 1 operational visibility.
+
+| Capability | Engineering note | Evidence route |
+|---|---|---|
+| Azure Monitor, Sentinel, Defender for Cloud, and alert validation | [Monitoring, Backup and Resilience](/engineering/monitoring-backup-resilience/) | Release 2 monitoring, alerting, Defender, and Sentinel evidence |
+| Release 1 operational visibility model | [Monitoring and Operational Visibility](/engineering/release1-monitoring-operational-visibility/) | Release 1 sign-in, audit, policy, and alert evidence |
+| Operational resilience visibility | [Monitoring, Backup and Resilience](/engineering/monitoring-backup-resilience/) | Monitoring and resilience evidence routes |
+
+### Operational validation checklist
+
+- Validate that alerting is tested, not only configured.
+- Inspect how Release 1 operational visibility matures into Release 2 monitoring.
+- Review monitoring evidence alongside the Proof Gallery and Skills Matrix.
+- Confirm that operational visibility supports incident review and platform support.
+
+---
+
+## 4. Backup Resilience and Recovery
+
+**What to validate:** Recovery Services Vault controls, backup validation, soft-delete handling, recovery evidence, and BCDR planning.
+
+| Capability | Engineering note | Evidence route |
+|---|---|---|
+| Recovery Services Vault and backup policy evidence | [Monitoring, Backup and Resilience](/engineering/monitoring-backup-resilience/) | Backup and vault evidence |
+| Soft-delete handling and recovery validation | [Monitoring, Backup and Resilience](/engineering/monitoring-backup-resilience/) | Backup, recovery, and resilience evidence |
+| BCDR planning and operational recovery model | [Monitoring, Backup and Resilience](/engineering/monitoring-backup-resilience/) | BCDR documentation and resilience evidence |
+
+### Operational validation checklist
+
+- Validate that backup is treated as a recovery capability, not only a scheduled job.
+- Inspect soft-delete handling and recovery validation evidence.
+- Review BCDR documentation and how it supports operational continuity.
+- Confirm that backup and resilience controls are part of the platform operating model.
+
+---
+
+## Suggested review path
+
+1. Open the [Proof Gallery](/proof-gallery/) and review Delivery Engineering and Operations Engineering.
+2. Review the [Skills Matrix](/skills-matrix/) for the DevOps and SRE competency map.
+3. Drill into [Automation Control Plane](/engineering/automation-control-plane/) for AWX and Ansible evidence.
+4. Validate pipeline security in [GitHub Actions OIDC](/engineering/github-actions-oidc/) and traceability in [Code Traceability](/engineering/code-traceability/).
+5. Examine backup resilience in [Monitoring, Backup and Resilience](/engineering/monitoring-backup-resilience/).

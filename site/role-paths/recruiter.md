@@ -16,7 +16,7 @@
 </div>
 
 !!! summary "Purpose of this page"
-    A fast, evidence-backed briefing for recruiters and sourcing specialists who need to understand the platform scope, the skills demonstrated, and the proof available in under five minutes.
+    A fast, evidence-backed briefing for recruiters and sourcing specialists who need to understand platform scope, role alignment, demonstrated skills, and public proof routes in under five minutes.
 
 ## Platform snapshot
 
@@ -44,40 +44,25 @@ The [Skills Matrix](/skills-matrix/) maps specific capabilities to engineering n
 | Operations | Azure Monitor, Sentinel, Defender for Cloud, Recovery Services Vault, backup validation, BCDR planning |
 | AI Governance | AI operations enclave, policy-mediated tool use, human approval boundaries, companion local AI lab |
 
-## Proof highlights for screening calls
+## Proof highlights for screening
 
-When speaking to a hiring manager, these points are backed by public evidence:
-
-1. **Secret-less Terraform delivery** - GitHub Actions OIDC reduces reliance on long-lived Azure deployment credentials.
-   Ask about CI/CD safety and traceability.
-
-2. **Hybrid identity and endpoint security** - Active Directory, Entra ID, Conditional Access, Intune, Autopilot, BitLocker, LAPS, and Purview are represented in Release 1.
-   Ask about zero-trust and endpoint management.
-
-3. **Hybrid and multi-cloud network engineering** - The platform includes Azure hub-spoke networking, IPSec, BGP, Azure Firewall, FortiGate inspection, and AWS branch integration.
-   Ask about multi-cloud routing and NVA integration.
-
-4. **Private platform delivery** - Private AKS and AVD are used as controlled platform access patterns.
-   Ask about private compute and secure administration.
-
-5. **Governed AI operations** - AI tool use is framed through policy-mediated tool use and human approval boundaries.
-   Ask about AI governance and operational safety.
+| Signal | What it indicates |
+|---|---|
+| Terraform, OIDC, and GitHub Actions | Platform engineering and secure CI/CD experience. |
+| Entra Connect, Conditional Access, Intune, and Autopilot | Microsoft hybrid workplace and identity experience. |
+| BGP, IPSec, Azure Firewall, FortiGate, and AWS branch routing | Hybrid and multi-cloud network engineering experience. |
+| Private AKS, AVD, FSLogix, and private access paths | Secure private platform delivery experience. |
+| Sentinel, Defender for Cloud, Recovery Services Vault, and BCDR | Operations, monitoring, backup, and resilience experience. |
+| AI operations enclave and companion local AI lab | AI governance and controlled infrastructure-assistant workflow experience. |
 
 ## Where the proof lives
 
 - [**Proof Gallery**](/proof-gallery/) - Curated evidence dashboard covering the major platform capabilities.
 - [**Engineering Deep Dive**](/engineering/) - Implementation rationale, configuration decisions, and evidence maps.
 - [**Skills Matrix**](/skills-matrix/) - Competency map with links to engineering notes and proof routes.
+- [**Portfolio Case Study**](/portfolio-case-study/) - Executive narrative and platform transformation story.
 
 All evidence is public-safe, sanitised, and stored in the [GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security).
-
-## Suggested screening questions
-
-- Walk me through how you designed the Terraform state boundaries and why.
-- How did you validate routing and inspection across the hybrid and multi-cloud network?
-- What controls prevent AI-assisted operations from becoming autonomous infrastructure change?
-- How do you prove backup and recovery rather than only enabling backup?
-- How does the AVD workspace support secure platform administration?
 
 ## Candidate profile alignment
 
@@ -91,9 +76,19 @@ AzAWSLab aligns with roles that require hands-on implementation and architecture
 - Platform Architect
 - Technical Lead for hybrid or multi-cloud projects
 
+## Recruiter routing guidance
+
+| Hiring need | Best evidence route |
+|---|---|
+| Microsoft 365, identity, endpoint, and workplace operations | Release 1 Hybrid Workplace sections in the Skills Matrix and Proof Gallery. |
+| Azure platform engineering and Terraform delivery | Delivery Engineering sections in Engineering Deep Dive and Proof Gallery. |
+| Hybrid or multi-cloud networking | Network Engineering sections covering BGP, IPSec, Azure Firewall, FortiGate, and AWS branch routing. |
+| Operations, resilience, backup, and monitoring | Operations Engineering sections covering Sentinel, Defender for Cloud, Recovery Services Vault, and BCDR. |
+| AI governance and controlled assistant workflows | AI Operations Enclave and Companion Local AI Lab pages. |
+
 ## Next steps
 
 1. Scan the [Proof Gallery](/proof-gallery/) to see evidence scope.
 2. Review the [Skills Matrix](/skills-matrix/) for a competency inventory.
 3. Use the [Portfolio Case Study](/portfolio-case-study/) for the platform narrative.
-4. Direct the hiring manager or technical reviewer to the [Engineering Deep Dive](/engineering/).
+4. Route technical reviewers to the [Engineering Deep Dive](/engineering/).

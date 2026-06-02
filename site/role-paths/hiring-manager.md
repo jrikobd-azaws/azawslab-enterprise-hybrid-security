@@ -62,6 +62,17 @@ AzAWSLab demonstrates platform engineering maturity beyond basic automation:
 | Network misrouting or uninspected traffic | Hub-spoke routing, Azure Firewall, FortiGate inspection, IPSec, BGP, and AWS branch validation. |
 | Unsafe AI-assisted operations | Policy-mediated tool use and human approval boundaries prevent AI from becoming autonomous infrastructure automation. |
 
+## Evaluation themes
+
+| Theme | What it validates |
+|---|---|
+| Terraform state boundaries | Understanding of blast radius, ownership boundaries, and controlled infrastructure change. |
+| GitHub Actions OIDC | Ability to reduce credential exposure in CI/CD. |
+| Backup and recovery validation | Thinking beyond deployment into resilience and recoverability. |
+| BGP, IPSec, firewall inspection, and AWS branch routing | Ability to explain hybrid and multi-cloud network behaviour. |
+| Private AKS and AVD | Understanding of secure platform access and private administration paths. |
+| AI operations governance | Ability to reason about approval boundaries and safe AI-assisted operations. |
+
 ## Role alignment
 
 AzAWSLab aligns with roles that require hands-on delivery, architecture judgement, and evidence-backed communication, including:
@@ -75,8 +86,6 @@ AzAWSLab aligns with roles that require hands-on delivery, architecture judgemen
 - Cloud Security Engineer
 - Technical Lead for cloud transformation or platform engineering
 
-The portfolio demonstrates not only technical execution, but also the discipline to design, document, validate, and explain a connected platform.
-
 ## Where to validate
 
 - [**Skills Matrix**](/skills-matrix/) - Capability inventory mapped to engineering notes and proof routes.
@@ -86,15 +95,6 @@ The portfolio demonstrates not only technical execution, but also the discipline
 
 All evidence is public-safe, sanitised, and stored in the [GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security).
 
-## Suggested interview topics
+## Role-fit signal
 
-- Ask the candidate to explain how Terraform state boundaries reduce blast radius.
-- Ask why GitHub Actions OIDC was used instead of long-lived deployment credentials.
-- Ask how the platform validates backup and recovery beyond checking that a backup job exists.
-- Ask how BGP, IPSec, Azure Firewall, FortiGate, and AWS branch routing fit together.
-- Ask how private AKS and AVD support controlled platform administration.
-- Ask what controls stop AI-assisted operations from becoming autonomous infrastructure change.
-
-## Hiring manager takeaway
-
-AzAWSLab shows architecture, implementation, operational discipline, evidence capture, and communication. It is a strong signal for roles where the candidate must not only build cloud infrastructure, but explain risk, prove delivery, and operate within clear governance boundaries.
+AzAWSLab demonstrates architecture, implementation, operational discipline, evidence capture, and technical communication. It is strongest for roles where the candidate must build cloud infrastructure, explain design trade-offs, reduce operational risk, and prove delivery through public-safe evidence.
