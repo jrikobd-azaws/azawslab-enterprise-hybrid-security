@@ -35,7 +35,6 @@ theme:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
-    - navigation.expand
     - navigation.top
     - navigation.indexes
     - navigation.path
@@ -83,7 +82,7 @@ nav:
       - Release 2 - Azure Platform Engineering, Security, Automation, Private Platform and AI Operations: releases/release2.md
       - Release 3 - Multi-Cloud Kubernetes, GitOps and DevSecOps Roadmap: releases/release3.md
 
-  - Engineering:
+  - Engineering Deep Dive:
       - Engineering Overview: engineering/index.md
 
       - Release 1 Hybrid Workplace:
