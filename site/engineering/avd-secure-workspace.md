@@ -28,17 +28,17 @@
 </div>
 
 !!! summary "Scope"
-    Implementation detail and evidence paths for the Azure Virtual Desktop workspace that serves as the governed operator environment for private platform operations. This page covers host pool design, no-public-IP posture, FSLogix profile storage with private endpoint readiness, access governance through Entra ID and Conditional Access, platform toolchain readiness, and deployment preflight validation.
+    Secure workspace notes and evidence paths for the Azure Virtual Desktop environment used for governed private platform operations. It covers host pool design, no-public-IP posture, FSLogix profile storage with private endpoint readiness, access governance through Entra ID and Conditional Access, platform toolchain readiness, and deployment preflight validation.
 
-This page is intentionally scoped to the AVD workspace itself. Private AKS implementation is documented in the [Private AKS Platform](private-aks-platform/) page, and the combined AKS-and-AVD operating model is documented in the [Private AKS & AVD Architecture](private-aks-avd/) page.
+The scope stays focused on the AVD workspace itself. Private AKS implementation is documented in the [Private AKS Platform](private-aks-platform/) page, and the combined AKS-and-AVD operating model is documented in the [Private AKS & AVD Architecture](private-aks-avd/) page.
 
 ## Workspace role
 
-The AVD workspace is not presented as a general-purpose end-user desktop. It is the governed operator environment for Release 2 platform work.
+The AVD workspace is not a general-purpose end-user desktop. It is the governed operator environment for Release 2 platform work.
 
-Its purpose is to give engineers a controlled desktop from which they can reach private platform services, run approved tooling, and operate the environment without exposing AKS, storage, management services, or session hosts directly to unmanaged public access paths.
+It gives engineers a controlled desktop for reaching private platform services, running approved tooling, and operating the environment without exposing AKS, storage, management services, or session hosts directly to unmanaged public access paths.
 
-The workspace proves four platform design concerns:
+The workspace validates four platform design concerns:
 
 - Operators enter through an identity-governed AVD access path.
 - Session hosts are not exposed through public IP addresses.
@@ -75,7 +75,7 @@ Hub and private platform paths
   - management services
 ```
 
-This design separates user entry from private platform reachability. Users access the workspace through AVD and identity controls. Once inside the workspace, platform operations follow hub routing, firewall policy, and private endpoint patterns where evidenced.
+This design separates user entry from private platform reachability. Users access the workspace through AVD and identity controls. Inside the workspace, platform operations follow hub routing, firewall policy, and private endpoint patterns where evidenced.
 
 ## Design decisions
 
@@ -91,11 +91,11 @@ This design separates user entry from private platform reachability. Users acces
 
 ## Host pool and no-public-IP posture
 
-The host pool provides the governed desktop layer for Release 2 operators. The session host is deployed without a public IP, so it is not exposed as a directly reachable management VM.
+The host pool provides the governed desktop layer for Release 2 operators. The session host is deployed without a public IP and is not exposed as a directly reachable management VM.
 
-User access is brokered through the Azure Virtual Desktop control plane and gated by Entra ID and Conditional Access. From inside the session, platform operations follow the private routing model: tools on the AVD host reach private platform services through hub and spoke paths, firewall controls, and private endpoints where evidenced.
+User access is brokered through the Azure Virtual Desktop control plane and gated by Entra ID and Conditional Access. From inside the session, platform operations follow the private routing model: tools on the AVD host reach private platform services through hub-spoke paths, firewall controls, and private endpoints where evidenced.
 
-This design separates two concerns cleanly:
+This design separates two concerns:
 
 | Concern | Control |
 |---|---|
@@ -104,19 +104,19 @@ This design separates two concerns cleanly:
 | Operator tooling | Pre-staged platform toolchain on the AVD host |
 | Host exposure | No public IP on the session host |
 
-The design avoids direct public RDP exposure. Session access is brokered through AVD, while private platform reachability from the session host follows hub and spoke routing controls.
+The design avoids direct public RDP exposure. Session access is brokered through AVD, while private platform reachability from the session host follows hub-spoke routing controls.
 
 ## FSLogix profile design
 
-FSLogix provides profile persistence for the governed workspace. Operator state can survive session restarts and host lifecycle changes without depending on local machine state.
+FSLogix provides profile persistence for the governed workspace. Operator state persists across session restarts and host lifecycle changes without depending on local machine state.
 
-The O5 evidence focuses on FSLogix readiness and private profile storage paths. The design uses Azure Files as the profile storage layer and private endpoint readiness to keep profile access aligned with the private network model.
+The O5 evidence records FSLogix readiness and private profile storage paths. The design uses Azure Files as the profile storage layer, with private endpoint readiness keeping profile access aligned to the private network model.
 
 Profile persistence matters because an operator workspace is not just a disposable shell. Tool configuration, shell history, repository workspace state, and editor settings all affect operational consistency.
 
 ## Private endpoint and name-resolution readiness
 
-The FSLogix storage path is designed around private endpoint readiness. The important control is that profile traffic follows a private service access model rather than unmanaged public storage paths.
+The FSLogix storage path uses private endpoint readiness as its access model. The key control is that profile traffic follows a private service access model rather than unmanaged public storage paths.
 
 Reviewers should inspect the O5 evidence for:
 
@@ -130,7 +130,7 @@ This keeps the AVD page focused on workspace implementation while the broader Se
 
 ## Platform toolchain readiness
 
-The AVD workspace is pre-staged with the tools needed for platform operations.
+The AVD workspace is pre-staged with the tools required for platform operations.
 
 The O5 evidence validates readiness for tools such as:
 
@@ -143,17 +143,17 @@ The O5 evidence validates readiness for tools such as:
 - kubectl.
 - Helm.
 
-This is a key platform-engineering signal. Operators are not expected to run private platform operations from unmanaged local machines. The workspace contains the approved tooling required to manage infrastructure, Kubernetes, and cloud resources from inside the governed environment.
+This is a key platform engineering signal. Operators are not expected to run private platform operations from unmanaged local machines. The workspace contains approved tooling for managing infrastructure, Kubernetes, and cloud resources from inside the governed environment.
 
 ## Access governance with Entra ID and Conditional Access
 
-Access to the AVD workspace is gated by Entra ID and Conditional Access. The broader Release 1 identity and endpoint controls provide the compliance signals used by this access model.
+Access to the AVD workspace is gated by Entra ID and Conditional Access. Release 1 identity and endpoint controls provide the compliance signals used by this access model.
 
-This page does not re-document the full identity architecture. That belongs in the Hybrid Identity Engineering and Modern Endpoint Management pages. The AVD-specific point is that the workspace is integrated into the same access governance model rather than standing apart as an unmanaged remote desktop.
+This page does not re-document the full identity architecture. That context belongs in the Hybrid Identity Engineering and Modern Endpoint Management pages. The AVD-specific point is that the workspace is integrated into the same access governance model rather than standing apart as an unmanaged remote desktop.
 
 ## Deployment preflight and region governance
 
-The AVD deployment includes preflight validation before buildout. This is important because AVD depends on regional availability, provider registration, VM SKU support, quota, subnet readiness, and storage/profile dependencies.
+The AVD deployment includes preflight validation before buildout. AVD depends on regional availability, provider registration, VM SKU support, quota, subnet readiness, and storage/profile dependencies.
 
 The O5 evidence documents the preflight approach, including:
 
@@ -163,17 +163,17 @@ The O5 evidence documents the preflight approach, including:
 - Network and subnet readiness.
 - FSLogix and private endpoint readiness.
 
-This is mature platform delivery: the design validates constraints before provisioning rather than discovering them halfway through deployment.
+This is mature platform delivery: constraints are validated before provisioning rather than discovered halfway through deployment.
 
 ## Integration boundary with private AKS
 
-The AVD workspace is a consumer of private platform services, including the private AKS platform. Operators can use the staged toolchain to work with private platform resources when routing, identity, and access controls permit it.
+The AVD workspace consumes private platform services, including the private AKS platform. Operators use the staged toolchain to work with private platform resources when routing, identity, and access controls permit it.
 
-The detailed integration pattern between AVD and AKS is documented in the [Private AKS & AVD Architecture](private-aks-avd/) page. This page remains focused on AVD as the secure management entry point.
+The detailed integration pattern between AVD and AKS is documented in the [Private AKS & AVD Architecture](private-aks-avd/) page. This page stays focused on AVD as the secure management entry point.
 
 ## Enterprise production hardening pattern
 
-The Release 2 implementation demonstrates the AVD workspace pattern in a cost-controlled lab. In production, the same pattern can be hardened further.
+The Release 2 implementation validates the AVD workspace pattern in a cost-controlled lab. In production, the same pattern can follow a stricter hardening path.
 
 | Area | Enterprise hardening pattern |
 |---|---|
@@ -185,11 +185,11 @@ The Release 2 implementation demonstrates the AVD workspace pattern in a cost-co
 | Monitoring | AVD diagnostic logs, sign-in logs, session activity, and Sentinel analytics for suspicious access patterns. |
 | Privileged operations | Just-in-time elevation, PIM, approval workflow, and recording of sensitive administrative sessions where required by policy. |
 
-These controls show how the demonstrated workspace pattern maps to a stricter enterprise operating standard.
+These controls show how the evidenced workspace pattern maps to a stricter enterprise operating standard.
 
 ## Engineering significance
 
-AVD Secure Workspace demonstrates five platform-engineering decisions:
+AVD Secure Workspace shows five platform engineering decisions:
 
 1. Platform administration is performed from a governed workspace rather than unmanaged local endpoints.
 2. Session hosts avoid public IP exposure.
@@ -197,7 +197,7 @@ AVD Secure Workspace demonstrates five platform-engineering decisions:
 4. The workspace contains the platform toolchain needed to operate Azure, AWS, Terraform, and Kubernetes workloads.
 5. Deployment preflight and region governance are treated as part of the engineering process.
 
-This page proves that Release 2 includes a controlled operator workspace, not just a remote desktop.
+This page shows that Release 2 includes a controlled operator workspace, not just a remote desktop.
 
 ## Evidence map
 
@@ -210,10 +210,10 @@ This page proves that Release 2 includes a controlled operator workspace, not ju
 | Access governance uses Entra ID and Conditional Access | O5 evidence and Release 1 identity evidence | AVD access path, identity governance, and Conditional Access alignment |
 | Deployment preflight checks are documented | [`docs/release2/evidence/O5/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5), [`terraform/platform-avd/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-avd/dev) | Region, paired-region, provider, SKU, quota, subnet, and profile-storage readiness |
 | AVD workspace supports private platform operations | [Private AKS & AVD Architecture](private-aks-avd/) and O5 evidence | Toolchain readiness, private operations path, and relationship to AKS platform operations |
-| Enterprise hardening path is understood | This page | CA controls, screen protection, host pool separation, FSLogix protection, toolchain governance, monitoring, and PIM patterns documented as production extensions |
+| Enterprise hardening path is documented | This page | CA controls, screen protection, host pool separation, FSLogix protection, toolchain governance, monitoring, and PIM patterns documented as production extensions |
 
 ## Review takeaway
 
 AVD Secure Workspace shows that Release 2 includes a governed operator desktop for private platform operations.
 
-A reviewer can inspect O5 evidence, Terraform AVD code, FSLogix readiness, private endpoint readiness, access governance notes, and toolchain output to confirm that the workspace is part of the platform operating model rather than a standalone remote desktop.
+A reviewer can inspect O5 evidence, Terraform AVD code, FSLogix readiness, private endpoint readiness, access governance notes, and toolchain output to confirm the workspace as part of the platform operating model rather than a standalone remote desktop.
