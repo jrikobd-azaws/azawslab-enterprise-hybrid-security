@@ -1,26 +1,25 @@
----
+﻿---
 title: Home
 ---
 
 <section class="hero" markdown>
 
-# 
 
 <p align="center">
   <img src="assets/brand/header-floating.svg" alt="" class="hero-logo">
 </p>
 
-### Azure, hybrid, and multi-cloud platform engineering portfolio with public proof routes.
+<p class="hero-subtitle"><strong>Azure, AWS-connected hybrid, and multi-cloud platform engineering portfolio with public evidence routes.</strong></p>
 
-AzAWSLab is a staged technical portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure networking, automation, private platform services, operations, and AI governance.
+AzAWSLab is a staged technical portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, AWS-connected secure networking, automation, private platform services, operations, and AI governance.
 
 <div class="hero-proof-strip" markdown>
 
-**Inside:** Terraform-driven Azure platform roots, OIDC-based CI/CD, hybrid identity, Exchange Hybrid, private AKS, AVD, AWX automation, backup resilience, and an AI operations enclave with policy-mediated tool use.
+**Inside:** Terraform-driven Azure platform roots, AWS branch routing, OIDC-based delivery, hybrid identity, Exchange Hybrid, private AKS, AVD, AWX automation, backup resilience, and the AI Operations Enclave, evidenced through O6.
 
-**Proof route:** Proof Gallery, Engineering Deep Dive, and Skills Matrix connect implementation claims to screenshots, CLI output, workflow logs, source files, design notes, and evidence folders.
+**Evidence route:** Proof Gallery, Engineering Deep Dive, and Skills Matrix connect implementation claims to screenshots, CLI output, workflow logs, source files, design notes, and evidence folders.
 
-**Reviewers:** Cloud engineers, platform engineers, infrastructure architects, security architects, and technical reviewers.
+**Reviewers:** Cloud engineers, platform engineers, infrastructure architects, security architects, DevOps/SRE reviewers, and technical hiring teams.
 
 </div>
 
@@ -78,13 +77,13 @@ graph TD
 
 -   :material-key-chain: **OIDC-based IaC delivery**
 
-    GitHub Actions OIDC and workflow-controlled Terraform delivery reduce reliance on long-lived credentials and make deployment behaviour reviewable.
+    GitHub Actions OIDC and workflow-controlled Terraform delivery reduce reliance on long-lived credentials and keep deployment behaviour reviewable.
 
     [Review OIDC delivery](engineering/github-actions-oidc.md)
 
 -   :material-lan-connect: **Hybrid and multi-cloud fabric**
 
-    Hub-spoke routing, Azure Firewall, FortiGate NVA inspection, VPN, BGP, and AWS branch patterns show the transit and inspection model.
+    Hub-spoke routing, Azure Firewall, FortiGate NVA inspection, VPN, BGP, and AWS branch patterns validate the transit and inspection model.
 
     [Review networking](engineering/hybrid-multicloud-networking.md)
 
@@ -102,7 +101,7 @@ graph TD
 
 -   :material-robot-outline: **AI operations boundary**
 
-    The AI Operations Enclave, evidenced through O6, models policy-mediated tool use and human approval boundaries for AI-assisted CloudOps.
+    The AI Operations Enclave, evidenced through O6, models policy-mediated tool use and human approval boundaries for AI-assisted platform operations.
 
     [Review AI operations](ai-operations/index.md)
 
@@ -169,3 +168,4 @@ graph TD
 The public GitHub repository contains the implementation, evidence folders, workflows, Terraform roots, Kubernetes manifests, diagrams, and Markdown documentation.
 
 [:fontawesome-brands-github: Open GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security){ .md-button .md-button--primary }
+
