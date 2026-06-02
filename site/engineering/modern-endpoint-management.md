@@ -34,18 +34,18 @@
 
 Release 1 treats endpoint management as a lifecycle, not a one-time registration event.
 
-The implementation starts with enrollment and device visibility, then extends into compliance, protection, recovery readiness, and operational follow-up. This matters because a device should not be trusted simply because it appears in a management portal. It must be enrolled, evaluated, protected, recoverable, and operationally supportable.
+The implementation starts with enrollment and device visibility, then extends into compliance, protection, recovery readiness, and operational follow-up. This matters because a device should not be treated as trusted simply because it appears in a management portal. It must be enrolled, evaluated, protected, recoverable, and operationally supportable.
 
 | Design choice | Engineering rationale | Evidence path |
 |---|---|---|
-| Intune is the endpoint management plane | Provides enrollment visibility, ownership differentiation, policy assignment, compliance state, and the path into monitoring and recovery workflows. | [Endpoint enrollment documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/04-endpoint-enrollment.md) |
-| Ownership-aware enrollment is represented | Corporate Windows, Windows BYOD, iPhone BYOD, and Ubuntu Linux are documented as distinct onboarding paths rather than treated as one generic device flow. | [Endpoint Management Evidence Hub](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1/endpoint-management) |
-| Autopilot and ESP are advanced validation added after baseline | Preserves technical honesty while demonstrating that the original managed-device baseline was later extended into modern Windows provisioning. | [Endpoint enrollment documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/04-endpoint-enrollment.md) |
-| Compliance and hardening are separate from enrollment | Prevents the design from equating device registration with trusted-device status. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
+| Intune is the endpoint management plane | Provides enrollment visibility, ownership differentiation, policy assignment, compliance state, and a path into monitoring and recovery workflows. | [Endpoint enrollment documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/04-endpoint-enrollment.md) |
+| Ownership-aware enrollment is represented | Corporate Windows, Windows BYOD, iPhone BYOD, and Ubuntu Linux are documented as distinct onboarding paths rather than one generic device flow. | [Endpoint Management Evidence Hub](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1/endpoint-management) |
+| Autopilot and ESP are advanced validation added after baseline | Preserves technical accuracy while showing that the original managed-device baseline was later extended into modern Windows provisioning. | [Endpoint enrollment documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/04-endpoint-enrollment.md) |
+| Compliance and hardening are separate from enrollment | Keeps device registration separate from trusted-device status. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
 
 ## Enrollment and provisioning
 
-The baseline endpoint model proves that multiple device and ownership types can be brought into a managed estate. The later Autopilot and Enrollment Status Page work extends that model into a more modern Windows provisioning path.
+The baseline endpoint model shows that multiple device and ownership types can be brought into a managed estate. The later Autopilot and Enrollment Status Page work extends that model into a modern Windows provisioning path.
 
 | Capability | Implementation signal | Evidence path |
 |---|---|---|
@@ -58,35 +58,35 @@ The baseline endpoint model proves that multiple device and ownership types can 
 
 ## Compliance and endpoint protection
 
-Enrollment establishes management. Compliance and protection establish trust.
+Enrollment establishes management. Compliance and protection establish endpoint trust.
 
 Release 1 uses compliance policy, security baseline assignment, Defender Antivirus controls, Attack Surface Reduction, BitLocker-related controls, Windows Update for Business, and Windows LAPS to move beyond device visibility into an enforceable endpoint posture.
 
 | Control area | Implementation signal | Evidence path |
 |---|---|---|
 | Compliance evaluation | Device state is evaluated and surfaced through Intune rather than assumed from enrollment alone. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
-| Security baseline | Managed Windows endpoints receive baseline hardening rather than relying on default settings. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
+| Security baseline | Managed Windows endpoints receive security baseline hardening rather than relying on default settings. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
 | Defender Antivirus | Endpoint protection readiness is part of the managed Windows control model. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
-| Attack Surface Reduction | ASR policy coverage strengthens endpoint hardening and reduces common attack opportunities. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
+| Attack Surface Reduction | ASR policy coverage strengthens endpoint hardening and reduces common attack paths. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
 | BitLocker readiness | BitLocker-related controls and recovery-key visibility support recoverability and access continuity. | [Recovery scenarios documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/06-recovery-scenarios.md) |
 | Windows LAPS | LAPS policy, retrieval validation, and post-Autopilot remediation support local administrator recovery readiness. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
 
 ## Operational follow-up
 
-The endpoint story includes operational follow-up after provisioning. This is important because real endpoint management rarely ends with a clean first-pass enrollment.
+The endpoint management model includes operational follow-up after provisioning. This is important because endpoint management rarely ends with a clean first-pass enrollment.
 
 Release 1 documents two practical follow-up patterns:
 
 - Managed-device rename support after provisioning.
 - LAPS remediation after Autopilot validation exposed targeting behavior that needed correction.
 
-Graph PowerShell is part of this operational layer. It supports device-state visibility and administrative refinement after enrollment, tying endpoint management back to the identity operations model.
+Microsoft Graph PowerShell is part of this operational layer. It supports device-state visibility and administrative refinement after enrollment, tying endpoint management back to the identity operations model.
 
 ## Integration with identity and access
 
-Endpoint management is connected to the identity layer. Device state, compliance posture, BitLocker readiness, and LAPS supportability all influence whether the environment can treat a device as trusted.
+Endpoint management is connected to the Release 1 identity layer. Device state, compliance posture, BitLocker readiness, and LAPS supportability all influence whether the environment can treat a device as trusted.
 
-This means Release 1 does not present endpoint management as a standalone Intune configuration exercise. It connects:
+Release 1 does not present endpoint management as a standalone Intune configuration exercise. It connects:
 
 - User identity.
 - Device enrollment.
@@ -96,16 +96,16 @@ This means Release 1 does not present endpoint management as a standalone Intune
 - Recovery readiness.
 - Operational remediation.
 
-That is the control loop a reviewer should look for.
+That is the control loop for reviewers to inspect.
 
 ## Engineering significance
 
-Modern Endpoint Management demonstrates four engineering decisions:
+Modern Endpoint Management shows four engineering decisions:
 
 1. Endpoint onboarding was implemented as a managed lifecycle, not a registration screenshot.
 2. Autopilot and ESP were added as advanced validation without rewriting the earlier implementation history.
-3. Compliance, Defender, ASR, BitLocker, Windows Update, and LAPS were used to move from enrolled device to trusted device.
-4. Operational follow-up through Graph PowerShell, rename handling, and LAPS remediation was documented rather than hidden.
+3. Compliance, Defender, ASR, BitLocker, Windows Update, and Windows LAPS were used to move from enrolled device to trusted device.
+4. Operational follow-up through Microsoft Graph PowerShell, rename handling, and Windows LAPS remediation was documented rather than hidden.
 
 Together, these signals show a practical endpoint engineering model: enrollment, provisioning, evaluation, hardening, recovery readiness, and operational support.
 
@@ -124,6 +124,6 @@ Together, these signals show a practical endpoint engineering model: enrollment,
 
 ## Review takeaway
 
-Modern Endpoint Management demonstrates that Release 1 managed endpoints as operational assets: enrolled, evaluated, protected, recoverable, and supportable.
+Modern Endpoint Management shows that Release 1 managed endpoints as operational assets: enrolled, evaluated, protected, recoverable, and supportable.
 
-This is the endpoint layer that supports the rest of the portfolio: Conditional Access decisions, Microsoft 365 access, BitLocker recovery, LAPS administration, AVD access patterns, and later platform operations.
+This endpoint layer supports the rest of the portfolio: Conditional Access decisions, Microsoft 365 access, BitLocker recovery, Windows LAPS administration, AVD access patterns, and later platform operations.
