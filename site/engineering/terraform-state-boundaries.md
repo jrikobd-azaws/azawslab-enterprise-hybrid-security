@@ -28,6 +28,35 @@ Each root owns a distinct platform lifecycle. This keeps network changes, platfo
 | Keep local apply exceptional | Normal delivery is through GitHub Actions controlled apply; local apply requires explicit approval and documentation. | [Terraform README](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform) |
 | Use active profile guardrails for optional resources | Prevents accidental destroy or recreation of cost-sensitive hybrid resources such as VPN Gateway, FortiGate, Cisco CSR, route tables, and validation infrastructure. | [Terraform state and pipeline map](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/11-terraform-state-and-pipeline-map.md) |
 
+## Split-state topology
+
+```text
+terraform/
+  governance
+      -> Azure Storage remote state: governance boundary
+
+  platform-shared/dev
+      -> Azure Storage remote state: shared services boundary
+
+  platform-networking/dev
+      -> Azure Storage remote state: network boundary
+
+  platform-aks/dev
+      -> Azure Storage remote state: private AKS boundary
+
+  platform-avd/dev
+      -> Azure Storage remote state: AVD workspace boundary
+
+  platform-management/dev
+      -> Azure Storage remote state: management and automation boundary
+
+  workloads/dev
+      -> Azure Storage remote state: workload boundary
+
+  aws-branch/dev
+      -> Azure Storage remote state: AWS branch boundary
+```
+
 ## Active Terraform roots
 
 The repository separates platform ownership into multiple Terraform roots. The important engineering signal is not only that Terraform exists, but that state ownership follows platform responsibility.
