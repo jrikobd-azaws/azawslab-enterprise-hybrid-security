@@ -16,11 +16,11 @@
 </div>
 
 !!! summary "Purpose of this page"
-    A hiring-manager briefing that translates the platform's technical depth into delivery maturity, risk reduction, and operational judgement. The goal is to show what was built, why it matters, and where the proof lives.
+    A hiring-manager briefing that translates the platform's technical depth into delivery discipline, risk reduction, and operational judgement. It shows what was built, why it matters, and where the evidence route starts.
 
 ## Platform overview
 
-AzAWSLab is not a collection of isolated labs. It is a staged enterprise platform built from a realistic on-premises hybrid environment into Azure platform engineering, AWS-connected multi-cloud networking, private compute, automation, and governed AI operations.
+AzAWSLab is not a collection of isolated labs. It is a staged platform built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, AWS-connected multi-cloud networking, private platform services, automation, operations, and AI governance.
 
 The platform is delivered across three releases:
 
@@ -42,7 +42,7 @@ The platform is delivered across three releases:
 
 ## Delivery maturity indicators
 
-AzAWSLab demonstrates platform engineering maturity beyond basic automation:
+AzAWSLab shows platform engineering delivery beyond basic automation:
 
 - **Infrastructure as Code discipline** - Terraform root boundaries separate networking, management, shared services, AKS, AVD, governance, workload, and AWS branch concerns.
 - **Pipeline governance** - GitHub Actions OIDC, plan/apply workflow evidence, and traceability patterns reduce delivery risk.
@@ -97,4 +97,4 @@ All evidence is public-safe, sanitised, and stored in the [GitHub repository](ht
 
 ## Role-fit signal
 
-AzAWSLab demonstrates architecture, implementation, operational discipline, evidence capture, and technical communication. It is strongest for roles where the candidate must build cloud infrastructure, explain design trade-offs, reduce operational risk, and prove delivery through public-safe evidence.
+AzAWSLab shows architecture, implementation, operational discipline, evidence capture, and technical communication. It is strongest for roles where the candidate must build cloud infrastructure, explain design trade-offs, reduce operational risk, and route delivery claims to public-safe evidence.
