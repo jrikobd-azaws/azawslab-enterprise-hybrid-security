@@ -1,4 +1,4 @@
-# Azawslab Enterprise Hybrid Security Platform
+﻿# Azawslab Enterprise Hybrid Security Platform
 
 [![Enterprise Showroom](https://img.shields.io/badge/Enterprise%20Showroom-www.azawslab.co.uk-0B5CAD?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://www.azawslab.co.uk/)
 [![Reviewer Guide](https://img.shields.io/badge/Reviewer%20Guide-GitHub%20Audit%20Map-374151?style=for-the-badge)](REVIEWER_GUIDE.md)
@@ -178,7 +178,7 @@ This is a professional flagship portfolio project demonstrating:
 Hybrid Cloud, IT Infrastructure, and Operations Engineer  
 Belfast, United Kingdom
 
-This repository is a professional flagship portfolio demonstrating staged enterprise platform transformation across hybrid identity, secure cloud platform engineering, automation, private platform delivery, and governed AI-assisted CloudOps.
+This repository is a professional flagship portfolio demonstrating staged enterprise platform transformation across hybrid identity, secure cloud platform engineering, automation, private platform services, and governed AI-assisted CloudOps.
 
 ---
 

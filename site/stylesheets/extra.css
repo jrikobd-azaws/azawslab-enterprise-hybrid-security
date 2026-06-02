@@ -1,4 +1,4 @@
-.md-typeset .hero {
+﻿.md-typeset .hero {
   padding: 2.4rem 2rem;
   margin: 0 0 1.6rem 0;
   border-radius: 0.9rem;
@@ -181,3 +181,49 @@
   max-width: min(260px, 82%);
   height: auto;
 }
+
+/* index hero compact polish: start */
+.md-typeset .hero.hero--compact {
+  display: block !important;
+  min-height: 0 !important;
+  max-width: 860px;
+  box-sizing: border-box;
+  margin: 0 auto 1.8rem !important;
+  padding: 1.45rem 3rem 1.9rem !important;
+}
+
+.md-typeset .hero.hero--compact > p:first-child {
+  margin: 0 0 1.05rem !important;
+  line-height: 0 !important;
+}
+
+.md-typeset .hero.hero--compact .hero-logo {
+  display: block !important;
+  width: min(360px, 70%) !important;
+  max-width: 360px !important;
+  height: auto !important;
+  margin: 0 auto !important;
+}
+
+.md-typeset .hero.hero--compact .hero-subtitle {
+  margin: 0 0 1rem !important;
+  font-size: clamp(1.05rem, 1.45vw, 1.28rem) !important;
+  line-height: 1.45 !important;
+}
+
+.md-typeset .hero.hero--compact .hero-proof-strip {
+  margin-top: 1rem !important;
+}
+
+@media screen and (max-width: 76.1875em) {
+  .md-typeset .hero.hero--compact {
+    max-width: 100% !important;
+    padding: 1.3rem 1.3rem 1.6rem !important;
+  }
+
+  .md-typeset .hero.hero--compact .hero-logo {
+    width: min(320px, 78%) !important;
+  }
+}
+/* index hero compact polish: end */
+
