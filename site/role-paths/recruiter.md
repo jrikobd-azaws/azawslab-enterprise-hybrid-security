@@ -1,7 +1,3 @@
----
-title: Recruiter Overview
----
-
 # Recruiter Overview
 
 <div class="portfolio-chipline">
@@ -19,48 +15,85 @@ title: Recruiter Overview
   </a>
 </div>
 
-This path is designed for quick screening and role alignment.
+!!! summary "Purpose of this page"
+    A fast, evidence-backed briefing for recruiters and sourcing specialists who need to understand the platform scope, the skills demonstrated, and the proof available in under five minutes.
 
-## 60-second profile
+## Platform snapshot
 
-Azawslab Enterprise Hybrid Security Platform is a staged, evidence-backed portfolio covering Microsoft hybrid identity, modern endpoint governance, Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and governed AI-assisted CloudOps.
+AzAWSLab is not a collection of isolated labs. It is a staged enterprise platform built from a realistic on-premises hybrid environment into Azure, AWS-connected networking, private platform engineering, automation, and governed AI operations.
 
-## Best-fit role families
+Major capabilities are evidenced through screenshots, logs, source files, workflow records, engineering notes, and public-safe repository documentation.
 
-| Role family | Why this project is relevant |
+**Three releases, one platform journey:**
+
+- **Release 1** - Hybrid workplace, identity, endpoint security, and Microsoft 365 operations.
+- **Release 2** - Azure platform engineering, multi-cloud networking, automation, private compute, backup, and AI governance.
+- **Release 3** - Multi-cloud Kubernetes, GitOps, and DevSecOps roadmap.
+
+## Skills demonstrated
+
+The [Skills Matrix](/skills-matrix/) maps specific capabilities to engineering notes and proof routes. Recruiter-relevant highlights:
+
+| Domain | Key skills |
 |---|---|
-| Cloud Engineer | Azure, Terraform, identity, networking, evidence-backed implementation |
-| Cloud Platform Engineer | Landing zone, root boundaries, OIDC delivery, private AKS, AWX |
-| Infrastructure Engineer | Hyper-V, AD DS, Exchange foundation, Windows/Linux operations, hybrid identity |
-| DevOps Engineer | GitHub Actions, Terraform validation, workflow discipline, AWX automation |
-| Security Engineer | Conditional Access, endpoint governance, DLP, private platform patterns, AI governance |
-| Cloud Architect-aligned roles | End-to-end staged architecture, design decisions, evidence, and roadmap discipline |
+| Identity and Workplace | Entra Connect, Conditional Access, Intune, Autopilot, Exchange Hybrid, Microsoft Purview, Microsoft Graph and PowerShell |
+| Infrastructure as Code | Multi-root Terraform, remote state boundaries, GitHub Actions OIDC, code traceability |
+| Networking | Hub-spoke design, BGP, IPSec VPNs, Azure Firewall, FortiGate NVA inspection, AWS branch routing |
+| Platform Services | Private AKS, Kubernetes policy context, Azure Virtual Desktop, FSLogix, private access patterns |
+| Automation | Ansible, AWX control plane, source-controlled runbooks, governed job execution |
+| Operations | Azure Monitor, Sentinel, Defender for Cloud, Recovery Services Vault, backup validation, BCDR planning |
+| AI Governance | AI operations enclave, policy-mediated tool use, human approval boundaries, companion local AI lab |
 
-## Skills at a glance
+## Proof highlights for screening calls
 
-| Domain | Tools and platforms |
-|---|---|
-| Cloud platforms | Azure, AWS branch context |
-| Infrastructure as Code | Terraform, Ansible |
-| CI/CD | GitHub Actions OIDC, MkDocs Pages workflow |
-| Identity | Active Directory DS, Entra ID, Entra Connect, Conditional Access |
-| Endpoint management | Microsoft Intune, Autopilot, BitLocker, Windows LAPS |
-| Security | Defender, Sentinel, Azure Firewall, FortiGate context, Purview DLP |
-| Kubernetes | Private AKS, Kubernetes support manifests, Release 3 GitOps roadmap |
-| AI-assisted operations | O6 AI Operations Enclave, local-ai-lab-infra, RAG, validation hooks |
+When speaking to a hiring manager, these points are backed by public evidence:
 
-## Top links to share
+1. **Secret-less Terraform delivery** - GitHub Actions OIDC reduces reliance on long-lived Azure deployment credentials.
+   Ask about CI/CD safety and traceability.
 
-| Purpose | Link |
-|---|---|
-| Live portfolio | [www.azawslab.co.uk](https://www.azawslab.co.uk/) |
-| Proof gallery | [Proof Gallery](../proof-gallery.md) |
-| Skills matrix | [Skills Matrix](../skills-matrix.md) |
-| Case study | [Portfolio Case Study](../portfolio-case-study.md) |
-| Technical validation path | [Technical Reviewer Path](technical-reviewer.md) |
+2. **Hybrid identity and endpoint security** - Active Directory, Entra ID, Conditional Access, Intune, Autopilot, BitLocker, LAPS, and Purview are represented in Release 1.
+   Ask about zero-trust and endpoint management.
 
-## Recruiter takeaway
+3. **Hybrid and multi-cloud network engineering** - The platform includes Azure hub-spoke networking, IPSec, BGP, Azure Firewall, FortiGate inspection, and AWS branch integration.
+   Ask about multi-cloud routing and NVA integration.
 
-This portfolio is structured to make screening easier: the live site provides fast navigation, while the repository contains the source implementation and redacted evidence for technical validation.
+4. **Private platform delivery** - Private AKS and AVD are used as controlled platform access patterns.
+   Ask about private compute and secure administration.
 
-[Back to Home](../index.md)
+5. **Governed AI operations** - AI tool use is framed through policy-mediated tool use and human approval boundaries.
+   Ask about AI governance and operational safety.
+
+## Where the proof lives
+
+- [**Proof Gallery**](/proof-gallery/) - Curated evidence dashboard covering the major platform capabilities.
+- [**Engineering Deep Dive**](/engineering/) - Implementation rationale, configuration decisions, and evidence maps.
+- [**Skills Matrix**](/skills-matrix/) - Competency map with links to engineering notes and proof routes.
+
+All evidence is public-safe, sanitised, and stored in the [GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security).
+
+## Suggested screening questions
+
+- Walk me through how you designed the Terraform state boundaries and why.
+- How did you validate routing and inspection across the hybrid and multi-cloud network?
+- What controls prevent AI-assisted operations from becoming autonomous infrastructure change?
+- How do you prove backup and recovery rather than only enabling backup?
+- How does the AVD workspace support secure platform administration?
+
+## Candidate profile alignment
+
+AzAWSLab aligns with roles that require hands-on implementation and architecture judgement, including:
+
+- Cloud Platform Engineer
+- Azure Infrastructure Engineer
+- DevOps / Platform Engineer
+- Cloud Security Engineer
+- Site Reliability Engineer
+- Platform Architect
+- Technical Lead for hybrid or multi-cloud projects
+
+## Next steps
+
+1. Scan the [Proof Gallery](/proof-gallery/) to see evidence scope.
+2. Review the [Skills Matrix](/skills-matrix/) for a competency inventory.
+3. Use the [Portfolio Case Study](/portfolio-case-study/) for the platform narrative.
+4. Direct the hiring manager or technical reviewer to the [Engineering Deep Dive](/engineering/).
