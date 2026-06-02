@@ -10,15 +10,15 @@ title: Home
   <img src="assets/brand/header-floating.svg" alt="Azawslab Enterprise Hybrid Security Platform" class="hero-logo">
 </p>
 
-### Evidence-backed Azure, hybrid, and multi-cloud platform engineering portfolio.
+### Azure, hybrid, and multi-cloud platform engineering portfolio with public proof routes.
 
-AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and governed AI operations.
+AzAWSLab is a staged technical portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure networking, automation, private platform services, operations, and AI governance.
 
 <div class="hero-proof-strip" markdown>
 
 **Inside:** Terraform-driven Azure platform roots, OIDC-based CI/CD, hybrid identity, Exchange Hybrid, private AKS, AVD, AWX automation, backup resilience, and an AI operations enclave with policy-mediated tool use.
 
-**Proves:** Evidence-backed implementation across identity, security, networking, platform delivery, automation, resilience, and operational governance.
+**Proof route:** Proof Gallery, Engineering Deep Dive, and Skills Matrix connect implementation claims to screenshots, CLI output, workflow logs, source files, design notes, and evidence folders.
 
 **Reviewers:** Cloud engineers, platform engineers, infrastructure architects, security architects, and technical reviewers.
 
@@ -78,31 +78,31 @@ graph TD
 
 -   :material-key-chain: **OIDC-based IaC delivery**
 
-    GitHub Actions OIDC and workflow-controlled Terraform delivery reduce reliance on long-lived credentials and make deployment evidence reviewable.
+    GitHub Actions OIDC and workflow-controlled Terraform delivery reduce reliance on long-lived credentials and make deployment behaviour reviewable.
 
     [Review OIDC delivery](engineering/github-actions-oidc.md)
 
 -   :material-lan-connect: **Hybrid and multi-cloud fabric**
 
-    Hub-spoke routing, Azure Firewall, FortiGate NVA inspection, VPN, BGP, and AWS branch patterns demonstrate secure transit design.
+    Hub-spoke routing, Azure Firewall, FortiGate NVA inspection, VPN, BGP, and AWS branch patterns show the transit and inspection model.
 
     [Review networking](engineering/hybrid-multicloud-networking.md)
 
 -   :material-shield-lock: **Private platform delivery**
 
-    Private AKS and secure AVD workspace patterns enforce controlled access to platform and operations layers.
+    Private AKS and secure AVD workspace patterns keep platform and operator access inside controlled network paths.
 
     [Review private platform](engineering/private-aks-avd.md)
 
 -   :material-cog-sync: **Automation and resilience**
 
-    AWX, governed job templates, Recovery Services Vault controls, soft-delete handling, backup validation, and BCDR plans prove Day 2 maturity.
+    AWX job templates, governed runbooks, Recovery Services Vault controls, soft-delete handling, backup validation, and BCDR plans provide the operations evidence route.
 
     [Review automation control plane](engineering/automation-control-plane.md)
 
 -   :material-robot-outline: **AI operations boundary**
 
-    Policy-mediated tool use, human approval boundaries, and a companion local AI lab demonstrate controlled AI-enabled CloudOps.
+    The AI Operations Enclave, evidenced through O6, models policy-mediated tool use and human approval boundaries for AI-assisted CloudOps.
 
     [Review AI operations](ai-operations/index.md)
 
@@ -166,6 +166,6 @@ graph TD
 
 ## Source repository
 
-The implementation, evidence folders, workflows, Terraform roots, Kubernetes manifests, diagrams, and full Markdown documentation remain in the GitHub source repository.
+The public GitHub repository contains the implementation, evidence folders, workflows, Terraform roots, Kubernetes manifests, diagrams, and Markdown documentation.
 
 [:fontawesome-brands-github: Open GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security){ .md-button .md-button--primary }
