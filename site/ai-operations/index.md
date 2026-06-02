@@ -1,8 +1,4 @@
----
-title: AI Operations Enclave
----
-
-# Governed AI-Assisted CloudOps
+# AI Operations Enclave
 
 <div class="portfolio-chipline">
   <a class="portfolio-chip" href="/engineering/">
@@ -19,59 +15,123 @@ title: AI Operations Enclave
   </a>
 </div>
 
-O6 is not a chatbot demo. It is a governed AI-assisted CloudOps pattern that connects the main enterprise platform repo with a working local-first companion AI infrastructure lab.
+!!! success "Status: Implemented & Evidenced"
+    The AI operations enclave is implemented and evidenced through O6 policy records, agent access evidence, network policy validation, namespace lifecycle checks, cleanup validation, and companion local lab documentation.
 
-The core principle is simple: AI can draft, validate, review, summarize, and recommend, but infrastructure authority remains with the engineer and the approved workflow.
+The AI Operations Enclave demonstrates a controlled pattern for using AI-assisted support in platform operations. It is not an autonomous infrastructure operator. It is an AI operations enclave with policy-mediated tool use and human approval boundaries.
 
-## Pattern overview
+## Operating model
 
-```mermaid
-graph LR
-  Engineer[Engineer] --> Request[CloudOps request]
-  Request --> Orchestrator[Multi-agent orchestration]
-  Orchestrator --> Architect[Architect review]
-  Orchestrator --> Coder[Local coder agent]
-  Orchestrator --> SecOps[Security review]
-  Orchestrator --> FinOps[Cost review]
-  Orchestrator --> GitOps[GitOps summary]
-  Coder --> Validate[Terraform or Ansible validation]
-  Validate --> Review[Human review]
-  Review --> Workflow[Approved workflow action]
+O6 treats AI-assisted operations as a governed workflow:
+
+1. An agent proposes a tool call or operational action.
+2. A policy boundary evaluates the request.
+3. Allowed read-only or pre-approved actions are logged.
+4. Denied or restricted actions are logged and do not proceed automatically.
+5. Any action outside the permitted support context remains inside a human review boundary.
+6. Evidence is retained through policy decision logs, agent enforcement records, network isolation checks, namespace lifecycle records, and cleanup validation.
+
+## Design principles
+
+- **Deny-by-default policy boundary** - the policy model starts from denial and allows only defined support actions.
+- **Policy-mediated tool use** - tool calls are evaluated against allowed tools, scope, and risk context.
+- **Human review boundary** - actions beyond read-only or pre-approved support remain subject to human review.
+- **Structured decision logging** - policy decisions and enforcement outcomes are captured as reviewable evidence.
+- **Agent-specific access scope** - agents are represented with constrained access context rather than broad operator authority.
+- **Network and namespace isolation** - the evidence set validates isolation boundaries and namespace lifecycle.
+- **Cleanup validation** - O6 includes post-cleanup proof so the enclave does not leave unmanaged residue.
+
+## Architecture
+
+```text
+AI Agent / Operations Assistant
+        |
+        | proposed tool call
+        v
+MCP Policy Boundary
+  - deny-by-default rules
+  - allowed tool registry
+  - project / namespace scope
+  - risk classification
+        |
+        | allowed read-only action -> logged allow decision
+        | denied action -> logged deny decision
+        | restricted action -> human review boundary
+        v
+Scoped Tool Context
+  - Kubernetes support context
+  - Azure query context
+  - local lab validation context
+        |
+        v
+Structured Evidence
+  - policy decision logs
+  - agent enforcement records
+  - network policy evidence
+  - namespace lifecycle evidence
+  - cleanup checks
 ```
 
-## Control themes
+## MCP policy boundary
 
-| Control | What it means |
+The policy boundary evaluates proposed tool use before execution. The important design point is not that AI can run infrastructure commands; it is that AI support is constrained by policy, scope, and evidence.
+
+The O6 evidence route demonstrates:
+
+- policy decisions captured as reviewable records;
+- agent-specific enforcement context;
+- denied or restricted actions recorded as evidence;
+- namespace lifecycle validation;
+- network policy and egress validation;
+- post-cleanup checks.
+
+**Evidence:** [`docs/release2/evidence/O6/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6)
+
+## Human review boundary
+
+O6 does not present AI as a replacement for operator judgement. The boundary is deliberately conservative:
+
+- read-only or pre-approved support actions can be evaluated and logged;
+- restricted or unknown actions do not become automatic infrastructure change;
+- human review remains required for actions that move beyond the permitted support model;
+- the companion local lab includes a human-in-the-loop pause before GitOps output and keeps generated infrastructure changes reviewable.
+
+This keeps AI assistance useful while preserving operator accountability.
+
+## Platform integration
+
+The AI operations enclave is integrated into the broader AzAWSLab story:
+
+| Platform area | Integration point |
 |---|---|
-| Local-first generation | Sensitive Terraform and Ansible generation can run locally through Ollama and DeepSeek Coder in the companion lab |
-| Multi-agent workflow | Architect, Coder, SecOps, FinOps, and GitOps roles are separated rather than collapsed into one unrestricted assistant |
-| Tool permission control | Tool access is governed by project configuration rather than granting every agent broad capability |
-| Deny-by-default model | Agents cannot call tools unless allowed for the selected project context |
-| Validation without deployment | Terraform and Ansible validation check generated output without applying infrastructure |
-| Human review boundary | Generated infrastructure code still requires engineer review before real use |
-| Data-boundary design | Local execution and configurable cloud review reduce unnecessary source exposure |
+| Terraform state boundaries | AI-assisted work does not bypass the platform ownership and state model. |
+| GitHub Actions OIDC | Future AI-assisted change proposals remain compatible with reviewable pipeline delivery. |
+| AWX automation | Operational automation remains governed through job templates, runbooks, and execution evidence. |
+| Private AKS | O6 uses Kubernetes support context while respecting namespace and network boundaries. |
+| Evidence model | Policy decisions, enforcement records, lifecycle proof, and cleanup checks are captured as public-safe evidence. |
+| Companion local AI lab | The local lab provides a reproducible development pattern before any cloud-side promotion. |
 
-## What O6 proves
+## Companion local AI lab
 
-| Capability | Reviewer signal |
-|---|---|
-| Governed AI operations | AI assistance is bounded by policy, validation, and human review |
-| AI plus platform engineering | The project connects AI workflow design with Terraform, Ansible, Kubernetes, and CloudOps |
-| Local/cloud boundary thinking | Sensitive generation can remain local while optional cloud review is configurable |
-| Evidence-backed AI story | The main repo contains O6 evidence; the companion repo contains a working lab/reference implementation |
+The [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra) repository implements a local reference pattern aligned with O6. It lets the AI governance model be tested locally with deterministic validation, local or hybrid model routing, project isolation, tool access controls, and human review gates.
 
-## Evidence and implementation
+See the [Companion Local AI Lab](/companion-project/) page for the local implementation and usage workflow.
 
-- [Main repo O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6){ target="_blank" }
-- [Main repo Kubernetes support manifests](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/kubernetes){ target="_blank" }
-- [O6 AI operations diagram](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/diagrams/release2/ai-operations-enclave.png){ target="_blank" }
-- [Companion implementation: local-ai-lab-infra](https://github.com/jrikobd-azaws/local-ai-lab-infra){ target="_blank" }
+## Evidence map
 
-!!! warning "Boundary statement"
-    O6 is presented as governed AI-assisted infrastructure work, not unsupervised production mutation. Generated outputs require validation and human review before real infrastructure use.
+| Claim | Repository location | What to verify |
+|---|---|---|
+| Policy-mediated tool use is enforced | [`O6 evidence`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6) | MCP policy records and decision logs. |
+| Agent access is scoped | Same folder | Agent enforcement records and access context. |
+| Network isolation is validated | Same folder | Network policy and egress validation evidence. |
+| Namespace lifecycle is controlled | Same folder | Namespace lifecycle and cleanup records. |
+| Cleanup is evidenced | Same folder | Post-cleanup validation checks. |
+| Local reference implementation exists | [`local-ai-lab-infra`](https://github.com/jrikobd-azaws/local-ai-lab-infra) | Local lab workflow, validation pipeline, and documentation. |
 
-[Back to Home](../index.md)
+## Review entry points
 
-## Governance guardrails
-
-- **Quantifiable governance:** Policy decision logs and deny-by-default rules make AI tool use auditable and measurable. AI recommendations are treated as signals that require validation, policy checks, and human approval before action.
+- [O6 Evidence Folder](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6)
+- [Companion Local AI Lab](/companion-project/)
+- [local-ai-lab-infra repository](https://github.com/jrikobd-azaws/local-ai-lab-infra)
+- [Proof Gallery](/proof-gallery/)
+- [Skills Matrix](/skills-matrix/)
