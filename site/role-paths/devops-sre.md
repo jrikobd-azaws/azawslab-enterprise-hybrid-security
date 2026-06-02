@@ -16,11 +16,11 @@
 </div>
 
 !!! summary "Purpose of this page"
-    A technical evaluation guide for DevOps engineers, site reliability engineers, and platform operations reviewers. It focuses on CI/CD pipeline safety, infrastructure as code delivery, automation governance, observability, backup resilience, and operational runbooks.
+    A technical review guide for DevOps engineers, site reliability engineers, and platform operations reviewers. It focuses on OIDC-based delivery, infrastructure as code delivery, automation governance, observability, backup resilience, and operational runbooks.
 
 ## Operations review framework
 
-DevOps and SRE reviewers care about how the platform is delivered, operated, monitored, and recovered. This pathway organises the operational capabilities into four areas and links each area to engineering notes and public proof routes.
+DevOps and SRE reviewers need to see how the platform is delivered, operated, monitored, and recovered. This pathway organises the operational capabilities into four areas and links each area to engineering notes and public evidence routes.
 
 ---
 
@@ -32,12 +32,12 @@ DevOps and SRE reviewers care about how the platform is delivered, operated, mon
 |---|---|---|
 | GitHub Actions OIDC and workflow-controlled delivery | [GitHub Actions OIDC](/engineering/github-actions-oidc/) | Workflow and identity-federation evidence |
 | Multi-root Terraform with isolated state boundaries | [Terraform State Boundaries](/engineering/terraform-state-boundaries/) | Terraform source, state-boundary documentation, and evidence index |
-| Source, workflow, documentation, and platform claim traceability | [Code Traceability](/engineering/code-traceability/) | Traceability evidence and proof routes |
+| Source, workflow, documentation, and platform evidence traceability | [Code Traceability](/engineering/code-traceability/) | Traceability evidence and review routes |
 
 ### Operational validation checklist
 
 - Validate that the pipeline reduces reliance on long-lived deployment credentials.
-- Inspect Terraform state boundaries and how root separation reduces blast radius.
+- Inspect Terraform state boundaries and how root separation limits blast radius.
 - Confirm that source, workflow, and evidence routes can be reviewed together.
 - Review how delivery governance supports repeatable platform operations.
 
@@ -56,9 +56,9 @@ DevOps and SRE reviewers care about how the platform is delivered, operated, mon
 ### Operational validation checklist
 
 - Validate that automation execution is governed rather than operator-local.
-- Inspect how runbooks, inventories, and job templates are source-controlled or evidenced.
-- Review how operational changes are executed with repeatability.
-- Confirm that automation evidence supports day-2 operations.
+- Inspect how runbooks, inventories, and job templates are source-controlled and evidenced.
+- Review how operational changes are executed repeatably.
+- Confirm that automation evidence supports governed operations.
 
 ---
 
@@ -75,9 +75,9 @@ DevOps and SRE reviewers care about how the platform is delivered, operated, mon
 ### Operational validation checklist
 
 - Validate that alerting is tested, not only configured.
-- Inspect how Release 1 operational visibility matures into Release 2 monitoring.
+- Inspect how Release 1 operational visibility extends into Release 2 monitoring.
 - Review monitoring evidence alongside the Proof Gallery and Skills Matrix.
-- Confirm that operational visibility supports incident review and platform support.
+- Confirm that operational visibility supports incident review and platform operations.
 
 ---
 

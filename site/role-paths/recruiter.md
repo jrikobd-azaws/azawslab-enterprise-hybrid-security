@@ -16,13 +16,13 @@
 </div>
 
 !!! summary "Purpose of this page"
-    A fast, evidence-backed briefing for recruiters and sourcing specialists who need to understand platform scope, role alignment, demonstrated skills, and public proof routes in under five minutes.
+    A fast evidence route for recruiters and sourcing specialists who need to understand platform scope, role alignment, demonstrated skills, and public proof routes in under five minutes.
 
 ## Platform snapshot
 
-AzAWSLab is not a collection of isolated labs. It is a staged enterprise platform built from a realistic on-premises hybrid environment into Azure, AWS-connected networking, private platform engineering, automation, and governed AI operations.
+AzAWSLab is not a collection of isolated labs. It is a staged platform built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, AWS-connected networking, private platform services, automation, operations, and AI governance.
 
-Major capabilities are evidenced through screenshots, logs, source files, workflow records, engineering notes, and public-safe repository documentation.
+Major capabilities are routed to screenshots, logs, source files, workflow records, engineering notes, and public-safe repository documentation.
 
 **Three releases, one platform journey:**
 
@@ -36,13 +36,13 @@ The [Skills Matrix](/skills-matrix/) maps specific capabilities to engineering n
 
 | Domain | Key skills |
 |---|---|
-| Identity and Workplace | Entra Connect, Conditional Access, Intune, Autopilot, Exchange Hybrid, Microsoft Purview, Microsoft Graph and PowerShell |
+| Identity and Workplace | Entra Connect, Conditional Access, Intune, Autopilot, Exchange Hybrid, Microsoft Purview, Microsoft Graph PowerShell |
 | Infrastructure as Code | Multi-root Terraform, remote state boundaries, GitHub Actions OIDC, code traceability |
 | Networking | Hub-spoke design, BGP, IPSec VPNs, Azure Firewall, FortiGate NVA inspection, AWS branch routing |
 | Platform Services | Private AKS, Kubernetes policy context, Azure Virtual Desktop, FSLogix, private access patterns |
 | Automation | Ansible, AWX control plane, source-controlled runbooks, governed job execution |
 | Operations | Azure Monitor, Sentinel, Defender for Cloud, Recovery Services Vault, backup validation, BCDR planning |
-| AI Governance | AI operations enclave, policy-mediated tool use, human approval boundaries, companion local AI lab |
+| AI Governance | AI Operations Enclave, evidenced through O6, policy-mediated tool use, human approval boundaries, companion local AI lab |
 
 ## Proof highlights for screening
 
@@ -66,7 +66,7 @@ All evidence is public-safe, sanitised, and stored in the [GitHub repository](ht
 
 ## Candidate profile alignment
 
-AzAWSLab aligns with roles that require hands-on implementation and architecture judgement, including:
+AzAWSLab aligns with roles that require hands-on implementation, architecture judgement, and evidence-led communication, including:
 
 - Cloud Platform Engineer
 - Azure Infrastructure Engineer
@@ -80,11 +80,11 @@ AzAWSLab aligns with roles that require hands-on implementation and architecture
 
 | Hiring need | Best evidence route |
 |---|---|
-| Microsoft 365, identity, endpoint, and workplace operations | Release 1 Hybrid Workplace sections in the Skills Matrix and Proof Gallery. |
-| Azure platform engineering and Terraform delivery | Delivery Engineering sections in Engineering Deep Dive and Proof Gallery. |
+| Microsoft 365, identity, endpoint, and workplace operations | Release 1 hybrid workplace sections in the Skills Matrix and Proof Gallery. |
+| Azure platform engineering and Terraform delivery | Release 2 delivery engineering sections in Engineering Deep Dive and Proof Gallery. |
 | Hybrid or multi-cloud networking | Network Engineering sections covering BGP, IPSec, Azure Firewall, FortiGate, and AWS branch routing. |
 | Operations, resilience, backup, and monitoring | Operations Engineering sections covering Sentinel, Defender for Cloud, Recovery Services Vault, and BCDR. |
-| AI governance and controlled assistant workflows | AI Operations Enclave and Companion Local AI Lab pages. |
+| AI governance and controlled assistant workflows | AI Operations Enclave, evidenced through O6, and Companion Local AI Lab pages. |
 
 ## Next steps
 
