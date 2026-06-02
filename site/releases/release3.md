@@ -20,11 +20,11 @@
 </div>
 
 !!! info "Status: Roadmap"
-    Release 3 is the multi-cloud Kubernetes, GitOps, and DevSecOps roadmap. It is not presented as implemented proof. Implementation claims should only be added when evidence exists under the same public-safe documentation and validation standard used for Release 1 and Release 2.
+    Release 3 is the multi-cloud Kubernetes, GitOps, and DevSecOps roadmap. It is not implemented proof. Implementation claims belong on this page only when evidence exists under the same public-safe documentation and validation standard used for Release 1 and Release 2.
 
 Release 3 defines the next target state: multi-cloud Kubernetes delivery, GitOps, DevSecOps controls, observability, resilience, and policy-driven operations across Azure and AWS.
 
-This page records architectural direction without presenting roadmap items as delivered implementation.
+This page records architectural direction while keeping roadmap items separate from delivered implementation.
 
 ## Target evolution
 
@@ -56,9 +56,9 @@ flowchart LR
 
 ## Relationship to Release 2
 
-Release 3 builds on capabilities already implemented and routed to evidence in Release 2:
+Release 3 builds on Release 2 capabilities already implemented and routed to evidence:
 
-| Release 2 foundation | How it supports Release 3 |
+| Release 2 capability | How it supports Release 3 |
 |---|---|
 | Private AKS | Provides the first private Kubernetes platform boundary. |
 | AWS branch and BGP routing | Establishes cross-cloud network context for future AWS Kubernetes patterns. |
@@ -77,12 +77,12 @@ Release 3 builds on capabilities already implemented and routed to evidence in R
 
 ## Evidence standard for future work
 
-Release 3 implementation should follow the same evidence discipline as the current portfolio:
+Release 3 implementation should follow the same evidence discipline as Release 1 and Release 2:
 
 - Source-controlled infrastructure and platform manifests.
 - Workflow records for delivery and validation.
 - Public-safe screenshots, CLI output, and operational records.
-- Explicit separation between implemented proof and future design.
+- Explicit separation between implemented evidence and future design.
 - Reviewer-facing documentation that routes claims to evidence.
 
-Until implementation evidence is added, Release 3 remains a clearly labelled roadmap.
+Until implementation evidence is added, Release 3 remains a labelled roadmap.

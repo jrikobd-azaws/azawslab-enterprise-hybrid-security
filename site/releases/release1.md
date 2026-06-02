@@ -22,7 +22,7 @@
 !!! success "Status: Implemented and evidenced"
     Release 1 is implemented and evidenced through screenshots, configuration captures, policy evidence, PowerShell output, recovery operation records, and public-safe documentation in [`screenshots/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots) and [`docs/release1/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release1).
 
-Release 1 establishes a realistic Microsoft hybrid enterprise environment: on-premises Active Directory, Exchange Hybrid, Microsoft 365 services, endpoint management, information protection, operational visibility, recovery workflows, and script-based administration.
+Release 1 establishes the realistic Microsoft hybrid enterprise environment: on-premises Active Directory, Exchange Hybrid, Microsoft 365 services, endpoint management, information protection, operational visibility, recovery workflows, and script-based administration.
 
 ## Architecture overview
 
@@ -63,26 +63,26 @@ flowchart TD
 - **Information protection** - Microsoft Purview, data loss prevention, sensitivity labels, and user-visible policy behaviour.
 - **Operational recovery** - BitLocker recovery, stale device cleanup, trust-break handling, rebuild, and re-enrollment evidence.
 - **Operational visibility** - sign-in and audit log review, device compliance tracking, policy and control review, and practical admin alerting.
-- **Script-based operations** - Microsoft Graph and PowerShell for Graph connection validation, pilot user state, managed device state, and device lifecycle operations.
+- **Script-based operations** - Microsoft Microsoft Graph PowerShell for Graph connection validation, pilot user state, managed device state, and device lifecycle operations.
 - **Security operations evidence** - Sentinel, Defender for Cloud context, alert visibility, audit records, and security operations proof.
 
 ## Capability matrix
 
-| Capability | Implementation | Evidence |
+| Capability | Implementation | Evidence route |
 |---|---|---|
 | Hybrid identity | Entra Connect, Conditional Access, MFA, pilot identity scope, and identity operations | [`screenshots/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots), Release 1 identity evidence |
 | Conditional Access and MFA | MFA, compliant-device context, legacy-auth controls, and sign-in result review | Conditional Access and sign-in evidence under Release 1 screenshots |
-| Exchange Hybrid and M365 | Hybrid mail flow, pilot mailbox migration, Teams, SharePoint, and Microsoft 365 service operations | [`screenshots/release1/modern-workplace/exchange-hybrid/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1/modern-workplace/exchange-hybrid) |
+| Exchange Hybrid and Microsoft 365 | Hybrid mail flow, pilot mailbox migration, Teams, SharePoint, and Microsoft 365 service operations | [`screenshots/release1/modern-workplace/exchange-hybrid/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1/modern-workplace/exchange-hybrid) |
 | Endpoint management | Intune enrollment, Autopilot, compliance policies, BitLocker, Windows LAPS, and Defender controls | Release 1 endpoint-management evidence |
 | Information protection | Microsoft Purview, sensitivity labels, DLP, and policy behaviour | Release 1 information-protection evidence |
 | Operational recovery | BitLocker recovery, stale or duplicate device cleanup, trust-break handling, rebuild, and re-enrollment | Release 1 recovery evidence |
 | Operational visibility | Sign-in review, audit-log review, device compliance checks, policy review, and alert review | [`screenshots/release1/monitoring-and-operations/monitoring/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1/monitoring-and-operations/monitoring) |
-| Graph and PowerShell | Connect-BelfastMgGraph, Get-BelfastPilotUserState, Get-BelfastManagedDeviceState, and Rename-BelfastManagedDevice evidence | [`screenshots/release1/identity-and-access/identity-operations/graph-powershell/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1/identity-and-access/identity-operations/graph-powershell) |
+| Microsoft Graph PowerShell | Connect-BelfastMgGraph, Get-BelfastPilotUserState, Get-BelfastManagedDeviceState, and Rename-BelfastManagedDevice evidence | [`screenshots/release1/identity-and-access/identity-operations/graph-powershell/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1/identity-and-access/identity-operations/graph-powershell) |
 | Security operations | Sentinel, Defender for Cloud context, alert visibility, audit records, and operational review evidence | Release 1 security and monitoring evidence |
 
 ## Evidence hub
 
-Release 1 evidence is organised across the public repository:
+Release 1 evidence is organised across the public repository by operating area:
 
 - **Identity and access** - Entra Connect, Conditional Access, MFA, sign-in evidence, and Graph/PowerShell operations.
 - **Exchange Hybrid and Microsoft 365 services** - Exchange Hybrid configuration, pilot mailbox migration, mail flow validation, Teams, SharePoint, and Microsoft 365 service evidence.
@@ -95,9 +95,9 @@ Release 1 evidence is organised across the public repository:
 ## Engineering deep dives
 
 - [Hybrid Identity Engineering](/engineering/hybrid-identity/)
-- [Exchange Hybrid and M365 Services](/engineering/exchange-hybrid-m365-services/)
+- [Exchange Hybrid and Microsoft 365 Services](/engineering/exchange-hybrid-m365-services/)
 - [Modern Endpoint Management](/engineering/modern-endpoint-management/)
-- [Graph and PowerShell Operations](/engineering/graph-powershell-operations/)
+- [Microsoft Graph PowerShell Operations](/engineering/graph-powershell-operations/)
 - [Monitoring and Operational Visibility](/engineering/release1-monitoring-operational-visibility/)
 
 ## Skills demonstrated
@@ -108,5 +108,5 @@ Release 1 evidence is organised across the public repository:
 - Data governance and information protection implementation.
 - Security operations workflow design and validation.
 - Operational visibility and review discipline.
-- Automation with Microsoft Graph and PowerShell.
-- Evidence-driven documentation and portfolio presentation.
+- Automation with Microsoft Microsoft Graph PowerShell.
+- Evidence-led documentation and reviewer-facing presentation.
