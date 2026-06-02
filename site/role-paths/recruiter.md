@@ -4,6 +4,21 @@ title: Recruiter Overview
 
 # Recruiter Overview
 
+<div class="portfolio-chipline">
+  <a class="portfolio-chip" href="/engineering/">
+    <span class="portfolio-chip-label">Engineering</span>
+    <span class="portfolio-chip-value">Deep Dive</span>
+  </a>
+  <a class="portfolio-chip" href="/proof-gallery/">
+    <span class="portfolio-chip-label">Proof</span>
+    <span class="portfolio-chip-value">Gallery</span>
+  </a>
+  <a class="portfolio-chip" href="/skills-matrix/">
+    <span class="portfolio-chip-label">Skills</span>
+    <span class="portfolio-chip-value">Matrix</span>
+  </a>
+</div>
+
 This path is designed for quick screening and role alignment.
 
 ## 60-second profile

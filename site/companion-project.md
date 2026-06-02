@@ -4,6 +4,21 @@ title: Companion AI Lab
 
 # Companion Project: local-ai-lab-infra
 
+<div class="portfolio-chipline">
+  <a class="portfolio-chip" href="/engineering/">
+    <span class="portfolio-chip-label">Engineering</span>
+    <span class="portfolio-chip-value">Deep Dive</span>
+  </a>
+  <a class="portfolio-chip" href="/proof-gallery/">
+    <span class="portfolio-chip-label">Proof</span>
+    <span class="portfolio-chip-value">Gallery</span>
+  </a>
+  <a class="portfolio-chip" href="/skills-matrix/">
+    <span class="portfolio-chip-label">Skills</span>
+    <span class="portfolio-chip-value">Matrix</span>
+  </a>
+</div>
+
 `local-ai-lab-infra` is the working companion implementation for the O6 AI Operations Enclave story.
 
 The main repository demonstrates the enterprise hybrid security platform, O6 evidence, Kubernetes support manifests, and governance boundary. The companion repository demonstrates the local-first multi-agent AI infrastructure workflow that supports the O6 narrative.
