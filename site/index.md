@@ -4,10 +4,10 @@ title: Home
 
 <section class="hero" markdown>
 
-# Azawslab Enterprise Hybrid Security Platform
+# 
 
 <p align="center">
-  <img src="assets/brand/header-floating.svg" alt="Azawslab Enterprise Hybrid Security Platform" class="hero-logo">
+  <img src="assets/brand/header-floating.svg" alt="" class="hero-logo">
 </p>
 
 ### Azure, hybrid, and multi-cloud platform engineering portfolio with public proof routes.
@@ -31,7 +31,7 @@ AzAWSLab is a staged technical portfolio built from a realistic Microsoft hybrid
 </section>
 
 !!! success "Public portfolio status"
-    Published as a curated case-study portfolio with a public GitHub repository, custom domain, HTTPS, evidence folders, strict documentation checks, and role-based reviewer paths.
+    Published through a public GitHub repository, custom domain, HTTPS, evidence folders, strict documentation checks, and role-based reviewer paths.
 
 [![Platform hero diagram](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/raw/main/diagrams/platform/hero-diagram.png)](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/diagrams/platform/hero-diagram.png)
 
@@ -41,21 +41,21 @@ AzAWSLab is a staged technical portfolio built from a realistic Microsoft hybrid
 
 <div class="grid cards" markdown>
 
--   :material-numeric-1-circle: **Release 1: Hybrid Workplace, Identity, Endpoint Security and Microsoft 365 Operations**
+-   :material-numeric-1-circle: **Release 1: hybrid workplace, identity, endpoint security, and Microsoft 365 operations**
 
-    Realistic Microsoft hybrid enterprise environment with Hyper-V, AD DS, Exchange Hybrid, Entra Connect, Conditional Access, Intune, Autopilot, BitLocker, LAPS, Purview, Sentinel, Defender for Cloud, operational visibility, and Microsoft Graph PowerShell.
+    Realistic Microsoft hybrid enterprise environment with Hyper-V, AD DS, Exchange Hybrid, Entra Connect, Conditional Access, Intune, Autopilot, BitLocker, Windows LAPS, Purview, Sentinel, Defender for Cloud, operational visibility, and Microsoft Graph PowerShell.
 
     [Open Release 1 summary](releases/release1.md)
 
--   :material-numeric-2-circle: **Release 2: Azure Platform Engineering, Networking, Automation, Private Platform and AI Operations**
+-   :material-numeric-2-circle: **Release 2: platform engineering, secure networking, automation, private platform services, operations, and AI governance**
 
-    Terraform-driven Azure platform roots, OIDC delivery, isolated state boundaries, Azure governance, hub-spoke networking, FortiGate inspection, BGP, AWS branch transit, AWX automation, backup resilience, private AKS, AVD secure workspace, and AI operations enclave.
+    Terraform-driven Azure platform roots, OIDC delivery, isolated state boundaries, Azure governance, hub-spoke networking, FortiGate inspection, BGP, AWS branch transit, AWX automation, backup resilience, private AKS, AVD secure workspace, and the AI Operations Enclave, evidenced through O6.
 
     [Open Release 2 summary](releases/release2.md)
 
--   :material-numeric-3-circle: **Release 3: Multi-Cloud Kubernetes, GitOps and DevSecOps Roadmap**
+-   :material-numeric-3-circle: **Release 3: multi-cloud Kubernetes, GitOps, and DevSecOps roadmap**
 
-    Defined roadmap toward AKS/EKS, Flux, Flagger, DevSecOps scanning, observability, resilience, and platform evolution.
+    Roadmap for AKS/EKS, Flux, Flagger, DevSecOps scanning, observability, resilience, and platform evolution.
 
     [Open Release 3 roadmap](releases/release3.md)
 
@@ -88,7 +88,7 @@ graph TD
 
     [Review networking](engineering/hybrid-multicloud-networking.md)
 
--   :material-shield-lock: **Private platform delivery**
+-   :material-shield-lock: **Private platform services**
 
     Private AKS and secure AVD workspace patterns keep platform and operator access inside controlled network paths.
 
@@ -108,9 +108,9 @@ graph TD
 
 </div>
 
-## Featured proof
+## Featured evidence
 
-| Area | Quick proof |
+| Area | Evidence route |
 |---|---|
 | OIDC-based Terraform | [OIDC deployment evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P0) |
 | Hybrid routing | [Hybrid routing evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5) |
@@ -119,8 +119,8 @@ graph TD
 | AVD secure workspace | [AVD workspace evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5) |
 | AWX automation | [AWX control plane evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A2-awx-control-plane) |
 | AI operations | [O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6) and [AI Operations Enclave](ai-operations/index.md) |
-| Full evidence dashboard | [Proof Gallery](proof-gallery.md) |
-| Complete skill map | [Skills Matrix](skills-matrix.md) |
+| Evidence dashboard | [Proof Gallery](proof-gallery.md) |
+| Skills map | [Skills Matrix](skills-matrix.md) |
 
 ## Choose your review path
 
@@ -128,19 +128,19 @@ graph TD
 
 -   :fontawesome-solid-user-tie: **Recruiter**
 
-    Fast skills scan, role alignment, top evidence, and interview-ready proof.
+    Fast skills scan, role alignment, priority evidence, and interview-ready talking points.
 
     [Start recruiter path](role-paths/recruiter.md)
 
 -   :fontawesome-solid-briefcase: **Hiring Manager**
 
-    Business context, delivery ownership, risk reduction, and platform maturity.
+    Business context, delivery ownership, risk reduction, and platform operating model.
 
     [Start hiring manager path](role-paths/hiring-manager.md)
 
 -   :fontawesome-solid-terminal: **Technical Reviewer**
 
-    IaC design, Terraform state boundaries, workflows, networking, AKS, AVD, and evidence.
+    IaC design, Terraform state boundaries, workflows, networking, AKS, AVD, and evidence routes.
 
     [Start technical review](role-paths/technical-reviewer.md)
 
@@ -158,7 +158,7 @@ graph TD
 
 -   :material-file-search: **Evidence-first Reviewer**
 
-    Visual proof map, screenshots, CLI output, logs, workflows, and redacted evidence folders.
+    Visual evidence map, screenshots, CLI output, logs, workflows, and redacted evidence folders.
 
     [Open proof gallery](proof-gallery.md)
 
