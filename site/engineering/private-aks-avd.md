@@ -1,18 +1,173 @@
-# Private AKS and AVD Secure Workspace
+# Private AKS & AVD
 
-Release 2 includes private platform delivery and secure admin workspace patterns.
+<div class="portfolio-chipline">
+  <a class="portfolio-chip" href="/engineering/">
+    <span class="portfolio-chip-label">Engineering</span>
+    <span class="portfolio-chip-value">Deep Dive</span>
+  </a>
+  <a class="portfolio-chip" href="/engineering/private-aks-avd/">
+    <span class="portfolio-chip-label">Platform</span>
+    <span class="portfolio-chip-value portfolio-chip-value-active">AKS & AVD</span>
+  </a>
+</div>
 
-## Private AKS
+!!! summary "Scope"
+    Engineering rationale, architecture, and evidence paths for the paired Release 2 private platform pattern: private AKS as the workload runtime and Azure Virtual Desktop as the governed operator workspace. This page focuses on private access, firewall-controlled egress, managed monitoring, FSLogix private profile storage, AVD toolchain readiness, and the operational relationship between AKS, AVD, hub routing, and AWX.
 
-Private AKS demonstrates reduced public exposure, controlled access, and evidence-backed validation.
+## Platform pattern
 
-## AVD and FSLogix
+Release 2 pairs two private platform services:
 
-AVD and FSLogix provide a secure administrative workspace pattern for platform operations and future private-access workflows.
+- **Private AKS** provides the private workload runtime.
+- **Azure Virtual Desktop** provides the governed operator workspace.
+- **Hub routing and Azure Firewall** provide the controlled network path.
+- **AWX readiness** connects the private platform to the operations control plane.
 
-## Source links
+The important design signal is that the platform is not administered from unmanaged laptops on the public internet. Operations are oriented around private network paths, governed identity, and controlled platform tooling.
 
-- [Private AKS Terraform root](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-aks/dev)
-- [AVD Terraform root](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-avd/dev)
-- [O4 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4)
-- [O5 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5)
+```text
+Engineer
+   |
+   | Entra ID and Conditional Access access path
+   v
+Azure Virtual Desktop workspace
+   - governed operator desktop
+   - platform toolchain
+   - FSLogix profile storage
+   - no public session-host exposure
+   |
+   | private routing through hub
+   v
+Azure Hub
+   - Azure Firewall
+   - route control
+   - inspection boundary
+   |
+   v
+Private AKS
+   - private API access pattern
+   - Azure CNI
+   - firewall-forced egress
+   - managed monitoring
+   |
+   v
+AWX readiness and operations integration
+```
+
+## Design decisions
+
+| Decision | Rationale | Evidence |
+|---|---|---|
+| Private AKS API access pattern | Keeps the Kubernetes control plane off the public internet and forces administration through private platform paths. | [`docs/release2/evidence/O4/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4), [`terraform/platform-aks/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-aks/dev) |
+| Azure CNI and firewall-forced egress | Gives pods routable VNet integration and keeps outbound traffic under firewall control. | O4 firewall-level and pod-level egress validation |
+| Managed Prometheus and Grafana | Provides managed cluster observability without building a separate self-managed monitoring stack. | O4 managed monitoring dashboard evidence |
+| AWX readiness for AKS operations | Confirms the automation control plane can integrate with the private platform. | O4 AWX readiness and tier-execution evidence |
+| AVD secure workspace | Provides a governed operator console with no public IP session-host exposure. | [`docs/release2/evidence/O5/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5), [`terraform/platform-avd/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-avd/dev) |
+| FSLogix on Azure Files private endpoint | Preserves operator profile state while keeping profile storage private. | O5 FSLogix private endpoint readiness |
+| Entra ID and Conditional Access access path | Controls user access into the secure workspace using managed identity and access policy. | Release 2 private platform document and Release 1 identity/endpoint evidence |
+| Region governance and preflight checks | Validates AVD region, provider, SKU, and network readiness before deployment. | O5 paired-region and preflight evidence |
+
+## Private AKS platform role
+
+Private AKS is the private workload runtime for Release 2. It is deployed as part of the platform services layer, not as a public demo cluster.
+
+The platform evidence focuses on these implementation signals:
+
+- Private AKS access pattern.
+- Azure CNI integration.
+- Firewall-forced pod egress.
+- Internal workload reachability.
+- Managed monitoring through Prometheus and Grafana.
+- AWX readiness for operational integration.
+
+This matters because a private Kubernetes platform needs more than a cluster deployment. It needs private administration paths, controlled egress, observability, and a way for the automation plane to interact with it safely.
+
+## AVD secure workspace role
+
+Azure Virtual Desktop is the governed operator workspace for Release 2. It provides a controlled desktop environment from which platform engineers can perform operations against private resources without exposing those resources directly to unmanaged endpoints.
+
+The workspace evidence focuses on these implementation signals:
+
+- No public IP exposure for session hosts.
+- FSLogix profile storage on Azure Files with private endpoint readiness.
+- Platform toolchain readiness.
+- Entra ID and Conditional Access gated access path.
+- Region, SKU, provider, and network preflight validation.
+
+This pattern gives reviewers a realistic enterprise access model: operators enter through a controlled workspace, then reach private platform services over inspected network paths.
+
+## Integration: AVD as the private AKS operations console
+
+The O4 and O5 designs are intentionally paired.
+
+Private AKS keeps the workload control plane off the public internet. AVD provides the governed operator workspace used to reach that private platform path. The AVD host is pre-staged with the platform toolchain, including Azure CLI, Terraform, Git, VS Code, kubectl, and Helm, so platform operations can be performed from inside the controlled environment rather than from unmanaged local workstations.
+
+The validated integration pattern is:
+
+1. Engineer authenticates through the AVD access path.
+2. The AVD session provides a governed desktop with the required platform toolchain.
+3. Private network routing allows platform operations toward AKS and supporting services.
+4. AKS egress remains forced through Azure Firewall.
+5. AWX readiness confirms the automation control plane can operate against the private platform.
+
+This proves a practical enterprise pattern: private workload runtime plus governed administrative workspace, connected through inspected network paths.
+
+## Network and security boundary
+
+The private platform pattern depends on the network design from Release 2 Network Engineering.
+
+| Boundary | Control |
+|---|---|
+| AKS control plane | Private access pattern; administration from private platform paths. |
+| AKS workload egress | Forced through Azure Firewall for inspection and routing control. |
+| AVD operator access | Entra ID and Conditional Access gated access path. |
+| AVD profile storage | FSLogix on Azure Files with private endpoint readiness. |
+| Cross-service operations | Routed through hub networking rather than unmanaged public endpoints. |
+| Automation integration | AWX readiness confirms operations can be controlled through a governed execution plane. |
+
+This is why AKS and AVD belong together in the platform services story. One provides the private runtime; the other provides the controlled human operations plane.
+
+## Enterprise production hardening pattern
+
+The Release 2 implementation demonstrates the architecture pattern in a cost-controlled lab. In production, the same design can be hardened further.
+
+| Area | Enterprise hardening pattern |
+|---|---|
+| AKS administration | Private DNS integration, bastion or private jump path, workload identity, approved admin groups, and privileged access controls. |
+| AKS workload policy | Network policy, Azure Policy for Kubernetes, image policy, private registry, and controlled ingress/egress. |
+| AVD access | Conditional Access, MFA, compliant device requirements, privileged access separation, and session monitoring. |
+| FSLogix storage | Private endpoint, backup, soft delete, file share permissions, and storage firewall restrictions. |
+| Hub inspection | Azure Firewall rules, UDR validation, log analytics, and optional NVA inspection where justified. |
+| Operations | AWX job evidence, controlled runbooks, backup validation, and rollback procedures. |
+
+The portfolio page focuses on the implemented Release 2 evidence while also showing how the same model maps to a stricter enterprise operating standard.
+
+## Architectural significance
+
+Private AKS & AVD demonstrates five platform-engineering decisions:
+
+1. Workload runtime and operator workspace are private by design.
+2. Platform access is routed through governed identity and network paths instead of unmanaged public endpoints.
+3. AKS egress is forced through Azure Firewall, keeping private workload traffic under routing and inspection control.
+4. AVD provides the secure operational entry point, with FSLogix private profile storage and platform toolchain readiness.
+5. AWX readiness connects the private platform to the governed automation control plane.
+
+This page proves that Release 2 is not only a network build. It is a private platform operating model.
+
+## Evidence map
+
+| Claim | Repository location | What to verify |
+|---|---|---|
+| Private AKS platform is implemented | [`docs/release2/evidence/O4/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4), [`terraform/platform-aks/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-aks/dev) | Private AKS access pattern, Azure CNI, firewall-forced egress, managed monitoring, and AWX readiness evidence |
+| AVD secure workspace is implemented | [`docs/release2/evidence/O5/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5), [`terraform/platform-avd/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-avd/dev) | AVD workspace, no-public-IP posture, FSLogix readiness, private endpoint readiness, toolchain readiness, and preflight evidence |
+| Private platform and secure workspace are designed as a paired pattern | [Private Platform and Secure Workspace release document](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/04-private-platform-secure-workspace.md) | O4/O5 design relationship, private operations path, and secure operator workspace narrative |
+| AKS egress is controlled through firewall routing | [`docs/release2/evidence/O4/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4) | Firewall-level and pod-level egress validation |
+| AVD supports governed operator access | [`docs/release2/evidence/O5/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5) | Toolchain readiness, FSLogix readiness, private endpoint readiness, and access governance evidence |
+| AWX can integrate with the private platform | [`docs/release2/evidence/O4/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4), [`docs/release2/evidence/A2-awx-control-plane/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A2-awx-control-plane) | AWX readiness and governed automation control-plane evidence |
+| Enterprise hardening path is understood | This page | Private DNS, policy, registry, Conditional Access, FSLogix protection, firewall logging, AWX runbooks, backup, and rollback patterns documented as production hardening options |
+
+## Review takeaway
+
+Private AKS & AVD shows that Release 2 has a private platform operating model.
+
+A reviewer can inspect O4 evidence, O5 evidence, Terraform roots, and the private platform release document to confirm that AKS and AVD are designed together: private workload runtime, governed operator workspace, inspected network path, and automation-ready operations.
