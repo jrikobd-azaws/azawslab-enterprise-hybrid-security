@@ -28,15 +28,15 @@
 </div>
 
 !!! summary "Scope"
-    Implementation detail and evidence paths for the private Azure Kubernetes Service platform in Release 2. This page focuses on private API access, Azure CNI integration, firewall-forced egress, internal workload accessibility, managed Prometheus and Grafana monitoring, Kubernetes network policy controls where evidenced, and AWX readiness for governed operations.
+    Private platform services notes and evidence paths for the private Azure Kubernetes Service platform in Release 2. It covers private API access, Azure CNI integration, firewall-forced egress, internal workload accessibility, managed Prometheus and Grafana monitoring, Kubernetes network policy controls where evidenced, and AWX readiness for governed operations.
 
 ## Platform role
 
-Private AKS is the private workload runtime for Release 2.
+Private AKS is the private Kubernetes workload runtime for Release 2.
 
-It is not presented as a public demo cluster. It is part of the platform services layer, connected to the same hub routing, firewall enforcement, management path, and automation model used by the rest of the environment.
+It is not presented as a public demo cluster. It sits in the platform services layer, connected to the same hub routing, firewall enforcement, management path, and automation model used by the rest of the environment.
 
-The implementation proves five platform engineering concerns:
+The implementation validates five platform engineering concerns:
 
 - The Kubernetes control plane is kept off unmanaged public access paths.
 - Workload networking is integrated into the Azure VNet model.
@@ -76,25 +76,25 @@ The implementation proves five platform engineering concerns:
               Hub Azure Firewall
 ```
 
-The cluster is operated through private platform paths. Egress is routed through the hub firewall rather than left to uncontrolled direct internet access.
+The cluster is operated through private platform paths. Egress routes through the hub firewall rather than uncontrolled direct internet access.
 
 ## Design decisions
 
 | Decision | Rationale | Evidence |
 |---|---|---|
 | Private AKS API access pattern | Keeps Kubernetes administration inside the private platform path instead of exposing the control plane as a public administration surface. | [`docs/release2/evidence/O4/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4), [`terraform/platform-aks/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-aks/dev) |
-| Azure CNI integration | Connects cluster networking to the VNet model so workload traffic can be governed by Azure routing and firewall controls. | O4 AKS evidence and Terraform platform AKS root |
+| Azure CNI integration | Connects cluster networking to the VNet model so workload traffic follows Azure routing and firewall controls. | O4 AKS evidence and Terraform platform AKS root |
 | Firewall-forced egress | Forces pod and workload outbound traffic through Azure Firewall so egress is controlled and observable. | O4 firewall-level and pod-level egress validation |
-| Internal workload accessibility | Demonstrates that workloads are reachable through private platform paths rather than unmanaged public exposure. | O4 internal application accessibility evidence |
+| Internal workload accessibility | Validates that workloads are reachable through private platform paths rather than unmanaged public exposure. | O4 internal application accessibility evidence |
 | Managed Prometheus and Grafana | Provides managed cluster visibility without introducing a separate self-managed monitoring stack. | O4 managed monitoring and dashboard evidence |
-| Kubernetes network policy controls | Restricts workload communication where evidenced by policy manifests and validation output without overclaiming a specific network policy plugin. | O4 evidence and Kubernetes policy manifests where present |
+| Kubernetes network policy controls | Restricts workload communication where evidenced by policy manifests and validation output without naming a specific network policy plugin unless the evidence supports it. | O4 evidence and Kubernetes policy manifests where present |
 | AWX readiness | Confirms the cluster is prepared for integration with the governed Release 2 automation control plane. | O4 AWX readiness evidence and A2 AWX control-plane evidence |
 
 ## Private API access
 
-The AKS API access pattern is private by design. Administrative activity is expected to originate from controlled platform paths such as the management environment, governed operator workspace, or automation control plane.
+The AKS API access pattern is private by design. Administrative activity originates from controlled platform paths such as the management environment, governed operator workspace, or automation control plane.
 
-This matters because private AKS is not just a cluster setting. It changes the operating model. Engineers and automation jobs must enter through approved network and identity paths before they can interact with the platform.
+Private AKS is not just a cluster setting. It changes the operating model. Engineers and automation jobs enter through approved network and identity paths before they interact with the platform.
 
 The O4 evidence validates the private platform path and cluster access model, while the Release 2 private platform document explains how this fits into the wider secure workspace architecture.
 
@@ -102,7 +102,7 @@ The O4 evidence validates the private platform path and cluster access model, wh
 
 Azure CNI integrates AKS with the VNet addressing model. The AKS subnet is governed by user-defined routes so workload egress is forced through Azure Firewall.
 
-The important implementation signal is not only that the cluster exists. The evidence shows that workload egress follows the inspected path rather than bypassing the hub.
+The implementation signal is not only that the cluster exists. The evidence shows workload egress following the inspected path rather than bypassing the hub.
 
 The network controls include:
 
@@ -116,7 +116,7 @@ The network controls include:
 
 Network policy is treated as a workload-level control in addition to subnet routing and firewall enforcement.
 
-The page intentionally uses the term **Kubernetes network policy controls** rather than naming a specific plugin. This keeps the claim aligned to evidence: the security design is about restricting pod and workload communication, while the exact plugin name should only be stated where a manifest, screenshot, or log explicitly proves it.
+The page intentionally uses the term **Kubernetes network policy controls** rather than naming a specific plugin. This keeps the claim aligned to evidence: the security design restricts pod and workload communication, while the exact plugin name is only stated where a manifest, screenshot, or log validates it.
 
 Where policy manifests or validation output are present, reviewers should check:
 
@@ -129,20 +129,20 @@ Where policy manifests or validation output are present, reviewers should check:
 
 Managed Prometheus and Grafana provide the monitoring layer for the private AKS platform.
 
-This is important because a private cluster still needs operational visibility. Restricting public access should not reduce observability. The O4 evidence demonstrates that the cluster has managed monitoring signals and dashboard visibility for platform review.
+A private cluster still needs operational visibility. Restricting public access should not reduce observability. The O4 evidence shows managed monitoring signals and dashboard visibility for platform review.
 
 The monitoring model supports:
 
 - Node and pod health visibility.
 - Metrics collection through managed services.
 - Dashboard-level review of cluster state.
-- Evidence-backed platform health reporting.
+- Platform health reporting evidence.
 
 ## Internal workload accessibility
 
-O4 validates that AKS can host internal workloads reachable through the private platform model.
+O4 validates AKS internal workloads reachable through the private platform model.
 
-This matters because private AKS must still be useful. The point is not to isolate the cluster so completely that it cannot serve internal applications. The point is to make internal workloads reachable through governed network paths while keeping public exposure controlled.
+Private AKS must still support internal workloads. The design does not isolate the cluster so completely that it cannot serve internal applications. Internal workloads remain reachable through governed network paths while public exposure stays controlled.
 
 The internal application evidence should be reviewed alongside the network pages:
 
@@ -152,9 +152,9 @@ The internal application evidence should be reviewed alongside the network pages
 
 ## AWX readiness
 
-O4 includes AWX readiness and tier-execution evidence for AKS operations. This confirms that the private AKS platform is not isolated from the Release 2 automation model.
+O4 includes AWX readiness and tier-execution evidence for AKS operations. This confirms that the private AKS platform connects to the Release 2 automation model.
 
-The architecture principle is straightforward:
+The architecture relationship is straightforward:
 
 ```text
 Private AKS
@@ -167,11 +167,11 @@ Management path
     -> controlled network route between automation and private platform
 ```
 
-The detailed AWX control-plane implementation is documented separately in the Automation Control Plane page. This page keeps the AKS focus: the cluster is private, observable, routed through inspection, and ready for governed operations.
+The detailed AWX control-plane implementation is documented separately in the Automation Control Plane page. This page keeps the AKS focus: private API access, observability, inspected routing, and governed operations readiness.
 
 ## Enterprise production hardening pattern
 
-The Release 2 implementation demonstrates the private AKS operating model in a cost-controlled lab. In production, the same pattern can be hardened further.
+The Release 2 implementation validates the private AKS operating model in a cost-controlled lab. In production, the same pattern can follow a stricter hardening path.
 
 | Area | Enterprise hardening pattern |
 |---|---|
@@ -183,11 +183,11 @@ The Release 2 implementation demonstrates the private AKS operating model in a c
 | Egress | Azure Firewall policy lifecycle, UDR validation, no-bypass checks, and Sentinel analytics for suspicious egress. |
 | Operations | AWX job evidence, controlled runbooks, backup patterns for manifests and stateful workloads, and rollback procedures. |
 
-This hardening pattern shows that the lab implementation is not casual. It is a demonstrable baseline that can be extended into a stricter enterprise Kubernetes platform.
+This hardening pattern shows that the lab implementation has a production extension path. It can be extended into a stricter enterprise Kubernetes platform.
 
 ## Engineering significance
 
-Private AKS Platform demonstrates five platform-engineering decisions:
+Private AKS Platform shows five platform engineering decisions:
 
 1. Kubernetes administration is kept behind private platform paths.
 2. Azure CNI integrates workloads into the routed Azure network model.
@@ -195,7 +195,7 @@ Private AKS Platform demonstrates five platform-engineering decisions:
 4. Managed Prometheus and Grafana provide operational visibility.
 5. AWX readiness connects the private runtime to the governed automation model.
 
-This page proves that Release 2 includes a private Kubernetes runtime with network, monitoring, and operations controls.
+This page shows that Release 2 includes a private Kubernetes runtime with network, monitoring, and operations controls.
 
 ## Evidence map
 
@@ -208,10 +208,10 @@ This page proves that Release 2 includes a private Kubernetes runtime with netwo
 | Managed Prometheus and Grafana are configured | [`docs/release2/evidence/O4/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4) | Managed monitoring configuration, dashboards, and cluster health evidence |
 | Kubernetes network policy controls are documented where evidenced | O4 evidence and Kubernetes policy manifests where present | NetworkPolicy objects, allowed flows, and validation output |
 | AWX readiness supports governed AKS operations | [`docs/release2/evidence/O4/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4), [`docs/release2/evidence/A2-awx-control-plane/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A2-awx-control-plane) | AWX readiness, tier-execution evidence, and automation control-plane integration |
-| Enterprise hardening path is understood | This page | API access control, workload identity, network policy, registry security, monitoring, egress governance, and runbook patterns documented as production hardening options |
+| Enterprise hardening path is documented | This page | API access control, workload identity, network policy, registry security, monitoring, egress governance, and runbook patterns documented as production hardening options |
 
 ## Review takeaway
 
-Private AKS Platform shows that Release 2 includes a private Kubernetes runtime that is network-governed, observable, and automation-ready.
+Private AKS Platform shows that Release 2 includes a private Kubernetes runtime with governed networking, observability, and automation readiness.
 
-A reviewer can inspect O4 evidence, Terraform AKS code, firewall egress validation, monitoring evidence, and AWX readiness to confirm that AKS is implemented as part of the platform operating model rather than as a standalone demo cluster.
+A reviewer can inspect O4 evidence, Terraform AKS code, firewall egress validation, monitoring evidence, and AWX readiness to confirm AKS as part of the platform operating model rather than a standalone demo cluster.
