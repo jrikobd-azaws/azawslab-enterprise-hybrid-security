@@ -20,9 +20,9 @@
 </div>
 
 !!! summary "What this page is"
-    A guided entry into the AzAWSLab release lifecycle: from a realistic Microsoft hybrid enterprise environment to Azure platform engineering, secure multi-cloud networking, automation, resilience, and the AI Operations Enclave with policy-mediated tool use and human approval boundaries.
+    A guided entry into the AzAWSLab release lifecycle: from a realistic Microsoft hybrid enterprise environment to Release 2 platform engineering, secure networking, automation, private platform services, operations, and AI governance.
 
-Release 1 and Release 2 are implemented and routed to public-safe evidence through screenshots, CLI output, workflow records, source files, manifests, diagrams, and design documents. Release 3 is marked as roadmap until implementation evidence is added.
+Release 1 and Release 2 are implemented and routed to public-safe evidence through screenshots, CLI output, workflow records, source files, manifests, diagrams, and design documents. Release 3 remains a roadmap until implementation evidence is added.
 
 ## Transformation map
 
@@ -47,7 +47,7 @@ flowchart LR
 
 | Reviewer need | Recommended path |
 |---|---|
-| Fast project understanding | Start here for the release map, then open the [Proof Gallery](/proof-gallery/) for the evidence route. |
+| Fast project understanding | Start here for the release map, then use the [Proof Gallery](/proof-gallery/) for the evidence route. |
 | Recruiter or hiring-manager scan | Review the delivery table, then use [Release 2](/releases/release2/) for platform engineering, secure networking, automation, private platform services, operations, and AI governance signals. |
 | Hybrid workplace and Microsoft 365 proof | Review [Release 1](/releases/release1/) for hybrid workplace, identity, endpoint security, Microsoft 365 operations, monitoring, and recovery evidence. |
 | Platform architecture depth | Review [Release 2](/releases/release2/) for Terraform roots, OIDC, FortiGate inspection, AWS branch routing, AWX automation, private AKS, AVD, backup, operations, and AI governance. |

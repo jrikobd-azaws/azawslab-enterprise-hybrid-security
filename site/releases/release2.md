@@ -20,9 +20,9 @@
 </div>
 
 !!! success "Status: Implemented and evidenced"
-    Release 2 is implemented, operationally validated, and evidenced through Terraform source, GitHub Actions workflow records, public-safe evidence folders, screenshots, CLI output, Kubernetes manifests, Ansible/AWX material, architecture documentation, and the companion local AI lab repository.
+    Release 2 is implemented and routed to public-safe evidence through Terraform source, GitHub Actions workflow records, evidence folders, screenshots, CLI output, Kubernetes manifests, Ansible/AWX material, architecture documentation, and the companion local AI lab repository.
 
-Release 2 extends the realistic Microsoft hybrid enterprise environment into a governed Azure platform with secret-less CI/CD, multi-cloud networking, private compute, automation, operational resilience, and an AI operations enclave with policy-mediated safety controls.
+Release 2 extends the realistic Microsoft hybrid enterprise environment into platform engineering, secure networking, automation, private platform services, operations, and AI governance.
 
 ## Architecture overview
 
@@ -121,7 +121,7 @@ flowchart TD
 
 ## Capability matrix
 
-| Capability | Implementation | Evidence |
+| Capability | Implementation | Evidence route |
 |---|---|---|
 | Terraform state boundaries | Multiple Terraform roots, separate ownership boundaries, remote state discipline | [`terraform/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform) |
 | GitHub Actions OIDC | Workflow-controlled Azure authentication without routine long-lived deployment credentials | `.github/workflows/` and OIDC evidence |
@@ -151,22 +151,22 @@ Release 2 evidence is organised across multiple repository folders:
 
 ## Why it matters
 
-Release 2 turns the project from Microsoft hybrid operations into a governed platform engineering environment. The important signal is not just that individual services exist; it is that delivery, network, platform services, operations, and AI governance are documented as one connected lifecycle.
+Release 2 extends the Microsoft hybrid operating model into a governed platform engineering environment. The engineering signal is the connected lifecycle: delivery, network, private platform services, operations, and AI governance are documented together rather than as isolated services.
 
 ## Skills demonstrated
 
 - Azure platform architecture and governance.
 - Infrastructure as Code with multi-root Terraform and isolated state.
-- Secret-less CI/CD with GitHub Actions OIDC.
+- OIDC-based delivery with GitHub Actions.
 - Code traceability across source, workflow, documentation, and evidence.
 - Hybrid and multi-cloud networking with IPSec, BGP, NVA inspection, and AWS branch routing.
 - Private Kubernetes and virtual desktop delivery.
 - Operational automation with Ansible and AWX.
 - Security monitoring, backup resilience, and BCDR planning.
-- Policy-mediated AI tool use with safety boundaries.
+- Policy-mediated tool use and human approval boundaries in the AI Operations Enclave.
 
 ## Next step
 
-Release 3 extends the platform toward multi-cloud Kubernetes, GitOps, DevSecOps scanning, observability, and resilience.
+Release 3 carries the platform toward the multi-cloud Kubernetes, GitOps, and DevSecOps roadmap.
 
 [Release 3 Roadmap](/releases/release3/)
