@@ -3,7 +3,7 @@
 <div class="portfolio-chipline">
   <a class="portfolio-chip" href="/engineering/">
     <span class="portfolio-chip-label">Engineering</span>
-    <span class="portfolio-chip-value">Deep Dive</span>
+    <span class="portfolio-chip-value portfolio-chip-value-ready">Deep Dive</span>
   </a>
   <a class="portfolio-chip" href="/proof-gallery/">
     <span class="portfolio-chip-label">Proof</span>
