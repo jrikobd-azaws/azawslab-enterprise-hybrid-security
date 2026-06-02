@@ -24,10 +24,10 @@ title: Proof Gallery
 </div>
 
 !!! summary "Reviewer-facing verification dashboard"
-    This gallery routes portfolio claims to public-safe proof. It is organised by platform lifecycle domain so reviewers can move from architecture context to engineering notes, evidence folders, screenshots, workflow records, manifests, and source documents.
+    The Proof Gallery routes portfolio claims to public-safe proof. It is organised by platform lifecycle domain so reviewers can move from architecture context to engineering notes, evidence folders, screenshots, workflow records, manifests, and source documents.
 
 !!! note "Evidence model"
-    This gallery links to curated site pages and public repository folders that are safe to review publicly. It avoids one-off filenames, raw secrets, Terraform state, kubeconfigs, private keys, credentials, tokens, and unredacted tenant data.
+    Evidence routes use site pages and public repository folders that are safe to review publicly. They avoid one-off filenames, raw secrets, Terraform state, kubeconfigs, private keys, credentials, tokens, and unredacted tenant data.
 
 ## Visual proof map
 
