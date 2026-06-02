@@ -4,6 +4,21 @@ title: AI Operations Enclave
 
 # Governed AI-Assisted CloudOps
 
+<div class="portfolio-chipline">
+  <a class="portfolio-chip" href="/engineering/">
+    <span class="portfolio-chip-label">Engineering</span>
+    <span class="portfolio-chip-value">Deep Dive</span>
+  </a>
+  <a class="portfolio-chip" href="/proof-gallery/">
+    <span class="portfolio-chip-label">Proof</span>
+    <span class="portfolio-chip-value">Gallery</span>
+  </a>
+  <a class="portfolio-chip" href="/skills-matrix/">
+    <span class="portfolio-chip-label">Skills</span>
+    <span class="portfolio-chip-value">Matrix</span>
+  </a>
+</div>
+
 O6 is not a chatbot demo. It is a governed AI-assisted CloudOps pattern that connects the main enterprise platform repo with a working local-first companion AI infrastructure lab.
 
 The core principle is simple: AI can draft, validate, review, summarize, and recommend, but infrastructure authority remains with the engineer and the approved workflow.

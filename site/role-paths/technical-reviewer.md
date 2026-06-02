@@ -4,6 +4,21 @@ title: Technical Review Path
 
 # Technical Review Path
 
+<div class="portfolio-chipline">
+  <a class="portfolio-chip" href="/engineering/">
+    <span class="portfolio-chip-label">Engineering</span>
+    <span class="portfolio-chip-value">Deep Dive</span>
+  </a>
+  <a class="portfolio-chip" href="/proof-gallery/">
+    <span class="portfolio-chip-label">Proof</span>
+    <span class="portfolio-chip-value">Gallery</span>
+  </a>
+  <a class="portfolio-chip" href="/skills-matrix/">
+    <span class="portfolio-chip-label">Skills</span>
+    <span class="portfolio-chip-value">Matrix</span>
+  </a>
+</div>
+
 This path is for engineers who want to inspect architecture, implementation boundaries, and evidence.
 
 ## 10-minute audit plan

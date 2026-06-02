@@ -4,6 +4,21 @@ title: Hiring Manager Brief
 
 # Hiring Manager Brief
 
+<div class="portfolio-chipline">
+  <a class="portfolio-chip" href="/engineering/">
+    <span class="portfolio-chip-label">Engineering</span>
+    <span class="portfolio-chip-value">Deep Dive</span>
+  </a>
+  <a class="portfolio-chip" href="/proof-gallery/">
+    <span class="portfolio-chip-label">Proof</span>
+    <span class="portfolio-chip-value">Gallery</span>
+  </a>
+  <a class="portfolio-chip" href="/skills-matrix/">
+    <span class="portfolio-chip-label">Skills</span>
+    <span class="portfolio-chip-value">Matrix</span>
+  </a>
+</div>
+
 This path explains the project as an ownership, delivery, and risk-mitigation story.
 
 ## Business scenario
