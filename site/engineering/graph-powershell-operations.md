@@ -28,13 +28,13 @@
 </div>
 
 !!! summary "Scope"
-    Engineering rationale, implementation signals, and evidence paths for Microsoft Graph PowerShell operations in Release 1. This page focuses on operator-led identity lifecycle actions, managed-device state review, controlled endpoint administration, and the certificate-backed hybrid operations context used elsewhere in the Microsoft 365 environment.
+    Microsoft Graph PowerShell operations notes for Release 1 identity, device, and support workflows. The scope covers identity lifecycle actions, managed-device state review, controlled endpoint administration, and the certificate-backed Exchange Hybrid operations context.
 
 ## Operations model
 
-Release 1 uses Microsoft Graph PowerShell to show that the Microsoft hybrid workplace environment can be operated through repeatable tooling, not only through admin portal clicks.
+Release 1 uses Microsoft Graph PowerShell to operate the Microsoft hybrid workplace environment through repeatable tooling, not just portal administration.
 
-The implemented scope is practical and operator-led:
+The implemented scope is deliberately operational:
 
 - Connect to Microsoft Graph with consent and an authenticated operator session.
 - Query pilot user state.
@@ -46,21 +46,21 @@ The implemented scope is practical and operator-led:
 - Perform controlled managed-device rename with dry-run and apply behavior.
 - Maintain certificate-backed Exchange Hybrid operations as part of the wider Microsoft 365 hybrid environment.
 
-This is not presented as a fully automated HR-to-Entra workflow. It is an operator-led engineering toolkit that shows how support actions can be repeatable, reviewable, and evidenced.
+This is not a fully automated HR-to-Entra workflow. It is a support toolkit for repeatable, reviewable identity and device operations.
 
 ## Design decisions
 
-| Design choice | Engineering rationale | Evidence path |
+| Design choice | Why it matters | Evidence route |
 |---|---|---|
-| Use Microsoft Graph PowerShell for identity and device operations | Microsoft Graph is the operational interface for Entra ID, Intune, and Microsoft 365 state. PowerShell makes those operations repeatable for support and engineering workflows. | [Release 1 monitoring documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/08-monitoring.md) |
-| Capture consent and connection evidence before demonstrating actions | Shows that permissions and operator context were part of the implementation rather than hidden behind a script. | [Graph admin consent evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/screenshots/release1/identity-and-access/identity-operations/graph-powershell/03-graph-admin-consent-enable-disable-user-accounts.png) |
+| Use Microsoft Graph PowerShell for identity and device operations | Microsoft Graph gives the operator a single interface into Entra ID, Intune, and Microsoft 365 state. PowerShell makes those actions repeatable for support and engineering work. | [Release 1 monitoring documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/08-monitoring.md) |
+| Capture consent and connection evidence before demonstrating actions | Keeps permissions and operator context visible instead of hiding them inside a script. | [Graph admin consent evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/screenshots/release1/identity-and-access/identity-operations/graph-powershell/03-graph-admin-consent-enable-disable-user-accounts.png) |
 | Use dry-run and apply patterns where actions mutate state | Reduces risk during administrative operations and makes the evidence easier to review. | [Device rename dry-run evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/screenshots/release1/identity-and-access/identity-operations/graph-powershell/01-rename-managed-device-dry-run-desktop-cdniaqb-to-win11-bel-02.png) |
 | Keep lifecycle validation operator-led | Preserves technical accuracy: the evidence shows controlled support tooling, not a complete HR-driven joiner-mover-leaver platform. | [Hybrid identity documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/01-hybrid-identity.md) |
 | Treat certificates as part of the wider hybrid operations boundary | The Microsoft 365 hybrid environment includes certificate-backed Exchange Hybrid operations using a Let's Encrypt certificate, while Microsoft Graph PowerShell evidence remains tied to the documented consent and connection flow. | [Release 1 documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release1) and [Release 1 screenshots](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1) |
 
 ## Graph connection and permission boundary
 
-The Microsoft Graph operational layer begins with connection and consent. Release 1 evidence captures delegated permission awareness and successful Microsoft Graph connection before later state queries and changes are demonstrated.
+The Microsoft Graph workflow begins with connection and consent. Release 1 evidence captures delegated permission awareness and successful Microsoft Graph connection before later state queries and changes are demonstrated.
 
 | Capability | Implementation signal | Evidence path |
 |---|---|---|
@@ -69,18 +69,18 @@ The Microsoft Graph operational layer begins with connection and consent. Releas
 
 ## Operational visibility scripts
 
-The first operational pattern is state review. These scripts make identity and device state visible from PowerShell so the administrator is not dependent on portal navigation alone.
+The first pattern is state review. These scripts expose identity and device state from PowerShell, so the administrator is not dependent on portal navigation alone.
 
 | Script | Purpose | Evidence path |
 |---|---|---|
 | `Get-BelfastPilotUserState.ps1` | Queries pilot user properties such as account state, department, job title, and license-related context. | [Pilot user state evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/screenshots/release1/identity-and-access/identity-operations/graph-powershell/07-pilot-user-state-script-result-pilot-win01.png) |
 | `Get-BelfastManagedDeviceState.ps1` | Queries managed device state, including compliance, management status, operating system version, and last check-in context. | [Managed device state evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/screenshots/release1/identity-and-access/identity-operations/graph-powershell/08-managed-device-state-script-result-desktop-cdniaqb.png) |
 
-These scripts support the same operational model used in the rest of the Release 1 evidence: review current state, act deliberately, and capture output.
+The operating pattern is simple: review current state, act deliberately, and capture output.
 
 ## Controlled endpoint action: managed-device rename
 
-The managed-device rename workflow is the clearest endpoint operation in this page. It was used after Autopilot validation surfaced a naming inconsistency.
+The managed-device rename workflow is the clearest endpoint operation in the note. It was used after Autopilot validation surfaced a naming inconsistency.
 
 The workflow demonstrates:
 

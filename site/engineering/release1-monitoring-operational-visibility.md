@@ -28,9 +28,9 @@
 </div>
 
 !!! summary "Scope"
-    The operational visibility model built into Release 1: sign-in review, audit-log analysis, device-state visibility, policy and control review, practical alerting, and Microsoft Graph PowerShell validation. The evidence route points to the public Release 1 monitoring documentation and Release 1 screenshot folders.
+    Release 1 operational visibility covers sign-in review, audit-log analysis, device-state checks, policy review, practical alerting, and Microsoft Graph PowerShell validation. The evidence route uses the Release 1 monitoring documentation and screenshot folders.
 
-Release 1 monitoring is practical and operationally focused. It is scoped to Release 1 monitoring rather than a full enterprise SOC or large-scale observability program. It validates that the environment could be reviewed, interpreted, and operated through Microsoft-native visibility, evidence capture, and script-assisted state review.
+Release 1 monitoring is deliberately scoped to what an operator can review and act on. It is not presented as a full enterprise SOC or large-scale observability programme. It validates review and operation through Microsoft-native visibility, captured evidence, and script-assisted state checks.
 
 ## Design decisions
 
@@ -45,7 +45,7 @@ Release 1 monitoring is practical and operationally focused. It is scoped to Rel
 
 Sign-in monitoring links identity, access policy, and device context into one operational signal.
 
-The Release 1 monitoring evidence includes sign-in log views showing Conditional Access result visibility. This allows the operator to verify access decisions through visible sign-in evidence rather than assumption.
+The Release 1 monitoring evidence includes sign-in log views showing Conditional Access result visibility. The operator can verify access decisions through sign-in evidence rather than assumption.
 
 | Review question | Evidence signal |
 |---|---|
@@ -55,7 +55,7 @@ The Release 1 monitoring evidence includes sign-in log views showing Conditional
 
 ## Conditional Access result visibility
 
-Conditional Access policies protect the tenant; this engineering note focuses on verification rather than description.
+Conditional Access policies protect the tenant; this note focuses on verification rather than description.
 
 The monitoring model validates that policy results appear in sign-in records and that access behavior can be reviewed after a user or administrator attempts to access cloud resources.
 
@@ -66,7 +66,7 @@ The monitoring model validates that policy results appear in sign-in records and
 
 ## Audit-log visibility
 
-Audit logging provides administrative traceability. It confirms that configuration changes, identity actions, and control adjustments are reviewable instead of existing only as remembered activity.
+Audit logging gives administrative activity a review trail. Configuration changes, identity actions, and control adjustments become reviewable instead of relying on memory.
 
 The Release 1 monitoring evidence includes Entra audit-log visibility, showing that operational history can be inspected during support or governance review.
 
@@ -79,7 +79,7 @@ The Release 1 monitoring evidence includes Entra audit-log visibility, showing t
 
 Endpoint trust depends on visibility into the managed estate. Release 1 monitors device presence, compliance state, policy status, dashboard-level control views, and whether the managed estate appears healthy or inconsistent.
 
-Policy existence is not enough. An administrator must be able to see whether devices are present, managed, compliant, and aligned with the expected control state.
+Policy existence is not enough. Administrators need to see whether devices are present, managed, compliant, and aligned with the expected control state.
 
 | Claim | Evidence path | What to verify |
 |---|---|---|

@@ -43,7 +43,7 @@
 
 ## Engineering map
 
-The engineering material is grouped by platform lifecycle domain. Hybrid workplace, delivery, network, platform services, operations, and AI governance each carry their own control boundaries and evidence routes.
+The engineering material is grouped by platform lifecycle domain. Hybrid workplace, delivery, network, private platform services, operations, and AI governance each have their own controls and evidence routes.
 
 | Lifecycle domain | Scope | Engineering notes |
 |---|---|---|
@@ -118,13 +118,13 @@ Use these notes to review AWX automation, Ansible source control, runtime secret
 
 ## Evidence standard
 
-Each engineering note should include an evidence table with three fields:
+Each note uses a simple evidence table:
 
 | Field | Purpose |
 |---|---|
-| Claim | The implementation or design decision being routed to evidence. |
+| Claim | The implementation or design decision being linked to evidence. |
 | Evidence path | The repository file, folder, screenshot set, workflow, manifest, or evidence directory that supports the claim. |
-| What to verify | The specific signal reviewers should inspect. |
+| What to verify | The specific signal to check. |
 
 Evidence should point to stable, public-safe locations such as:
 
@@ -138,6 +138,6 @@ Evidence should point to stable, public-safe locations such as:
 
 ## Review standard
 
-These notes are written as engineering records. They explain what was built, why the design was chosen, how the control boundary works, and where the evidence route starts.
+These notes are written as engineering records, not marketing summaries. They explain what was built, why the design was chosen, how the control boundary works, and where the evidence route starts.
 
 The strongest signal is traceability: architecture decision, implementation source, validation evidence, and reviewer evidence route.
