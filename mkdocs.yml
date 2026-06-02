@@ -107,3 +107,21 @@ nav:
 
       - Release 2 Operations Engineering:
           - Automation Control Plane: engineering/automation-control-plane.md
+  - Proof and Evidence:
+      - Proof Gallery: proof-gallery.md
+      - Release 1 Evidence Index: evidence/release1-evidence-index.md
+      - Release 2 Capability-Mapped Evidence Index: evidence/release2-evidence-index.md
+      - Evidence Handling Guide: evidence-guide.md
+
+  - Reviewer Pathways:
+      - Reviewer Pathways Overview: role-paths/index.md
+      - Recruiter: role-paths/recruiter.md
+      - Hiring Manager: role-paths/hiring-manager.md
+      - Technical Reviewer: role-paths/technical-reviewer.md
+      - Security Architect: role-paths/security-architect.md
+      - DevOps / SRE: role-paths/devops-sre.md
+      - Interview Guide: interview-guide.md
+
+  - AI and Innovation:
+      - Governed AI Operations Enclave: ai-operations/index.md
+      - Companion Local AI Lab: companion-project.md
