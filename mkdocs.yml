@@ -77,14 +77,37 @@ nav:
       - Proof Gallery: proof-gallery.md
       - Skills Matrix: skills-matrix.md
       - Architecture Overview: architecture.md
+  - Platform Journey:
+      - Platform Journey Overview: releases/index.md
+      - Release 1 - Hybrid Modern Workplace, Identity, Endpoint Security and Microsoft 365 Operations: releases/release1.md
+      - Release 2 - Azure Platform Engineering, Security, Automation, Private Platform and AI Operations: releases/release2.md
+      - Release 3 - Multi-Cloud Kubernetes, GitOps and DevSecOps Roadmap: releases/release3.md
 
-  - Reviewer Pathways:
-      - Recruiter: role-paths/recruiter.md
-      - Hiring Manager: role-paths/hiring-manager.md
-      - Technical Reviewer: role-paths/technical-reviewer.md
-      - Security Architect: role-paths/security-architect.md
-      - DevOps / SRE: role-paths/devops-sre.md
+  - Engineering Deep Dive:
+      - Engineering Overview: engineering/index.md
 
-  - AI and Innovation:
-      - Governed AI Operations Enclave: ai-operations/index.md
-      - Companion Local AI Lab: companion-project.md
+      - Release 1 Hybrid Workplace:
+          - Hybrid Identity: engineering/hybrid-identity.md
+          - Exchange Hybrid and M365 Services: engineering/exchange-hybrid-m365-services.md
+          - Endpoint Management: engineering/modern-endpoint-management.md
+          - Graph and PowerShell: engineering/graph-powershell-operations.md
+
+          - Monitoring and Operational Visibility: engineering/release1-monitoring-operational-visibility.md
+      - Release 2 Delivery Engineering:
+          - Terraform State: engineering/terraform-state-boundaries.md
+          - GitHub Actions OIDC: engineering/github-actions-oidc.md
+          - Code Traceability: engineering/code-traceability.md
+
+      - Release 2 Network Engineering:
+          - Multi-Cloud Networking: engineering/hybrid-multicloud-networking.md
+          - Secure Transmission: engineering/secure-transmission-inspection.md
+          - BGP Multi-Cloud Transit: engineering/hybrid-bgp-multicloud-transit.md
+
+      - Release 2 Platform Services:
+          - Private AKS: engineering/private-aks-platform.md
+          - AVD Workspace: engineering/avd-secure-workspace.md
+          - AKS and AVD Architecture: engineering/private-aks-avd.md
+
+      - Release 2 Operations Engineering:
+          - Automation Control Plane: engineering/automation-control-plane.md
+          - Monitoring, Backup and Resilience: engineering/monitoring-backup-resilience.md
