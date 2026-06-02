@@ -5,9 +5,25 @@
     <span class="portfolio-chip-label">Engineering</span>
     <span class="portfolio-chip-value">Deep Dive</span>
   </a>
-  <a class="portfolio-chip" href="/engineering/github-actions-oidc/">
-    <span class="portfolio-chip-label">Delivery</span>
-    <span class="portfolio-chip-value portfolio-chip-value-active">GitHub Actions OIDC</span>
+  <a class="portfolio-chip" href="/engineering/hybrid-identity/">
+    <span class="portfolio-chip-label">R1</span>
+    <span class="portfolio-chip-value">Workplace</span>
+  </a>
+  <a class="portfolio-chip" href="/engineering/terraform-state-boundaries/">
+    <span class="portfolio-chip-label">R2</span>
+    <span class="portfolio-chip-value portfolio-chip-value-active">Delivery</span>
+  </a>
+  <a class="portfolio-chip" href="/engineering/hybrid-multicloud-networking/">
+    <span class="portfolio-chip-label">R2</span>
+    <span class="portfolio-chip-value">Network</span>
+  </a>
+  <a class="portfolio-chip" href="/engineering/private-aks-platform/">
+    <span class="portfolio-chip-label">R2</span>
+    <span class="portfolio-chip-value">Platform</span>
+  </a>
+  <a class="portfolio-chip" href="/engineering/automation-control-plane/">
+    <span class="portfolio-chip-label">R2</span>
+    <span class="portfolio-chip-value">Operations</span>
   </a>
 </div>
 
