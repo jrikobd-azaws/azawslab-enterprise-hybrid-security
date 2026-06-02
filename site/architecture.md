@@ -19,8 +19,8 @@
   </a>
 </div>
 
-!!! summary "Purpose of this page"
-    AzAWSLab architecture view covering design principles, lifecycle domains, layered security controls, and the engineering decisions behind the realistic Microsoft hybrid enterprise environment and Release 2 platform build-out.
+!!! summary "Architecture view"
+    AzAWSLab architecture is organised around design principles, lifecycle domains, layered controls, and the engineering decisions behind the realistic Microsoft hybrid enterprise environment and Release 2 platform build-out.
 
 ## Design principles
 
@@ -28,14 +28,14 @@ Four principles shape the platform design across releases, Terraform roots, netw
 
 | Principle | What it means in AzAWSLab |
 |---|---|
-| **Evidence over assertion** | Platform claims are routed to screenshots, logs, source files, workflow records, or public-safe design documents. The [Proof Gallery](/proof-gallery/) organises those routes by lifecycle domain. |
-| **Lifecycle-aligned boundaries** | Platform components are grouped by lifecycle domain: hybrid workplace, delivery engineering, network engineering, platform services, operations engineering, and AI governance. Those boundaries appear in Terraform root isolation, evidence routes, and Engineering Deep Dive notes. |
+| **Evidence before assertion** | Platform claims are routed to screenshots, logs, source files, workflow records, and public-safe design documents. The [Proof Gallery](/proof-gallery/) organises those routes by lifecycle domain. |
+| **Lifecycle boundaries** | Platform components are grouped by lifecycle domain: hybrid workplace, delivery engineering, network engineering, private platform services, operations engineering, and AI governance. Those boundaries appear in Terraform root isolation, evidence routes, and Engineering Deep Dive notes. |
 | **Secure by default, inspectable by design** | Core platform paths use controlled routing, inspection points, private access patterns, and validation evidence rather than default public exposure. |
 | **Automation as a governed control plane** | GitHub Actions OIDC, Terraform state boundaries, Ansible, and AWX move automation from operator-local scripts into reviewable, repeatable execution paths. |
 
 ## Layered architecture model
 
-Security is not treated as a separate workstream added after delivery. It is embedded across identity, endpoint, network, platform services, operations, and AI governance.
+Security is built into the lifecycle domains rather than added after delivery. It is embedded across identity, endpoint, network, private platform services, operations, and AI governance.
 
 ```text
 +---------------------------------------------------+
@@ -71,7 +71,7 @@ Security is not treated as a separate workstream added after delivery. It is emb
 +---------------------------------------------------+
 |                AI Operations Governance            |
 |  O6 evidence, policy-mediated tool use,            |
-|  human review boundary, decision logs              |
+|  human approval boundaries, decision logs              |
 +---------------------------------------------------+
 ```
 
@@ -83,7 +83,7 @@ The platform is organised across six lifecycle domains.
 
 | Lifecycle domain | Scope | Entry point |
 |---|---|---|
-| **Hybrid Workplace** | Identity, Exchange Hybrid, Microsoft 365 services, endpoint management, Graph and PowerShell operations, and operational visibility. | [Engineering: Hybrid Workplace](/engineering/#release-1-hybrid-workplace) |
+| **Hybrid Workplace** | Identity, Exchange Hybrid, Microsoft 365 services, endpoint management, Microsoft Graph PowerShell operations, and operational visibility. | [Engineering: Hybrid Workplace](/engineering/#release-1-hybrid-workplace) |
 | **Delivery Engineering** | Terraform state boundaries, GitHub Actions OIDC, code traceability, and governed delivery workflows. | [Engineering: Delivery Engineering](/engineering/#release-2-delivery-engineering) |
 | **Network Engineering** | Hub-spoke routing, Azure Firewall, FortiGate inspection, IPSec, BGP, AWS branch integration, and route validation. | [Engineering: Network Engineering](/engineering/#release-2-network-engineering) |
 | **Platform Services** | Private AKS, AVD secure workspace, FSLogix, and private platform integration. | [Engineering: Platform Services](/engineering/#release-2-platform-services) |
@@ -98,15 +98,15 @@ The platform avoids one monolithic Terraform root. Separate roots divide network
 
 [Terraform State Boundaries](/engineering/terraform-state-boundaries/)
 
-### 2. Secret-less CI/CD via OIDC
+### 2. OIDC-based delivery with GitHub Actions
 
 GitHub Actions uses OpenID Connect for workflow-controlled Azure authentication without routine long-lived deployment credentials. This keeps deployment identity tied to reviewable workflow evidence and reduces reliance on stored deployment secrets.
 
 [GitHub Actions OIDC](/engineering/github-actions-oidc/)
 
-### 3. Code traceability across source, workflow, and proof
+### 3. Code traceability across source, workflow, and evidence
 
-The portfolio separates delivery authentication from implementation traceability. Code Traceability shows how source files, workflow records, documentation, and proof routes connect platform claims to reviewable implementation evidence.
+Delivery authentication and implementation traceability are treated as separate concerns. Code Traceability shows how source files, workflow records, documentation, and evidence routes connect platform claims to reviewable implementation evidence.
 
 [Code Traceability](/engineering/code-traceability/)
 
@@ -118,7 +118,7 @@ The network architecture includes on-premises routing, Azure hub-spoke design, I
 
 ### 5. Private platform services for AKS and AVD
 
-AKS and AVD are presented as private platform services rather than default compute deployments. The design emphasises private access, route control, compliance context, Kubernetes source, and inspected integration paths.
+AKS and AVD are implemented as private platform services rather than default compute deployments. The design emphasises private access, route control, compliance context, Kubernetes source, and inspected integration paths.
 
 [Private AKS Platform](/engineering/private-aks-platform/), [AVD Secure Workspace](/engineering/avd-secure-workspace/), and [Private AKS and AVD Architecture](/engineering/private-aks-avd/)
 
@@ -130,13 +130,13 @@ Ansible and AWX provide a governed automation control plane with source-controll
 
 ### 7. Operational resilience and AI operations under policy governance
 
-Operational resilience is routed through monitoring, alert validation, Defender for Cloud, Sentinel, backup controls, soft-delete handling, and BCDR planning. AI operations are represented through the AI Operations Enclave, evidenced through O6, with policy-mediated tool use, bounded agent access, structured decision records, namespace lifecycle evidence, and cleanup checks.
+Operational resilience is routed through monitoring, alert validation, Defender for Cloud, Sentinel, backup controls, soft-delete handling, and BCDR planning. AI operations are represented through the AI Operations Enclave, evidenced through O6, with policy-mediated tool use, bounded tool access, structured decision records, namespace lifecycle evidence, and cleanup checks.
 
 [Monitoring, Backup and Resilience](/engineering/monitoring-backup-resilience/), [AI Operations Enclave](/ai-operations/), and [Companion Local AI Lab](/companion-project/)
 
 ## Platform evolution
 
-Release 3 carries the existing multi-cloud routing, private platform, and operational governance work toward cross-cloud Kubernetes, GitOps, DevSecOps scanning, observability, and resilience.
+Release 3 carries the existing multi-cloud routing, private platform services, and operational governance work toward cross-cloud Kubernetes, GitOps, DevSecOps scanning, observability, and resilience.
 
 [Release 3 Roadmap](/releases/release3/)
 
