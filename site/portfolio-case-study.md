@@ -20,7 +20,7 @@
 </div>
 
 !!! tip "Case-study summary"
-    AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and policy-mediated AI operations.
+    AzAWSLab is a staged platform portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform services, operations, and AI governance.
 
 This case study gives recruiters, hiring managers, and technical reviewers a direct route through the implemented releases, delivery story, and evidence map. Major capabilities are evidenced through screenshots, CLI output, workflow logs, source files, and design documents in the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security), with review routes organised through the [Proof Gallery](/proof-gallery/), [Engineering Deep Dive](/engineering/), and [Skills Matrix](/skills-matrix/).
 
@@ -41,7 +41,7 @@ flowchart LR
     R1 --> R2 --> R3
 ```
 
-## What it proves - Release 1
+## Release 1 implementation evidence
 
 Release 1 establishes hybrid workplace, identity, endpoint security, and Microsoft 365 operations:
 
@@ -53,7 +53,7 @@ Release 1 establishes hybrid workplace, identity, endpoint security, and Microso
 - **Operational visibility:** sign-in and audit log review, device compliance tracking, policy and control review, and practical admin alerting.
 - **Script-based operations:** Microsoft Graph and PowerShell for sync monitoring, compliance reporting, and device lifecycle operations.
 
-## What it proves - Release 2
+## Release 2 implementation evidence
 
 Release 2 extends that environment into platform engineering, secure networking, automation, private platform services, operations, and AI governance:
 
