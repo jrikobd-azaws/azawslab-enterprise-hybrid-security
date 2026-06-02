@@ -28,7 +28,7 @@
 </div>
 
 !!! summary "Scope"
-    Engineering rationale, architecture, and evidence paths for the hybrid and multi-cloud network fabric that connects simulated on-premises services, Azure hub-spoke networking, FortiGate inspection, and the AWS branch. This page covers IPSec, BGP, VyOS with Dynu-backed real DNS, Azure VPN Gateway, Azure Firewall, FortiGate NVA service chaining, AWS Transit Gateway, Cisco CSR 8000V, and validated transitive routing.
+    Network architecture notes and evidence paths for the hybrid and multi-cloud fabric connecting simulated on-premises services, Azure hub-spoke networking, FortiGate inspection, and the AWS branch. It covers IPSec, BGP, VyOS with Dynu-backed real DNS, Azure VPN Gateway, Azure Firewall, FortiGate NVA service chaining, AWS Transit Gateway, Cisco CSR 8000V, and validated transitive routing.
 
 ## Network architecture
 
@@ -68,7 +68,7 @@ AWS Branch
   EC2 validation host
 ```
 
-The lab proves the routing and inspection model without pretending that every production high-availability option is deployed. In a production enterprise design, the same IPSec/BGP pattern can be extended with active-active or zone-resilient Azure VPN Gateway, redundant customer gateways, dual tunnels, and stricter availability controls where the business case justifies the cost.
+The lab validates the routing and inspection model without presenting every production high-availability option as deployed. In a production enterprise design, the same IPSec/BGP pattern can extend to active-active or zone-resilient Azure VPN Gateway, redundant customer gateways, dual tunnels, and stricter availability controls where the business case justifies the cost.
 
 ## Design decisions
 
@@ -85,7 +85,7 @@ The lab proves the routing and inspection model without pretending that every pr
 
 The on-premises site is simulated on Hyper-V with a VyOS virtual router. Because the lab runs in an ephemeral, cost-controlled environment without a permanent static public IP, VyOS uses Dynu dynamic DNS to publish a real DNS hostname for the changing WAN address.
 
-Azure VPN Gateway uses that DNS-backed peer identity for the IPSec path, allowing the tunnel to be re-established when the public address changes. This proves the same routing pattern that would normally be hardened in an enterprise deployment with static public IPs, redundant customer gateways, dual tunnels, and active-active or zone-resilient VPN Gateway design where availability requirements justify the cost.
+Azure VPN Gateway uses that DNS-backed peer identity for the IPSec path, allowing the tunnel to be re-established when the public address changes. This validates the same routing pattern that would normally be hardened in an enterprise deployment with static public IPs, redundant customer gateways, dual tunnels, and active-active or zone-resilient VPN Gateway design where availability requirements justify the cost.
 
 The demonstrated configuration includes:
 
@@ -94,7 +94,7 @@ The demonstrated configuration includes:
 - Advertisement of the on-premises subnet into Azure.
 - Dynu-backed dynamic DNS handling for the VyOS public endpoint.
 
-This is an important engineering distinction: the lab is cost-controlled, but the routing design is not casual. It demonstrates the route exchange and tunnel pattern while documenting how the same architecture would be hardened for enterprise availability.
+This is the engineering distinction: the lab is cost-controlled, but the routing design is not casual. It validates the route exchange and tunnel pattern while documenting how the same architecture would be hardened for enterprise availability.
 
 ## BGP route propagation
 
@@ -108,11 +108,11 @@ BGP is used as the routing control plane across the hybrid and multi-cloud paths
 | AWS branch to Azure | AWS VPC and branch prefixes | Azure-side prefixes |
 | Cisco CSR 8000V | Filtered branch routing information | Routes required for validation and route-map testing |
 
-The important signal is not just that routes exist. The evidence shows that routing is dynamic, inspected, and validated across cloud and simulated on-premises boundaries. Route propagation is supported by BGP peer evidence, effective route tables, Cisco output, and transitive path testing.
+The signal is not just that routes exist. The evidence shows dynamic routing, inspection, and validation across cloud and simulated on-premises boundaries. Route propagation is supported by BGP peer evidence, effective route tables, Cisco output, and transitive path testing.
 
 ## FortiGate NVA insertion
 
-For traffic that requires deeper inspection than native routing alone can provide, a FortiGate NVA is integrated into the Azure hub inspection path. User-defined routes steer selected traffic through the NVA, and the evidence validates policy/routing state, service-chain traffic flow, and next-hop behavior.
+For traffic requiring deeper inspection than native routing alone provides, a FortiGate NVA is integrated into the Azure hub inspection path. User-defined routes steer selected traffic through the NVA, and the evidence validates policy and routing state, service-chain traffic flow, and next-hop behavior.
 
 Validated signals include:
 
@@ -125,7 +125,7 @@ Validated signals include:
 
 ## AWS branch gateway
 
-The AWS branch is a dedicated multi-cloud validation environment. It extends the routing fabric beyond Azure and validates that the platform can operate across provider boundaries.
+The AWS branch is a dedicated multi-cloud validation environment. It extends the routing fabric beyond Azure and validates operation across provider boundaries.
 
 The AWS branch includes:
 
@@ -136,13 +136,13 @@ The AWS branch includes:
 - EC2 validation host for reachability checks.
 - Terraform root isolation under `terraform/aws-branch/dev`.
 
-The AWS branch proves that cross-cloud routing is not just a diagram. It is represented in infrastructure code and supported by evidence for routing, prefix propagation, and transitive path validation.
+The AWS branch validates that cross-cloud routing is not just a diagram. It is represented in infrastructure code and supported by evidence for routing, prefix propagation, and transitive path validation.
 
 ## Read-only network automation evidence
 
-The network story is also validated through automation. AWX and Ansible evidence captures read-only state from FortiGate, VyOS, and Cisco devices without changing production configuration.
+The network architecture is also validated through automation. AWX and Ansible evidence captures read-only state from FortiGate, VyOS, and Cisco devices without changing configuration.
 
-This is valuable because it proves the network can be observed and validated through a governed operations plane, not only through portal screenshots.
+This confirms the network can be observed and validated through a governed operations plane, not only through portal screenshots.
 
 | Device or path | Validation signal |
 |---|---|
@@ -152,7 +152,7 @@ This is valuable because it proves the network can be observed and validated thr
 
 ## Enterprise production hardening pattern
 
-The demonstrated lab topology is intentionally cost-controlled. In a production enterprise environment, the same architecture would normally be hardened with additional availability and governance controls.
+The demonstrated lab topology is cost-controlled by design. In a production enterprise environment, the same architecture would normally be hardened with additional availability and governance controls.
 
 | Area | Enterprise hardening pattern |
 |---|---|
@@ -163,35 +163,35 @@ The demonstrated lab topology is intentionally cost-controlled. In a production 
 | Inspection | HA NVA design, health probes, route failover testing, and firewall policy lifecycle controls. |
 | Operations | Scheduled read-only validation, sanitized backups, idempotency checks, approved change workflow, and rollback testing through the automation control plane. |
 
-This pattern is included deliberately. It shows the difference between a cost-controlled evidence lab and the production design standard a reviewer would expect in an enterprise environment.
+This pattern is included to separate the evidence lab from the production hardening path. It shows the difference between the cost-controlled evidence lab and the production design standard expected in an enterprise environment.
 
 ## Architectural significance
 
-Hybrid & Multi-Cloud Networking demonstrates five network-engineering decisions:
+Hybrid and Multi-Cloud Networking shows five network engineering decisions:
 
 1. Routing is dynamic and validated with BGP, not only drawn as static connectivity.
-2. The on-premises simulation uses VyOS and Dynu-backed real DNS to make the lab practical without hiding the enterprise HA extension path.
+2. The on-premises simulation uses VyOS and Dynu-backed real DNS to keep the lab practical while documenting the enterprise HA extension path.
 3. Azure hub-spoke networking centralizes routing and inspection rather than scattering controls across isolated spokes.
-4. FortiGate NVA insertion proves third-party inspection and UDR-based service chaining.
-5. AWS branch integration with Transit Gateway and Cisco CSR 8000V proves the multi-cloud routing model.
+4. FortiGate NVA insertion validates third-party inspection and UDR-based service chaining.
+5. AWS branch integration with Transit Gateway and Cisco CSR 8000V validates the multi-cloud routing model.
 
-This page establishes the network underlay for the private platform, AVD, AKS, AWX, and future Release 3 multi-cloud Kubernetes work.
+This page establishes the network underlay for private platform services, AVD, AKS, AWX, and future Release 3 multi-cloud Kubernetes work.
 
 ## Evidence map
 
 | Claim | Repository location | What to verify |
 |---|---|---|
-| Hub-spoke network foundation is deployed | [`docs/release2/evidence/P5/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5) and [`terraform/platform-networking/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-networking/dev) | VNet/subnet exports, NSGs, route tables, default routes toward hub inspection appliances |
+| Hub-spoke network fabric is deployed | [`docs/release2/evidence/P5/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5) and [`terraform/platform-networking/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/platform-networking/dev) | VNet/subnet exports, NSGs, route tables, default routes toward hub inspection appliances |
 | Azure VPN Gateway and IPSec/BGP preflight are validated | [`docs/release2/evidence/P5-vpn/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5-vpn) | Tunnel connected state, BGP readiness, and exchanged routes |
 | VyOS uses Dynu-backed dynamic DNS for the VPN peer endpoint | VyOS configuration and VPN evidence in [`docs/release2/evidence/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence) | Real DNS hostname, Dynu update path, and Azure VPN peer configuration using the DNS-backed endpoint |
 | FortiGate NVA is inserted into the inspection path | [`docs/release2/evidence/O1/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O1) | Policy/routing tables, UDR next-hop verification, service-chain traffic flow logs |
-| AWS branch foundation uses Transit Gateway, Cisco CSR 8000V, BGP, and route maps | [`docs/release2/evidence/O3b/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O3b) and [`terraform/aws-branch/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/aws-branch/dev) | Cisco BGP neighbor status, route advertisement tables, TGW attachment configuration, selective prefix propagation |
+| AWS branch routing pattern uses Transit Gateway, Cisco CSR 8000V, BGP, and route maps | [`docs/release2/evidence/O3b/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O3b) and [`terraform/aws-branch/dev/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/terraform/aws-branch/dev) | Cisco BGP neighbor status, route advertisement tables, TGW attachment configuration, selective prefix propagation |
 | End-to-end transitive routing is validated | [`docs/release2/evidence/O3c/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O3c) | HQ to Azure to AWS path validation, symmetric return path, firewall session logs |
 | Network device state is captured through read-only automation | [`docs/release2/evidence/A1-ansible-network-baseline/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A1-ansible-network-baseline) | FortiGate, VyOS, and Cisco state extracts, routing tables, firewall policies, sanitized backups |
-| Enterprise HA extension is understood | This page | Active-active or zone-resilient VPN Gateway, redundant customer gateways, dual tunnels, static public endpoints, HA inspection, and route governance patterns documented as production hardening options |
+| Enterprise HA extension path is documented | This page | Active-active or zone-resilient VPN Gateway, redundant customer gateways, dual tunnels, static public endpoints, HA inspection, and route governance patterns documented as production hardening options |
 
 ## Review takeaway
 
-Hybrid & Multi-Cloud Networking shows that Release 2 has a real routed network fabric, not a disconnected collection of cloud resources.
+Hybrid and Multi-Cloud Networking shows that Release 2 has a routed network fabric, not a disconnected collection of cloud resources.
 
-A reviewer can inspect Terraform roots, VPN evidence, FortiGate service-chain evidence, AWS branch validation, and read-only automation output to confirm that the platform supports hybrid routing, multi-cloud transit, inspection, and enterprise-grade hardening awareness.
+A reviewer can inspect Terraform roots, VPN evidence, FortiGate service-chain evidence, AWS branch validation, and read-only automation output to confirm hybrid routing, multi-cloud transit, inspection, and production hardening awareness.
