@@ -91,6 +91,7 @@ nav:
           - Endpoint Management: engineering/modern-endpoint-management.md
           - Graph and PowerShell: engineering/graph-powershell-operations.md
 
+          - Monitoring and Operational Visibility: engineering/release1-monitoring-operational-visibility.md
       - Release 2 Delivery Engineering:
           - Terraform State: engineering/terraform-state-boundaries.md
           - GitHub Actions OIDC: engineering/github-actions-oidc.md
