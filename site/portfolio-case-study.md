@@ -22,13 +22,13 @@
 !!! tip "Case-study summary"
     AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and policy-mediated AI operations.
 
-This case study is written for recruiters, hiring managers, and technical reviewers who need to understand the full project scope quickly. Major capabilities are backed by screenshots, CLI output, workflow logs, source files, or design documents in the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security) and organised through the [Proof Gallery](/proof-gallery/).
+This case study gives recruiters, hiring managers, and technical reviewers a direct route through the implemented releases, delivery story, and evidence map. Major capabilities are evidenced through screenshots, CLI output, workflow logs, source files, and design documents in the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security), with review routes organised through the [Proof Gallery](/proof-gallery/), [Engineering Deep Dive](/engineering/), and [Skills Matrix](/skills-matrix/).
 
 ## What this project is
 
-AzAWSLab is not a collection of isolated screenshots. It is a connected platform lifecycle that demonstrates architecture, implementation, validation, documentation, and operational judgement.
+AzAWSLab is not a collection of isolated screenshots. It is a staged platform implementation with architecture, delivery, validation, documentation, and operational judgement kept together.
 
-The portfolio starts with a realistic Microsoft hybrid enterprise environment - Active Directory, Exchange Hybrid, Microsoft 365 services, identity, endpoint security, and operational visibility - and builds through Azure platform engineering, secure multi-cloud networking, automation, private AKS, AVD secure workspace, backup and disaster recovery, and an AI operations enclave evidenced through O6.
+The portfolio starts with a realistic Microsoft hybrid enterprise environment: Active Directory, Exchange Hybrid, Microsoft 365 services, identity, endpoint security, and operational visibility.
 
 ## Transformation map
 
@@ -55,7 +55,7 @@ Release 1 establishes hybrid workplace, identity, endpoint security, and Microso
 
 ## What it proves - Release 2
 
-Release 2 builds the Azure platform and extends into multi-cloud territory:
+Release 2 extends that environment into platform engineering, secure networking, automation, private platform services, operations, and AI governance:
 
 - **Landing zone and governance:** Terraform-defined platform roots, management group hierarchy, Azure Policy, RBAC, and state-boundary discipline.
 - **Secret-less CI/CD:** GitHub Actions with OpenID Connect and reduced reliance on long-lived deployment credentials.
@@ -80,7 +80,7 @@ Release 2 builds the Azure platform and extends into multi-cloud territory:
 ## Reviewer entry points
 
 - **[Proof Gallery](/proof-gallery/)** - curated evidence dashboard covering the major platform capabilities.
-- **[Skills Matrix](/skills-matrix/)** - competency map with links to engineering notes and proof routes.
-- **[Engineering Deep Dive](/engineering/)** - engineering notes with design rationale, configuration details, and evidence maps.
+- **[Skills Matrix](/skills-matrix/)** - skills map with links to engineering notes and proof routes.
+- **[Engineering Deep Dive](/engineering/)** - engineering notes with design rationale, implementation context, configuration details, and evidence maps.
 - **[Architecture Overview](/architecture/)** - platform journey, lifecycle domains, and key architectural decisions.
 - **Reviewer Pathways** - role-specific routes for recruiters, hiring managers, technical reviewers, security architects, and DevOps/SRE reviewers.

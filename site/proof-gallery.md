@@ -24,10 +24,10 @@ title: Proof Gallery
 </div>
 
 !!! summary "Reviewer-facing verification dashboard"
-    This gallery maps the portfolio claims to public-safe proof. It is organised by platform lifecycle domain so a reviewer can move from architecture summary to engineering page, evidence folder, screenshot set, workflow record, manifest, or source document.
+    This gallery routes portfolio claims to public-safe proof. It is organised by platform lifecycle domain so reviewers can move from architecture context to engineering notes, evidence folders, screenshots, workflow records, manifests, and source documents.
 
 !!! note "Evidence model"
-    This gallery links to curated site pages and public repository folders. It avoids unverified one-off filenames, raw secrets, Terraform state, kubeconfigs, private keys, credentials, tokens, and unredacted tenant data.
+    This gallery links to curated site pages and public repository folders that are safe to review publicly. It avoids one-off filenames, raw secrets, Terraform state, kubeconfigs, private keys, credentials, tokens, and unredacted tenant data.
 
 ## Visual proof map
 
@@ -35,19 +35,19 @@ title: Proof Gallery
 
 - ![Platform journey](assets/images/proof/01-platform-hero.jpg)
   **Platform Journey**  
-  Executive view of the staged enterprise platform: hybrid workplace, Azure platform engineering, private platform delivery, operations, and AI governance.
+  Executive view of the staged platform: Release 1 hybrid workplace and Microsoft 365 operations, Release 2 platform engineering and private platform services, and Release 3 roadmap direction.
 
 - ![Release 2 architecture](assets/images/proof/02-release2-architecture.jpg)
   **Release 2 Platform Architecture**  
-  Azure platform engineering, secure networking, private platform services, automation, monitoring, and evidence-driven validation.
+  Release 2 platform engineering, secure networking, automation, private platform services, operations, and AI governance.
 
 - ![Terraform state boundaries](assets/images/proof/03-terraform-state-boundaries.jpg)
   **Terraform State Boundaries**  
-  Multi-root Terraform ownership model showing how blast radius, lifecycle, and platform responsibilities are separated.
+  Multi-root Terraform ownership model showing separated state, lifecycle ownership, and platform responsibility boundaries.
 
 - ![AI operations enclave](assets/images/proof/04-ai-operations-enclave.jpg)
   **O6 AI Operations Enclave**  
-  AI operations enclave with policy-mediated tool use, evidence capture, and human approval boundaries.
+  AI Operations Enclave, evidenced through O6, with policy-mediated tool use, evidence capture, and human approval boundaries.
 
 - ![Release 3 roadmap](assets/images/proof/05-release3-roadmap.jpg)
   **Release 3 Roadmap**  
@@ -69,9 +69,9 @@ title: Proof Gallery
 ## Release 1 Hybrid Workplace
 
 ???+ example "Hybrid identity and access control"
-    **What it proves:** Active Directory, Entra ID, Entra Connect, Conditional Access, MFA, pilot identity scope, and identity operations were implemented and evidenced.
+    **What it proves:** Active Directory, Entra ID, Entra Connect, Conditional Access, MFA, pilot identity scope, and identity operations were implemented and routed to evidence.
 
-    **Why it matters:** Identity is the access boundary for Microsoft 365, endpoint management, administration, and later platform operations. The evidence shows identity was designed and operated, not only described.
+    **Why it matters:** Identity is the access boundary for Microsoft 365, endpoint management, administration, and later platform operations. The evidence route shows identity configuration, operation, and review points rather than a static architecture description.
 
     **Where to inspect:**
 
@@ -83,7 +83,7 @@ title: Proof Gallery
     **Reviewer takeaway:** The project demonstrates practical Microsoft hybrid identity administration and access-control verification.
 
 ???+ example "Exchange Hybrid and Microsoft 365 services"
-    **What it proves:** Exchange Hybrid and Microsoft 365 services are represented as part of the Release 1 operating environment, with service configuration and validation evidence.
+    **What it proves:** Exchange Hybrid and Microsoft 365 services are part of the Release 1 operating environment, with service configuration and validation evidence.
 
     **Why it matters:** A realistic Microsoft hybrid enterprise environment includes more than identity sync. Messaging, collaboration, service validation, and operational administration are part of the platform story.
 
@@ -98,7 +98,7 @@ title: Proof Gallery
 ???+ example "Modern endpoint management and recovery"
     **What it proves:** Intune, Autopilot, compliance policy, BitLocker, Windows LAPS, Defender controls, endpoint recovery, and managed-device evidence are part of Release 1.
 
-    **Why it matters:** Device state determines whether access controls are enforceable. Endpoint management is not a side feature; it is part of the trust model.
+    **Why it matters:** Device state determines whether access controls are enforceable. Endpoint management is part of the access trust model, not a side feature.
 
     **Where to inspect:**
 
@@ -119,12 +119,12 @@ title: Proof Gallery
     - [Release 1 Evidence Index](evidence/release1-evidence-index.md)
     - [Release 1 documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release1){ target="_blank" }
 
-    **Reviewer takeaway:** The candidate can connect identity, endpoint trust, and data protection into one workplace operating model.
+    **Reviewer takeaway:** The candidate connects identity, endpoint trust, and data protection into one workplace operating model.
 
 ???+ example "Graph and PowerShell operations"
     **What it proves:** Microsoft Graph and PowerShell are used for repeatable identity and endpoint administration, including pilot user state, managed device state, consent validation, and controlled operational actions.
 
-    **Why it matters:** Modern Microsoft administration increasingly requires Graph-aware operations. Scripted validation makes the environment reviewable and repeatable.
+    **Why it matters:** Modern Microsoft administration increasingly depends on Graph-aware operations. Scripted validation makes the environment reviewable and repeatable.
 
     **Where to inspect:**
 
@@ -135,9 +135,9 @@ title: Proof Gallery
     **Reviewer takeaway:** The project treats scripting as part of the operating model, not as disconnected helper commands.
 
 ???+ example "Monitoring and operational visibility"
-    **What it proves:** Release 1 includes practical monitoring and visibility through sign-in review, audit-log visibility, Conditional Access result review, device compliance checks, alert review, and Graph-connected validation.
+    **What it proves:** Release 1 includes monitoring and visibility through sign-in review, audit-log visibility, Conditional Access result review, device compliance checks, alert review, and Graph-connected validation.
 
-    **Why it matters:** Operational maturity starts before a full SIEM deployment. The evidence shows repeatable review discipline and documented visibility.
+    **Why it matters:** Operational review starts before a full SIEM deployment. The evidence route shows repeatable review points and documented visibility.
 
     **Where to inspect:**
 
@@ -152,7 +152,7 @@ title: Proof Gallery
 ## Release 2 Delivery Engineering
 
 ???+ success "Terraform state boundaries"
-    **What it proves:** Terraform ownership is separated across multiple roots so platform networking, management, AKS, AVD, shared services, governance, workloads, and AWS branch concerns do not share one unsafe state boundary.
+    **What it proves:** Terraform ownership is separated across multiple roots so platform networking, management, AKS, AVD, shared services, governance, workloads, and AWS branch concerns do not share one state boundary.
 
     **Why it matters:** State separation reduces blast radius and makes platform ownership reviewable.
 
@@ -163,10 +163,10 @@ title: Proof Gallery
     - [Terraform state and pipeline map](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/11-terraform-state-and-pipeline-map.md){ target="_blank" }
     - [Platform management state split evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/platform-management-state-split){ target="_blank" }
 
-    **Reviewer takeaway:** Terraform is used as a governed platform control plane, not a single deployment script.
+    **Reviewer takeaway:** Terraform is treated as a governed platform control plane, not a single deployment script.
 
 ???+ success "GitHub Actions OIDC"
-    **What it proves:** GitHub Actions and Azure are connected through OIDC-based delivery patterns instead of routine long-lived deployment secrets.
+    **What it proves:** GitHub Actions and Azure are connected through OIDC-based delivery instead of routine long-lived deployment secrets.
 
     **Why it matters:** Identity-federated CI/CD reduces static credential exposure and makes delivery behavior easier to review.
 
@@ -182,7 +182,7 @@ title: Proof Gallery
 ???+ success "Code traceability"
     **What it proves:** Documentation, source, evidence folders, workflow records, and platform resources are connected into a reviewable traceability model.
 
-    **Why it matters:** A reviewer should be able to move from a claim to source, from source to workflow, and from workflow to evidence.
+    **Why it matters:** Reviewers can move from a claim to source, from source to workflow, and from workflow to evidence.
 
     **Where to inspect:**
 
@@ -197,9 +197,9 @@ title: Proof Gallery
 ## Release 2 Network Engineering
 
 ???+ success "Hybrid multi-cloud networking"
-    **What it proves:** Azure hub-spoke networking, route control, inspection context, VPN, IPSec, BGP, AWS branch integration, and evidence-backed route validation are represented in the network architecture.
+    **What it proves:** Azure hub-spoke networking, route control, inspection context, VPN, IPSec, BGP, AWS branch integration, and route validation are represented in the network architecture.
 
-    **Why it matters:** Multi-cloud platforms fail when routing, inspection, and ownership boundaries are implicit. This evidence shows those boundaries were deliberately engineered.
+    **Why it matters:** Multi-cloud platforms fail when routing, inspection, and ownership boundaries are implicit. The evidence route shows explicit routing, inspection, and ownership boundaries.
 
     **Where to inspect:**
 
@@ -215,7 +215,7 @@ title: Proof Gallery
 ???+ success "FortiGate, Azure Firewall, and inspection path"
     **What it proves:** The network design includes Azure Firewall, FortiGate NVA inspection, routing, and validation evidence.
 
-    **Why it matters:** Inspection is part of the traffic path design, not a disconnected security diagram.
+    **Why it matters:** Inspection sits in the traffic path design, not in a disconnected security diagram.
 
     **Where to inspect:**
 
@@ -231,9 +231,9 @@ title: Proof Gallery
 ## Release 2 Platform Services
 
 ???+ success "Private AKS platform"
-    **What it proves:** Private AKS is represented as a private platform pattern with controlled access, Kubernetes manifests, policy context, and validation evidence.
+    **What it proves:** Private AKS is presented as a private platform pattern with controlled access, Kubernetes manifests, policy context, and validation evidence.
 
-    **Why it matters:** Kubernetes platform engineering should control exposure, networking, workload policy, and evidence, not only create a cluster.
+    **Why it matters:** Kubernetes platform engineering controls exposure, networking, workload policy, and validation, not only cluster creation.
 
     **Where to inspect:**
 
@@ -245,7 +245,7 @@ title: Proof Gallery
     **Reviewer takeaway:** The candidate can reason about private Kubernetes platform delivery and validation.
 
 ???+ success "AVD secure workspace and FSLogix"
-    **What it proves:** Azure Virtual Desktop, FSLogix, private endpoint orientation, privileged access separation, and secure workspace governance are part of the platform service model.
+    **What it proves:** Azure Virtual Desktop, FSLogix, private access orientation, privileged access separation, and secure workspace governance are part of the platform service model.
 
     **Why it matters:** Privileged administration needs controlled access paths. AVD is used as a secure operations workspace pattern, not only remote desktop.
 
@@ -263,7 +263,7 @@ title: Proof Gallery
 ## Release 2 Operations Engineering
 
 ???+ success "Ansible and AWX automation control plane"
-    **What it proves:** Automation moves beyond local scripts into a governed operations pattern with Ansible, AWX, inventories, job templates, execution records, and evidence-backed runbooks.
+    **What it proves:** Automation is implemented as a governed operations pattern with Ansible, AWX, inventories, job templates, execution records, and evidence-backed runbooks.
 
     **Why it matters:** Day-2 operations need repeatability, role boundaries, source control, and reviewable execution history.
 
@@ -277,7 +277,7 @@ title: Proof Gallery
     **Reviewer takeaway:** Automation is treated as a platform capability with governed execution.
 
 ???+ success "Monitoring, backup, and resilience"
-    **What it proves:** Azure Monitor, Sentinel, Defender for Cloud, Recovery Services Vault, backup policies, BCDR planning, soft-delete handling, immutability, and validation evidence are represented in the operations model.
+    **What it proves:** Azure Monitor, Sentinel, Defender for Cloud, Recovery Services Vault, backup policies, BCDR planning, soft-delete handling, immutability, and validation evidence are part of the operations model.
 
     **Why it matters:** Platform maturity depends on monitoring, recovery, and deletion protection being implemented and validated, not only planned.
 
@@ -295,9 +295,9 @@ title: Proof Gallery
 ## AI Operations and Innovation
 
 ???+ info "O6 AI operations enclave"
-    **What it proves:** O6 defines an AI operations enclave with policy-mediated tool use, logging, Kubernetes support context, evidence capture, and human approval boundaries.
+    **What it proves:** O6 defines the AI Operations Enclave with policy-mediated tool use, logging, Kubernetes support context, evidence capture, and human approval boundaries.
 
-    **Why it matters:** AI in infrastructure is risky when unconstrained. O6 frames AI as support inside a governed workflow, not an autonomous infrastructure operator.
+    **Why it matters:** AI-assisted infrastructure operations need explicit constraints. O6 frames AI as support inside a governed workflow, with human approval boundaries rather than autonomous infrastructure operation.
 
     **Where to inspect:**
 
@@ -305,12 +305,12 @@ title: Proof Gallery
     - [O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6){ target="_blank" }
     - [O6 capability story](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/05-ai-operations-enclave.md){ target="_blank" }
 
-    **Reviewer takeaway:** The candidate can reason about AI-enabled operations with policy, evidence, and approval boundaries.
+    **Reviewer takeaway:** The candidate can reason about AI operations with policy, evidence, and approval boundaries.
 
 ???+ info "Companion local AI lab"
     **What it proves:** The companion project demonstrates a local-first multi-agent infrastructure workflow with RAG, provider routing, validation hooks, tool permissions, data-boundary controls, and human review.
 
-    **Why it matters:** The AI operations story includes both the main platform governance pattern and a working lab/reference implementation.
+    **Why it matters:** The AI operations route includes the main platform governance pattern and a working lab/reference implementation.
 
     **Where to inspect:**
 
@@ -327,7 +327,7 @@ title: Proof Gallery
 ???+ note "Multi-cloud Kubernetes, GitOps, DevSecOps, observability, and resilience"
     **What it proves:** Release 3 is intentionally positioned as roadmap and platform evolution, not delivered implementation evidence.
 
-    **Why it matters:** Mature portfolios distinguish between implemented proof and future direction. The roadmap extends the current platform toward multi-cloud Kubernetes, GitOps, DevSecOps, observability, and resilience.
+    **Why it matters:** The roadmap separates implemented proof from future direction. The roadmap extends the current platform toward multi-cloud Kubernetes, GitOps, DevSecOps, observability, and resilience.
 
     **Where to inspect:**
 
