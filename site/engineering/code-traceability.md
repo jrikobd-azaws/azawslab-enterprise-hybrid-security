@@ -28,15 +28,15 @@
 </div>
 
 !!! summary "Scope"
-    Engineering rationale and evidence paths for tracing AzAWSLab claims from portfolio narrative to implementation source, workflow execution, Terraform roots, and public-safe evidence. This page focuses on verified repository traceability rather than undocumented tagging assumptions.
+    Traceability notes and evidence paths for connecting AzAWSLab claims to implementation source, workflow execution, Terraform roots, and public-safe evidence. This page focuses on repository traceability that can be reviewed from public source and evidence paths.
 
 ## Traceability model
 
-AzAWSLab uses two complementary traceability models.
+AzAWSLab uses two complementary traceability routes.
 
-The first model maps a portfolio claim to implementation source and evidence. This is the reviewer-facing model: a claim should lead to a repository path, and that path should lead to public-safe evidence.
+The first route connects a portfolio claim to implementation source and evidence. This is the reviewer-facing route: a claim leads to a repository path, and that path leads to public-safe evidence.
 
-The second model maps an infrastructure change through the delivery pipeline. This is the delivery-engineering model: a Git change flows through GitHub Actions, Terraform plan, review, controlled apply, and validation evidence.
+The second route follows an infrastructure change through the delivery pipeline. This is the delivery engineering route: a Git change flows through GitHub Actions, Terraform plan, review, controlled apply, and validation evidence.
 
 ```text
 Portfolio claim
@@ -73,7 +73,7 @@ Controlled Terraform apply
 Validation output and evidence folder
 ```
 
-This gives reviewers two routes through the same platform: they can start from a business capability or from the delivery pipeline.
+This gives reviewers two practical routes through the same platform: business capability to evidence, or delivery pipeline to validation output.
 
 ## Capability-to-source map
 
@@ -92,20 +92,20 @@ This gives reviewers two routes through the same platform: they can start from a
 
 ## Delivery traceability chain
 
-The Release 2 state and pipeline map documents the delivery path from Git to Azure through GitHub Actions, OIDC-authenticated Terraform plan, review, controlled apply, and evidence.
+The Release 2 state and pipeline map documents the delivery path from Git to Azure through GitHub Actions, OIDC-authenticated Terraform plan, review, controlled apply, and validation evidence.
 
 | Stage | What it proves | Where to inspect |
 |---|---|---|
 | Git commit | The change starts from version-controlled source. | Git history and pull request context |
-| GitHub Actions workflow | The change enters a controlled workflow rather than a manual local apply path. | [`.github/workflows/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/.github/workflows) |
-| OIDC-authenticated Terraform plan | The workflow authenticates without long-lived Azure deployment secrets and generates reviewable plan output. | [Release 2 Terraform CI workflow](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/.github/workflows/release2-terraform-ci.yml) |
+| GitHub Actions workflow | The change enters a controlled workflow rather than an operator-local apply path. | [`.github/workflows/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/.github/workflows) |
+| OIDC-authenticated Terraform plan | The workflow authenticates with OIDC and generates reviewable Terraform plan output without long-lived Azure deployment secrets. | [Release 2 Terraform CI workflow](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/.github/workflows/release2-terraform-ci.yml) |
 | Review or approval gate | The plan is reviewed before infrastructure mutation. | [Terraform state and pipeline map](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/11-terraform-state-and-pipeline-map.md) |
-| Controlled apply | Apply is bounded to the selected root and profile-aware workflow. | [Release 2 workflow folder](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/.github/workflows) |
+| Controlled apply | Apply is bounded to the selected root and profile-aware workflow path. | [Release 2 workflow folder](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/.github/workflows) |
 | Evidence folder | Validation output is preserved for public-safe review. | [`docs/release2/evidence/`](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence) |
 
 ## Reviewer workflow
 
-A technical reviewer should be able to validate a claim without relying on trust.
+A technical reviewer can validate a claim by following the source and evidence route.
 
 Use this sequence:
 
@@ -116,11 +116,11 @@ Use this sequence:
 5. Confirm the evidence shows the expected implementation signal.
 6. Check the Release 2 state map when the claim involves Terraform root ownership, OIDC, controlled apply, or active profile guardrails.
 
-This is why Code Traceability is separate from GitHub Actions OIDC. OIDC explains how delivery authenticates. Code Traceability explains how reviewers move from claim to source to evidence.
+Code Traceability is separate from GitHub Actions OIDC for a specific reason. OIDC explains how delivery authenticates. Code Traceability explains how reviewers move from claim, to source, to evidence.
 
 ## Enterprise traceability hardening pattern
 
-The current public portfolio already provides claim-to-source-to-evidence traceability. In stricter enterprise environments, the same pattern can be hardened further:
+The current public portfolio provides claim-to-source-to-evidence traceability. In stricter enterprise environments, the same pattern can be extended further:
 
 | Hardening pattern | Purpose |
 |---|---|
@@ -131,31 +131,31 @@ The current public portfolio already provides claim-to-source-to-evidence tracea
 | Azure Policy tag enforcement | Prevent resource creation when required traceability tags are absent. |
 | Evidence retention policy | Keep validation output, sanitized logs, and screenshots according to review or audit needs. |
 
-These controls are not a replacement for the current evidence structure. They are the next hardening layer for organizations that require formal audit evidence retention.
+These controls extend the current evidence structure. They add a formal audit-retention layer for organizations that require it.
 
 ## Engineering significance
 
-Code Traceability demonstrates four delivery-engineering decisions:
+Code Traceability shows four delivery engineering decisions:
 
-1. Portfolio claims are mapped to implementation source and evidence, not left as narrative statements.
+1. Portfolio claims are connected to implementation source and evidence, not left as narrative statements.
 2. Release 2 delivery is traceable from Git through GitHub Actions, Terraform plan, approval, controlled apply, and validation evidence.
 3. Reviewers can inspect public-safe evidence without needing privileged access to the live tenant.
-4. Enterprise-grade traceability patterns can be layered on top through resource tags, Activity Log export, policy enforcement, and provenance records.
+4. Enterprise traceability patterns can be layered on top through resource tags, Activity Log export, policy enforcement, and provenance records.
 
-This page is the reviewer bridge between architecture presentation and implementation proof.
+This page is the reviewer bridge between architecture context and implementation evidence.
 
 ## Evidence map
 
 | Claim | Repository location | What to verify |
 |---|---|---|
-| Portfolio claims map to source and evidence | [CODE_TRACEABILITY.md](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/CODE_TRACEABILITY.md) | Claim-to-documentation-to-source-to-evidence mapping |
+| Portfolio claims connect to source and evidence | [CODE_TRACEABILITY.md](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/CODE_TRACEABILITY.md) | Claim-to-documentation-to-source-to-evidence mapping |
 | Release 2 delivery path is documented | [Terraform state and pipeline map](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release2/11-terraform-state-and-pipeline-map.md) | Git commit, workflow, plan, review, apply, and evidence flow |
 | OIDC workflow implementation is inspectable | [Release 2 Terraform CI workflow](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/.github/workflows/release2-terraform-ci.yml) | `id-token: write`, `azure/login@v2`, and Terraform validation stages |
 | Release 2 evidence is organized by capability | [Release 2 evidence folder](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence) | Evidence folders for Terraform, networking, AWX, AKS, AVD, AWS branch, and O6 |
-| Full site page provides reviewer-friendly traceability | This page | Capability map, delivery chain, reviewer workflow, and hardening pattern |
+| This page provides reviewer traceability | This page | Capability map, delivery chain, reviewer workflow, and hardening pattern |
 
 ## Review takeaway
 
-Code Traceability shows that AzAWSLab is not just documented; it is reviewable.
+Code Traceability shows that AzAWSLab is documented, sourced, and reviewable.
 
 A reviewer can start with a portfolio claim, follow it to source implementation, inspect the evidence folder, and understand how the delivery pipeline connects code changes to platform validation.
