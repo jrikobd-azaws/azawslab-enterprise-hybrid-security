@@ -86,24 +86,24 @@ nav:
       - Engineering Overview: engineering/index.md
 
       - Release 1 Hybrid Workplace:
-          - Hybrid Identity Engineering: engineering/hybrid-identity.md
-          - Modern Endpoint Management: engineering/modern-endpoint-management.md
-          - Graph and PowerShell Operations: engineering/graph-powershell-operations.md
+          - Hybrid Identity: engineering/hybrid-identity.md
+          - Endpoint Management: engineering/modern-endpoint-management.md
+          - Graph and PowerShell: engineering/graph-powershell-operations.md
 
       - Release 2 Delivery Engineering:
-          - Terraform State Boundaries: engineering/terraform-state-boundaries.md
+          - Terraform State: engineering/terraform-state-boundaries.md
           - GitHub Actions OIDC: engineering/github-actions-oidc.md
           - Code Traceability: engineering/code-traceability.md
 
       - Release 2 Network Engineering:
-          - Hybrid Multi-Cloud Networking: engineering/hybrid-multicloud-networking.md
-          - Secure Transmission and Inspection: engineering/secure-transmission-inspection.md
-          - Hybrid BGP Multi-Cloud Transit: engineering/hybrid-bgp-multicloud-transit.md
+          - Multi-Cloud Networking: engineering/hybrid-multicloud-networking.md
+          - Secure Transmission: engineering/secure-transmission-inspection.md
+          - BGP Multi-Cloud Transit: engineering/hybrid-bgp-multicloud-transit.md
 
       - Release 2 Platform Services:
-          - Private AKS Platform: engineering/private-aks-platform.md
-          - AVD Secure Workspace: engineering/avd-secure-workspace.md
-          - Private AKS and AVD Architecture: engineering/private-aks-avd.md
+          - Private AKS: engineering/private-aks-platform.md
+          - AVD Workspace: engineering/avd-secure-workspace.md
+          - AKS and AVD Architecture: engineering/private-aks-avd.md
 
       - Release 2 Operations Engineering:
           - Automation Control Plane: engineering/automation-control-plane.md
