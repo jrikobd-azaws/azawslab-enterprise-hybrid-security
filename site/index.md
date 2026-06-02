@@ -1,3 +1,7 @@
+---
+title: Home
+---
+
 <section class="hero" markdown>
 
 # Azawslab Enterprise Hybrid Security Platform
@@ -8,11 +12,11 @@
 
 ### Evidence-backed Azure, hybrid, and multi-cloud platform engineering portfolio.
 
-AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid enterprise environment through Azure platform engineering, secure hybrid and multi-cloud networking, private platform delivery, and controlled operations.
+AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and governed AI operations.
 
 <div class="hero-proof-strip" markdown>
 
-**Inside:** Terraform-driven landing zones, OIDC-based CI/CD, hybrid identity, private AKS, AVD, AWX automation, and an AI operations enclave with policy-mediated tool use and human approval boundaries.
+**Inside:** Terraform-driven Azure platform roots, OIDC-based CI/CD, hybrid identity, Exchange Hybrid, private AKS, AVD, AWX automation, backup resilience, and an AI operations enclave with policy-mediated tool use.
 
 **Proves:** Evidence-backed implementation across identity, security, networking, platform delivery, automation, resilience, and operational governance.
 
@@ -37,21 +41,21 @@ AzAWSLab is a staged enterprise platform portfolio built from a realistic Micros
 
 <div class="grid cards" markdown>
 
--   :material-numeric-1-circle: **Release 1: Hybrid workplace, identity and Microsoft 365 operations**
+-   :material-numeric-1-circle: **Release 1: Hybrid Workplace, Identity, Endpoint Security and Microsoft 365 Operations**
 
-    Hyper-V enterprise lab, AD DS, Exchange Hybrid, Entra Connect, Conditional Access, Intune, Autopilot, BitLocker, LAPS, Purview, Sentinel, Defender for Cloud, monitoring, and recovery validation.
+    Realistic Microsoft hybrid enterprise environment with Hyper-V, AD DS, Exchange Hybrid, Entra Connect, Conditional Access, Intune, Autopilot, BitLocker, LAPS, Purview, Sentinel, Defender for Cloud, operational visibility, and Microsoft Graph PowerShell.
 
     [Open Release 1 summary](releases/release1.md)
 
--   :material-numeric-2-circle: **Release 2: Azure platform engineering and secure operations**
+-   :material-numeric-2-circle: **Release 2: Azure Platform Engineering, Networking, Automation, Private Platform and AI Operations**
 
-    Terraform landing zones, OIDC delivery, separated state roots, Azure governance, hub-spoke networking, FortiGate inspection, BGP, AWS branch transit, AWX automation, backup, private AKS, AVD, and AI operations.
+    Terraform-driven Azure platform roots, OIDC delivery, isolated state boundaries, Azure governance, hub-spoke networking, FortiGate inspection, BGP, AWS branch transit, AWX automation, backup resilience, private AKS, AVD secure workspace, and AI operations enclave.
 
     [Open Release 2 summary](releases/release2.md)
 
--   :material-numeric-3-circle: **Release 3: Multi-cloud Kubernetes and DevSecOps roadmap**
+-   :material-numeric-3-circle: **Release 3: Multi-Cloud Kubernetes, GitOps and DevSecOps Roadmap**
 
-    Defined roadmap toward AKS/EKS, GitOps, DevSecOps, observability, resilience, and platform evolution.
+    Defined roadmap toward AKS/EKS, Flux, Flagger, DevSecOps scanning, observability, resilience, and platform evolution.
 
     [Open Release 3 roadmap](releases/release3.md)
 
@@ -61,20 +65,20 @@ AzAWSLab is a staged enterprise platform portfolio built from a realistic Micros
 
 ```mermaid
 graph TD
-    A["Local enterprise foundation<br>Hyper-V, AD DS, Exchange"] --> B["Release 1<br>Hybrid Workplace & Identity"]
-    B --> C["Release 2<br>Azure Platform Engineering & Security"]
-    C --> D["Private Platform & Secure Workspace<br>AKS, AVD, FSLogix"]
+    A["Realistic Microsoft hybrid enterprise environment<br>Hyper-V, AD DS, Exchange Hybrid"] --> B["Release 1<br>Hybrid Workplace and Identity"]
+    B --> C["Release 2<br>Azure Platform Engineering and Security"]
+    C --> D["Private Platform and Secure Workspace<br>AKS, AVD, FSLogix"]
     D --> E["AI Operations Enclave<br>Policy-mediated tool use"]
-    E --> F["Release 3<br>Multi-Cloud Kubernetes & DevSecOps roadmap"]
+    E --> F["Release 3<br>Multi-Cloud Kubernetes and DevSecOps roadmap"]
 ```
 
 ## Core architectural capabilities
 
 <div class="grid cards" markdown>
 
--   :material-key-chain: **Secretless IaC delivery**
+-   :material-key-chain: **OIDC-based IaC delivery**
 
-    GitHub Actions OIDC and workflow-controlled Terraform delivery reduce credential exposure and make deployment behavior reviewable.
+    GitHub Actions OIDC and workflow-controlled Terraform delivery reduce reliance on long-lived credentials and make deployment evidence reviewable.
 
     [Review OIDC delivery](engineering/github-actions-oidc.md)
 
@@ -86,19 +90,19 @@ graph TD
 
 -   :material-shield-lock: **Private platform delivery**
 
-    Private AKS and secure AVD workspace patterns show controlled access to platform and operations layers.
+    Private AKS and secure AVD workspace patterns enforce controlled access to platform and operations layers.
 
     [Review private platform](engineering/private-aks-avd.md)
 
 -   :material-cog-sync: **Automation and resilience**
 
-    Ansible, AWX, backup policies, BCDR planning, Recovery Services Vault, and operational runbooks show Day 2 platform maturity.
+    AWX, governed job templates, Recovery Services Vault controls, soft-delete handling, backup validation, and BCDR plans prove Day 2 maturity.
 
     [Review automation control plane](engineering/automation-control-plane.md)
 
 -   :material-robot-outline: **AI operations boundary**
 
-    Policy-mediated tool use, human approval boundaries, and companion local AI infrastructure demonstrate controlled AI-enabled CloudOps.
+    Policy-mediated tool use, human approval boundaries, and a companion local AI lab demonstrate controlled AI-enabled CloudOps.
 
     [Review AI operations](ai-operations/index.md)
 
@@ -108,12 +112,15 @@ graph TD
 
 | Area | Quick proof |
 |---|---|
-| Secretless Terraform | [OIDC deployment evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P0) |
-| Multi-cloud routing | [BGP and VPN evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5) |
+| OIDC-based Terraform | [OIDC deployment evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P0) |
+| Hybrid routing | [Hybrid routing evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5) |
+| VPN and BGP | [VPN-specific evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5-vpn) |
 | Private AKS | [Private cluster validation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4) |
 | AVD secure workspace | [AVD workspace evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5) |
 | AWX automation | [AWX control plane evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A2-awx-control-plane) |
-| AI operations | [AI operations evidence](evidence/release2-evidence-index.md) |
+| AI operations | [O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6) and [AI Operations Enclave](ai-operations/index.md) |
+| Full evidence dashboard | [Proof Gallery](proof-gallery.md) |
+| Complete skill map | [Skills Matrix](skills-matrix.md) |
 
 ## Choose your review path
 
