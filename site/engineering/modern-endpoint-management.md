@@ -28,26 +28,26 @@
 </div>
 
 !!! summary "Scope"
-    Engineering rationale, configuration decisions, and evidence paths for endpoint onboarding, Intune management, Autopilot validation, compliance evaluation, BitLocker, Windows LAPS, and endpoint recovery readiness in Release 1.
+    Endpoint lifecycle notes for Release 1: Intune onboarding, Autopilot validation, compliance evaluation, BitLocker, Windows LAPS, and recovery readiness.
 
 ## Endpoint management model
 
-Release 1 treats endpoint management as a lifecycle, not a one-time registration event.
+Release 1 treats endpoint management as a lifecycle: enroll, evaluate, protect, recover, and support.
 
-The implementation starts with enrollment and device visibility, then extends into compliance, protection, recovery readiness, and operational follow-up. This matters because a device should not be treated as trusted simply because it appears in a management portal. It must be enrolled, evaluated, protected, recoverable, and operationally supportable.
+The implementation starts with enrollment and device visibility, then moves into compliance, protection, recovery readiness, and operational follow-up. A device is not trusted simply because it appears in a management portal. It has to be enrolled, evaluated, protected, recoverable, and supportable.
 
-| Design choice | Engineering rationale | Evidence path |
+| Design choice | Why it matters | Evidence route |
 |---|---|---|
-| Intune is the endpoint management plane | Provides enrollment visibility, ownership differentiation, policy assignment, compliance state, and a path into monitoring and recovery workflows. | [Endpoint enrollment documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/04-endpoint-enrollment.md) |
-| Ownership-aware enrollment is represented | Corporate Windows, Windows BYOD, iPhone BYOD, and Ubuntu Linux are documented as distinct onboarding paths rather than one generic device flow. | [Endpoint Management Evidence Hub](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1/endpoint-management) |
-| Autopilot and ESP are advanced validation added after baseline | Preserves technical accuracy while showing that the original managed-device baseline was later extended into modern Windows provisioning. | [Endpoint enrollment documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/04-endpoint-enrollment.md) |
+| Intune is the endpoint management plane | Provides enrollment visibility, ownership distinction, policy assignment, compliance state, and a path into monitoring and recovery workflows. | [Endpoint enrollment documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/04-endpoint-enrollment.md) |
+| Ownership-aware enrollment is represented | Corporate Windows, Windows BYOD, iPhone BYOD, and Ubuntu Linux are treated as separate onboarding paths, not one generic device flow. | [Endpoint Management Evidence Hub](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/screenshots/release1/endpoint-management) |
+| Autopilot and ESP are advanced validation added after baseline | Keeps the sequence accurate: the managed-device baseline was later extended into modern Windows provisioning. | [Endpoint enrollment documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/04-endpoint-enrollment.md) |
 | Compliance and hardening are separate from enrollment | Keeps device registration separate from trusted-device status. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
 
 ## Enrollment and provisioning
 
-The baseline endpoint model shows that multiple device and ownership types can be brought into a managed estate. The later Autopilot and Enrollment Status Page work extends that model into a modern Windows provisioning path.
+The endpoint model brings multiple device and ownership types into one managed estate. Autopilot and Enrollment Status Page then extend that model into modern Windows provisioning.
 
-| Capability | Implementation signal | Evidence path |
+| Capability | Validation signal | Evidence route |
 |---|---|---|
 | Corporate Windows enrollment | Corporate Windows device reaches a managed and compliant state in Intune. | [Corporate Windows compliant evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/screenshots/release1/endpoint-management/intune/intune-windows-corp/08-intune-windows-device-compliant.png) |
 | Corporate and BYOD visibility | Corporate and personal Windows devices are visible in the same managed estate while preserving ownership distinction. | [Corporate and BYOD visibility evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/screenshots/release1/endpoint-management/intune/intune-windows-byod/05-intune-windows-devices-corp-and-byod.png) |
@@ -58,11 +58,11 @@ The baseline endpoint model shows that multiple device and ownership types can b
 
 ## Compliance and endpoint protection
 
-Enrollment establishes management. Compliance and protection establish endpoint trust.
+Enrollment establishes management; compliance and protection establish endpoint trust.
 
-Release 1 uses compliance policy, security baseline assignment, Defender Antivirus controls, Attack Surface Reduction, BitLocker-related controls, Windows Update for Business, and Windows LAPS to move beyond device visibility into an enforceable endpoint posture.
+Release 1 moves beyond device visibility with compliance policy, security baselines, Defender Antivirus, Attack Surface Reduction, BitLocker-related controls, Windows Update for Business, and Windows LAPS.
 
-| Control area | Implementation signal | Evidence path |
+| Control area | Validation signal | Evidence route |
 |---|---|---|
 | Compliance evaluation | Device state is evaluated and surfaced through Intune rather than assumed from enrollment alone. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |
 | Security baseline | Managed Windows endpoints receive security baseline hardening rather than relying on default settings. | [Endpoint compliance and security documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/05-endpoint-compliance-and-security.md) |

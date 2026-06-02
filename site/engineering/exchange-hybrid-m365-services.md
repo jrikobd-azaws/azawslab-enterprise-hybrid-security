@@ -28,13 +28,13 @@
 </div>
 
 !!! summary "Scope"
-    Design rationale, implementation detail, and evidence paths for the Release 1 Microsoft 365 operations layer: Exchange Hybrid, Exchange Online pilot validation, Teams and SharePoint baseline services, namespace and certificate discipline, and advanced Microsoft 365 email security validation added after the original baseline.
+    Microsoft 365 operations notes for Release 1: Exchange Hybrid, Exchange Online pilot validation, Teams and SharePoint services, namespace and certificate handling, and later email security validation.
 
 ## Service role
 
-Release 1 was not only an identity and endpoint security build. It also validated that the realistic Microsoft hybrid enterprise environment could deliver Microsoft 365 services to users.
+Release 1 also had to prove the workplace services were usable. The evidence shows Microsoft 365 services working from the realistic Microsoft hybrid enterprise environment.
 
-This page covers the user-facing service layer built on hybrid identity:
+The service layer built on hybrid identity includes:
 
 - Exchange Hybrid as the controlled messaging validation path.
 - Pilot mailbox migration and post-migration access validation.
@@ -42,15 +42,15 @@ This page covers the user-facing service layer built on hybrid identity:
 - Namespace and certificate handling for the scoped hybrid path.
 - Advanced email security validation through anti-phishing, Safe Links, and Safe Attachments policy visibility.
 
-This page is scoped to Microsoft 365 operations and Modern Workplace services. Identity synchronization is documented in [Hybrid Identity Engineering](hybrid-identity/), device management is documented in [Modern Endpoint Management](modern-endpoint-management/), and operational scripting is documented in [Graph & PowerShell Operations](graph-powershell-operations/).
+This note stays focused on Microsoft 365 operations and workplace services. Identity synchronization is documented in [Hybrid Identity Engineering](hybrid-identity/), device management is documented in [Modern Endpoint Management](modern-endpoint-management/), and operational scripting is documented in [Graph & PowerShell Operations](graph-powershell-operations/).
 
 ## Design decisions
 
-| Decision | Rationale | Evidence |
+| Decision | Why it matters | Evidence route |
 |---|---|---|
-| Exchange Hybrid instead of cutover migration | A controlled hybrid path allowed pilot mailbox validation without presenting the work as a full production migration program. | `docs/release1/02-modern-workplace.md`, `screenshots/release1/modern-workplace/exchange-hybrid/` |
-| Pilot-first mailbox validation | Validates user access and mailbox state through visible outcomes, not only wizard completion. | Exchange hybrid readiness and Outlook pilot validation screenshots |
-| Microsoft 365 collaboration baseline | Shows that Release 1 moved beyond identity plumbing into usable Microsoft 365 services. | Teams and SharePoint evidence under `screenshots/release1/modern-workplace/` |
+| Exchange Hybrid instead of cutover migration | The hybrid path was kept deliberately scoped: pilot mailbox validation, not a full production migration program. | `docs/release1/02-modern-workplace.md`, `screenshots/release1/modern-workplace/exchange-hybrid/` |
+| Pilot-first mailbox validation | Confirms user access and mailbox state through visible outcomes, not wizard completion alone. | Exchange hybrid readiness and Outlook pilot validation screenshots |
+| Microsoft 365 collaboration baseline | Connects Release 1 identity work to usable Microsoft 365 services. | Teams and SharePoint evidence under `screenshots/release1/modern-workplace/` |
 | Scoped namespace and certificate discipline | Keeps the root business namespace separate while validating the hybrid path under `corp.azawslab.co.uk`. | Release 1 Modern Workplace documentation and evidence |
 | Advanced email security added after baseline | Extends the service layer with anti-phishing, Safe Links, and Safe Attachments policy visibility without rewriting the original baseline scope. | `screenshots/release1/modern-workplace/email-security/` |
 
@@ -58,7 +58,7 @@ This page is scoped to Microsoft 365 operations and Modern Workplace services. I
 
 Exchange Hybrid is the core service validation path for Release 1 because it connects identity, messaging, namespace, certificates, mailbox access, and user-facing Microsoft 365 service readiness.
 
-The implementation was treated as a pilot-first validation exercise. The goal was not to present the work as a full enterprise migration program. The goal was to validate that the on-premises Exchange environment and Exchange Online could be connected in a controlled, supportable way.
+The implementation was scoped as a pilot-first validation exercise. It does not present the work as a full enterprise migration program. It validates a controlled, supportable connection between on-premises Exchange and Exchange Online.
 
 Key validation signals include:
 
@@ -74,20 +74,20 @@ The flagship evidence includes migration server availability validation and Outl
 
 Teams and SharePoint were included because Microsoft 365 operations require more than mailbox movement.
 
-The collaboration baseline validates that:
+The collaboration evidence confirms:
 
 - Microsoft 365 services were reachable and usable.
 - SharePoint document access was validated.
 - The service layer extended beyond identity and messaging into practical workplace use.
 - Release 1 provided a realistic Microsoft hybrid enterprise environment rather than a disconnected set of administration screenshots.
 
-This matters for reviewers because Teams and SharePoint validation shows the service layer was usable by people, not only configured by administrators.
+Teams and SharePoint evidence shows the service layer was usable by people, not just configured by administrators.
 
 ## Namespace and certificate discipline
 
 The Release 1 hybrid path used `corp.azawslab.co.uk` for the hybrid validation scope while keeping the root business mail namespace separate.
 
-That design choice matters because hybrid messaging projects depend on namespace planning, certificate handling, and clear assumptions about production cutover. Release 1 kept the validation path scoped and evidence-backed.
+Hybrid messaging depends on namespace planning, certificate handling, and clear production cutover assumptions. Release 1 kept the validation path scoped and evidenced.
 
 The documented approach shows:
 
