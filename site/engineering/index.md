@@ -16,7 +16,7 @@ The engineering material is grouped by platform lifecycle domain rather than by 
 
 | Lifecycle domain | Engineering notes |
 |---|---|
-| Release 1 Hybrid Workplace | Hybrid Identity Engineering<br>Modern Endpoint Management<br>Graph and PowerShell Operations |
+| Release 1 Hybrid Workplace | [Hybrid Identity Engineering](hybrid-identity.md)<br>Modern Endpoint Management<br>Graph and PowerShell Operations |
 | Release 2 Delivery Engineering | [Terraform State Boundaries](terraform-state-boundaries.md)<br>[GitHub Actions OIDC](github-actions-oidc.md)<br>[Code Traceability](code-traceability.md) |
 | Release 2 Network Engineering | [Hybrid Multi-Cloud Networking](hybrid-multicloud-networking.md)<br>[Secure Transmission and Inspection](secure-transmission-inspection.md)<br>[Hybrid BGP Multi-Cloud Transit](hybrid-bgp-multicloud-transit.md) |
 | Release 2 Platform Services | [Private AKS Platform](private-aks-platform.md)<br>[AVD Secure Workspace](avd-secure-workspace.md)<br>[Private AKS and AVD Architecture](private-aks-avd.md) |
@@ -62,7 +62,6 @@ They should avoid marketing language, unsupported adjectives, and vague claims. 
 
 The following notes are intentionally listed without links until their pages are created and validated in this refresh sequence:
 
-- Hybrid Identity Engineering
 - Modern Endpoint Management
 - Graph and PowerShell Operations
 - Monitoring, Backup and Resilience
