@@ -28,9 +28,9 @@
 </div>
 
 !!! summary "Scope"
-    The operational visibility model built into Release 1: sign-in review, audit-log analysis, device-state visibility, policy and control review, practical alerting, and Graph-connected PowerShell validation. The evidence is mapped to the public Release 1 monitoring documentation and Release 1 screenshot folders.
+    The operational visibility model built into Release 1: sign-in review, audit-log analysis, device-state visibility, policy and control review, practical alerting, and Microsoft Graph PowerShell validation. The evidence route points to the public Release 1 monitoring documentation and Release 1 screenshot folders.
 
-Release 1 monitoring is intentionally practical. It does not claim a full enterprise SOC or large-scale observability program. It proves that the environment could be reviewed, interpreted, and operated through Microsoft-native visibility, evidence capture, and script-assisted state review.
+Release 1 monitoring is practical and operationally focused. It is scoped to Release 1 monitoring rather than a full enterprise SOC or large-scale observability program. It validates that the environment could be reviewed, interpreted, and operated through Microsoft-native visibility, evidence capture, and script-assisted state review.
 
 ## Design decisions
 
@@ -45,7 +45,7 @@ Release 1 monitoring is intentionally practical. It does not claim a full enterp
 
 Sign-in monitoring links identity, access policy, and device context into one operational signal.
 
-The Release 1 monitoring evidence includes sign-in-log views showing Conditional Access result visibility. This allows the operator to verify whether access decisions were visible rather than assumed.
+The Release 1 monitoring evidence includes sign-in log views showing Conditional Access result visibility. This allows the operator to verify access decisions through visible sign-in evidence rather than assumption.
 
 | Review question | Evidence signal |
 |---|---|
@@ -55,7 +55,7 @@ The Release 1 monitoring evidence includes sign-in-log views showing Conditional
 
 ## Conditional Access result visibility
 
-Conditional Access policies protect the tenant, but this engineering note focuses on verification rather than description.
+Conditional Access policies protect the tenant; this engineering note focuses on verification rather than description.
 
 The monitoring model validates that policy results appear in sign-in records and that access behavior can be reviewed after a user or administrator attempts to access cloud resources.
 
@@ -66,7 +66,7 @@ The monitoring model validates that policy results appear in sign-in records and
 
 ## Audit-log visibility
 
-Audit logging provides administrative traceability. It helps confirm that configuration changes, identity actions, and control adjustments are reviewable instead of existing only as remembered activity.
+Audit logging provides administrative traceability. It confirms that configuration changes, identity actions, and control adjustments are reviewable instead of existing only as remembered activity.
 
 The Release 1 monitoring evidence includes Entra audit-log visibility, showing that operational history can be inspected during support or governance review.
 
@@ -79,7 +79,7 @@ The Release 1 monitoring evidence includes Entra audit-log visibility, showing t
 
 Endpoint trust depends on visibility into the managed estate. Release 1 monitors device presence, compliance state, policy status, dashboard-level control views, and whether the managed estate appears healthy or inconsistent.
 
-This matters because policy existence is not enough. An administrator must be able to see whether devices are present, managed, compliant, and aligned with the expected control state.
+Policy existence is not enough. An administrator must be able to see whether devices are present, managed, compliant, and aligned with the expected control state.
 
 | Claim | Evidence path | What to verify |
 |---|---|---|
@@ -88,9 +88,9 @@ This matters because policy existence is not enough. An administrator must be ab
 
 ## Practical alerting
 
-Release 1 does not claim a full enterprise alerting program. It includes practical alert visibility that supports endpoint administration and operational review.
+Release 1 is scoped to practical alert visibility rather than a full enterprise alerting program. It includes practical alert visibility that supports endpoint administration and operational review.
 
-The evidence includes example alerting in the administrative view, showing that the platform was not treated as a static build. Administrators need visibility when device configuration, compliance, or control posture requires attention.
+The evidence includes example alerting in the administrative view, showing that the platform was operated rather than treated as a static build. Administrators need visibility when device configuration, compliance, or control posture requires attention.
 
 | Claim | Evidence path | What to verify |
 |---|---|---|
@@ -99,20 +99,20 @@ The evidence includes example alerting in the administrative view, showing that 
 
 ## Graph and PowerShell operational visibility
 
-Release 1 extends portal-based monitoring with Graph-connected PowerShell tooling. This provides repeatable, operator-driven visibility into pilot user state, managed device state, and controlled administrative action.
+Release 1 extends portal-based monitoring with Microsoft Graph PowerShell tooling. This provides repeatable, operator-driven visibility into pilot user state, managed device state, and controlled administrative action.
 
 The validated tooling includes:
 
-- Connect-BelfastMgGraph.ps1 for Graph connection and consent validation.
+- Connect-BelfastMgGraph.ps1 for Microsoft Graph connection and consent validation.
 - Get-BelfastPilotUserState.ps1 for pilot user state review.
 - Get-BelfastManagedDeviceState.ps1 for managed device state review.
 - Rename-BelfastManagedDevice.ps1 for controlled device rename with dry-run and apply modes.
 
-This matters because modern Microsoft workplace operations increasingly require Graph-aware administration alongside portal review.
+Modern Microsoft workplace operations increasingly require Microsoft Graph-aware administration alongside portal review.
 
 | Claim | Evidence path | What to verify |
 |---|---|---|
-| Graph connection and consent were validated. | screenshots/release1/identity-and-access/identity-operations/graph-powershell/ | Admin consent and successful Connect-MgGraph output. |
+| Microsoft Graph connection and consent were validated. | screenshots/release1/identity-and-access/identity-operations/graph-powershell/ | Admin consent and successful Connect-MgGraph output. |
 | Pilot user state can be queried. | Same folder. | Get-BelfastPilotUserState.ps1 evidence output. |
 | Managed device state can be queried. | Same folder. | Get-BelfastManagedDeviceState.ps1 evidence output. |
 | Device rename was controlled with dry-run and apply. | Same folder. | Dry-run and apply evidence for Rename-BelfastManagedDevice.ps1. |
@@ -121,7 +121,7 @@ See [Graph and PowerShell Operations](graph-powershell-operations.md) for the de
 
 ## Operational review model
 
-The monitoring discipline is a process, not only a tool choice.
+The monitoring discipline is a review process, not only a tool choice.
 
 A practical Release 1 review cycle examines:
 
@@ -130,18 +130,18 @@ A practical Release 1 review cycle examines:
 3. Device compliance and managed-device state.
 4. Policy and control status.
 5. Practical alerts that require administrator attention.
-6. Graph and PowerShell output where portal visibility is not enough.
+6. Microsoft Graph PowerShell output where portal visibility is not enough.
 7. Evidence captured for future review.
 
-This model is supportable by a single administrator and can mature into the Release 2 monitoring, Sentinel, backup, and automation model.
+This model is supportable by a single administrator and extends naturally into the Release 2 monitoring, Sentinel, backup, and automation model.
 
 ## Architectural significance
 
-- Proves that operational visibility existed before Release 2 automation and Sentinel maturity.
-- Demonstrates a review cadence grounded in real Microsoft 365 and Entra administration.
-- Connects dashboard-based review with Graph-connected state queries and controlled administrative action.
-- Builds a path from Release 1 manual visibility to Release 2 monitoring, backup, and automation evidence.
-- Keeps the scope honest by separating practical monitoring from unsupported claims of a full enterprise SOC.
+- Validates that operational visibility existed before Release 2 automation and Sentinel expansion.
+- Shows a review cadence grounded in Microsoft 365 and Entra administration.
+- Connects dashboard-based review with Microsoft Graph-connected state queries and controlled administrative action.
+- Builds a path from Release 1 operational visibility to Release 2 monitoring, backup, and automation evidence.
+- Keeps the scope clear by separating practical monitoring from full enterprise SOC positioning.
 
 ## Evidence map
 
@@ -151,5 +151,5 @@ This model is supportable by a single administrator and can mature into the Rele
 | Administrative activity is visible through audit logs. | screenshots/release1/monitoring-and-operations/monitoring/audit-logs/ | Entra audit-log overview evidence. |
 | Device compliance and control status are reviewable. | screenshots/release1/monitoring-and-operations/monitoring/device-visibility/ | Intune device compliance status evidence. |
 | Practical alert visibility exists for endpoint administration. | screenshots/release1/monitoring-and-operations/monitoring/example-alert/ | Intune dashboard device configuration alert evidence. |
-| Graph-connected PowerShell tooling was validated. | screenshots/release1/identity-and-access/identity-operations/graph-powershell/ | Graph consent, connection, pilot user state, managed device state, dry-run rename, and apply rename evidence. |
+| Microsoft Graph PowerShell tooling was validated. | screenshots/release1/identity-and-access/identity-operations/graph-powershell/ | Microsoft Graph consent, connection, pilot user state, managed device state, dry-run rename, and apply rename evidence. |
 | Monitoring scope and boundaries are documented. | [Release 1 monitoring documentation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/blob/main/docs/release1/08-monitoring.md) | Practical monitoring scope, advanced Graph validation, evidence boundaries, and related documents. |
