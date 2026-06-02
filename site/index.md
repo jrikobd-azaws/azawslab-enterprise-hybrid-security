@@ -1,10 +1,64 @@
-﻿---
+---
 title: Home
 hide:
   - title
   - navigation
   - toc
 ---
+<!-- azawslab-home-hero-compact-style:start -->
+<style>
+/* Homepage-only compact hero correction.
+   Keep the existing hero card and logo, but remove the default Home heading gap
+   and tighten the logo area so the page matches the rest of the site style. */
+.md-content__inner > h1:first-child {
+  display: none;
+}
+
+.md-content__inner {
+  padding-top: 0.4rem;
+}
+
+.md-content__inner > div:first-of-type {
+  margin-top: 0.7rem !important;
+  padding-top: 1.6rem !important;
+}
+
+.md-content__inner > div:first-of-type > div:first-child,
+.md-content__inner > div:first-of-type > p:first-child {
+  margin-top: 0 !important;
+  margin-bottom: 1.05rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: 0 !important;
+}
+
+.md-content__inner > div:first-of-type img:first-of-type {
+  display: block;
+  width: min(230px, 40vw) !important;
+  max-width: 230px !important;
+  height: auto !important;
+  margin: 0 auto 1.05rem !important;
+}
+
+.md-content__inner > div:first-of-type h1,
+.md-content__inner > div:first-of-type h2,
+.md-content__inner > div:first-of-type h3 {
+  margin-top: 0 !important;
+}
+
+@media screen and (max-width: 76.1875em) {
+  .md-content__inner > div:first-of-type {
+    margin-top: 0.5rem !important;
+    padding-top: 1.25rem !important;
+  }
+
+  .md-content__inner > div:first-of-type img:first-of-type {
+    max-width: 210px !important;
+    margin-bottom: 0.9rem !important;
+  }
+}
+</style>
+<!-- azawslab-home-hero-compact-style:end -->
 
 <section class="hero hero--compact" markdown>
 
