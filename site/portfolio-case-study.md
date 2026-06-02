@@ -1,17 +1,34 @@
 # Portfolio Case Study
 
-<div class="portfolio-chipline"><a class="portfolio-chip" href="/portfolio-case-study/"><span class="portfolio-chip-label">Journey</span><span class="portfolio-chip-value portfolio-chip-value-ready">Public Ready</span></a><a class="portfolio-chip" href="/releases/release1/"><span class="portfolio-chip-label">R1</span><span class="portfolio-chip-value">Workplace + M365</span></a><a class="portfolio-chip" href="/releases/release2/"><span class="portfolio-chip-label">R2</span><span class="portfolio-chip-value">Platform + Multi-Cloud</span></a><a class="portfolio-chip" href="/releases/release3/"><span class="portfolio-chip-label">R3</span><span class="portfolio-chip-value portfolio-chip-value-muted">Roadmap</span></a></div>
+<div class="portfolio-chipline">
+  <a class="portfolio-chip" href="/portfolio-case-study/">
+    <span class="portfolio-chip-label">Journey</span>
+    <span class="portfolio-chip-value portfolio-chip-value-ready">Public Ready</span>
+  </a>
+  <a class="portfolio-chip" href="/releases/release1/">
+    <span class="portfolio-chip-label">R1</span>
+    <span class="portfolio-chip-value">Workplace + M365</span>
+  </a>
+  <a class="portfolio-chip" href="/releases/release2/">
+    <span class="portfolio-chip-label">R2</span>
+    <span class="portfolio-chip-value">Platform + Multi-Cloud</span>
+  </a>
+  <a class="portfolio-chip" href="/releases/release3/">
+    <span class="portfolio-chip-label">R3</span>
+    <span class="portfolio-chip-value portfolio-chip-value-muted">Roadmap</span>
+  </a>
+</div>
 
 !!! tip "Case-study summary"
     AzAWSLab is a staged enterprise platform portfolio built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, secure hybrid and multi-cloud networking, automation, private platform delivery, and policy-mediated AI operations.
 
-This case study is written for recruiters, hiring managers, and technical reviewers who need to understand the full project scope quickly. Every claim is backed by screenshots, CLI output, workflow logs, or design documents in the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security).
+This case study is written for recruiters, hiring managers, and technical reviewers who need to understand the full project scope quickly. Major capabilities are backed by screenshots, CLI output, workflow logs, source files, or design documents in the [public GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security) and organised through the [Proof Gallery](/proof-gallery/).
 
 ## What this project is
 
 AzAWSLab is not a collection of isolated screenshots. It is a connected platform lifecycle that demonstrates architecture, implementation, validation, documentation, and operational judgement.
 
-The portfolio starts with hybrid workplace, identity, endpoint security, and Microsoft 365 operations. It then extends into Azure platform engineering, secure hybrid and multi-cloud networking, automation control planes, private AKS, AVD secure workspace, backup and disaster recovery, and an AI operations enclave with policy-mediated tool use and human approval boundaries.
+The portfolio starts with a realistic Microsoft hybrid enterprise environment - Active Directory, Exchange Hybrid, Microsoft 365 services, identity, endpoint security, and operational visibility - and builds through Azure platform engineering, secure multi-cloud networking, automation, private AKS, AVD secure workspace, backup and disaster recovery, and an AI operations enclave evidenced through O6.
 
 ## Transformation map
 
@@ -28,40 +45,42 @@ flowchart LR
 
 Release 1 establishes hybrid workplace, identity, endpoint security, and Microsoft 365 operations:
 
-- **Local enterprise base:** Hyper-V, Active Directory Domain Services, DNS, Exchange Hybrid.
-- **Hybrid identity:** Entra Connect synchronisation, Conditional Access, MFA, and identity protection.
-- **Modern endpoint management:** Intune enrollment, Autopilot provisioning, compliance policies, BitLocker encryption, LAPS.
-- **Information protection:** Microsoft Purview, data loss prevention, sensitivity labels.
-- **Operational recovery:** BitLocker key recovery, stale device cleanup, documented recovery scenarios.
-- **Security monitoring:** Microsoft Sentinel, Defender for Cloud, alerting configuration.
+- **Hybrid identity:** Entra Connect synchronisation, Conditional Access, MFA, and identity operations.
+- **Exchange Hybrid and Microsoft 365 services:** hybrid mail flow, pilot mailbox migration, Teams, SharePoint, and Microsoft 365 service operations.
+- **Modern endpoint management:** Intune enrollment, Autopilot provisioning, compliance policies, BitLocker encryption, Windows LAPS, and Defender controls.
+- **Information protection:** Microsoft Purview, data loss prevention, sensitivity labels, and user-visible policy behaviour.
+- **Operational recovery:** BitLocker recovery, stale device cleanup, trust-break handling, rebuild, and re-enrollment evidence.
+- **Operational visibility:** sign-in and audit log review, device compliance tracking, policy and control review, and practical admin alerting.
+- **Script-based operations:** Microsoft Graph and PowerShell for sync monitoring, compliance reporting, and device lifecycle operations.
 
 ## What it proves - Release 2
 
 Release 2 builds the Azure platform and extends into multi-cloud territory:
 
-- **Landing zone and governance:** Terraform-defined landing zones, management group hierarchy, Azure Policy, RBAC, and strict state-file separation across multiple Terraform roots.
-- **Secretless CI/CD:** GitHub Actions with OpenID Connect (OIDC) and no long-lived deployment credentials.
-- **Hub-spoke networking:** Azure Firewall, forced tunneling, route tables, and service chaining.
+- **Landing zone and governance:** Terraform-defined platform roots, management group hierarchy, Azure Policy, RBAC, and state-boundary discipline.
+- **Secret-less CI/CD:** GitHub Actions with OpenID Connect and reduced reliance on long-lived deployment credentials.
+- **Code traceability:** source, workflow evidence, documentation, and proof routes mapped to reviewable platform claims.
+- **Hub-spoke networking:** Azure Firewall, route tables, controlled routing, and service-chaining context.
 - **Advanced traffic inspection:** FortiGate NVA integrated into the inspection path, validated through evidence.
-- **Hybrid and multi-cloud routing:** Site-to-site VPN, BGP, and a dedicated AWS branch foundation demonstrating cross-cloud transit and route validation.
-- **Automation control plane:** Ansible playbooks and AWX used for configuration management and operational runbooks, not ad-hoc scripts. Evidence includes AWX job templates, inventories, and execution logs.
-- **Private AKS:** Private cluster with no public API, network policies, and Kubernetes manifests.
-- **Secure AVD workspace:** Azure Virtual Desktop with FSLogix, private endpoints, and privileged access separation.
-- **Backup and disaster recovery:** Recovery Services Vault, backup policies, and documented BCDR plans including soft-delete handling.
-- **AI operations:** AI operations enclave with policy-mediated tool use, human approval boundaries, and a companion local-ai-lab-infra implementation.
+- **Hybrid and multi-cloud routing:** site-to-site VPN, BGP, VyOS, Azure, and AWS branch route validation.
+- **Automation control plane:** Ansible and AWX for governed runbooks, job execution evidence, and source-controlled operational automation.
+- **Private AKS:** private platform pattern with Kubernetes manifests, controlled access, and network policy context.
+- **Secure AVD workspace:** Azure Virtual Desktop with FSLogix, private access patterns, compliance context, and operator toolchain evidence.
+- **Backup and disaster recovery:** Recovery Services Vault controls, backup validation, soft-delete handling, and BCDR planning.
+- **AI operations:** AI Operations Enclave, evidenced through O6, with policy-mediated tool use and human approval boundaries.
 
 ## Delivery story
 
 | Release | Focus | Status |
 |---|---|---|
 | Release 1 | Hybrid workplace, identity, endpoint security, and Microsoft 365 operations | Implemented and evidenced |
-| Release 2 | Azure platform, networking, automation, private AKS/AVD, AI operations | Implemented and evidenced |
+| Release 2 | Azure platform, networking, automation, private AKS and AVD, AI operations | Implemented and evidenced |
 | Release 3 | Multi-cloud Kubernetes, GitOps, DevSecOps | Roadmap |
 
 ## Reviewer entry points
 
-- [Architecture Overview](architecture.md) - platform journey and design principles.
-- [Skills Matrix](skills-matrix.md) - skills mapped to evidence.
-- [Proof Gallery](proof-gallery.md) - visual evidence dashboard.
-- [Evidence Guide](evidence-guide.md) - how evidence is structured and validated.
-- For role-specific guidance, use the **Reviewer Pathways** menu at the top of the site.
+- **[Proof Gallery](/proof-gallery/)** - curated evidence dashboard covering the major platform capabilities.
+- **[Skills Matrix](/skills-matrix/)** - competency map with links to engineering notes and proof routes.
+- **[Engineering Deep Dive](/engineering/)** - engineering notes with design rationale, configuration details, and evidence maps.
+- **[Architecture Overview](/architecture/)** - platform journey, lifecycle domains, and key architectural decisions.
+- **Reviewer Pathways** - role-specific routes for recruiters, hiring managers, technical reviewers, security architects, and DevOps/SRE reviewers.
