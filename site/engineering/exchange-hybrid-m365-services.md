@@ -7,7 +7,7 @@
   </a>
   <a class="portfolio-chip" href="/engineering/hybrid-identity/">
     <span class="portfolio-chip-label">R1</span>
-    <span class="portfolio-chip-value portfolio-chip-value-active">Workplace</span>
+    <span class="portfolio-chip-value portfolio-chip-value-ready">Workplace</span>
   </a>
   <a class="portfolio-chip" href="/engineering/terraform-state-boundaries/">
     <span class="portfolio-chip-label">R2</span>

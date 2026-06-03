@@ -123,4 +123,3 @@ nav:
       - Companion Local AI Lab: companion-project.md
 
 extra_javascript:
-  - javascripts/nav-section-colors.js
