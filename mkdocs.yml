@@ -121,3 +121,6 @@ nav:
   - AI and Innovation:
       - Governed AI Operations Enclave: ai-operations/index.md
       - Companion Local AI Lab: companion-project.md
+
+extra_javascript:
+  - javascripts/nav-section-colors.js
