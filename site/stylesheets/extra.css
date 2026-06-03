@@ -183,46 +183,81 @@
 }
 
 /* index hero compact polish: start */
-.md-typeset .hero.hero--compact {
+.md-typeset .home-hero.hero {
   display: block !important;
-  min-height: 0 !important;
-  max-width: 860px;
   box-sizing: border-box;
-  margin: 0 auto 1.8rem !important;
-  padding: 1.45rem 3rem 1.9rem !important;
+  max-width: 54rem;
+  min-height: 0 !important;
+  margin: 0 auto 1.6rem !important;
+  padding: 1.55rem 2rem 1.75rem !important;
+  border-radius: 0.75rem;
 }
 
-.md-typeset .hero.hero--compact > p:first-child {
-  margin: 0 0 1.05rem !important;
+.md-typeset .home-hero > p:first-child {
+  margin: 0 0 1rem !important;
   line-height: 0 !important;
+  text-align: center;
 }
 
-.md-typeset .hero.hero--compact .hero-logo {
+.md-typeset .home-hero .home-hero-logo {
   display: block !important;
-  width: min(360px, 70%) !important;
-  max-width: 360px !important;
+  width: min(270px, 58%) !important;
+  max-width: 270px !important;
   height: auto !important;
   margin: 0 auto !important;
+  background: transparent;
 }
 
-.md-typeset .hero.hero--compact .hero-subtitle {
-  margin: 0 0 1rem !important;
-  font-size: clamp(1.05rem, 1.45vw, 1.28rem) !important;
+.md-typeset .home-hero .hero-subtitle {
+  max-width: 44rem;
+  margin: 0 0 0.95rem !important;
+  font-size: clamp(1.02rem, 1.35vw, 1.2rem) !important;
   line-height: 1.45 !important;
 }
 
-.md-typeset .hero.hero--compact .hero-proof-strip {
-  margin-top: 1rem !important;
+.md-typeset .home-hero > p:not([align]) {
+  max-width: 44rem;
+  margin: 0.55rem 0 0.9rem !important;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.md-typeset .home-hero .hero-proof-strip {
+  max-width: 44rem;
+  margin: 0.85rem 0 1rem !important;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.md-typeset .home-hero .hero-proof-strip p {
+  margin: 0.32rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.md-typeset .home-hero .hero-proof-strip strong {
+  color: var(--md-primary-fg-color);
+  font-weight: 700;
+}
+
+.md-typeset .home-hero a.role-button {
+  display: inline-block;
+  margin: 0.25rem 0.35rem 0.25rem 0;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  border-radius: 0.35rem;
 }
 
 @media screen and (max-width: 76.1875em) {
-  .md-typeset .hero.hero--compact {
+  .md-typeset .home-hero.hero {
     max-width: 100% !important;
-    padding: 1.3rem 1.3rem 1.6rem !important;
+    padding: 1.25rem 1.25rem 1.5rem !important;
   }
 
-  .md-typeset .hero.hero--compact .hero-logo {
-    width: min(320px, 78%) !important;
+  .md-typeset .home-hero .home-hero-logo {
+    width: min(240px, 72%) !important;
   }
 }
 /* index hero compact polish: end */
