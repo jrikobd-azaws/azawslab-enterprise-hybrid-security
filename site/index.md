@@ -1,4 +1,4 @@
-﻿---
+---
 title: Home
 hide:
   - title
@@ -40,6 +40,7 @@ AzAWSLab is the flagship portfolio project: a staged technical platform built fr
 </div>
 
 [Platform Journey](releases/index.md){ .role-button }
+[Engineering Deep Dive](engineering/index.md){ .role-button }
 [Proof Gallery](proof-gallery.md){ .role-button }
 [Reviewer Pathways](role-paths/index.md){ .role-button }
 
