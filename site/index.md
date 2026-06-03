@@ -39,8 +39,8 @@ AzAWSLab is the flagship portfolio project: a staged technical platform built fr
 
 </div>
 
-[Explore Platform Journey](releases/index.md){ .role-button }
-[View Proof Gallery](proof-gallery.md){ .role-button }
+[Platform Journey](releases/index.md){ .role-button }
+[Proof Gallery](proof-gallery.md){ .role-button }
 [Reviewer Pathways](role-paths/index.md){ .role-button }
 
 </section>
@@ -184,6 +184,7 @@ AzAWSLab is the flagship portfolio project: a staged technical platform built fr
 The public GitHub repository contains the implementation, evidence folders, workflows, Terraform roots, Kubernetes manifests, diagrams, and Markdown documentation.
 
 [:fontawesome-brands-github: Open GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security){ .md-button .md-button--primary }
+
 
 
 

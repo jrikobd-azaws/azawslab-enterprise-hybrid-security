@@ -314,3 +314,17 @@
   margin-top: 0.9rem;
 }
 /* homepage section heading polish: end */
+
+/* homepage hero button alignment: start */
+.md-typeset .home-hero p:has(.md-button) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.15rem;
+}
+
+.md-typeset .home-hero p:has(.md-button) .md-button {
+  margin: 0;
+}
+/* homepage hero button alignment: end */
