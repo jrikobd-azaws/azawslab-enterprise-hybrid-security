@@ -7,64 +7,22 @@ hide:
 ---
 <!-- azawslab-home-hero-compact-style:start -->
 <style>
-/* Homepage-only compact hero correction.
-   Keep the existing hero card and logo, but remove the default Home heading gap
-   and tighten the logo area so the page matches the rest of the site style. */
+/* Homepage-only title trim.
+   Keep this page-specific so the rest of the site keeps normal MkDocs spacing. */
 .md-content__inner > h1:first-child {
   display: none;
 }
 
 .md-content__inner {
-  padding-top: 0.4rem;
-}
-
-.md-content__inner > div:first-of-type {
-  margin-top: 0.7rem !important;
-  padding-top: 1.6rem !important;
-}
-
-.md-content__inner > div:first-of-type > div:first-child,
-.md-content__inner > div:first-of-type > p:first-child {
-  margin-top: 0 !important;
-  margin-bottom: 1.05rem !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  min-height: 0 !important;
-}
-
-.md-content__inner > div:first-of-type img:first-of-type {
-  display: block;
-  width: min(230px, 40vw) !important;
-  max-width: 230px !important;
-  height: auto !important;
-  margin: 0 auto 1.05rem !important;
-}
-
-.md-content__inner > div:first-of-type h1,
-.md-content__inner > div:first-of-type h2,
-.md-content__inner > div:first-of-type h3 {
-  margin-top: 0 !important;
-}
-
-@media screen and (max-width: 76.1875em) {
-  .md-content__inner > div:first-of-type {
-    margin-top: 0.5rem !important;
-    padding-top: 1.25rem !important;
-  }
-
-  .md-content__inner > div:first-of-type img:first-of-type {
-    max-width: 210px !important;
-    margin-bottom: 0.9rem !important;
-  }
+  padding-top: 0.45rem;
 }
 </style>
 <!-- azawslab-home-hero-compact-style:end -->
-
-<section class="hero hero--compact" markdown>
+<section class="home-hero hero hero--compact" markdown>
 
 
 <p align="center">
-  <img src="assets/brand/header-floating.svg" alt="" class="hero-logo">
+  <img src="assets/brand/header-floating.svg" alt="" class="home-hero-logo">
 </p>
 
 <p class="hero-subtitle"><strong>Flagship Azure, AWS-connected hybrid, and multi-cloud platform engineering portfolio with public evidence routes.</strong></p>
@@ -100,7 +58,7 @@ AzAWSLab is the flagship portfolio project: a staged technical platform built fr
 
 -   :material-numeric-1-circle: **Release 1: hybrid workplace, identity, endpoint security, and Microsoft 365 operations**
 
-    Realistic Microsoft hybrid enterprise environment with Hyper-V, AD DS, Exchange Hybrid, Entra Connect, Conditional Access, Intune, Autopilot, BitLocker, Windows Windows LAPS, Purview, Sentinel, Defender for Cloud, operational visibility, and Microsoft Graph PowerShell.
+    Realistic Microsoft hybrid enterprise environment with Hyper-V, AD DS, Exchange Hybrid, Entra Connect, Conditional Access, Intune, Autopilot, BitLocker, Windows LAPS, Purview, Sentinel, Defender for Cloud, operational visibility, and Microsoft Graph PowerShell.
 
     [Open Release 1 summary](releases/release1.md)
 
@@ -221,6 +179,7 @@ AzAWSLab is the flagship portfolio project: a staged technical platform built fr
     OIDC-based delivery, automation governance, observability, backup resilience, and operational runbooks.
 
 </div>
+
 ## Source repository
 The public GitHub repository contains the implementation, evidence folders, workflows, Terraform roots, Kubernetes manifests, diagrams, and Markdown documentation.
 
