@@ -1,4 +1,4 @@
----
+﻿---
 title: Home
 hide:
   - title
@@ -100,7 +100,7 @@ AzAWSLab is the flagship portfolio project: a staged technical platform built fr
 
 -   :material-numeric-1-circle: **Release 1: hybrid workplace, identity, endpoint security, and Microsoft 365 operations**
 
-    Realistic Microsoft hybrid enterprise environment with Hyper-V, AD DS, Exchange Hybrid, Entra Connect, Conditional Access, Intune, Autopilot, BitLocker, Windows LAPS, Purview, Sentinel, Defender for Cloud, operational visibility, and Microsoft Graph PowerShell.
+    Realistic Microsoft hybrid enterprise environment with Hyper-V, AD DS, Exchange Hybrid, Entra Connect, Conditional Access, Intune, Autopilot, BitLocker, Windows Windows LAPS, Purview, Sentinel, Defender for Cloud, operational visibility, and Microsoft Graph PowerShell.
 
     [Open Release 1 summary](releases/release1.md)
 
@@ -117,17 +117,6 @@ AzAWSLab is the flagship portfolio project: a staged technical platform built fr
     [Open Release 3 roadmap](releases/release3.md)
 
 </div>
-
-## Platform journey
-
-```mermaid
-graph TD
-    A["Realistic Microsoft hybrid enterprise environment<br>Hyper-V, AD DS, Exchange Hybrid"] --> B["Release 1<br>Hybrid Workplace and Identity"]
-    B --> C["Release 2<br>Azure Platform Engineering and Security"]
-    C --> D["Private Platform and Secure Workspace<br>AKS, AVD, FSLogix"]
-    D --> E["AI Operations Enclave<br>Policy-mediated tool use"]
-    E --> F["Release 3<br>Multi-Cloud Kubernetes and DevSecOps roadmap"]
-```
 
 ## Core architectural capabilities
 
@@ -165,19 +154,42 @@ graph TD
 
 </div>
 
-## Featured evidence
+## Platform journey and evidence routes
 
-| Area | Evidence route |
-|---|---|
-| OIDC-based Terraform | [OIDC deployment evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P0) |
-| Hybrid routing | [Hybrid routing evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5) |
-| VPN and BGP | [VPN-specific evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/P5-vpn) |
-| Private AKS | [Private cluster validation](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O4) |
-| AVD secure workspace | [AVD workspace evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O5) |
-| AWX automation | [AWX control plane evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/A2-awx-control-plane) |
-| AI operations | [O6 evidence](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security/tree/main/docs/release2/evidence/O6) and [AI Operations Enclave](ai-operations/index.md) |
-| Evidence dashboard | [Proof Gallery](proof-gallery.md) |
-| Skills map | [Skills Matrix](skills-matrix.md) |
+<div class="home-route-grid" markdown>
+
+<div class="home-route-card" markdown>
+### Platform journey
+
+**Release 1**  
+Hybrid workplace, identity, endpoint security, and Microsoft 365 operations.
+
+**Release 2**  
+Azure platform engineering, AWS-connected secure networking, automation, private platform services, operations, and AI governance.
+
+**Release 3**  
+Multi-cloud Kubernetes, GitOps, and DevSecOps roadmap.
+
+</div>
+
+<div class="home-route-card" markdown>
+### Featured evidence
+
+**[Proof Gallery](proof-gallery.md)**  
+Reviewer evidence dashboard for the major capability routes.
+
+**[Skills Matrix](skills-matrix.md)**  
+Capability-to-evidence map across Microsoft 365, Azure, AWS-connected networking, automation, Kubernetes, AVD, resilience, and AI governance.
+
+**[Engineering Deep Dive](engineering/index.md)**  
+Technical notes, implementation context, and evidence maps.
+
+**[GitHub source repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security)**  
+Implementation source, workflows, Terraform roots, manifests, diagrams, and evidence folders.
+
+</div>
+
+</div>
 
 ## Choose your review path
 
