@@ -25,7 +25,7 @@ hide:
   <img src="assets/brand/header-floating.svg" alt="" class="home-hero-logo">
 </p>
 
-<p class="hero-subtitle"><strong>Flagship Azure, AWS-connected hybrid, and multi-cloud platform engineering portfolio with public evidence routes.</strong></p>
+<p class="hero-subtitle"><strong>Flagship Azure, AWS-connected, hybrid, and multi-cloud platform engineering portfolio with public evidence trail.</strong></p>
 
 AzAWSLab is the flagship portfolio project: a staged technical platform built from a realistic Microsoft hybrid enterprise environment into Azure platform engineering, AWS-connected secure networking, automation, private platform services, operations, and AI governance.
 
