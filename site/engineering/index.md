@@ -18,7 +18,7 @@
 <div class="portfolio-chipline">
   <a class="portfolio-chip" href="#release-1-hybrid-workplace">
     <span class="portfolio-chip-label">R1</span>
-    <span class="portfolio-chip-value">Workplace</span>
+    <span class="portfolio-chip-value portfolio-chip-value-ready">Workplace</span>
   </a>
   <a class="portfolio-chip" href="#release-2-delivery-engineering">
     <span class="portfolio-chip-label">R2</span>

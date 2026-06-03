@@ -328,25 +328,3 @@
   margin: 0;
 }
 /* homepage hero button alignment: end */
-
-
-/* left navigation section colour polish: start */
-.md-sidebar--primary .md-nav__link.az-nav-section-label {
-  font-weight: 700;
-}
-
-.md-sidebar--primary .md-nav__link.az-nav-r1-workplace {
-  color: #2e7d32;
-}
-
-.md-sidebar--primary .md-nav__link.az-nav-r1-workplace::before {
-  content: "";
-  display: inline-block;
-  width: 0.42rem;
-  height: 0.42rem;
-  margin-right: 0.38rem;
-  border-radius: 999px;
-  background: #2e7d32;
-  vertical-align: 0.05rem;
-}
-/* left navigation section colour polish: end */
