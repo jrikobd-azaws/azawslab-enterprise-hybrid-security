@@ -227,3 +227,38 @@
 }
 /* index hero compact polish: end */
 
+
+/* Homepage journey/evidence cards */
+.home-route-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  margin: 1.25rem 0 1.75rem;
+}
+
+.home-route-card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.85rem;
+  padding: 1rem 1.1rem;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.04);
+}
+
+.home-route-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.home-route-card p {
+  margin: 0.35rem 0 0.75rem;
+}
+
+.home-route-card p:last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 760px) {
+  .home-route-grid {
+    grid-template-columns: 1fr;
+  }
+}
