@@ -86,7 +86,7 @@ nav:
   - Engineering Deep Dive:
       - Engineering Overview: engineering/index.md
 
-      - Release 1 Hybrid Workplace:
+      - R1 Workplace:
           - Hybrid Identity: engineering/hybrid-identity.md
           - Exchange Hybrid and M365 Services: engineering/exchange-hybrid-m365-services.md
           - Endpoint Management: engineering/modern-endpoint-management.md

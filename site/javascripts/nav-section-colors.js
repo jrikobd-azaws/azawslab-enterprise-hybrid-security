@@ -7,7 +7,7 @@
     document.querySelectorAll('.md-nav__link').forEach(function (link) {
       var label = normaliseText(link.textContent);
 
-      if (label === 'R1 Workplace') {
+      if (label === 'R1 Workplace' || label === 'Release 1 Hybrid Workplace') {
         link.classList.add('az-nav-section-label');
         link.classList.add('az-nav-r1-workplace');
 
