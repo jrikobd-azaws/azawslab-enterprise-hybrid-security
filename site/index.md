@@ -195,8 +195,33 @@ AzAWSLab is the flagship portfolio project: a staged technical platform built fr
     Implementation source, workflows, Terraform roots, manifests, diagrams, and evidence folders.
 
 </div>
-## Source repository
 
+## Choose your reviewer path
+
+<div class="grid cards" markdown>
+
+-   **[Recruiter path](role-paths/recruiter.md)**
+
+    Fast skills scan, role alignment, priority evidence, and interview-ready talking points.
+
+-   **[Hiring manager path](role-paths/hiring-manager.md)**
+
+    Business context, delivery ownership, risk reduction, and platform operating model.
+
+-   **[Technical reviewer path](role-paths/technical-reviewer.md)**
+
+    IaC design, Terraform state boundaries, workflows, networking, AKS, AVD, and evidence routes.
+
+-   **[Security architect path](role-paths/security-architect.md)**
+
+    Identity governance, endpoint controls, network inspection, private access, resilience, and AI governance.
+
+-   **[DevOps and SRE path](role-paths/devops-sre.md)**
+
+    OIDC-based delivery, automation governance, observability, backup resilience, and operational runbooks.
+
+</div>
+## Source repository
 The public GitHub repository contains the implementation, evidence folders, workflows, Terraform roots, Kubernetes manifests, diagrams, and Markdown documentation.
 
 [:fontawesome-brands-github: Open GitHub repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security){ .md-button .md-button--primary }
