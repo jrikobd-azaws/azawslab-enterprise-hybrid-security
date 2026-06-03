@@ -122,4 +122,4 @@ nav:
       - Governed AI Operations Enclave: ai-operations/index.md
       - Companion Local AI Lab: companion-project.md
 
-extra_javascript:
+extra_javascript: []
