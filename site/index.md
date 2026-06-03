@@ -1,4 +1,4 @@
-﻿---
+---
 title: Home
 hide:
   - title
@@ -156,83 +156,45 @@ AzAWSLab is the flagship portfolio project: a staged technical platform built fr
 
 ## Platform journey and evidence routes
 
-<div class="home-route-grid" markdown>
-
-<div class="home-route-card" markdown>
-### Platform journey
-
-**Release 1**  
-Hybrid workplace, identity, endpoint security, and Microsoft 365 operations.
-
-**Release 2**  
-Azure platform engineering, AWS-connected secure networking, automation, private platform services, operations, and AI governance.
-
-**Release 3**  
-Multi-cloud Kubernetes, GitOps, and DevSecOps roadmap.
-
-</div>
-
-<div class="home-route-card" markdown>
-### Featured evidence
-
-**[Proof Gallery](proof-gallery.md)**  
-Reviewer evidence dashboard for the major capability routes.
-
-**[Skills Matrix](skills-matrix.md)**  
-Capability-to-evidence map across Microsoft 365, Azure, AWS-connected networking, automation, Kubernetes, AVD, resilience, and AI governance.
-
-**[Engineering Deep Dive](engineering/index.md)**  
-Technical notes, implementation context, and evidence maps.
-
-**[GitHub source repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security)**  
-Implementation source, workflows, Terraform roots, manifests, diagrams, and evidence folders.
-
-</div>
-
-</div>
-
-## Choose your review path
-
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-user-tie: **Recruiter**
+-   ### Platform journey
 
-    Fast skills scan, role alignment, priority evidence, and interview-ready talking points.
+    ```mermaid
+    flowchart LR
+        R1["Release 1<br/>Hybrid workplace<br/>Microsoft 365 operations"]
+        R2["Release 2<br/>Platform engineering<br/>AWS branch routing"]
+        O6["O6<br/>AI Operations Enclave"]
+        R3["Release 3<br/>Kubernetes<br/>GitOps and DevSecOps roadmap"]
 
-    [Start recruiter path](role-paths/recruiter.md)
+        R1 --> R2 --> O6 --> R3
+    ```
 
--   :fontawesome-solid-briefcase: **Hiring Manager**
+    **Release 1** - Hybrid workplace, identity, endpoint security, and Microsoft 365 operations.
 
-    Business context, delivery ownership, risk reduction, and platform operating model.
+    **Release 2** - Azure platform engineering, AWS-connected secure networking, automation, private platform services, operations, and AI governance.
 
-    [Start hiring manager path](role-paths/hiring-manager.md)
+    **Release 3** - Multi-cloud Kubernetes, GitOps, and DevSecOps roadmap.
 
--   :fontawesome-solid-terminal: **Technical Reviewer**
+-   ### Featured evidence
 
-    IaC design, Terraform state boundaries, workflows, networking, AKS, AVD, and evidence routes.
+    **[Proof Gallery](proof-gallery.md)**
 
-    [Start technical review](role-paths/technical-reviewer.md)
+    Reviewer evidence dashboard for the major capability routes.
 
--   :fontawesome-solid-shield-halved: **Security Architect**
+    **[Skills Matrix](skills-matrix.md)**
 
-    Zero-trust boundaries, identity controls, private access, network inspection, and AI governance.
+    Capability-to-evidence map across Microsoft 365, Azure, AWS-connected networking, automation, Kubernetes, AVD, resilience, and AI governance.
 
-    [Start security review](role-paths/security-architect.md)
+    **[Engineering Deep Dive](engineering/index.md)**
 
--   :fontawesome-solid-gears: **DevOps / SRE**
+    Technical notes, implementation context, and evidence maps.
 
-    CI/CD, OIDC delivery, AWX automation, monitoring, backup, validation, and operational readiness.
+    **[GitHub source repository](https://github.com/jrikobd-azaws/azawslab-enterprise-hybrid-security)**
 
-    [Start operations review](role-paths/devops-sre.md)
-
--   :material-file-search: **Evidence-first Reviewer**
-
-    Visual evidence map, screenshots, CLI output, logs, workflows, and redacted evidence folders.
-
-    [Open proof gallery](proof-gallery.md)
+    Implementation source, workflows, Terraform roots, manifests, diagrams, and evidence folders.
 
 </div>
-
 ## Source repository
 
 The public GitHub repository contains the implementation, evidence folders, workflows, Terraform roots, Kubernetes manifests, diagrams, and Markdown documentation.
